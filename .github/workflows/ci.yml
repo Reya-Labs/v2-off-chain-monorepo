@@ -29,9 +29,9 @@ jobs:
       - name: Check formatting
         run: yarn prettier --check 'packages/{api,indexer,utils}/src/**/*.ts'
       - name: Build packages
-        run: yarn workspaces foreach -p run build
+        run: yarn build
       - name: Test packages
-        run: yarn workspaces foreach -p run test
+        run: yarn test
 
   release:
     needs: build
