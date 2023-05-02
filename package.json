@@ -1,0 +1,9 @@
+{
+  "name": "v2-off-chain-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "repository": "https://github.com/Voltz-Protocol/v2-indexer.git",
+  "workspaces": [
+    "packages/*"
+  ]
+}

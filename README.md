@@ -65,4 +65,17 @@ web-service or a browser). Pull subscribers can be any application that can make
 subscribers must be webhook endpoints that can accept POST requests over https.
 
 Key use-cases of pub/sub: streaming analytics or ingestion of data into ananlytical systems.
-It is also great for implementing async workflows. 
+It is also great for implementing async workflows.
+
+# Yarn
+
+When you need to add dependencies to a specific package,
+navigate to the package directory and use the yarn add command, e.g.,
+
+```
+cd packages/api
+yarn add express
+```
+
+Yarn will manage the dependencies for each package separately while still allowing you to share common dependencies
+across the monorepo.
