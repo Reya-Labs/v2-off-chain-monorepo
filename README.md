@@ -58,5 +58,11 @@ Pub/sub supports a Publisher-subscriber model:
 - or by subscriber pulling them from the service
 
 When a message is acknowledged by a subscriber, it is removed from the subscription backlog and not delivered again.
-Communication can be: one to many (fan out), many to one (fan in) and many to many. 
+Communication can be: one to many (fan out), many to one (fan in) and many to many.
 
+Publishers can be any application that can make http request to googleapis.com (e.g. app engine app, compute engine,
+web-service or a browser). Pull subscribers can be any application that can make https requests to googleapis.com; push
+subscribers must be webhook endpoints that can accept POST requests over https.
+
+Key use-cases of pub/sub: streaming analytics or ingestion of data into ananlytical systems.
+It is also great for implementing async workflows. 
