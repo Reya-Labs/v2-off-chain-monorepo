@@ -79,3 +79,7 @@ yarn add express
 
 Yarn will manage the dependencies for each package separately while still allowing you to share common dependencies
 across the monorepo.
+
+# Prettier
+
+https://prettier.io/docs/en/options.html
