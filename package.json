@@ -5,5 +5,8 @@
   "repository": "https://github.com/Voltz-Protocol/v2-indexer.git",
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "scripts": {
+    "lint": "yarn workspaces foreach -p run lint"
+  }
 }

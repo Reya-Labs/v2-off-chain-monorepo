@@ -13,6 +13,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "lint": "eslint 'src/**/*.ts'"
   }
 }
