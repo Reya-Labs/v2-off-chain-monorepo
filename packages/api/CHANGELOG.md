@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.9.2...v1.10.0) (2023-05-03)
+
+
+### Features
+
+* add publish config to api, indexer and utils ([d88800d](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/d88800d3666dc0fd93ddea6d8dd1789143412b7c))
+
 ## [1.9.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.9.1...v1.9.2) (2023-05-03)
 
 
