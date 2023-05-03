@@ -1,3 +1,11 @@
+# [1.2.0](https://github.com/Voltz-Protocol/v2-indexer/compare/v1.1.0...v1.2.0) (2023-05-03)
+
+
+### Features
+
+* release ([9009e0a](https://github.com/Voltz-Protocol/v2-indexer/commit/9009e0a90efeed7b8162552f904f602edb7ca87f))
+* update api ([ef7f17c](https://github.com/Voltz-Protocol/v2-indexer/commit/ef7f17c21380849199096e7da163314a0e9a8b58))
+
 # [1.1.0](https://github.com/Voltz-Protocol/v2-indexer/compare/v1.0.0...v1.1.0) (2023-05-03)
 
 
