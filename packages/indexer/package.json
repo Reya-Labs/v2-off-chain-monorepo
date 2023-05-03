@@ -5,7 +5,7 @@
   "license": "MIT",
   "publishConfig": {
     "access": "restricted",
-    "@voltz-protocol:registry": "https://npm.pkg.github.com"
+    "@voltz-protocol:registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
     "@types/node": "^18.16.3",

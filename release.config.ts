@@ -28,7 +28,7 @@ const config: { [key: string]: any } = {
         npmPublish: true,
         tarballDir: 'dist',
         publishConfig: {
-          registry: 'https://npm.pkg.github.com',
+          registry: 'https://registry.npmjs.org/',
         },
         pkgRoot: pkgRoot as NpmOptions,
       },
