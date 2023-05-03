@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/Voltz-Protocol/v2-indexer/compare/v1.3.0...v1.4.0) (2023-05-03)
+
+
+### Features
+
+* readme skeleton ([5e80616](https://github.com/Voltz-Protocol/v2-indexer/commit/5e806167a1589d82c06f8c13c06661c5a7181dde))
+
 # [1.3.0](https://github.com/Voltz-Protocol/v2-indexer/compare/v1.2.0...v1.3.0) (2023-05-03)
 
 
