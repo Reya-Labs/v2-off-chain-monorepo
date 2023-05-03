@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.8.0...v1.9.0) (2023-05-03)
+
+
+### Features
+
+* adjust the package root of the release configuration file ([4ef0ed8](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/4ef0ed806717fc43d19d1168037f49a85f4144db))
+
 # [1.8.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.7.0...v1.8.0) (2023-05-03)
 
 
