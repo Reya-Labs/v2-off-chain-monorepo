@@ -6,7 +6,6 @@ import { Options as GithubOptions } from '@semantic-release/github';
 import { Options as GitOptions } from '@semantic-release/git';
 
 const pkgRoot = process.env.PKG_ROOT || '.';
-console.log(`pkgRoot is ${pkgRoot}`);
 
 type PluginConfig =
   | string
@@ -31,7 +30,6 @@ const config: { [key: string]: any } = {
         publishConfig: {
           registry: 'https://npm.pkg.github.com',
         },
-        // For a monorepo, update the 'pkgRoot' to the respective package directory, e.g. 'packages/api'.
         pkgRoot: pkgRoot as NpmOptions,
       },
     ],
