@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/Voltz-Protocol/v2-indexer/compare/v1.6.0...v1.7.0) (2023-05-03)
+
+
+### Features
+
+* refine the ci workflow ([c761f0d](https://github.com/Voltz-Protocol/v2-indexer/commit/c761f0d332ec53cdc23a7c0de3d0773c3034f753))
+
 # [1.6.0](https://github.com/Voltz-Protocol/v2-indexer/compare/v1.5.0...v1.6.0) (2023-05-03)
 
 
