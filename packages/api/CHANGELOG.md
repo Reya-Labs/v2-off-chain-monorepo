@@ -1,3 +1,10 @@
+# [1.17.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.16.0...v1.17.0) (2023-05-03)
+
+
+### Features
+
+* explicitely mention the package maager for each package ([61f45f2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/61f45f273c35d77081190f9001332b9182026f53))
+
 # [1.16.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.15.0...v1.16.0) (2023-05-03)
 
 
