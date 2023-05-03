@@ -16,6 +16,10 @@ const config: SemanticReleaseConfiguration = {
       '@semantic-release/npm',
       {
         npmPublish: true,
+        tarballDir: 'dist',
+        publishConfig: {
+          registry: 'https://npm.pkg.github.com',
+        },
       },
     ],
     [
