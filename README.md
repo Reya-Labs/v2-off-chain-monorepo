@@ -14,6 +14,7 @@ Transformer, to provide access to market, position, and other relevant data for 
 4. [Contributing](#contributing)
 5. [Appendix](#appendix)
 6. [License](#license)
+7. [Outstanding](#outstanding)
 
 ## Getting Started
 
@@ -85,3 +86,8 @@ the Apache Beam SDK is used to create dataflow pipelines in the Transformer comp
 ## License
 
 MIT
+
+## Outstanding
+
+- [ ] Semantic release of individual packages rather than just the entire monorepo
+- [ ] Continuous publishing of typescript packages within the yarn workspace to github packages registry
