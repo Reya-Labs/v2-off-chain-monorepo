@@ -1,3 +1,17 @@
+# [1.28.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.27.0...v1.28.0) (2023-05-03)
+
+
+### Bug Fixes
+
+* bug fix ([40d127b](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/40d127bf7f1a994bd84e53997cea5ca28a4fcd39))
+
+
+### Features
+
+* migrate to npm registry ([c04d054](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/c04d05499b66515478f603024522a571ed18f956))
+* tidy up publishing flow ([80493a2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/80493a2ad7aab6251f457120f73334be1c885bd7))
+* update api ([7006c16](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/7006c16387c68984b09e3db6181b415896efa8dc))
+
 # [1.27.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.26.0...v1.27.0) (2023-05-03)
 
 
