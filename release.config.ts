@@ -20,9 +20,9 @@ type PluginConfig =
 const config: { [key: string]: any } = {
   branches: ['main'],
   plugins: [
-    // '@semantic-release/commit-analyzer',
-    // '@semantic-release/release-notes-generator',
-    // '@semantic-release/changelog',
+    '@semantic-release/commit-analyzer',
+    '@semantic-release/release-notes-generator',
+    '@semantic-release/changelog',
     [
       '@semantic-release/npm',
       {
@@ -35,15 +35,15 @@ const config: { [key: string]: any } = {
         pkgRoot: pkgRoot as NpmOptions,
       },
     ],
-    // '@semantic-release/github',
-    // [
-    //   '@semantic-release/git',
-    //   {
-    //     assets: ['CHANGELOG.md', 'package.json'],
-    //     message:
-    //       'chore(release): set ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}',
-    //   },
-    // ],
+    '@semantic-release/github',
+    [
+      '@semantic-release/git',
+      {
+        assets: ['CHANGELOG.md', 'package.json'],
+        message:
+          'chore(release): set ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}',
+      },
+    ],
   ] as PluginConfig[],
 };
 
