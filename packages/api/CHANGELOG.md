@@ -1,3 +1,10 @@
+# [1.25.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.24.0...v1.25.0) (2023-05-03)
+
+
+### Features
+
+* bring back other sr ([d25fd8a](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/d25fd8a896d2969c46259edd4d05b680c0d63752))
+
 # [1.19.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.18.0...v1.19.0) (2023-05-03)
 
 

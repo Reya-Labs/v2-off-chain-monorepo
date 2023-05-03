@@ -1,6 +1,6 @@
 {
   "name": "@voltz-protocol/api-v2",
-  "version": "1.19.0",
+  "version": "1.25.0",
   "main": "index.js",
   "publishConfig": {
     "access": "restricted",
