@@ -92,3 +92,5 @@ MIT
 - [ ] Semantic release of individual packages rather than just the entire monorepo
 - [ ] Continuous publishing of typescript packages within the yarn workspace to github packages registry
 - [ ] Bug where semantic release picks up the root version to bump instead of the packages actual version
+- [ ] Adjust semantic release chore commit message to mention which package was bumped as a result of a github action
+  workflow
