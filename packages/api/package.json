@@ -23,5 +23,6 @@
     "format": "prettier --write 'src/**/*.ts'",
     "test": "jest",
     "release": "semantic-release --node-version=18 --extends=../../release.config.js --require=ts-node/register"
-  }
+  },
+  "packageManager": "yarn@3.5.1"
 }
