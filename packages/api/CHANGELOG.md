@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.12.0...v1.13.0) (2023-05-03)
+
+
+### Features
+
+* update ([2b921d5](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/2b921d5ae3c1c94bb351a37c70ece24c01987cbe))
+
 # [1.12.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.11.0...v1.12.0) (2023-05-03)
 
 
