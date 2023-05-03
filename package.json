@@ -7,11 +7,11 @@
     "packages/*"
   ],
   "scripts": {
-    "lint": "yarn workspace api run lint && yarn workspace indexer run lint && yarn workspace utils run lint",
-    "format": "yarn workspace api run format && yarn workspace indexer run format && yarn workspace utils run format",
-    "build": "yarn workspace api run build && yarn workspace indexer run build && yarn workspace utils run build",
-    "test": "yarn workspace api run test && yarn workspace indexer run test && yarn workspace utils run test",
-    "release": "PKG_ROOT=. yarn workspace api run release && PKG_ROOT=. yarn workspace indexer run release && PKG_ROOT=. yarn workspace utils run release"
+    "lint": "yarn workspace @voltz-protocol/api-v2 run lint && yarn workspace @voltz-protocol/indexer-v2 run lint && yarn workspace @voltz-protocol/ts-utils-v2 run lint",
+    "format": "yarn workspace @voltz-protocol/api-v2 run format && yarn workspace  @voltz-protocol/indexer-v2 run format && yarn workspace @voltz-protocol/ts-utils-v2 run format",
+    "build": "yarn workspace @voltz-protocol/api-v2 run build && yarn workspace  @voltz-protocol/indexer-v2 run build && yarn workspace @voltz-protocol/ts-utils-v2 run build",
+    "test": "yarn workspace @voltz-protocol/api-v2 run test && yarn workspace  @voltz-protocol/indexer-v2 run test && yarn workspace @voltz-protocol/ts-utils-v2 run test",
+    "release": "PKG_ROOT=. yarn workspace @voltz-protocol/api-v2 run release && PKG_ROOT=. yarn workspace  @voltz-protocol/indexer-v2 run release && PKG_ROOT=. yarn workspace @voltz-protocol/ts-utils-v2 run release"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
