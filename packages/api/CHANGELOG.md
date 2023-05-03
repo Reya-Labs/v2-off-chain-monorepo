@@ -1,3 +1,13 @@
+# [1.33.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.32.1...v1.33.0) (2023-05-03)
+
+
+### Features
+
+* resolve conflicts with main ([a7dcd00](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/a7dcd00abe16d66d28164e5c91534bc19a996b54))
+* skeleton for event parsers ([60b46bd](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/60b46bd8d079fba5a056810b5ba7c63d16533757))
+* skeleton for the indexer continued ([51a480b](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/51a480b29eb0c74af23c937bc2507f5e17b7221b))
+* wrap up the skeleton of the indexer ([0ff31da](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/0ff31da73d67b68f51728ed01a907976244b8a0b))
+
 ## [1.32.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.32.0...v1.32.1) (2023-05-03)
 
 
