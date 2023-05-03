@@ -22,7 +22,7 @@
     "lint": "eslint 'src/**/*.ts'",
     "format": "prettier --write 'src/**/*.ts'",
     "test": "jest",
-    "release": "PKG_ROOT=`indexer` semantic-release --node-version=18 --extends=../../release.config.js --require=ts-node/register"
+    "release": "semantic-release --node-version=18 --extends=../../release.config.js --require=ts-node/register"
   },
   "packageManager": "yarn@3.5.1"
 }
