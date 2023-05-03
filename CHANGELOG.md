@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/Voltz-Protocol/v2-indexer/compare/v1.2.0...v1.3.0) (2023-05-03)
+
+
+### Features
+
+* publishing setup ([f681c5e](https://github.com/Voltz-Protocol/v2-indexer/commit/f681c5e78e7f0ff9a33a34c851a7337ccff3f417))
+
 # [1.2.0](https://github.com/Voltz-Protocol/v2-indexer/compare/v1.1.0...v1.2.0) (2023-05-03)
 
 
