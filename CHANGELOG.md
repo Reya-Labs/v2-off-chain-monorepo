@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/Voltz-Protocol/v2-indexer/compare/v1.0.0...v1.1.0) (2023-05-03)
+
+
+### Features
+
+* update release workflow ci ([02262f3](https://github.com/Voltz-Protocol/v2-indexer/commit/02262f372e0404ba7f207efbe4073971ce191e80))
+
 # 1.0.0 (2023-05-03)
 
 
