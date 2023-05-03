@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/Voltz-Protocol/v2-indexer/compare/v1.5.0...v1.6.0) (2023-05-03)
+
+
+### Features
+
+* refine release config ([49039c2](https://github.com/Voltz-Protocol/v2-indexer/commit/49039c2144bd08a7abeef2308260abd245991145))
+
 # [1.5.0](https://github.com/Voltz-Protocol/v2-indexer/compare/v1.4.0...v1.5.0) (2023-05-03)
 
 
