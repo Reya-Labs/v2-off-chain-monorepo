@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.10.0...v1.11.0) (2023-05-03)
+
+
+### Features
+
+* gh token ([3337be6](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/3337be6a99b668a3b9aaf9de2bfb13e2923540fb))
+
 # [1.10.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.9.2...v1.10.0) (2023-05-03)
 
 
