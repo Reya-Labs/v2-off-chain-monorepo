@@ -1,3 +1,10 @@
+# [1.26.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.25.0...v1.26.0) (2023-05-03)
+
+
+### Features
+
+* update the npm token ([27a7771](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/27a7771d7bb361f353684428419a65713d3e2bcf))
+
 # [1.25.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.24.0...v1.25.0) (2023-05-03)
 
 
