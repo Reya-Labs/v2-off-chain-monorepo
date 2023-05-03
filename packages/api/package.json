@@ -2,7 +2,6 @@
   "name": "@voltz-protocol/api-v2",
   "version": "1.19.0",
   "main": "index.js",
-  "private": true,
   "publishConfig": {
     "access": "restricted",
     "@voltz-protocol:registry": "https://npm.pkg.github.com"
