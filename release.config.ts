@@ -1,12 +1,20 @@
-// Define a custom type for plugin configurations
-type SemanticReleasePluginConfig = [string, Record<string, unknown>];
+import { Options as CommitAnalyzerOptions } from '@semantic-release/commit-analyzer';
+import { Options as ReleaseNotesGeneratorOptions } from '@semantic-release/release-notes-generator';
+import { Options as ChangelogOptions } from '@semantic-release/changelog';
+import { Options as NpmOptions } from '@semantic-release/npm';
+import { Options as GithubOptions } from '@semantic-release/github';
+import { Options as GitOptions } from '@semantic-release/git';
 
-interface SemanticReleaseConfiguration {
-  branches: string[];
-  plugins: (string | SemanticReleasePluginConfig)[];
-}
+type PluginConfig =
+  | string
+  | [string, CommitAnalyzerOptions]
+  | [string, ReleaseNotesGeneratorOptions]
+  | [string, ChangelogOptions]
+  | [string, NpmOptions]
+  | [string, GithubOptions]
+  | [string, GitOptions];
 
-const config: SemanticReleaseConfiguration = {
+const config: { [key: string]: any } = {
   branches: ['main'],
   plugins: [
     '@semantic-release/commit-analyzer',
@@ -20,8 +28,11 @@ const config: SemanticReleaseConfiguration = {
         publishConfig: {
           registry: 'https://npm.pkg.github.com',
         },
+        // For a monorepo, update the 'pkgRoot' to the respective package directory, e.g. 'packages/api'.
+        pkgRoot: undefined,
       },
     ],
+    '@semantic-release/github',
     [
       '@semantic-release/git',
       {
@@ -30,8 +41,7 @@ const config: SemanticReleaseConfiguration = {
           'chore(release): set ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}',
       },
     ],
-    '@semantic-release/github',
-  ],
+  ] as PluginConfig[],
 };
 
 export default config;
