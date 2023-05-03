@@ -1,10 +1,11 @@
 {
   "name": "api",
-  "version": "1.9.2",
+  "version": "1.10.0",
   "main": "index.js",
   "private": true,
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "access": "restricted",
+    "registry": "https://npm.pkg.github.com/voltz-protocol"
   },
   "license": "MIT",
   "devDependencies": {
@@ -22,9 +23,5 @@
     "format": "prettier --write 'src/**/*.ts'",
     "test": "jest",
     "release": "semantic-release --node-version=18 --extends=../../release.config.js --require=ts-node/register"
-  },
-  "publishConfig": {
-    "access": "restricted",
-    "registry": "https://npm.pkg.github.com/voltz-protocol"
   }
 }
