@@ -50,4 +50,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
-        run: npx semantic-release
+        run: yarn release
