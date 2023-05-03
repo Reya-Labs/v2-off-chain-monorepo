@@ -20,9 +20,9 @@ type PluginConfig =
 const config: { [key: string]: any } = {
   branches: ['main'],
   plugins: [
-    '@semantic-release/commit-analyzer',
-    '@semantic-release/release-notes-generator',
-    '@semantic-release/changelog',
+    // '@semantic-release/commit-analyzer',
+    // '@semantic-release/release-notes-generator',
+    // '@semantic-release/changelog',
     [
       '@semantic-release/npm',
       {
