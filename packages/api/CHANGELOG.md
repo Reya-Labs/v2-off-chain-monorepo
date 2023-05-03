@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.9.0...v1.9.1) (2023-05-03)
+
+
+### Bug Fixes
+
+* making a change to api ([b01b3cd](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/b01b3cdefdaa38fee24c3da5d5e14ea5da5ac5a5))
+
 # [1.9.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.8.0...v1.9.0) (2023-05-03)
 
 
