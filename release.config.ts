@@ -5,6 +5,8 @@ import { Options as NpmOptions } from '@semantic-release/npm';
 import { Options as GithubOptions } from '@semantic-release/github';
 import { Options as GitOptions } from '@semantic-release/git';
 
+const pkgRoot = process.env.PKG_ROOT || '.';
+
 type PluginConfig =
   | string
   | [string, CommitAnalyzerOptions]
@@ -29,7 +31,7 @@ const config: { [key: string]: any } = {
           registry: 'https://npm.pkg.github.com',
         },
         // For a monorepo, update the 'pkgRoot' to the respective package directory, e.g. 'packages/api'.
-        pkgRoot: undefined,
+        pkgRoot: pkgRoot as NpmOptions,
       },
     ],
     '@semantic-release/github',
