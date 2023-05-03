@@ -1,3 +1,10 @@
+# [1.16.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.15.0...v1.16.0) (2023-05-03)
+
+
+### Features
+
+* bring yarn 3 back ([03b6630](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/03b663010786a8a88ad5281300d88cd88f6c51b0))
+
 # [1.15.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.14.0...v1.15.0) (2023-05-03)
 
 
