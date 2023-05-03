@@ -1,42 +1,87 @@
-## Pub/Sub
+# Voltz V2 Off-Chain Monorepo
 
-Pub/sub is a fully-managed real-time messaging service that allows sending and receiving messages
-between independent applications. Once an event is successfully published as a message, it becomes the job
-of the service to ensure that all the systems that need to react to this event get it. The idea behind async
-integrations is to react to events represented as messages.
-Messages can be received either by a push or a pull.
+The Voltz V2 Off-Chain Monorepo contains the off-chain components of the Voltz platform, including the Indexer,
+Transformer, and API. The Indexer fetches and parses EVM events, publishing them to Google Pub/Sub. The Transformer
+leverages Apache Beam SDK to create dataflow pipelines that subscribe to events from the Indexer, enabling an
+event-driven architecture. The API connects to Google BigTable, the destination for dataflow pipelines in the
+Transformer, to provide access to market, position, and other relevant data for Voltz V2.
 
-Pub/sub supports a Publisher-subscriber model:
+## Table of Contents
 
-- a publisher application creates and sends messages to a topic which is a named resource
-- the messages are stored until acknowledged by all subscribers
-- to receive these messages a subscriber application creates a subscription to a topic
-- the subscriber receives the message by either cloud pub/sub pushing them to the subscribers chosen endpoint
-- or by subscriber pulling them from the service
+1. [Getting Started](#getting-started)
+2. [Build and Test Pipeline](#build-and-test-pipeline)
+3. [Release Pipeline](#release-pipeline)
+4. [Contributing](#contributing)
+5. [Appendix](#appendix)
+6. [License](#license)
 
-When a message is acknowledged by a subscriber, it is removed from the subscription backlog and not delivered again.
-Communication can be: one to many (fan out), many to one (fan in) and many to many.
+## Getting Started
 
-Publishers can be any application that can make http request to googleapis.com (e.g. app engine app, compute engine,
-web-service or a browser). Pull subscribers can be any application that can make https requests to googleapis.com; push
-subscribers must be webhook endpoints that can accept POST requests over https.
+To set up the project locally for development, follow these steps:
 
-Key use-cases of pub/sub: streaming analytics or ingestion of data into ananlytical systems.
-It is also great for implementing async workflows.
+1. Clone the repository:
 
-# Yarn
-
-When you need to add dependencies to a specific package,
-navigate to the package directory and use the yarn add command, e.g.,
-
-```
-cd packages/api
-yarn add express
+```bash
+git clone https://github.com/Voltz-Protocol/v2-off-chain-monorepo.git
+cd voltz-v2-offchain-monorepo
 ```
 
-Yarn will manage the dependencies for each package separately while still allowing you to share common dependencies
-across the monorepo.
+Install dependencies:
 
-# Prettier
+```yarn install```
 
-https://prettier.io/docs/en/options.html
+Start the development environment for each package (Indexer, and API) as needed. For example:
+
+```yarn dev:indexer```
+
+Note, transformer repo is an exception since it is written in python and is not compatible with yarn.
+
+## Build and Test Pipeline
+
+This project uses GitHub Actions to automate the build and test pipeline. The workflow is triggered on push and pull
+request events to the `main` branch. The pipeline consists of the following steps:
+
+1. **Setup Node.js**: Set up the specified Node.js version and configure the npm registry URL for GitHub Packages.
+2. **Install dependencies**: Install the project dependencies using Yarn.
+3. **Run linter**: Check the code quality using the project's linter (e.g., ESLint).
+4. **Check formatting**: Verify that the code is formatted according to the project's style guide (e.g., Prettier).
+5. **Build packages**: Compile the TypeScript source files and build the project.
+6. **Test packages**: Run unit tests for the project.
+
+## Release Pipeline
+
+This project uses Semantic Release to automate the release pipeline. The release process is triggered by a push to
+the `main` branch and runs only after the build and test pipeline is successful. The pipeline is also managed by a
+GitHub Actions workflow and consists of the following steps:
+
+1. **Setup Node.js**: Set up the specified Node.js version and configure the npm registry URL for GitHub Packages.
+2. **Install dependencies**: Install the project dependencies using Yarn.
+3. **Release**: Run the Semantic Release process, which includes:
+    - Analyzing commits to determine the next release version.
+    - Generating release notes.
+    - Updating the changelog file.
+    - Publishing the new package version to GitHub Packages Registry.
+    - Creating a GitHub release with the generated release notes.
+
+### Release Configuration
+
+Provide an overview of the project's Semantic Release configuration. Describe the plugins used and their purpose.
+
+## Contributing
+
+Explain the contribution process, including:
+
+- How to report bugs or request features
+- How to submit pull requests
+
+## Appendix
+
+### Apache Beam SDK
+
+Apache Beam is an open-source unified programming model that allows developers to define and execute data processing
+pipelines. It supports multiple languages and runtime environments, including Google Cloud Dataflow. In this project,
+the Apache Beam SDK is used to create dataflow pipelines in the Transformer component.
+
+## License
+
+MIT
