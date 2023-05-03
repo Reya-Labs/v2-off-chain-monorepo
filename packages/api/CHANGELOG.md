@@ -1,3 +1,10 @@
+# [1.31.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.30.0...v1.31.0) (2023-05-03)
+
+
+### Features
+
+* remove immutable from yarn install ([b766434](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/b766434246b12fa726c752f189125c3334f5885a))
+
 # [1.30.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.29.0...v1.30.0) (2023-05-03)
 
 
