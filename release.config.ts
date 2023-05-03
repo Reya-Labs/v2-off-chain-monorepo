@@ -1,9 +1,5 @@
-type SemanticReleasePluginConfig = [
-  string,
-  {
-    [key: string]: unknown;
-  },
-];
+// Define a custom type for plugin configurations
+type SemanticReleasePluginConfig = [string, Record<string, unknown>];
 
 interface SemanticReleaseConfiguration {
   branches: string[];
@@ -19,14 +15,13 @@ const config: SemanticReleaseConfiguration = {
     [
       '@semantic-release/npm',
       {
-        workspaceRoot: 'packages/*',
         npmPublish: true,
       },
     ],
     [
       '@semantic-release/git',
       {
-        assets: ['packages/*/CHANGELOG.md', 'packages/*/package.json'],
+        assets: ['CHANGELOG.md', 'package.json'],
         message:
           'chore(release): set ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}',
       },
