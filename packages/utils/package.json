@@ -6,7 +6,7 @@
   "private": true,
   "publishConfig": {
     "access": "restricted",
-    "registry": "https://npm.pkg.github.com/voltz-protocol"
+    "@voltz-protocol:registry": "https://npm.pkg.github.com"
   },
   "devDependencies": {
     "@types/node": "^18.16.3",

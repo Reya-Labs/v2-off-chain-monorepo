@@ -13,6 +13,11 @@
     "test": "yarn workspace @voltz-protocol/api-v2 run test && yarn workspace  @voltz-protocol/indexer-v2 run test && yarn workspace @voltz-protocol/ts-utils-v2 run test",
     "release": "PKG_ROOT=. yarn workspace @voltz-protocol/api-v2 run release && PKG_ROOT=. yarn workspace  @voltz-protocol/indexer-v2 run release && PKG_ROOT=. yarn workspace @voltz-protocol/ts-utils-v2 run release"
   },
+  "publishConfig": {
+    "access": "restricted",
+    "@voltz-protocol:registry": "https://npm.pkg.github.com"
+  },
+  "author": "Voltz Protocol",
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^9.0.2",
@@ -29,6 +34,10 @@
     "jest": "^29.5.0",
     "prettier": "^2.8.8",
     "semantic-release": "^21.0.2"
+  },
+  "engines": {
+    "node": "^18.14.0",
+    "npm": "^8.11.0"
   },
   "packageManager": "yarn@3.5.1",
   "dependencies": {

@@ -5,7 +5,7 @@
   "private": true,
   "publishConfig": {
     "access": "restricted",
-    "registry": "https://npm.pkg.github.com/voltz-protocol"
+    "@voltz-protocol:registry": "https://npm.pkg.github.com"
   },
   "license": "MIT",
   "devDependencies": {
