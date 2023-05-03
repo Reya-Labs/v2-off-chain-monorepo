@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.14.0...v1.15.0) (2023-05-03)
+
+
+### Features
+
+* delete yarnrc ([d8490c5](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/d8490c510e3c953469b721b696cb053a6bd03eb9))
+
 # [1.14.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.13.0...v1.14.0) (2023-05-03)
 
 
