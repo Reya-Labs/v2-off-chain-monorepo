@@ -1,3 +1,10 @@
+# [1.27.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.26.0...v1.27.0) (2023-05-03)
+
+
+### Features
+
+* update api ([6fde144](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/6fde14457a511f39a1e08932fa52ef8e1791c24b))
+
 # [1.26.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.25.0...v1.26.0) (2023-05-03)
 
 
