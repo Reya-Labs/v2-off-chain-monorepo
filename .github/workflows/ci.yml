@@ -58,7 +58,7 @@ jobs:
         run: yarn install --immutable
       - name: Build project
         run: yarn build
-      - name: Semantic Release
+      - name: Semantic Release Packages
         run: yarn release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -11,7 +11,7 @@
     "format": "yarn workspace api run format && yarn workspace indexer run format && yarn workspace utils run format",
     "build": "yarn workspace api run build && yarn workspace indexer run build && yarn workspace utils run build",
     "test": "yarn workspace api run test && yarn workspace indexer run test && yarn workspace utils run test",
-    "release": "semantic-release --node-version=18 --extends=./release.config.js --require=ts-node/register"
+    "release": "yarn workspaces foreach -pt --exclude transformer run release"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",

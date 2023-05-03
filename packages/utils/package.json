@@ -16,7 +16,8 @@
     "start": "ts-node src/index.ts",
     "lint": "eslint 'src/**/*.ts'",
     "format": "prettier --write 'src/**/*.ts'",
-    "test": "jest"
+    "test": "jest",
+    "release": "semantic-release --node-version=18 --extends=../../release.config.js --require=ts-node/register"
   },
   "publishConfig": {
     "access": "restricted",
