@@ -4,8 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "publishConfig": {
-    "access": "restricted",
-    "@voltz-protocol:registry": "https://registry.npmjs.org/"
+    "access": "public"
   },
   "devDependencies": {
     "@types/node": "^18.16.3",

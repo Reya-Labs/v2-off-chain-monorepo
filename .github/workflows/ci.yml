@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [ 18.x ]
+        node-version: 'lts/*'
 
     steps:
       - uses: actions/checkout@v2
@@ -21,7 +21,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-          registry-url: 'https://registry.npmjs.org/'
       - name: Install dependencies
         run: yarn install
       - name: Run linter
@@ -42,8 +41,7 @@ jobs:
       - name: Use Node.js 18.x
         uses: actions/setup-node@v2
         with:
-          node-version: 18.x
-          registry-url: 'https://registry.npmjs.org/'
+          node-version: 'lts/*'
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
