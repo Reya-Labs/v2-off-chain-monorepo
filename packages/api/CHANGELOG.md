@@ -1,3 +1,15 @@
+# [1.19.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.18.0...v1.19.0) (2023-05-03)
+
+
+### Features
+
+* bring back the rest of semantic release pluging ([f6349ac](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/f6349ac7a692da230bd30505e708da7bd01d4f77))
+* bring back the rest of the pipeline ([a781e0d](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/a781e0ddd29cd405378e9ebf5c6924044bf5abb1))
+* make sure pkg root is populated ([cd3bf85](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/cd3bf85c72630df223a21e187dea189c3e8debb2))
+* pkg root ([8efee32](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/8efee324bf066d781b1d6c6b29fec0de25e065a5))
+* simplify pkg root ([18fd7d1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/18fd7d14f39e848a70fb6686007e7c081ad687ed))
+* tidy up semantic release pkg root ([3674de2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/3674de2ceffa8854e4386fe106789a9b50e29cb5))
+
 # [1.17.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.16.0...v1.17.0) (2023-05-03)
 
 
