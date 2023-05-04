@@ -7,24 +7,24 @@
     "access": "public"
   },
   "devDependencies": {
-    "@types/node": "^18.16.3",
-    "@typescript-eslint/eslint-plugin": "^5.59.2",
-    "@typescript-eslint/parser": "^5.59.2",
-    "eslint": "^8.39.0",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.0.4"
+    "@types/node": "18.16.3",
+    "@typescript-eslint/eslint-plugin": "5.59.2",
+    "@typescript-eslint/parser": "5.59.2",
+    "eslint": "8.39.0",
+    "ts-node": "10.9.1",
+    "typescript": "5.0.4"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist; tsc -p tsconfig.build.json",
     "start": "ts-node src/index.ts",
-    "lint": "eslint 'src/**/*.ts'",
-    "format": "prettier --write 'src/**/*.ts'",
-    "test": "jest",
+    "lint": "eslint '{tests,src}/**/*.ts'",
+    "format": "npx prettier --write '{tests,src}/**/*.ts'",
+    "test": "npx jest",
     "release": "semantic-release --node-version=18 --extends=../../release.config.js --require=ts-node/register"
   },
   "packageManager": "yarn@3.5.1",
   "dependencies": {
-    "@google-cloud/pubsub": "^3.5.2",
-    "ethers": "^6.3.0"
+    "@google-cloud/pubsub": "3.5.2",
+    "ethers": "5.5.4"
   }
 }
