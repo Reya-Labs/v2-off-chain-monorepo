@@ -6,16 +6,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "devDependencies": {
-    "@types/node": "18.16.3",
-    "@typescript-eslint/eslint-plugin": "5.59.2",
-    "@typescript-eslint/parser": "5.59.2",
-    "concurrently": "8.0.1",
-    "dpdm": "3.13.0",
-    "eslint": "8.39.0",
-    "ts-node": "10.9.1",
-    "typescript": "5.0.4"
-  },
   "scripts": {
     "prebuild": "yarn code-quality:check && rm -rf dist",
     "build": "yarn prebuild && tsc -p tsconfig.build.json",
