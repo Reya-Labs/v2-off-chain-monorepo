@@ -1,0 +1,16 @@
+{
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "version": "independent",
+  "command": {
+    "publish": {
+      "ignoreChanges": [],
+      "skipGit": true,
+      "skipNpm": false
+    }
+  },
+  "packages": [
+    "packages/*",
+    "!packages/transformer"
+  ]
+}
