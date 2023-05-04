@@ -87,10 +87,19 @@ the Apache Beam SDK is used to create dataflow pipelines in the Transformer comp
 
 MIT
 
-## Outstanding
+## Lerna Configuration
 
-- [ ] Semantic release of individual packages rather than just the entire monorepo
-- [ ] Continuous publishing of typescript packages within the yarn workspace to github packages registry
-- [ ] Bug where semantic release picks up the root version to bump instead of the packages actual version
-- [ ] Adjust semantic release chore commit message to mention which package was bumped as a result of a github action
-  workflow
+Our monorepo uses Lerna to manage the publishing of packages while maintaining semantic-release for versioning. Here is
+an overview of the key features of our Lerna configuration:
+
+1. **Package Manager**: We use Yarn as the package manager, and Yarn workspaces are enabled to manage inter-package
+   dependencies.
+2. **Independent Versioning**: Each package in the monorepo has independent versioning, managed by semantic-release.
+3. **Publishing**: Lerna is responsible for publishing packages to npm. Git commits and tags related to versioning are
+   managed by semantic-release.
+4. **Excluding Python Package**: We've excluded the Python package located at `packages/transformer` from being managed
+   by Lerna. This package is managed separately using Python-specific tooling.
+
+By using this configuration, our monorepo benefits from the publishing capabilities of Lerna, while leveraging the
+powerful versioning features of semantic-release.
+
