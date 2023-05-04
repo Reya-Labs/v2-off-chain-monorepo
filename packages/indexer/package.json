@@ -6,25 +6,26 @@
   "publishConfig": {
     "access": "public"
   },
-  "devDependencies": {
-    "@types/node": "^18.16.3",
-    "@typescript-eslint/eslint-plugin": "^5.59.2",
-    "@typescript-eslint/parser": "^5.59.2",
-    "eslint": "^8.39.0",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.0.4"
-  },
   "scripts": {
-    "build": "tsc",
-    "start": "ts-node src/index.ts",
-    "lint": "eslint 'src/**/*.ts'",
-    "format": "prettier --write 'src/**/*.ts'",
-    "test": "jest",
+    "prebuild": "yarn code-quality:check && rm -rf dist",
+    "build": "yarn prebuild && tsc -p tsconfig.build.json",
+    "start": "npx ts-node src/index.ts",
+    "ts:check-types": "npx tsc --noEmit",
+    "ts:circular-check": "dpdm --no-output --no-tree --no-warning --exit-code circular:1 -T ./src/index.ts",
+    "ts:check": "yarn ts:check-types && yarn ts:circular-check",
+    "lint:check": "eslint '{src,tests}/**/*.ts'",
+    "prettier:check": "npx prettier --check './{src,tests}/**/*.ts'",
+    "code-quality:check": "npx concurrently 'yarn ts:check' 'yarn prettier:check' 'yarn lint:check --quiet'",
+    "lint:fix": "npx eslint --fix '{src,tests}/**/*.ts'",
+    "prettier:fix": "npx prettier --write './{src,tests}/**/*.ts'",
+    "test": "npx jest --silent",
+    "test:coverage": "yarn test --coverage",
+    "generate:coverage-badges": "npx istanbul-badges-readme --silent",
     "release": "semantic-release --node-version=18 --extends=../../release.config.js --require=ts-node/register"
   },
   "packageManager": "yarn@3.5.1",
   "dependencies": {
-    "@google-cloud/pubsub": "^3.5.2",
-    "ethers": "^6.3.0"
+    "@google-cloud/pubsub": "3.5.2",
+    "ethers": "5.5.4"
   }
 }

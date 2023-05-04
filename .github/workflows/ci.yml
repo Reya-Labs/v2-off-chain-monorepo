@@ -10,6 +10,7 @@ on:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -23,16 +24,17 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: yarn install
-      - name: Run linter
-        run: yarn lint
-      - name: Check formatting
-        run: yarn prettier --check 'packages/{api,indexer,utils}/src/**/*.ts'
+      - name: Code quality checks
+        run: yarn code-quality:check
       - name: Build packages
         run: yarn build
-      - name: Test packages
-        run: yarn test
+      - name: Run tests
+        run: yarn test:coverage
+      - name: Post test coverage comment
+        uses: MishaKav/jest-coverage-comment@main
 
   release:
+    name: Release
     needs: build
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
