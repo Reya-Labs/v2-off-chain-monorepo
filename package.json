@@ -13,7 +13,7 @@
     "test:coverage": "yarn workspace @voltz-protocol/api-v2 run test:coverage && yarn workspace  @voltz-protocol/indexer-v2 run test:coverage && yarn workspace @voltz-protocol/ts-utils-v2 run test:coverage",
     "generate:coverage-badges": "yarn workspace @voltz-protocol/api-v2 run generate:coverage-badges && yarn workspace  @voltz-protocol/indexer-v2 run generate:coverage-badges && yarn workspace @voltz-protocol/ts-utils-v2 run generate:coverage-badges",
     "release": "yarn workspace @voltz-protocol/api-v2 run release && yarn workspace @voltz-protocol/indexer-v2 run release && yarn workspace @voltz-protocol/ts-utils-v2 run release",
-    "publish": "lerna publish from-git --yes"
+    "publish:packages": "lerna publish from-git --yes"
   },
   "author": "Voltz Protocol",
   "devDependencies": {
