@@ -23,13 +23,13 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: make install-ci
+        run: yarn install
       - name: Code quality checks
-        run: make code-quality-check
+        run: yarn code-quality:check
       - name: Build packages
         run: yarn build
       - name: Run tests
-        run: make test-coverage
+        run: yarn test-coverage
       - name: Post test coverage comment
         uses: MishaKav/jest-coverage-comment@main
 
@@ -48,11 +48,11 @@ jobs:
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: Install dependencies
-        run: make install-ci
+        run: yarn install
       - name: Build project
-        run: make build
+        run: yarn build
       - name: Semantic Release Packages
-        run: make release
+        run: yarn release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
