@@ -1,3 +1,15 @@
+# [1.34.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.33.0...v1.34.0) (2023-05-04)
+
+
+### Features
+
+* add lerna and readme ([d7d37d5](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/d7d37d5986a224830ebfe24908697b00479bbd6c))
+* install lerna ([5baad19](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/5baad194f8974646e269241864f611e305394517))
+* learna publish ci ([3b299db](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/3b299db38424005b43bc6306d0e2b4e6c822ed10))
+* making a change to api ([f421e1f](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/f421e1f0719764b5f68ac753eb55feadf321b419))
+* making a change to the api ([402f952](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/402f952f3ecde2966d1f1b02a6a431e2da518d40))
+* trim down semantic release config ([4dc2e7b](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/4dc2e7b259f40b0d23e9a26a3325f5e9a86ca9ed))
+
 # [1.33.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.32.1...v1.33.0) (2023-05-03)
 
 
