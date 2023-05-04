@@ -1,4 +1,38 @@
-# Setting up a Poetry project
+# Voltz V2 Transformer
+
+TODO: add more info about the transformer once it is built
+
+## Poetry
+
+As soon as you close the monorepoo and navigate to the transformer package for the first time, you should be able to create a new 
+virtual environment with Poetry by following these steps:
+
+1. Install Poetry on your system if you haven't already. You can install it using the recommended installer:
+
+```bash
+curl -sSL https://install.python-poetry.org | python3
+```
+
+This command will download and install Poetry. The installer will also modify your PATH variable to include Poetry's executables.
+
+2. Run the following command in your terminal to create a virtual environment and install the specified dependencies:
+
+```bash
+poetry install
+```
+
+Poetry will automatically create a new virtual environment in the default location (~/.cache/pypoetry/virtualenvs) and install the dependencies 
+specified in the pyproject.toml file.
+
+You can run commands within the virtual environment using poetry run. For example:
+
+```bash
+poetry run python my_script.py
+```
+
+This will execute my_script.py using the Python interpreter within the virtual environment managed by Poetry.
+
+### Setting up a Poetry project
 
 Getting started with Poetry
 This guide will walk you through setting up a Poetry-based Python project. We will go from an empty directory to a fully configured Poetry environment, ready for development.
