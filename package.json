@@ -7,8 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "lint": "yarn workspace @voltz-protocol/api-v2 run lint && yarn workspace @voltz-protocol/indexer-v2 run lint && yarn workspace @voltz-protocol/ts-utils-v2 run lint",
-    "format": "yarn workspace @voltz-protocol/api-v2 run format && yarn workspace  @voltz-protocol/indexer-v2 run format && yarn workspace @voltz-protocol/ts-utils-v2 run format",
+    "code-quality:check": "yarn workspace @voltz-protocol/api-v2 run code-quality:check && yarn workspace @voltz-protocol/indexer-v2 run code-quality:check && yarn workspace @voltz-protocol/ts-utils-v2 run code-quality:check",
     "build": "yarn workspace @voltz-protocol/api-v2 run build && yarn workspace  @voltz-protocol/indexer-v2 run build && yarn workspace @voltz-protocol/ts-utils-v2 run build",
     "test": "yarn workspace @voltz-protocol/api-v2 run test && yarn workspace  @voltz-protocol/indexer-v2 run test && yarn workspace @voltz-protocol/ts-utils-v2 run test",
     "release": "PKG_ROOT=. yarn workspace @voltz-protocol/api-v2 run release && PKG_ROOT=. yarn workspace  @voltz-protocol/indexer-v2 run release && PKG_ROOT=. yarn workspace @voltz-protocol/ts-utils-v2 run release"

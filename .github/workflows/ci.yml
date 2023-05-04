@@ -10,6 +10,7 @@ on:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -22,17 +23,18 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install
-      - name: Run linter
-        run: yarn lint
-      - name: Check formatting
-        run: yarn prettier --check 'packages/{api,indexer,utils}/src/**/*.ts'
+        run: make install-ci
+      - name: Code quality checks
+        run: make code-quality-check
       - name: Build packages
         run: yarn build
-      - name: Test packages
-        run: yarn test
+      - name: Run tests
+        run: make test-coverage
+      - name: Post test coverage comment
+        uses: MishaKav/jest-coverage-comment@main
 
   release:
+    name: Release
     needs: build
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -46,11 +48,11 @@ jobs:
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: Install dependencies
-        run: yarn install
+        run: make install-ci
       - name: Build project
-        run: yarn build
+        run: make build
       - name: Semantic Release Packages
-        run: yarn release
+        run: make release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
