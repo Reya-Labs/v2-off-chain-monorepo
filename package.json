@@ -27,21 +27,22 @@
     "@types/semantic-release": "20.0.1",
     "@typescript-eslint/eslint-plugin": "5.59.2",
     "@typescript-eslint/parser": "5.59.2",
+    "concurrently": "8.0.1",
+    "dpdm": "3.13.0",
     "eslint": "8.39.0",
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-prettier": "4.2.1",
+    "istanbul-badges-readme": "1.8.5",
     "jest": "29.5.0",
     "jest-environment-jsdom": "29.5.0",
     "prettier": "2.8.8",
     "semantic-release": "21.0.2",
+    "ts-node": "10.9.1",
     "typescript": "5.0.4"
   },
   "engines": {
     "node": "^18.14.0",
     "npm": "^8.11.0"
   },
-  "packageManager": "yarn@3.5.1",
-  "dependencies": {
-    "ts-node": "10.9.1"
-  }
+  "packageManager": "yarn@3.5.1"
 }

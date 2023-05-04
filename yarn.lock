@@ -2899,15 +2899,7 @@ __metadata:
   resolution: "@voltz-protocol/indexer-v2@workspace:packages/indexer"
   dependencies:
     "@google-cloud/pubsub": 3.5.2
-    "@types/node": 18.16.3
-    "@typescript-eslint/eslint-plugin": 5.59.2
-    "@typescript-eslint/parser": 5.59.2
-    concurrently: 8.0.1
-    dpdm: 3.13.0
-    eslint: 8.39.0
     ethers: 5.5.4
-    ts-node: 10.9.1
-    typescript: 5.0.4
   languageName: unknown
   linkType: soft
 
@@ -5820,6 +5812,15 @@ __metadata:
     lodash.isstring: ^4.0.1
     lodash.uniqby: ^4.7.0
   checksum: 3357928af6c78c4803340f978bd55dc922b6b15b3f6c76aaa78a08999d39002729502ce1650863d1a9d728a7e31ccc0a865087244225ef6e8fc85aaf2f9c0f67
+  languageName: node
+  linkType: hard
+
+"istanbul-badges-readme@npm:1.8.5":
+  version: 1.8.5
+  resolution: "istanbul-badges-readme@npm:1.8.5"
+  bin:
+    istanbul-badges-readme: lib/index.js
+  checksum: dd144dbaf9782b66bafd5ae9ef394533a824426a99b1c79eaaae8a4d0553ace786edc922d008da94076e62d350165a280cd15cbfaa4f2c926cff3f88c46c4d26
   languageName: node
   linkType: hard
 
@@ -9931,9 +9932,12 @@ __metadata:
     "@types/semantic-release": 20.0.1
     "@typescript-eslint/eslint-plugin": 5.59.2
     "@typescript-eslint/parser": 5.59.2
+    concurrently: 8.0.1
+    dpdm: 3.13.0
     eslint: 8.39.0
     eslint-config-prettier: 8.8.0
     eslint-plugin-prettier: 4.2.1
+    istanbul-badges-readme: 1.8.5
     jest: 29.5.0
     jest-environment-jsdom: 29.5.0
     prettier: 2.8.8
