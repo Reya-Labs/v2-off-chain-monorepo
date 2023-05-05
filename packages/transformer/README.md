@@ -99,7 +99,7 @@ Poetry is a powerful tool that simplifies dependency management, packaging, and 
 3. **Packaging and publishing**: Poetry can build and package your project, making it easy to distribute and share with others. It also
 
 
-### Docker Setup
+## Docker Setup
 
 This Dockerfile sets up an environment for running an application that uses the Apache Beam SDK with PyArrow. The main reason for using Docker in this context is to manage the dependencies required to make the Apache Beam SDK work, given its dependency on PyArrow.
 
@@ -138,8 +138,14 @@ To build the Docker image, run the following command:
 
 ```docker build -t v2-transformer .```
 
-# IO Module
+## IO Module
 
 The io folder is meant to hold code related to input and output operations in your pipelines. 
 Since we are dealing with Google Pub/Sub topic subscriptions and Google Bigtable, the input.py and output.py files would contain the necessary code for reading from Pub/Sub topic subscriptions and writing to Bigtable.
 By separating the I/O operations into their own module, we can reuse them across multiple pipelines and keep the code more organized and maintainable.
+
+## Transformations, Aggregations & Pipelines
+
+1. **transformations**: This folder contains modules that define the various data transformations you will apply to the data in your pipelines. Transformations are operations that modify, filter, or transform the data as it flows through the pipeline. Examples of transformations include parsing JSON, extracting specific fields, converting data types, or applying custom processing logic to the data. Each transformation should ideally be a reusable component that can be applied in multiple pipelines.
+2. **aggregations**: This folder contains modules that define aggregation operations on the data. Aggregations are operations that group, summarize, or otherwise combine data in your pipeline. Examples of aggregations include summing values, counting occurrences, computing averages, or finding the minimum or maximum value. Like transformations, aggregations should be reusable components that can be applied in multiple pipelines.
+3. **pipelines**: This folder contains individual pipeline files, where each file defines a complete end-to-end data processing pipeline. A pipeline typically consists of a series of input, transformation, aggregation, and output steps. In the pipeline files, you would import and use the transformation and aggregation functions defined in the transformations and aggregations folders, along with the I/O functions from the input.py and output.py files.
