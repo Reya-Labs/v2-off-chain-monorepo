@@ -40,7 +40,7 @@ const takerOrderEvent: TakerOrderEvent = {
 };
 
 const cleanUp = async () => {
-  // Clean topic and subscription
+  // Clean test topic and subscription
   try {
     await deleteTopic(topicId);
   } catch (_) {
