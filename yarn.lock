@@ -3274,6 +3274,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@voltz-protocol/transformer-v2@workspace:packages/transformer":
+  version: 0.0.0-use.local
+  resolution: "@voltz-protocol/transformer-v2@workspace:packages/transformer"
+  languageName: unknown
+  linkType: soft
+
 "@voltz-protocol/ts-utils-v2@workspace:packages/utils":
   version: 0.0.0-use.local
   resolution: "@voltz-protocol/ts-utils-v2@workspace:packages/utils"
@@ -11459,12 +11465,6 @@ __metadata:
   checksum: 726321c5eaf41b5002e17ffbd1fb7245999a073e8979085dacd47c4b4e8068ff5777142fc6726d6ca1fd2ff16921b48788b87225cbc57c72636f6efa8efbffe3
   languageName: node
   linkType: hard
-
-"transformer@workspace:packages/transformer":
-  version: 0.0.0-use.local
-  resolution: "transformer@workspace:packages/transformer"
-  languageName: unknown
-  linkType: soft
 
 "traverse@npm:~0.6.6":
   version: 0.6.7
