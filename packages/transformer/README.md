@@ -97,3 +97,43 @@ Poetry is a powerful tool that simplifies dependency management, packaging, and 
 1. **Dependency management**: Define your project's dependencies in the pyproject.toml file, and Poetry will handle installation, updates, and resolving conflicts.
 2. **Virtual environment management**: Poetry creates and manages virtual environments for your project, isolating dependencies and providing a consistent development environment.
 3. **Packaging and publishing**: Poetry can build and package your project, making it easy to distribute and share with others. It also
+
+
+### Docker Setup
+
+This Dockerfile sets up an environment for running an application that uses the Apache Beam SDK with PyArrow. The main reason for using Docker in this context is to manage the dependencies required to make the Apache Beam SDK work, given its dependency on PyArrow.
+
+The Dockerfile consists of several actions that build the environment step by step. Here's a breakdown of the actions in the Dockerfile:
+
+1. `FROM python:3.11`: This line sets the base image to the official Python 3.11 image.
+
+2. `RUN apt-get update`: This line updates the package list on the base image.
+
+3. `RUN apt-get install -y --no-install-recommends curl cmake make gcc g++`: This line installs the necessary tools and libraries, including curl, cmake, make, GCC, and G++.
+
+4. `RUN curl -sSL https://install.python-poetry.org | python3 -`: This line installs Poetry, a Python dependency management tool.
+
+5. `RUN apt-get purge -y --auto-remove curl`: This line removes curl as it's no longer needed.
+
+6. `ENV PATH="/root/.local/bin:$PATH"`: This line updates the PATH environment variable to include the directory where Poetry was installed.
+
+7. The next few lines install the Arrow library:
+
+   - Install necessary tools for adding the Arrow repository.
+   - Add the Apache Arrow repository to the sources list.
+   - Update the package list to include the Arrow packages.
+   - Install specific versions of libarrow-dev and libarrow-python-dev.
+
+8. `WORKDIR /code`: This line sets the working directory to `/code`.
+
+9. `COPY poetry.lock pyproject.toml /code/`: This line copies the Poetry lock file and the project configuration file to the working directory.
+
+10. `RUN poetry config virtualenvs.create false`: This line configures Poetry to not create virtual environments.
+
+11. `RUN poetry install --no-interaction --no-ansi --no-dev`: This line installs the project dependencies using Poetry.
+
+12. `ENTRYPOINT ["python", "src/main.py"]`: This line sets the entrypoint for running the application.
+
+To build the Docker image, run the following command:
+
+```docker build -t v2-transformer .```
