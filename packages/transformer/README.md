@@ -149,3 +149,34 @@ By separating the I/O operations into their own module, we can reuse them across
 1. **transformations**: This folder contains modules that define the various data transformations you will apply to the data in your pipelines. Transformations are operations that modify, filter, or transform the data as it flows through the pipeline. Examples of transformations include parsing JSON, extracting specific fields, converting data types, or applying custom processing logic to the data. Each transformation should ideally be a reusable component that can be applied in multiple pipelines.
 2. **aggregations**: This folder contains modules that define aggregation operations on the data. Aggregations are operations that group, summarize, or otherwise combine data in your pipeline. Examples of aggregations include summing values, counting occurrences, computing averages, or finding the minimum or maximum value. Like transformations, aggregations should be reusable components that can be applied in multiple pipelines.
 3. **pipelines**: This folder contains individual pipeline files, where each file defines a complete end-to-end data processing pipeline. A pipeline typically consists of a series of input, transformation, aggregation, and output steps. In the pipeline files, you would import and use the transformation and aggregation functions defined in the transformations and aggregations folders, along with the I/O functions from the input.py and output.py files.
+
+## PyCharm PE Setup
+
+1. **Install the Docker plugin:**
+   - In PyCharm, go to `Preferences` (macOS) or `Settings` (Windows/Linux).
+   - In the `Preferences` or `Settings` window, navigate to `Plugins` in the left sidebar.
+   - Click the `Marketplace` tab at the top of the window.
+   - In the search bar, type `Docker` and press Enter.
+   - In the search results, find the `Docker` plugin by JetBrains and click the `Install` button.
+   - Restart PyCharm when prompted.
+2. **Connect to the Docker daemon:**
+   - In PyCharm, go to `Preferences` (macOS) or `Settings` (Windows/Linux).
+   - In the `Preferences` or `Settings` window, navigate to `Build, Execution, Deployment` > `Docker` in the left sidebar.
+   - Click the `+` button to add a new Docker configuration.
+   - In the `Name` field, give your configuration a name (e.g., "Docker").
+   - Make sure the `Connection successful` message appears, indicating that PyCharm has successfully connected to the Docker daemon. If not, adjust the `API URL` and `Certificates folder` settings according to your Docker installation. The default settings usually work out of the box.
+   - Click `Apply` and then `OK` to save your configuration.
+3. **Build the Docker image for your project** (if you haven't already) by running `docker build -t v2-transformer .` in your project directory containing the Dockerfile.
+4. **Set up a remote interpreter using Docker:**
+   - In PyCharm, open your project.
+   - Go to `Preferences` (macOS) or `Settings` (Windows/Linux).
+   - In the `Preferences` or `Settings` window, navigate to `Project: v2-off-chain-monorepo` > `Python Interpreter` in the left sidebar.
+   - Click the gear icon next to the interpreter dropdown, then click `Add`.
+   - In the `Add Python Interpreter` window, click the `Docker` option in the left sidebar.
+   - In the `Server` dropdown, select the Docker configuration you created earlier.
+   - In the dockerfile field make sure you specify `Dockerfile` located in `packages/transformer`
+   - Configure the `Python interpreter path` if necessary. The default path is usually `/usr/local/bin/python` or `/usr/bin/python`, depending on your Docker image.
+   - Click `OK` to save your remote interpreter configuration.
+
+After completing these steps, PyCharm should be configured to use the Docker environment for code completion, linting, and running your project. Your project files will be synchronized between your local machine and the Docker container.
+
