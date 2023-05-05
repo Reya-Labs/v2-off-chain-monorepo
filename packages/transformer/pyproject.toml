@@ -5,7 +5,7 @@ description = "Voltz V2 Google Dataflow Transformer"
 authors = ["Voltz Protocol"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.11"
 apache-beam = { version = "^2.46.0", extras = ["gcp"] }
 pytest = "^7.1.3"
 
