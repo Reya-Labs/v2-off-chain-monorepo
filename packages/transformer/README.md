@@ -137,3 +137,9 @@ The Dockerfile consists of several actions that build the environment step by st
 To build the Docker image, run the following command:
 
 ```docker build -t v2-transformer .```
+
+# IO Module
+
+The io folder is meant to hold code related to input and output operations in your pipelines. 
+Since we are dealing with Google Pub/Sub topic subscriptions and Google Bigtable, the input.py and output.py files would contain the necessary code for reading from Pub/Sub topic subscriptions and writing to Bigtable.
+By separating the I/O operations into their own module, we can reuse them across multiple pipelines and keep the code more organized and maintainable.
