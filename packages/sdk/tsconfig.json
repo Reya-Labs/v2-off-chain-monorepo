@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["es2019", "ES2021.String"],
+    "module": "commonjs",
+    "rootDirs": [
+      "src",
+      "scripts"
+    ],
+    "typeRoots" : ["../../node_modules/@types", "./types"],
+    "resolveJsonModule": true,
+    "outDir": "./build",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    // Needed for Sentry debugging
+    "sourceMap": true,
+    "inlineSources": true,
+
+    // Set `sourceRoot` to  `/` to strip the build path prefix from
+    // generated source code references. This allows Sentry to match source files
+    // relative to your source root folder.
+    "sourceRoot": "/"
+  },
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.test.ts"
+  ]
+}
