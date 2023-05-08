@@ -1,7 +1,6 @@
 import argparse
 from apache_beam.options.pipeline_options import PipelineOptions
 from pipelines.initiate_taker_order_pipeline import run_initiate_taker_order_pipeline
-from pipelines.deposit_pipeline import run_deposit_pipeline
 
 def main():
     parser = argparse.ArgumentParser(description='Run Voltz V2 Dataflow Pipelines')
@@ -14,8 +13,6 @@ def main():
 
     if args.pipeline == 'pipeline1':
         run_initiate_taker_order_pipeline(pipeline_options)
-    elif args.pipeline == 'pipeline2':
-        run_deposit_pipeline(pipeline_options)
 
 if __name__ == "__main__":
     main()
