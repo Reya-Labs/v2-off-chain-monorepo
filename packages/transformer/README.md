@@ -1,6 +1,6 @@
 # Voltz V2 Transformer
 
-TODO: add more info about the transformer once it is built
+V2 Transformer is a set of Google Dataflow Pipelines that are able to batch and stream process v2 smart contract event  data coming from Google Pub Sub and output transformed data to a Big Table instance that can be accessed via v2 API.
 
 ## Poetry
 
