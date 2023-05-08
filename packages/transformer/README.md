@@ -180,3 +180,41 @@ By separating the I/O operations into their own module, we can reuse them across
 
 After completing these steps, PyCharm should be configured to use the Docker environment for code completion, linting, and running your project. Your project files will be synchronized between your local machine and the Docker container.
 
+## Apache Beam SDK 
+
+### Core Concepts
+
+1. **Pipeline**: User-constructed graph of transformations defining data processing operations.
+2. **PCollection**: Data set or data stream being processed.
+3. **PTransform**: Data processing operation (step) in the pipeline.
+4. **Aggregation**: Computing a value from multiple input elements.
+5. **User**-defined function (UDF): Custom code for configuring transforms.
+6. **Schema**: Language-independent type definition for a PCollection.
+7. **SDK**: Language-specific library for building and submitting pipelines (in our case it is Python). 
+8. **Runner**: Executes Beam pipelines using a data processing engine (e.g. Dataflow by GCP).
+
+
+### Examples of a simple pipeline
+
+```python
+# Import the SDK
+import apache_beam as beam
+
+# Define a PTransform
+class SplitWords(beam.DoFn):
+    def process(self, element):
+        return element.split(' ')
+
+# Create a Pipeline
+with beam.Pipeline() as pipeline:
+    # Read input data
+    lines = pipeline | 'Read lines' >> beam.io.ReadFromText('input.txt')
+
+    # Apply a PTransform to the input PCollection
+    words = lines | 'Split words' >> beam.ParDo(SplitWords())
+
+    # Write output data
+    words | 'Write words' >> beam.io.WriteToText('output.txt')
+```
+
+More information available in the official apache beam docs: https://beam.apache.org/documentation/ 
