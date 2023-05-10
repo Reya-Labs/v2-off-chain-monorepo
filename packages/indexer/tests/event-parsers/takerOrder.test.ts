@@ -16,10 +16,9 @@ describe('taker order parser', () => {
     const logIndex = 124;
 
     const blockTimestamp = 1683092975; // May 03 2023 05:49:35 GMT+0000
-    const accountId = 'Account-Id';
-    const marketId = 'Market-Id';
-    const maturityTimestamp = BigNumber.from(1685534400); // May 31 2023 12:00:00 GMT+0000
-    const quoteToken = '0xa0b86991c6218b36c1d19D4a2e9eb0ce3606eb48'; // USDC
+    const accountId = BigNumber.from('1000000000');
+    const marketId = BigNumber.from('1111111111');
+    const maturityTimestamp = 1685534400; // May 31 2023 12:00:00 GMT+0000
     const executedBaseAmount = BigNumber.from(100000000);
     const executedQuoteAmount = BigNumber.from(-550000000);
     const annualizedBaseAmount = BigNumber.from(7500000);
@@ -36,7 +35,6 @@ describe('taker order parser', () => {
         accountId,
         marketId,
         maturityTimestamp,
-        quoteToken,
         executedBaseAmount,
         executedQuoteAmount,
         annualizedBaseAmount,
@@ -44,6 +42,8 @@ describe('taker order parser', () => {
     } as unknown as Event;
 
     const takerOrderEvent = parseTakerOrder(chainId, event);
+
+    console.log('taker order event:', takerOrderEvent);
 
     const expectedTakerOrderEvent: TakerOrderEvent = {
       id: '1_taker-order_block-hash_0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40a_124',
@@ -61,9 +61,9 @@ describe('taker order parser', () => {
         '0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40a',
       logIndex: 124,
 
-      accountId: 'account-id',
+      accountId: '1000000000',
 
-      marketId: 'market-id',
+      marketId: '1111111111',
       maturityTimestamp: 1685534400,
       quoteToken: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
 
