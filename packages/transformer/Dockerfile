@@ -1,4 +1,4 @@
-FROM python:3.11
+FROM python:3.9
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends \
        curl \
@@ -19,10 +19,10 @@ RUN apt-get -y install libarrow-dev=9.0.0-1 libarrow-python-dev=9.0.0-1
 
 # Copy only requirements to cache them in docker layer
 WORKDIR /code
-COPY poetry.lock pyproject.toml /code/
+COPY pyproject.toml /code/
 
 RUN poetry config virtualenvs.create false
-RUN poetry install --no-interaction --no-ansi --no-dev
+RUN poetry install
 
 # COPY . ./
 

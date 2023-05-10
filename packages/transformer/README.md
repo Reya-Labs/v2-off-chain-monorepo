@@ -217,4 +217,10 @@ with beam.Pipeline() as pipeline:
     words | 'Write words' >> beam.io.WriteToText('output.txt')
 ```
 
-More information available in the official apache beam docs: https://beam.apache.org/documentation/ 
+More information available in the official apache beam docs: https://beam.apache.org/documentation/
+
+
+### PyTest Fixtures
+
+- represent two different things: (1) canned data you are going to use throughout your tests, the other is side effects
+or a state you want to be in for your test

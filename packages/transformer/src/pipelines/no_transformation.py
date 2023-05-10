@@ -1,4 +1,4 @@
-from base_pipeline import run_base_pipeline
+from .base_pipeline import run_base_pipeline
 from apache_beam.transforms import PTransform
 from apache_beam.options.pipeline_options import PipelineOptions
 
