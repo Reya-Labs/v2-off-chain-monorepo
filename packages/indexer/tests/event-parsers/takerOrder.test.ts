@@ -1,7 +1,7 @@
 import { BigNumber, Event } from 'ethers';
 import { parseTakerOrder } from '../../src/event-parsers/dated-irs-vamm/takerOrder';
 import { compareEvents } from './compareEvents';
-import { TakerOrderEvent } from '../../src/utils/types';
+import { TakerOrderEvent } from '../../src/event-parsers/types';
 
 describe('taker order parser', () => {
   test('usual event', () => {
@@ -46,7 +46,7 @@ describe('taker order parser', () => {
     console.log('taker order event:', takerOrderEvent);
 
     const expectedTakerOrderEvent: TakerOrderEvent = {
-      id: '1_taker-order_block-hash_0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40a_124',
+      id: '1_taker-order_Block-Hash_0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A_124',
       type: 'taker-order',
 
       chainId: 1,
@@ -54,11 +54,11 @@ describe('taker order parser', () => {
 
       blockTimestamp: 1683092975,
       blockNumber: 17178234,
-      blockHash: 'block-hash',
+      blockHash: 'Block-Hash',
 
       transactionIndex: 21,
       transactionHash:
-        '0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40a',
+        '0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A',
       logIndex: 124,
 
       accountId: '1000000000',

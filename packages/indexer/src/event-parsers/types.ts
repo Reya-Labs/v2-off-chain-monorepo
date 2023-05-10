@@ -1,16 +1,25 @@
-export type EventType =
-  | 'taker-order'
-  | 'maker-order'
-  | 'collateral-deposited'
-  | 'collateral-withdrawn'
-  | 'account-created';
+import { Address } from '../utils/types';
 
-export interface BaseEvent {
+export type EventType =
+  | 'account-created'
+  | 'account-owner-update'
+  | 'collateral-configured'
+  | 'collateral-deposited'
+  | 'collateral-update'
+  | 'collateral-withdrawn'
+  | 'liquidation'
+  | 'liquidator-booster-update'
+  | 'market-fee-configured'
+  | 'product-registered'
+  | 'maker-order'
+  | 'taker-order';
+
+export type BaseEvent = {
   id: string;
   type: EventType;
 
   chainId: number;
-  source: Lowercase<string>;
+  source: Address;
 
   blockTimestamp: number;
   blockNumber: number;
@@ -19,67 +28,99 @@ export interface BaseEvent {
   transactionIndex: number;
   transactionHash: string;
   logIndex: number;
-}
+};
 
 // Core
 
 // state-capturing event
-export interface AccountCreatedEvent extends BaseEvent {
+export type AccountCreatedEvent = BaseEvent & {
   accountId: string; // big number
-  owner: Lowercase<string>;
-}
+  owner: Address;
+};
 
 // state-capturing event
-export interface AccountOwnerUpdateEvent extends BaseEvent {
+export type AccountOwnerUpdateEvent = BaseEvent & {
   accountId: string; // big number
-  newOwner: Lowercase<string>;
-}
+  newOwner: Address;
+};
 
 // state-capturing event
-export interface CollateralConfiguredEvent extends BaseEvent {
+export type CollateralConfiguredEvent = BaseEvent & {
   depositingEnabled: boolean;
   liquidationBooster: number;
-  tokenAddress: Lowercase<string>;
-  cap: string; // big number
-}
+  tokenAddress: Address;
+  cap: string; // big number (Cap might be set to max uint256 and does not fit to number)
+};
+
+type CollateralEvent = BaseEvent & {
+  accountId: string; // big number
+  collateralType: Address;
+  tokenAmount: number;
+};
 
 // action-tracking event
-export interface CollateralDepositedEvent extends BaseEvent {
-  accountId: string; // big number
-  collateralType: Lowercase<string>;
-  tokenAmount: number;
-}
+export type CollateralDepositedEvent = CollateralEvent;
 
 // action-tracking event
-export interface CollateralWithdrawnEvent extends BaseEvent {
-  accountId: string; // big number
-  collateralType: Lowercase<string>;
-  tokenAmount: number;
-}
+export type CollateralUpdateEvent = CollateralEvent;
+
+// action-tracking event
+export type CollateralWithdrawnEvent = CollateralEvent;
+
+// action-tracking event
+export type LiquidatorBoosterUpdateEvent = CollateralEvent;
+
+// action-tracking event
+export type LiquidationEvent = BaseEvent & {
+  liquidatedAccountId: string; // big number
+  collateralType: Address;
+  sender: Address;
+  liquidatorAccountId: string; // big number
+  liquidatorRewardAmount: number;
+  imPreClose: number;
+  imPostClose: number;
+};
+
+// state-capturing event
+export type MarketFeeConfiguredEvent = BaseEvent & {
+  productId: string; // big number
+  marketId: string; // big number
+  feeCollectorAccountId: string; // big number
+  atomicMakerFee: number;
+  atomicTakerFee: number;
+};
+
+// state-capturing event
+export type ProductRegisteredEvent = BaseEvent & {
+  product: Address;
+  productId: string; // big number
+  name: string;
+  sender: Address;
+};
 
 // Product
 
-export interface TakerOrderEvent extends BaseEvent {
+export type TakerOrderEvent = BaseEvent & {
   accountId: string; // big number
 
   marketId: string; // big number
   maturityTimestamp: number;
-  quoteToken: Lowercase<string>;
+  quoteToken: Address;
 
   executedBaseAmount: number;
   executedQuoteAmount: number;
 
   annualizedBaseAmount: number;
-}
+};
 
-export interface MakerOrderEvent extends BaseEvent {
+export type MakerOrderEvent = BaseEvent & {
   accountId: string; // big number
 
   marketId: string; // big number
   maturityTimestamp: number;
-  quoteToken: Lowercase<string>;
+  quoteToken: Address;
 
   tickLower: number;
   tickUpper: number;
   executedBaseAmount: number;
-}
+};

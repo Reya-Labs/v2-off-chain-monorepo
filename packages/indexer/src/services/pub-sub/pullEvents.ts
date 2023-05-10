@@ -1,4 +1,4 @@
-import { TakerOrderEvent } from '../../utils/types';
+import { TakerOrderEvent } from '../../event-parsers/types';
 import { getSubClient, getSubscriptionId } from './clients';
 
 export const pullEvents = async (subscriptionName: string) => {

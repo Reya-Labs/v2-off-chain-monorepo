@@ -1,4 +1,5 @@
 import { ethers } from 'ethers';
+import { Address } from './types';
 
 export const descale = (tokenDecimals: number) => {
   const f = (value: ethers.BigNumber) => {
@@ -9,7 +10,7 @@ export const descale = (tokenDecimals: number) => {
 };
 
 const tokenDetails: {
-  [address: Lowercase<string>]: {
+  [address: Address]: {
     tokenName: Uppercase<string>;
     tokenDecimals: number;
   };
@@ -123,7 +124,7 @@ export const getTokenDetails = (
   tokenDecimals: number;
   tokenDescaler: (value: ethers.BigNumber) => number;
 } => {
-  const address = caseSensitiveAddress.toLowerCase() as Lowercase<string>;
+  const address = caseSensitiveAddress.toLowerCase() as Address;
 
   if (!Object.keys(tokenDetails).includes(address)) {
     throw new Error(`Token details not found for ${address}.`);

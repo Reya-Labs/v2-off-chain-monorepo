@@ -5,8 +5,8 @@ import {
 import { createTopic, deleteTopic } from '../src/services/pub-sub/topic';
 import { pullEvents } from '../src/services/pub-sub/pullEvents';
 import { pushEvents } from '../src/services/pub-sub/pushEvents';
-import { TakerOrderEvent } from '../src/utils/types';
 import { compareEvents } from '../tests/event-parsers/compareEvents';
+import { TakerOrderEvent } from '../src/event-parsers/types';
 
 const topicId = 'integration-test-topic';
 const subscriptionName = 'integration-test-subscription';

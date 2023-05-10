@@ -18,7 +18,7 @@ export const parseTakerOrder = (
   const marketId = (event.args?.marketId as BigNumber).toString();
   const maturityTimestamp = event.args?.maturityTimestamp as number;
 
-  const quoteToken = getMarketQuoteToken(marketId, maturityTimestamp);
+  const quoteToken = getMarketQuoteToken(marketId);
   const { tokenDescaler } = getTokenDetails(quoteToken);
 
   const executedBaseAmount = tokenDescaler(
@@ -39,14 +39,12 @@ export const parseTakerOrder = (
     ...baseEvent,
 
     accountId,
-
     marketId,
     maturityTimestamp,
     quoteToken: convertLowercaseString(quoteToken),
 
     executedBaseAmount,
     executedQuoteAmount,
-
     annualizedBaseAmount,
   };
 };

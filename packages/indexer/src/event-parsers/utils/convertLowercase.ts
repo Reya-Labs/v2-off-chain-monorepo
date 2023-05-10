@@ -1,3 +1,5 @@
-export const convertLowercaseString = (str: string): Lowercase<string> => {
-  return str.toLowerCase() as Lowercase<string>;
+import { Address } from '../../utils/types';
+
+export const convertLowercaseString = (str: string): Address => {
+  return str.toLowerCase() as Address;
 };
