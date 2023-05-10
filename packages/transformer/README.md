@@ -207,13 +207,13 @@ class SplitWords(beam.DoFn):
 
 # Create a Pipeline
 with beam.Pipeline() as pipeline:
-    # Read input data
+    # Read input mock-data
     lines = pipeline | 'Read lines' >> beam.io.ReadFromText('input.txt')
 
     # Apply a PTransform to the input PCollection
     words = lines | 'Split words' >> beam.ParDo(SplitWords())
 
-    # Write output data
+    # Write output mock-data
     words | 'Write words' >> beam.io.WriteToText('output.txt')
 ```
 
