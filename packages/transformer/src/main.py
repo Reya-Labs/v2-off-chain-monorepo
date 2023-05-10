@@ -1,6 +1,6 @@
 import argparse
 from apache_beam.options.pipeline_options import PipelineOptions
-from pipelines.pnl_pipeline import run_initiate_taker_order_pipeline
+from pipelines.base_pipeline import run_initiate_taker_order_pipeline
 
 def main():
     parser = argparse.ArgumentParser(description='Run Voltz V2 Dataflow Pipelines')
