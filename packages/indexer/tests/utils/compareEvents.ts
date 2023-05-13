@@ -1,4 +1,4 @@
-import { BaseEvent } from '../../src/utils/types';
+import { BaseEvent } from '../../src/event-parsers/types';
 
 const EPSILON = 1e-5;
 

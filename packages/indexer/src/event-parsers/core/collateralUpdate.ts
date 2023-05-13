@@ -1,16 +1,16 @@
 import { Event, BigNumber } from 'ethers';
 
-import { CollateralDepositedEvent, EventType } from '../types';
+import { CollateralUpdateEvent, EventType } from '../types';
 import { getTokenDetails } from '../../utils/token';
 import { parseBaseEvent } from '../utils/baseEvent';
 import { convertLowercaseString } from '../utils/convertLowercase';
 
-export const parseCollateralDeposited = (
+export const parseCollateralUpdate = (
   chainId: number,
   event: Event,
-): CollateralDepositedEvent => {
+): CollateralUpdateEvent => {
   // 1. Type of event
-  const type: EventType = 'collateral-deposited';
+  const type: EventType = 'collateral-update';
 
   // 2. Parse particular args
   const accountId = (event.args?.accountId as BigNumber).toString();

@@ -1,4 +1,4 @@
-import { BaseEvent } from '../../utils/types';
+import { BaseEvent } from '../../event-parsers/types';
 import { getPubSubClient } from './clients';
 
 export const pushEvents = async <T extends BaseEvent>(
