@@ -14,3 +14,10 @@ def test_do_with_do_function():
             result = p_collection | 'Do' >> beam.ParDo(AddNDoFn(), 10)
             assert_that(result, equal_to([11, 12, 13]))
 
+
+def test_do_with_callable():
+    with TestPipeline() as pipeline:
+        pcoll = pipeline | 'Start' >> beam.Create([1, 2, 3])
+        result = pcoll | 'Do' >> beam.FlatMap(lambda x, addon: [x + addon], 10)
+        assert_that(result, equal_to([11, 12, 13]))
+
