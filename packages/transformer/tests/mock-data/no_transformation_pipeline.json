@@ -1,13 +1,13 @@
 [
     {
-        "input": [
+        "mock_input_data": [
             {"walletAddress": "address1", "notional": 100, "fixedRate": 0.05},
             {"walletAddress": "address2", "notional": 200, "fixedRate": 0.06},
             {"walletAddress": "address3", "notional": 150, "fixedRate": 0.04},
             {"walletAddress": "address4", "notional": 180, "fixedRate": 0.07},
             {"walletAddress": "address5", "notional": 130, "fixedRate": 0.05}
         ],
-        "output": [
+        "mock_output_data": [
             {"walletAddress": "address1", "notional": 100, "fixedRate": 0.05},
             {"walletAddress": "address2", "notional": 200, "fixedRate": 0.06},
             {"walletAddress": "address3", "notional": 150, "fixedRate": 0.04},
@@ -16,14 +16,14 @@
         ]
     },
     {
-        "input": [
+        "mock_input_data": [
             {"walletAddress": "address6", "notional": 110, "fixedRate": 0.05},
             {"walletAddress": "address7", "notional": 220, "fixedRate": 0.06},
             {"walletAddress": "address8", "notional": 130, "fixedRate": 0.04},
             {"walletAddress": "address9", "notional": 190, "fixedRate": 0.07},
             {"walletAddress": "address10", "notional": 140, "fixedRate": 0.05}
         ],
-        "output": [
+        "mock_output_data": [
             {"walletAddress": "address6", "notional": 110, "fixedRate": 0.05},
             {"walletAddress": "address7", "notional": 220, "fixedRate": 0.06},
             {"walletAddress": "address8", "notional": 130, "fixedRate": 0.04},
