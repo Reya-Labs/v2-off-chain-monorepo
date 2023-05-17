@@ -64,7 +64,7 @@ class SetWalletAddressFn(beam.DoFn):
         # 0x is a placeholder wallet address
         yield "0x", element
 
-def test_basic_execution_test_stream():
+def test_basic_stream_pipeline_with_state():
 
     START_TIMESTAMP = 10
     LATE_TIMESTAMP = 12
