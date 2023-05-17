@@ -101,12 +101,12 @@ def test_basic_execution_test_stream():
     )
 
     expected_result = {
-        window.GlobalWindow(): [
-            ('0x', 10),
-        ],
+        window.GlobalWindow(): [10, 20, 30, 40],
     }
 
     assert_that(
         wallet_pnl_updated,
         equal_to_per_window(expected_result),
         label='numbers assert per window')
+
+    test_pipeline.run()
