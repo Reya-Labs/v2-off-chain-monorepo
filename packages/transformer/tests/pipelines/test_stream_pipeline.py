@@ -1,4 +1,3 @@
-import pytest
 from apache_beam.testing.test_pipeline import TestPipeline
 from apache_beam.testing.test_stream import TestStream
 from apache_beam.transforms.window import TimestampedValue
@@ -17,6 +16,8 @@ from apache_beam.transforms import trigger
 from apache_beam.transforms import window
 from apache_beam.testing.util import equal_to_per_window
 
+# TODO: Disable frequent lint warning due to pipe operator for chaining transforms
+# https://github.com/apache/beam/blob/44b64af0383f5c63d52d6151f24def4630e4f25f/sdks/python/apache_beam/transforms/ptransform_test.py#L68
 
 # todo: have some sort of module for mocks and test supporting utils like this one
 class RecordFn(beam.DoFn):
