@@ -9,6 +9,18 @@ from apache_beam.utils import timestamp
 import apache_beam as beam
 from apache_beam.options.pipeline_options import PipelineOptions
 from apache_beam.options.pipeline_options import StandardOptions
+from apache_beam.testing.util import assert_that
+from apache_beam.testing.util import equal_to
+
+
+# todo: have some sort of module for mocks and test supporting utils like this one
+class RecordFn(beam.DoFn):
+    def process(
+            self,
+            element=beam.DoFn.ElementParam,
+            timestamp=beam.DoFn.TimestampParam):
+        yield (element, timestamp)
+
 
 
 def test_basic_execution_test_stream():
@@ -46,4 +58,18 @@ def test_basic_execution_test_stream():
             WatermarkEvent(timestamp.MAX_TIMESTAMP),
         ]
 
+        my_record_fn = RecordFn()
         records = test_pipeline | test_stream
+        records = records | beam.ParDo(my_record_fn)
+
+        assert_that(
+            records,
+            equal_to([
+                ('a', timestamp.Timestamp(10)),
+                ('b', timestamp.Timestamp(10)),
+                ('c', timestamp.Timestamp(10)),
+                ('d', timestamp.Timestamp(20)),
+                ('e', timestamp.Timestamp(20)),
+                ('late', timestamp.Timestamp(12)),
+                ('last', timestamp.Timestamp(310)),
+            ]))
