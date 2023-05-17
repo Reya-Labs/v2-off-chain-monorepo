@@ -16,6 +16,7 @@ from apache_beam.transforms.userstate import BagStateSpec
 from apache_beam.coders import BigIntegerCoder
 from apache_beam.transforms import trigger
 from apache_beam.transforms import window
+from apache_beam.testing.util import equal_to_per_window
 
 
 '''
@@ -58,9 +59,9 @@ class StatefulParDoFn(beam.DoFn):
 
         yield cumulative_wallet_pnl_updated
 
-# Sets the wallet_address as the key
 class SetWalletAddressFn(beam.DoFn):
     def process(self, element):
+        # 0x is a placeholder wallet address
         yield "0x", element
 
 def test_basic_execution_test_stream():
@@ -69,8 +70,7 @@ def test_basic_execution_test_stream():
     LATE_TIMESTAMP = 12
     FINAL_TIMESTAMP = 310
     PNL_DELTA = 10
-    GLOBAL_WINDOW_AFTER_PROCESSING_TIME = 5
-    GLOBAL_WINDOW_AFTER_COUNT = 2
+    GLOBAL_WINDOW_AFTER_COUNT = 1
 
     test_stream = (TestStream()
                    .advance_watermark_to(START_TIMESTAMP)
@@ -86,26 +86,27 @@ def test_basic_execution_test_stream():
     options = PipelineOptions()
     options.view_as(StandardOptions).streaming = True
 
-    with TestPipeline(options=options) as test_pipeline:
-        wallet_pnl_without_keys = test_pipeline | test_stream
-        wallet_pnl = wallet_pnl_without_keys | "SetKey" >> beam.ParDo(SetWalletAddressFn())
-        wallet_pnl_updated = wallet_pnl | "BagStatefulDoFn" >> beam.ParDo(StatefulParDoFn())
+    options = StandardOptions(streaming=True)
+    test_pipeline = TestPipeline(options=options)
 
-        wallet_pnl_updated = wallet_pnl_updated | beam.WindowInto(
-            windowfn=beam.window.GlobalWindows(),
-            trigger=beam.trigger.AfterWatermark(
-                early=beam.trigger.AfterAny(beam.trigger.AfterCount(GLOBAL_WINDOW_AFTER_COUNT), beam.trigger.AfterProcessingTime(GLOBAL_WINDOW_AFTER_PROCESSING_TIME))
-            ),
-            accumulation_mode=beam.trigger.AccumulationMode.ACCUMULATING,
-            allowed_lateness=0
-        )
+    wallet_pnl_without_keys = test_pipeline | test_stream
+    wallet_pnl = wallet_pnl_without_keys | "SetKey" >> beam.ParDo(SetWalletAddressFn())
+    wallet_pnl_updated = wallet_pnl | "BagStatefulDoFn" >> beam.ParDo(StatefulParDoFn())
 
-        print('done, time to assert')
+    wallet_pnl_updated = wallet_pnl_updated | beam.WindowInto(
+        windowfn=beam.window.GlobalWindows(),
+        trigger=trigger.AfterWatermark(early=trigger.AfterCount(GLOBAL_WINDOW_AFTER_COUNT)),
+        accumulation_mode=beam.trigger.AccumulationMode.ACCUMULATING,
+        allowed_lateness=0
+    )
 
+    expected_result = {
+        window.GlobalWindow(): [
+            ('0x', 10),
+        ],
+    }
 
-
-
-
-
-
-
+    assert_that(
+        wallet_pnl_updated,
+        equal_to_per_window(expected_result),
+        label='numbers assert per window')
