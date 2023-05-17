@@ -1,3 +1,5 @@
+from typing import List
+
 from apache_beam.testing.test_pipeline import TestPipeline
 from apache_beam.testing.test_stream import TestStream
 from apache_beam.transforms.window import TimestampedValue
@@ -45,12 +47,12 @@ class StatefulParDoFn(beam.DoFn):
     CUMULATIVE_WALLET_PNL_STATE = BagStateSpec('wallet', BigIntegerCoder())
     def process(self, element, cumulative_wallet_pnl_state=beam.DoFn.StateParam(CUMULATIVE_WALLET_PNL_STATE)):
         wallet_pnl_since_last_update = element[1] # since 0 is key, is there a way to have a schema instead of using [1]
-        cumulative_wallet_pnl_at_last_update = cumulative_wallet_pnl_state.read()
+        cumulative_wallet_pnl_at_last_update_state: List = list(cumulative_wallet_pnl_state.read())
         cumulative_wallet_pnl_updated = wallet_pnl_since_last_update
 
-        if cumulative_wallet_pnl_at_last_update:
+        if len(cumulative_wallet_pnl_at_last_update_state) > 0:
             cumulative_wallet_pnl_state.clear()
-            cumulative_wallet_pnl_updated += cumulative_wallet_pnl_at_last_update
+            cumulative_wallet_pnl_updated += cumulative_wallet_pnl_at_last_update_state[-1]
 
         cumulative_wallet_pnl_state.add((cumulative_wallet_pnl_updated))
 
@@ -58,8 +60,8 @@ class StatefulParDoFn(beam.DoFn):
 
 # Sets the wallet_address as the key
 class SetWalletAddressFn(beam.DoFn):
-    def process(self, element, wallet_address):
-        yield wallet_address, element
+    def process(self, element):
+        yield "0x", element
 
 def test_basic_execution_test_stream():
 
@@ -86,8 +88,8 @@ def test_basic_execution_test_stream():
 
     with TestPipeline(options=options) as test_pipeline:
         wallet_pnl_without_keys = test_pipeline | test_stream
-        wallet_pnl = (wallet_pnl_without_keys | "SetKey" >> beam.ParDo(SetWalletAddressFn()), "0x")
-        wallet_pnl_updated = (wallet_pnl | "BagStatefulDoFn" >> beam.ParDo(StatefulParDoFn()))
+        wallet_pnl = wallet_pnl_without_keys | "SetKey" >> beam.ParDo(SetWalletAddressFn())
+        wallet_pnl_updated = wallet_pnl | "BagStatefulDoFn" >> beam.ParDo(StatefulParDoFn())
 
         wallet_pnl_updated = wallet_pnl_updated | beam.WindowInto(
             windowfn=beam.window.GlobalWindows(),
@@ -98,7 +100,7 @@ def test_basic_execution_test_stream():
             allowed_lateness=0
         )
 
-        # todo: assert something in here
+        print('done, time to assert')
 
 
 
