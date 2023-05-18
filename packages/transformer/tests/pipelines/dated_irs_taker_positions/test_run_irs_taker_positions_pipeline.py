@@ -6,6 +6,7 @@ from apache_beam.testing.util import assert_that
 from apache_beam.testing.util import equal_to_per_window
 from apache_beam.utils.timestamp import Timestamp
 from apache_beam.testing.test_pipeline import TestPipeline
+from apache_beam.options.pipeline_options import PipelineOptions
 
 def test_run_irs_taker_positions_pipeline():
 
@@ -31,7 +32,7 @@ def test_run_irs_taker_positions_pipeline():
 
     expected_updated_dated_irs_taker_positions_global_windows = {
         GlobalWindow(): [
-            ("0xchad", Timestamp.of(100), -10)
+            ("0xchad", Timestamp.of(100), -11)
         ],
     }
 

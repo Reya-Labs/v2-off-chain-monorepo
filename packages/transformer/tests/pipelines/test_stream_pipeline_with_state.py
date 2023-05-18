@@ -77,9 +77,6 @@ def test_basic_stream_pipeline_with_state():
                    .add_elements([TimestampedValue(PNL_DELTA, FINAL_TIMESTAMP)])
                    .advance_watermark_to_infinity())
 
-    options = PipelineOptions()
-    options.view_as(StandardOptions).streaming = True
-
     options = StandardOptions(streaming=True)
     test_pipeline = TestPipeline(options=options)
 
