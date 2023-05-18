@@ -16,26 +16,28 @@ class StatefulTakerPositionTransformDoFn(beam.DoFn):
     - should be parallelised for each position_id
     '''
 
-    # TAKER_POSITION_STATE = BagStateSpec('taker_position', TupleCoder((StrUtf8Coder, TimestampCoder, BigIntegerCoder)))
-    TAKER_POSITION_STATE = BagStateSpec('taker_position', BigIntegerCoder())
+    TAKER_POSITION_STATE = BagStateSpec('taker_position', TupleCoder((BigIntegerCoder(), BigIntegerCoder())))
 
     def process(self, initiateTakerOrderEventAndKey: tuple[str, dict], cached_taker_position_state=beam.DoFn.StateParam(TAKER_POSITION_STATE)):
 
         initiateTakerOrderEvent = initiateTakerOrderEventAndKey[1]
         fees_paid_to_initiate_taker_order = initiateTakerOrderEvent['fees_paid']
+        executed_base_amount = initiateTakerOrderEvent['executed_base_amount']
         current_taker_order_event_timestamp = initiateTakerOrderEvent['timestamp']
         position_id = initiateTakerOrderEvent['position_id']
 
         cached_taker_position_state_list = [x for x in cached_taker_position_state.read()]
 
+        current_realized_pnl_from_fees_paid = -fees_paid_to_initiate_taker_order
+        current_net_notional_locked = executed_base_amount
         if len(cached_taker_position_state_list)>0:
-            # position_id = cached_taker_position_state_list[0]
             last_realized_pnl_from_fees_paid = cached_taker_position_state_list[0]
+            last_net_notional_locked = cached_taker_position_state_list[1]
             cached_taker_position_state.clear()
-            current_realized_pnl_from_fees_paid = last_realized_pnl_from_fees_paid - fees_paid_to_initiate_taker_order
-            cached_taker_position_state.add(current_realized_pnl_from_fees_paid)
-        else:
-            current_realized_pnl_from_fees_paid = -fees_paid_to_initiate_taker_order
+            current_realized_pnl_from_fees_paid -= last_realized_pnl_from_fees_paid
+            current_net_notional_locked += last_net_notional_locked
+            # todo: executed_base_amount needs to be in turn transformed into the appropriate format
+            # this could be done within another do function to keep individual transformations light
 
-        cached_taker_position_state.add(fees_paid_to_initiate_taker_order)
-        yield position_id, current_taker_order_event_timestamp, current_realized_pnl_from_fees_paid
+        cached_taker_position_state.add(current_realized_pnl_from_fees_paid, current_net_notional_locked)
+        yield position_id, current_taker_order_event_timestamp, current_realized_pnl_from_fees_paid, current_net_notional_locked
