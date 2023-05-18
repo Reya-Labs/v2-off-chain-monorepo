@@ -5,11 +5,10 @@ from apache_beam.transforms import trigger
 # todo: move to constants
 GLOBAL_WINDOW_AFTER_COUNT = 1
 
-def run(pipeline_options, initiate_taker_order_events_stream):
+def run(dated_irs_taker_position_pipeline, initiate_taker_order_events_stream):
 
     # todo: make sure stateful transforms are done by key
 
-    dated_irs_taker_position_pipeline = beam.Pipeline(pipeline_options)
     initiate_taker_order_events = dated_irs_taker_position_pipeline | initiate_taker_order_events_stream
     updated_dated_irs_taker_positions = initiate_taker_order_events | "BagStatefulProcessTakerPositions" >> beam.ParDo(StatefulTakerPositionTransformDoFn())
     updated_dated_irs_taker_positions_global_windows = updated_dated_irs_taker_positions | beam.WindowInto(

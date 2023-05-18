@@ -5,6 +5,7 @@ from apache_beam.options.pipeline_options import StandardOptions
 from apache_beam.testing.util import assert_that
 from apache_beam.testing.util import equal_to_per_window
 from apache_beam.utils.timestamp import Timestamp
+from apache_beam.testing.test_pipeline import TestPipeline
 
 def test_run_irs_taker_positions_pipeline():
 
@@ -21,9 +22,10 @@ def test_run_irs_taker_positions_pipeline():
                    .advance_watermark_to_infinity())
 
     pipeline_options = StandardOptions(streaming=True)
+    test_pipeline = TestPipeline(options=pipeline_options)
 
     updated_dated_irs_taker_positions_global_windows = run_irs_taker_positions_pipeline(
-        pipeline_options=pipeline_options,
+        dated_irs_taker_position_pipeline=test_pipeline,
         initiate_taker_order_events_stream=test_initiate_taker_order_events_stream
     )
 

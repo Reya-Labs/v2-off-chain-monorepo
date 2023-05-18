@@ -25,3 +25,5 @@ lcov.info
 bin/
 .DS_Store
 yarn-error.log
+
+***/__pycache__/
