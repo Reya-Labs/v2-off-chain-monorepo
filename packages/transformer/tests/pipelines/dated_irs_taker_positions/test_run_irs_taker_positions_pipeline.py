@@ -1,4 +1,4 @@
-from packages.transformer.src.pipelines.dated_irs_taker_positions.run import run as run_irs_taker_positions_pipeline
+from packages.transformer.src.pipelines.dated_irs_taker_positions.generate_pipeline_and_output import generate_dated_irs_taker_positions_pipeline_and_output
 from apache_beam.testing.test_stream import TestStream
 from apache_beam.transforms.window import TimestampedValue, GlobalWindow
 from apache_beam.options.pipeline_options import StandardOptions
@@ -25,7 +25,7 @@ def test_run_irs_taker_positions_pipeline():
     pipeline_options = StandardOptions(streaming=True)
     test_pipeline = TestPipeline(options=pipeline_options)
 
-    updated_dated_irs_taker_positions_global_windows = run_irs_taker_positions_pipeline(
+    dated_irs_taker_positions_pipeline, updated_dated_irs_taker_positions_global_windows = generate_dated_irs_taker_positions_pipeline_and_output(
         dated_irs_taker_position_pipeline=test_pipeline,
         initiate_taker_order_events_stream=test_initiate_taker_order_events_stream
     )
@@ -40,3 +40,5 @@ def test_run_irs_taker_positions_pipeline():
         updated_dated_irs_taker_positions_global_windows,
         equal_to_per_window(expected_updated_dated_irs_taker_positions_global_windows),
         label='dated irs taker positions assert')
+
+    dated_irs_taker_positions_pipeline.run()

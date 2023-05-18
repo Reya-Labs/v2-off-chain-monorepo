@@ -12,7 +12,7 @@ class SetPlaceholderKeyFn(beam.DoFn):
     def process(self, element: TimestampedValue):
         yield "placeholder_key", element
 
-def run(dated_irs_taker_position_pipeline, initiate_taker_order_events_stream):
+def generate_dated_irs_taker_positions_pipeline_and_output(dated_irs_taker_position_pipeline, initiate_taker_order_events_stream):
 
     # todo: make sure stateful transforms are done by key
 
@@ -25,6 +25,5 @@ def run(dated_irs_taker_position_pipeline, initiate_taker_order_events_stream):
         accumulation_mode=beam.trigger.AccumulationMode.ACCUMULATING,
         allowed_lateness=0
     )
-    dated_irs_taker_position_pipeline.run()
 
-    return updated_dated_irs_taker_positions_global_windows
+    return dated_irs_taker_position_pipeline, updated_dated_irs_taker_positions_global_windows
