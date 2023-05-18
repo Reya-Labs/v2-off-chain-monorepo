@@ -56,7 +56,7 @@ class StatefulTakerPositionTransformDoFn(beam.DoFn):
             cached_taker_position_state.clear()
             current_realized_pnl_from_fees_paid -= last_realized_pnl_from_fees_paid
             current_net_notional_locked += last_net_notional_locked
-            current_net_fixed_rate_locked = get_net_fixed_rate(
+            current_net_fixed_rate_locked = get_net_fixed_rate_locked(
                 executed_fixed_rate=executed_fixed_rate,
                 executed_notional_amount=executed_notional_amount,
                 last_fixed_rate_locked=last_fixed_rate_locked,
