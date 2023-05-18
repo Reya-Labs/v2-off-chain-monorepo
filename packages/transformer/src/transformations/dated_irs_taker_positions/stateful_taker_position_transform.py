@@ -1,10 +1,10 @@
 import apache_beam as beam
 from apache_beam.transforms.userstate import BagStateSpec
-from apache_beam.coders import FloatCoder
-from apache_beam.coders import TupleCoder
+from apache_beam.coders import FloatCoder, TupleCoder, BigIntegerCoder
 from packages.transformer.src.helpers.get_executed_notional_from_base import get_executed_notional_from_base
 from packages.transformer.src.helpers.get_executed_fixed_rate_from_base_quote import get_executed_fixed_rate_from_base_and_quote
 from packages.transformer.src.helpers.get_net_fixed_rate_locked import get_net_fixed_rate_locked
+from packages.transformer.src.helpers.get_realized_pnl_from_swaps_since_last_update import get_realized_pnl_from_swaps_since_last_update
 class StatefulTakerPositionTransformDoFn(beam.DoFn):
 
     '''
@@ -17,8 +17,8 @@ class StatefulTakerPositionTransformDoFn(beam.DoFn):
     - should be parallelised for each position_id
     '''
 
-    # realized_pnl_from_fees_paid, net_notional_locked, net_fixed_rate_locked, variable_token_balance, rate_oracle_index, realized_pnl
-    TAKER_POSITION_STATE = BagStateSpec('taker_position', TupleCoder((FloatCoder(), FloatCoder(), FloatCoder(), FloatCoder(), FloatCoder())))
+    # realized_pnl_from_fees_paid, net_notional_locked, net_fixed_rate_locked, base_balance, rate_oracle_index, realized_pnl, timestamp
+    TAKER_POSITION_STATE = BagStateSpec('taker_position', TupleCoder((FloatCoder(), FloatCoder(), FloatCoder(), FloatCoder(), FloatCoder(), BigIntegerCoder())))
 
     def process(self, initiateTakerOrderEventAndKey: tuple[str, dict], cached_taker_position_state=beam.DoFn.StateParam(TAKER_POSITION_STATE)):
 
@@ -48,15 +48,16 @@ class StatefulTakerPositionTransformDoFn(beam.DoFn):
         updated_realized_pnl_from_fees_paid = -fees_paid_to_initiate_taker_order
         updated_net_notional_locked = executed_notional_amount
         updated_net_fixed_rate_locked = executed_fixed_rate
-        updated_variable_token_balance = executed_base_amount
-
+        updated_base_balance = executed_base_amount
+        updated_realized_pnl_from_swaps = 0
         if len(cached_taker_position_state_list)>0:
             last_realized_pnl_from_fees_paid = cached_taker_position_state_list[0]
             last_net_notional_locked = cached_taker_position_state_list[1]
             last_fixed_rate_locked = cached_taker_position_state_list[2]
-            last_variable_token_balance = cached_taker_position_state_list[3]
+            last_base_balance = cached_taker_position_state_list[3]
             last_rate_oracle_index = cached_taker_position_state_list[4]
             last_realized_pnl = cached_taker_position_state_list[5]
+            last_timestamp = cached_taker_position_state_list[6]
             cached_taker_position_state.clear()
             updated_realized_pnl_from_fees_paid -= last_realized_pnl_from_fees_paid
             updated_net_notional_locked += last_net_notional_locked
@@ -66,9 +67,18 @@ class StatefulTakerPositionTransformDoFn(beam.DoFn):
                 last_fixed_rate_locked=last_fixed_rate_locked,
                 last_net_notional_locked=last_net_notional_locked
             )
-            updated_variable_token_balance += last_variable_token_balance
+            updated_base_balance += last_base_balance
+            updated_realized_pnl_from_swaps = last_realized_pnl + get_realized_pnl_from_swaps_since_last_update(
+                base_balance=last_base_balance,
+                last_rate_oracle_index=last_rate_oracle_index,
+                current_rate_oracle_index=current_rate_oracle_index,
+                last_timestamp=last_timestamp,
+                current_timestamp=current_taker_order_event_timestamp
+            )
+
             # todo: executed_base_amount needs to be in turn transformed into the appropriate format
             # this could be done within another do function to keep individual transformations light
 
-        cached_taker_position_state.add((updated_realized_pnl_from_fees_paid, updated_net_notional_locked, updated_net_fixed_rate_locked))
+        cached_taker_position_state.add((updated_realized_pnl_from_fees_paid, updated_net_notional_locked, updated_net_fixed_rate_locked.
+                                         current_rate_oracle_index, updated_realized_pnl_from_swaps, current_taker_order_event_timestamp))
         yield position_id, current_taker_order_event_timestamp, updated_realized_pnl_from_fees_paid, updated_net_notional_locked, updated_net_fixed_rate_locked
