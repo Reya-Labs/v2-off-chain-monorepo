@@ -17,8 +17,8 @@ class StatefulTakerPositionTransformDoFn(beam.DoFn):
     - should be parallelised for each position_id
     '''
 
-    # realized_pnl_from_fees_paid, net_notional_locked, net_fixed_rate_locked
-    TAKER_POSITION_STATE = BagStateSpec('taker_position', TupleCoder((FloatCoder(), FloatCoder(), FloatCoder())))
+    # realized_pnl_from_fees_paid, net_notional_locked, net_fixed_rate_locked, variable_token_balance, rate_oracle_index, realized_pnl
+    TAKER_POSITION_STATE = BagStateSpec('taker_position', TupleCoder((FloatCoder(), FloatCoder(), FloatCoder(), FloatCoder(), FloatCoder())))
 
     def process(self, initiateTakerOrderEventAndKey: tuple[str, dict], cached_taker_position_state=beam.DoFn.StateParam(TAKER_POSITION_STATE)):
 
@@ -45,24 +45,30 @@ class StatefulTakerPositionTransformDoFn(beam.DoFn):
             maturity_timestamp=maturity_timestamp
         )
 
-        current_realized_pnl_from_fees_paid = -fees_paid_to_initiate_taker_order
-        current_net_notional_locked = executed_notional_amount
-        current_net_fixed_rate_locked = executed_fixed_rate
+        updated_realized_pnl_from_fees_paid = -fees_paid_to_initiate_taker_order
+        updated_net_notional_locked = executed_notional_amount
+        updated_net_fixed_rate_locked = executed_fixed_rate
+        updated_variable_token_balance = executed_base_amount
+
         if len(cached_taker_position_state_list)>0:
             last_realized_pnl_from_fees_paid = cached_taker_position_state_list[0]
             last_net_notional_locked = cached_taker_position_state_list[1]
             last_fixed_rate_locked = cached_taker_position_state_list[2]
+            last_variable_token_balance = cached_taker_position_state_list[3]
+            last_rate_oracle_index = cached_taker_position_state_list[4]
+            last_realized_pnl = cached_taker_position_state_list[5]
             cached_taker_position_state.clear()
-            current_realized_pnl_from_fees_paid -= last_realized_pnl_from_fees_paid
-            current_net_notional_locked += last_net_notional_locked
-            current_net_fixed_rate_locked = get_net_fixed_rate_locked(
+            updated_realized_pnl_from_fees_paid -= last_realized_pnl_from_fees_paid
+            updated_net_notional_locked += last_net_notional_locked
+            updated_net_fixed_rate_locked = get_net_fixed_rate_locked(
                 executed_fixed_rate=executed_fixed_rate,
                 executed_notional_amount=executed_notional_amount,
                 last_fixed_rate_locked=last_fixed_rate_locked,
                 last_net_notional_locked=last_net_notional_locked
             )
+            updated_variable_token_balance += last_variable_token_balance
             # todo: executed_base_amount needs to be in turn transformed into the appropriate format
             # this could be done within another do function to keep individual transformations light
 
-        cached_taker_position_state.add((current_realized_pnl_from_fees_paid, current_net_notional_locked, current_net_fixed_rate_locked))
-        yield position_id, current_taker_order_event_timestamp, current_realized_pnl_from_fees_paid, current_net_notional_locked, current_net_fixed_rate_locked
+        cached_taker_position_state.add((updated_realized_pnl_from_fees_paid, updated_net_notional_locked, updated_net_fixed_rate_locked))
+        yield position_id, current_taker_order_event_timestamp, updated_realized_pnl_from_fees_paid, updated_net_notional_locked, updated_net_fixed_rate_locked
