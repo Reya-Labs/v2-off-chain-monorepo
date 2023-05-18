@@ -15,10 +15,12 @@ def test_run_irs_taker_positions_pipeline():
                    .advance_watermark_to(10)
                    .add_elements([TimestampedValue({
                     'position_id': '0xchad',
-                    'fees_paid': 10,
-                    'executed_base_amount': 100,
-                    'executed_quote_amount': -10,
-                    'timestamp': 100 # not sure if we can retrieve the timestamp of timestamp value to avoid duplicate
+                    'fees_paid': 10.0,
+                    'executed_base_amount': 100.0,
+                    'executed_quote_amount': -10.0,
+                    'maturity_timestamp': 200,
+                    'timestamp': 100, # not sure if we can retrieve the timestamp of timestamp value to avoid duplicate
+                    'rate_oracle_index': 1.0
                     }, 100)])
                    .advance_watermark_to_infinity())
 
@@ -32,7 +34,7 @@ def test_run_irs_taker_positions_pipeline():
 
     expected_updated_dated_irs_taker_positions_global_windows = {
         GlobalWindow(): [
-            ("0xchad", Timestamp.of(100), -10, 100)
+            ("0xchad", Timestamp.of(100), -10, 100, 0.01)
         ],
     }
 

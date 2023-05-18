@@ -1,11 +1,10 @@
 import apache_beam as beam
 from apache_beam.transforms.userstate import BagStateSpec
-from apache_beam.coders import BigIntegerCoder, StrUtf8Coder, TimestampCoder
+from apache_beam.coders import FloatCoder
 from apache_beam.coders import TupleCoder
-from apache_beam.transforms.window import TimestampedValue
 from packages.transformer.src.helpers.get_executed_notional_from_base import get_executed_notional_from_base
 from packages.transformer.src.helpers.get_executed_fixed_rate_from_base_quote import get_executed_fixed_rate_from_base_and_quote
-
+from packages.transformer.src.helpers.get_net_fixed_rate_locked import get_net_fixed_rate_locked
 class StatefulTakerPositionTransformDoFn(beam.DoFn):
 
     '''
@@ -19,7 +18,7 @@ class StatefulTakerPositionTransformDoFn(beam.DoFn):
     '''
 
     # realized_pnl_from_fees_paid, net_notional_locked, net_fixed_rate_locked
-    TAKER_POSITION_STATE = BagStateSpec('taker_position', TupleCoder((BigIntegerCoder(), BigIntegerCoder(), BigIntegerCoder())))
+    TAKER_POSITION_STATE = BagStateSpec('taker_position', TupleCoder((FloatCoder(), FloatCoder(), FloatCoder())))
 
     def process(self, initiateTakerOrderEventAndKey: tuple[str, dict], cached_taker_position_state=beam.DoFn.StateParam(TAKER_POSITION_STATE)):
 
@@ -66,4 +65,4 @@ class StatefulTakerPositionTransformDoFn(beam.DoFn):
             # this could be done within another do function to keep individual transformations light
 
         cached_taker_position_state.add((current_realized_pnl_from_fees_paid, current_net_notional_locked, current_net_fixed_rate_locked))
-        yield position_id, current_taker_order_event_timestamp, current_realized_pnl_from_fees_paid, current_net_notional_locked
+        yield position_id, current_taker_order_event_timestamp, current_realized_pnl_from_fees_paid, current_net_notional_locked, current_net_fixed_rate_locked
