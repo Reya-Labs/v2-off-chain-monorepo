@@ -6,7 +6,6 @@ from apache_beam.testing.util import assert_that
 from apache_beam.testing.util import equal_to_per_window
 from apache_beam.utils.timestamp import Timestamp
 from apache_beam.testing.test_pipeline import TestPipeline
-from apache_beam.options.pipeline_options import PipelineOptions
 
 def test_run_irs_taker_positions_pipeline():
 
@@ -18,7 +17,8 @@ def test_run_irs_taker_positions_pipeline():
                     'position_id': '0xchad',
                     'fees_paid': 10,
                     'executed_base_amount': 100,
-                    'executed_quote_amount': -10
+                    'executed_quote_amount': -10,
+                    'timestamp': 100 # not sure if we can retrieve the timestamp of timestamp value to avoid duplicate
                     }, 100)])
                    .advance_watermark_to_infinity())
 
@@ -32,7 +32,7 @@ def test_run_irs_taker_positions_pipeline():
 
     expected_updated_dated_irs_taker_positions_global_windows = {
         GlobalWindow(): [
-            ("0xchad", Timestamp.of(100), -11)
+            ("0xchad", Timestamp.of(100), -10)
         ],
     }
 

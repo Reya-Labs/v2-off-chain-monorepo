@@ -1,6 +1,7 @@
 from packages.transformer.src.transformations.dated_irs_taker_positions.stateful_taker_position_transform import StatefulTakerPositionTransformDoFn
 import apache_beam as beam
 from apache_beam.transforms import trigger
+from apache_beam.transforms.window import TimestampedValue
 
 # todo: move to constants
 GLOBAL_WINDOW_AFTER_COUNT = 1
@@ -8,7 +9,7 @@ GLOBAL_WINDOW_AFTER_COUNT = 1
 
 # todo: refactor and make sure position_id is used as the key and place into another module
 class SetPlaceholderKeyFn(beam.DoFn):
-    def process(self, element):
+    def process(self, element: TimestampedValue):
         yield "placeholder_key", element
 
 def run(dated_irs_taker_position_pipeline, initiate_taker_order_events_stream):
