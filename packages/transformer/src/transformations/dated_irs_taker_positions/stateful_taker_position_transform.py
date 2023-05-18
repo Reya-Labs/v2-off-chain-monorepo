@@ -1,6 +1,6 @@
 import apache_beam as beam
 from apache_beam.transforms.userstate import BagStateSpec
-from apache_beam.coders import FloatCoder, TupleCoder, TimestampCoder
+from apache_beam.coders import FloatCoder, TupleCoder, BigIntegerCoder
 from packages.transformer.src.helpers.get_executed_notional_from_base import get_executed_notional_from_base
 from packages.transformer.src.helpers.get_executed_fixed_rate_from_base_quote import get_executed_fixed_rate_from_base_and_quote
 from packages.transformer.src.helpers.get_net_fixed_rate_locked import get_net_fixed_rate_locked
@@ -18,7 +18,7 @@ class StatefulTakerPositionTransformDoFn(beam.DoFn):
     '''
 
     # realized_pnl_from_fees_paid, net_notional_locked, net_fixed_rate_locked, base_balance, rate_oracle_index, realized_pnl, timestamp
-    TAKER_POSITION_STATE = BagStateSpec('taker_position', TupleCoder((TimestampCoder(), FloatCoder(), FloatCoder(), FloatCoder(), FloatCoder(), FloatCoder())))
+    TAKER_POSITION_STATE = BagStateSpec('taker_position', TupleCoder((BigIntegerCoder(), FloatCoder(), FloatCoder(), FloatCoder(), FloatCoder(), FloatCoder())))
 
     def process(self, initiateTakerOrderEventAndKey: tuple[str, dict], cached_taker_position_state=beam.DoFn.StateParam(TAKER_POSITION_STATE)):
 
@@ -79,6 +79,6 @@ class StatefulTakerPositionTransformDoFn(beam.DoFn):
             # todo: executed_base_amount needs to be in turn transformed into the appropriate format
             # this could be done within another do function to keep individual transformations light
 
-        cached_taker_position_state.add((current_taker_order_event_timestamp, updated_realized_pnl_from_fees_paid, updated_net_notional_locked, updated_net_fixed_rate_locked.
+        cached_taker_position_state.add((current_taker_order_event_timestamp, updated_realized_pnl_from_fees_paid, updated_net_notional_locked, updated_net_fixed_rate_locked,
                                          current_rate_oracle_index, updated_realized_pnl_from_swaps))
         yield position_id, current_taker_order_event_timestamp, updated_realized_pnl_from_fees_paid, updated_net_notional_locked, updated_net_fixed_rate_locked, current_rate_oracle_index, updated_realized_pnl_from_swaps
