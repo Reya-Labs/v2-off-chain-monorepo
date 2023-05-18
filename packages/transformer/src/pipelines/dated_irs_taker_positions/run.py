@@ -6,7 +6,7 @@ from apache_beam.transforms import trigger
 GLOBAL_WINDOW_AFTER_COUNT = 1
 
 
-# todo: refactor and place into another module
+# todo: refactor and make sure position_id is used as the key and place into another module
 class SetPlaceholderKeyFn(beam.DoFn):
     def process(self, element):
         yield "placeholder_key", element
@@ -26,4 +26,4 @@ def run(dated_irs_taker_position_pipeline, initiate_taker_order_events_stream):
     )
     dated_irs_taker_position_pipeline.run()
 
-    return initiate_taker_order_events
+    return updated_dated_irs_taker_positions_global_windows

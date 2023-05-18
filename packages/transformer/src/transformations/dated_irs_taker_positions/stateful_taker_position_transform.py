@@ -8,8 +8,9 @@ class StatefulTakerPositionTransformDoFn(beam.DoFn):
 
     TAKER_POSITION_STATE = BagStateSpec('taker_position', TupleCoder((StrUtf8Coder, TimestampCoder, BigIntegerCoder)))
 
-    def process(self, initiateTakerOrderEvent: TimestampedValue, cached_taker_position_state=beam.DoFn.StateParam(TAKER_POSITION_STATE)):
+    def process(self, initiateTakerOrderEventAndKey: (str, TimestampedValue), cached_taker_position_state=beam.DoFn.StateParam(TAKER_POSITION_STATE)):
 
+        initiateTakerOrderEvent = initiateTakerOrderEventAndKey[1]
         fees_paid_to_initiate_taker_order = initiateTakerOrderEvent.value['fees_paid']
         current_taker_order_event_timestamp = initiateTakerOrderEvent.timestamp
         position_id = initiateTakerOrderEvent.value['position_id']
