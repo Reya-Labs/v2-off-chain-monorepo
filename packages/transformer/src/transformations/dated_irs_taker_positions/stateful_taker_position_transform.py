@@ -39,5 +39,5 @@ class StatefulTakerPositionTransformDoFn(beam.DoFn):
             # todo: executed_base_amount needs to be in turn transformed into the appropriate format
             # this could be done within another do function to keep individual transformations light
 
-        cached_taker_position_state.add(current_realized_pnl_from_fees_paid, current_net_notional_locked)
+        cached_taker_position_state.add((current_realized_pnl_from_fees_paid, current_net_notional_locked))
         yield position_id, current_taker_order_event_timestamp, current_realized_pnl_from_fees_paid, current_net_notional_locked
