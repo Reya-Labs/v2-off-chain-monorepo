@@ -16,7 +16,7 @@ class StatefulTakerPositionTransformDoFn(beam.DoFn):
     - should be parallelised for each position_id
     '''
 
-    TAKER_POSITION_STATE = BagStateSpec('taker_position', TupleCoder((BigIntegerCoder(), BigIntegerCoder())))
+    TAKER_POSITION_STATE = BagStateSpec('taker_position', TupleCoder((BigIntegerCoder(), BigIntegerCoder(), BigIntegerCoder())))
 
     def process(self, initiateTakerOrderEventAndKey: tuple[str, dict], cached_taker_position_state=beam.DoFn.StateParam(TAKER_POSITION_STATE)):
 
