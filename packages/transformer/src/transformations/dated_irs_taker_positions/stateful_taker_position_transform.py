@@ -6,6 +6,16 @@ from apache_beam.transforms.window import TimestampedValue
 
 class StatefulTakerPositionTransformDoFn(beam.DoFn):
 
+    '''
+    - position table schema
+        chain_id, instrument_id, market_id, maturity_timestamp, account_id, realized_pnl_from_swaps, realized_pnl_from_fees_paid, net_notional_locked,
+        net_fixed_rate_locked, timestamp, rateOracleIndex, cashflow_li_factor, cashflow_time_factor, cashflow_free_term
+    - need some notion of position_id which is a potentially a hash of chain_id, market_id, instrument_id, maturity_timestamp & account_id
+    - need to get this from the initiate taker order event:
+        timestamp, accountId, maturityId, maturityTimestamp, executedBaseAmount, executedQuoteAmount, rateOracleIndex, feesPaid
+    - should be parallelised for each position_id
+    '''
+
     # TAKER_POSITION_STATE = BagStateSpec('taker_position', TupleCoder((StrUtf8Coder, TimestampCoder, BigIntegerCoder)))
     TAKER_POSITION_STATE = BagStateSpec('taker_position', BigIntegerCoder())
 
