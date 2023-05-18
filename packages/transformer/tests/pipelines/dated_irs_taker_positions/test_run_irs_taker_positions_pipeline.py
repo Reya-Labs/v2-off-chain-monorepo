@@ -34,7 +34,7 @@ def test_run_irs_taker_positions_pipeline():
 
     expected_updated_dated_irs_taker_positions_global_windows = {
         GlobalWindow(): [
-            ("0xchad", Timestamp.of(100), -10, 100, 0.01)
+            ("0xchad", Timestamp.of(100), -10, 100, 0.01, 1.0, 0)
         ],
     }
 
