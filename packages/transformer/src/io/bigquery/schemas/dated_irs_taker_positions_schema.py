@@ -31,6 +31,20 @@ def get_dated_irs_taker_positions_schema():
     maturity_timestamp_schema.mode = "required"
     table_schema.fields.append(maturity_timestamp_schema)
 
+    account_id_schema = TableFieldSchema()
+    account_id_schema.name = "account_id"
+    account_id_schema.type = "string"
+    account_id_schema.mode = "required"
+    table_schema.fields.append(account_id_schema)
+
+    realized_pnl_from_swaps_schema = TableFieldSchema()
+    realized_pnl_from_swaps_schema.name = "realized_pnl_from_swaps"
+    realized_pnl_from_swaps_schema.type = "numeric"
+    realized_pnl_from_swaps_schema.mode = "required"
+    table_schema.fields.append(realized_pnl_from_swaps_schema)
+
+
+
 
 
 
