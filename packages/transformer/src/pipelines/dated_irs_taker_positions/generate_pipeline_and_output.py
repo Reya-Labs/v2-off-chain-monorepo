@@ -6,19 +6,19 @@ from apache_beam.transforms.window import TimestampedValue
 # todo: move to constants
 GLOBAL_WINDOW_AFTER_COUNT = 1
 
-
-# todo: refactor and make sure position_id is used as the key and place into another module
-class SetPlaceholderKeyFn(beam.DoFn):
-    def process(self, element: TimestampedValue):
-        yield "placeholder_key", element
+class SetKeyToPositionId(beam.DoFn):
+    def process(self, element: dict):
+        yield element['position_id'], element
 
 def generate_dated_irs_taker_positions_pipeline_and_output(dated_irs_taker_position_pipeline, initiate_taker_order_events_stream):
-
-    # todo: make sure stateful transforms are done by key
+    '''
+    consider using this windowing approach (need to confirm what AfterProcessingTime means)
+    beam.WindowInto(GlobalWindows(), trigger=trigger.AfterAll(trigger.AfterCount(1), trigger.AfterProcessingTime(1)))
+    '''
 
     initiate_taker_order_events = dated_irs_taker_position_pipeline | initiate_taker_order_events_stream
-    initiate_taker_order_events_with_keys = initiate_taker_order_events | "SetKey" >> beam.ParDo(SetPlaceholderKeyFn())
-    updated_dated_irs_taker_positions = initiate_taker_order_events_with_keys | "BagStatefulProcessTakerPositions" >> beam.ParDo(StatefulTakerPositionTransformDoFn())
+    initiate_taker_order_events_with_keys = initiate_taker_order_events | "SetKey" >> beam.ParDo(SetKeyToPositionId())
+    updated_dated_irs_taker_positions = initiate_taker_order_events_with_keys | "BagStatefulProcessTakerPositions" >> beam.CombinePerKey(StatefulTakerPositionTransformDoFn())
     updated_dated_irs_taker_positions_global_windows = updated_dated_irs_taker_positions | beam.WindowInto(
         windowfn=beam.window.GlobalWindows(),
         trigger=trigger.AfterWatermark(early=trigger.AfterCount(GLOBAL_WINDOW_AFTER_COUNT)),

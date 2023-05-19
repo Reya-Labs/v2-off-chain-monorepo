@@ -80,6 +80,7 @@ class StatefulTakerPositionTransformDoFn(beam.DoFn):
             # todo: executed_base_amount needs to be in turn transformed into the appropriate format
             # this could be done within another do function to keep individual transformations light
 
+        yield position_id, current_taker_order_event_timestamp, updated_realized_pnl_from_fees_paid, updated_net_notional_locked, updated_net_fixed_rate_locked, current_rate_oracle_index, updated_realized_pnl_from_swaps
+
         cached_taker_position_state.add((current_taker_order_event_timestamp, updated_realized_pnl_from_fees_paid, updated_net_notional_locked, updated_net_fixed_rate_locked,
                                          current_rate_oracle_index, updated_realized_pnl_from_swaps))
-        yield position_id, current_taker_order_event_timestamp, updated_realized_pnl_from_fees_paid, updated_net_notional_locked, updated_net_fixed_rate_locked, current_rate_oracle_index, updated_realized_pnl_from_swaps
