@@ -1,7 +1,6 @@
 from packages.transformer.src.transformations.dated_irs_taker_positions.stateful_taker_position_transform import StatefulTakerPositionTransformDoFn
 import apache_beam as beam
 from apache_beam.transforms import trigger
-from apache_beam.transforms.window import TimestampedValue
 
 # todo: move to constants
 GLOBAL_WINDOW_AFTER_COUNT = 1

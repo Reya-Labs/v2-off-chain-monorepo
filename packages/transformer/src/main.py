@@ -1,17 +1,35 @@
 import argparse
 from apache_beam.options.pipeline_options import PipelineOptions
-from pipelines.positions.position_pipeline import run_position_pipeline
+import logging
+from packages.transformer.src.pipelines.dated_irs_taker_positions.generate_pipeline_and_output import generate_dated_irs_taker_positions_pipeline_and_output
 
-def main():
+def run():
+    logging.getLogger().setLevel(logging.INFO)
     parser = argparse.ArgumentParser(description='Run Voltz V2 Apache Beam Pipelines')
-    parser.add_argument('--pipeline', choices=['position_pipeline'], required=True,
-                        help='The pipeline to run')
+    parser.add_argument(
+        "--input",
+        help="The Cloud Pub/Sub Topic to read from"
+    )
+    parser.add_argument(
+        "--output",
+        help="The Cloud Big Table destination table"
+    )
+    parser.add_argument(
+        "--pipeline",
+        help="Name of the pipeline"
+    )
+
     args = parser.parse_args()
 
-    pipeline_options = PipelineOptions()
+    pipeline_options = PipelineOptions(
+        streaming=True,
+        save_main_session=True,
+        job_name=args.pipeline,
+        num_workers=10,
+        max_num_workers=10
+    )
 
-    if args.pipeline == 'position_pipeline':
-        run_position_pipeline(pipeline_options)
+
 
 if __name__ == "__main__":
-    main()
+    run()
