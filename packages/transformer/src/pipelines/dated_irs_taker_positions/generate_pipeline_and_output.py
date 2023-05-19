@@ -15,7 +15,7 @@ class SetKeyToPositionId(beam.DoFn):
 def generate_dated_irs_taker_positions_pipeline_and_output(
         dated_irs_taker_position_pipeline: Union[Pipeline, TestPipeline],
         initiate_taker_order_events_stream: PTransform,
-        destination_transform: PTransform
+        destination_transform: PTransform=None
         ):
     '''
     consider using this windowing approach (need to confirm what AfterProcessingTime means)
