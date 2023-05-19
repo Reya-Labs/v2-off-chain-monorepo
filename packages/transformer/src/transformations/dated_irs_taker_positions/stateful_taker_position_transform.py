@@ -51,6 +51,7 @@ class StatefulTakerPositionTransformDoFn(beam.DoFn):
         updated_base_balance = executed_base_amount
         updated_realized_pnl_from_swaps = 0
         if len(cached_taker_position_state_list)>0:
+            # todo: simplify (either break down into smaller transforms or functions
             last_timestamp = cached_taker_position_state_list[0]
             last_realized_pnl_from_fees_paid = cached_taker_position_state_list[1]
             last_net_notional_locked = cached_taker_position_state_list[2]

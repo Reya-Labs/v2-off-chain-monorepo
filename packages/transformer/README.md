@@ -224,3 +224,40 @@ More information available in the official apache beam docs: https://beam.apache
 
 - represent two different things: (1) canned data you are going to use throughout your tests, the other is side effects
 or a state you want to be in for your test
+
+### Run Pipeline Locally
+TODO: populate
+
+### Deployment & Run Pipelines on Google Dataflow
+
+```bash
+python -m <NAME_OF_PIPELINE> \
+    --region europe-west2 \
+    --input <PUBSUB> \
+    --output <BIGTABLE> \
+    --runner DataflowRunner \
+    --project <PROJECT_ID> \
+    --temp_location gs://STORAGE_BUCKET/tmp/
+```
+
+When you run your pipeline on Dataflow, Dataflow turns your Apache Beam pipeline code into a Dataflow
+job. The executable code and dependencies are uploaded to Google Cloud Storage bucket.  
+
+Dataflow fully manages Google Cloud services, such as Compute Engine and Cloud Storage to run the Dataflow job.
+It also automatically spins up and tears down necessary resources.
+
+https://cloud.google.com/dataflow/docs/guides/deploying-a-pipeline
+https://cloud.google.com/dataflow/docs/streaming-engine
+
+#### Setting Pipeline Options
+
+TODO
+
+#### Monitoring Dataflow Job
+
+You can view the VM instances for a given pipeline by using the Google Cloud console. From there, you can use SSH to access each instance. However, after your job either completes or fails, the Dataflow service automatically shuts down and cleans up the VM instances.
+
+TODO
+
+https://cloud.google.com/dataflow/docs/guides/using-monitoring-intf
+https://cloud.google.com/dataflow/docs/guides/using-command-line-intf 
