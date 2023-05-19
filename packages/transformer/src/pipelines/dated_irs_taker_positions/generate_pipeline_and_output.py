@@ -18,7 +18,7 @@ def generate_dated_irs_taker_positions_pipeline_and_output(dated_irs_taker_posit
 
     initiate_taker_order_events = dated_irs_taker_position_pipeline | initiate_taker_order_events_stream
     initiate_taker_order_events_with_keys = initiate_taker_order_events | "SetKey" >> beam.ParDo(SetKeyToPositionId())
-    updated_dated_irs_taker_positions = initiate_taker_order_events_with_keys | "BagStatefulProcessTakerPositions" >> beam.CombinePerKey(StatefulTakerPositionTransformDoFn())
+    updated_dated_irs_taker_positions = initiate_taker_order_events_with_keys | "BagStatefulProcessTakerPositions" >> beam.ParDo(StatefulTakerPositionTransformDoFn())
     updated_dated_irs_taker_positions_global_windows = updated_dated_irs_taker_positions | beam.WindowInto(
         windowfn=beam.window.GlobalWindows(),
         trigger=trigger.AfterWatermark(early=trigger.AfterCount(GLOBAL_WINDOW_AFTER_COUNT)),
