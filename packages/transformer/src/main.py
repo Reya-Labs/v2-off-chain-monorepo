@@ -35,7 +35,6 @@ def run():
 
     pipeline_name = beam_args['pipeline']
     input_stream = beam_args['input']
-    output_database = beam_args['output']
     pipeline = Pipeline(options=pipeline_options)
 
     if pipeline_name == "dated_irs_taker_positions":
