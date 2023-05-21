@@ -46,7 +46,7 @@ def run():
         dated_irs_taker_position_pipeline, updated_dated_irs_taker_positions_global_windows = generate_dated_irs_taker_positions_pipeline_and_output(
             dated_irs_taker_position_pipeline=pipeline,
             initiate_taker_order_events_stream=input_pub_sub_topic,
-            write_to_bq_table_reference=output_big_query_table_reference
+            output_big_query_table_reference=output_big_query_table_reference
         )
         dated_irs_taker_position_pipeline.run()
 
