@@ -11,7 +11,7 @@ def run():
     parser = argparse.ArgumentParser(description='Run Voltz V2 Apache Beam Pipelines')
     parser.add_argument(
         "--input_pub_sub_topic",
-        help="The Cloud Pub/Sub Topic to read from"
+        help="The Cloud Pub/Sub Topic to read from",
     )
     parser.add_argument(
         "--output_big_query_table_id",
