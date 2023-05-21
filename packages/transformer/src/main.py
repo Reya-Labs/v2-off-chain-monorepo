@@ -8,12 +8,12 @@ def run():
     logging.getLogger().setLevel(logging.INFO)
     parser = argparse.ArgumentParser(description='Run Voltz V2 Apache Beam Pipelines')
     parser.add_argument(
-        "--input",
+        "--pub_sub_topic_input",
         help="The Cloud Pub/Sub Topic to read from"
     )
     parser.add_argument(
-        "--output",
-        help="The Cloud Big Table destination table"
+        "--big_query_table_id_output",
+        help="The Cloud Big Query Destination Table ID"
     )
     parser.add_argument(
         "--pipeline",
@@ -22,7 +22,7 @@ def run():
 
     args, beam_args = parser.parse_known_args()
 
-    # todo: specify: temp_location='gs://my-bucket/temp',
+    # todo: specify: temp_location='gs://my-bucket/temp'?
     pipeline_options = PipelineOptions(
         runner='DataflowRunner',
         streaming=True,
@@ -38,7 +38,6 @@ def run():
     pipeline = Pipeline(options=pipeline_options)
 
     if pipeline_name == "dated_irs_taker_positions":
-        # todo: incorporate output database
         dated_irs_taker_position_pipeline, updated_dated_irs_taker_positions_global_windows = generate_dated_irs_taker_positions_pipeline_and_output(
             dated_irs_taker_position_pipeline=pipeline,
             initiate_taker_order_events_stream=input_stream,
