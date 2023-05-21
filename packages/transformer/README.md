@@ -230,15 +230,7 @@ TODO: populate
 
 ### Deployment & Run Pipelines on Google Dataflow
 
-```bash
-python -m <NAME_OF_PIPELINE> \
-    --region europe-west2 \
-    --input <PUBSUB> \
-    --output <BIGTABLE> \
-    --runner DataflowRunner \
-    --project <PROJECT_ID> \
-    --temp_location gs://STORAGE_BUCKET/tmp/
-```
+https://cloud.google.com/docs/authentication/provide-credentials-adc#how-to
 
 When you run your pipeline on Dataflow, Dataflow turns your Apache Beam pipeline code into a Dataflow
 job. The executable code and dependencies are uploaded to Google Cloud Storage bucket.  

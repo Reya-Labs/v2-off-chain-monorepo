@@ -24,6 +24,7 @@ COPY pyproject.toml /code/
 RUN poetry config virtualenvs.create false
 RUN poetry install
 
-# COPY . ./
-
 ENTRYPOINT ["python", "src/main.py"]
+
+# google auth
+COPY ~/.config/gcloud/application_default_credentials.json /code/
