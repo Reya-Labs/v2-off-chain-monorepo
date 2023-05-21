@@ -1,7 +1,6 @@
 from apache_beam.io.gcp.internal.clients.bigquery import TableReference
 
 
-
 # todo: these constants same across all, so move to a shared file in the same module (move to environment)
 PROJECT_ID = 'risk-monitoring-361911'
 DATASET_ID = 'voltz_v2'

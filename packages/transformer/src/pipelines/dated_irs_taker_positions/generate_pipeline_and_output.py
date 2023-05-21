@@ -19,7 +19,7 @@ class SetKeyToPositionId(beam.DoFn):
 def generate_dated_irs_taker_positions_pipeline_and_output(
         dated_irs_taker_position_pipeline: Union[Pipeline, TestPipeline],
         initiate_taker_order_events_stream: PTransform,
-        write_to_bq_table_reference: TableReference=None
+        output_big_query_table_reference: TableReference=None
         ):
     '''
     consider using this windowing approach (need to confirm what AfterProcessingTime means)
@@ -36,9 +36,9 @@ def generate_dated_irs_taker_positions_pipeline_and_output(
         accumulation_mode=beam.trigger.AccumulationMode.ACCUMULATING,
         allowed_lateness=0
     )
-    if write_to_bq_table_reference:
+    if output_big_query_table_reference:
         write_to_bq_transform = get_write_to_bigquery_transform(
-            table_reference=write_to_bq_table_reference,
+            table_reference=output_big_query_table_reference,
             table_schema=get_dated_irs_taker_positions_schema(),
             create_disposition=BigQueryDisposition.CREATE_IF_NEEDED,
             write_disposition=BigQueryDisposition.WRITE_APPEND
