@@ -1,17 +1,13 @@
-import {
-  SwapArgs
-} from "../actions/actionArgTypes";
+import { SwapArgs } from '../actions/actionArgTypes';
+
+import { MAX_FIXED_RATE, MIN_FIXED_RATE } from '../constants';
 
 export const handleSwapErrors = ({
-    isFT,
-    notional,
-    margin,
-    fixedRateLimit,
-    fixedLow,
-    fixedHigh,
+  notional,
+  fixedLow,
+  fixedHigh,
   underlyingTokenId,
-  }: SwapArgs
-): void =>  {
+}: SwapArgs): void => {
   if (fixedLow >= fixedHigh) {
     throw new Error('Lower Rate must be smaller than Upper Rate');
   }
@@ -31,5 +27,4 @@ export const handleSwapErrors = ({
   if (!underlyingTokenId) {
     throw new Error('No underlying error');
   }
-
-}
+};
