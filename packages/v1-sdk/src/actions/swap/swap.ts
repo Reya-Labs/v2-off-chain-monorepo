@@ -6,6 +6,7 @@ import {
   SwapResponse
 } from "../actionResponseTypes";
 import { handleSwapErrors } from "../error-handling/handleSwapErrors";
+import { BigNumberish } from "ethers";
 
 export const swap = async (
   {
@@ -24,8 +25,7 @@ export const swap = async (
     }
   );
 
-
-
+  
 
   return {
     status: "success"

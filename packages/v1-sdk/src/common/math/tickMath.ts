@@ -1,6 +1,6 @@
 import JSBI from 'jsbi';
 import invariant from 'tiny-invariant';
-import { MaxUint256, ONE, ZERO } from './constants';
+import { MaxUint256, ONE, ZERO } from '../constants';
 import { mostSignificantBit } from './mostSignificantBit';
 
 function mulShift(val: JSBI, mulBy: string): JSBI {
