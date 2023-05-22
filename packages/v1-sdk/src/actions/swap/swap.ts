@@ -1,11 +1,11 @@
 import {
   SwapArgs
-} from "./types/actionArgTypes";
+} from "../types/actionArgTypes";
 
 import {
   SwapResponse
-} from "./actionResponseTypes";
-import { handleSwapErrors } from "./error-handling/handleSwapErrors";
+} from "../actionResponseTypes";
+import { handleSwapErrors } from "../error-handling/handleSwapErrors";
 
 export const swap = async (
   {
@@ -23,6 +23,7 @@ export const swap = async (
       notional, fixedLow, fixedHigh, underlyingTokenId
     }
   );
+
 
 
 
