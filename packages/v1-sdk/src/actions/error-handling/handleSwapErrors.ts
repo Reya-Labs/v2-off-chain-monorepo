@@ -1,13 +1,13 @@
-import { SwapArgs } from '../actions/actionArgTypes';
+import { SwapValidateArgs } from '../types/actionErrorHandleArgTypes';
 
-import { MAX_FIXED_RATE, MIN_FIXED_RATE } from '../constants';
+import { MAX_FIXED_RATE, MIN_FIXED_RATE } from '../../constants';
 
 export const handleSwapErrors = ({
   notional,
   fixedLow,
   fixedHigh,
   underlyingTokenId,
-}: SwapArgs): void => {
+}: SwapValidateArgs): void => {
   if (fixedLow >= fixedHigh) {
     throw new Error('Lower Rate must be smaller than Upper Rate');
   }
