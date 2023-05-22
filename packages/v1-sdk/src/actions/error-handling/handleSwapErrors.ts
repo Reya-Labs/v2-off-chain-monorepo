@@ -1,6 +1,6 @@
 import { SwapValidateArgs } from '../types/actionErrorHandleArgTypes';
 
-import { MAX_FIXED_RATE, MIN_FIXED_RATE } from '../../constants';
+import { MAX_FIXED_RATE, MIN_FIXED_RATE } from '../../common/constants';
 
 export const handleSwapErrors = ({
   notional,
