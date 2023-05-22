@@ -12058,6 +12058,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"v1-sdk-e3335f@workspace:packages/v1-sdk":
+  version: 0.0.0-use.local
+  resolution: "v1-sdk-e3335f@workspace:packages/v1-sdk"
+  languageName: unknown
+  linkType: soft
+
 "v2-off-chain-monorepo@workspace:.":
   version: 0.0.0-use.local
   resolution: "v2-off-chain-monorepo@workspace:."

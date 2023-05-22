@@ -1,0 +1,28 @@
+{
+  "name": "@voltz-protocol/sdk-v1-stateless",
+  "version": "1.0.0",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prebuild": "yarn code-quality:check && rm -rf dist",
+    "build": "yarn prebuild && tsc -p tsconfig.build.json",
+    "ts:check-types": "npx tsc --noEmit",
+    "ts:circular-check": "dpdm --no-output --no-tree --no-warning --exit-code circular:1 -T ./src/index.ts",
+    "ts:check": "yarn ts:check-types && yarn ts:circular-check",
+    "lint:check": "eslint '{src,tests}/**/*.ts'",
+    "prettier:check": "npx prettier --check './{src,tests}/**/*.ts'",
+    "code-quality:check": "npx concurrently 'yarn ts:check' 'yarn prettier:check' 'yarn lint:check --quiet'",
+    "lint:fix": "npx eslint --fix '{src,tests}/**/*.ts'",
+    "prettier:fix": "npx prettier --write './{src,tests}/**/*.ts'",
+    "test": "npx jest --silent",
+    "test:coverage": "yarn test --coverage",
+    "generate:coverage-badges": "npx istanbul-badges-readme --silent",
+    "release": "semantic-release --node-version=18 --extends=../../release.config.js --require=ts-node/register"
+  },
+  "packageManager": "yarn@3.5.1",
+  "dependencies": {
+    "ethers": "5.5.4"
+  }
+}
