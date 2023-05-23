@@ -53,8 +53,24 @@ export const swap = async ({
       fixedRateLimit,
       tickSpacing
     }
+  );
 
-  )
+  // need to be careful to make sure we don't double count margin, may need to refactor
+  const swapPeripheryTempOverrides: { value?: BigNumber; gasLimit?: BigNumber } = getSwapPeripheryTempOverrides(
+    {
+      isEth,
+      margin
+    }
+  );
+
+  const estimatedGasUnits = estimateSwapGasUnits(
+    {
+      peripheryContract,
+      swapPeripheryParams,
+      swapPeripheryTempOverrides
+    }
+  );
+
 
   return await executeSwap(swapPeripheryParams);
 
