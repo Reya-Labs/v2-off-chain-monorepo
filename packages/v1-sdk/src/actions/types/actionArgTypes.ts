@@ -9,6 +9,7 @@ export type SwapArgs = {
   fixedLow: number;
   fixedHigh: number;
   underlyingTokenAddress: string;
+  underlyingTokenDecimals: number;
   tickSpacing: number;
   chainId: number;
   peripheryAddress: string;

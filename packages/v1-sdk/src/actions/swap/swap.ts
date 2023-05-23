@@ -8,6 +8,7 @@ import { getSqrtPriceLimitFromFixedRateLimit } from "./getSqrtPriceLimitFromFixe
 import { getDefaultSqrtPriceLimit} from "./getDefaultSqrtPriceLimits";
 import { executeSwap } from "./executeSwap";
 import {getPeripheryContract} from "../../common/contract-generators/getPeripheryContract";
+import { getSwapPeripheryParams } from "./getSwapPeripheryParams";
 
 export const swap = async ({
   isFT,
@@ -17,6 +18,7 @@ export const swap = async ({
   fixedLow,
   fixedHigh,
   underlyingTokenAddress,
+  underlyingTokenDecimals,
   tickSpacing,
   peripheryAddress,
   marginEngineAddress,
@@ -40,13 +42,18 @@ export const swap = async ({
   peripheryContract.connect(signer);
 
   const swapPeripheryParams: SwapPeripheryParams = getSwapPeripheryParams(
-    isEth,
-    margin,
-    isFT,
-    notional,
-    fixedLow,
-    fixedHigh,
-    marginEngineAddress
+    {
+      margin,
+      isFT,
+      notional,
+      fixedLow,
+      fixedHigh,
+      marginEngineAddress,
+      underlyingTokenDecimals,
+      fixedRateLimit,
+      tickSpacing
+    }
+
   )
 
   return await executeSwap(swapPeripheryParams);

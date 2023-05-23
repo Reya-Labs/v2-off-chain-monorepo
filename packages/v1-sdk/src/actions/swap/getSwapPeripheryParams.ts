@@ -5,6 +5,18 @@ import { getSqrtPriceLimitFromFixedRateLimit } from "./getSqrtPriceLimitFromFixe
 import { getClosestTickAndFixedRate } from "./getClosestTickAndFixedRate";
 import { scale } from "../../common/math/scale";
 
+export type GetSwapPeripheryParamsArgs = {
+  margin: number;
+  isFT: boolean;
+  notional: number;
+  fixedLow: number;
+  fixedHigh: number;
+  marginEngineAddress: string;
+  underlyingTokenDecimals: number;
+  fixedRateLimit?: number | null;
+  tickSpacing: number;
+}
+
 export const getSwapPeripheryParams = (
   {
     margin,
@@ -16,7 +28,7 @@ export const getSwapPeripheryParams = (
     underlyingTokenDecimals,
     fixedRateLimit,
     tickSpacing
-  }: SwapArgs
+  }: GetSwapPeripheryParamsArgs
 ): SwapPeripheryParams => {
 
   let swapPeripheryParams: SwapPeripheryParams = {
