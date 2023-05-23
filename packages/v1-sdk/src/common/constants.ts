@@ -7,7 +7,6 @@ export const MIN_FIXED_RATE = 0.001;
  */
 export const MAX_FIXED_RATE = 1001;
 
-
 export const MaxUint256 = JSBI.BigInt(
   '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
 );

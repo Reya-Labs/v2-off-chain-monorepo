@@ -5,7 +5,7 @@ import Fractionjs from 'src/common/math/fraction';
 import _Decimal from 'decimal.js-light';
 import _Big from 'big.js';
 
-import { BigIntish, Rounding } from "../types";
+import { BigIntish, Rounding } from '../types';
 
 const Decimal = toFormat(_Decimal);
 const Big = toFormat(_Big);
@@ -42,7 +42,8 @@ export class Fraction {
     )
       return new Fraction(fractionish);
 
-    if ('numerator' in fractionish && 'denominator' in fractionish) return fractionish;
+    if ('numerator' in fractionish && 'denominator' in fractionish)
+      return fractionish;
     throw new Error('Could not parse fraction');
   }
 
@@ -53,7 +54,10 @@ export class Fraction {
 
   // remainder after floor division
   public get remainder(): Fraction {
-    return new Fraction(JSBI.remainder(this.numerator, this.denominator), this.denominator);
+    return new Fraction(
+      JSBI.remainder(this.numerator, this.denominator),
+      this.denominator,
+    );
   }
 
   public invert(): Fraction {
@@ -63,7 +67,10 @@ export class Fraction {
   public add(other: Fraction | BigIntish): Fraction {
     const otherParsed = Fraction.tryParseFraction(other);
     if (JSBI.equal(this.denominator, otherParsed.denominator)) {
-      return new Fraction(JSBI.add(this.numerator, otherParsed.numerator), this.denominator);
+      return new Fraction(
+        JSBI.add(this.numerator, otherParsed.numerator),
+        this.denominator,
+      );
     }
     return new Fraction(
       JSBI.add(
@@ -77,7 +84,10 @@ export class Fraction {
   public subtract(other: Fraction | BigIntish): Fraction {
     const otherParsed = Fraction.tryParseFraction(other);
     if (JSBI.equal(this.denominator, otherParsed.denominator)) {
-      return new Fraction(JSBI.subtract(this.numerator, otherParsed.numerator), this.denominator);
+      return new Fraction(
+        JSBI.subtract(this.numerator, otherParsed.numerator),
+        this.denominator,
+      );
     }
     return new Fraction(
       JSBI.subtract(
@@ -134,10 +144,16 @@ export class Fraction {
     format: { groupSeparator: string } = { groupSeparator: '' },
     rounding: Rounding = Rounding.ROUND_HALF_UP,
   ): string {
-    invariant(Number.isInteger(significantDigits), `${significantDigits} is not an integer.`);
+    invariant(
+      Number.isInteger(significantDigits),
+      `${significantDigits} is not an integer.`,
+    );
     invariant(significantDigits > 0, `${significantDigits} is not positive.`);
 
-    Decimal.set({ precision: significantDigits + 1, rounding: toSignificantRounding[rounding] });
+    Decimal.set({
+      precision: significantDigits + 1,
+      rounding: toSignificantRounding[rounding],
+    });
     const quotient = new Decimal(this.numerator.toString())
       .div(this.denominator.toString())
       .toSignificantDigits(significantDigits);
@@ -149,7 +165,10 @@ export class Fraction {
     // eslint-disable-next-line @typescript-eslint/ban-types
     format: { groupSeparator: string } = { groupSeparator: '' },
   ): string {
-    invariant(Number.isInteger(decimalPlaces), `${decimalPlaces} is not an integer.`);
+    invariant(
+      Number.isInteger(decimalPlaces),
+      `${decimalPlaces} is not an integer.`,
+    );
     invariant(decimalPlaces >= 0, `${decimalPlaces} is negative.`);
 
     Big.DP = decimalPlaces;

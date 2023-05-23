@@ -1,6 +1,1 @@
-
-
-
-export const getClosestTickAndFixedRate = (fixedRate: number) => {
-
-}
+export const getClosestTickAndFixedRate = (fixedRate: number) => {};

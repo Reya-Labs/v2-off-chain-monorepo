@@ -1,6 +1,8 @@
-import { BigNumberish } from "ethers";
+import { BigNumberish } from 'ethers';
 
-
-export const getSqrtPriceLimitFromFixedRateLimit = (fixedRate: number): BigNumberish => {
-  const { closestUsableTick: tickLimit } = closestTickAndFixedRate(fixedRateLimit);
-}
+export const getSqrtPriceLimitFromFixedRateLimit = (
+  fixedRate: number,
+): BigNumberish => {
+  const { closestUsableTick: tickLimit } =
+    closestTickAndFixedRate(fixedRateLimit);
+};

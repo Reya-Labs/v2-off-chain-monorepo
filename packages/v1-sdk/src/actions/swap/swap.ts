@@ -1,35 +1,26 @@
-import {
-  SwapArgs
-} from "../types/actionArgTypes";
+import { SwapArgs } from '../types/actionArgTypes';
 
-import {
-  SwapResponse
-} from "../actionResponseTypes";
-import { handleSwapErrors } from "../error-handling/handleSwapErrors";
-import { BigNumberish } from "ethers";
+import { SwapResponse } from '../actionResponseTypes';
+import { handleSwapErrors } from '../error-handling/handleSwapErrors';
+import { BigNumberish } from 'ethers';
 
-export const swap = async (
-  {
-    isFT,
+export const swap = async ({
+  isFT,
+  notional,
+  margin,
+  fixedRateLimit,
+  fixedLow,
+  fixedHigh,
+  underlyingTokenId,
+}: SwapArgs): Promise<SwapResponse> => {
+  handleSwapErrors({
     notional,
-    margin,
-    fixedRateLimit,
     fixedLow,
     fixedHigh,
-    underlyingTokenId
-  }: SwapArgs
-): Promise<SwapResponse> => {
-  handleSwapErrors(
-    {
-      notional, fixedLow, fixedHigh, underlyingTokenId
-    }
-  );
-
-  
+    underlyingTokenId,
+  });
 
   return {
-    status: "success"
-  }
-
-
-}
+    status: 'success',
+  };
+};
