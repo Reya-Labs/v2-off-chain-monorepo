@@ -11,6 +11,6 @@
     "plugin:prettier/recommended"
   ],
   "rules": {
-    // Add or override rules as needed
+    "no-constant-condition": "off"
   }
 }
