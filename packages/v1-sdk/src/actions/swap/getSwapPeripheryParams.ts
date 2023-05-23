@@ -7,7 +7,6 @@ import { getClosestTickAndFixedRate } from "./getClosestTickAndFixedRate";
 
 export const getSwapPeripheryParams = (
   {
-    isEth,
     margin,
     isFT,
     notional,
@@ -15,7 +14,8 @@ export const getSwapPeripheryParams = (
     fixedHigh,
     marginEngineAddress,
     underlyingTokenDecimals,
-    fixedRateLimit
+    fixedRateLimit,
+    tickSpacing
   }: SwapArgs
 ): SwapPeripheryParams => {
 
@@ -37,15 +37,11 @@ export const getSwapPeripheryParams = (
   const { closestUsableTick: tickUpper } = getClosestTickAndFixedRate(fixedLow, tickSpacing);
   const { closestUsableTick: tickLower } = getClosestTickAndFixedRate(fixedHigh, tickSpacing);
 
-  // sort out margin (incl. eth)
-
-
-
-
   swapPeripheryParams.notional = scale(notional, underlyingTokenDecimals);
+  swapPeripheryParams.marginDelta = scale(margin, underlyingTokenDecimals);
   swapPeripheryParams.sqrtPriceLimitX96 = sqrtPriceLimitX96;
   swapPeripheryParams.tickLower = tickLower;
   swapPeripheryParams.tickUpper = tickUpper;
-  swapPeripheryParams.marginDelta = 0;
 
+  return swapPeripheryParams;
 }
