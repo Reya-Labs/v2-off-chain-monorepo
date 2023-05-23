@@ -31,8 +31,8 @@
   "packageManager": "yarn@3.5.1",
   "dependencies": {
     "ethers": "5.5.4",
-    "fraction.js": "^4.2.0",
     "evm-bn": "^1.1.1",
+    "fraction.js": "^4.2.0",
     "jsbi": "^4.2.0",
     "keccak256": "^1.0.6",
     "tiny-invariant": "^1.2.0"
