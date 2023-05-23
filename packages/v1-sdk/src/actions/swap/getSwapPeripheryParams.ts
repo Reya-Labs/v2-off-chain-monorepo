@@ -22,7 +22,7 @@ export const getSwapPeripheryParams = (
   let swapPeripheryParams: SwapPeripheryParams = {
     marginEngineAddress: marginEngineAddress,
     isFT: isFT,
-    notional: scale(notional, underlyingTokenDecimals),
+    notional: 0,
     sqrtPriceLimitX96: 0,
     tickLower: 0,
     tickUpper: 0,
@@ -40,5 +40,12 @@ export const getSwapPeripheryParams = (
   // sort out margin (incl. eth)
 
 
+
+
+  swapPeripheryParams.notional = scale(notional, underlyingTokenDecimals);
+  swapPeripheryParams.sqrtPriceLimitX96 = sqrtPriceLimitX96;
+  swapPeripheryParams.tickLower = tickLower;
+  swapPeripheryParams.tickUpper = tickUpper;
+  swapPeripheryParams.marginDelta = 0;
 
 }
