@@ -5,6 +5,13 @@
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "src/**/*",
+    "dist/**/*",
+    "README.md"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/types",
   "scripts": {
     "prebuild": "yarn code-quality:check && rm -rf dist",
     "build": "yarn prebuild && tsc -p tsconfig.build.json",
@@ -23,6 +30,11 @@
   },
   "packageManager": "yarn@3.5.1",
   "dependencies": {
-    "ethers": "5.5.4"
+    "ethers": "5.5.4",
+    "fraction.js": "^4.2.0",
+    "evm-bn": "^1.1.1",
+    "jsbi": "^4.2.0",
+    "keccak256": "^1.0.6",
+    "tiny-invariant": "^1.2.0"
   }
 }
