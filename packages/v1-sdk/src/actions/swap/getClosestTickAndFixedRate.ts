@@ -1,6 +1,8 @@
 import {ClosestTickAndFixedRate} from "../types/priceAndRateTypes";
 import { MAX_FIXED_RATE, MIN_FIXED_RATE } from "../../common/constants";
 import { Price } from "../../common/math/price";
+import {fixedRateToClosestTick, tickToFixedRate} from "../../common/math/priceTickConversions";
+import {nearestUsableTick} from "../../common/math/nearestUsableTick";
 
 export const getClosestTickAndFixedRate = (fixedRate: number, tickSpacing: number): ClosestTickAndFixedRate => {
 

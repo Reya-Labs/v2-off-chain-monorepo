@@ -1,5 +1,5 @@
 import JSBI from 'jsbi';
-import {Price} from "./price";
+import { Price } from './price';
 import { MAX_TICK, MIN_TICK, Q192 } from '../constants';
 import { encodeSqrtRatioX96 } from './encodeSqrtRatioX96';
 import { TickMath } from './tickMath';
