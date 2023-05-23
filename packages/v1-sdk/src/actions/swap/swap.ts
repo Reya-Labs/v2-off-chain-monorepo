@@ -1,5 +1,5 @@
 import { SwapArgs, SwapPeripheryParams } from "../types/actionArgTypes";
-
+import {BigNumber, utils} from "ethers";
 import { SwapResponse } from '../actionResponseTypes';
 import { handleSwapErrors } from '../error-handling/handleSwapErrors';
 import { BigNumberish, ethers } from "ethers";
@@ -9,6 +9,8 @@ import { getDefaultSqrtPriceLimit} from "./getDefaultSqrtPriceLimits";
 import { executeSwap } from "./executeSwap";
 import {getPeripheryContract} from "../../common/contract-generators/getPeripheryContract";
 import { getSwapPeripheryParams } from "./getSwapPeripheryParams";
+import { estimateSwapGasUnits } from "./estimateSwapGasUnits";
+import { getGasBuffer } from "../../common/gas/getGasBuffer";
 
 export const swap = async ({
   isFT,
@@ -56,21 +58,21 @@ export const swap = async ({
   );
 
   // need to be careful to make sure we don't double count margin, may need to refactor
-  const swapPeripheryTempOverrides: { value?: BigNumber; gasLimit?: BigNumber } = getSwapPeripheryTempOverrides(
-    {
-      isEth,
-      margin
-    }
+  // todo :{ value?: BigNumber; gasLimit?: BigNumber }  looks ugly, can we not use a type?
+  const swapPeripheryTempOverrides: { value?: BigNumber; gasLimit?: BigNumber } = {}
+
+  // todo: consider placing this logic elsewhere
+  if (isEth && margin > 0) {
+    swapPeripheryTempOverrides.value = utils.parseEther(margin.toFixed(18).toString());
+  }
+
+  const estimatedGasUnits = await estimateSwapGasUnits(
+    peripheryContract,
+    swapPeripheryParams,
+    swapPeripheryTempOverrides
   );
 
-  const estimatedGasUnits = estimateSwapGasUnits(
-    {
-      peripheryContract,
-      swapPeripheryParams,
-      swapPeripheryTempOverrides
-    }
-  );
-
+  swapPeripheryTempOverrides.gasLimit = getGasBuffer(estimatedGasUnits);
 
   return await executeSwap(swapPeripheryParams);
 
