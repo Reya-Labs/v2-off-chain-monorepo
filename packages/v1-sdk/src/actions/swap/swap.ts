@@ -6,6 +6,7 @@ import { BigNumberish } from 'ethers';
 import { getClosestTickAndFixedRate } from "./getClosestTickAndFixedRate";
 import { getSqrtPriceLimitFromFixedRateLimit } from "./getSqrtPriceLimitFromFixedRate";
 import { getDefaultSqrtPriceLimit} from "./getDefaultSqrtPriceLimits";
+import { executeSwap } from "./executeSwap";
 
 export const swap = async ({
   isFT,
@@ -52,11 +53,6 @@ export const swap = async ({
     fixedHigh,
   )
 
+  return await executeSwap(swapPeripheryParams);
 
-
-
-
-  return {
-    status: 'success',
-  };
 };

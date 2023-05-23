@@ -1,4 +1,5 @@
 import { SwapPeripheryParams } from '../types/actionArgTypes';
+import { SwapResponse } from "../actionResponseTypes";
 
 export const executeSwap = async ({
   marginEngine,
@@ -8,7 +9,7 @@ export const executeSwap = async ({
   tickLower,
   tickUpper,
   marginDelta,
-}: SwapPeripheryParams): Promise<void> => {
+}: SwapPeripheryParams): Promise<SwapResponse> => {
   return {
     status: 'success',
   };
