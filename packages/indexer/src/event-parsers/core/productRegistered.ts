@@ -1,6 +1,6 @@
 import { Event } from 'ethers';
 
-import { EventType, ProductRegisteredEvent } from '../types';
+import { ProtocolEventType, ProductRegisteredEvent } from '../types';
 import { parseBaseEvent } from '../utils/baseEvent';
 import { convertLowercaseString } from '../utils/convertLowercase';
 
@@ -9,7 +9,7 @@ export const parseMarketFeeConfigured = (
   event: Event,
 ): ProductRegisteredEvent => {
   // 1. Type of event
-  const type: EventType = 'product-registered';
+  const type: ProtocolEventType = 'product-registered';
 
   // 2. Parse particular args
   const product = event.args?.product as string;

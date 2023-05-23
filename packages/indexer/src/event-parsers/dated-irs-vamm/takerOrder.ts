@@ -1,6 +1,6 @@
 import { Event, BigNumber } from 'ethers';
 
-import { EventType, TakerOrderEvent } from '../types';
+import { ProtocolEventType, TakerOrderEvent } from '../types';
 import { getTokenDetails } from '../../utils/token';
 import { getMarketQuoteToken } from '../../utils/markets/getMarketQuoteToken';
 import { parseBaseEvent } from '../utils/baseEvent';
@@ -11,7 +11,7 @@ export const parseTakerOrder = (
   event: Event,
 ): TakerOrderEvent => {
   // 1. Type of event
-  const type: EventType = 'taker-order';
+  const type: ProtocolEventType = 'taker-order';
 
   // 2. Parse particular args
   const accountId = (event.args?.accountId as BigNumber).toString();

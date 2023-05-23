@@ -1,6 +1,6 @@
 import { Event, BigNumber } from 'ethers';
 
-import { EventType, LiquidationEvent } from '../types';
+import { ProtocolEventType, LiquidationEvent } from '../types';
 import { getTokenDetails } from '../../utils/token';
 import { parseBaseEvent } from '../utils/baseEvent';
 import { convertLowercaseString } from '../utils/convertLowercase';
@@ -10,7 +10,7 @@ export const parseLiquidation = (
   event: Event,
 ): LiquidationEvent => {
   // 1. Type of event
-  const type: EventType = 'liquidation';
+  const type: ProtocolEventType = 'liquidation';
 
   // 2. Parse particular args
   const liquidatedAccountId = (
