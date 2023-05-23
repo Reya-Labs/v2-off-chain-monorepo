@@ -1,4 +1,4 @@
-import { BigNumberish, providers } from "ethers";
+import { BigNumberish, providers, Signer } from "ethers";
 
 // swap
 export type SwapArgs = {
@@ -14,6 +14,8 @@ export type SwapArgs = {
   peripheryAddress: string;
   vammAddress: string;
   provider: providers.Provider;
+  signer: Signer | null;
+  isEth: boolean;
 };
 
 export type SwapPeripheryParams = {

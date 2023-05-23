@@ -1,4 +1,4 @@
-import { SwapArgs } from '../types/actionArgTypes';
+import { SwapArgs, SwapPeripheryParams } from "../types/actionArgTypes";
 
 import { SwapResponse } from '../actionResponseTypes';
 import { handleSwapErrors } from '../error-handling/handleSwapErrors';
@@ -14,16 +14,20 @@ export const swap = async ({
   fixedRateLimit,
   fixedLow,
   fixedHigh,
-  underlyingTokenId,
+  underlyingTokenAddress,
   tickSpacing,
-  peripheryAddress
+  peripheryAddress,
+  vammAddress,
+  provider,
+  signer,
+  isEth
 }: SwapArgs): Promise<SwapResponse> => {
   // todo: layer in validation of tick spacing in handle swap errors or better turn into an enum
   handleSwapErrors({
     notional,
     fixedLow,
     fixedHigh,
-    underlyingTokenId,
+    underlyingTokenAddress,
   });
 
   const { closestUsableTick: tickUpper } = getClosestTickAndFixedRate(fixedLow, tickSpacing);
@@ -33,6 +37,20 @@ export const swap = async ({
   if (fixedRateLimit) {
     sqrtPriceLimitX96 = getSqrtPriceLimitFromFixedRateLimit(fixedRateLimit, tickSpacing);
   }
+
+  const peripheryContract = getPeripheryContract(
+    peripheryAddress,
+    signer
+  );
+
+  const swapPeripheryParams: SwapPeripheryParams = getSwapPeripheryParams(
+    isEth,
+    margin,
+    isFT,
+    notional,
+    fixedLow,
+    fixedHigh,
+  )
 
 
 
