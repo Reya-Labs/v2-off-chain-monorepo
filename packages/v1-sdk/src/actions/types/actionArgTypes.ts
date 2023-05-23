@@ -10,6 +10,7 @@ export type SwapArgs = {
   fixedHigh: number;
   underlyingTokenId: string;
   tickSpacing: number;
+  peripheryAddress: string;
 };
 
 export type SwapPeripheryParams = {

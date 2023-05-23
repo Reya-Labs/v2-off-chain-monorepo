@@ -15,7 +15,8 @@ export const swap = async ({
   fixedLow,
   fixedHigh,
   underlyingTokenId,
-  tickSpacing
+  tickSpacing,
+  peripheryAddress
 }: SwapArgs): Promise<SwapResponse> => {
   // todo: layer in validation of tick spacing in handle swap errors or better turn into an enum
   handleSwapErrors({
