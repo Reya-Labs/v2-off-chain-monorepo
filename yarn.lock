@@ -3342,6 +3342,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@voltz-protocol/sdk-v1-stateless@workspace:packages/v1-sdk":
+  version: 0.0.0-use.local
+  resolution: "@voltz-protocol/sdk-v1-stateless@workspace:packages/v1-sdk"
+  dependencies:
+    ethers: 5.5.4
+  languageName: unknown
+  linkType: soft
+
 "@voltz-protocol/ts-utils-v2@workspace:packages/utils":
   version: 0.0.0-use.local
   resolution: "@voltz-protocol/ts-utils-v2@workspace:packages/utils"
@@ -12057,12 +12065,6 @@ __metadata:
   checksum: 8dd2c83c43ddc7e1c71e36b60aea40030a6505139af6bee0f382ebcd1a56f6cd3028f7f06ffb07f8cf6ced320b76aea275284b224b002b289f89fe89c389b028
   languageName: node
   linkType: hard
-
-"v1-sdk-e3335f@workspace:packages/v1-sdk":
-  version: 0.0.0-use.local
-  resolution: "v1-sdk-e3335f@workspace:packages/v1-sdk"
-  languageName: unknown
-  linkType: soft
 
 "v2-off-chain-monorepo@workspace:.":
   version: 0.0.0-use.local
