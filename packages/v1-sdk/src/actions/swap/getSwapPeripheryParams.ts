@@ -3,7 +3,7 @@ import { BigNumberish } from "ethers";
 import { getDefaultSqrtPriceLimit } from "./getDefaultSqrtPriceLimits";
 import { getSqrtPriceLimitFromFixedRateLimit } from "./getSqrtPriceLimitFromFixedRate";
 import { getClosestTickAndFixedRate } from "./getClosestTickAndFixedRate";
-
+import { scale } from "../../common/math/scale";
 
 export const getSwapPeripheryParams = (
   {
@@ -37,7 +37,7 @@ export const getSwapPeripheryParams = (
   const { closestUsableTick: tickUpper } = getClosestTickAndFixedRate(fixedLow, tickSpacing);
   const { closestUsableTick: tickLower } = getClosestTickAndFixedRate(fixedHigh, tickSpacing);
 
-  swapPeripheryParams.notional = scale(notional, underlyingTokenDecimals);
+  swapPeripheryParams.notional = scale(valueToScale=notional, scalingFactor=underlyingTokenDecimals);
   swapPeripheryParams.marginDelta = scale(margin, underlyingTokenDecimals);
   swapPeripheryParams.sqrtPriceLimitX96 = sqrtPriceLimitX96;
   swapPeripheryParams.tickLower = tickLower;
