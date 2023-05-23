@@ -1,4 +1,4 @@
-import { BigNumberish } from 'ethers';
+import { BigNumberish, providers } from "ethers";
 
 // swap
 export type SwapArgs = {
@@ -8,9 +8,12 @@ export type SwapArgs = {
   fixedRateLimit?: number;
   fixedLow: number;
   fixedHigh: number;
-  underlyingTokenId: string;
+  underlyingTokenAddress: string;
   tickSpacing: number;
+  chainId: number;
   peripheryAddress: string;
+  vammAddress: string;
+  provider: providers.Provider;
 };
 
 export type SwapPeripheryParams = {
