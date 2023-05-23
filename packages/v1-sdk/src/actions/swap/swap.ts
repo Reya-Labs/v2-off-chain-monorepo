@@ -19,7 +19,7 @@ export const swap = async ({
   underlyingTokenAddress,
   tickSpacing,
   peripheryAddress,
-  vammAddress,
+  marginEngineAddress,
   provider,
   signer,
   isEth
@@ -31,14 +31,6 @@ export const swap = async ({
     fixedHigh,
     underlyingTokenAddress
   });
-
-  const { closestUsableTick: tickUpper } = getClosestTickAndFixedRate(fixedLow, tickSpacing);
-  const { closestUsableTick: tickLower } = getClosestTickAndFixedRate(fixedHigh, tickSpacing);
-
-  let sqrtPriceLimitX96: BigNumberish = getDefaultSqrtPriceLimit(isFT);
-  if (fixedRateLimit) {
-    sqrtPriceLimitX96 = getSqrtPriceLimitFromFixedRateLimit(fixedRateLimit, tickSpacing);
-  }
 
   let peripheryContract: ethers.Contract = getPeripheryContract(
     peripheryAddress,
@@ -54,6 +46,7 @@ export const swap = async ({
     notional,
     fixedLow,
     fixedHigh,
+    marginEngineAddress
   )
 
   return await executeSwap(swapPeripheryParams);

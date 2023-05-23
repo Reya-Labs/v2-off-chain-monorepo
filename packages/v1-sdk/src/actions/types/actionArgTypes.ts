@@ -12,14 +12,15 @@ export type SwapArgs = {
   tickSpacing: number;
   chainId: number;
   peripheryAddress: string;
-  vammAddress: string;
+  marginEngineAddress: string;
   provider: providers.Provider;
   signer: Signer;
   isEth: boolean;
+  underlyingTokenDecimals: number;
 };
 
 export type SwapPeripheryParams = {
-  marginEngine: string;
+  marginEngineAddress: string;
   isFT: boolean;
   notional: BigNumberish;
   sqrtPriceLimitX96: BigNumberish;
