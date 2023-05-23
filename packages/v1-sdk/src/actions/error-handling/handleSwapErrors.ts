@@ -8,6 +8,7 @@ export const handleSwapErrors = ({
   fixedHigh,
   underlyingTokenAddress,
 }: SwapValidateArgs): void => {
+
   if (fixedLow >= fixedHigh) {
     throw new Error('Lower Rate must be smaller than Upper Rate');
   }

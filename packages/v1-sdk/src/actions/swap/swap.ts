@@ -2,11 +2,12 @@ import { SwapArgs, SwapPeripheryParams } from "../types/actionArgTypes";
 
 import { SwapResponse } from '../actionResponseTypes';
 import { handleSwapErrors } from '../error-handling/handleSwapErrors';
-import { BigNumberish } from 'ethers';
+import { BigNumberish, ethers } from "ethers";
 import { getClosestTickAndFixedRate } from "./getClosestTickAndFixedRate";
 import { getSqrtPriceLimitFromFixedRateLimit } from "./getSqrtPriceLimitFromFixedRate";
 import { getDefaultSqrtPriceLimit} from "./getDefaultSqrtPriceLimits";
 import { executeSwap } from "./executeSwap";
+import {getPeripheryContract} from "../../common/contract-generators/getPeripheryContract";
 
 export const swap = async ({
   isFT,
@@ -28,7 +29,7 @@ export const swap = async ({
     notional,
     fixedLow,
     fixedHigh,
-    underlyingTokenAddress,
+    underlyingTokenAddress
   });
 
   const { closestUsableTick: tickUpper } = getClosestTickAndFixedRate(fixedLow, tickSpacing);
@@ -39,10 +40,12 @@ export const swap = async ({
     sqrtPriceLimitX96 = getSqrtPriceLimitFromFixedRateLimit(fixedRateLimit, tickSpacing);
   }
 
-  const peripheryContract = getPeripheryContract(
+  let peripheryContract: ethers.Contract = getPeripheryContract(
     peripheryAddress,
-    signer
+    provider
   );
+
+  peripheryContract.connect(signer);
 
   const swapPeripheryParams: SwapPeripheryParams = getSwapPeripheryParams(
     isEth,

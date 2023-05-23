@@ -14,7 +14,7 @@ export type SwapArgs = {
   peripheryAddress: string;
   vammAddress: string;
   provider: providers.Provider;
-  signer: Signer | null;
+  signer: Signer;
   isEth: boolean;
 };
 
