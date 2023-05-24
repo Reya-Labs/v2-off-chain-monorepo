@@ -1,6 +1,6 @@
 import { handleCollateralUpdate } from '../event-handlers/handleCollateralUpdate';
 import { CollateralUpdateEvent } from '../event-parsers/types';
-import { fetchEvents } from '../fetch-events/getEvents';
+import { fetchEvents } from '../fetch-events/fetchEvents';
 import { getProvider } from '../services/provider';
 
 export const sync = async (chainIds: number[]): Promise<void> => {
