@@ -10,9 +10,6 @@ jest.setTimeout(100_000);
 // Mock environment tag to testing and provider
 jest.mock('../../src/utils/env-vars.ts', () => ({
   getEnvironment: jest.fn(() => 'TESTING'),
-  getProvider: () => ({
-    getBlockNumber: async () => 0,
-  }),
 }));
 
 // Mock provider.getBlockNumber to 0

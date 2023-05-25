@@ -9,6 +9,10 @@ export const getTableName = (tableType: TableType): string => {
       return `Collateral Updates`;
     }
 
+    case 'liquidity_indices': {
+      return `Liquidity Indices`;
+    }
+
     default: {
       throw new Error(`Unrecognized table.`);
     }

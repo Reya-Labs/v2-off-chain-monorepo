@@ -3,15 +3,18 @@ import { createTable } from '../services/big-query/create-tables/createTable';
 import { createProtocolV2Dataset } from '../services/big-query/utils/datasets';
 import { sleep } from '../utils/utils';
 import { CHAIN_IDS, INDEXING_BUFFER } from './constants';
+import { fetchLiquidityIndices } from './fetchLiquidityIndex';
 import { sync } from './sync';
 
 export const main = async () => {
   await authenticateImplicitWithAdc();
   await createProtocolV2Dataset();
   await createTable('collateral_updates');
+  await createTable('liquidity_indices');
 
   while (true) {
     try {
+      await fetchLiquidityIndices();
       await sync(CHAIN_IDS);
     } catch (error) {
       console.log(

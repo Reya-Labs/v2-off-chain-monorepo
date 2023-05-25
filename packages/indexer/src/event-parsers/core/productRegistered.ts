@@ -4,7 +4,7 @@ import { ProtocolEventType, ProductRegisteredEvent } from '../types';
 import { parseBaseEvent } from '../utils/baseEvent';
 import { convertLowercaseString } from '../utils/convertLowercase';
 
-export const parseMarketFeeConfigured = (
+export const parseProductRegistered = (
   chainId: number,
   event: Event,
 ): ProductRegisteredEvent => {

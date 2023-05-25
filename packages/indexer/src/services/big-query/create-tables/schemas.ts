@@ -36,10 +36,35 @@ const collateralUpdatesTableSchema: TableField[] = [
   },
 ];
 
+const liquidityIndicesTableSchema: TableField[] = [
+  { name: 'chainId', type: 'INTEGER', mode: 'REQUIRED' },
+  { name: 'blockNumber', type: 'INTEGER', mode: 'REQUIRED' },
+  { name: 'blockTimestamp', type: 'INTEGER', mode: 'REQUIRED' },
+  { name: 'oracleAddres', type: 'STRING', mode: 'REQUIRED' },
+
+  {
+    name: 'liquidityIndex',
+    type: 'BIGNUMERIC',
+    mode: 'REQUIRED',
+    precision: PRECISION.toString(),
+    scale: SCALE.toString(),
+  },
+];
+
+const rateOraclesTableSchema: TableField[] = [];
+
 export const getTableSchema = (tableType: TableType): TableField[] => {
   switch (tableType) {
     case 'collateral_updates': {
       return collateralUpdatesTableSchema;
+    }
+
+    case 'rate_oracles': {
+      return rateOraclesTableSchema;
+    }
+
+    case 'liquidity_indices': {
+      return liquidityIndicesTableSchema;
     }
 
     default: {

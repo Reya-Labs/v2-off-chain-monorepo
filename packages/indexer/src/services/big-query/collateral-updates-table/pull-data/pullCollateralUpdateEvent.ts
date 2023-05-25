@@ -1,6 +1,6 @@
 import { CollateralUpdateEvent } from '../../../../event-parsers/types';
 import { getBigQuery } from '../../client';
-import { mapToCollateralUpdateEvent } from '../../mappers';
+import { mapToCollateralUpdateEvent } from '../mapper';
 import { getTableFullName } from '../../utils/getTableName';
 
 export const pullCollateralUpdateEvent = async (
