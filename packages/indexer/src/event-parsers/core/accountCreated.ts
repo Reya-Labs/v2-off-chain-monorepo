@@ -1,6 +1,6 @@
 import { Event, BigNumber } from 'ethers';
 
-import { AccountCreatedEvent, EventType } from '../types';
+import { AccountCreatedEvent, ProtocolEventType } from '../types';
 import { parseBaseEvent } from '../utils/baseEvent';
 import { convertLowercaseString } from '../utils/convertLowercase';
 
@@ -9,7 +9,7 @@ export const parseAccountCreated = (
   event: Event,
 ): AccountCreatedEvent => {
   // 1. Type of event
-  const type: EventType = 'account-created';
+  const type: ProtocolEventType = 'account-created';
 
   // 2. Parse particular args
   const accountId = (event.args?.accountId as BigNumber).toString();

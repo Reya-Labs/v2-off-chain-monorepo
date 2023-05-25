@@ -1,10 +1,13 @@
+import { parseTakerOrder } from '../../src/event-parsers/dated-irs-vamm/takerOrder';
 import { createTakerOrdersTable } from '../../src/services/big-table/taker-orders-table/createTakerOrdersTable';
 import { deleteTakerOrdersTable } from '../../src/services/big-table/taker-orders-table/deleteTakerOrdersTable';
 import { pullAllTakerOrderRows } from '../../src/services/big-table/taker-orders-table/pullAllTakerOrderRows';
 import { pullTakerOrderRow } from '../../src/services/big-table/taker-orders-table/pullTakerOrderRow';
 import { pushTakerOrders } from '../../src/services/big-table/taker-orders-table/pushTakerOrders';
 import { compareEvents } from '../utils/compareEvents';
-import { takerOrderEvent } from '../utils/mocks';
+import { takerOrderEvmEvent } from '../utils/evmEventMocks';
+
+jest.setTimeout(100_000);
 
 const cleanUp = async () => {
   // Clean test topic and subscription
@@ -16,6 +19,9 @@ const cleanUp = async () => {
 };
 
 const test = async () => {
+  const chainId = 1;
+  const takerOrderEvent = parseTakerOrder(chainId, takerOrderEvmEvent);
+
   // 1. Create table
   await createTakerOrdersTable();
 
@@ -26,38 +32,22 @@ const test = async () => {
   {
     const event = await pullTakerOrderRow(takerOrderEvent.id);
 
-    console.log(`Checking response...`);
-
     const comparison = compareEvents(event, takerOrderEvent);
-    if (comparison) {
-      throw new Error(comparison);
-    }
+    expect(comparison).toBe(null);
   }
 
   // 4. Pull all rows and check the response
   {
     const allEvents = await pullAllTakerOrderRows();
-
-    if (!(allEvents.length === 1)) {
-      throw new Error(`Pulled events are of length ${allEvents.length}`);
-    }
+    expect(allEvents.length).toBe(1);
 
     const comparison = compareEvents(allEvents[0], takerOrderEvent);
-    if (comparison) {
-      throw new Error(comparison);
-    }
+    expect(comparison).toBe(null);
   }
 };
 
-test()
-  .then(() => {
-    console.log(`Passed.`);
-  })
-  .catch((error) => {
-    console.log(`Failed with message: ${(error as Error).message}`);
-  })
-  .finally(() => {
-    cleanUp().then(() => {
-      console.log('Successfully cleaned up.');
-    });
-  });
+describe.skip('BigTable integration test', () => {
+  afterAll(cleanUp);
+
+  it('simple flow', test);
+});
