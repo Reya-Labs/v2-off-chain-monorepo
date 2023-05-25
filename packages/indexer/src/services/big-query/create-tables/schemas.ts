@@ -16,7 +16,7 @@ const collateralUpdatesTableSchema: TableField[] = [
   { name: 'transactionHash', type: 'STRING', mode: 'REQUIRED' },
   { name: 'logIndex', type: 'INTEGER', mode: 'REQUIRED' },
 
-  { name: 'accountId', type: 'INTEGER', mode: 'REQUIRED' },
+  { name: 'accountId', type: 'STRING', mode: 'REQUIRED' },
   { name: 'collateralType', type: 'STRING', mode: 'REQUIRED' },
 
   {

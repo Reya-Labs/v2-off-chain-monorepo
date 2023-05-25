@@ -3,9 +3,9 @@ import { Table, TableMetadata } from '@google-cloud/bigquery';
 import { getTable } from '../utils/getTable';
 import { getBigQuery } from '../client';
 import { getTableName } from '../utils/getTableName';
-import { DATASET_ID } from '../constants';
 import { getTableSchema } from './schemas';
 import { TableType } from '../types';
+import { getProtocolV2DatasetName } from '../utils/datasets';
 
 export const createTable = async (tableType: TableType): Promise<void> => {
   const bigQuery = getBigQuery();
@@ -26,8 +26,9 @@ export const createTable = async (tableType: TableType): Promise<void> => {
   };
 
   // Create a new table in the dataset
+  const datasetName = getProtocolV2DatasetName();
   const [table] = await bigQuery
-    .dataset(DATASET_ID)
+    .dataset(datasetName)
     .createTable(tableName, options);
 
   console.log(`Table ${table.id || ''} created.`);

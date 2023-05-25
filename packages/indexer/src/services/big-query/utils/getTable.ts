@@ -1,16 +1,15 @@
 import { Table } from '@google-cloud/bigquery';
 
 import { getBigQuery } from '../client';
-import { DATASET_ID } from '../constants';
+import { getProtocolV2DatasetName } from './datasets';
 
 export const getTable = async (tableName: string): Promise<Table | null> => {
   const bigQuery = getBigQuery();
 
-  const [tables] = await bigQuery.dataset(DATASET_ID).getTables();
+  const datasetName = getProtocolV2DatasetName();
+  const [tables] = await bigQuery.dataset(datasetName).getTables();
 
-  const table: Table | undefined = tables.find((t) => {
-    return t.id === tableName;
-  });
+  const table = tables.find((t) => t.id === tableName);
 
   if (!table) {
     return null;

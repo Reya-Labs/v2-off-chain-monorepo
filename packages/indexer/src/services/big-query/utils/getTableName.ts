@@ -1,14 +1,12 @@
-import { getEnvironment } from '../../../utils/env-vars';
-import { DATASET_ID, PROJECT_ID } from '../constants';
+import { PROJECT_ID } from '../constants';
 import { TableType } from '../types';
+import { getProtocolV2DatasetName } from './datasets';
 
 // Returns the name of BigQuery tables
 export const getTableName = (tableType: TableType): string => {
-  const tag = getEnvironment();
-
   switch (tableType) {
     case 'collateral_updates': {
-      return `[${tag}] Collateral Updates`;
+      return `Collateral Updates`;
     }
 
     default: {
@@ -19,5 +17,6 @@ export const getTableName = (tableType: TableType): string => {
 
 // Returns the full ID of BigQuery tables
 export const getTableFullName = (tableType: TableType): string => {
-  return `${PROJECT_ID}.${DATASET_ID}.${getTableName(tableType)}`;
+  const datasetName = getProtocolV2DatasetName();
+  return `${PROJECT_ID}.${datasetName}.${getTableName(tableType)}`;
 };
