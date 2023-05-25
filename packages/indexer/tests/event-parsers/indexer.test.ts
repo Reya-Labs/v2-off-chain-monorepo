@@ -8,6 +8,13 @@ import { getCoreContract } from '../../src/contract-generators/core';
 
 jest.setTimeout(100_000);
 
+// Mock provider.getBlockNumber to 0
+jest.mock('../../src/services/provider.ts', () => ({
+  getProvider: () => ({
+    getBlockNumber: async () => 0,
+  }),
+}));
+
 // Mock all dependencies with blank functions
 jest.mock('../../src/contract-generators/core.ts', () => ({
   getCoreContract: jest.fn(() => {}),
