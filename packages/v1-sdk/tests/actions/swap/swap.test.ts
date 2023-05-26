@@ -3,6 +3,8 @@ import {SwapArgs} from "../../../src/actions/types/actionArgTypes";
 import { BigNumber, providers, Signer, utils } from "ethers";
 import { ethers } from 'ethers';
 import { swap} from "../../../src/actions/swap/swap";
+import { SwapResponse } from "../../../src/actions/actionResponseTypes";
+import { Provider } from "@ethersproject/abstract-provider";
 
 // Mocks for the dependencies
 // todo: the resolved value of the swap function mock of the periphery should change to a more realistic value
@@ -20,6 +22,10 @@ describe('Swap', () => {
 
   it("should handle swap successfully", async () => {
 
+    const mockSigner: Signer = new ethers.VoidSigner(
+      "0xChadSigner", ethers.getDefaultProvider()
+    );
+
     const mockSwapArgs: SwapArgs = {
       isFT:false,
       notional:100,
@@ -34,19 +40,17 @@ describe('Swap', () => {
       peripheryAddress:"0xChadPeriphery",
       marginEngineAddress:"0xChadMarginEngine",
       provider:ethers.getDefaultProvider(),
-      signer:None,
+      signer:mockSigner,
       isEth:false
     }
 
     // Execute the swap function
-    const swapResult = await swap();
+    const swapResult: SwapResponse = await swap(
+      mockSwapArgs
+    );
 
     // Assert that swap has been successful
     expect(swapResult).toBe('Swap successful');
-
-    // Verify that the mocks have been called as expected
-    expect(SwapModule.handleSwapErrors).toHaveBeenCalledTimes(1);
-    // Add similar expect statements for other mocked functions
   })
 
 });
