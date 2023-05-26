@@ -1,7 +1,7 @@
 import { SwapArgs, SwapPeripheryParams } from "../types/actionArgTypes";
 import {BigNumber, utils} from "ethers";
 import { SwapResponse } from '../actionResponseTypes';
-import { handleSwapErrors } from '../error-handling/handleSwapErrors';
+import { handleSwapErrors } from './handleSwapErrors';
 import { BigNumberish, ethers } from "ethers";
 import { getClosestTickAndFixedRate } from "./getClosestTickAndFixedRate";
 import { getSqrtPriceLimitFromFixedRateLimit } from "./getSqrtPriceLimitFromFixedRate";
