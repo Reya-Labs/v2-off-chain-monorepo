@@ -1,10 +1,8 @@
 // Imports required for test setup
-import {SwapArgs} from "../../../src/actions/types/actionArgTypes";
-import { BigNumber, providers, Signer, utils } from "ethers";
-import { ethers } from 'ethers';
-import { swap} from "../../../src/actions/swap/swap";
+import { SwapArgs } from "../../../src/actions/types/actionArgTypes";
+import { ethers, getDefaultProvider, VoidSigner } from "ethers";
+import { swap } from "../../../src/actions/swap/swap";
 import { SwapResponse } from "../../../src/actions/actionResponseTypes";
-import { Provider } from "@ethersproject/abstract-provider";
 
 // Mocks for the dependencies
 // todo: the resolved value of the swap function mock of the periphery should change to a more realistic value
@@ -15,6 +13,11 @@ jest.mock('../../common/contract-generators/getPeripheryContract', () => ({
   })),
 }));
 
+jest.mock('ethers', () => {
+  getDefaultProvider: jest.fn(() => ({}));
+  VoidSigner: jest.fn(() => ({}));
+})
+
 // todo: we can just mock the getDefaultProvider() function for the mockSwapArgs using jest
 // todo: same goes for the signer
 
@@ -22,11 +25,11 @@ describe('Swap', () => {
 
   it("should handle swap successfully", async () => {
 
-    const mockSigner: Signer = new ethers.VoidSigner(
+    const mockSigner  = new ethers.VoidSigner(
       "0xChadSigner", ethers.getDefaultProvider()
     );
 
-    const mockSwapArgs: SwapArgs = {
+    const mockSwapArgs = {
       isFT:false,
       notional:100,
       margin:100,
@@ -45,7 +48,7 @@ describe('Swap', () => {
     }
 
     // Execute the swap function
-    const swapResult: SwapResponse = await swap(
+    const swapResult = await swap(
       mockSwapArgs
     );
 
