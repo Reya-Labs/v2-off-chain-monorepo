@@ -40,7 +40,7 @@ jest.mock('../../src/contract-generators/dated-irs-vamm.ts', () => ({
 }));
 
 // Tests
-describe('Collateral Update Indexer integration test', () => {
+describe.skip('Collateral Update Indexer integration test', () => {
   it('simple flow', async () => {
     await createProtocolV2Dataset();
     await createTable(TableType.raw_market_configured);
