@@ -30,11 +30,14 @@
   },
   "packageManager": "yarn@3.5.1",
   "dependencies": {
+    "big.js": "^6.1.1",
+    "decimal.js-light": "^2.5.1",
     "ethers": "5.5.4",
     "evm-bn": "^1.1.1",
     "fraction.js": "^4.2.0",
     "jsbi": "^4.2.0",
     "keccak256": "^1.0.6",
-    "tiny-invariant": "^1.2.0"
+    "tiny-invariant": "^1.2.0",
+    "toformat": "^2.0.0"
   }
 }

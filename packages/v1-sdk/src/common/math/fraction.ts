@@ -1,7 +1,7 @@
 import JSBI from 'jsbi';
 import invariant from 'tiny-invariant';
 import toFormat from 'toformat';
-import Fractionjs from 'src/common/math/fraction';
+import Fractionjs from 'fraction.js';
 import _Decimal from 'decimal.js-light';
 import _Big from 'big.js';
 

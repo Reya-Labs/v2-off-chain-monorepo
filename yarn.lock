@@ -3346,12 +3346,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@voltz-protocol/sdk-v1-stateless@workspace:packages/v1-sdk"
   dependencies:
+    big.js: ^6.1.1
+    decimal.js-light: ^2.5.1
     ethers: 5.5.4
     evm-bn: ^1.1.1
     fraction.js: ^4.2.0
     jsbi: ^4.2.0
     keccak256: ^1.0.6
     tiny-invariant: ^1.2.0
+    toformat: ^2.0.0
   languageName: unknown
   linkType: soft
 
@@ -3861,6 +3864,13 @@ __metadata:
   version: 2.2.3
   resolution: "before-after-hook@npm:2.2.3"
   checksum: a1a2430976d9bdab4cd89cb50d27fa86b19e2b41812bf1315923b0cba03371ebca99449809226425dd3bcef20e010db61abdaff549278e111d6480034bebae87
+  languageName: node
+  linkType: hard
+
+"big.js@npm:^6.1.1":
+  version: 6.2.1
+  resolution: "big.js@npm:6.2.1"
+  checksum: 0b234a2fd56c52bed2798ed2020bcab6fef5e9523b99a05406ad071d1aed6ee97ada9fb8de9576092da74c68825c276e19015743b8d1baea269b60a5c666b0cd
   languageName: node
   linkType: hard
 
@@ -4814,6 +4824,13 @@ __metadata:
   version: 1.2.0
   resolution: "decamelize@npm:1.2.0"
   checksum: ad8c51a7e7e0720c70ec2eeb1163b66da03e7616d7b98c9ef43cce2416395e84c1e9548dd94f5f6ffecfee9f8b94251fc57121a8b021f2ff2469b2bae247b8aa
+  languageName: node
+  linkType: hard
+
+"decimal.js-light@npm:^2.5.1":
+  version: 2.5.1
+  resolution: "decimal.js-light@npm:2.5.1"
+  checksum: f5a2c7eac1c4541c8ab8a5c8abea64fc1761cefc7794bd5f8afd57a8a78d1b51785e0c4e4f85f4895a043eaa90ddca1edc3981d1263eb6ddce60f32bf5fe66c9
   languageName: node
   linkType: hard
 
@@ -11680,6 +11697,13 @@ __metadata:
   dependencies:
     is-number: ^7.0.0
   checksum: f76fa01b3d5be85db6a2a143e24df9f60dd047d151062d0ba3df62953f2f697b16fe5dad9b0ac6191c7efc7b1d9dcaa4b768174b7b29da89d4428e64bc0a20ed
+  languageName: node
+  linkType: hard
+
+"toformat@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "toformat@npm:2.0.0"
+  checksum: c75341911a811a85c309e2c3eb8e9c7b60f26e2c629170179fc92ed339a2faf44433ebde75d4ac6dbe6f55a2aa044e1d4cd5242dbdd5e4c047babbe6defd8387
   languageName: node
   linkType: hard
 

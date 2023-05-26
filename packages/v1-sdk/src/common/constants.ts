@@ -1,3 +1,4 @@
+import JSBI from 'jsbi';
 /**
  * The minimum fixed rate that can be used on any pool.
  */
