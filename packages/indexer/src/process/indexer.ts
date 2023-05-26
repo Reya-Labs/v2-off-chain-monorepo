@@ -1,5 +1,6 @@
 import { authenticateImplicitWithAdc } from '../services/big-query/client';
 import { createTable } from '../services/big-query/create-tables/createTable';
+import { TableType } from '../services/big-query/types';
 import { createProtocolV2Dataset } from '../services/big-query/utils/datasets';
 import { sleep } from '../utils/utils';
 import { CHAIN_IDS, INDEXING_BUFFER } from './constants';
@@ -9,8 +10,8 @@ import { sync } from './sync';
 export const main = async () => {
   await authenticateImplicitWithAdc();
   await createProtocolV2Dataset();
-  await createTable('collateral_updates');
-  await createTable('liquidity_indices');
+  await createTable(TableType.raw_collateral_updates);
+  await createTable(TableType.liquidity_indices);
 
   while (true) {
     try {

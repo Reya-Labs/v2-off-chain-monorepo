@@ -2,7 +2,7 @@ import { EventFilter } from 'ethers';
 import { sync } from '../../src/process/sync';
 import { collateralUpdateEvmEvent } from '../utils/evmEventMocks';
 import { parseCollateralUpdate } from '../../src/event-parsers/core/collateralUpdate';
-import { pullCollateralUpdateEvent } from '../../src/services/big-query/collateral-updates-table/pull-data/pullCollateralUpdateEvent';
+import { pullCollateralUpdateEvent } from '../../src/services/big-query/raw-collateral-updates-table/pull-data/pullCollateralUpdateEvent';
 import { getBigQuery } from '../../src/services/big-query/client';
 import { getCoreContract } from '../../src/contract-generators/core';
 
@@ -20,8 +20,16 @@ jest.mock('../../src/contract-generators/core.ts', () => ({
   getCoreContract: jest.fn(() => {}),
 }));
 
+jest.mock('../../src/contract-generators/dated-irs-instrument.ts', () => ({
+  getDatedIrsInstrumentContract: jest.fn(() => {}),
+}));
+
+jest.mock('../../src/contract-generators/dated-irs-vamm.ts', () => ({
+  getDatedIrsVammContract: jest.fn(() => {}),
+}));
+
 jest.mock(
-  '../../src/services/big-query/collateral-updates-table/pull-data/pullCollateralUpdateEvent.ts',
+  '../../src/services/big-query/raw-collateral-updates-table/pull-data/pullCollateralUpdateEvent.ts',
   () => ({
     pullCollateralUpdateEvent: jest.fn(() => {}),
   }),

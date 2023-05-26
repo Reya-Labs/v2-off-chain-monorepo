@@ -1,12 +1,13 @@
-import { CollateralUpdateEvent } from '../../../../event-parsers/types';
+import { MarketFeeConfiguredEvent } from '../../../../event-parsers/types';
 import { getBigQuery } from '../../client';
+import { TableType } from '../../types';
 import { getTableFullName } from '../../utils/getTableName';
 
-export const insertCollateralUpdateEvent = async (
-  event: CollateralUpdateEvent,
+export const insertMarketFeeConfiguredEvent = async (
+  event: MarketFeeConfiguredEvent,
 ): Promise<void> => {
   const bigQuery = getBigQuery();
-  const tableName = getTableFullName('collateral_updates');
+  const tableName = getTableFullName(TableType.raw_fee_market_configured);
 
   const row = `
     "${event.id}",
@@ -19,10 +20,11 @@ export const insertCollateralUpdateEvent = async (
     ${event.transactionIndex}, 
     "${event.transactionHash}", 
     ${event.logIndex},
-    "${event.accountId}", 
-    "${event.collateralType}",
-    ${event.collateralAmount},
-    ${event.liquidatorBoosterAmount}
+    "${event.productId}", 
+    "${event.marketId}", 
+    "${event.feeCollectorAccountId}", 
+    ${event.atomicMakerFee},
+    ${event.atomicTakerFee}
   `;
 
   // build and fire sql query

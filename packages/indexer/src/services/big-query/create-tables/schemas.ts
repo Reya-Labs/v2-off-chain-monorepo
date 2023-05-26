@@ -2,7 +2,7 @@ import { TableField } from '@google-cloud/bigquery';
 import { PRECISION, SCALE } from '../constants';
 import { TableType } from '../types';
 
-const collateralUpdatesTableSchema: TableField[] = [
+const rawCollateralUpdateTableSchema: TableField[] = [
   { name: 'id', type: 'STRING', mode: 'REQUIRED' },
   { name: 'type', type: 'STRING', mode: 'REQUIRED' },
   { name: 'chainId', type: 'INTEGER', mode: 'REQUIRED' },
@@ -51,19 +51,25 @@ const liquidityIndicesTableSchema: TableField[] = [
   },
 ];
 
+const rawMarketConfiguredTableSchema: TableField[] = [];
+
 const rateOraclesTableSchema: TableField[] = [];
 
 export const getTableSchema = (tableType: TableType): TableField[] => {
   switch (tableType) {
-    case 'collateral_updates': {
-      return collateralUpdatesTableSchema;
+    case TableType.raw_collateral_updates: {
+      return rawCollateralUpdateTableSchema;
     }
 
-    case 'rate_oracles': {
+    case TableType.raw_market_configured: {
+      return rawMarketConfiguredTableSchema;
+    }
+
+    case TableType.rate_oracles: {
       return rateOraclesTableSchema;
     }
 
-    case 'liquidity_indices': {
+    case TableType.liquidity_indices: {
       return liquidityIndicesTableSchema;
     }
 
