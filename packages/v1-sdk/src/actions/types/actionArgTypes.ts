@@ -17,7 +17,6 @@ export type SwapArgs = {
   provider: providers.Provider;
   signer: Signer;
   isEth: boolean;
-  underlyingTokenDecimals: number;
 };
 
 export type SwapPeripheryParams = {
