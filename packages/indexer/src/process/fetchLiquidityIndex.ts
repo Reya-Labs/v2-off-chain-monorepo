@@ -2,7 +2,7 @@ import { getRateOracleContract } from '../contract-generators/rate-oracle';
 import { descale } from '../utils/token';
 import { insertLiquidityIndex } from '../services/big-query/liquidity-indices-table/push-data/insertCollateralUpdateEvent';
 import { getProvider } from '../services/provider';
-import { pullRateOracleEntries } from '../services/big-query/rate-oracles-table/pull-data/pullRateOracleEntries';
+import { pullRateOracleEntries } from '../services/big-query/cross-queries/pullRateOracleEntries';
 
 export const fetchLiquidityIndices = async (): Promise<void> => {
   const oracles = await pullRateOracleEntries();

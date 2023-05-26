@@ -7,7 +7,7 @@ export const insertMarketFeeConfiguredEvent = async (
   event: MarketFeeConfiguredEvent,
 ): Promise<void> => {
   const bigQuery = getBigQuery();
-  const tableName = getTableFullName(TableType.raw_fee_market_configured);
+  const tableName = getTableFullName(TableType.raw_market_fee_configured);
 
   const row = `
     "${event.id}",

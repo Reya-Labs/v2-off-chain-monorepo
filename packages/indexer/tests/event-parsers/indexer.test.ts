@@ -5,6 +5,7 @@ import { parseCollateralUpdate } from '../../src/event-parsers/core/collateralUp
 import { pullCollateralUpdateEvent } from '../../src/services/big-query/raw-collateral-updates-table/pull-data/pullCollateralUpdateEvent';
 import { getBigQuery } from '../../src/services/big-query/client';
 import { getCoreContract } from '../../src/contract-generators/core';
+import { getDatedIrsInstrumentContract } from '../../src/contract-generators/dated-irs-instrument';
 
 jest.setTimeout(100_000);
 
@@ -42,13 +43,37 @@ jest.mock('../../src/services/big-query/client.ts', () => ({
 // Unit tests
 describe('Collateral Update Indexer unit tests', () => {
   it('new event', async () => {
-    // Mock getCoreContract
-    (getCoreContract as jest.Mock).mockReturnValueOnce({
-      queryFilter: async () => [collateralUpdateEvmEvent],
-      filters: {
-        CollateralUpdate: () => null as unknown as EventFilter,
-      },
-    });
+    // Mock core contract event filters
+    {
+      const queryFilter = jest.fn(async () => {});
+      (queryFilter as jest.Mock).mockResolvedValueOnce([
+        collateralUpdateEvmEvent,
+      ]);
+      (queryFilter as jest.Mock).mockResolvedValueOnce([]);
+
+      (getCoreContract as jest.Mock).mockReturnValueOnce({
+        queryFilter,
+        filters: {
+          MarketFeeConfigured: () => null as unknown as EventFilter,
+          CollateralUpdate: () => null as unknown as EventFilter,
+        },
+      });
+    }
+
+    // Mock instrument contract event filters
+    {
+      const queryFilter = jest.fn(async () => {});
+      (queryFilter as jest.Mock).mockResolvedValueOnce([]);
+      (queryFilter as jest.Mock).mockResolvedValueOnce([]);
+
+      (getDatedIrsInstrumentContract as jest.Mock).mockReturnValueOnce({
+        queryFilter,
+        filters: {
+          MarketConfigured: () => null as unknown as EventFilter,
+          RateOracleConfigured: () => null as unknown as EventFilter,
+        },
+      });
+    }
 
     // Mock getBigQuery
     const query = jest.fn(async () => {});
@@ -68,13 +93,37 @@ describe('Collateral Update Indexer unit tests', () => {
   });
 
   it('existing event', async () => {
-    // Mock getCoreContract
-    (getCoreContract as jest.Mock).mockReturnValueOnce({
-      queryFilter: async () => [collateralUpdateEvmEvent],
-      filters: {
-        CollateralUpdate: () => null as unknown as EventFilter,
-      },
-    });
+    // Mock core contract event filters
+    {
+      const queryFilter = jest.fn(async () => {});
+      (queryFilter as jest.Mock).mockResolvedValueOnce([
+        collateralUpdateEvmEvent,
+      ]);
+      (queryFilter as jest.Mock).mockResolvedValueOnce([]);
+
+      (getCoreContract as jest.Mock).mockReturnValueOnce({
+        queryFilter,
+        filters: {
+          MarketFeeConfigured: () => null as unknown as EventFilter,
+          CollateralUpdate: () => null as unknown as EventFilter,
+        },
+      });
+    }
+
+    // Mock instrument contract event filters
+    {
+      const queryFilter = jest.fn(async () => {});
+      (queryFilter as jest.Mock).mockResolvedValueOnce([]);
+      (queryFilter as jest.Mock).mockResolvedValueOnce([]);
+
+      (getDatedIrsInstrumentContract as jest.Mock).mockReturnValueOnce({
+        queryFilter,
+        filters: {
+          MarketConfigured: () => null as unknown as EventFilter,
+          RateOracleConfigured: () => null as unknown as EventFilter,
+        },
+      });
+    }
 
     // Mock getBigQuery
     const query = jest.fn(async () => {});

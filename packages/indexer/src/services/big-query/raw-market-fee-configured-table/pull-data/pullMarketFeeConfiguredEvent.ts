@@ -8,7 +8,7 @@ export const pullMarketFeeConfiguredEvent = async (
   id: string,
 ): Promise<MarketFeeConfiguredEvent | null> => {
   const bigQuery = getBigQuery();
-  const tableName = getTableFullName(TableType.raw_fee_market_configured);
+  const tableName = getTableFullName(TableType.raw_market_fee_configured);
 
   const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE id="${id}"`;
 

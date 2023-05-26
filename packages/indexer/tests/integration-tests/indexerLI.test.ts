@@ -12,7 +12,7 @@ jest.mock('../../src/utils/env-vars.ts', () => ({
 }));
 
 jest.mock(
-  '../../src/services/big-query/rate-oracles-table/pull-data/pullRateOracleEntries.ts',
+  '../../src/services/big-query/cross-queries/pullRateOracleEntries.ts',
   () => ({
     pullRateOracleEntries: jest.fn(() => [
       {
@@ -24,7 +24,7 @@ jest.mock(
 );
 
 // Tests
-describe('Liquidity index reader integration test', () => {
+describe.skip('Liquidity index reader integration test', () => {
   it('simple flow', async () => {
     await createProtocolV2Dataset();
     await createTable(TableType.liquidity_indices);

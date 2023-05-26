@@ -13,12 +13,20 @@ export const getTableName = (tableType: TableType): string => {
       return `Raw Market Configured`;
     }
 
-    case TableType.liquidity_indices: {
-      return `Liquidity Indices`;
+    case TableType.raw_market_fee_configured: {
+      return `Raw Market Fee Configured`;
     }
 
-    default: {
-      throw new Error(`Unrecognized table.`);
+    case TableType.raw_rate_oracle_configured: {
+      return `Raw Rate Oracle Configured`;
+    }
+
+    case TableType.markets: {
+      return `Markets`;
+    }
+
+    case TableType.liquidity_indices: {
+      return `Liquidity Indices`;
     }
   }
 };

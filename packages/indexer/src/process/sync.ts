@@ -22,7 +22,12 @@ export const sync = async (chainIds: number[]): Promise<void> => {
 
     const events = await fetchEvents(
       chainId,
-      ['collateral-update'],
+      [
+        'collateral-update',
+        'market-fee-configured',
+        'market-configured',
+        'rate-oracle-configured',
+      ],
       0,
       currentBlock,
     );
