@@ -4,9 +4,7 @@ import { ethers, getDefaultProvider, VoidSigner } from "ethers";
 import { swap } from "../../../src/actions/swap/swap";
 import { SwapResponse } from "../../../src/actions/actionResponseTypes";
 
-// Mocks for the dependencies
-// todo: the resolved value of the swap function mock of the periphery should change to a more realistic value
-jest.mock('../../common/contract-generators/getPeripheryContract', () => ({
+jest.mock('../../../src/common/contract-generators', () => ({
   getPeripheryContract: jest.fn(() => ({
     connect: jest.fn().mockReturnThis(),
     swap: jest.fn().mockResolvedValue('Swap successful'),
@@ -15,11 +13,7 @@ jest.mock('../../common/contract-generators/getPeripheryContract', () => ({
 
 jest.mock('ethers', () => {
   getDefaultProvider: jest.fn(() => ({}));
-  VoidSigner: jest.fn(() => ({}));
-})
-
-// todo: we can just mock the getDefaultProvider() function for the mockSwapArgs using jest
-// todo: same goes for the signer
+});
 
 describe('Swap', () => {
 
