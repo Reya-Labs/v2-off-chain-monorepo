@@ -19,7 +19,9 @@ describe('Swap', () => {
       connect: jest.fn(() => {
         console.log("Connecting to periphery contract");
         return {
-          swap: jest.fn(() => {return Promise.resolve({} as ContractTransaction);})
+          swap: jest.fn(() => {return Promise.resolve({
+            wait: jest.fn(() => {Promise.resolve({})})
+          });})
         }
       }),
       estimateGas: {
