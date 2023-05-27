@@ -1,7 +1,7 @@
 // Imports required for test setup
 import { SwapArgs } from "../../../src/actions/types/actionArgTypes";
 import { swap } from "../../../src/actions/swap/swap";
-import { Signer, getDefaultProvider, BigNumber } from "ethers";
+import { Signer, getDefaultProvider, BigNumber, ContractTransaction, ContractReceipt } from "ethers";
 import { SwapResponse } from "../../../src/actions/actionResponseTypes";
 import { getPeripheryContract } from "../../../src/common/contract-generators/getPeripheryContract";
 
@@ -16,7 +16,12 @@ describe('Swap', () => {
     // mock periphery contract's connection to a given signer
 
     (getPeripheryContract as jest.Mock).mockReturnValueOnce({
-      connect: jest.fn(() => {console.log("Connecting fake signer to periphery contract")}),
+      connect: jest.fn(() => {
+        console.log("Connecting to periphery contract");
+        return {
+          swap: jest.fn(() => {return Promise.resolve({} as ContractTransaction);})
+        }
+      }),
       estimateGas: {
         swap: jest.fn(() => {return Promise.resolve(BigNumber.from(10000));}),
       },
@@ -42,12 +47,9 @@ describe('Swap', () => {
       isEth:false
     }
 
-    const swapResult = await swap(
+    const swapResult: ContractReceipt = await swap(
       mockSwapArgs
     );
-    //
-    // // Assert that swap has been successful
-    // expect(swapResult).toBe('Swap successful');
   })
 
 });
