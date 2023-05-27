@@ -6,7 +6,6 @@ import { BigNumberish, ethers } from "ethers";
 import { getClosestTickAndFixedRate } from "./getClosestTickAndFixedRate";
 import { getSqrtPriceLimitFromFixedRateLimit } from "./getSqrtPriceLimitFromFixedRate";
 import { getDefaultSqrtPriceLimit} from "./getDefaultSqrtPriceLimits";
-import { executeSwap } from "./executeSwap";
 import {getPeripheryContract} from "../../common/contract-generators/getPeripheryContract";
 import { getSwapPeripheryParams } from "./getSwapPeripheryParams";
 import { estimateSwapGasUnits } from "./estimateSwapGasUnits";
@@ -66,7 +65,7 @@ export const swap = async ({
     swapPeripheryTempOverrides.value = utils.parseEther(margin.toFixed(18).toString());
   }
 
-  const estimatedGasUnits = await estimateSwapGasUnits(
+  const estimatedGasUnits: BigNumber = await estimateSwapGasUnits(
     peripheryContract,
     swapPeripheryParams,
     swapPeripheryTempOverrides
