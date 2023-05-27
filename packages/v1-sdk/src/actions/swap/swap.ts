@@ -1,5 +1,5 @@
 import { SwapArgs, SwapPeripheryParams } from "../types/actionArgTypes";
-import {BigNumber, utils} from "ethers";
+import { BigNumber, ContractReceipt, ContractTransaction, utils } from "ethers";
 import { SwapResponse } from '../actionResponseTypes';
 import { handleSwapErrors } from './handleSwapErrors';
 import { BigNumberish, ethers } from "ethers";
@@ -26,7 +26,7 @@ export const swap = async ({
   provider,
   signer,
   isEth
-}: SwapArgs): Promise<SwapResponse> => {
+}: SwapArgs): Promise<ContractReceipt> => {
   // todo: layer in validation of tick spacing in handle swap errors or better turn into an enum
   handleSwapErrors({
     notional,
@@ -73,10 +73,14 @@ export const swap = async ({
 
   swapPeripheryTempOverrides.gasLimit = getGasBuffer(estimatedGasUnits);
 
-  const result = await peripheryContract.connect(signer).swap(
+  const swapTransaction: ContractTransaction = await peripheryContract.connect(signer).swap(
     swapPeripheryParams, swapPeripheryTempOverrides
   ).catch(() => {
     throw new Error('Transaction Confirmation Error');
   });
+
+  const receipt: ContractReceipt  = await swapTransaction.wait();
+
+  return receipt;
 
 };
