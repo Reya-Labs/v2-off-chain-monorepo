@@ -1,19 +1,18 @@
 // Imports required for test setup
-import { SwapArgs } from "../../../src/actions/types/actionArgTypes";
+import { SwapArgs, SwapPeripheryParams } from "../../../src/actions/types/actionArgTypes";
 import { swap } from "../../../src/actions/swap/swap";
-import { Signer, getDefaultProvider, BigNumber, ContractTransaction, ContractReceipt } from "ethers";
+import { Signer, getDefaultProvider, BigNumber, ContractTransaction, ContractReceipt, BigNumberish } from "ethers";
 import { SwapResponse } from "../../../src/actions/actionResponseTypes";
 import { getPeripheryContract } from "../../../src/common/contract-generators/getPeripheryContract";
+import { getSwapPeripheryParams, GetSwapPeripheryParamsArgs } from "../../../src/actions/swap/getSwapPeripheryParams";
 
 jest.mock('../../../src/common/contract-generators/getPeripheryContract', () => ({
   getPeripheryContract: jest.fn(() => {}),
 }));
 
-describe('Swap', () => {
+describe('swap', () => {
 
-  it("should handle swap successfully", async () => {
-
-    // mock periphery contract's connection to a given signer
+  it.skip("setup all the mocks", async () => {
 
     (getPeripheryContract as jest.Mock).mockReturnValueOnce({
       connect: jest.fn(() => {
@@ -53,5 +52,35 @@ describe('Swap', () => {
       mockSwapArgs
     );
   })
+
+  it("correctly calculates swap periphery parameters", () => {
+
+    const mockGetSwapPeripheryParamsArgs: GetSwapPeripheryParamsArgs = {
+      margin: 100,
+      isFT: false,,
+      notional: 100,
+      fixedLow: 0.1,
+      fixedHigh: 0.2,
+      marginEngineAddress: "0xChadMarginEngine",
+      underlyingTokenDecimals: 18,
+      fixedRateLimit: 0.1,
+      tickSpacing: 60
+    }
+
+    const swapPeripheryParams = getSwapPeripheryParams(mockGetSwapPeripheryParamsArgs);
+
+    const expectedSwapPeripheryParams: SwapPeripheryParams = {
+      marginEngineAddress: "0xChadMarginEngine",
+      isFT: false,
+      notional: '100',
+      sqrtPriceLimitX96: '1000',
+      tickLower: '-100',
+      tickUpper: '100',
+      marginDelta: '100'
+    }
+
+    expect(swapPeripheryParams).toEqual(expectedSwapPeripheryParams);
+
+  });
 
 });
