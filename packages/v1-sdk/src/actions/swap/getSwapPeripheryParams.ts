@@ -49,7 +49,7 @@ export const getSwapPeripheryParams = (
   const { closestUsableTick: tickUpper } = getClosestTickAndFixedRate(fixedLow, tickSpacing);
   const { closestUsableTick: tickLower } = getClosestTickAndFixedRate(fixedHigh, tickSpacing);
 
-  swapPeripheryParams.notional = scale(valueToScale=notional, scalingFactor=underlyingTokenDecimals);
+  swapPeripheryParams.notional = scale(notional, underlyingTokenDecimals);
   swapPeripheryParams.marginDelta = scale(margin, underlyingTokenDecimals);
   swapPeripheryParams.sqrtPriceLimitX96 = sqrtPriceLimitX96;
   swapPeripheryParams.tickLower = tickLower;
