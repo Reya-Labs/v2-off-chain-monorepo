@@ -5,6 +5,7 @@ import { Signer, getDefaultProvider, BigNumber, ContractTransaction, ContractRec
 import { SwapResponse } from "../../../src/actions/actionResponseTypes";
 import { getPeripheryContract } from "../../../src/common/contract-generators/getPeripheryContract";
 import { getSwapPeripheryParams, GetSwapPeripheryParamsArgs } from "../../../src/actions/swap/getSwapPeripheryParams";
+import { getDefaultSqrtPriceLimit } from "../../../src/actions/swap/getDefaultSqrtPriceLimits";
 
 jest.mock('../../../src/common/contract-generators/getPeripheryContract', () => ({
   getPeripheryContract: jest.fn(() => {}),
@@ -82,5 +83,19 @@ describe('swap', () => {
     expect(swapPeripheryParams).toEqual(expectedSwapPeripheryParams);
 
   });
+
+  it("gets expected default sqrt price limits", () => {
+
+    const resultDefaultSqrtPriceLimitFixedTaker: BigNumberish = getDefaultSqrtPriceLimit(true);
+    const resultDefaultSqrtPriceLimitVaribaleTaker:BigNumberish = getDefaultSqrtPriceLimit(false);
+
+    // todo: check the numbers
+    const expectedDefaultSqrtPriceLimitFixedTaker: BigNumberish = "2507669430214757147510696507320";
+    const expectedDefaultSqrtPriceLimitVaribaleTaker: BigNumberish = "2503161564979124432035869129";
+
+    expect(resultDefaultSqrtPriceLimitFixedTaker).toEqual(expectedDefaultSqrtPriceLimitFixedTaker);
+    expect(resultDefaultSqrtPriceLimitVaribaleTaker).toEqual(expectedDefaultSqrtPriceLimitVaribaleTaker);
+
+  })
 
 });
