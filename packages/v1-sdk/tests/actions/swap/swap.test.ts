@@ -57,7 +57,7 @@ describe('swap', () => {
 
     const mockGetSwapPeripheryParamsArgs: GetSwapPeripheryParamsArgs = {
       margin: 100,
-      isFT: false,,
+      isFT: false,
       notional: 100,
       fixedLow: 0.1,
       fixedHigh: 0.2,
@@ -68,15 +68,15 @@ describe('swap', () => {
     }
 
     const swapPeripheryParams = getSwapPeripheryParams(mockGetSwapPeripheryParamsArgs);
-
+    // todo: check the numbers, can we fuzz this easily?
     const expectedSwapPeripheryParams: SwapPeripheryParams = {
       marginEngineAddress: "0xChadMarginEngine",
       isFT: false,
-      notional: '100',
-      sqrtPriceLimitX96: '1000',
-      tickLower: '-100',
-      tickUpper: '100',
-      marginDelta: '100'
+      notional: '100000000000000000000',
+      sqrtPriceLimitX96: '250704317490035741267292715206',
+      tickLower: 16080,
+      tickUpper: 23040,
+      marginDelta: '100000000000000000000'
     }
 
     expect(swapPeripheryParams).toEqual(expectedSwapPeripheryParams);
