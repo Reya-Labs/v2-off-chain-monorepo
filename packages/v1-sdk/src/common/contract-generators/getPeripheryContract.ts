@@ -9,6 +9,9 @@ export const getPeripheryContract =  (
   const abi: string[] = [
     `
     function swap(address, bool, uint256, uint160, int24, int24, int256) external payable returns (int256,int256,uint256,int256,int256,int24,int256)
+    `,
+    `
+    function mintOrBurn(address, int24, int24, uint256, bool, int256) external payable returns (int256)
     `
   ];
 
