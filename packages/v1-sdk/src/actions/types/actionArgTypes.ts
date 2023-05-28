@@ -28,3 +28,33 @@ export type SwapPeripheryParams = {
   tickUpper: BigNumberish;
   marginDelta: BigNumberish;
 };
+
+
+
+// lp
+
+export type LpArgs = {
+  addLiquidity: boolean;
+  fixedLow: number;
+  fixedHigh: number;
+  notional: number;
+  margin: number;
+  underlyingTokenAddress: string;
+  underlyingTokenDecimals: number;
+  chainId: number;
+  peripheryAddress: string;
+  marginEngineAddress: string;
+  provider: providers.Provider;
+  signer: Signer;
+  isEth: boolean;
+};
+
+
+export type LpPeripheryParams = {
+  marginEngineAddress: string;
+  tickLower: BigNumberish;
+  tickUpper: BigNumberish;
+  notional: BigNumberish;
+  isMint: boolean;
+  marginDelta: BigNumberish;
+}
