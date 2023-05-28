@@ -31,6 +31,32 @@ export type SwapPeripheryParams = {
   marginDelta: BigNumberish;
 };
 
+// rolloverAndSwap
+
+export type RolloverAndSwapArgs = {
+  isFT: boolean;
+  notional: number;
+  margin: number;
+  fixedRateLimit?: number;
+  fixedLow: number;
+  fixedHigh: number;
+  underlyingTokenAddress: string;
+  underlyingTokenDecimals: number;
+  tickSpacing: number;
+  chainId: number;
+  peripheryAddress: string;
+  marginEngineAddress: string;
+  provider: providers.Provider;
+  signer: Signer;
+  isEth: boolean;
+  newMarginEngineAddress: string;
+  rolloverPositionSettlementBalance: number;
+  rolloverPositionTickLower: number;
+  rolloverPositionTickUpper: number;
+}
+
+
+
 // lp
 
 export type LpArgs = {

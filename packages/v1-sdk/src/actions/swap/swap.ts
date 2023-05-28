@@ -10,6 +10,7 @@ import { getSwapPeripheryParams } from './getSwapPeripheryParams';
 import { estimateSwapGasUnits } from './estimateSwapGasUnits';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
 
+// todo: add option to simulate a swap, same goes for other actions
 export const swap = async ({
   isFT,
   notional,
