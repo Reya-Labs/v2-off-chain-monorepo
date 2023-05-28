@@ -1,9 +1,9 @@
 import { ContractReceipt, ethers, BigNumber, utils, ContractTransaction } from "ethers";
 import { SettleArgs, SettlePeripheryParams } from "../types/actionArgTypes";
 import { getPeripheryContract } from "../../common/contract-generators";
-import { estimateSwapGasUnits } from "../swap/estimateSwapGasUnits";
 import {getGasBuffer} from "../../common/gas/getGasBuffer";
 import { getSettlePeripheryParams } from "./getSettlePeripheryParams";
+import { estimateSettleGasUnits } from "./estimateSettleGasUnits";
 
 export const settle = async (
   {
@@ -19,7 +19,7 @@ export const settle = async (
     signer,
     positionOwnerAddress
   }: SettleArgs
-): Promise<ContractReceipt> {
+): Promise<ContractReceipt> => {
 
   let peripheryContract: ethers.Contract = getPeripheryContract(
     peripheryAddress,
