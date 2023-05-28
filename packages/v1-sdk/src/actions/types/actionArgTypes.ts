@@ -96,6 +96,7 @@ export type UpdateMarginArgs = {
   marginEngineAddress: string;
   provider: providers.Provider;
   signer: Signer;
+  fullyWithdraw: boolean;
 }
 
 export type UpdateMarginPeripheryParams = {

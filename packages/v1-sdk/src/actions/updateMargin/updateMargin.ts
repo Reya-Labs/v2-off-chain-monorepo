@@ -1,10 +1,11 @@
-import { SettlePeripheryParams, UpdateMarginArgs } from "../types/actionArgTypes";
+import { SettlePeripheryParams, UpdateMarginArgs, UpdateMarginPeripheryParams } from "../types/actionArgTypes";
 import { BigNumber, ContractReceipt, ContractTransaction, ethers } from "ethers";
 import { getPeripheryContract } from "../../common/contract-generators";
 import { getSettlePeripheryParams } from "../settle/getSettlePeripheryParams";
 import { estimateSettleGasUnits } from "../settle/estimateSettleGasUnits";
 import { getGasBuffer } from "../../common/gas/getGasBuffer";
-
+import { getUpdateMarginPeripheryParams } from "./getUpdateMarginPeripheryParams";
+import { estimateUpdateMarginGasUnits } from "./estimateUpdateMarginGasUnits";
 
 export const updateMargin = async (
   {
@@ -18,7 +19,8 @@ export const updateMargin = async (
     peripheryAddress,
     marginEngineAddress,
     provider,
-    signer
+    signer,
+    fullyWithdraw
   }: UpdateMarginArgs
 ): Promise<ContractReceipt> => {
   const peripheryContract: ethers.Contract = getPeripheryContract(
@@ -28,7 +30,15 @@ export const updateMargin = async (
 
   peripheryContract.connect(signer);
 
-  const updateMarginPeripheryParams: SettlePeripheryParams = getUpdateMarginPeripheryParams();
+  const updateMarginPeripheryParams: UpdateMarginPeripheryParams = getUpdateMarginPeripheryParams(
+    marginEngineAddress,
+    fullyWithdraw,
+    fixedLow,
+    fixedHigh,
+    tickSpacing,
+    margin,
+    underlyingTokenDecimals
+  );
 
   const updateMarginPeripheryTempOverrides: {
     value?: BigNumber;
