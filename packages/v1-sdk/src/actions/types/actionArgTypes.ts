@@ -55,6 +55,13 @@ export type RolloverAndSwapArgs = {
   rolloverPositionTickUpper: number;
 }
 
+export type RolloverAndSwapPeripheryParams = {
+  maturedMarginEngineAddress: string;
+  maturedPositionOwnerAddress: string;
+  maturedPositionTickLower: BigNumberish;
+  maturedPositionTickUpper: BigNumberish;
+  newSwapPeripheryParams: SwapPeripheryParams;
+}
 
 
 // lp
