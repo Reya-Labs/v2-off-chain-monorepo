@@ -57,3 +57,26 @@ export type LpPeripheryParams = {
   isMint: boolean;
   marginDelta: BigNumberish;
 }
+
+// settle
+
+export type SettleArgs = {
+  fixedLow: number;
+  fixedHigh: number;
+  underlyingTokenAddress: string;
+  underlyingTokenDecimals: number;
+  tickSpacing: number;
+  chainId: number;
+  peripheryAddress: string;
+  marginEngineAddress: string;
+  provider: providers.Provider;
+  signer: Signer;
+  positionOwnerAddress: string;
+}
+
+export type SettlePeripheryParams = {
+  marginEngineAddress: string;
+  positionOwnerAddress: string;
+  tickLower: BigNumberish;
+  tickUpper: BigNumberish;
+}
