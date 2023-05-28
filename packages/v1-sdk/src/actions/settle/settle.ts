@@ -1,10 +1,56 @@
-import { ContractReceipt } from "ethers";
-
+import { ContractReceipt, ethers, BigNumber, utils, ContractTransaction } from "ethers";
+import { SettleArgs, SettlePeripheryParams } from "../types/actionArgTypes";
+import { getPeripheryContract } from "../../common/contract-generators";
+import { estimateSwapGasUnits } from "../swap/estimateSwapGasUnits";
+import {getGasBuffer} from "../../common/gas/getGasBuffer";
 
 export const settle = async (
   {
-
+    fixedLow,
+    fixedHigh,
+    underlyingTokenAddress,
+    underlyingTokenDecimals,
+    tickSpacing,
+    chainId,
+    peripheryAddress,
+    marginEngineAddress,
+    provider,
+    signer,
+    positionOwnerAddress
   }: SettleArgs
 ): Promise<ContractReceipt> {
-  
+
+  let peripheryContract: ethers.Contract = getPeripheryContract(
+    peripheryAddress,
+    provider
+  );
+
+  peripheryContract.connect(signer);
+
+  const settlePeripheryParams: SettlePeripheryParams = getSettlePeripheryParams(
+    {
+
+    }
+  );
+
+  const settlePeripheryTempOverrides: { value?: BigNumber; gasLimit?: BigNumber } = {};
+
+  const estimatedGasUnits: BigNumber = await estimateSettleGasUnits(
+    peripheryContract,
+    settlePeripheryParams,
+    settlePeripheryTempOverrides
+  );
+
+  settlePeripheryTempOverrides.gasLimit = getGasBuffer(estimatedGasUnits);
+
+  const settleTransaction: ContractTransaction = await peripheryContract.connect(signer).settlePositionAndWithdrawMargin(
+    settlePeripheryParams, settlePeripheryTempOverrides
+  ).catch(() => {
+    throw new Error('Settle Transaction Confirmation Error');
+  });
+
+  const receipt: ContractReceipt  = await settleTransaction.wait();
+
+  return receipt;
+
 }
