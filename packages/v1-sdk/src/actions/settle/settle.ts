@@ -3,6 +3,7 @@ import { SettleArgs, SettlePeripheryParams } from "../types/actionArgTypes";
 import { getPeripheryContract } from "../../common/contract-generators";
 import { estimateSwapGasUnits } from "../swap/estimateSwapGasUnits";
 import {getGasBuffer} from "../../common/gas/getGasBuffer";
+import { getSettlePeripheryParams } from "./getSettlePeripheryParams";
 
 export const settle = async (
   {
@@ -28,9 +29,11 @@ export const settle = async (
   peripheryContract.connect(signer);
 
   const settlePeripheryParams: SettlePeripheryParams = getSettlePeripheryParams(
-    {
-
-    }
+      marginEngineAddress,
+      positionOwnerAddress,
+      fixedLow,
+      fixedHigh,
+      tickSpacing
   );
 
   const settlePeripheryTempOverrides: { value?: BigNumber; gasLimit?: BigNumber } = {};
