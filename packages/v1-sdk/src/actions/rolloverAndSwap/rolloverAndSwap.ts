@@ -2,6 +2,7 @@ import { ContractReceipt, ethers } from "ethers";
 import {RolloverAndSwapArgs, RolloverAndSwapPeripheryParams} from "../types/actionArgTypes";
 import { handleSwapErrors } from "../swap/handleSwapErrors";
 import { getPeripheryContract } from "../../common/contract-generators";
+import { getRolloverAndSwapPeripheryParams } from "./getRolloverAndSwapPeripheryParams";
 
 export const rolloverAndSwap = async (
   {
@@ -21,9 +22,10 @@ export const rolloverAndSwap = async (
     signer,
     isEth,
     maturedMarginEngineAddress,
-    rolloverPositionSettlementBalance,
-    rolloverPositionTickLower,
-    rolloverPositionTickUpper
+    maturedPositionOwnerAddress,
+    maturedPositionSettlementBalance,
+    maturedPositionTickLower,
+    maturedPositionTickUpper
 
   }: RolloverAndSwapArgs,
 ): Promise<ContractReceipt> => {
@@ -43,6 +45,25 @@ export const rolloverAndSwap = async (
   );
 
   peripheryContract.connect(signer);
+
+  const rolloverAndSwapPeripheryParams: RolloverAndSwapPeripheryParams = getRolloverAndSwapPeripheryParams(
+    {
+      margin,
+      isFT,
+      notional,
+      fixedLow,
+      fixedHigh,
+      marginEngineAddress,
+      underlyingTokenDecimals,
+      fixedRateLimit,
+      tickSpacing,
+      maturedMarginEngineAddress,
+      maturedPositionOwnerAddress,
+      maturedPositionSettlementBalance,
+      maturedPositionTickLower,
+      maturedPositionTickUpper
+    }
+  );
 
 
 

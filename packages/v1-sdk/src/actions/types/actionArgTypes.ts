@@ -50,6 +50,7 @@ export type RolloverAndSwapArgs = {
   signer: Signer;
   isEth: boolean;
   maturedMarginEngineAddress: string;
+  maturedPositionOwnerAddress: string;
   maturedPositionSettlementBalance: number;
   maturedPositionTickLower: number;
   maturedPositionTickUpper: number;
