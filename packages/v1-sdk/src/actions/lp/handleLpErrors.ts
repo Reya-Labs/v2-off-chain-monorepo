@@ -3,11 +3,10 @@ import { LpValidateArgs } from '../types/actionErrorHandleArgTypes';
 import { MAX_FIXED_RATE, MIN_FIXED_RATE } from '../../common/constants';
 
 export const handleLpErrors = ({
-                                 notional,
-                                fixedLow,
-                                fixedHigh,
-                                 }: LpValidateArgs): void => {
-
+  notional,
+  fixedLow,
+  fixedHigh,
+}: LpValidateArgs): void => {
   if (fixedLow >= fixedHigh) {
     throw new Error('Lower Rate must be smaller than Upper Rate');
   }
@@ -23,5 +22,4 @@ export const handleLpErrors = ({
   if (notional <= 0) {
     throw new Error('Amount of notional must be greater than 0');
   }
-
 };

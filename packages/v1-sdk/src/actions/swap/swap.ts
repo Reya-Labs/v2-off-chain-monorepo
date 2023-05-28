@@ -1,14 +1,14 @@
-import { SwapArgs, SwapPeripheryParams } from "../types/actionArgTypes";
-import { BigNumber, ContractReceipt, ContractTransaction, utils } from "ethers";
+import { SwapArgs, SwapPeripheryParams } from '../types/actionArgTypes';
+import { BigNumber, ContractReceipt, ContractTransaction, utils } from 'ethers';
 import { handleSwapErrors } from './handleSwapErrors';
-import { BigNumberish, ethers } from "ethers";
-import { getClosestTickAndFixedRate } from "./getClosestTickAndFixedRate";
-import { getSqrtPriceLimitFromFixedRateLimit } from "./getSqrtPriceLimitFromFixedRate";
-import { getDefaultSqrtPriceLimit} from "./getDefaultSqrtPriceLimits";
-import {getPeripheryContract} from "../../common/contract-generators/getPeripheryContract";
-import { getSwapPeripheryParams } from "./getSwapPeripheryParams";
-import { estimateSwapGasUnits } from "./estimateSwapGasUnits";
-import { getGasBuffer } from "../../common/gas/getGasBuffer";
+import { BigNumberish, ethers } from 'ethers';
+import { getClosestTickAndFixedRate } from './getClosestTickAndFixedRate';
+import { getSqrtPriceLimitFromFixedRateLimit } from './getSqrtPriceLimitFromFixedRate';
+import { getDefaultSqrtPriceLimit } from './getDefaultSqrtPriceLimits';
+import { getPeripheryContract } from '../../common/contract-generators/getPeripheryContract';
+import { getSwapPeripheryParams } from './getSwapPeripheryParams';
+import { estimateSwapGasUnits } from './estimateSwapGasUnits';
+import { getGasBuffer } from '../../common/gas/getGasBuffer';
 
 export const swap = async ({
   isFT,
@@ -24,59 +24,62 @@ export const swap = async ({
   marginEngineAddress,
   provider,
   signer,
-  isEth
+  isEth,
 }: SwapArgs): Promise<ContractReceipt> => {
   handleSwapErrors({
     notional,
     fixedLow,
     fixedHigh,
-    underlyingTokenAddress
+    underlyingTokenAddress,
   });
 
-  let peripheryContract: ethers.Contract = getPeripheryContract(
+  const peripheryContract: ethers.Contract = getPeripheryContract(
     peripheryAddress,
-    provider
+    provider,
   );
 
   peripheryContract.connect(signer);
 
-  const swapPeripheryParams: SwapPeripheryParams = getSwapPeripheryParams(
-    {
-      margin,
-      isFT,
-      notional,
-      fixedLow,
-      fixedHigh,
-      marginEngineAddress,
-      underlyingTokenDecimals,
-      fixedRateLimit,
-      tickSpacing
-    }
-  );
+  const swapPeripheryParams: SwapPeripheryParams = getSwapPeripheryParams({
+    margin,
+    isFT,
+    notional,
+    fixedLow,
+    fixedHigh,
+    marginEngineAddress,
+    underlyingTokenDecimals,
+    fixedRateLimit,
+    tickSpacing,
+  });
 
   // need to be careful to make sure we don't double count margin, may need to refactor
-  const swapPeripheryTempOverrides: { value?: BigNumber; gasLimit?: BigNumber } = {}
+  const swapPeripheryTempOverrides: {
+    value?: BigNumber;
+    gasLimit?: BigNumber;
+  } = {};
 
   if (isEth && margin > 0) {
-    swapPeripheryTempOverrides.value = utils.parseEther(margin.toFixed(18).toString());
+    swapPeripheryTempOverrides.value = utils.parseEther(
+      margin.toFixed(18).toString(),
+    );
   }
 
   const estimatedGasUnits: BigNumber = await estimateSwapGasUnits(
     peripheryContract,
     swapPeripheryParams,
-    swapPeripheryTempOverrides
+    swapPeripheryTempOverrides,
   );
 
   swapPeripheryTempOverrides.gasLimit = getGasBuffer(estimatedGasUnits);
 
-  const swapTransaction: ContractTransaction = await peripheryContract.connect(signer).swap(
-    swapPeripheryParams, swapPeripheryTempOverrides
-  ).catch(() => {
-    throw new Error('Swap Transaction Confirmation Error');
-  });
+  const swapTransaction: ContractTransaction = await peripheryContract
+    .connect(signer)
+    .swap(swapPeripheryParams, swapPeripheryTempOverrides)
+    .catch(() => {
+      throw new Error('Swap Transaction Confirmation Error');
+    });
 
-  const receipt: ContractReceipt  = await swapTransaction.wait();
+  const receipt: ContractReceipt = await swapTransaction.wait();
 
   return receipt;
-
 };

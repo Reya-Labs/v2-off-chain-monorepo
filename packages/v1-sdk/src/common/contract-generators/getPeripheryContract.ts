@@ -1,10 +1,9 @@
-import { ethers, Signer } from "ethers";
+import { ethers, Signer } from 'ethers';
 
-export const getPeripheryContract =  (
+export const getPeripheryContract = (
   peripheryAddress: string,
-  provider: ethers.providers.Provider
+  provider: ethers.providers.Provider,
 ): ethers.Contract => {
-
   // todo: needs to be tested separately
   const abi: string[] = [
     `
@@ -12,10 +11,14 @@ export const getPeripheryContract =  (
     `,
     `
     function mintOrBurn(address, int24, int24, uint256, bool, int256) external payable returns (int256)
-    `
+    `,
   ];
 
-  const contract: ethers.Contract = new ethers.Contract(peripheryAddress, abi, provider);
+  const contract: ethers.Contract = new ethers.Contract(
+    peripheryAddress,
+    abi,
+    provider,
+  );
 
   return contract;
-}
+};

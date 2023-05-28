@@ -1,4 +1,4 @@
-import { BigNumberish, providers, Signer } from "ethers";
+import { BigNumberish, providers, Signer } from 'ethers';
 
 // swap
 export type SwapArgs = {
@@ -48,7 +48,6 @@ export type LpArgs = {
   isEth: boolean;
 };
 
-
 export type LpPeripheryParams = {
   marginEngineAddress: string;
   tickLower: BigNumberish;
@@ -56,7 +55,7 @@ export type LpPeripheryParams = {
   notional: BigNumberish;
   isMint: boolean;
   marginDelta: BigNumberish;
-}
+};
 
 // settle
 
@@ -72,11 +71,11 @@ export type SettleArgs = {
   provider: providers.Provider;
   signer: Signer;
   positionOwnerAddress: string;
-}
+};
 
 export type SettlePeripheryParams = {
   marginEngineAddress: string;
   positionOwnerAddress: string;
   tickLower: BigNumberish;
   tickUpper: BigNumberish;
-}
+};
