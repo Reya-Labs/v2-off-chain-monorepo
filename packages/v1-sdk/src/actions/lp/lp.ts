@@ -3,8 +3,9 @@ import { BigNumber, ContractReceipt, ethers, utils } from "ethers";
 import {handleLpErrors} from "./handleLpErrors";
 import { getPeripheryContract } from "../../common/contract-generators";
 import { getLpPeripheryParams } from "./getLpPeripheryParams";
-import { estimateSwapGasUnits } from "../swap/estimateSwapGasUnits";
 import { getGasBuffer } from "../../common/gas/getGasBuffer";
+import {estimateLpGasUnits} from "./estimateLpGasUnits";
+
 
 export const lp = async (
   {
@@ -64,7 +65,7 @@ export const lp = async (
 
   lpPeripheryTempOverrides.gasLimit = getGasBuffer(estimatedGasUnits);
 
-  const tx: ethers.ContractTransaction = await peripheryContract.lp(
+  const tx: ethers.ContractTransaction = await peripheryContract.mintOrBurn(
     lpPeripheryParams, lpPeripheryTempOverrides
   ).catch(() => {
     throw new Error('LP Transaction Confirmation Error');
