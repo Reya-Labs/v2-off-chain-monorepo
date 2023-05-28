@@ -1,7 +1,10 @@
 import { LpArgs, LpPeripheryParams } from "../types/actionArgTypes";
-import { ContractReceipt, ethers } from "ethers";
+import { BigNumber, ContractReceipt, ethers, utils } from "ethers";
 import {handleLpErrors} from "./handleLpErrors";
 import { getPeripheryContract } from "../../common/contract-generators";
+import { getLpPeripheryParams } from "./getLpPeripheryParams";
+import { estimateSwapGasUnits } from "../swap/estimateSwapGasUnits";
+import { getGasBuffer } from "../../common/gas/getGasBuffer";
 
 export const lp = async (
   {
@@ -17,6 +20,7 @@ export const lp = async (
     marginEngineAddress,
     provider,
     signer,
+    tickSpacing,
     isEth
   }: LpArgs
 ):Promise<ContractReceipt> => {
@@ -33,7 +37,42 @@ export const lp = async (
 
   peripheryContract.connect(signer);
 
-  const lpPeripheryParams: LpPeripheryParams = getLpPeripheryParams();
+  const lpPeripheryParams: LpPeripheryParams = getLpPeripheryParams(
+    {
+      addLiquidity,
+      margin,
+      notional,
+      fixedLow,
+      fixedHigh,
+      marginEngineAddress,
+      underlyingTokenDecimals,
+      tickSpacing
+    }
+  );
+
+  const lpPeripheryTempOverrides: { value?: ethers.BigNumber; gasLimit?: ethers.BigNumber } = {}
+
+  if (isEth && margin > 0) {
+    lpPeripheryTempOverrides.value = utils.parseEther(margin.toFixed(18).toString());
+  }
+
+  const estimatedGasUnits: BigNumber = await estimateLpGasUnits(
+    peripheryContract,
+    lpPeripheryParams,
+    lpPeripheryTempOverrides
+  );
+
+  lpPeripheryTempOverrides.gasLimit = getGasBuffer(estimatedGasUnits);
+
+  const tx: ethers.ContractTransaction = await peripheryContract.lp(
+    lpPeripheryParams, lpPeripheryTempOverrides
+  ).catch(() => {
+    throw new Error('LP Transaction Confirmation Error');
+  });
+
+  const receipt: ContractReceipt = await tx.wait();
+
+  return receipt;
 
 }
 

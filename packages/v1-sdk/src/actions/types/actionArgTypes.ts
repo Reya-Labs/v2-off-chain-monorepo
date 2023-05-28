@@ -39,6 +39,7 @@ export type LpArgs = {
   margin: number;
   underlyingTokenAddress: string;
   underlyingTokenDecimals: number;
+  tickSpacing: number;
   chainId: number;
   peripheryAddress: string;
   marginEngineAddress: string;

@@ -73,7 +73,7 @@ export const swap = async ({
   const swapTransaction: ContractTransaction = await peripheryContract.connect(signer).swap(
     swapPeripheryParams, swapPeripheryTempOverrides
   ).catch(() => {
-    throw new Error('Transaction Confirmation Error');
+    throw new Error('Swap Transaction Confirmation Error');
   });
 
   const receipt: ContractReceipt  = await swapTransaction.wait();
