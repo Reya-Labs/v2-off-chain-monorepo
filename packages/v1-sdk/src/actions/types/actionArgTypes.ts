@@ -1,5 +1,7 @@
 import { BigNumberish, providers, Signer } from 'ethers';
 
+// todo: not sure if chainid is needed or its already in provider, same goes for the signer
+
 // swap
 export type SwapArgs = {
   isFT: boolean;
@@ -79,3 +81,27 @@ export type SettlePeripheryParams = {
   tickLower: BigNumberish;
   tickUpper: BigNumberish;
 };
+
+// updateMargin
+
+export type UpdateMarginArgs = {
+  fixedLow: number;
+  fixedHigh: number;
+  margin: number;
+  underlyingTokenAddress: string;
+  underlyingTokenDecimals: number;
+  tickSpacing: number;
+  chainId: number;
+  peripheryAddress: string;
+  marginEngineAddress: string;
+  provider: providers.Provider;
+  signer: Signer;
+}
+
+export type UpdateMarginPeripheryParams = {
+  marginEngineAddress: string;
+  tickLower: BigNumberish;
+  tickUpper: BigNumberish;
+  marginDelta: BigNumberish;
+  fullyWithdraw: boolean;
+}
