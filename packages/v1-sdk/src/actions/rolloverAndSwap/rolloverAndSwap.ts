@@ -1,4 +1,4 @@
-import { ContractReceipt, ethers } from "ethers";
+import { BigNumber, ContractReceipt, ethers } from "ethers";
 import {RolloverAndSwapArgs, RolloverAndSwapPeripheryParams} from "../types/actionArgTypes";
 import { handleSwapErrors } from "../swap/handleSwapErrors";
 import { getPeripheryContract } from "../../common/contract-generators";
@@ -46,9 +46,15 @@ export const rolloverAndSwap = async (
 
   peripheryContract.connect(signer);
 
+  const rolloverAndSwapPeripheryTempOverrides: {
+    value?: BigNumber;
+    gasLimit?: BigNumber;
+  } = {};
+
   let marginDelta = margin;
   if (isEth && maturedPositionSettlementBalance < margin) {
-    marginDelta = margin - maturedPositionSettlementBalance;
+    marginDelta = maturedPositionSettlementBalance;
+    rolloverAndSwapPeripheryTempOverrides.value = BigNumber.from(margin - maturedPositionSettlementBalance);
   }
 
   const rolloverAndSwapPeripheryParams: RolloverAndSwapPeripheryParams = getRolloverAndSwapPeripheryParams(
