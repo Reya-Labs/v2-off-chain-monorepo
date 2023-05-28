@@ -19,6 +19,14 @@ export const lp = async (
     isEth
   }: LpArgs
 ):Promise<ContractReceipt> => {
+  handleLpErrors({
+    signer,
+    notional,
+    fixedLow,
+    fixedHigh
+  });
+
+  
 
 }
 
