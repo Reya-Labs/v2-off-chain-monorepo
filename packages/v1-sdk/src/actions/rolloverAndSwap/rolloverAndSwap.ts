@@ -4,6 +4,7 @@ import { handleSwapErrors } from "../swap/handleSwapErrors";
 import { getPeripheryContract } from "../../common/contract-generators";
 import { getRolloverAndSwapPeripheryParams } from "./getRolloverAndSwapPeripheryParams";
 import { getGasBuffer } from "../../common/gas/getGasBuffer";
+import { estimateRolloverAndSwapGasUnits } from "./estimateRolloverAndSwapGasUnits";
 
 export const rolloverAndSwap = async (
   {
@@ -77,7 +78,11 @@ export const rolloverAndSwap = async (
     }
   );
 
-  const estimatedGasUnits: BigNumber = await estimateRolloverAndSwapGasUnits();
+  const estimatedGasUnits: BigNumber = await estimateRolloverAndSwapGasUnits(
+    peripheryContract,
+    rolloverAndSwapPeripheryParams,
+    rolloverAndSwapPeripheryTempOverrides,
+  );
 
   rolloverAndSwapPeripheryTempOverrides.gasLimit = getGasBuffer(estimatedGasUnits);
 
