@@ -53,7 +53,7 @@ export const updateMargin = async (
       throw new Error('Update Margin Transaction Confirmation Error');
     });
 
-  const receipt: ContractReceipt = await settleTransaction.wait();
+  const receipt: ContractReceipt = await updateMarginTransaction.wait();
 
   return receipt;
 

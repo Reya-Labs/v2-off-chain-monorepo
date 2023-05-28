@@ -13,7 +13,7 @@ export const estimateSettleGasUnits = async (
     )
     .catch((error) => {
       throw new Error(
-        'Error estimating settle gas position and withdraw margin  units',
+        'Error estimating settle position and withdraw margin gas units',
       );
     });
 
