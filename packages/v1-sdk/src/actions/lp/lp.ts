@@ -1,6 +1,7 @@
-import { LpArgs } from "../types/actionArgTypes";
-import { ContractReceipt } from "ethers";
-
+import { LpArgs, LpPeripheryParams } from "../types/actionArgTypes";
+import { ContractReceipt, ethers } from "ethers";
+import {handleLpErrors} from "./handleLpErrors";
+import { getPeripheryContract } from "../../common/contract-generators";
 
 export const lp = async (
   {
@@ -20,13 +21,19 @@ export const lp = async (
   }: LpArgs
 ):Promise<ContractReceipt> => {
   handleLpErrors({
-    signer,
     notional,
     fixedLow,
     fixedHigh
   });
 
-  
+  let peripheryContract: ethers.Contract = getPeripheryContract(
+    peripheryAddress,
+    provider
+  );
+
+  peripheryContract.connect(signer);
+
+  const lpPeripheryParams: LpPeripheryParams = getLpPeripheryParams();
 
 }
 

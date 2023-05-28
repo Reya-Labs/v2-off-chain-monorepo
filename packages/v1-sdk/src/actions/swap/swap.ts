@@ -27,7 +27,6 @@ export const swap = async ({
   signer,
   isEth
 }: SwapArgs): Promise<ContractReceipt> => {
-  // todo: layer in validation of tick spacing in handle swap errors or better turn into an enum
   handleSwapErrors({
     notional,
     fixedLow,
@@ -57,10 +56,8 @@ export const swap = async ({
   );
 
   // need to be careful to make sure we don't double count margin, may need to refactor
-  // todo :{ value?: BigNumber; gasLimit?: BigNumber }  looks ugly, can we not use a type?
   const swapPeripheryTempOverrides: { value?: BigNumber; gasLimit?: BigNumber } = {}
 
-  // todo: consider placing this logic elsewhere
   if (isEth && margin > 0) {
     swapPeripheryTempOverrides.value = utils.parseEther(margin.toFixed(18).toString());
   }
