@@ -24,6 +24,7 @@ export const handleSwapErrors = ({
     throw new Error('Amount of notional must be greater than 0');
   }
 
+  // todo: this is a redundunt check that typescript protects from
   if (!underlyingTokenAddress) {
     throw new Error('No underlying error');
   }

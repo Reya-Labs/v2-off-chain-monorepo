@@ -49,10 +49,10 @@ export type RolloverAndSwapArgs = {
   provider: providers.Provider;
   signer: Signer;
   isEth: boolean;
-  newMarginEngineAddress: string;
-  rolloverPositionSettlementBalance: number;
-  rolloverPositionTickLower: number;
-  rolloverPositionTickUpper: number;
+  maturedMarginEngineAddress: string;
+  maturedPositionSettlementBalance: number;
+  maturedPositionTickLower: number;
+  maturedPositionTickUpper: number;
 }
 
 export type RolloverAndSwapPeripheryParams = {
