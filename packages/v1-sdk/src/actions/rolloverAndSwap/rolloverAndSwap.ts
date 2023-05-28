@@ -46,9 +46,14 @@ export const rolloverAndSwap = async (
 
   peripheryContract.connect(signer);
 
+  let marginDelta = margin;
+  if (isEth && maturedPositionSettlementBalance < margin) {
+    marginDelta = margin - maturedPositionSettlementBalance;
+  }
+
   const rolloverAndSwapPeripheryParams: RolloverAndSwapPeripheryParams = getRolloverAndSwapPeripheryParams(
     {
-      margin,
+      margin:marginDelta,
       isFT,
       notional,
       fixedLow,
@@ -64,6 +69,8 @@ export const rolloverAndSwap = async (
       maturedPositionTickUpper
     }
   );
+
+
 
 
 
