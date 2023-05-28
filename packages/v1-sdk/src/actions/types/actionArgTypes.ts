@@ -29,8 +29,6 @@ export type SwapPeripheryParams = {
   marginDelta: BigNumberish;
 };
 
-
-
 // lp
 
 export type LpArgs = {
