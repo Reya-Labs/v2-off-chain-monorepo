@@ -1,6 +1,5 @@
 import { SwapArgs, SwapPeripheryParams } from "../types/actionArgTypes";
 import { BigNumber, ContractReceipt, ContractTransaction, utils } from "ethers";
-import { SwapResponse } from '../actionResponseTypes';
 import { handleSwapErrors } from './handleSwapErrors';
 import { BigNumberish, ethers } from "ethers";
 import { getClosestTickAndFixedRate } from "./getClosestTickAndFixedRate";
