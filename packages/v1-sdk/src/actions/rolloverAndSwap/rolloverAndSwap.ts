@@ -1,8 +1,9 @@
-import { BigNumber, ContractReceipt, ethers } from "ethers";
+import { BigNumber, ContractReceipt, ContractTransaction, ethers } from "ethers";
 import {RolloverAndSwapArgs, RolloverAndSwapPeripheryParams} from "../types/actionArgTypes";
 import { handleSwapErrors } from "../swap/handleSwapErrors";
 import { getPeripheryContract } from "../../common/contract-generators";
 import { getRolloverAndSwapPeripheryParams } from "./getRolloverAndSwapPeripheryParams";
+import { getGasBuffer } from "../../common/gas/getGasBuffer";
 
 export const rolloverAndSwap = async (
   {
@@ -76,9 +77,19 @@ export const rolloverAndSwap = async (
     }
   );
 
+  const estimatedGasUnits: BigNumber = await estimateRolloverAndSwapGasUnits();
 
+  rolloverAndSwapPeripheryTempOverrides.gasLimit = getGasBuffer(estimatedGasUnits);
 
+  const rolloverAndSwapTransaction: ContractTransaction = await peripheryContract
+    .connect(signer)
+    .rolloverWithSwap(rolloverAndSwapPeripheryParams, rolloverAndSwapPeripheryTempOverrides)
+    .catch(() => {
+      throw new Error('RolloverAndSwap Transaction Confirmation Error');
+    });
 
+  const receipt: ContractReceipt = await rolloverAndSwapTransaction.wait();
 
+  return receipt;
 
 }
