@@ -1,3 +1,10 @@
+# [1.35.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.34.0...v1.35.0) (2023-05-29)
+
+
+### Features
+
+* introduce lp rollover args ([3bf36f2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/3bf36f2556178aabda40fa2abb807dce7c7334bb))
+
 # [1.34.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.33.0...v1.34.0) (2023-05-04)
 
 
