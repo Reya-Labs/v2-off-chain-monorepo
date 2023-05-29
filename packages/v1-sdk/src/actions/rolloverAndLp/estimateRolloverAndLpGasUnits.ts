@@ -1,10 +1,10 @@
 import { BigNumber, ethers } from "ethers";
-import { RolloverAndSwapPeripheryParams } from "../types/actionArgTypes";
+import {RolloverAndLpPeripheryParams} from "../types/actionArgTypes";
 
 
 export const estimateRolloverAndLpGasUnits = async (
   peripheryContract: ethers.Contract,
-  rolloverAndLpPeripheryParams: RolloverAndSwapPeripheryParams,
+  rolloverAndLpPeripheryParams: RolloverAndLpPeripheryParams,
   rolloverAndLpPeripheryTempOverrides: { value?: BigNumber; gasLimit?: BigNumber },
 ): Promise<BigNumber> => {
   const estimatedGas: BigNumber = await peripheryContract.estimateGas

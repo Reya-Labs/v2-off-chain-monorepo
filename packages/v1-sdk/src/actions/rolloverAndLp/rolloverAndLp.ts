@@ -4,7 +4,7 @@ import {handleLpErrors} from "../lp/handleLpErrors";
 import { getPeripheryContract } from "../../common/contract-generators";
 import { getRolloverAndLpPeripheryParams } from "./getRolloverAndLpPeripheryParams";
 import { getGasBuffer } from "../../common/gas/getGasBuffer";
-import { estimateRolloverAndLpGasUnits } from "./estimateRolloverAndSwapGasUnits";
+import { estimateRolloverAndLpGasUnits } from "./estimateRolloverAndLpGasUnits";
 
 
 export const rolloverAndLp = async (
