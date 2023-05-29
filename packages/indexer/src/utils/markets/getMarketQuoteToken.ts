@@ -5,7 +5,7 @@
 
   We can also pass this information in the event body as well. 
   However, there are some events that are emitted in functions that do not have it.
-  Hence, to avoid an external call (to fetch quoteToken) on the smart contracts, we infer it here, off-chain.
+  Hence, to avoid an external call (to fetch quoteToken) on the smart contract-generators, we infer it here, off-chain.
 */
 export const getMarketQuoteToken = (marketId: string): string => {
   // note: implement this function
