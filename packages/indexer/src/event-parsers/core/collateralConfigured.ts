@@ -1,6 +1,6 @@
 import { Event, BigNumber, ethers } from 'ethers';
 
-import { CollateralConfiguredEvent, EventType } from '../types';
+import { CollateralConfiguredEvent, ProtocolEventType } from '../types';
 import { parseBaseEvent } from '../utils/baseEvent';
 import { convertLowercaseString } from '../utils/convertLowercase';
 import { getTokenDetails } from '../../utils/token';
@@ -10,7 +10,7 @@ export const parseCollateralConfigured = (
   event: Event,
 ): CollateralConfiguredEvent => {
   // 1. Type of event
-  const type: EventType = 'collateral-configured';
+  const type: ProtocolEventType = 'collateral-configured';
 
   // 2. Parse particular args
   const depositingEnabled = event.args?.depositingEnabled as boolean;

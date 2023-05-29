@@ -1,22 +1,19 @@
 import { Address } from '../utils/types';
 
-export type EventType =
-  | 'account-created'
-  | 'account-owner-update'
-  | 'collateral-configured'
-  | 'collateral-deposited'
-  | 'collateral-update'
-  | 'collateral-withdrawn'
-  | 'liquidation'
-  | 'liquidator-booster-update'
-  | 'market-fee-configured'
-  | 'product-registered'
-  | 'maker-order'
-  | 'taker-order';
+export type ProtocolEventType =
+  | 'account-created' // core
+  | 'account-owner-update' // core
+  | 'collateral-configured' // core
+  | 'collateral-update' // core
+  | 'liquidation' // core
+  | 'market-fee-configured' // core
+  | 'product-registered' // core
+  | 'maker-order' // exchange
+  | 'taker-order'; // exchange
 
 export type BaseEvent = {
   id: string;
-  type: EventType;
+  type: ProtocolEventType;
 
   chainId: number;
   source: Address;
@@ -52,23 +49,12 @@ export type CollateralConfiguredEvent = BaseEvent & {
   cap: string; // big number (Cap might be set to max uint256 and does not fit to number)
 };
 
-type CollateralEvent = BaseEvent & {
+export type CollateralUpdateEvent = BaseEvent & {
   accountId: string; // big number
   collateralType: Address;
-  tokenAmount: number;
+  collateralAmount: number;
+  liquidatorBoosterAmount: number;
 };
-
-// action-tracking event
-export type CollateralDepositedEvent = CollateralEvent;
-
-// action-tracking event
-export type CollateralUpdateEvent = CollateralEvent;
-
-// action-tracking event
-export type CollateralWithdrawnEvent = CollateralEvent;
-
-// action-tracking event
-export type LiquidatorBoosterUpdateEvent = CollateralEvent;
 
 // action-tracking event
 export type LiquidationEvent = BaseEvent & {
@@ -98,7 +84,7 @@ export type ProductRegisteredEvent = BaseEvent & {
   sender: Address;
 };
 
-// Product
+// Exchange
 
 export type TakerOrderEvent = BaseEvent & {
   accountId: string; // big number
@@ -124,3 +110,14 @@ export type MakerOrderEvent = BaseEvent & {
   tickUpper: number;
   executedBaseAmount: number;
 };
+
+export type ProtocolEvent =
+  | AccountCreatedEvent
+  | AccountOwnerUpdateEvent
+  | CollateralConfiguredEvent
+  | CollateralUpdateEvent
+  | LiquidationEvent
+  | MarketFeeConfiguredEvent
+  | ProductRegisteredEvent
+  | TakerOrderEvent
+  | MakerOrderEvent;

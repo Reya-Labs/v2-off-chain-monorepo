@@ -1,6 +1,6 @@
 import { Event, BigNumber } from 'ethers';
 
-import { EventType, MarketFeeConfiguredEvent } from '../types';
+import { ProtocolEventType, MarketFeeConfiguredEvent } from '../types';
 import { parseBaseEvent } from '../utils/baseEvent';
 import { descale } from '../../utils/token';
 
@@ -9,7 +9,7 @@ export const parseMarketFeeConfigured = (
   event: Event,
 ): MarketFeeConfiguredEvent => {
   // 1. Type of event
-  const type: EventType = 'market-fee-configured';
+  const type: ProtocolEventType = 'market-fee-configured';
 
   // 2. Parse particular args
   const productId = event.args?.productId as string;

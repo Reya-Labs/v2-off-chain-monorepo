@@ -1,12 +1,12 @@
 import { Event } from 'ethers';
 
-import { BaseEvent, EventType } from '../types';
+import { BaseEvent, ProtocolEventType } from '../types';
 import { convertLowercaseString } from './convertLowercase';
 
 export const parseBaseEvent = (
   chainId: number,
   event: Event,
-  type: EventType,
+  type: ProtocolEventType,
 ): BaseEvent => {
   const blockTimestamp = event.args?.blockTimestamp as number;
 

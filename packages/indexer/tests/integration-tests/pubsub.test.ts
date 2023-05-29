@@ -7,10 +7,13 @@ import { pullEvents } from '../../src/services/pub-sub/pullEvents';
 import { pushEvents } from '../../src/services/pub-sub/pushEvents';
 import { compareEvents } from '../utils/compareEvents';
 import { TakerOrderEvent } from '../../src/event-parsers/types';
-import { takerOrderEvent } from '../utils/mocks';
+import { parseTakerOrder } from '../../src/event-parsers/dated-irs-vamm/takerOrder';
+import { takerOrderEvmEvent } from '../utils/evmEventMocks';
 
 const topicId = 'integration-test-topic';
 const subscriptionName = 'integration-test-subscription';
+
+jest.setTimeout(100_000);
 
 const cleanUp = async () => {
   // Clean test topic and subscription
@@ -28,45 +31,31 @@ const cleanUp = async () => {
 };
 
 const test = async () => {
+  const chainId = 1;
+  const takerOrderEvent = parseTakerOrder(chainId, takerOrderEvmEvent);
+
   // 1. Create test topic
-  console.log(`Creating topic...`);
   await createTopic(topicId);
 
   // 2. Create subscription to test topic
-  console.log(`Creating subscription...`);
   await createSubscription(topicId, subscriptionName);
 
   // 3. Push 1 event
-  console.log(`Pushing events...`);
   await pushEvents(topicId, [takerOrderEvent], false);
 
   // 4. Pull 1 event
-  console.log(`Pulling events...`);
   const receivedEvents = (await pullEvents(
     subscriptionName,
   )) as TakerOrderEvent[];
 
-  console.log(`Checking response...`);
-
-  if (!(receivedEvents.length === 1)) {
-    throw new Error(`Pulled events are of length ${receivedEvents.length}`);
-  }
+  expect(receivedEvents.length).toBe(1);
 
   const comparison = compareEvents(receivedEvents[0], takerOrderEvent);
-  if (comparison) {
-    throw new Error(comparison);
-  }
+  expect(comparison).toBe(null);
 };
 
-test()
-  .then(() => {
-    console.log(`Passed.`);
-  })
-  .catch(() => {
-    console.log(`Failed.`);
-  })
-  .finally(() => {
-    cleanUp().then(() => {
-      console.log('Successfully cleaned up.');
-    });
-  });
+describe.skip('PubSub integration test', () => {
+  afterAll(cleanUp);
+
+  it('simple flow', test);
+});
