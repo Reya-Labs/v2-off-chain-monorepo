@@ -9,7 +9,7 @@ module.exports = {
   coverageDirectory: 'coverage',
   coverageReporters: ['lcov', 'json-summary'],
   collectCoverageFrom: ['src/**/*.{js,ts}', '!src/**/*.d.ts'],
-  testEnvironment: 'jsdom',
+  testEnvironment: 'node',
   transform: {
     '^.+\\.(t|j)s?$': ['@swc/jest'],
   },

@@ -83,6 +83,66 @@ Apache Beam is an open-source unified programming model that allows developers t
 pipelines. It supports multiple languages and runtime environments, including Google Cloud Dataflow. In this project,
 the Apache Beam SDK is used to create dataflow pipelines in the Transformer component.
 
+### Google BigTable
+
+Google BigTable is a key-value and wide-column store, ideal for fast access to very large amounts of structured, 
+semi-structured, or unstructured data with high read and write throughput.
+
+When creating a table, the first step is to choose the schema and most importantly, to define the column families.
+Let's consider that table has columns R_1, R_2, ..., R_N. Column families help you to group these in families 
+F_1: {R_i_1, R_i_2, ... }, F_2: {R_j_1, R_j_2, ...}, ...
+
+The role of column families is mainly to organise the database cleaner and to serve queries where you need to pull
+just one family, or given families. 
+
+When pushing data to BigTable, you need to specify the key (unique key per table) and data for that key. 
+Data is column family -> column qualifier (column name) -> { value, timestamp, labels }[]. 
+
+Note: Values are only raw byte strings. Timestamp is used to build the time-series. 
+
+When pulling data, you are able to pull specific row (by providing key) or all rows. 
+You are also able to provide filters when pulling data.
+
+Use case: Pushing raw taker orders 
+
+1. Create table: (packages/indexer/src/services/big-table/taker-orders-table/createTakerOrdersTable.ts)
+
+   The Taker Orders BigTable have only 1 column family (we'll explore this further to understand this better
+but currently, 1 column family is equivalent to usual tables). 
+
+2. Push events to table: (packages/indexer/src/services/big-table/taker-orders-table/pushTakerOrders.ts)
+
+   We're able to push more events in the same call to the table. We need to map them as:
+   ``
+   {
+      key: event.id,
+      data: {
+         [column family id]: {
+            id: {
+               value: event.id,
+               timestamp,
+            },
+            blockNumber: {
+               value: event.blockNumber,
+               timestamp,
+            },
+            ...
+         }
+      }
+   }
+   ``
+
+3. Then we can either pull one particular event (packages/indexer/src/services/big-table/taker-orders-table/pullTakerOrderRow.ts)
+or all events at once (packages/indexer/src/services/big-table/taker-orders-table/pullAllTakerOrderRows.ts)
+
+The full integration test is (packages/indexer/tests/integration-tests/bigtable.ts).
+
+Next steps:
+   - Understand better the column family concept and query filters. 
+   - Undestand better the concept of time-series for one particular cell.
+   - Introduce functionality for modification of particular value. 
+   - Measure time of queries with proper samples.
+
 ## License
 
 MIT

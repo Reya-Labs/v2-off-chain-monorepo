@@ -1,28 +1,25 @@
 import { Event, BigNumber } from 'ethers';
 
-import { EventType, TakerOrderEvent } from '../../utils/types';
-import { wrapEventWithId } from '../../utils/wrapEventWithId';
-import { descale, getTokenDetails } from '../../utils/token';
+import { ProtocolEventType, TakerOrderEvent } from '../types';
+import { getTokenDetails } from '../../utils/token';
+import { getMarketQuoteToken } from '../../utils/markets/getMarketQuoteToken';
+import { parseBaseEvent } from '../utils/baseEvent';
+import { convertLowercaseString } from '../utils/convertLowercase';
 
 export const parseTakerOrder = (
   chainId: number,
   event: Event,
 ): TakerOrderEvent => {
-  const type: EventType = 'taker-order';
-  const blockTimestamp = event.args?.blockTimestamp as number;
+  // 1. Type of event
+  const type: ProtocolEventType = 'taker-order';
 
-  const accountId = event.args?.accountId as string;
+  // 2. Parse particular args
+  const accountId = (event.args?.accountId as BigNumber).toString();
+  const marketId = (event.args?.marketId as BigNumber).toString();
+  const maturityTimestamp = event.args?.maturityTimestamp as number;
 
-  const marketId = event.args?.marketId as string;
-  const maturityTimestamp = (
-    event.args?.maturityTimestamp as BigNumber
-  ).toNumber();
-
-  // note: token information might be available in the market rows
-  const quoteToken = event.args?.quoteToken as string;
-
-  const { tokenDecimals: quoteTokenDecimals } = getTokenDetails(quoteToken);
-  const tokenDescaler = descale(quoteTokenDecimals);
+  const quoteToken = getMarketQuoteToken(marketId);
+  const { tokenDescaler } = getTokenDetails(quoteToken);
 
   const executedBaseAmount = tokenDescaler(
     event.args?.executedBaseAmount as BigNumber,
@@ -30,37 +27,24 @@ export const parseTakerOrder = (
   const executedQuoteAmount = tokenDescaler(
     event.args?.executedQuoteAmount as BigNumber,
   );
-
-  // note: optional
   const annualizedBaseAmount = tokenDescaler(
     event.args?.annualizedBaseAmount as BigNumber,
   );
 
-  const nonIdEvent: Omit<TakerOrderEvent, 'id'> = {
-    type,
+  // 3. Parse base event
+  const baseEvent = parseBaseEvent(chainId, event, type);
 
-    chainId,
-    source: event.address.toLowerCase(),
+  // 4. Return particular event
+  return {
+    ...baseEvent,
 
-    blockTimestamp,
-    blockNumber: event.blockNumber,
-    blockHash: event.blockHash.toLowerCase(),
-
-    transactionIndex: event.transactionIndex,
-    transactionHash: event.transactionHash.toLowerCase(),
-    logIndex: event.logIndex,
-
-    accountId: accountId.toLowerCase(),
-
-    marketId: marketId.toLowerCase(),
+    accountId,
+    marketId,
     maturityTimestamp,
-    quoteToken: quoteToken.toLowerCase(),
+    quoteToken: convertLowercaseString(quoteToken),
 
     executedBaseAmount,
     executedQuoteAmount,
-
     annualizedBaseAmount,
   };
-
-  return wrapEventWithId(nonIdEvent);
 };
