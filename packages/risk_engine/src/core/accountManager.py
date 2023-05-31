@@ -1,5 +1,4 @@
-from account import Account
-
+from packages.risk_engine.src.core.account import Account
 
 class AccountManager:
     def __init__(self):
