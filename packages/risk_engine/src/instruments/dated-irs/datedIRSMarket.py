@@ -2,7 +2,7 @@ from typing_extensions import override
 
 from constants import YEAR_IN_SECONDS
 
-from .BaseMarket import BaseMarket
+from .baseMarket import BaseMarket
 
 
 class IRSMarket(BaseMarket):

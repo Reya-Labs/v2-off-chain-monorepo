@@ -1,4 +1,4 @@
-import CollateralModule
+import collateralModule
 
 class LiquidationEngine:
     def __init__(self, im_multiplier: float, liquidator_reward_proportion_of_im_delta: float):
