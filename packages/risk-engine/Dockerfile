@@ -10,5 +10,5 @@ ENV PATH="/root/.local/bin:$PATH"
 WORKDIR /code
 COPY pyproject.toml /code/
 
-RUN poetry config virtualenvs.create false
+RUN poetry config virtualenvs.create true
 RUN poetry install
