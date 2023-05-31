@@ -1,7 +1,7 @@
 from unittest.mock import Mock
 from packages.risk_engine.src.core.liquidationModule import LiquidationModule
 
-class MockLiquidationEngine(LiquidationModule):
+class MockLiquidationModule(LiquidationModule):
     def __init__(self):
         self.is_im_satisfied = Mock()
 

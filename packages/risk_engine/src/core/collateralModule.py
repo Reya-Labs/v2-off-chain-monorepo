@@ -58,12 +58,12 @@ class CollateralModule:
 
         self._update_account_collateral(account_id=account_id, amount=-amount)
 
-        is_IM_satisfied = self.get_liquidation_module().is_IM_satisfied(account_id=account_id)
+        is_im_satisfied = self.get_liquidation_module().is_im_satisfied(account_id=account_id)
 
-        if not is_IM_satisfied:
+        if not is_im_satisfied:
             raise Exception("Withdrawal is not possible due to IM not satisfied")
 
-    def get_total_account_value(self, account_id):
+    def get_account_total_value(self, account_id):
 
         account_unrealized_pnl = self.account_manager.get_account(
             account_id=account_id
