@@ -22,8 +22,8 @@ class BaseMarket:
 
         # note: introduce oracle manager
         self._oracle = None
-        self._collateral_engine = None
-        self._liquidation_engine = None
+        self._collateral_module = None
+        self._liquidation_module = None
         self._account_manager = None
         self._fee_manager = None
         self._price_oracle = None
@@ -79,7 +79,7 @@ class BaseMarket:
             is_taker=is_taker,
         )
 
-        self.get_collateral_engine().distribute_fees(
+        self.get_collateral_module().distribute_fees(
             fee_debits_and_credits=fee_debits_and_credits_in_fee_token
         )
 
@@ -142,7 +142,7 @@ class BaseMarket:
         )
 
         # check the margin requirement of the account that executed this trade
-        is_IM_satisfied = self.get_liquidation_engine().is_IM_satisfied(account_id=account_id)
+        is_IM_satisfied = self.get_liquidation_module().is_IM_satisfied(account_id=account_id)
 
         if not is_IM_satisfied:
             raise Exception("Initial margin requirement of the account_id is not satisfied")
@@ -210,7 +210,7 @@ class BaseMarket:
         )
 
         # check the margin requirement of the account that executed this trade
-        is_IM_satisfied = self.get_liquidation_engine().is_IM_satisfied(account_id=account_id)
+        is_IM_satisfied = self.get_liquidation_module().is_IM_satisfied(account_id=account_id)
 
         if not is_IM_satisfied:
             raise Exception("Initial margin requirement of the account_id is not satisfied")
@@ -279,7 +279,7 @@ class BaseMarket:
         settlement_cashflow_in_quote = self.settlement_cashflow(
             maturity=maturity, base=aggregate_base, quote=aggregate_quote
         )
-        self.get_collateral_engine().cashflow_propagation(
+        self.get_collateral_module().cashflow_propagation(
             account_id=account_id, amount=settlement_cashflow_in_quote
         )
 
@@ -287,11 +287,11 @@ class BaseMarket:
     def set_oracle(self, oracle):
         self._oracle = oracle
 
-    def set_collateral_engine(self, collateral_engine):
-        self._collateral_engine = collateral_engine
+    def set_collateral_module(self, collateral_module):
+        self._collateral_module = collateral_module
 
-    def set_liquidation_engine(self, liquidation_engine):
-        self._liquidation_engine = liquidation_engine
+    def set_liquidation_module(self, liquidation_module):
+        self._liquidation_module = liquidation_module
 
     def set_account_manager(self, account_manager):
         self._account_manager = account_manager
@@ -422,17 +422,17 @@ class BaseMarket:
 
         return self._oracle
 
-    def get_collateral_engine(self):
-        if self._collateral_engine is None:
+    def get_collateral_module(self):
+        if self._collateral_module is None:
             raise Exception("base market: collateral engine not set")
 
-        return self._collateral_engine
+        return self._collateral_module
 
-    def get_liquidation_engine(self):
-        if self._liquidation_engine is None:
+    def get_liquidation_module(self):
+        if self._liquidation_module is None:
             raise Exception("base market: liquidation engine not set")
 
-        return self._liquidation_engine
+        return self._liquidation_module
 
     def get_account_manager(self):
         if self._account_manager is None:

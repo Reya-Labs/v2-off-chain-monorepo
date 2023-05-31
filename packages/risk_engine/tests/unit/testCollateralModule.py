@@ -6,7 +6,7 @@ from packages.risk_engine.src.evm.block import Block
 from packages.risk_engine.src.constants import MONTH_IN_SECONDS
 from packages.risk_engine.src.core.collateralModule import CollateralModule
 
-class TestCore(unittest.TestCase):
+class TestCollateralModule(unittest.TestCase):
     def setUp(self):
         self.block = Block(relative_block_position=0)
         self.account_manager = MockAccountManager()

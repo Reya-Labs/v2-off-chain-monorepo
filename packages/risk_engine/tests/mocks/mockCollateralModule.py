@@ -2,7 +2,7 @@ from unittest.mock import Mock
 from packages.risk_engine.src.core.collateralModule import CollateralModule
 
 
-class MockCollateralEngine(CollateralModule):
+class MockCollateralModule(CollateralModule):
     def __init__(self):
         self.distribute_fees = Mock()
         self.cashflow_propagation = Mock()

@@ -1,11 +1,10 @@
 from typing_extensions import override
-
-from constants import YEAR_IN_SECONDS
+from packages.risk_engine.src.constants import YEAR_IN_SECONDS
 
 from .baseMarket import BaseMarket
 
 
-class IRSMarket(BaseMarket):
+class DatedIRSMarket(BaseMarket):
     def __init__(self, block, market_id="irs_market", base_token="USDC", quote_token="USDC"):
         super().__init__(block=block, market_id=market_id, base_token=base_token, quote_token=quote_token)
 

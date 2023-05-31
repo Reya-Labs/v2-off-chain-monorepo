@@ -1,8 +1,6 @@
 import math
 from abc import ABC, abstractmethod
-
-from oracles.twap.twap import TWAP
-
+from packages.risk_engine.src.oracles.twap.twap import TWAP
 
 class VAMM(ABC):
     def __init__(self, block, min_tick, max_tick, tick_spacing):

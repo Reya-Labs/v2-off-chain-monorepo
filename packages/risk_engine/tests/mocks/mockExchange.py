@@ -3,7 +3,7 @@ from typing_extensions import override
 from packages.risk_engine.src.exchanges.vamm.BaseVAMMExchange import BaseVAMMExchange
 
 
-class MockPool(BaseVAMMExchange):
+class MockExchange(BaseVAMMExchange):
     def __init__(self, pool_id):
         self.pool_id = pool_id
         self.execute_limit_order = Mock()
