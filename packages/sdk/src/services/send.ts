@@ -55,9 +55,7 @@ export async function executeTransaction(
     from: accountAddress,
     to: PERIPHERY_ADDRESS(chainId),
     data,
-    ...(value && value !== '0'
-      ? { value: BigNumber.from(value).toHexString() }
-      : {}),
+    ...(value && value !== '0' ? { value: value } : {}),
   };
 
   const provider = signer.provider;

@@ -20,16 +20,7 @@ export enum CommandType {
   V2_OPEN_ACCOUNT = 0x08, // todo: add in Periphery & modify order
 }
 
-// const PERMIT_STRUCT =
-//   '((address token,uint160 amount,uint48 expiration,uint48 nonce) details,address spender,uint256 sigDeadline)'
-
-// const PERMIT2_TRANSFER_FROM_STRUCT = '(address from,address to,uint160 amount,address token)'
-
 const ABI_DEFINITION: { [key in CommandType]: string[] } = {
-  // Permit2 Actions
-  // [CommandType.PERMIT2_PERMIT]: [PERMIT_STRUCT, 'bytes'],
-  // [CommandType.PERMIT2_TRANSFER_FROM]: ['address', 'address', 'uint160'],
-
   // Voltz Actions
   [CommandType.V2_DATED_IRS_INSTRUMENT_SWAP]: [
     'uint128',

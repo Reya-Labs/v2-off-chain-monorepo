@@ -32,28 +32,8 @@ export async function encodeMakerOrder(
     encodeSingleOpenAccount(trade, multiAction);
   }
 
-  let ethAmount = '0';
-  // todo: create a function (same code as maker order)
-  if (trade.marginAmount > 0) {
-    // scale amount
-    const isETH = getTokenInfo(trade.quoteTokenAddress).name === 'ETH';
-    if (trade.marginAmount > 0 && !isETH) {
-      encodeSingleApprove(BigNumber.from(trade.marginAmount), multiAction);
-    }
-    // deposit
-    if (isETH) {
-      encodeSingleDepositETH(trade, multiAction);
-      ethAmount = scaleAmount(trade.marginAmount, trade.quoteTokenAddress);
-    } else {
-      encodeSingleDepositERC20(trade, multiAction);
-    }
-  } else if (trade.marginAmount < 0) {
-    // withdraw
-    encodeSingleWithdraw(
-      { ...trade, marginAmount: -trade.marginAmount },
-      multiAction,
-    );
-  }
+  // deposit
+  const ethAmount = encodeDeposit(trade, multiAction);
 
   if (trade.baseAmount) {
     // swap
@@ -75,24 +55,8 @@ export async function encodeTakerOrder(
     encodeSingleOpenAccount(trade as BaseTrade, multiAction);
   }
 
-  let ethAmount = '0';
-  // todo: create a function (same code as maker order)
-  if (trade.marginAmount > 0) {
-    const isETH = getTokenInfo(trade.quoteTokenAddress).name === 'ETH';
-    if (!isETH) {
-      encodeSingleApprove(BigNumber.from(trade.marginAmount), multiAction);
-      encodeSingleDepositERC20(trade, multiAction);
-    } else {
-      encodeSingleDepositETH(trade, multiAction);
-      ethAmount = scaleAmount(trade.marginAmount, trade.quoteTokenAddress);
-    }
-  } else if (trade.marginAmount < 0) {
-    // withdraw
-    encodeSingleWithdraw(
-      { ...trade, marginAmount: -trade.marginAmount },
-      multiAction,
-    );
-  }
+  // deposit
+  const ethAmount = encodeDeposit(trade, multiAction);
 
   if (trade.baseAmount) {
     // swap
@@ -269,4 +233,30 @@ export const encodeRouterCall = (
   const INTERFACE = new ethers.utils.Interface(abi);
   const calldata = INTERFACE.encodeFunctionData(functionSignature, parameters);
   return { calldata: calldata, value: nativeCurrencyValue.toHexString() };
+};
+
+const encodeDeposit = (trade: TakerTrade, multiAction: MultiAction): string => {
+  let ethAmount = '0';
+  if (trade.marginAmount > 0) {
+    // scale amount
+    const isETH = getTokenInfo(trade.quoteTokenAddress).name === 'ETH';
+    if (trade.marginAmount > 0 && !isETH) {
+      encodeSingleApprove(BigNumber.from(trade.marginAmount), multiAction);
+    }
+    // deposit
+    if (isETH) {
+      encodeSingleDepositETH(trade, multiAction);
+      ethAmount = scaleAmount(trade.marginAmount, trade.quoteTokenAddress);
+    } else {
+      encodeSingleDepositERC20(trade, multiAction);
+    }
+  } else if (trade.marginAmount < 0) {
+    // withdraw
+    encodeSingleWithdraw(
+      { ...trade, marginAmount: -trade.marginAmount },
+      multiAction,
+    );
+  }
+
+  return ethAmount;
 };
