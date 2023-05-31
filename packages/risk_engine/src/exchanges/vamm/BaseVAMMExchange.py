@@ -1,11 +1,9 @@
 from abc import abstractmethod
-
 from typing_extensions import override
+from packages.risk_engine.src.exchanges.vamm.VAMM import VAMM
 
-from pools.VAMM import VAMM
 
-
-class BasePool(VAMM):
+class BaseVAMMExchange(VAMM):
     def __init__(
         self,
         pool_id,
@@ -37,7 +35,6 @@ class BasePool(VAMM):
             tick_spacing=tick_spacing,
         )
 
-    # Overriden functions
     @override
     def vamm_f(self, tick):
         return tick
