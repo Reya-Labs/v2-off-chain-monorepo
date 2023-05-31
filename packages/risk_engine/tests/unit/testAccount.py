@@ -2,9 +2,9 @@ import unittest
 from unittest.mock import Mock
 from packages.risk_engine.tests.mocks.mockMarket import MockMarket
 from packages.risk_engine.tests.mocks.mockMarketManager import MockMarketManager
-from ..src.core.account import Account
-from ..src.constants import MONTH_IN_SECONDS
-from ..src.evm.block import Block
+from packages.risk_engine.src.core.account import Account
+from packages.risk_engine.src.constants import MONTH_IN_SECONDS
+from packages.risk_engine.src.evm.block import Block
 
 
 class TestAccount(unittest.TestCase):
