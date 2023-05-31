@@ -3,6 +3,8 @@ from .math import linear_interpolate
 from packages.risk_engine.src.oracles.rate.rateOracle import Observation, RateOracle
 from packages.risk_engine.src.evm.block import Block
 
+# todo: consider moving to tests/mocks
+
 class MockRateOracle(RateOracle):
     """An interface for storing, extrapolating and interpolating liquidity index values for a particular underlying instrument"""
 
