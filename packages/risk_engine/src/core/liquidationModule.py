@@ -1,6 +1,6 @@
-import collateralModule
+from packages.risk_engine.src.core.collateralModule import CollateralModule
 
-class LiquidationEngine:
+class LiquidationModule:
     def __init__(self, im_multiplier: float, liquidator_reward_proportion_of_im_delta: float):
 
         self.account_manager = None
