@@ -44,9 +44,6 @@ class LiquidationEngine:
         im_post_account_closing, _ = self.get_account_margin_requirements(account_id=liquidated_account_id)
         delta_im = im_pre_account_closing - im_post_account_closing
 
-        # note: objective is to revert if the account closing results in a net "riskier" position
-        # this can be affected by correlations, maker/taker fees, liquidator reward, etc
-        # logic below is not final
         if delta_im < 0:
             raise Exception("Account closing doesn't bring down account IM")
 
