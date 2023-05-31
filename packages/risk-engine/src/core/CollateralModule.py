@@ -24,14 +24,6 @@ class CollateralModule:
             raise Exception("Collateral cannot be negative")
 
     def distribute_fees(self, fee_debits_and_credits):
-
-        """
-        This is an function can only be called by a registered market
-        Credits are positive values that are paid to either the fee collector account of the margin engine,
-        fee collector account of the market or the fee collector account of the pool.
-        :return:
-        """
-
         for fee_debit_or_credit in fee_debits_and_credits:
             account_id = fee_debit_or_credit["account_id"]
             # if fee_cashflow is positive, it is a credit, if fee_cashflow is negative, it is a debit
@@ -39,15 +31,18 @@ class CollateralModule:
             self._update_account_collateral(account_id=account_id, amount=amount)
 
     def cashflow_propagation(self, account_id, amount):
-        """
-        Propagate settlement cashflows from a market to the margin engine, done when tokens are burnt
-        This is an function can only be called by a registered market
-        :param account_id:
-        :param amount:
-        :return:
-        """
-
         self._update_account_collateral(account_id=account_id, amount=amount)
+
+    def propagate_liquidator_reward(self, liquidated_account_id, liquidator_account_id, liquidator_reward_amount):
+        self._update_account_collateral(
+            account_id=liquidated_account_id,
+            amount=-liquidator_reward_amount,
+        )
+
+        self._update_account_collateral(
+            account_id=liquidator_account_id,
+            amount=liquidator_reward_amount,
+        )
 
     def deposit_collateral(self, account_id, amount):
 
@@ -74,7 +69,7 @@ class CollateralModule:
             account_id=account_id
         ).get_account_unrealized_pnl()
 
-        account_discounted_collateral_value = self.get_account_collateral(account_id=account_id)
+        account_discounted_collateral_value = self.get_account_collateral_balance(account_id=account_id)
 
         return account_unrealized_pnl + account_discounted_collateral_value
 
