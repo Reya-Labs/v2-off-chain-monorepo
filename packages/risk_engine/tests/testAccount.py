@@ -1,14 +1,10 @@
 import unittest
-from unittest import mock
-
-# todo: bring the mocks
-from mock_market import MockMarket
-from mock_market_manager import MockMarketManager
-
-
-from packages.risk_engine.src.core.account import Account
-from packages.risk_engine.src.constants import MONTH_IN_SECONDS
-from packages.risk_engine.src.evm.block import Block
+from unittest.mock import Mock
+from mocks.mockMarketManager import MockMarketManager
+from mocks.mockMarket import MockMarket
+from ..src.core.account import Account
+from ..src.constants import MONTH_IN_SECONDS
+from ..src.evm.block import Block
 
 
 
@@ -47,7 +43,7 @@ class TestAccount(unittest.TestCase):
         self.market_dated_futures.mock_get_unrealized_pnl_in_quote(return_value=-20)
 
         # Mock market manager
-        self.market_manager.get_market_by_id = mock.Mock(
+        self.market_manager.get_market_by_id = Mock(
             side_effect=[self.market_irs, self.market_dated_futures]
         )
 
@@ -81,7 +77,7 @@ class TestAccount(unittest.TestCase):
         )
 
         # Mock market manager
-        self.market_manager.get_market_by_id = mock.Mock(
+        self.market_manager.get_market_by_id = Mock(
             side_effect=[self.market_irs, self.market_dated_futures]
         )
 
@@ -128,7 +124,7 @@ class TestAccount(unittest.TestCase):
         ]
 
         # Mock market manager
-        self.market_manager.get_market_by_id = mock.Mock(
+        self.market_manager.get_market_by_id = Mock(
             side_effect=[self.market_irs, self.market_dated_futures]
         )
 
