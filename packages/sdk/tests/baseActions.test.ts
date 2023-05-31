@@ -17,7 +17,7 @@ import { CommandType } from '../src/utils/routerCommands';
 import { getCommand } from '../src/utils/routerCommands';
 import { BigNumber } from 'ethers';
 import { TickMath } from '@uniswap/v3-sdk';
-import { makerOrder, swap } from '../src/services';
+import { makerOrder, swap } from '../src/services/send';
 
 function utilSpy() {
   const spy: Record<string, sinon.SinonSpy> = {};
@@ -671,7 +671,7 @@ describe('takers', async () => {
   });
 });
 
-describe.skip('lps', async () => {
+describe('lps', async () => {
   let mockSigner: MockSigner;
   let mockBaseTrade: BaseTrade;
 

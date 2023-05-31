@@ -6,10 +6,13 @@ import { getTokenInfo } from './constants';
 // would be good to turn prices into ticks to decrease chances of collision
 export async function createAccountId(
   trade: BaseTrade,
-  isLp?: boolean,
+  isLp: boolean,
   priceLower?: number,
   priceUpper?: number,
 ): Promise<string> {
+  if (isLp && (priceLower === undefined || priceUpper === undefined)) {
+    throw new Error('Account id error: LP missing range');
+  }
   const userAddress = await trade.owner.getAddress();
 
   const message = userAddress
