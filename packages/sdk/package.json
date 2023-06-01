@@ -23,8 +23,7 @@
     "prettier:fix": "npx prettier --write './{src,tests}/**/*.ts'",
     "test": "mocha --require ts-node/register tests/**/*.test.ts",
     "test:coverage": "yarn test --coverage",
-    "generate:coverage-badges": "npx istanbul-badges-readme --silent",
-    "release": "semantic-release --node-version=18 --extends=../../release.config.js --require=ts-node/register"
+    "generate:coverage-badges": "npx istanbul-badges-readme --silent"
   },
   "packageManager": "yarn@3.5.1",
   "dependencies": {

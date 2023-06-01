@@ -82,6 +82,45 @@ an overview of the key features of our Lerna configuration:
 By using this configuration, our monorepo benefits from the publishing capabilities of Lerna, while leveraging the
 powerful versioning features of semantic-release.
 
+### Lerna Commands
+
+1. Remove the node_modules  directory from all package, note that this command does not 
+remove the node_modules directory from the root directory, even if you have the --hoist option enabled.
+```bash
+npx lerna clean -y
+```
+2. Link local packages together and install remaining package dependencies. Note, the hoist flag will first check the 
+dependencies that are required from the projects and it is going to install them in the root node_modules directory.
+```bash
+npx lerna bootstrap
+```
+3.  In order to trigger testing of all the packages, run the following command, behind the scenes it will go through all
+the packages in the monorepo and run the test command.
+```bash
+npx lerna run test
+```
+4. Test Coverage
+```bash
+npx lerna run test:coverage
+```
+5. Build all packages
+```bash
+npx lerna run build
+```
+6. Code Quality Checks
+```bash
+npx lerna run code-quality:check
+```
+7. Generate Coverage Badges
+```bash
+npx lerna run generate:coverage-badges
+```
+8. You can add a dependency to all the packages at once by running
+```bash
+npx lerna add <package-name>
+```
+
+
 
 ## Contributing
 

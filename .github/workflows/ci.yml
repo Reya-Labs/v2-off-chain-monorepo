@@ -25,11 +25,11 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Code quality checks
-        run: yarn code-quality:check
+        run: lerna run code-quality:check
       - name: Build packages
-        run: yarn build
+        run: lerna run build
       - name: Run tests
-        run: yarn test:coverage
+        run: lerna run test:coverage
       - name: Post test coverage comment
         uses: MishaKav/jest-coverage-comment@main
 
@@ -52,12 +52,9 @@ jobs:
       - name: Clear git working tree
         run: git stash
       - name: Build project
-        run: yarn build
-      - name: Semantic Release Packages
-        run: yarn release
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: lerna run build
       - name: Publish packages with Lerna
-        run: yarn publish:packages
+        run: lerna publish from-package --yes
         env:
           NPM_TOKEN: ${{secrets.NPM_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
