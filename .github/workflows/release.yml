@@ -16,6 +16,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+          token: ${{secrets.GITHUB_TOKEN}}
       - name: Use Node.js 18.x
         uses: actions/setup-node@v2
         with:
