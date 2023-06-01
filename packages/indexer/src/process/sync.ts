@@ -27,6 +27,7 @@ export const sync = async (chainIds: number[]): Promise<void> => {
         'market-fee-configured',
         'market-configured',
         'rate-oracle-configured',
+        'vamm-created'
       ],
       0,
       currentBlock,
@@ -36,6 +37,10 @@ export const sync = async (chainIds: number[]): Promise<void> => {
       switch (e.type) {
         case 'collateral-update': {
           await handleCollateralUpdate(e as CollateralUpdateEvent);
+          break;
+        }
+        case 'vamm-created': {
+          await handleVammCreated(e as VammCreatedEvent);
           break;
         }
         case 'market-fee-configured': {
