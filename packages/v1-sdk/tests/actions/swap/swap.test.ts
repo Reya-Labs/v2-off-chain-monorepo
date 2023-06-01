@@ -12,7 +12,6 @@ import {
   ContractReceipt,
   BigNumberish,
 } from 'ethers';
-import { SwapResponse } from '../../../src/actions/actionResponseTypes';
 import { getPeripheryContract } from '../../../src/common/contract-generators/getPeripheryContract';
 import {
   getSwapPeripheryParams,
