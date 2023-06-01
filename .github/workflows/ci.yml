@@ -58,8 +58,13 @@ jobs:
         run: git stash
       - name: Build project
         run: lerna run build
+      - name: Check NPM Whoami
+        run: yarn npm whoami
+        env:
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Publish packages with Lerna
-        run: lerna publish from-package --no-verify-access --yes
+        run: lerna publish from-package --yes
         env:
           NPM_TOKEN: ${{secrets.NPM_TOKEN}}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
