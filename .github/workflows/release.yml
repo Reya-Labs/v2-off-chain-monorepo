@@ -21,7 +21,11 @@ jobs:
         with:
           node-version: 'lts/*'
           registry-url: 'https://npm.pkg.github.com'
+      - name: Bump Updated Packages
+        run: lerna version
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Publish packages with Lerna
-        run: lerna publish from-package --conventional-commits --yes
+        run: lerna publish from-package
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
