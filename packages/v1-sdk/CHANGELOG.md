@@ -3,35 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.3.1...@voltz-protocol/sdk-v1-stateless@1.4.0) (2023-06-01)
+
+### Features
+
+- remove comment from sdk v1 ([92ba52e](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/92ba52e7b8da747a872547f3c51ca57db63c59e9))
+
 ## [1.3.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.3.0...@voltz-protocol/sdk-v1-stateless@1.3.1) (2023-06-01)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
 
-
-
-
-
 # [1.3.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.2.1...@voltz-protocol/sdk-v1-stateless@1.3.0) (2023-06-01)
-
 
 ### Features
 
-* test change sdk ([df39604](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/df39604cf2eaff68ed751a2ca17486fb6a4fa0ff))
-
-
-
-
+- test change sdk ([df39604](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/df39604cf2eaff68ed751a2ca17486fb6a4fa0ff))
 
 ## [1.2.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.2.0...@voltz-protocol/sdk-v1-stateless@1.2.1) (2023-06-01)
 
-
 ### Bug Fixes
 
-* test bug fix ([1f2dbe1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/1f2dbe10d6f7fe95fcfafff9fbae27f9f394046d))
-
-
-
-
+- test bug fix ([1f2dbe1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/1f2dbe10d6f7fe95fcfafff9fbae27f9f394046d))
 
 # [1.2.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.1.0...@voltz-protocol/sdk-v1-stateless@1.2.0) (2023-06-01)
 
