@@ -22,6 +22,6 @@ jobs:
           node-version: 'lts/*'
           registry-url: 'https://npm.pkg.github.com'
       - name: Publish packages with Lerna
-        run: lerna publish from-package --yes
+        run: lerna publish from-package --conventional-commits --yes
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
