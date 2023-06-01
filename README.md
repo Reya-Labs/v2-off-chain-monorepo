@@ -82,6 +82,21 @@ an overview of the key features of our Lerna configuration:
 By using this configuration, our monorepo benefits from the publishing capabilities of Lerna, while leveraging the
 powerful versioning features of semantic-release.
 
+### Lerna Commands
+
+1. Remove the node_modules  directory from all package, note that this command does not 
+remove the node_modules directory from the root directory, even if you have the --hoist option enabled.
+```bash
+npx lerna clean -y
+```
+2. Link local packages together and install remaining package dependencies. Note, the hoist flag will first check the 
+dependencies that are required from the projects and it is going to install them in the root node_modules directory.
+```bash
+npx lerna bootstrap
+```
+
+
+
 
 ## Contributing
 

@@ -1,7 +1,8 @@
 {
-  "name": "v2-off-chain-monorepo",
-  "version": "0.0.0",
+  "name": "voltz-protocol",
+  "version": "1.0.0",
   "private": true,
+  "main": "index.js",
   "repository": "https://github.com/Voltz-Protocol/v2-indexer.git",
   "workspaces": [
     "packages/*"
@@ -12,7 +13,6 @@
     "test": "yarn workspace @voltz-protocol/api-v2 run test && yarn workspace  @voltz-protocol/indexer-v2 run test && yarn workspace @voltz-protocol/ts-utils-v2 run test && yarn workspace @voltz-protocol/sdk-v2 run test",
     "test:coverage": "yarn workspace @voltz-protocol/api-v2 run test:coverage && yarn workspace  @voltz-protocol/indexer-v2 run test:coverage && yarn workspace @voltz-protocol/ts-utils-v2 run test:coverage && yarn workspace @voltz-protocol/sdk-v2 run test:coverage",
     "generate:coverage-badges": "yarn workspace @voltz-protocol/api-v2 run generate:coverage-badges && yarn workspace  @voltz-protocol/indexer-v2 run generate:coverage-badges && yarn workspace @voltz-protocol/ts-utils-v2 run generate:coverage-badges && yarn workspace @voltz-protocol/sdk-v2 run generate:coverage-badges",
-    "release": "yarn workspace @voltz-protocol/api-v2 run release && yarn workspace @voltz-protocol/indexer-v2 run release && yarn workspace @voltz-protocol/sdk-v1-stateless run release && yarn workspace @voltz-protocol/ts-utils-v2 run release && yarn workspace @voltz-protocol/ts-utils-v2 run test:coverage",
     "publish:packages": "lerna publish from-package --yes"
   },
   "author": "Voltz Protocol",

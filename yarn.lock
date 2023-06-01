@@ -12872,44 +12872,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"v2-off-chain-monorepo@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "v2-off-chain-monorepo@workspace:."
-  dependencies:
-    "@semantic-release/changelog": 6.0.3
-    "@semantic-release/commit-analyzer": 9.0.2
-    "@semantic-release/git": 10.0.1
-    "@semantic-release/github": 8.0.7
-    "@semantic-release/npm": 10.0.3
-    "@swc/core": 1.3.56
-    "@swc/jest": 0.2.26
-    "@types/chai": ^4.3.5
-    "@types/jest": 29.5.1
-    "@types/mocha": ^10.0.1
-    "@types/node": 18.16.3
-    "@types/semantic-release": 20.0.1
-    "@types/sinon": ^10.0.15
-    "@typescript-eslint/eslint-plugin": 5.59.2
-    "@typescript-eslint/parser": 5.59.2
-    chai: ^4.3.7
-    concurrently: 8.0.1
-    dpdm: 3.13.0
-    eslint: 8.39.0
-    eslint-config-prettier: 8.8.0
-    eslint-plugin-prettier: 4.2.1
-    istanbul-badges-readme: 1.8.5
-    jest: 29.5.0
-    jest-environment-jsdom: 29.5.0
-    lerna: ^6.6.2
-    mocha: ^10.2.0
-    prettier: 2.8.8
-    semantic-release: 21.0.2
-    sinon: ^15.1.0
-    ts-node: 10.9.1
-    typescript: 5.0.4
-  languageName: unknown
-  linkType: soft
-
 "v8-compile-cache-lib@npm:^3.0.1":
   version: 3.0.1
   resolution: "v8-compile-cache-lib@npm:3.0.1"
@@ -12971,6 +12933,44 @@ __metadata:
   checksum: 5342a994986199b3c28e53a8452a14b2bb5085727691ea7aa0d284a6606b127c371e0925ae99b3f1ef7cc7d2c9de75f52eb61a3d1cc45e39bca1e3a9444cbb4e
   languageName: node
   linkType: hard
+
+"voltz-protocol@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "voltz-protocol@workspace:."
+  dependencies:
+    "@semantic-release/changelog": 6.0.3
+    "@semantic-release/commit-analyzer": 9.0.2
+    "@semantic-release/git": 10.0.1
+    "@semantic-release/github": 8.0.7
+    "@semantic-release/npm": 10.0.3
+    "@swc/core": 1.3.56
+    "@swc/jest": 0.2.26
+    "@types/chai": ^4.3.5
+    "@types/jest": 29.5.1
+    "@types/mocha": ^10.0.1
+    "@types/node": 18.16.3
+    "@types/semantic-release": 20.0.1
+    "@types/sinon": ^10.0.15
+    "@typescript-eslint/eslint-plugin": 5.59.2
+    "@typescript-eslint/parser": 5.59.2
+    chai: ^4.3.7
+    concurrently: 8.0.1
+    dpdm: 3.13.0
+    eslint: 8.39.0
+    eslint-config-prettier: 8.8.0
+    eslint-plugin-prettier: 4.2.1
+    istanbul-badges-readme: 1.8.5
+    jest: 29.5.0
+    jest-environment-jsdom: 29.5.0
+    lerna: ^6.6.2
+    mocha: ^10.2.0
+    prettier: 2.8.8
+    semantic-release: 21.0.2
+    sinon: ^15.1.0
+    ts-node: 10.9.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
 
 "w3c-xmlserializer@npm:^4.0.0":
   version: 4.0.0
