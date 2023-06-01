@@ -25,7 +25,10 @@ jobs:
       - name: Configure CI Git User
         run : |
           git config --global user.name "arturbeg"
-          git config --global user.email "arturbegyan98@gmail.com"
+          git config --global user.email "arturbegyan98@gmail.com
+          git remote set-url origin https://github.com/Voltz-Protocol/v2-off-chain-monorepo.git
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Bump Updated Packages
         run: lerna version
         env:
