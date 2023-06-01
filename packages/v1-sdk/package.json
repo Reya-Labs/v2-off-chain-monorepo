@@ -29,6 +29,10 @@
     "release": "semantic-release --node-version=18 --extends=../../release.config.js --require=ts-node/register"
   },
   "packageManager": "yarn@3.5.1",
+  "devDependencies": {
+    "@types/big.js": "^6.1.3",
+    "@types/jest": "^29.2.4"
+  },
   "dependencies": {
     "big.js": "^6.1.1",
     "decimal.js-light": "^2.5.1",
