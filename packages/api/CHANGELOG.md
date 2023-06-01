@@ -1,3 +1,10 @@
+## [1.36.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.36.1...v1.36.2) (2023-06-01)
+
+
+### Bug Fixes
+
+* lerna from packages ([0b74cfa](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/0b74cfa04f8708351a1ccf342c83703b7b48961e))
+
 ## [1.36.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.36.0...v1.36.1) (2023-06-01)
 
 
