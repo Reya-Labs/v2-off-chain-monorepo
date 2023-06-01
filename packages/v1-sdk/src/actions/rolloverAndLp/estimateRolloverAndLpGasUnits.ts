@@ -15,7 +15,7 @@ export const estimateRolloverAndLpGasUnits = async (
       rolloverAndLpPeripheryTempOverrides,
     )
     .catch((error) => {
-      throw new Error('Error estimating rollover and lp gas units');
+      throw new Error('Error estimating rollover and lp gas units.');
     });
 
   return estimatedGas;
