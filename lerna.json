@@ -10,15 +10,9 @@
       "registry": "https://registry.npmjs.org/",
       "skipGit": true,
       "skipNpm": false
-    },
-    "bootstrap": {
-      "ignore": [
-        "packages/transformer"
-      ]
     }
   },
   "packages": [
-    "packages/*",
-    "!packages/transformer"
+    "packages/*"
   ]
 }
