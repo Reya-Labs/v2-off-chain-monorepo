@@ -1,6 +1,4 @@
-import {
-  UpdateMarginPeripheryParams,
-} from '../types/actionArgTypes';
+import { UpdateMarginPeripheryParams } from '../types/actionArgTypes';
 import { getClosestTickAndFixedRate } from '../swap/getClosestTickAndFixedRate';
 import { scale } from '../../common/math/scale';
 
@@ -18,7 +16,7 @@ export const getUpdateMarginPeripheryParams = (
     tickLower: 0,
     tickUpper: 0,
     marginDelta: 0,
-    fullyWithdraw: fullyWithdraw
+    fullyWithdraw: fullyWithdraw,
   };
 
   const { closestUsableTick: tickUpper } = getClosestTickAndFixedRate(
@@ -32,7 +30,10 @@ export const getUpdateMarginPeripheryParams = (
 
   updateMarginPeripheryParams.tickLower = tickLower;
   updateMarginPeripheryParams.tickUpper = tickUpper;
-  updateMarginPeripheryParams.marginDelta = scale(marginDelta, underlyingTokenDecimals);
+  updateMarginPeripheryParams.marginDelta = scale(
+    marginDelta,
+    underlyingTokenDecimals,
+  );
 
   return updateMarginPeripheryParams;
 };

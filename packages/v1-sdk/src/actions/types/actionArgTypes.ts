@@ -54,7 +54,7 @@ export type RolloverAndSwapArgs = {
   maturedPositionSettlementBalance: number;
   maturedPositionTickLower: number;
   maturedPositionTickUpper: number;
-}
+};
 
 export type RolloverAndSwapPeripheryParams = {
   maturedMarginEngineAddress: string;
@@ -62,7 +62,7 @@ export type RolloverAndSwapPeripheryParams = {
   maturedPositionTickLower: BigNumberish;
   maturedPositionTickUpper: BigNumberish;
   newSwapPeripheryParams: SwapPeripheryParams;
-}
+};
 
 // rolloverAndLp
 
@@ -86,7 +86,7 @@ export type RolloverAndLpArgs = {
   maturedPositionSettlementBalance: number;
   maturedPositionTickLower: number;
   maturedPositionTickUpper: number;
-}
+};
 
 export type RolloverAndLpPeripheryParams = {
   maturedMarginEngineAddress: string;
@@ -94,7 +94,7 @@ export type RolloverAndLpPeripheryParams = {
   maturedPositionTickLower: BigNumberish;
   maturedPositionTickUpper: BigNumberish;
   newLpPeripheryParams: LpPeripheryParams;
-}
+};
 
 // lp
 
@@ -162,7 +162,7 @@ export type UpdateMarginArgs = {
   provider: providers.Provider;
   signer: Signer;
   fullyWithdraw: boolean;
-}
+};
 
 export type UpdateMarginPeripheryParams = {
   marginEngineAddress: string;
@@ -170,4 +170,4 @@ export type UpdateMarginPeripheryParams = {
   tickUpper: BigNumberish;
   marginDelta: BigNumberish;
   fullyWithdraw: boolean;
-}
+};

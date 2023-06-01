@@ -18,7 +18,7 @@
     "ts:check-types": "npx tsc --noEmit",
     "ts:circular-check": "dpdm --no-output --no-tree --no-warning --exit-code circular:1 -T ./src/index.ts",
     "ts:check": "yarn ts:check-types && yarn ts:circular-check",
-    "lint:check": "eslint '{src,tests}/**/*.ts'",
+    "lint:check": "npx eslint '{src,tests}/**/*.ts'",
     "prettier:check": "npx prettier --check './{src,tests}/**/*.ts'",
     "code-quality:check": "npx concurrently 'yarn ts:check' 'yarn prettier:check' 'yarn lint:check --quiet'",
     "lint:fix": "npx eslint --fix '{src,tests}/**/*.ts'",

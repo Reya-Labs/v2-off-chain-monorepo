@@ -1,6 +1,8 @@
-import { LpPeripheryParams, RolloverAndLpPeripheryParams } from "../types/actionArgTypes";
-import { getLpPeripheryParams } from "../lp/getLpPeripheryParams";
-
+import {
+  LpPeripheryParams,
+  RolloverAndLpPeripheryParams,
+} from '../types/actionArgTypes';
+import { getLpPeripheryParams } from '../lp/getLpPeripheryParams';
 
 export type GetRolloverAndLpPeripheryParamsArgs = {
   addLiquidity: boolean;
@@ -16,8 +18,7 @@ export type GetRolloverAndLpPeripheryParamsArgs = {
   maturedPositionSettlementBalance: number;
   maturedPositionTickLower: number;
   maturedPositionTickUpper: number;
-}
-
+};
 
 export const getRolloverAndLpPeripheryParams = ({
   addLiquidity,
@@ -32,30 +33,26 @@ export const getRolloverAndLpPeripheryParams = ({
   maturedPositionOwnerAddress,
   maturedPositionSettlementBalance,
   maturedPositionTickLower,
-  maturedPositionTickUpper
+  maturedPositionTickUpper,
 }: GetRolloverAndLpPeripheryParamsArgs): RolloverAndLpPeripheryParams => {
-
-  const newLpPeripheryParams: LpPeripheryParams = getLpPeripheryParams(
-    {
-      addLiquidity,
-      margin,
-      notional,
-      fixedLow,
-      fixedHigh,
-      marginEngineAddress,
-      underlyingTokenDecimals,
-      tickSpacing
-    }
-  );
+  const newLpPeripheryParams: LpPeripheryParams = getLpPeripheryParams({
+    addLiquidity,
+    margin,
+    notional,
+    fixedLow,
+    fixedHigh,
+    marginEngineAddress,
+    underlyingTokenDecimals,
+    tickSpacing,
+  });
 
   const rolloverAndLpPeripheryParams: RolloverAndLpPeripheryParams = {
     maturedMarginEngineAddress: marginEngineAddress,
     maturedPositionOwnerAddress: marginEngineAddress,
     maturedPositionTickLower: maturedPositionTickLower,
     maturedPositionTickUpper: maturedPositionTickUpper,
-    newLpPeripheryParams: newLpPeripheryParams
-  }
+    newLpPeripheryParams: newLpPeripheryParams,
+  };
 
   return rolloverAndLpPeripheryParams;
-
-}
+};
