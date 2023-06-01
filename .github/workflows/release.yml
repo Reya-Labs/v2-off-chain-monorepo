@@ -22,13 +22,12 @@ jobs:
         with:
           node-version: 'lts/*'
           registry-url: 'https://npm.pkg.github.com'
-      - name: Configure CI Git User
+      - name: Configure CI Git User & Bump Updated Packages
         run : |
           git config --global user.name "arturbeg"
           git config --global user.email "arturbegyan98@gmail.com"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Voltz-Protocol/v2-off-chain-monorepo.git
-      - name: Bump Updated Packages
-        run: lerna version
+          lerna version
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Publish packages with Lerna
