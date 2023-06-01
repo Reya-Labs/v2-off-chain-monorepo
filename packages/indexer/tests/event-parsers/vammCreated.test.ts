@@ -1,5 +1,5 @@
 import { compareEvents } from '../utils/compareEvents';
-import { collateralUpdateEvmEvent, vammCreatedEvmEvent } from '../utils/evmEventMocks';
+import { vammCreatedEvmEvent } from '../utils/evmEventMocks';
 import { VammCreatedEvent } from '../../src/event-parsers/types';
 import { parseVammCreated } from '../../src/event-parsers/dated-irs-vamm/vammCreated';
 
@@ -23,16 +23,16 @@ describe('vamm created parser', () => {
         '0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A',
       logIndex: 123,
 
-      marketId: "168236",
+      marketId: '168236',
 
       priceImpactPhi: 0.1,
       priceImpactBeta: 0.125,
       spread: 0.003,
       rateOracle: '0xa0b86991c6218f36c1d19d4a2e9eb0ce3606eb48',
 
-      maxLiquidityPerTick: "1000000000000",
-      tickSpacing: 60, 
-      maturityTimestamp: 1687919400
+      maxLiquidityPerTick: '1000000000000',
+      tickSpacing: 60,
+      maturityTimestamp: 1687919400,
     };
 
     const outputVammCreatedEvent = parseVammCreated(
@@ -40,10 +40,6 @@ describe('vamm created parser', () => {
       vammCreatedEvmEvent,
     );
 
-    console.log(outputVammCreatedEvent)
-
-    expect(
-      compareEvents(outputVammCreatedEvent, vammCreatedEvent),
-    ).toBe(null);
+    expect(compareEvents(outputVammCreatedEvent, vammCreatedEvent)).toBe(null);
   });
 });

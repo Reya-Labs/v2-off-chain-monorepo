@@ -29,12 +29,10 @@ export const parseVammCreated = (
     ethers.utils.formatUnits(event.args?._mutableConfig.spread.toString(), 18),
   );
   const rateOracle = event.args?._mutableConfig.rateOracle as string;
-  console.log("RATE ORACLE", rateOracle);
 
   const maxLiquidityPerTick = (
     event.args?._config._maxLiquidityPerTick as BigNumber
   ).toString();
-  console.log("RATE ORACLE", rateOracle);
   const tickSpacing = event.args?._config._tickSpacing as number;
   const maturityTimestamp = event.args?._config.maturityTimestamp as number;
 

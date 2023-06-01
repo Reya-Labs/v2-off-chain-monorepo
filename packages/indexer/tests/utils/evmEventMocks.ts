@@ -86,18 +86,18 @@ export const vammCreatedEvmEvent = {
   logIndex: 123,
   args: {
     blockTimestamp: 1683092975, // May 03 2023 05:49:35 GMT+0000
-    _marketId: BigNumber.from("168236"),
+    _marketId: BigNumber.from('168236'),
     _mutableConfig: {
-      priceImpactPhi: BigNumber.from("100000000000000000"),
-      priceImpactBeta: BigNumber.from("125000000000000000"),
-      spread: BigNumber.from("3000000000000000"),
+      priceImpactPhi: BigNumber.from('100000000000000000'),
+      priceImpactBeta: BigNumber.from('125000000000000000'),
+      spread: BigNumber.from('3000000000000000'),
       rateOracle: '0xa0b86991c6218f36c1d19d4a2e9eb0ce3606eb48',
     },
     _config: {
-      _maxLiquidityPerTick: BigNumber.from("1000000000000"),
-      _tickSpacing: 60, 
-      maturityTimestamp: 1687919400
-    }
+      _maxLiquidityPerTick: BigNumber.from('1000000000000'),
+      _tickSpacing: 60,
+      maturityTimestamp: 1687919400,
+    },
   },
 } as unknown as Event;
 
