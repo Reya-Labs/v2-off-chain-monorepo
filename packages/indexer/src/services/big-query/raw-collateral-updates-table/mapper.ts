@@ -1,5 +1,5 @@
-import { CollateralUpdateEvent } from '../../event-parsers/types';
-import { bqNumericToNumber } from './utils/converters';
+import { CollateralUpdateEvent } from '../../../event-parsers/types';
+import { bqNumericToNumber } from '../utils/converters';
 
 export const mapToCollateralUpdateEvent = (
   row: any,

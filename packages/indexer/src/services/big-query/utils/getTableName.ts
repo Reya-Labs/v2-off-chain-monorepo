@@ -5,12 +5,28 @@ import { getProtocolV2DatasetName } from './datasets';
 // Returns the name of BigQuery tables
 export const getTableName = (tableType: TableType): string => {
   switch (tableType) {
-    case 'collateral_updates': {
-      return `Collateral Updates`;
+    case TableType.raw_collateral_updates: {
+      return `Raw Collateral Updates`;
     }
 
-    default: {
-      throw new Error(`Unrecognized table.`);
+    case TableType.raw_market_configured: {
+      return `Raw Market Configured`;
+    }
+
+    case TableType.raw_market_fee_configured: {
+      return `Raw Market Fee Configured`;
+    }
+
+    case TableType.raw_rate_oracle_configured: {
+      return `Raw Rate Oracle Configured`;
+    }
+
+    case TableType.markets: {
+      return `Markets`;
+    }
+
+    case TableType.liquidity_indices: {
+      return `Liquidity Indices`;
     }
   }
 };

@@ -1,13 +1,14 @@
 import { CollateralUpdateEvent } from '../../../../event-parsers/types';
 import { getBigQuery } from '../../client';
-import { mapToCollateralUpdateEvent } from '../../mappers';
+import { mapToCollateralUpdateEvent } from '../mapper';
 import { getTableFullName } from '../../utils/getTableName';
+import { TableType } from '../../types';
 
 export const pullCollateralUpdateEvent = async (
   id: string,
 ): Promise<CollateralUpdateEvent | null> => {
   const bigQuery = getBigQuery();
-  const tableName = getTableFullName('collateral_updates');
+  const tableName = getTableFullName(TableType.raw_collateral_updates);
 
   const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE id="${id}"`;
 

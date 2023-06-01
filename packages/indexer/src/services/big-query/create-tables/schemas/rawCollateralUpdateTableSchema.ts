@@ -1,8 +1,7 @@
 import { TableField } from '@google-cloud/bigquery';
-import { PRECISION, SCALE } from '../constants';
-import { TableType } from '../types';
+import { PRECISION, SCALE } from '../../constants';
 
-const collateralUpdatesTableSchema: TableField[] = [
+export const rawCollateralUpdateTableSchema: TableField[] = [
   { name: 'id', type: 'STRING', mode: 'REQUIRED' },
   { name: 'type', type: 'STRING', mode: 'REQUIRED' },
   { name: 'chainId', type: 'INTEGER', mode: 'REQUIRED' },
@@ -35,15 +34,3 @@ const collateralUpdatesTableSchema: TableField[] = [
     scale: SCALE.toString(),
   },
 ];
-
-export const getTableSchema = (tableType: TableType): TableField[] => {
-  switch (tableType) {
-    case 'collateral_updates': {
-      return collateralUpdatesTableSchema;
-    }
-
-    default: {
-      throw new Error(`Unrecognized table.`);
-    }
-  }
-};

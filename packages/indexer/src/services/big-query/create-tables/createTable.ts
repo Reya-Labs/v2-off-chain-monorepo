@@ -3,7 +3,7 @@ import { Table, TableMetadata } from '@google-cloud/bigquery';
 import { getTable } from '../utils/getTable';
 import { getBigQuery } from '../client';
 import { getTableName } from '../utils/getTableName';
-import { getTableSchema } from './schemas';
+import { getTableSchema } from './schemas/schemas';
 import { TableType } from '../types';
 import { getProtocolV2DatasetName } from '../utils/datasets';
 

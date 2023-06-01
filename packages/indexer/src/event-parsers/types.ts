@@ -8,6 +8,8 @@ export type ProtocolEventType =
   | 'liquidation' // core
   | 'market-fee-configured' // core
   | 'product-registered' // core
+  | 'market-configured' // product
+  | 'rate-oracle-configured' // product
   | 'maker-order' // exchange
   | 'taker-order'; // exchange
 
@@ -84,6 +86,20 @@ export type ProductRegisteredEvent = BaseEvent & {
   sender: Address;
 };
 
+// Product
+
+// state-capturing event
+export type MarketConfiguredEvent = BaseEvent & {
+  marketId: string; // big number
+  quoteToken: Address;
+};
+
+// state-capturing event
+export type RateOracleConfiguredEvent = BaseEvent & {
+  marketId: string; // big number
+  oracleAddress: Address;
+};
+
 // Exchange
 
 export type TakerOrderEvent = BaseEvent & {
@@ -119,5 +135,7 @@ export type ProtocolEvent =
   | LiquidationEvent
   | MarketFeeConfiguredEvent
   | ProductRegisteredEvent
+  | MarketConfiguredEvent
+  | RateOracleConfiguredEvent
   | TakerOrderEvent
   | MakerOrderEvent;
