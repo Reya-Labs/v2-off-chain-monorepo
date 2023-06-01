@@ -1,3 +1,10 @@
+## [1.36.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.36.0...v1.36.1) (2023-06-01)
+
+
+### Bug Fixes
+
+* remove redudunt comment ([95e19a7](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/95e19a7ac5976722ef54b3b53ef213904902d8ee))
+
 # [1.36.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/v1.35.0...v1.36.0) (2023-06-01)
 
 
