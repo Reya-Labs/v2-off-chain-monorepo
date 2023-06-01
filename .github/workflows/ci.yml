@@ -49,6 +49,8 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: Install dependencies
         run: yarn install
+      - name: Clear git working tree
+        run: git stash
       - name: Build project
         run: yarn build
       - name: Semantic Release Packages

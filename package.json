@@ -12,7 +12,7 @@
     "test": "yarn workspace @voltz-protocol/api-v2 run test && yarn workspace  @voltz-protocol/indexer-v2 run test && yarn workspace @voltz-protocol/ts-utils-v2 run test && yarn workspace @voltz-protocol/sdk-v2 run test",
     "test:coverage": "yarn workspace @voltz-protocol/api-v2 run test:coverage && yarn workspace  @voltz-protocol/indexer-v2 run test:coverage && yarn workspace @voltz-protocol/ts-utils-v2 run test:coverage && yarn workspace @voltz-protocol/sdk-v2 run test:coverage",
     "generate:coverage-badges": "yarn workspace @voltz-protocol/api-v2 run generate:coverage-badges && yarn workspace  @voltz-protocol/indexer-v2 run generate:coverage-badges && yarn workspace @voltz-protocol/ts-utils-v2 run generate:coverage-badges && yarn workspace @voltz-protocol/sdk-v2 run generate:coverage-badges",
-    "release": "yarn workspace @voltz-protocol/api-v2 run release && yarn workspace @voltz-protocol/indexer-v2 run release && yarn workspace @voltz-protocol/ts-utils-v2 run release && yarn workspace @voltz-protocol/ts-utils-v2 run test:coverage",
+    "release": "yarn workspace @voltz-protocol/api-v2 run release && yarn workspace @voltz-protocol/indexer-v2 run release && yarn workspace @voltz-protocol/sdk-v1-stateless run release && yarn workspace @voltz-protocol/ts-utils-v2 run release && yarn workspace @voltz-protocol/ts-utils-v2 run test:coverage",
     "publish:packages": "lerna publish from-git --yes"
   },
   "author": "Voltz Protocol",
