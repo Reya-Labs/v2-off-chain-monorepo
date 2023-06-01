@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/indexer-v2@1.1.0...@voltz-protocol/indexer-v2@1.2.0) (2023-06-01)
+
+### Features
+
+- commit coverage badges ([f97b0d5](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/f97b0d52b58a2d019457286d98fc77fc4fab939f))
+
 # 1.1.0 (2023-06-01)
 
 ### Features
