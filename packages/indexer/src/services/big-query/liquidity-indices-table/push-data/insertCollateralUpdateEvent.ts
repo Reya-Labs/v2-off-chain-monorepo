@@ -1,4 +1,5 @@
 import { getBigQuery } from '../../client';
+import { TableType } from '../../types';
 import { getTableFullName } from '../../utils/getTableName';
 import { LiquidityIndexEntry } from '../types';
 
@@ -6,7 +7,7 @@ export const insertLiquidityIndex = async (
   entry: LiquidityIndexEntry,
 ): Promise<void> => {
   const bigQuery = getBigQuery();
-  const tableName = getTableFullName('liquidity_indices');
+  const tableName = getTableFullName(TableType.liquidity_indices);
 
   const row = `
     ${entry.chainId},
