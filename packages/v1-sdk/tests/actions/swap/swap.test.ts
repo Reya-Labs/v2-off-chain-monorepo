@@ -1,14 +1,10 @@
 // Imports required for test setup
-import {
-  SwapArgs,
-  SwapPeripheryParams,
-} from '../../../src/actions/types/actionArgTypes';
+import { SwapPeripheryParams } from '../../../src/actions/types/actionArgTypes';
 import { swap } from '../../../src/actions/swap/swap';
 import {
   Signer,
   getDefaultProvider,
   BigNumber,
-  ContractTransaction,
   ContractReceipt,
   BigNumberish,
 } from 'ethers';
@@ -68,7 +64,7 @@ describe('swap', () => {
       isEth: false,
     };
 
-    const swapResult: ContractReceipt = await swap(mockSwapArgs);
+    await swap(mockSwapArgs);
   });
 
   it('correctly calculates swap periphery parameters', () => {
