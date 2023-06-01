@@ -1,5 +1,7 @@
 import JSBI from 'jsbi';
 import invariant from 'tiny-invariant';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import toFormat from 'toformat';
 import Fractionjs from 'fraction.js';
 import _Decimal from 'decimal.js-light';
