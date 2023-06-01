@@ -5,4 +5,5 @@ export enum TableType {
   raw_rate_oracle_configured,
   liquidity_indices,
   markets,
+  vamm_config
 }

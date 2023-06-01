@@ -1,3 +1,4 @@
+import { BigNumber } from 'ethers';
 import { BaseEvent } from '../../src/event-parsers/types';
 
 const EPSILON = 1e-5;

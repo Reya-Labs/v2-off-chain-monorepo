@@ -1,9 +1,11 @@
 import { getCoreContract } from '../contract-generators/core';
 import { getDatedIrsInstrumentContract } from '../contract-generators/dated-irs-instrument';
+import { getDatedIrsVammContract } from '../contract-generators/dated-irs-vamm';
 import { parseCollateralUpdate } from '../event-parsers/core/collateralUpdate';
 import { parseMarketFeeConfigured } from '../event-parsers/core/marketFeeConfigured';
 import { parseMarketConfigured } from '../event-parsers/dated-irs-instrument/marketConfigured';
 import { parseRateOracleConfigured } from '../event-parsers/dated-irs-instrument/rateOracleConfigured';
+import { parseVammCreated } from '../event-parsers/dated-irs-vamm/vammCreated';
 import { ProtocolEvent, ProtocolEventType } from '../event-parsers/types';
 
 export const fetchEvents = async (
@@ -15,6 +17,7 @@ export const fetchEvents = async (
   const allEvents: ProtocolEvent[] = [];
   const coreContract = getCoreContract(chainId);
   const datedIrsInstrumentContract = getDatedIrsInstrumentContract(chainId);
+  const exchangeContract = getDatedIrsVammContract(chainId);
 
   if (eventTypes.includes('collateral-update')) {
     const eventFilter = coreContract.filters.CollateralUpdate();
@@ -64,6 +67,17 @@ export const fetchEvents = async (
       .then((evmEvents) =>
         evmEvents.map((e) => parseRateOracleConfigured(chainId, e)),
       )
+      .then((events) => {
+        allEvents.push(...events);
+      });
+  }
+
+  if (eventTypes.includes('vamm-created')) {
+    const eventFilter = exchangeContract.filters.VammCreated();
+
+    await exchangeContract
+      .queryFilter(eventFilter, fromBlock, toBlock)
+      .then((evmEvents) => evmEvents.map((e) => parseVammCreated(chainId, e)))
       .then((events) => {
         allEvents.push(...events);
       });
