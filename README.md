@@ -94,6 +94,28 @@ dependencies that are required from the projects and it is going to install them
 ```bash
 npx lerna bootstrap
 ```
+3.  In order to trigger testing of all the packages, run the following command, behind the scenes it will go through all
+the packages in the monorepo and run the test command.
+```bash
+npx lerna run test
+```
+4. Test Coverage
+```bash
+npx lerna run test:coverage
+```
+5. Build all packages
+```bash
+npx lerna run build
+```
+6. Code Quality Checks
+```bash
+npx lerna run code-quality:check
+```
+7. Generate Coverage Badges
+```bash
+npx lerna run generate:coverage-badges
+```
+
 
 
 
