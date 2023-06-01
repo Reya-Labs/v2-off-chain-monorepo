@@ -24,8 +24,8 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
       - name: Configure CI Git User
         run : |
-          git config --global user.name "voltz-dev"
-          git config --global user.email "dev@voltz.xyz"
+          git config --global user.name "arturbeg"
+          git config --global user.email "arturbegyan98@gmail.com"
       - name: Bump Updated Packages
         run: lerna version
         env:
