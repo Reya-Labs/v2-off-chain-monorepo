@@ -4,7 +4,10 @@ import { UpdateMarginPeripheryParams } from '../types/actionArgTypes';
 export const estimateUpdateMarginGasUnits = async (
   peripheryContract: ethers.Contract,
   updateMarginPeripheryParams: UpdateMarginPeripheryParams,
-  updateMarginPeripheryTempOverrides: { value?: BigNumber; gasLimit?: BigNumber },
+  updateMarginPeripheryTempOverrides: {
+    value?: BigNumber;
+    gasLimit?: BigNumber;
+  },
 ): Promise<BigNumber> => {
   const estimatedGas: BigNumber = await peripheryContract.estimateGas
     .updatePositionMargin(
@@ -12,9 +15,7 @@ export const estimateUpdateMarginGasUnits = async (
       updateMarginPeripheryTempOverrides,
     )
     .catch((error) => {
-      throw new Error(
-        'Error estimating update margi gas units',
-      );
+      throw new Error('Error estimating update margi gas units');
     });
 
   return estimatedGas;
