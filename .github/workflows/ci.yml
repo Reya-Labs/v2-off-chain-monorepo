@@ -17,11 +17,16 @@ jobs:
         node-version: [ 'lts/*' ]
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: "0" # pulls all history and tags for Lerna to detect what packages changed.
+          token: ${{ secrets.GITHUB_TOKEN }} # this token is available by default
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+          registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
         run: yarn install
       - name: Code quality checks
@@ -54,7 +59,7 @@ jobs:
       - name: Build project
         run: lerna run build
       - name: Publish packages with Lerna
-        run: lerna publish from-package --yes
+        run: lerna publish from-package --no-verify-access --yes
         env:
           NPM_TOKEN: ${{secrets.NPM_TOKEN}}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
