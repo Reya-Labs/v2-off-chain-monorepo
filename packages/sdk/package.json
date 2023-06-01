@@ -1,0 +1,37 @@
+{
+  "name": "@voltz-protocol/sdk-v2",
+  "version": "1.33.0",
+  "description": "A TypeScript wrapper for the Voltz V2 smart contract",
+  "main": "dist/index.js",
+  "types": "dist/types",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "yarn code-quality:check && rm -rf dist",
+    "build": "yarn prebuild && tsc -p tsconfig.build.json",
+    "start": "npx ts-node src/index.ts",
+    "ts:check-types": "npx tsc --noEmit",
+    "ts:circular-check": "dpdm --no-output --no-tree --no-warning --exit-code circular:1 -T ./src/index.ts",
+    "ts:check": "yarn ts:check-types && yarn ts:circular-check",
+    "lint:check": "eslint '{src,tests}/**/*.ts'",
+    "prettier:check": "npx prettier --check './{src,tests}/**/*.ts'",
+    "code-quality:check": "npx concurrently 'yarn ts:check' 'yarn prettier:check' 'yarn lint:check --quiet'",
+    "code-quality:fix": "npx concurrently 'yarn prettier:fix' 'yarn lint:fix'",
+    "lint:fix": "npx eslint --fix '{src,tests}/**/*.ts'",
+    "prettier:fix": "npx prettier --write './{src,tests}/**/*.ts'",
+    "test": "mocha --require ts-node/register tests/**/*.test.ts",
+    "test:coverage": "yarn test --coverage",
+    "generate:coverage-badges": "npx istanbul-badges-readme --silent",
+    "release": "semantic-release --node-version=18 --extends=../../release.config.js --require=ts-node/register"
+  },
+  "packageManager": "yarn@3.5.1",
+  "dependencies": {
+    "@types/crypto-js": "^4.1.1",
+    "@uniswap/sdk-core": "3.2.2",
+    "@uniswap/v3-sdk": "^3.9.0",
+    "crypto-js": "^4.1.1",
+    "jsbi": "^3.1.4"
+  }
+}
