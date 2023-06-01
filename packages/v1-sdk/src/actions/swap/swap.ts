@@ -52,7 +52,6 @@ export const swap = async ({
     tickSpacing,
   });
 
-  // need to be careful to make sure we don't double count margin, may need to refactor
   const swapPeripheryTempOverrides: {
     value?: BigNumber;
     gasLimit?: BigNumber;
