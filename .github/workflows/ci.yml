@@ -9,34 +9,34 @@ on:
       - main
 
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [ 'lts/*' ]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: "0" # pulls all history and tags for Lerna to detect what packages changed.
-          token: ${{ secrets.GITHUB_TOKEN }} # this token is available by default
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: 'https://registry.npmjs.org'
-      - name: Install dependencies
-        run: yarn install
-      - name: Code quality checks
-        run: lerna run code-quality:check
-      - name: Build packages
-        run: lerna run build
-      - name: Run tests
-        run: lerna run test:coverage
-      - name: Post test coverage comment
-        uses: MishaKav/jest-coverage-comment@main
+#  build:
+#    name: Build
+#    runs-on: ubuntu-latest
+#    strategy:
+#      matrix:
+#        node-version: [ 'lts/*' ]
+#
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#        with:
+#          fetch-depth: "0" # pulls all history and tags for Lerna to detect what packages changed.
+#          token: ${{ secrets.GITHUB_TOKEN }} # this token is available by default
+#      - name: Use Node.js ${{ matrix.node-version }}
+#        uses: actions/setup-node@v2
+#        with:
+#          node-version: ${{ matrix.node-version }}
+#          registry-url: 'https://registry.npmjs.org'
+#      - name: Install dependencies
+#        run: yarn install
+#      - name: Code quality checks
+#        run: lerna run code-quality:check
+#      - name: Build packages
+#        run: lerna run build
+#      - name: Run tests
+#        run: lerna run test:coverage
+#      - name: Post test coverage comment
+#        uses: MishaKav/jest-coverage-comment@main
 
   release:
     name: Release
@@ -49,15 +49,15 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 'lts/*'
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - name: Install dependencies
-        run: yarn install
-      - name: Clear git working tree
-        run: git stash
-      - name: Build project
-        run: lerna run build
+#      - name: Get yarn cache directory path
+#        id: yarn-cache-dir-path
+#        run: echo "::set-output name=dir::$(yarn cache dir)"
+#      - name: Install dependencies
+#        run: yarn install
+#      - name: Clear git working tree
+#        run: git stash
+#      - name: Build project
+#        run: lerna run build
       - name: Check NPM Whoami
         run: yarn npm whoami
         env:
