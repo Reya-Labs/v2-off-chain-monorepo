@@ -3,12 +3,11 @@
   "npmClient": "yarn",
   "useWorkspaces": true,
   "version": "independent",
-  "verifyAccess": false,
   "command": {
     "publish": {
       "ignoreChanges": [],
       "message": "chore(release): publish",
-      "registry": "https://registry.npmjs.org",
+      "registry": "https://npm.pkg.github.com",
       "skipGit": true,
       "skipNpm": false
     }
