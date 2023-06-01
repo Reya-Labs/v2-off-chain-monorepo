@@ -115,8 +115,10 @@ npx lerna run code-quality:check
 ```bash
 npx lerna run generate:coverage-badges
 ```
-
-
+8. You can add a dependency to all the packages at once by running
+```bash
+npx lerna add <package-name>
+```
 
 
 
