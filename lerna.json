@@ -12,7 +12,7 @@
       "skipNpm": false
     },
     "version": {
-      "message": "chore(release): publish",
+      "message": "chore(release): bump updated packages",
       "conventionalCommits": true
     }
   },
