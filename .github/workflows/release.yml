@@ -1,4 +1,4 @@
-name: CI
+name: Release
 
 on:
   push:
@@ -12,11 +12,13 @@ on:
 jobs:
   release:
     name: Release
-    needs: build
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
       - name: Use Node.js 18.x
         uses: actions/setup-node@v2
         with:
