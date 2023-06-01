@@ -28,6 +28,7 @@ jobs:
           git config --global user.email "arturbegyan98@gmail.com"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Voltz-Protocol/v2-off-chain-monorepo.git
           lerna version
+          git stash
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Publish packages with Lerna
