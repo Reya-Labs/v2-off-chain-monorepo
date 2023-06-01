@@ -6,6 +6,7 @@ import { pullCollateralUpdateEvent } from '../../src/services/big-query/raw-coll
 import { getBigQuery } from '../../src/services/big-query/client';
 import { getCoreContract } from '../../src/contract-generators/core';
 import { getDatedIrsInstrumentContract } from '../../src/contract-generators/dated-irs-instrument';
+import { getDatedIrsVammContract } from '../../src/contract-generators/dated-irs-vamm';
 
 jest.setTimeout(100_000);
 
@@ -75,6 +76,20 @@ describe('Collateral Update Indexer unit tests', () => {
       });
     }
 
+    // Mock vamm contract event filters
+    {
+      const queryFilter = jest.fn(async () => {});
+      (queryFilter as jest.Mock).mockResolvedValueOnce([]);
+      (queryFilter as jest.Mock).mockResolvedValueOnce([]);
+
+      (getDatedIrsVammContract as jest.Mock).mockReturnValueOnce({
+        queryFilter,
+        filters: {
+          VammCreated: () => null as unknown as EventFilter,
+        },
+      });
+    }
+
     // Mock getBigQuery
     const query = jest.fn(async () => {});
 
@@ -121,6 +136,20 @@ describe('Collateral Update Indexer unit tests', () => {
         filters: {
           MarketConfigured: () => null as unknown as EventFilter,
           RateOracleConfigured: () => null as unknown as EventFilter,
+        },
+      });
+    }
+
+    // Mock vamm contract event filters
+    {
+      const queryFilter = jest.fn(async () => {});
+      (queryFilter as jest.Mock).mockResolvedValueOnce([]);
+      (queryFilter as jest.Mock).mockResolvedValueOnce([]);
+
+      (getDatedIrsVammContract as jest.Mock).mockReturnValueOnce({
+        queryFilter,
+        filters: {
+          VammCreated: () => null as unknown as EventFilter,
         },
       });
     }

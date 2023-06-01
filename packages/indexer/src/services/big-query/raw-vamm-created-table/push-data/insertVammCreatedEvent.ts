@@ -1,12 +1,13 @@
 import { VammCreatedEvent } from '../../../../event-parsers/types';
 import { getBigQuery } from '../../client';
+import { TableType } from '../../types';
 import { getTableFullName } from '../../utils/getTableName';
 
 export const insertVammCreatedEvent = async (
   event: VammCreatedEvent,
 ): Promise<void> => {
   const bigQuery = getBigQuery();
-  const tableName = getTableFullName('vamm_config');
+  const tableName = getTableFullName(TableType.raw_vamm_created);
 
   const row = `
     "${event.id}",

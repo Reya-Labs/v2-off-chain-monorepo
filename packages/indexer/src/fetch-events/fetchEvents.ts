@@ -17,7 +17,7 @@ export const fetchEvents = async (
   const allEvents: ProtocolEvent[] = [];
   const coreContract = getCoreContract(chainId);
   const datedIrsInstrumentContract = getDatedIrsInstrumentContract(chainId);
-  const exchangeContract = getDatedIrsVammContract(chainId);
+  const datedIrsExchangeContract = getDatedIrsVammContract(chainId);
 
   if (eventTypes.includes('collateral-update')) {
     const eventFilter = coreContract.filters.CollateralUpdate();
@@ -73,9 +73,9 @@ export const fetchEvents = async (
   }
 
   if (eventTypes.includes('vamm-created')) {
-    const eventFilter = exchangeContract.filters.VammCreated();
+    const eventFilter = datedIrsExchangeContract.filters.VammCreated();
 
-    await exchangeContract
+    await datedIrsExchangeContract
       .queryFilter(eventFilter, fromBlock, toBlock)
       .then((evmEvents) => evmEvents.map((e) => parseVammCreated(chainId, e)))
       .then((events) => {

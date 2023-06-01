@@ -21,6 +21,10 @@ export const getTableName = (tableType: TableType): string => {
       return `Raw Rate Oracle Configured`;
     }
 
+    case TableType.raw_vamm_created: {
+      return `Raw Vamm Created`;
+    }
+
     case TableType.markets: {
       return `Markets`;
     }

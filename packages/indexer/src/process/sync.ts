@@ -2,11 +2,13 @@ import { handleCollateralUpdate } from '../event-handlers/handleCollateralUpdate
 import { handleMarketConfigured } from '../event-handlers/handleMarketConfigured';
 import { handleMarketFeeConfigured } from '../event-handlers/handleMarketFeeConfigured';
 import { handleRateOracleConfigured } from '../event-handlers/handleRateOracleConfigured';
+import { handleVammCreated } from '../event-handlers/handleVammCreated';
 import {
   CollateralUpdateEvent,
   MarketConfiguredEvent,
   MarketFeeConfiguredEvent,
   RateOracleConfiguredEvent,
+  VammCreatedEvent,
 } from '../event-parsers/types';
 import { fetchEvents } from '../fetch-events/fetchEvents';
 import { getProvider } from '../services/provider';
@@ -27,7 +29,7 @@ export const sync = async (chainIds: number[]): Promise<void> => {
         'market-fee-configured',
         'market-configured',
         'rate-oracle-configured',
-        'vamm-created'
+        'vamm-created',
       ],
       0,
       currentBlock,
