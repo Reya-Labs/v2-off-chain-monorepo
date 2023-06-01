@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.5.0 (2023-06-01)
+
+### Bug Fixes
+
+- remove redudunt comment ([95e19a7](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/95e19a7ac5976722ef54b3b53ef213904902d8ee))
+
+### Features
+
+- introduce lp rollover args ([3bf36f2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/3bf36f2556178aabda40fa2abb807dce7c7334bb))
+- simplify ci to debug lerna publish ([#27](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/27)) ([94f6b23](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/94f6b236af943dab034353f23883ee881b864cac))
+
 # [1.4.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.3.1...@voltz-protocol/sdk-v1-stateless@1.4.0) (2023-06-01)
 
 ### Features
