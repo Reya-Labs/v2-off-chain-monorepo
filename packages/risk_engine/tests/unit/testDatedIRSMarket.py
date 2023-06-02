@@ -3,7 +3,7 @@ from packages.risk_engine.tests.mocks.mockAccount import MockAccount
 from packages.risk_engine.tests.mocks.mockAccountManager import MockAccountManager
 from packages.risk_engine.tests.mocks.mockCollateralModule import MockCollateralModule
 from packages.risk_engine.tests.mocks.mockFeeManager import MockFeeManager
-from packages.risk_engine.tests.mocks.mockOracle import MockOracle
+from packages.risk_engine.tests.mocks.mo import MockOracle
 from packages.risk_engine.tests.mocks.mockLiquidationModule import MockLiquidationModule
 from packages.risk_engine.tests.mocks.mockExchange import MockExchange
 from packages.risk_engine.src.evm.block import Block
@@ -15,21 +15,19 @@ from packages.risk_engine.src.oracles.rate.rateOracle import Observation
 class TestIRSMarket(unittest.TestCase):
     def setUp(self):
         self.block = Block(relative_block_position=0)
-
-        self.oracle = MockOracle()
         self.account_manager = MockAccountManager()
         self.fee_manager = MockFeeManager()
         # self.price_oracle = PriceOracle()
-        self.collateral_engine = MockCollateralModule()
-        self.liquidation_engine = MockLiquidationEngine()
+        self.collateral_module = MockCollateralModule()
+        self.liquidation_module = MockLiquidationModule()
 
         self.user = MockAccount(account_id="user")
         self.account_manager.mock_get_account(return_value=self.user)
 
-        self.market = IRSMarket(block=self.block)
+        self.market: DatedIRSMarket = DatedIRSMarket(block=self.block)
 
-        self.market.set_collateral_engine(collateral_engine=self.collateral_engine)
-        self.market.set_liquidation_engine(liquidation_engine=self.liquidation_engine)
+        self.market.set_collateral_module(collateral_module=self.collateral_module)
+        self.market.set_liquidation_module(liquidation_module=self.liquidation_module)
         self.market.set_oracle(oracle=self.oracle)
         self.market.set_account_manager(account_manager=self.account_manager)
         self.market.set_fee_manager(fee_manager=self.fee_manager)
@@ -37,8 +35,8 @@ class TestIRSMarket(unittest.TestCase):
 
         self.maturity = self.block.timestamp + MONTH_IN_SECONDS
 
-        self.pool_vamm = MockPool(pool_id="USDC_VAMM")
-        self.pool_clob = MockPool(pool_id="USDC_CLOB")
+        self.pool_vamm = MockExchange(pool_id="USDC_VAMM")
+        self.pool_clob = MockExchange(pool_id="USDC_CLOB")
 
         self.market.register_pool(pool=self.pool_vamm)
         self.market.register_pool(pool=self.pool_clob)
