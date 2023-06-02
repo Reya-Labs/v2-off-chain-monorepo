@@ -77,13 +77,7 @@ export const rateOracleConfiguredEvmEvent = {
 } as unknown as Event;
 
 export const vammCreatedEvmEvent = {
-  address: '0xe9A6569995F3D8EC971F1D314e0e832C38a735Cc',
-  blockNumber: 17178234,
-  blockHash: 'Block-Hash',
-  transactionIndex: 21,
-  transactionHash:
-    '0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A',
-  logIndex: 123,
+  ...evmEventDefault,
   args: {
     blockTimestamp: 1683092975, // May 03 2023 05:49:35 GMT+0000
     _marketId: BigNumber.from('168236'),
@@ -98,6 +92,16 @@ export const vammCreatedEvmEvent = {
       _tickSpacing: 60,
       maturityTimestamp: 1687919400,
     },
+  },
+} as unknown as Event;
+
+export const vammPriceChangeEvmEvent = {
+  ...evmEventDefault,
+  args: {
+    blockTimestamp: 1683092975, // May 03 2023 05:49:35 GMT+0000
+    marketId: BigNumber.from('168236'),
+    maturityTimestamp: 1687919400,
+    tick: 6060,
   },
 } as unknown as Event;
 

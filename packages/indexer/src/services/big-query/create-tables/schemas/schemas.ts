@@ -7,6 +7,7 @@ import { rawMarketFeeConfiguredTableSchema } from './rawMarketFeeConfiguredTable
 import { rawRateOracleConfiguredTableSchema } from './rawRateOracleConfiguredTableSchema';
 import { marketsTableSchema } from './marketsTableSchema';
 import { rawVammCreatedTableSchema } from './rawVammCreatedTableSchema';
+import { rawVammPriceChangeTableSchema } from './rawVammPriceChangeTableSchema';
 
 export const getTableSchema = (tableType: TableType): TableField[] => {
   switch (tableType) {
@@ -28,6 +29,10 @@ export const getTableSchema = (tableType: TableType): TableField[] => {
 
     case TableType.raw_vamm_created: {
       return rawVammCreatedTableSchema;
+    }
+
+    case TableType.raw_vamm_price_change: {
+      return rawVammPriceChangeTableSchema;
     }
 
     case TableType.markets: {

@@ -1,7 +1,4 @@
-import {
-  CollateralUpdateEvent,
-  VammCreatedEvent,
-} from '../../../event-parsers/types';
+import { CollateralUpdateEvent } from '../../../event-parsers/types';
 import { bqNumericToNumber } from '../utils/converters';
 
 export const mapToCollateralUpdateEvent = (

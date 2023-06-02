@@ -12,7 +12,8 @@ export type ProtocolEventType =
   | 'rate-oracle-configured' // product
   | 'maker-order' // exchange
   | 'taker-order' // exchange
-  | 'vamm-created'; // exchange
+  | 'vamm-created' // exchange
+  | 'vamm-price-change'; // exchange
 
 export type BaseEvent = {
   id: string;
@@ -143,6 +144,12 @@ export type VammCreatedEvent = BaseEvent & {
   maturityTimestamp: number;
 };
 
+export type VammPriceChangeEvent = BaseEvent & {
+  marketId: string; // big number
+  maturityTimestamp: number;
+  tick: number;
+};
+
 export type ProtocolEvent =
   | AccountCreatedEvent
   | AccountOwnerUpdateEvent
@@ -155,4 +162,5 @@ export type ProtocolEvent =
   | RateOracleConfiguredEvent
   | TakerOrderEvent
   | MakerOrderEvent
-  | VammCreatedEvent;
+  | VammCreatedEvent
+  | VammPriceChangeEvent;

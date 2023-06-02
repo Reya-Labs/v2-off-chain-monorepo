@@ -25,6 +25,10 @@ export const getTableName = (tableType: TableType): string => {
       return `Raw Vamm Created`;
     }
 
+    case TableType.raw_vamm_price_change: {
+      return `Raw Vamm Price Change`;
+    }
+
     case TableType.markets: {
       return `Markets`;
     }

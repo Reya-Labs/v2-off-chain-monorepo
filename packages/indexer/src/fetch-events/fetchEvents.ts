@@ -6,6 +6,7 @@ import { parseMarketFeeConfigured } from '../event-parsers/core/marketFeeConfigu
 import { parseMarketConfigured } from '../event-parsers/dated-irs-instrument/marketConfigured';
 import { parseRateOracleConfigured } from '../event-parsers/dated-irs-instrument/rateOracleConfigured';
 import { parseVammCreated } from '../event-parsers/dated-irs-vamm/vammCreated';
+import { parseVammPriceChange } from '../event-parsers/dated-irs-vamm/vammPriceChange';
 import { ProtocolEvent, ProtocolEventType } from '../event-parsers/types';
 
 export const fetchEvents = async (
@@ -78,6 +79,19 @@ export const fetchEvents = async (
     await datedIrsExchangeContract
       .queryFilter(eventFilter, fromBlock, toBlock)
       .then((evmEvents) => evmEvents.map((e) => parseVammCreated(chainId, e)))
+      .then((events) => {
+        allEvents.push(...events);
+      });
+  }
+
+  if (eventTypes.includes('vamm-price-change')) {
+    const eventFilter = datedIrsExchangeContract.filters.VammPriceChange();
+
+    await datedIrsExchangeContract
+      .queryFilter(eventFilter, fromBlock, toBlock)
+      .then((evmEvents) =>
+        evmEvents.map((e) => parseVammPriceChange(chainId, e)),
+      )
       .then((events) => {
         allEvents.push(...events);
       });
