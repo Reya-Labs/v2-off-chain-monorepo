@@ -4,6 +4,7 @@ export enum TableType {
   raw_market_fee_configured,
   raw_rate_oracle_configured,
   raw_vamm_created,
+  raw_vamm_price_change,
   liquidity_indices,
   markets,
 }

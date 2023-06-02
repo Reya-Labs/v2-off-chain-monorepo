@@ -1,6 +1,6 @@
-import { VammCreatedEvent } from '../../../event-parsers/types';
+import { VammPriceChangeEvent } from '../../../event-parsers/types';
 
-export const mapToVammCreatedEvent = (row: any): VammCreatedEvent => ({
+export const mapToVammPriceChangeEvent = (row: any): VammPriceChangeEvent => ({
   id: row.id,
   type: row.type,
 
@@ -16,13 +16,6 @@ export const mapToVammCreatedEvent = (row: any): VammCreatedEvent => ({
   logIndex: row.logIndex,
 
   marketId: row.marketId,
-
-  priceImpactPhi: row.priceImpactPhi,
-  priceImpactBeta: row.priceImpactBeta,
-  spread: row.spread,
-  rateOracle: row.rateOracle,
-
-  maxLiquidityPerTick: row.maxLiquidityPerTick,
-  tickSpacing: row.tickSpacing,
   maturityTimestamp: row.maturityTimestamp,
+  tick: row.tick,
 });

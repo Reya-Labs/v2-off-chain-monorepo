@@ -86,6 +86,7 @@ describe('Collateral Update Indexer unit tests', () => {
         queryFilter,
         filters: {
           VammCreated: () => null as unknown as EventFilter,
+          VammPriceChange: () => null as unknown as EventFilter,
         },
       });
     }
@@ -150,6 +151,7 @@ describe('Collateral Update Indexer unit tests', () => {
         queryFilter,
         filters: {
           VammCreated: () => null as unknown as EventFilter,
+          VammPriceChange: () => null as unknown as EventFilter,
         },
       });
     }
