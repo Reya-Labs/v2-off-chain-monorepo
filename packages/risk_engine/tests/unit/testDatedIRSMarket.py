@@ -3,7 +3,7 @@ from packages.risk_engine.tests.mocks.mockAccount import MockAccount
 from packages.risk_engine.tests.mocks.mockAccountManager import MockAccountManager
 from packages.risk_engine.tests.mocks.mockCollateralModule import MockCollateralModule
 from packages.risk_engine.tests.mocks.mockFeeManager import MockFeeManager
-from packages.risk_engine.tests.mocks.mo import MockOracle
+from packages.risk_engine.tests.mocks. import MockOracle
 from packages.risk_engine.tests.mocks.mockLiquidationModule import MockLiquidationModule
 from packages.risk_engine.tests.mocks.mockExchange import MockExchange
 from packages.risk_engine.src.evm.block import Block
