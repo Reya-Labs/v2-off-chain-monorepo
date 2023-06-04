@@ -142,9 +142,9 @@ class BaseMarket:
         )
 
         # check the margin requirement of the account that executed this trade
-        is_IM_satisfied = self.get_liquidation_module().is_IM_satisfied(account_id=account_id)
+        is_im_satisfied = self.get_liquidation_module().is_im_satisfied(account_id=account_id)
 
-        if not is_IM_satisfied:
+        if not is_im_satisfied:
             raise Exception("Initial margin requirement of the account_id is not satisfied")
 
         return executed_base_amount, fee_debits_and_credits_in_fee_token
@@ -210,9 +210,9 @@ class BaseMarket:
         )
 
         # check the margin requirement of the account that executed this trade
-        is_IM_satisfied = self.get_liquidation_module().is_IM_satisfied(account_id=account_id)
+        is_im_satisfied = self.get_liquidation_module().is_im_satisfied(account_id=account_id)
 
-        if not is_IM_satisfied:
+        if not is_im_satisfied:
             raise Exception("Initial margin requirement of the account_id is not satisfied")
 
         return executed_base_amount, executed_quote_amount, taker_fee_debits_and_credits_in_fee_token
@@ -298,9 +298,9 @@ class BaseMarket:
 
     def set_fee_manager(self, fee_manager):
         self._fee_manager = fee_manager
-
-    def set_price_oracle(self, price_oracle):
-        self._price_oracle = price_oracle
+    #
+    # def set_price_oracle(self, price_oracle):
+    #     self._price_oracle = price_oracle
 
     def set_default_pool_id(self, default_pool_id):
         self._default_pool_id = default_pool_id
@@ -413,8 +413,6 @@ class BaseMarket:
             annualized_unfilled_base_short,
         )
 
-    def base_to_token_exchange_rate(self, token_type):
-        return self.get_price_oracle().get_price(token_in=self._base_token, token_out=token_type)
 
     def get_oracle(self):
         if self._oracle is None:
@@ -445,12 +443,6 @@ class BaseMarket:
             raise Exception("base market: fee manager not set")
 
         return self._fee_manager
-
-    def get_price_oracle(self):
-        if self._price_oracle is None:
-            raise Exception("base market: price oracle not set")
-
-        return self._price_oracle
 
     def get_default_pool_id(self):
         if self._default_pool_id is None:

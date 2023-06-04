@@ -52,7 +52,6 @@ class TestIRSMarket(unittest.TestCase):
         self.market.set_oracle(oracle=self.oracle)
         self.market.set_account_manager(account_manager=self.account_manager)
         self.market.set_fee_manager(fee_manager=self.fee_manager)
-        self.market.set_price_oracle(price_oracle=self.price_oracle)
 
         self.maturity = self.block.timestamp + MONTH_IN_SECONDS
 
@@ -136,7 +135,7 @@ class TestIRSMarket(unittest.TestCase):
         self.pool_vamm.mock_execute_limit_order(return_value=mock_executed_base_amount)
 
         # Mock Margin Engine return values
-        self.liquidation_module.mock_is_IM_satisfied(return_value=True)
+        self.liquidation_module.mock_is_im_satisfied(return_value=True)
 
         # Mock Market-specific return values
         self.market.mock_annualize(return_value=[675000])
@@ -181,7 +180,7 @@ class TestIRSMarket(unittest.TestCase):
             fee_debits_and_credits=mock_fee_debits_and_credits
         )
 
-        self.liquidation_module.is_IM_satisfied.assert_called_with(account_id="user")
+        self.liquidation_module.is_im_satisfied.assert_called_with(account_id="user")
 
     def test_process_limit_order_when_IM_unsatisfied(self):
         # Mock Fee Manager return values
@@ -192,7 +191,7 @@ class TestIRSMarket(unittest.TestCase):
         self.pool_vamm.mock_execute_limit_order(return_value=mock_executed_base_amount)
 
         # Mock Margin Engine return values
-        self.liquidation_module.mock_is_IM_satisfied(return_value=False)
+        self.liquidation_module.mock_is_im_satisfied(return_value=False)
 
         # Mock Market-specific return values
         self.market.mock_annualize(return_value=[450])
@@ -233,7 +232,7 @@ class TestIRSMarket(unittest.TestCase):
         )
 
         # Mock Margin Engine return values
-        self.liquidation_module.mock_is_IM_satisfied(return_value=True)
+        self.liquidation_module.mock_is_im_satisfied(return_value=True)
 
         # Mock Market-specific return values
         self.market.mock_annualize(return_value=[675000])
@@ -291,7 +290,7 @@ class TestIRSMarket(unittest.TestCase):
             fee_debits_and_credits=mock_fee_debits_and_credits
         )
 
-        self.liquidation_module.is_IM_satisfied.assert_called_with(account_id="user")
+        self.liquidation_module.is_im_satisfied.assert_called_with(account_id="user")
 
     def test_process_market_order_when_IM_unsatisfied(self):
         # Mock Fee Manager return values
@@ -307,7 +306,7 @@ class TestIRSMarket(unittest.TestCase):
         )
 
         # Mock Margin Engine return values
-        self.liquidation_module.mock_is_IM_satisfied(return_value=False)
+        self.liquidation_module.mock_is_im_satisfied(return_value=False)
 
         # Mock Market-specific return values
         self.market.mock_annualize(return_value=[450])
@@ -420,9 +419,6 @@ class TestIRSMarket(unittest.TestCase):
 
         self.market._annualize.assert_called_with(bases=[280, 700, -600], maturity=self.maturity)
 
-    def test_base_to_token_exchange_rate(self):
-        self.assertAlmostEqual(self.market.base_to_token_exchange_rate(token_type="ETH"), 1)
-        self.assertAlmostEqual(self.market.base_to_token_exchange_rate(token_type="USDC"), 1500)
 
     def test_aggregate_gwap(self):
         self.pool_vamm.mock_gwap(return_value=0.05)
