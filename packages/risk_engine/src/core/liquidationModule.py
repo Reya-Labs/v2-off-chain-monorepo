@@ -20,7 +20,7 @@ class LiquidationModule:
         return account_net_worth >= IMR
 
     def is_account_liquidatable(self, account_id):
-        account_value = self.collateral_module.get_account_net_worth(account_id=account_id)
+        account_value = self.collateral_module.get_account_total_value(account_id=account_id)
         IMR, LMR = self.get_account_margin_requirements(account_id=account_id)
 
         return account_value < LMR, IMR, LMR

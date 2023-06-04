@@ -17,9 +17,6 @@ class TestCollateralModule(unittest.TestCase):
 
         self.collateral_module: CollateralModule = CollateralModule()
 
-        self.collateral_module.set_account_manager(account_manager=self.account_manager)
-        self.collateral_module.set_liquidation_module(liquidation_module=self.liquidation_module)
-
         self.maturity = self.block.timestamp + MONTH_IN_SECONDS
 
         self.setup_account()
@@ -31,8 +28,6 @@ class TestCollateralModule(unittest.TestCase):
 
         self.user.mock_get_account_unrealized_pnl(return_value=10)
 
-    def test_check_account_manager(self):
-        self.assertIsNotNone(self.collateral_module.get_account_manager())
 
     def test_get_account_collateral(self):
         self.assertAlmostEqual(self.collateral_module.get_account_collateral_balance(account_id="user"), 200)
@@ -74,14 +69,14 @@ class TestCollateralModule(unittest.TestCase):
 
     def test_withdraw_collateral_when_possible(self):
         self.liquidation_module.mock_is_im_satisfied(return_value=True)
-        self.collateral_module.withdraw_collateral(account_id="user", amount=50)
+        self.collateral_module.withdraw_collateral(account_id="user", amount=50, liquidation_module=self.liquidation_module)
         self.assertAlmostEqual(self.collateral_module._account_collateral_balance_mapping["user"], 150)
 
     def test_withdraw_collateral_when_impossible(self):
         self.liquidation_module.mock_is_im_satisfied(return_value=False)
 
         with self.assertRaisesRegex(Exception, "Withdrawal is not possible due to IM not satisfied"):
-            self.collateral_module.withdraw_collateral(account_id="user", amount=160)
+            self.collateral_module.withdraw_collateral(account_id="user", amount=160, liquidation_module=self.liquidation_module)
 
     def test_get_account_collateral_value(self):
         self.collateral_module._account_collateral_balance_mapping.update({"user": 100})
@@ -89,7 +84,7 @@ class TestCollateralModule(unittest.TestCase):
         self.assertAlmostEqual(self.collateral_module.get_account_collateral_balance(account_id="user"), 100)
 
     def test_get_account_total_value(self):
-        self.assertAlmostEqual(self.collateral_module.get_account_total_value(account_id="user"), 210)
+        self.assertAlmostEqual(self.collateral_module.get_account_total_value(account_id="user", account_manager=self.account_manager), 210)
 
 
 if __name__ == "__main__":

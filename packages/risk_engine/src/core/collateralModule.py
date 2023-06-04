@@ -4,7 +4,6 @@ from packages.risk_engine.src.core.accountManager import AccountManager
 class CollateralModule:
     def __init__(self):
 
-        self.account_manager: AccountManager = None
         self._account_collateral_balance_mapping = {}
 
     def get_account_collateral_balance(self, account_id) -> int:
@@ -50,33 +49,24 @@ class CollateralModule:
 
         self._update_account_collateral(account_id=account_id, amount=amount)
 
-    def withdraw_collateral(self, account_id, amount, liquidationModule):
+    def withdraw_collateral(self, account_id, amount, liquidation_module):
 
         if amount < 0:
             raise Exception("margin engine: amount withdrawn is negative")
 
         self._update_account_collateral(account_id=account_id, amount=-amount)
 
-        is_im_satisfied = liquidationModule.is_im_satisfied(account_id=account_id)
+        is_im_satisfied = liquidation_module.is_im_satisfied(account_id=account_id)
 
         if not is_im_satisfied:
             raise Exception("Withdrawal is not possible due to IM not satisfied")
 
-    def get_account_total_value(self, account_id):
+    def get_account_total_value(self, account_id, account_manager: AccountManager):
 
-        account_unrealized_pnl = self.account_manager.get_account(
+        account_unrealized_pnl = account_manager.get_account(
             account_id=account_id
         ).get_account_unrealized_pnl()
 
         account_discounted_collateral_value = self.get_account_collateral_balance(account_id=account_id)
 
         return account_unrealized_pnl + account_discounted_collateral_value
-
-    def set_account_manager(self, account_manager):
-        self.account_manager = account_manager
-
-    def get_account_manager(self):
-        if self.account_manager is None:
-            raise Exception("collateral engine: account manager not set")
-
-        return self.account_manager
