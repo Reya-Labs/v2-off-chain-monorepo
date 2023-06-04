@@ -1,20 +1,19 @@
+from packages.risk_engine.src.core.accountManager import AccountManager
 
 
 class CollateralModule:
     def __init__(self):
 
-        self.account_manager = None
-        self.price_oracle = None
-        self.liquidation_module = None
+        self.account_manager: AccountManager = None
         self._account_collateral_balance_mapping = {}
 
-    def get_account_collateral_balance(self, account_id):
+    def get_account_collateral_balance(self, account_id) -> int:
         if account_id not in self._account_collateral_balance_mapping:
             return 0
 
         return self._account_collateral_balance_mapping[account_id]
 
-    def _update_account_collateral(self, account_id, amount):
+    def _update_account_collateral(self, account_id, amount: float):
         if account_id not in self._account_collateral_balance_mapping:
             self._account_collateral_balance_mapping[account_id] = 0
 
@@ -30,7 +29,7 @@ class CollateralModule:
             amount = fee_debit_or_credit["fee_cashflow"]
             self._update_account_collateral(account_id=account_id, amount=amount)
 
-    def cashflow_propagation(self, account_id, amount):
+    def cashflow_propagation(self, account_id, amount: float):
         self._update_account_collateral(account_id=account_id, amount=amount)
 
     def propagate_liquidator_reward(self, liquidated_account_id, liquidator_account_id, liquidator_reward_amount):
@@ -51,14 +50,14 @@ class CollateralModule:
 
         self._update_account_collateral(account_id=account_id, amount=amount)
 
-    def withdraw_collateral(self, account_id, amount):
+    def withdraw_collateral(self, account_id, amount, liquidationModule):
 
         if amount < 0:
             raise Exception("margin engine: amount withdrawn is negative")
 
         self._update_account_collateral(account_id=account_id, amount=-amount)
 
-        is_im_satisfied = self.get_liquidation_module().is_im_satisfied(account_id=account_id)
+        is_im_satisfied = liquidationModule.is_im_satisfied(account_id=account_id)
 
         if not is_im_satisfied:
             raise Exception("Withdrawal is not possible due to IM not satisfied")
@@ -81,21 +80,3 @@ class CollateralModule:
             raise Exception("collateral engine: account manager not set")
 
         return self.account_manager
-
-    def set_price_oracle(self, price_oracle):
-        self.price_oracle = price_oracle
-
-    def get_price_oracle(self):
-        if self.price_oracle is None:
-            raise Exception("collateral engine: price oracle not set")
-
-        return self.price_oracle
-
-    def set_liquidation_module(self, liquidation_module):
-        self.liquidation_module = liquidation_module
-
-    def get_liquidation_module(self):
-        if self.liquidation_module is None:
-            raise Exception("collateral engine: liquidation engine not set")
-
-        return self.liquidation_module
