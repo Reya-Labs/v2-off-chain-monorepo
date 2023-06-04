@@ -122,10 +122,10 @@ class LiquidationModule:
 
         self._risk_mapping = risk_mapping.copy()
 
-    def set_IM_multiplier(self, im_multiplier):
+    def set_im_multiplier(self, im_multiplier):
 
         self._im_multiplier = im_multiplier
 
-    def get_IM_multiplier(self):
+    def get_im_multiplier(self):
 
         return self._im_multiplier
