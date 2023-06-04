@@ -1,33 +1,29 @@
 from packages.risk_engine.src.core.collateralModule import CollateralModule
+from packages.risk_engine.src.core.accountManager import AccountManager
+
 
 class LiquidationModule:
     def __init__(self, im_multiplier: float, liquidator_reward_proportion_of_im_delta: float):
-
-        self.account_manager = None
-        self.collateral_module: CollateralModule = None
-
         self._risk_mapping = None
         self._im_multiplier: float = im_multiplier
         self.liquidator_reward_proportion_of_im_delta: float = liquidator_reward_proportion_of_im_delta
 
-    def set_collateral_module(self, collateral_module):
-        self.collateral_module = collateral_module
-
-    def is_im_satisfied(self, account_id):
-        account_net_worth = self.collateral_module.get_account_total_value(account_id=account_id)
+    def is_im_satisfied(self, account_id, account_manager: AccountManager, collateral_module: CollateralModule):
+        account_net_worth = collateral_module.get_account_total_value(account_id=account_id, account_manager=account_manager)
         IMR, _ = self.get_account_margin_requirements(account_id=account_id)
 
         return account_net_worth >= IMR
 
-    def is_account_liquidatable(self, account_id):
-        account_value = self.collateral_module.get_account_total_value(account_id=account_id)
+    def is_account_liquidatable(self, account_id, account_manager: AccountManager, collateral_module: CollateralModule):
+        account_value = collateral_module.get_account_total_value(account_id=account_id, account_manager=account_manager)
         IMR, LMR = self.get_account_margin_requirements(account_id=account_id)
 
         return account_value < LMR, IMR, LMR
 
-    def liquidate_account(self, liquidated_account_id, liquidator_account_id):
-        account = self.account_manager.get_account(account_id=liquidated_account_id)
-        liquidator = self.account_manager.get_account(account_id=liquidator_account_id)
+    def liquidate_account(self, liquidated_account_id, liquidator_account_id, account_manager: AccountManager,
+                          collateral_module: CollateralModule):
+        account = account_manager.get_account(account_id=liquidated_account_id)
+        liquidator = account_manager.get_account(account_id=liquidator_account_id)
 
         liquidation_token_type = account.get_base_token()
 
@@ -35,7 +31,8 @@ class LiquidationModule:
             raise Exception("liquidation engine: liquidator account is based on different token")
 
         is_account_liquidatable, im_pre_account_closing, _ = self.is_account_liquidatable(
-            account_id=liquidated_account_id
+            account_id=liquidated_account_id,
+            collateral_module=collateral_module
         )
         if not is_account_liquidatable:
             raise Exception("liquidation engine: account is not liquidatable")
@@ -50,16 +47,16 @@ class LiquidationModule:
         # note: below logic only works for single token account types
         liquidator_reward_amount = delta_im * self.liquidator_reward_proportion_of_im_delta
 
-        self.collateral_module.propagate_liquidator_reward(
+        collateral_module.propagate_liquidator_reward(
             liquidated_account_id=liquidated_account_id,
             liquidator_account_id=liquidator_account_id,
             liquidator_reward_amount=liquidator_reward_amount
         )
 
-    def get_account_margin_requirements(self, account_id):
+    def get_account_margin_requirements(self, account_id, account_manager: AccountManager):
 
         # retrieve the account object via the account_id
-        account = self.account_manager.get_account(account_id=account_id)
+        account = account_manager.get_account(account_id=account_id)
 
         # can be a copy stored in memory
         annualized_filled_and_unfilled_orders = account.get_annualized_filled_and_unfilled_orders()
@@ -124,15 +121,6 @@ class LiquidationModule:
     def set_risk_mapping(self, risk_mapping):
 
         self._risk_mapping = risk_mapping.copy()
-
-    def set_account_manager(self, account_manager):
-        self.account_manager = account_manager
-
-    def get_account_manager(self):
-        if self.account_manager is None:
-            raise Exception("collateral engine: account manager not set")
-
-        return self.account_manager
 
     def set_IM_multiplier(self, im_multiplier):
 
