@@ -60,7 +60,7 @@ class TestLiquidationModule(unittest.TestCase):
 
     def test_is_im_satisfied_when_true(self):
         # Mock account balance with low collateral
-        self.collateral_module.mock_get_account_net_worth(return_value=210)
+        self.collateral_module.mock_get_account_total_value(return_value=210)
 
         # Trigger call
         is_im_satisfied = self.liquidation_module.is_im_satisfied(account_id="user",
@@ -72,7 +72,7 @@ class TestLiquidationModule(unittest.TestCase):
 
     def test_is_im_satisfied_when_false(self):
         # Mock account balance with low collateral
-        self.collateral_module.mock_get_account_net_worth(return_value=20)
+        self.collateral_module.mock_get_account_total_value(return_value=20)
 
         # Trigger call
         is_im_satisfied = self.liquidation_module.is_im_satisfied(account_id="user", account_manager=self.account_manager,
