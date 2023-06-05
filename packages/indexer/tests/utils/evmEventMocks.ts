@@ -1,5 +1,5 @@
 import { BigNumber, Event } from 'ethers';
-import { ZERO_ADDRESS } from '../../src/utils/constants';
+import { ZERO_ADDRESS } from '@voltz-protocol/commons-v2';
 
 const evmEventDefault = {
   address: '0xe9A6569995F3D8EC971F1D314e0e832C38a735Cc',

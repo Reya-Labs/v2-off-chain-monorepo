@@ -1,4 +1,4 @@
-import { CollateralUpdateEvent } from '@voltz-protocol/indexer-v2/src/event-parsers/types';
+import { CollateralUpdateEvent } from '../../utils/eventTypes';
 import { bqNumericToNumber } from '../utils/converters';
 
 export const mapToCollateralUpdateEvent = (

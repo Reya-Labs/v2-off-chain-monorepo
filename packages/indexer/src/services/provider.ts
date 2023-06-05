@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { getAlchemyApiKey, getInfuraApiKey } from '../utils/env-vars';
+import { getAlchemyApiKey, getInfuraApiKey } from '@voltz-protocol/commons-v2';
 
 export enum SupportedChainId {
   mainnet = 1,

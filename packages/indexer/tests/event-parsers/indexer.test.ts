@@ -2,8 +2,8 @@ import { EventFilter } from 'ethers';
 import { sync } from '../../src/process/sync';
 import { collateralUpdateEvmEvent } from '../utils/evmEventMocks';
 import { parseCollateralUpdate } from '../../src/event-parsers/core/collateralUpdate';
-import { pullCollateralUpdateEvent } from '../../src/services/big-query/raw-collateral-updates-table/pull-data/pullCollateralUpdateEvent';
-import { getBigQuery } from '../../src/services/big-query/client';
+import { pullCollateralUpdateEvent } from '@voltz-protocol/commons-v2';
+import { getBigQuery } from '@voltz-protocol/commons-v2';
 import { getCoreContract } from '../../src/contract-generators/core';
 import { getDatedIrsInstrumentContract } from '../../src/contract-generators/dated-irs-instrument';
 import { getDatedIrsVammContract } from '../../src/contract-generators/dated-irs-vamm';
@@ -31,13 +31,13 @@ jest.mock('../../src/contract-generators/dated-irs-vamm.ts', () => ({
 }));
 
 jest.mock(
-  '../../src/services/big-query/raw-collateral-updates-table/pull-data/pullCollateralUpdateEvent.ts',
+  '@voltz-protocol/commons-v2/src/big-query/raw-collateral-updates-table/pull-data/pullCollateralUpdateEvent.ts',
   () => ({
     pullCollateralUpdateEvent: jest.fn(() => {}),
   }),
 );
 
-jest.mock('../../src/services/big-query/client.ts', () => ({
+jest.mock('@voltz-protocol/commons-v2/src/big-query/client.ts', () => ({
   getBigQuery: jest.fn(() => {}),
 }));
 

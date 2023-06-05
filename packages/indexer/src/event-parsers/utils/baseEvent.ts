@@ -1,7 +1,7 @@
 import { Event } from 'ethers';
 
-import { BaseEvent, ProtocolEventType } from '../types';
-import { convertLowercaseString } from './convertLowercase';
+import { BaseEvent, ProtocolEventType } from '@voltz-protocol/commons-v2';
+import { convertLowercaseString } from '@voltz-protocol/commons-v2';
 
 export const parseBaseEvent = (
   chainId: number,

@@ -1,10 +1,10 @@
 import { Event, BigNumber } from 'ethers';
 
-import { ProtocolEventType, TakerOrderEvent } from '../types';
-import { getTokenDetails } from '../../utils/token';
+import { ProtocolEventType, TakerOrderEvent } from '@voltz-protocol/commons-v2';
+import { getTokenDetails } from '@voltz-protocol/commons-v2';
 import { getMarketQuoteToken } from '../../utils/markets/getMarketQuoteToken';
 import { parseBaseEvent } from '../utils/baseEvent';
-import { convertLowercaseString } from '../utils/convertLowercase';
+import { convertLowercaseString } from '@voltz-protocol/commons-v2';
 
 export const parseTakerOrder = (
   chainId: number,

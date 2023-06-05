@@ -1,8 +1,11 @@
 import { Event } from 'ethers';
 
-import { ProtocolEventType, RateOracleConfiguredEvent } from '../types';
+import {
+  ProtocolEventType,
+  RateOracleConfiguredEvent,
+} from '@voltz-protocol/commons-v2';
 import { parseBaseEvent } from '../utils/baseEvent';
-import { convertLowercaseString } from '../utils/convertLowercase';
+import { convertLowercaseString } from '@voltz-protocol/commons-v2';
 
 export const parseRateOracleConfigured = (
   chainId: number,

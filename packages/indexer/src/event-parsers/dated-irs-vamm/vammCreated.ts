@@ -1,8 +1,11 @@
 import { Event, BigNumber, ethers } from 'ethers';
 
-import { ProtocolEventType, VammCreatedEvent } from '../types';
+import {
+  ProtocolEventType,
+  VammCreatedEvent,
+} from '@voltz-protocol/commons-v2';
 import { parseBaseEvent } from '../utils/baseEvent';
-import { convertLowercaseString } from '../utils/convertLowercase';
+import { convertLowercaseString } from '@voltz-protocol/commons-v2';
 
 export const parseVammCreated = (
   chainId: number,

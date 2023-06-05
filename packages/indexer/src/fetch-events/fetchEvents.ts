@@ -7,7 +7,7 @@ import { parseMarketConfigured } from '../event-parsers/dated-irs-instrument/mar
 import { parseRateOracleConfigured } from '../event-parsers/dated-irs-instrument/rateOracleConfigured';
 import { parseVammCreated } from '../event-parsers/dated-irs-vamm/vammCreated';
 import { parseVammPriceChange } from '../event-parsers/dated-irs-vamm/vammPriceChange';
-import { ProtocolEvent, ProtocolEventType } from '../event-parsers/types';
+import { ProtocolEvent, ProtocolEventType } from '@voltz-protocol/commons-v2';
 
 export const fetchEvents = async (
   chainId: number,
