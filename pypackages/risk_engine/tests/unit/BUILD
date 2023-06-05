@@ -1,3 +1,7 @@
+python_tests(
+    name="tests",
+)
+
 python_sources()
 
 python_test_utils(

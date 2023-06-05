@@ -11,8 +11,8 @@ backend_packages = [
 
 [source]
 root_patterns = [
-    "src",
-    "tests"
+    # The Python source root is the repo root. See https://www.pantsbuild.org/docs/source-roots.
+    "/"
 ]
 
 [python]
@@ -38,4 +38,4 @@ args = ["--output-file=reports/report.txt"]
 config = [".isort.cfg"]
 
 [pytest]
-version = "pytest>=7.3"
+version = "pytest==7.0.1"
