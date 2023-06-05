@@ -20,9 +20,6 @@ class TestLiquidationModule(unittest.TestCase):
 
         self.collateral_module = MockCollateralModule()
 
-        self.liquidation_module.set_account_manager(account_manager=self.account_manager)
-        self.liquidation_module.set_collateral_module(collateral_module=self.collateral_module)
-
         self.maturity = self.block.timestamp + MONTH_IN_SECONDS
 
         self.liquidation_module._risk_mapping = {
@@ -60,9 +57,6 @@ class TestLiquidationModule(unittest.TestCase):
         )
 
         self.user.mock_get_base_token(return_value="USDC")
-
-    def test_check_account_manager(self):
-        self.assertIsNotNone(self.liquidation_module.get_account_manager())
 
     def test_is_im_satisfied_when_true(self):
         # Mock account balance with low collateral
@@ -160,14 +154,14 @@ class TestLiquidationModule(unittest.TestCase):
         self.assertAlmostEqual(self.liquidation_module._risk_mapping, risk_mapping)
 
     def test_get_IM_multiplier(self):
-        im_multiplier = self.liquidation_module.get_IM_multiplier()
+        im_multiplier = self.liquidation_module.get_im_multiplier()
 
         self.assertAlmostEqual(im_multiplier, 1.5)
 
     def test_set_IM_multiplier(self):
         im_multiplier = 2
 
-        self.liquidation_module.set_IM_multiplier(im_multiplier=im_multiplier)
+        self.liquidation_module.set_im_multiplier(im_multiplier=im_multiplier)
 
         self.assertAlmostEqual(self.liquidation_module._im_multiplier, im_multiplier)
 
