@@ -159,7 +159,8 @@ In order to generate the lockfile run the following command:
 pants generate-lockfiles
 ```
 
-### Check
+### Other commands
+
 
 
 

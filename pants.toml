@@ -10,7 +10,6 @@ backend_packages = [
 ]
 
 [source]
-# The Python source root is the repo root. See https://pants.readme.io/docs/source-roots.
 root_patterns = [
     "pypackages/risk_engine/src",
     "pypackages/risk_engine/tests"
@@ -32,3 +31,6 @@ args = ["--output-file=reports/report.txt"]
 
 [isort]
 config = [".isort.cfg"]
+
+[pytest]
+version = "pytest>=7.3"
