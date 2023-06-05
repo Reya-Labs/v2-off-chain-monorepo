@@ -159,9 +159,9 @@ In order to generate the lockfile run the following command:
 pants generate-lockfiles
 ```
 
-### Other commands
+### Setting up an IDE
 
-
+https://www.pantsbuild.org/docs/setting-up-an-ide
 
 
 ## Contributing
