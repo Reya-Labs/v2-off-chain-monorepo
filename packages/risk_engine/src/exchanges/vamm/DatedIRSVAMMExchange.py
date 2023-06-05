@@ -1,10 +1,9 @@
 from typing_extensions import override
+from packages.risk_engine.src.exchanges.vamm.BaseVAMMExchange import BaseVAMMExchange
+from packages.risk_engine.src.constants import YEAR_IN_SECONDS
 
-from constants import YEAR_IN_SECONDS
-from pools.BasePool import BasePool
 
-
-class IRSPool(BasePool):
+class DatedIRSVAMMExchange(BaseVAMMExchange):
     def __init__(
         self,
         pool_id,
