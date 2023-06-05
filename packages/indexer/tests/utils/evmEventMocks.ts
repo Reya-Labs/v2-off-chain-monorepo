@@ -76,6 +76,8 @@ export const rateOracleConfiguredEvmEvent = {
   },
 } as unknown as Event;
 
+/////////////////////////////////////////////////////////////////////////////
+
 export const vammCreatedEvmEvent = {
   ...evmEventDefault,
   args: {
@@ -95,6 +97,8 @@ export const vammCreatedEvmEvent = {
   },
 } as unknown as Event;
 
+/////////////////////////////////////////////////////////////////////////////
+
 export const vammPriceChangeEvmEvent = {
   ...evmEventDefault,
   args: {
@@ -104,6 +108,8 @@ export const vammPriceChangeEvmEvent = {
     tick: 6060,
   },
 } as unknown as Event;
+
+/////////////////////////////////////////////////////////////////////////////
 
 export const takerOrderEvmEvent = {
   ...evmEventDefault,
