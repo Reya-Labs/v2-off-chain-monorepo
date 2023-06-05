@@ -54,7 +54,9 @@ class BaseMarket:
         pass
 
     # Internal functions
-    def _process_maker_taker_fees(self, maturity, account_id, executed_base_amount, is_taker):
+    def _process_maker_taker_fees(
+        self, maturity, account_id, executed_base_amount, is_taker
+    ):
 
         """
 
@@ -65,18 +67,22 @@ class BaseMarket:
         """
 
         # annualized notional in fee token terms
-        [annualized_notional] = self._annualize(bases=[executed_base_amount], maturity=maturity)
+        [annualized_notional] = self._annualize(
+            bases=[executed_base_amount], maturity=maturity
+        )
 
         """
             in theory fee distribution can be batched and delegated to avoid two steps below from gas cost perspective
             also, as noted above in the process_limit_order function, do we need to .mark_market within this function?
         """
 
-        fee_debits_and_credits_in_fee_token = self.get_fee_manager().get_atomic_fee_debits_and_credits(
-            market_id=self.market_id,
-            annualized_notional=annualized_notional,
-            account_id=account_id,
-            is_taker=is_taker,
+        fee_debits_and_credits_in_fee_token = (
+            self.get_fee_manager().get_atomic_fee_debits_and_credits(
+                market_id=self.market_id,
+                annualized_notional=annualized_notional,
+                account_id=account_id,
+                is_taker=is_taker,
+            )
         )
 
         self.get_collateral_module().distribute_fees(
@@ -104,7 +110,9 @@ class BaseMarket:
         self._quote_balance_per_maturity[maturity][account_id] += amount
 
     # External functions
-    def process_limit_order(self, pool_id, maturity, account_id, base, lower_price, upper_price):
+    def process_limit_order(
+        self, pool_id, maturity, account_id, base, lower_price, upper_price
+    ):
         """
         Limit order encapsulates any type of lp order that's atomic on chain.
         price_lower and price_upper are optional arguments (e.g. there might be pools that are fully managed
@@ -142,10 +150,16 @@ class BaseMarket:
         )
 
         # check the margin requirement of the account that executed this trade
-        is_im_satisfied = self.get_liquidation_module().is_im_satisfied(account_id=account_id, account_manager=self._account_manager, collateral_module=self._collateral_module)
+        is_im_satisfied = self.get_liquidation_module().is_im_satisfied(
+            account_id=account_id,
+            account_manager=self._account_manager,
+            collateral_module=self._collateral_module,
+        )
 
         if not is_im_satisfied:
-            raise Exception("Initial margin requirement of the account_id is not satisfied")
+            raise Exception(
+                "Initial margin requirement of the account_id is not satisfied"
+            )
 
         return executed_base_amount, fee_debits_and_credits_in_fee_token
 
@@ -191,7 +205,9 @@ class BaseMarket:
         if not account.get_base_token() == self._quote_token:
             raise Exception("account token does not correspond to quote token")
 
-        executed_base_amount, executed_quote_amount = pool.execute_market_order(maturity=maturity, base=base)
+        executed_base_amount, executed_quote_amount = pool.execute_market_order(
+            maturity=maturity, base=base
+        )
 
         self._update_base_balance_per_maturity(
             maturity=maturity, account_id=account_id, amount=executed_base_amount
@@ -210,13 +226,22 @@ class BaseMarket:
         )
 
         # check the margin requirement of the account that executed this trade
-        is_im_satisfied = self.get_liquidation_module().is_im_satisfied(account_id=account_id, account_manager=self._account_manager,
-                                                                        collateral_module=self._collateral_module)
+        is_im_satisfied = self.get_liquidation_module().is_im_satisfied(
+            account_id=account_id,
+            account_manager=self._account_manager,
+            collateral_module=self._collateral_module,
+        )
 
         if not is_im_satisfied:
-            raise Exception("Initial margin requirement of the account_id is not satisfied")
+            raise Exception(
+                "Initial margin requirement of the account_id is not satisfied"
+            )
 
-        return executed_base_amount, executed_quote_amount, taker_fee_debits_and_credits_in_fee_token
+        return (
+            executed_base_amount,
+            executed_quote_amount,
+            taker_fee_debits_and_credits_in_fee_token,
+        )
 
     def route_market_order(self, maturity, account_id, base):
         default_pool_id = self.get_default_pool_id()
@@ -237,7 +262,9 @@ class BaseMarket:
             if maturity not in pool.supported_maturities():
                 continue
 
-            (closed_base, closed_quote) = pool.close_positions(maturity=maturity, account_id=account_id)
+            (closed_base, closed_quote) = pool.close_positions(
+                maturity=maturity, account_id=account_id
+            )
 
             self._update_base_balance_per_maturity(
                 maturity=maturity, account_id=account_id, amount=closed_base
@@ -250,11 +277,17 @@ class BaseMarket:
         pending_base = self._base_balance_per_maturity[maturity][account_id]
 
         # close filled base exposure
-        self.route_market_order(maturity=maturity, account_id=account_id, base=-pending_base)
+        self.route_market_order(
+            maturity=maturity, account_id=account_id, base=-pending_base
+        )
 
     def settle(self, maturity, account_id):
-        aggregate_base = self.get_base_balance_per_maturity(maturity=maturity, account_id=account_id)
-        aggregate_quote = self.get_quote_balance_per_maturity(maturity=maturity, account_id=account_id)
+        aggregate_base = self.get_base_balance_per_maturity(
+            maturity=maturity, account_id=account_id
+        )
+        aggregate_quote = self.get_quote_balance_per_maturity(
+            maturity=maturity, account_id=account_id
+        )
 
         self._update_base_balance_per_maturity(
             maturity=maturity, account_id=account_id, amount=-aggregate_base
@@ -299,6 +332,7 @@ class BaseMarket:
 
     def set_fee_manager(self, fee_manager):
         self._fee_manager = fee_manager
+
     #
     # def set_price_oracle(self, price_oracle):
     #     self._price_oracle = price_oracle
@@ -352,8 +386,12 @@ class BaseMarket:
         return price
 
     def get_account_filled_balances(self, maturity, account_id):
-        aggregate_base = self.get_base_balance_per_maturity(maturity=maturity, account_id=account_id)
-        aggregate_quote = self.get_quote_balance_per_maturity(maturity=maturity, account_id=account_id)
+        aggregate_base = self.get_base_balance_per_maturity(
+            maturity=maturity, account_id=account_id
+        )
+        aggregate_quote = self.get_quote_balance_per_maturity(
+            maturity=maturity, account_id=account_id
+        )
 
         for pool_id in self._registered_pools:
             pool = self.get_pool_by_id(pool_id=pool_id)
@@ -361,7 +399,9 @@ class BaseMarket:
             if maturity not in pool.supported_maturities():
                 continue
 
-            base, quote = pool.get_account_filled_balances(maturity=maturity, account_id=account_id)
+            base, quote = pool.get_account_filled_balances(
+                maturity=maturity, account_id=account_id
+            )
 
             aggregate_base += base
             aggregate_quote += quote
@@ -369,8 +409,12 @@ class BaseMarket:
         return aggregate_base, aggregate_quote
 
     def get_account_filled_and_unfilled_balances(self, maturity, account_id):
-        aggregate_base = self.get_base_balance_per_maturity(maturity=maturity, account_id=account_id)
-        aggregate_quote = self.get_quote_balance_per_maturity(maturity=maturity, account_id=account_id)
+        aggregate_base = self.get_base_balance_per_maturity(
+            maturity=maturity, account_id=account_id
+        )
+        aggregate_quote = self.get_quote_balance_per_maturity(
+            maturity=maturity, account_id=account_id
+        )
         aggregate_unfilled_base_long = 0
         aggregate_unfilled_base_short = 0
 
@@ -385,14 +429,21 @@ class BaseMarket:
                 quote,
                 unfilled_base_long,
                 unfilled_base_short,
-            ) = pool.get_account_filled_and_unfilled_balances(maturity=maturity, account_id=account_id)
+            ) = pool.get_account_filled_and_unfilled_balances(
+                maturity=maturity, account_id=account_id
+            )
 
             aggregate_base += base
             aggregate_quote += quote
             aggregate_unfilled_base_long += unfilled_base_long
             aggregate_unfilled_base_short += unfilled_base_short
 
-        return aggregate_base, aggregate_quote, aggregate_unfilled_base_long, aggregate_unfilled_base_short
+        return (
+            aggregate_base,
+            aggregate_quote,
+            aggregate_unfilled_base_long,
+            aggregate_unfilled_base_short,
+        )
 
     def get_annualized_filled_and_unfilled_bases(self, maturity, account_id):
         (
@@ -400,20 +451,24 @@ class BaseMarket:
             _,
             unfilled_base_long,
             unfilled_base_short,
-        ) = self.get_account_filled_and_unfilled_balances(maturity=maturity, account_id=account_id)
+        ) = self.get_account_filled_and_unfilled_balances(
+            maturity=maturity, account_id=account_id
+        )
 
         [
             annualized_filled_base,
             annualized_unfilled_base_long,
             annualized_unfilled_base_short,
-        ] = self._annualize(bases=[filled_base, unfilled_base_long, unfilled_base_short], maturity=maturity)
+        ] = self._annualize(
+            bases=[filled_base, unfilled_base_long, unfilled_base_short],
+            maturity=maturity,
+        )
 
         return (
             annualized_filled_base,
             annualized_unfilled_base_long,
             annualized_unfilled_base_short,
         )
-
 
     def get_oracle(self):
         if self._oracle is None:

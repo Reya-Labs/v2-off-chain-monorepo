@@ -1,5 +1,7 @@
 from unittest import mock
+
 from pypackages.risk_engine.src.instruments.dated_irs.baseMarket import BaseMarket
+
 
 class MockMarket(BaseMarket):
     def __init__(self, market_id):
@@ -13,7 +15,9 @@ class MockMarket(BaseMarket):
         self.get_unrealized_pnl_in_quote = mock.Mock(return_value=return_value)
 
     def mock_get_annualized_filled_and_unfilled_bases(self, return_value):
-        self.get_annualized_filled_and_unfilled_bases = mock.Mock(return_value=return_value)
+        self.get_annualized_filled_and_unfilled_bases = mock.Mock(
+            return_value=return_value
+        )
 
     def mock_base_to_USD_exchange_rate(self, return_value):
         self.base_to_USD_exchange_rate = mock.Mock(return_value=return_value)

@@ -1,9 +1,12 @@
 from bisect import bisect
-from .math import linear_interpolate
-from pypackages.risk_engine.src.oracles.rate.rateOracle import Observation, RateOracle
+
 from pypackages.risk_engine.src.evm.block import Block
+from pypackages.risk_engine.src.oracles.rate.rateOracle import Observation, RateOracle
+
+from .math import linear_interpolate
 
 # todo: consider moving to tests/mocks
+
 
 class MockRateOracle(RateOracle):
     """An interface for storing, extrapolating and interpolating liquidity index values for a particular underlying instrument"""
@@ -35,7 +38,9 @@ class MockRateOracle(RateOracle):
             obs_after = self.ordered_obs[index]
             return linear_interpolate(obs_before, obs_after, delta)
 
-    def index_ratio_between(self, start_time: int, end_time: int, block: Block) -> float:
+    def index_ratio_between(
+        self, start_time: int, end_time: int, block: Block
+    ) -> float:
         """Returns the ratio of the ending liquidity index to the starting liquidity index as a float (e.g. 1.1 if index increased by 10%)"""
         value_before = self.index_at(start_time, block)
         value_after = self.index_at(end_time, block)

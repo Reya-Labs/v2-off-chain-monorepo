@@ -1,5 +1,6 @@
 from pypackages.risk_engine.src.core.account import Account
 
+
 class AccountManager:
     def __init__(self):
 

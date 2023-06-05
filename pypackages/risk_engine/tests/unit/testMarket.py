@@ -1,15 +1,18 @@
 import unittest
 from unittest import mock
+
+from pypackages.risk_engine.src.constants import MONTH_IN_SECONDS
+from pypackages.risk_engine.src.evm.block import Block
+from pypackages.risk_engine.src.instruments.dated_irs.baseMarket import BaseMarket
 from pypackages.risk_engine.tests.mocks.mockAccount import MockAccount
 from pypackages.risk_engine.tests.mocks.mockAccountManager import MockAccountManager
 from pypackages.risk_engine.tests.mocks.mockCollateralModule import MockCollateralModule
-from pypackages.risk_engine.tests.mocks.mockFeeManager import MockFeeManager
-from pypackages.risk_engine.tests.mocks.mockLiquidationModule import MockLiquidationModule
-from pypackages.risk_engine.tests.mocks.mockOracle import MockOracle
 from pypackages.risk_engine.tests.mocks.mockExchange import MockExchange
-from pypackages.risk_engine.src.evm.block import Block
-from pypackages.risk_engine.src.constants import MONTH_IN_SECONDS
-from pypackages.risk_engine.src.instruments.dated_irs.baseMarket import BaseMarket
+from pypackages.risk_engine.tests.mocks.mockFeeManager import MockFeeManager
+from pypackages.risk_engine.tests.mocks.mockLiquidationModule import (
+    MockLiquidationModule,
+)
+from pypackages.risk_engine.tests.mocks.mockOracle import MockOracle
 
 
 class MockMarket(BaseMarket):
@@ -38,7 +41,7 @@ class TestIRSMarket(unittest.TestCase):
         self.oracle = MockOracle()
         self.account_manager = MockAccountManager()
         self.fee_manager = MockFeeManager()
-        
+
         self.user = MockAccount(account_id="user")
         self.account_manager.mock_get_account(return_value=self.user)
 
@@ -66,7 +69,9 @@ class TestIRSMarket(unittest.TestCase):
         self.assertAlmostEqual(self.market.get_default_pool_id(), "USDC_VAMM")
 
     def test_get_default_pool_id_when_uninitialized(self):
-        with self.assertRaisesRegex(Exception, "base market: default pool id has not been set"):
+        with self.assertRaisesRegex(
+            Exception, "base market: default pool id has not been set"
+        ):
             self.market.get_default_pool_id()
 
     def test_set_default_pool_id(self):
@@ -75,36 +80,54 @@ class TestIRSMarket(unittest.TestCase):
 
     def test_get_base_balance_per_maturity_when_maturity_non_existent(self):
         self.assertAlmostEqual(
-            self.market.get_base_balance_per_maturity(maturity=self.maturity, account_id="user"), 0
+            self.market.get_base_balance_per_maturity(
+                maturity=self.maturity, account_id="user"
+            ),
+            0,
         )
 
     def test_get_base_balance_per_maturity_when_account_non_existent(self):
         self.market._base_balance_per_maturity.update({self.maturity: {"other": 10}})
         self.assertAlmostEqual(
-            self.market.get_base_balance_per_maturity(maturity=self.maturity, account_id="user"), 0
+            self.market.get_base_balance_per_maturity(
+                maturity=self.maturity, account_id="user"
+            ),
+            0,
         )
 
     def test_get_base_balance_per_maturity_when_positive(self):
         self.market._base_balance_per_maturity.update({self.maturity: {"user": 10}})
         self.assertAlmostEqual(
-            self.market.get_base_balance_per_maturity(maturity=self.maturity, account_id="user"), 10
+            self.market.get_base_balance_per_maturity(
+                maturity=self.maturity, account_id="user"
+            ),
+            10,
         )
 
     def test_get_quote_balance_per_maturity_when_maturity_non_existent(self):
         self.assertAlmostEqual(
-            self.market.get_quote_balance_per_maturity(maturity=self.maturity, account_id="user"), 0
+            self.market.get_quote_balance_per_maturity(
+                maturity=self.maturity, account_id="user"
+            ),
+            0,
         )
 
     def test_get_quote_balance_per_maturity_when_account_non_existent(self):
         self.market._quote_balance_per_maturity.update({self.maturity: {"other": 10}})
         self.assertAlmostEqual(
-            self.market.get_quote_balance_per_maturity(maturity=self.maturity, account_id="user"), 0
+            self.market.get_quote_balance_per_maturity(
+                maturity=self.maturity, account_id="user"
+            ),
+            0,
         )
 
     def test_get_quote_balance_per_maturity_when_positive(self):
         self.market._quote_balance_per_maturity.update({self.maturity: {"user": 10}})
         self.assertAlmostEqual(
-            self.market.get_quote_balance_per_maturity(maturity=self.maturity, account_id="user"), 10
+            self.market.get_quote_balance_per_maturity(
+                maturity=self.maturity, account_id="user"
+            ),
+            10,
         )
 
     def test_register_pool(self):
@@ -112,7 +135,9 @@ class TestIRSMarket(unittest.TestCase):
             self.market.register_pool(pool=self.pool_vamm)
 
     def test_get_pool_by_id_when_existent(self):
-        self.assertAlmostEqual(self.market.get_pool_by_id(pool_id="USDC_VAMM"), self.pool_vamm)
+        self.assertAlmostEqual(
+            self.market.get_pool_by_id(pool_id="USDC_VAMM"), self.pool_vamm
+        )
 
     def test_register_pool_when_non_existent(self):
         with self.assertRaisesRegex(Exception, "Market: Pool not registered"):
@@ -128,7 +153,9 @@ class TestIRSMarket(unittest.TestCase):
             },
         ]
 
-        self.fee_manager.mock_get_atomic_fee_debits_and_credits(return_value=mock_fee_debits_and_credits)
+        self.fee_manager.mock_get_atomic_fee_debits_and_credits(
+            return_value=mock_fee_debits_and_credits
+        )
 
         # Mock Pool return values
         mock_executed_base_amount = 900
@@ -144,7 +171,10 @@ class TestIRSMarket(unittest.TestCase):
         self.user.mock_get_base_token(return_value="USDC")
 
         # Trigger the call
-        executed_base_amount, fee_debits_and_credits_in_fee_token = self.market.process_limit_order(
+        (
+            executed_base_amount,
+            fee_debits_and_credits_in_fee_token,
+        ) = self.market.process_limit_order(
             pool_id="USDC_VAMM",
             maturity=self.maturity,
             account_id="user",
@@ -155,17 +185,23 @@ class TestIRSMarket(unittest.TestCase):
 
         # Check the result
         self.assertAlmostEqual(executed_base_amount, mock_executed_base_amount)
-        self.assertAlmostEqual(fee_debits_and_credits_in_fee_token, mock_fee_debits_and_credits)
+        self.assertAlmostEqual(
+            fee_debits_and_credits_in_fee_token, mock_fee_debits_and_credits
+        )
 
         # Check if the pool functions have been called correctly
         self.pool_vamm.execute_limit_order.assert_called_with(
-            maturity=self.maturity, account_id="user", base=1000, lower_price=0.03, upper_price=0.07
+            maturity=self.maturity,
+            account_id="user",
+            base=1000,
+            lower_price=0.03,
+            upper_price=0.07,
         )
 
         # Check if the account manager functions have been called correctly
-        self.account_manager.get_account(account_id="user").mark_market.assert_called_with(
-            market_id="market", maturity=self.maturity
-        )
+        self.account_manager.get_account(
+            account_id="user"
+        ).mark_market.assert_called_with(market_id="market", maturity=self.maturity)
 
         # Check if the fee manager functions have been called correctly
         self.fee_manager.get_atomic_fee_debits_and_credits.assert_called_with(
@@ -222,7 +258,9 @@ class TestIRSMarket(unittest.TestCase):
             },
         ]
 
-        self.fee_manager.mock_get_atomic_fee_debits_and_credits(return_value=mock_fee_debits_and_credits)
+        self.fee_manager.mock_get_atomic_fee_debits_and_credits(
+            return_value=mock_fee_debits_and_credits
+        )
 
         # Mock Pool return values
         mock_executed_base_amount = 900
@@ -255,15 +293,19 @@ class TestIRSMarket(unittest.TestCase):
         # Check the result
         self.assertAlmostEqual(executed_base_amount, mock_executed_base_amount)
         self.assertAlmostEqual(executed_quote_amount, mock_executed_quote_amount)
-        self.assertAlmostEqual(fee_debits_and_credits_in_fee_token, mock_fee_debits_and_credits)
+        self.assertAlmostEqual(
+            fee_debits_and_credits_in_fee_token, mock_fee_debits_and_credits
+        )
 
         # Check the state change
         self.assertAlmostEqual(
-            self.market._base_balance_per_maturity[self.maturity]["user"], mock_executed_base_amount
+            self.market._base_balance_per_maturity[self.maturity]["user"],
+            mock_executed_base_amount,
         )
 
         self.assertAlmostEqual(
-            self.market._quote_balance_per_maturity[self.maturity]["user"], mock_executed_quote_amount
+            self.market._quote_balance_per_maturity[self.maturity]["user"],
+            mock_executed_quote_amount,
         )
 
         # Check if the pool functions have been called correctly
@@ -273,9 +315,9 @@ class TestIRSMarket(unittest.TestCase):
         )
 
         # Check if the account manager functions have been called correctly
-        self.account_manager.get_account(account_id="user").mark_market.assert_called_with(
-            market_id="market", maturity=self.maturity
-        )
+        self.account_manager.get_account(
+            account_id="user"
+        ).mark_market.assert_called_with(market_id="market", maturity=self.maturity)
 
         # Check if the fee manager functions have been called correctly
         self.fee_manager.get_atomic_fee_debits_and_credits.assert_called_with(
@@ -296,7 +338,9 @@ class TestIRSMarket(unittest.TestCase):
         # Mock Fee Manager return values
         mock_fee_debits_and_credits = []
 
-        self.fee_manager.mock_get_atomic_fee_debits_and_credits(return_value=mock_fee_debits_and_credits)
+        self.fee_manager.mock_get_atomic_fee_debits_and_credits(
+            return_value=mock_fee_debits_and_credits
+        )
 
         # Mock Pool return values
         mock_executed_base_amount = 900
@@ -327,7 +371,9 @@ class TestIRSMarket(unittest.TestCase):
     def test_settlement_cashflow(self):
         self.oracle.mock_snapshot(return_value=1.05)
 
-        settlement_cashflow = self.market.settlement_cashflow(maturity=self.maturity, base=1000, quote=-100)
+        settlement_cashflow = self.market.settlement_cashflow(
+            maturity=self.maturity, base=1000, quote=-100
+        )
 
         self.assertAlmostEqual(settlement_cashflow, 950)
 
@@ -352,11 +398,17 @@ class TestIRSMarket(unittest.TestCase):
         self.market.settle(maturity=self.maturity, account_id="user")
 
         # Check state
-        self.assertAlmostEqual(self.market._base_balance_per_maturity[self.maturity]["user"], 0)
-        self.assertAlmostEqual(self.market._quote_balance_per_maturity[self.maturity]["user"], 0)
+        self.assertAlmostEqual(
+            self.market._base_balance_per_maturity[self.maturity]["user"], 0
+        )
+        self.assertAlmostEqual(
+            self.market._quote_balance_per_maturity[self.maturity]["user"], 0
+        )
 
         # Check Margin Engine calls
-        self.collateral_module.cashflow_propagation.assert_called_with(account_id="user", amount=-26)
+        self.collateral_module.cashflow_propagation.assert_called_with(
+            account_id="user", amount=-26
+        )
 
     def test_get_account_filled_balances(self):
         self.pool_vamm.mock_get_account_filled_balances(return_value=(-500, 1000))
@@ -368,16 +420,22 @@ class TestIRSMarket(unittest.TestCase):
         self.market._base_balance_per_maturity.update({self.maturity: {"user": 30}})
         self.market._quote_balance_per_maturity.update({self.maturity: {"user": -20}})
 
-        base, quote = self.market.get_account_filled_balances(maturity=self.maturity, account_id="user")
+        base, quote = self.market.get_account_filled_balances(
+            maturity=self.maturity, account_id="user"
+        )
 
         self.assertAlmostEqual(base, 280)
         self.assertAlmostEqual(quote, 180)
 
     def test_get_account_filled_and_unfilled_balances(self):
-        self.pool_vamm.mock_get_account_filled_and_unfilled_balances(return_value=(-500, 1000, 400, -400))
+        self.pool_vamm.mock_get_account_filled_and_unfilled_balances(
+            return_value=(-500, 1000, 400, -400)
+        )
         self.pool_vamm.mock_supported_maturities(return_value=[self.maturity])
 
-        self.pool_clob.mock_get_account_filled_and_unfilled_balances(return_value=(750, -800, 300, -200))
+        self.pool_clob.mock_get_account_filled_and_unfilled_balances(
+            return_value=(750, -800, 300, -200)
+        )
         self.pool_clob.mock_supported_maturities(return_value=[self.maturity])
 
         self.market._base_balance_per_maturity.update({self.maturity: {"user": 30}})
@@ -388,7 +446,9 @@ class TestIRSMarket(unittest.TestCase):
             quote,
             unfilled_base_long,
             unfilled_base_short,
-        ) = self.market.get_account_filled_and_unfilled_balances(maturity=self.maturity, account_id="user")
+        ) = self.market.get_account_filled_and_unfilled_balances(
+            maturity=self.maturity, account_id="user"
+        )
 
         self.assertAlmostEqual(base, 280)
         self.assertAlmostEqual(quote, 180)
@@ -396,10 +456,14 @@ class TestIRSMarket(unittest.TestCase):
         self.assertAlmostEqual(unfilled_base_short, -600)
 
     def test_get_annualized_filled_and_unfilled_bases(self):
-        self.pool_vamm.mock_get_account_filled_and_unfilled_balances(return_value=(-500, 1000, 400, -400))
+        self.pool_vamm.mock_get_account_filled_and_unfilled_balances(
+            return_value=(-500, 1000, 400, -400)
+        )
         self.pool_vamm.mock_supported_maturities(return_value=[self.maturity])
 
-        self.pool_clob.mock_get_account_filled_and_unfilled_balances(return_value=(750, -800, 300, -200))
+        self.pool_clob.mock_get_account_filled_and_unfilled_balances(
+            return_value=(750, -800, 300, -200)
+        )
         self.pool_clob.mock_supported_maturities(return_value=[self.maturity])
 
         self.market._base_balance_per_maturity.update({self.maturity: {"user": 30}})
@@ -411,14 +475,17 @@ class TestIRSMarket(unittest.TestCase):
             annualized_base,
             annualized_unfilled_base_long,
             annualized_unfilled_base_short,
-        ) = self.market.get_annualized_filled_and_unfilled_bases(maturity=self.maturity, account_id="user")
+        ) = self.market.get_annualized_filled_and_unfilled_bases(
+            maturity=self.maturity, account_id="user"
+        )
 
         self.assertAlmostEqual(annualized_base, 100)
         self.assertAlmostEqual(annualized_unfilled_base_long, 200)
         self.assertAlmostEqual(annualized_unfilled_base_short, 300)
 
-        self.market._annualize.assert_called_with(bases=[280, 700, -600], maturity=self.maturity)
-
+        self.market._annualize.assert_called_with(
+            bases=[280, 700, -600], maturity=self.maturity
+        )
 
     def test_aggregate_gwap(self):
         self.pool_vamm.mock_gwap(return_value=0.05)
@@ -430,11 +497,17 @@ class TestIRSMarket(unittest.TestCase):
         self.market.set_slippage_phi(slippage_phi=0.01)
         self.market.set_slippage_beta(slippage_beta=0.25)
 
-        self.assertAlmostEqual(self.market.aggregate_gwap(maturity=self.maturity, base=0), 0.07)
+        self.assertAlmostEqual(
+            self.market.aggregate_gwap(maturity=self.maturity, base=0), 0.07
+        )
 
-        self.assertAlmostEqual(self.market.aggregate_gwap(maturity=self.maturity, base=10000), 0.077)
+        self.assertAlmostEqual(
+            self.market.aggregate_gwap(maturity=self.maturity, base=10000), 0.077
+        )
 
-        self.assertAlmostEqual(self.market.aggregate_gwap(maturity=self.maturity, base=-10000), 0.063)
+        self.assertAlmostEqual(
+            self.market.aggregate_gwap(maturity=self.maturity, base=-10000), 0.063
+        )
 
     def test_route_market_order(self):
         self.market.set_default_pool_id(default_pool_id="USDC_VAMM")
@@ -472,7 +545,9 @@ class TestIRSMarket(unittest.TestCase):
         # Trigger call
         self.market.close_account(maturity=self.maturity, account_id="user")
 
-        self.market.route_market_order.assert_called_with(maturity=self.maturity, account_id="user", base=-80)
+        self.market.route_market_order.assert_called_with(
+            maturity=self.maturity, account_id="user", base=-80
+        )
 
 
 if __name__ == "__main__":

@@ -1,5 +1,7 @@
 from abc import abstractmethod
+
 from typing_extensions import override
+
 from pypackages.risk_engine.src.exchanges.vamm.vamm import VAMM
 
 
@@ -61,7 +63,9 @@ class BaseVAMMExchange(VAMM):
             return self._track_variable_tokens(base=base)
 
         if index_tracker == 1:
-            return self._track_fixed_tokens(base=base, tick_lower=tick_lower, tick_upper=tick_upper)
+            return self._track_fixed_tokens(
+                base=base, tick_lower=tick_lower, tick_upper=tick_upper
+            )
 
         raise Exception("base pool: non-existing _tracker index")
 
@@ -140,7 +144,8 @@ class BaseVAMMExchange(VAMM):
 
         for _tracker in range(self.no_of_trackers()):
             delta_growth = (
-                global_growths[_tracker] - self._positions[position_id]["updated_growths"][_tracker]
+                global_growths[_tracker]
+                - self._positions[position_id]["updated_growths"][_tracker]
             )
 
             average_base = self.average_base(
@@ -149,8 +154,12 @@ class BaseVAMMExchange(VAMM):
                 tick_upper=self._positions[position_id]["tick_upper"],
             )
 
-            self._positions[position_id]["updated_growths"][_tracker] = global_growths[_tracker]
-            self._positions[position_id]["accumulated"][_tracker] += delta_growth * average_base
+            self._positions[position_id]["updated_growths"][_tracker] = global_growths[
+                _tracker
+            ]
+            self._positions[position_id]["accumulated"][_tracker] += (
+                delta_growth * average_base
+            )
 
     def __update_position_with_base(self, position_id, base):
         self._positions[position_id]["base"] += base
@@ -217,7 +226,11 @@ class BaseVAMMExchange(VAMM):
         if position["base"] + base < 0:
             raise Exception("trying to burn more than available")
 
-        self.vamm_mint(tick_lower=position["tick_lower"], tick_upper=position["tick_upper"], base=base)
+        self.vamm_mint(
+            tick_lower=position["tick_lower"],
+            tick_upper=position["tick_upper"],
+            base=base,
+        )
         self.__update_position_with_base(position_id=position_id, base=base)
 
         executed_base_amount = self._track_variable_tokens(base=base)
@@ -227,7 +240,11 @@ class BaseVAMMExchange(VAMM):
         position = self._get_raw_position(position_id=position_id)
 
         base = -position["base"]
-        self.vamm_mint(tick_lower=position["tick_lower"], tick_upper=position["tick_upper"], base=base)
+        self.vamm_mint(
+            tick_lower=position["tick_lower"],
+            tick_upper=position["tick_upper"],
+            base=base,
+        )
 
         self.__update_position_with_base(position_id=position_id, base=base)
 

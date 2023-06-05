@@ -31,7 +31,9 @@ class CollateralModule:
     def cashflow_propagation(self, account_id, amount: float):
         self._update_account_collateral(account_id=account_id, amount=amount)
 
-    def propagate_liquidator_reward(self, liquidated_account_id, liquidator_account_id, liquidator_reward_amount):
+    def propagate_liquidator_reward(
+        self, liquidated_account_id, liquidator_account_id, liquidator_reward_amount
+    ):
         self._update_account_collateral(
             account_id=liquidated_account_id,
             amount=-liquidator_reward_amount,
@@ -67,6 +69,8 @@ class CollateralModule:
             account_id=account_id
         ).get_account_unrealized_pnl()
 
-        account_discounted_collateral_value = self.get_account_collateral_balance(account_id=account_id)
+        account_discounted_collateral_value = self.get_account_collateral_balance(
+            account_id=account_id
+        )
 
         return account_unrealized_pnl + account_discounted_collateral_value

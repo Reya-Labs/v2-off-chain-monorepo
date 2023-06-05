@@ -17,7 +17,9 @@ class Slippage:
     def model(self, order_size: float) -> float:
         return self.market_factor * pow(order_size, self.beta)
 
-    def apply_correction(self, order_size: float, uncorrected_value: float = 1) -> float:
+    def apply_correction(
+        self, order_size: float, uncorrected_value: float = 1
+    ) -> float:
         model = self.model(order_size=order_size)
         if uncorrected_value > 0:
             return uncorrected_value * (1 + model)

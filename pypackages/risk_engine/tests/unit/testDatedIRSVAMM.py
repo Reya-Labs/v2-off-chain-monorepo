@@ -1,8 +1,12 @@
 import unittest
-from pypackages.risk_engine.tests.mocks.mockOracle import MockOracle
-from pypackages.risk_engine.src.evm.block import Block
+
 from pypackages.risk_engine.src.constants import MONTH_IN_SECONDS
-from pypackages.risk_engine.src.exchanges.vamm.datedIRSVAMMExchange import DatedIRSVAMMExchange
+from pypackages.risk_engine.src.evm.block import Block
+from pypackages.risk_engine.src.exchanges.vamm.datedIRSVAMMExchange import (
+    DatedIRSVAMMExchange,
+)
+from pypackages.risk_engine.tests.mocks.mockOracle import MockOracle
+
 
 class TestIRSPool(unittest.TestCase):
     def setUp(self):
@@ -37,9 +41,13 @@ class TestIRSPool(unittest.TestCase):
     def test_track(self):
         self.mock_oracle.mock_latest(return_value=1.6)
 
-        variable_tokens = self.pool._track(index_tracker=0, base=10000, tick_lower=3000, tick_upper=7000)
+        variable_tokens = self.pool._track(
+            index_tracker=0, base=10000, tick_lower=3000, tick_upper=7000
+        )
 
-        fixed_tokens = self.pool._track(index_tracker=1, base=10000, tick_lower=3000, tick_upper=7000)
+        fixed_tokens = self.pool._track(
+            index_tracker=1, base=10000, tick_lower=3000, tick_upper=7000
+        )
 
         self.assertAlmostEqual(variable_tokens, 10000)
         self.assertAlmostEqual(fixed_tokens, -16065.753424657532)

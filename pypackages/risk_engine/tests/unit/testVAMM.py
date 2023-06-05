@@ -1,10 +1,12 @@
 import unittest
 from unittest import mock
-from pypackages.risk_engine.tests.mocks.mockOracle import MockOracle
+
 from typing_extensions import override
-from pypackages.risk_engine.src.evm.block import Block
+
 from pypackages.risk_engine.src.constants import MONTH_IN_SECONDS, YEAR_IN_SECONDS
+from pypackages.risk_engine.src.evm.block import Block
 from pypackages.risk_engine.src.exchanges.vamm.vamm import VAMM
+from pypackages.risk_engine.tests.mocks.mockOracle import MockOracle
 
 
 class MockPool(VAMM):
@@ -51,7 +53,9 @@ class MockPool(VAMM):
             return self._track_variable_tokens(base=base)
 
         if index_tracker == 1:
-            return self._track_fixed_tokens(base=base, tick_lower=tick_lower, tick_upper=tick_upper)
+            return self._track_fixed_tokens(
+                base=base, tick_lower=tick_lower, tick_upper=tick_upper
+            )
 
         raise Exception("base pool: non-existing tracker index")
 
@@ -94,7 +98,9 @@ class TestVAMM(unittest.TestCase):
             self.pool.check_tick(100100)
 
         # unsuccessfull check of tick 13
-        with self.assertRaisesRegex(Exception, "vamm: tick not multiple of tick spacing"):
+        with self.assertRaisesRegex(
+            Exception, "vamm: tick not multiple of tick spacing"
+        ):
             self.pool.check_tick(13)
 
     def test_check_ticks(self):
@@ -106,7 +112,9 @@ class TestVAMM(unittest.TestCase):
             self.pool.check_ticks(100, 0)
 
         # unsuccessfull check of ticks (0, 13)
-        with self.assertRaisesRegex(Exception, "vamm: tick not multiple of tick spacing"):
+        with self.assertRaisesRegex(
+            Exception, "vamm: tick not multiple of tick spacing"
+        ):
             self.pool.check_ticks(0, 13)
 
         # unsuccessfull check of ticks (-1, 100)
@@ -170,11 +178,15 @@ class TestVAMM(unittest.TestCase):
         tick_lower = 2000
         tick_upper = 6000
 
-        self.pool._ticks.update({tick_lower: {"growths": [10, 8]}, tick_upper: {"growths": [5, 6]}})
+        self.pool._ticks.update(
+            {tick_lower: {"growths": [10, 8]}, tick_upper: {"growths": [5, 6]}}
+        )
 
         self.pool._growths = [20, 20]
 
-        growths = self.pool.growth_between_ticks(tick_lower=tick_lower, tick_upper=tick_upper)
+        growths = self.pool.growth_between_ticks(
+            tick_lower=tick_lower, tick_upper=tick_upper
+        )
 
         self.assertEqual(growths, [5, 6])
 
@@ -183,11 +195,15 @@ class TestVAMM(unittest.TestCase):
         tick_lower = 6000
         tick_upper = 8000
 
-        self.pool._ticks.update({tick_lower: {"growths": [10, 8]}, tick_upper: {"growths": [5, 6]}})
+        self.pool._ticks.update(
+            {tick_lower: {"growths": [10, 8]}, tick_upper: {"growths": [5, 6]}}
+        )
 
         self.pool._growths = [20, 20]
 
-        growths = self.pool.growth_between_ticks(tick_lower=tick_lower, tick_upper=tick_upper)
+        growths = self.pool.growth_between_ticks(
+            tick_lower=tick_lower, tick_upper=tick_upper
+        )
 
         self.assertEqual(growths, [5, 2])
 
@@ -196,11 +212,15 @@ class TestVAMM(unittest.TestCase):
         tick_lower = 2000
         tick_upper = 3000
 
-        self.pool._ticks.update({tick_lower: {"growths": [10, 8]}, tick_upper: {"growths": [5, 6]}})
+        self.pool._ticks.update(
+            {tick_lower: {"growths": [10, 8]}, tick_upper: {"growths": [5, 6]}}
+        )
 
         self.pool._growths = [20, 20]
 
-        growths = self.pool.growth_between_ticks(tick_lower=tick_lower, tick_upper=tick_upper)
+        growths = self.pool.growth_between_ticks(
+            tick_lower=tick_lower, tick_upper=tick_upper
+        )
 
         self.assertEqual(growths, [-5, -2])
 
@@ -213,7 +233,10 @@ class TestVAMM(unittest.TestCase):
         self.assertAlmostEqual(tracked_values[1], 10045.205479452055)
 
     def test_tracked_values_between_ticks_in_range(self):
-        tracked_values_left, tracked_values_right = self.pool.tracked_values_between_ticks(
+        (
+            tracked_values_left,
+            tracked_values_right,
+        ) = self.pool.tracked_values_between_ticks(
             base=20000, tick_lower=4000, tick_upper=6000
         )
 
@@ -224,7 +247,10 @@ class TestVAMM(unittest.TestCase):
         self.assertAlmostEqual(tracked_values_right[1], 10045.205479452055)
 
     def test_tracked_values_between_ticks_down(self):
-        tracked_values_left, tracked_values_right = self.pool.tracked_values_between_ticks(
+        (
+            tracked_values_left,
+            tracked_values_right,
+        ) = self.pool.tracked_values_between_ticks(
             base=20000, tick_lower=2000, tick_upper=4000
         )
 
@@ -235,7 +261,10 @@ class TestVAMM(unittest.TestCase):
         self.assertAlmostEqual(tracked_values_right[1], 0)
 
     def test_tracked_values_between_ticks_up(self):
-        tracked_values_left, tracked_values_right = self.pool.tracked_values_between_ticks(
+        (
+            tracked_values_left,
+            tracked_values_right,
+        ) = self.pool.tracked_values_between_ticks(
             base=20000, tick_lower=6000, tick_upper=8000
         )
 

@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 from pypackages.risk_engine.src.evm.block import Block
 
 
@@ -25,7 +26,9 @@ class RateOracle:
         """Returns the liquidity index of the underlying at the specified timestamp, extrapolating from known data points if required"""
         raise Exception("Please use a concrete subclass of RateOracle")
 
-    def index_ratio_between(self, start_time: int, end_time: int, block: Block) -> float:
+    def index_ratio_between(
+        self, start_time: int, end_time: int, block: Block
+    ) -> float:
         """Returns the ratio of the ending liquidity index to the starting liquidity index as a float (e.g. 1.1 if index increased by 10%)"""
         raise Exception("Please use a concrete subclass of RateOracle")
 

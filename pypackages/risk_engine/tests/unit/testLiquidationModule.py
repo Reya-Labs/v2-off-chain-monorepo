@@ -1,11 +1,12 @@
 import unittest
 from unittest import mock
+
+from pypackages.risk_engine.src.constants import MONTH_IN_SECONDS
+from pypackages.risk_engine.src.core.liquidationModule import LiquidationModule
+from pypackages.risk_engine.src.evm.block import Block
 from pypackages.risk_engine.tests.mocks.mockAccount import MockAccount
 from pypackages.risk_engine.tests.mocks.mockAccountManager import MockAccountManager
 from pypackages.risk_engine.tests.mocks.mockCollateralModule import MockCollateralModule
-from pypackages.risk_engine.src.evm.block import Block
-from pypackages.risk_engine.src.constants import MONTH_IN_SECONDS
-from pypackages.risk_engine.src.core.liquidationModule import LiquidationModule
 
 
 class TestLiquidationModule(unittest.TestCase):
@@ -16,7 +17,9 @@ class TestLiquidationModule(unittest.TestCase):
         self.user = MockAccount(account_id="user")
         self.account_manager.mock_get_account(return_value=self.user)
 
-        self.liquidation_module = LiquidationModule(im_multiplier=1.5, liquidator_reward_proportion_of_im_delta=0.05)
+        self.liquidation_module = LiquidationModule(
+            im_multiplier=1.5, liquidator_reward_proportion_of_im_delta=0.05
+        )
 
         self.collateral_module = MockCollateralModule()
 
@@ -63,9 +66,11 @@ class TestLiquidationModule(unittest.TestCase):
         self.collateral_module.mock_get_account_total_value(return_value=210)
 
         # Trigger call
-        is_im_satisfied = self.liquidation_module.is_im_satisfied(account_id="user",
-                                                                  account_manager=self.account_manager,
-                                                                  collateral_module=self.collateral_module)
+        is_im_satisfied = self.liquidation_module.is_im_satisfied(
+            account_id="user",
+            account_manager=self.account_manager,
+            collateral_module=self.collateral_module,
+        )
 
         # Check result
         self.assertAlmostEqual(is_im_satisfied, True)
@@ -75,8 +80,11 @@ class TestLiquidationModule(unittest.TestCase):
         self.collateral_module.mock_get_account_total_value(return_value=20)
 
         # Trigger call
-        is_im_satisfied = self.liquidation_module.is_im_satisfied(account_id="user", account_manager=self.account_manager,
-                                                                  collateral_module=self.collateral_module)
+        is_im_satisfied = self.liquidation_module.is_im_satisfied(
+            account_id="user",
+            account_manager=self.account_manager,
+            collateral_module=self.collateral_module,
+        )
 
         # Check result
         self.assertAlmostEqual(is_im_satisfied, False)
@@ -86,7 +94,10 @@ class TestLiquidationModule(unittest.TestCase):
 
     def test_liquidate_account(self):
         self.user.get_annualized_filled_and_unfilled_orders = mock.Mock(
-            side_effect=[self.user.get_annualized_filled_and_unfilled_orders.return_value, []]
+            side_effect=[
+                self.user.get_annualized_filled_and_unfilled_orders.return_value,
+                [],
+            ]
         )
 
         # Mock account balance with low collateral
@@ -95,8 +106,10 @@ class TestLiquidationModule(unittest.TestCase):
 
         # Trigger call
         self.liquidation_module.liquidate_account(
-            liquidated_account_id="user", liquidator_account_id="liquidator",
-            account_manager=self.account_manager, collateral_module=self.collateral_module
+            liquidated_account_id="user",
+            liquidator_account_id="liquidator",
+            account_manager=self.account_manager,
+            collateral_module=self.collateral_module,
         )
 
         # Check state change
@@ -112,7 +125,9 @@ class TestLiquidationModule(unittest.TestCase):
 
     def test_get_account_margin_requirements(self):
 
-        IMR, LMR = self.liquidation_module.get_account_margin_requirements(account_id="user", account_manager=self.account_manager)
+        IMR, LMR = self.liquidation_module.get_account_margin_requirements(
+            account_id="user", account_manager=self.account_manager
+        )
 
         self.assertAlmostEqual(LMR, 43)
         self.assertAlmostEqual(IMR, 64.5)
@@ -147,11 +162,18 @@ class TestLiquidationModule(unittest.TestCase):
         risk_mapping = self.liquidation_module.get_risk_mapping()
 
         self.assertAlmostEqual(
-            risk_mapping, {"DATED_FUTURE_ETH": {self.maturity: 0.8}, "IRS_USDC": {self.maturity: -0.05}}
+            risk_mapping,
+            {
+                "DATED_FUTURE_ETH": {self.maturity: 0.8},
+                "IRS_USDC": {self.maturity: -0.05},
+            },
         )
 
     def test_set_risk_mapping(self):
-        risk_mapping = {"IRS_USDC": {self.maturity: 0.7}, "IRS_DAI": {self.maturity: 0.9}}
+        risk_mapping = {
+            "IRS_USDC": {self.maturity: 0.7},
+            "IRS_DAI": {self.maturity: 0.9},
+        }
 
         self.liquidation_module.set_risk_mapping(risk_mapping=risk_mapping)
 

@@ -1,10 +1,11 @@
 import unittest
 from unittest.mock import Mock
+
+from pypackages.risk_engine.src.constants import MONTH_IN_SECONDS
+from pypackages.risk_engine.src.core.account import Account
+from pypackages.risk_engine.src.evm.block import Block
 from pypackages.risk_engine.tests.mocks.mockMarket import MockMarket
 from pypackages.risk_engine.tests.mocks.mockMarketManager import MockMarketManager
-from pypackages.risk_engine.src.core.account import Account
-from pypackages.risk_engine.src.constants import MONTH_IN_SECONDS
-from pypackages.risk_engine.src.evm.block import Block
 
 
 class TestAccount(unittest.TestCase):
@@ -23,12 +24,16 @@ class TestAccount(unittest.TestCase):
     def test_mark_market_non_existent(self):
         self.account.mark_market(market_id="market", maturity=self.maturity)
 
-        self.assertAlmostEqual(self.account._active_markets, [("market", self.maturity)])
+        self.assertAlmostEqual(
+            self.account._active_markets, [("market", self.maturity)]
+        )
 
     def test_mark_market_existent(self):
         self.account.mark_market(market_id="market", maturity=self.maturity)
 
-        self.assertAlmostEqual(self.account._active_markets, [("market", self.maturity)])
+        self.assertAlmostEqual(
+            self.account._active_markets, [("market", self.maturity)]
+        )
 
     def test_get_account_unrealized_pnl(self):
         # Mock active markets in account
@@ -69,7 +74,9 @@ class TestAccount(unittest.TestCase):
         ]
 
         # Mock markets
-        self.market_irs.mock_get_annualized_filled_and_unfilled_bases(return_value=(1500, 3000, -1500))
+        self.market_irs.mock_get_annualized_filled_and_unfilled_bases(
+            return_value=(1500, 3000, -1500)
+        )
 
         self.market_dated_futures.mock_get_annualized_filled_and_unfilled_bases(
             return_value=(4000, -3000, 2000)
@@ -81,7 +88,9 @@ class TestAccount(unittest.TestCase):
         )
 
         # Trigger call
-        annualized_filled_and_unfilled_orders = self.account.get_annualized_filled_and_unfilled_orders()
+        annualized_filled_and_unfilled_orders = (
+            self.account.get_annualized_filled_and_unfilled_orders()
+        )
 
         # Check result
         self.assertEqual(
@@ -131,9 +140,13 @@ class TestAccount(unittest.TestCase):
         self.account.close_all_account_filled_and_unfilled_orders()
 
         # Check market calls
-        self.market_irs.close_account.assert_called_with(maturity=self.maturity, account_id="user")
+        self.market_irs.close_account.assert_called_with(
+            maturity=self.maturity, account_id="user"
+        )
 
-        self.market_dated_futures.close_account.assert_called_with(maturity=self.maturity, account_id="user")
+        self.market_dated_futures.close_account.assert_called_with(
+            maturity=self.maturity, account_id="user"
+        )
 
 
 if __name__ == "__main__":

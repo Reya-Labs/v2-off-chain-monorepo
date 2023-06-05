@@ -1,6 +1,8 @@
 import unittest
-from pypackages.risk_engine.tests.mocks.mockMarketManager import MockMarketManager
+
 from pypackages.risk_engine.src.core.accountManager import AccountManager
+from pypackages.risk_engine.tests.mocks.mockMarketManager import MockMarketManager
+
 
 class TestAccountManager(unittest.TestCase):
     def setUp(self):
@@ -20,7 +22,9 @@ class TestAccountManager(unittest.TestCase):
         with self.assertRaisesRegex(Exception, "Account Manager: Account not created"):
             self.account_manager.get_account(account_id="user_3")
 
-        with self.assertRaisesRegex(Exception, "Account Manager: Account already created"):
+        with self.assertRaisesRegex(
+            Exception, "Account Manager: Account already created"
+        ):
             self.account_manager.create_account(account_id="user_1", base_token="USDC")
 
 

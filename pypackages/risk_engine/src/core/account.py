@@ -48,7 +48,9 @@ class Account:
                 filled_base,
                 unfilled_base_long,
                 unfilled_base_short,
-            ) = market.get_annualized_filled_and_unfilled_bases(maturity=maturity, account_id=self.account_id)
+            ) = market.get_annualized_filled_and_unfilled_bases(
+                maturity=maturity, account_id=self.account_id
+            )
 
             tmp = {
                 "market_id": market_id,

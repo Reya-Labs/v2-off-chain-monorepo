@@ -29,7 +29,10 @@ class Oracle:
             raise Exception("rate oracle: timestamp in future")
 
         index = 0
-        while index + 1 < len(self.observations) and self.observations[index + 1][0] <= timestamp:
+        while (
+            index + 1 < len(self.observations)
+            and self.observations[index + 1][0] <= timestamp
+        ):
             index += 1
 
         return self.observations[index][1]

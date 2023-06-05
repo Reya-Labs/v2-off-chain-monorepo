@@ -1,8 +1,10 @@
 import unittest
 from unittest import mock
+
 from typing_extensions import override
-from pypackages.risk_engine.src.evm.block import Block
+
 from pypackages.risk_engine.src.constants import MONTH_IN_SECONDS
+from pypackages.risk_engine.src.evm.block import Block
 from pypackages.risk_engine.src.exchanges.vamm.baseVAMMExchange import BaseVAMMExchange
 
 
@@ -13,7 +15,9 @@ class MockPool(BaseVAMMExchange):
 
     @override
     def _track_fixed_tokens(self, base, tick_lower, tick_upper):
-        avg_price = (self.price_at_tick(tick_lower) + self.price_at_tick(tick_upper)) / 2
+        avg_price = (
+            self.price_at_tick(tick_lower) + self.price_at_tick(tick_upper)
+        ) / 2
         return -base * avg_price
 
     @override
@@ -45,7 +49,9 @@ class TestIRSPool(unittest.TestCase):
         self.mock_positions()
 
     def mock_positions(self):
-        self.pool._accounts.update({"user": {"positions": ["user-12000-16000", "user-20000-21000"]}})
+        self.pool._accounts.update(
+            {"user": {"positions": ["user-12000-16000", "user-20000-21000"]}}
+        )
 
         self.pool._positions.update(
             {
@@ -74,14 +80,20 @@ class TestIRSPool(unittest.TestCase):
     def test_get_account_filled_balances(self):
         self.pool.growth_between_ticks = mock.Mock(side_effect=[[6, 6], [4, 3]])
 
-        base, quote = self.pool.get_account_filled_balances(maturity=self.maturity, account_id="user")
+        base, quote = self.pool.get_account_filled_balances(
+            maturity=self.maturity, account_id="user"
+        )
 
         self.assertAlmostEqual(base, 5.1)
         self.assertAlmostEqual(quote, -4.875)
 
-        self.assertAlmostEqual(self.pool._positions["user-12000-16000"]["updated_growths"], [6, 6])
+        self.assertAlmostEqual(
+            self.pool._positions["user-12000-16000"]["updated_growths"], [6, 6]
+        )
 
-        self.assertAlmostEqual(self.pool._positions["user-20000-21000"]["updated_growths"], [4, 3])
+        self.assertAlmostEqual(
+            self.pool._positions["user-20000-21000"]["updated_growths"], [4, 3]
+        )
 
     def test_get_account_filled_and_unfilled_balances(self):
         self.pool.growth_between_ticks = mock.Mock(side_effect=[[6, 6], [4, 3]])
@@ -95,16 +107,22 @@ class TestIRSPool(unittest.TestCase):
             quote,
             unfilled_base_long,
             unfilled_base_short,
-        ) = self.pool.get_account_filled_and_unfilled_balances(maturity=self.maturity, account_id="user")
+        ) = self.pool.get_account_filled_and_unfilled_balances(
+            maturity=self.maturity, account_id="user"
+        )
 
         self.assertAlmostEqual(base, 5.1)
         self.assertAlmostEqual(quote, -4.875)
         self.assertAlmostEqual(unfilled_base_long, 40)
         self.assertAlmostEqual(unfilled_base_short, -15)
 
-        self.assertAlmostEqual(self.pool._positions["user-12000-16000"]["updated_growths"], [6, 6])
+        self.assertAlmostEqual(
+            self.pool._positions["user-12000-16000"]["updated_growths"], [6, 6]
+        )
 
-        self.assertAlmostEqual(self.pool._positions["user-20000-21000"]["updated_growths"], [4, 3])
+        self.assertAlmostEqual(
+            self.pool._positions["user-20000-21000"]["updated_growths"], [4, 3]
+        )
 
     def test_execute_limit_order_non_existent(self):
         self.pool.growth_between_ticks = mock.Mock(side_effect=[[6, 6], [4, 3]])
@@ -116,7 +134,11 @@ class TestIRSPool(unittest.TestCase):
         self.pool.vamm_mint = mock.Mock()
 
         executed_base_amount = self.pool.execute_limit_order(
-            maturity=self.maturity, account_id="user", base=100, lower_price=14000, upper_price=16000
+            maturity=self.maturity,
+            account_id="user",
+            base=100,
+            lower_price=14000,
+            upper_price=16000,
         )
 
         self.assertEqual(executed_base_amount, 100)
@@ -143,7 +165,11 @@ class TestIRSPool(unittest.TestCase):
         self.pool.vamm_mint = mock.Mock()
 
         executed_base_amount = self.pool.execute_limit_order(
-            maturity=self.maturity, account_id="user", base=100, lower_price=12000, upper_price=16000
+            maturity=self.maturity,
+            account_id="user",
+            base=100,
+            lower_price=12000,
+            upper_price=16000,
         )
 
         self.assertAlmostEqual(executed_base_amount, 100)
@@ -170,7 +196,11 @@ class TestIRSPool(unittest.TestCase):
         self.pool.vamm_mint = mock.Mock()
 
         executed_base_amount = self.pool.execute_limit_order(
-            maturity=self.maturity, account_id="user", base=-50, lower_price=12000, upper_price=16000
+            maturity=self.maturity,
+            account_id="user",
+            base=-50,
+            lower_price=12000,
+            upper_price=16000,
         )
 
         self.assertAlmostEqual(executed_base_amount, -50)
@@ -198,7 +228,11 @@ class TestIRSPool(unittest.TestCase):
 
         with self.assertRaisesRegex(Exception, "trying to burn more than available"):
             self.pool.execute_limit_order(
-                maturity=self.maturity, account_id="user", base=-150, lower_price=12000, upper_price=16000
+                maturity=self.maturity,
+                account_id="user",
+                base=-150,
+                lower_price=12000,
+                upper_price=16000,
             )
 
     def test_execute_market_order(self):
@@ -221,7 +255,9 @@ class TestIRSPool(unittest.TestCase):
             ]
         )
 
-        base, quote = self.pool.close_positions(maturity=self.maturity, account_id="user")
+        base, quote = self.pool.close_positions(
+            maturity=self.maturity, account_id="user"
+        )
 
         self.assertAlmostEqual(base, 5.1)
         self.assertAlmostEqual(quote, -4.875)
@@ -231,7 +267,9 @@ class TestIRSPool(unittest.TestCase):
             quote,
             unfilled_base_long,
             unfilled_base_short,
-        ) = self.pool.get_account_filled_and_unfilled_balances(maturity=self.maturity, account_id="user")
+        ) = self.pool.get_account_filled_and_unfilled_balances(
+            maturity=self.maturity, account_id="user"
+        )
 
         self.assertEqual(base, 0)
         self.assertEqual(quote, 0)

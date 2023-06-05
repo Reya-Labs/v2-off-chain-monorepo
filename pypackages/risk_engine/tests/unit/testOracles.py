@@ -1,11 +1,16 @@
 import math
 import unittest
+
 from pytest import approx, raises
-from pypackages.risk_engine.src.oracles.rate.rateOracle import Observation as RateObservation
+
 import pypackages.risk_engine.src.oracles.rate.math as oracle_math
 from pypackages.risk_engine.src.evm.block import Block
 from pypackages.risk_engine.src.oracles.rate.mock import MockRateOracle
+from pypackages.risk_engine.src.oracles.rate.rateOracle import (
+    Observation as RateObservation,
+)
 from pypackages.risk_engine.src.oracles.twap.twap import TWAP
+
 
 def tick_to_price(tick: int) -> float:
     return 1.0001**tick
@@ -78,7 +83,11 @@ class test_twap(unittest.TestCase):
 
 class test_mock_rate_oracle(unittest.TestCase):
     def setUp(self) -> None:
-        data = [RateObservation(1000, 1), RateObservation(2000, 1.91), RateObservation(1900, 1.9)]
+        data = [
+            RateObservation(1000, 1),
+            RateObservation(2000, 1.91),
+            RateObservation(1900, 1.9),
+        ]
         self.mock_rate = MockRateOracle(data)
         self.block = Block(relative_block_position=0)
 

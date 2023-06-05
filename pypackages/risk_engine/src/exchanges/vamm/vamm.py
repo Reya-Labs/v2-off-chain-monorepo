@@ -1,6 +1,8 @@
 import math
 from abc import ABC, abstractmethod
+
 from pypackages.risk_engine.src.oracles.twap.twap import TWAP
+
 
 class VAMM(ABC):
     def __init__(self, block, min_tick, max_tick, tick_spacing):
@@ -106,7 +108,9 @@ class VAMM(ABC):
             return min(tick, self._max_tick)
 
         if direction == "left":
-            tick = (((self._current_tick - 1) // self._tick_spacing)) * self._tick_spacing
+            tick = (
+                ((self._current_tick - 1) // self._tick_spacing)
+            ) * self._tick_spacing
             while tick >= self._min_tick and tick not in self._ticks:
                 tick -= self._tick_spacing
 
@@ -139,23 +143,30 @@ class VAMM(ABC):
                 below_lower_tick = self._ticks[tick_lower]["growths"][_tracker_index]
             else:
                 below_lower_tick = (
-                    self._growths[_tracker_index] - self._ticks[tick_lower]["growths"][_tracker_index]
+                    self._growths[_tracker_index]
+                    - self._ticks[tick_lower]["growths"][_tracker_index]
                 )
 
             if tick_upper > self._current_tick:
                 above_upper_tick = self._ticks[tick_upper]["growths"][_tracker_index]
             else:
                 above_upper_tick = (
-                    self._growths[_tracker_index] - self._ticks[tick_upper]["growths"][_tracker_index]
+                    self._growths[_tracker_index]
+                    - self._ticks[tick_upper]["growths"][_tracker_index]
                 )
 
-            growths[_tracker_index] = self._growths[_tracker_index] - below_lower_tick - above_upper_tick
+            growths[_tracker_index] = (
+                self._growths[_tracker_index] - below_lower_tick - above_upper_tick
+            )
 
         return growths
 
-    def tracked_values_between_ticks_outside(self, average_base, tick_lower, tick_upper):
+    def tracked_values_between_ticks_outside(
+        self, average_base, tick_lower, tick_upper
+    ):
         if not (
-            tick_lower <= tick_upper <= self._current_tick or self._current_tick <= tick_lower <= tick_upper
+            tick_lower <= tick_upper <= self._current_tick
+            or self._current_tick <= tick_lower <= tick_upper
         ):
             raise Exception("vamm: ticks are not outside")
 
@@ -164,11 +175,16 @@ class VAMM(ABC):
         if tick_lower == tick_upper:
             return tmp
 
-        base = self.base_between_ticks(from_tick=tick_lower, to_tick=tick_upper, accumulator=average_base)
+        base = self.base_between_ticks(
+            from_tick=tick_lower, to_tick=tick_upper, accumulator=average_base
+        )
 
         for index_tracker in range(self.no_of_trackers()):
             tmp[index_tracker] = -self._track(
-                index_tracker=index_tracker, base=base, tick_lower=tick_lower, tick_upper=tick_upper
+                index_tracker=index_tracker,
+                base=base,
+                tick_lower=tick_lower,
+                tick_upper=tick_upper,
             )
 
         return tmp
@@ -228,7 +244,8 @@ class VAMM(ABC):
 
         for _tracker in range(self.no_of_trackers()):
             self._ticks[self._current_tick]["growths"][_tracker] = (
-                self._growths[_tracker] - self._ticks[self._current_tick]["growths"][_tracker]
+                self._growths[_tracker]
+                - self._ticks[self._current_tick]["growths"][_tracker]
             )
 
     def __update_global_trackers(self, delta_growths):
@@ -247,13 +264,19 @@ class VAMM(ABC):
             next_tick = tick_limit
             reached_limit = True
 
-        base_in_between = self.base_between_ticks(self._current_tick, next_tick, self._accumulator)
+        base_in_between = self.base_between_ticks(
+            self._current_tick, next_tick, self._accumulator
+        )
 
         if abs(base_remaining) < abs(base_in_between):
             next_tick = math.floor(
-                self.inv_vamm_f(base_remaining / self._accumulator + self.vamm_f(self._current_tick))
+                self.inv_vamm_f(
+                    base_remaining / self._accumulator + self.vamm_f(self._current_tick)
+                )
             )
-            base_in_between = self.base_between_ticks(self._current_tick, next_tick, self._accumulator)
+            base_in_between = self.base_between_ticks(
+                self._current_tick, next_tick, self._accumulator
+            )
             reached_limit = True
 
         return next_tick, base_in_between, reached_limit
@@ -288,7 +311,9 @@ class VAMM(ABC):
         if tick_limit is None:
             tick_limit = self._max_tick - 1 if base > 0 else self._min_tick
 
-        if (base > 0 and tick_limit < self._current_tick) or (base < 0 and tick_limit > self._current_tick):
+        if (base > 0 and tick_limit < self._current_tick) or (
+            base < 0 and tick_limit > self._current_tick
+        ):
             raise Exception("swap: tick limit should be worse than current tick")
 
         self.check_tick(tick_limit)

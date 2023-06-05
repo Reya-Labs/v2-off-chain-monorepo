@@ -1,14 +1,19 @@
 import unittest
+
+from pypackages.risk_engine.src.constants import MONTH_IN_SECONDS
+from pypackages.risk_engine.src.evm.block import Block
+from pypackages.risk_engine.src.instruments.dated_irs.datedIRSMarket import (
+    DatedIRSMarket,
+)
 from pypackages.risk_engine.tests.mocks.mockAccount import MockAccount
 from pypackages.risk_engine.tests.mocks.mockAccountManager import MockAccountManager
 from pypackages.risk_engine.tests.mocks.mockCollateralModule import MockCollateralModule
-from pypackages.risk_engine.tests.mocks.mockFeeManager import MockFeeManager
-from pypackages.risk_engine.tests.mocks.mockOracle import MockOracle
-from pypackages.risk_engine.tests.mocks.mockLiquidationModule import MockLiquidationModule
 from pypackages.risk_engine.tests.mocks.mockExchange import MockExchange
-from pypackages.risk_engine.src.evm.block import Block
-from pypackages.risk_engine.src.constants import MONTH_IN_SECONDS
-from pypackages.risk_engine.src.instruments.dated_irs.datedIRSMarket import DatedIRSMarket
+from pypackages.risk_engine.tests.mocks.mockFeeManager import MockFeeManager
+from pypackages.risk_engine.tests.mocks.mockLiquidationModule import (
+    MockLiquidationModule,
+)
+from pypackages.risk_engine.tests.mocks.mockOracle import MockOracle
 
 
 class TestIRSMarket(unittest.TestCase):
@@ -42,7 +47,9 @@ class TestIRSMarket(unittest.TestCase):
     def test_annualize(self):
         self.mock_oracle.mock_latest(1.05)
 
-        annualized_bases = self.market._annualize(bases=[100, -50, 200], maturity=self.maturity)
+        annualized_bases = self.market._annualize(
+            bases=[100, -50, 200], maturity=self.maturity
+        )
 
         self.assertAlmostEqual(annualized_bases[0], 8.630136986301369)
         self.assertAlmostEqual(annualized_bases[1], -4.315068493150677)

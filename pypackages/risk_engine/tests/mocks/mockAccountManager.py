@@ -1,5 +1,7 @@
 from unittest.mock import Mock
+
 from pypackages.risk_engine.src.core.accountManager import AccountManager
+
 
 class MockAccountManager(AccountManager):
     def __init__(self):

@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 from typing import Optional
+
 from pypackages.risk_engine.src.evm.block import Block
-from pypackages.risk_engine.src.oracles.twap import constants
 from pypackages.risk_engine.src.oracles.ringBuffer import RingBuffer
+from pypackages.risk_engine.src.oracles.twap import constants
 
 
 @dataclass  # generates __init__, __repr__, etc.
@@ -14,7 +15,9 @@ class Observation:
 
 
 def quantise_tick(tick: int) -> int:
-    return (tick + (-(constants.TICK_TRUNCATION - 1) if tick < 0 else 0)) // constants.TICK_TRUNCATION
+    return (
+        tick + (-(constants.TICK_TRUNCATION - 1) if tick < 0 else 0)
+    ) // constants.TICK_TRUNCATION
 
 
 def unquantise_tick(tick: int) -> int:
@@ -54,9 +57,7 @@ class TWAP:
 
         This is the
         """
-        tick_accum = (
-            0  # stores the sum of (tick_value * time_spent_at_tick) for all observations processed so far
-        )
+        tick_accum = 0  # stores the sum of (tick_value * time_spent_at_tick) for all observations processed so far
         actual_age = 0
 
         current_duration = self.block.timestamp - self.last_update

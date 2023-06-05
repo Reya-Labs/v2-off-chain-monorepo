@@ -11,8 +11,8 @@ backend_packages = [
 
 [source]
 root_patterns = [
-    "pypackages/risk_engine/src",
-    "pypackages/risk_engine/tests"
+    "src",
+    "tests"
 ]
 
 [python]

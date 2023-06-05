@@ -1,10 +1,14 @@
 import unittest
-from pypackages.risk_engine.tests.mocks.mockAccount import MockAccount
-from pypackages.risk_engine.tests.mocks.mockAccountManager import MockAccountManager
-from pypackages.risk_engine.tests.mocks.mockLiquidationModule import MockLiquidationModule
-from pypackages.risk_engine.src.evm.block import Block
+
 from pypackages.risk_engine.src.constants import MONTH_IN_SECONDS
 from pypackages.risk_engine.src.core.collateralModule import CollateralModule
+from pypackages.risk_engine.src.evm.block import Block
+from pypackages.risk_engine.tests.mocks.mockAccount import MockAccount
+from pypackages.risk_engine.tests.mocks.mockAccountManager import MockAccountManager
+from pypackages.risk_engine.tests.mocks.mockLiquidationModule import (
+    MockLiquidationModule,
+)
+
 
 class TestCollateralModule(unittest.TestCase):
     def setUp(self):
@@ -28,9 +32,11 @@ class TestCollateralModule(unittest.TestCase):
 
         self.user.mock_get_account_unrealized_pnl(return_value=10)
 
-
     def test_get_account_collateral(self):
-        self.assertAlmostEqual(self.collateral_module.get_account_collateral_balance(account_id="user"), 200)
+        self.assertAlmostEqual(
+            self.collateral_module.get_account_collateral_balance(account_id="user"),
+            200,
+        )
 
     def test_distribute_fees(self):
         fee_debits_and_credits = [
@@ -44,47 +50,77 @@ class TestCollateralModule(unittest.TestCase):
             },
         ]
 
-        self.collateral_module.distribute_fees(fee_debits_and_credits=fee_debits_and_credits)
+        self.collateral_module.distribute_fees(
+            fee_debits_and_credits=fee_debits_and_credits
+        )
 
         # Check state change
-        self.assertAlmostEqual(self.collateral_module._account_collateral_balance_mapping["user"], 190)
+        self.assertAlmostEqual(
+            self.collateral_module._account_collateral_balance_mapping["user"], 190
+        )
 
-        self.assertAlmostEqual(self.collateral_module._account_collateral_balance_mapping["receiver"], 10)
+        self.assertAlmostEqual(
+            self.collateral_module._account_collateral_balance_mapping["receiver"], 10
+        )
 
     def test_positive_cashflow_propagation(self):
         self.collateral_module.cashflow_propagation(account_id="user", amount=100)
 
-        self.assertAlmostEqual(self.collateral_module._account_collateral_balance_mapping["user"], 300)
+        self.assertAlmostEqual(
+            self.collateral_module._account_collateral_balance_mapping["user"], 300
+        )
 
     def test_negative_cashflow_propagation(self):
         self.collateral_module.cashflow_propagation(account_id="user", amount=-50)
 
-        self.assertAlmostEqual(self.collateral_module._account_collateral_balance_mapping["user"], 150)
+        self.assertAlmostEqual(
+            self.collateral_module._account_collateral_balance_mapping["user"], 150
+        )
 
     def test_deposit_collateral(self):
 
         self.collateral_module.deposit_collateral(account_id="user", amount=50)
 
-        self.assertAlmostEqual(self.collateral_module._account_collateral_balance_mapping["user"], 250)
+        self.assertAlmostEqual(
+            self.collateral_module._account_collateral_balance_mapping["user"], 250
+        )
 
     def test_withdraw_collateral_when_possible(self):
         self.liquidation_module.mock_is_im_satisfied(return_value=True)
-        self.collateral_module.withdraw_collateral(account_id="user", amount=50, liquidation_module=self.liquidation_module)
-        self.assertAlmostEqual(self.collateral_module._account_collateral_balance_mapping["user"], 150)
+        self.collateral_module.withdraw_collateral(
+            account_id="user", amount=50, liquidation_module=self.liquidation_module
+        )
+        self.assertAlmostEqual(
+            self.collateral_module._account_collateral_balance_mapping["user"], 150
+        )
 
     def test_withdraw_collateral_when_impossible(self):
         self.liquidation_module.mock_is_im_satisfied(return_value=False)
 
-        with self.assertRaisesRegex(Exception, "Withdrawal is not possible due to IM not satisfied"):
-            self.collateral_module.withdraw_collateral(account_id="user", amount=160, liquidation_module=self.liquidation_module)
+        with self.assertRaisesRegex(
+            Exception, "Withdrawal is not possible due to IM not satisfied"
+        ):
+            self.collateral_module.withdraw_collateral(
+                account_id="user",
+                amount=160,
+                liquidation_module=self.liquidation_module,
+            )
 
     def test_get_account_collateral_value(self):
         self.collateral_module._account_collateral_balance_mapping.update({"user": 100})
 
-        self.assertAlmostEqual(self.collateral_module.get_account_collateral_balance(account_id="user"), 100)
+        self.assertAlmostEqual(
+            self.collateral_module.get_account_collateral_balance(account_id="user"),
+            100,
+        )
 
     def test_get_account_total_value(self):
-        self.assertAlmostEqual(self.collateral_module.get_account_total_value(account_id="user", account_manager=self.account_manager), 210)
+        self.assertAlmostEqual(
+            self.collateral_module.get_account_total_value(
+                account_id="user", account_manager=self.account_manager
+            ),
+            210,
+        )
 
 
 if __name__ == "__main__":

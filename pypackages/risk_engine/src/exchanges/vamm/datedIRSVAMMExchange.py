@@ -1,6 +1,7 @@
 from typing_extensions import override
-from pypackages.risk_engine.src.exchanges.vamm.baseVAMMExchange import BaseVAMMExchange
+
 from pypackages.risk_engine.src.constants import YEAR_IN_SECONDS
+from pypackages.risk_engine.src.exchanges.vamm.baseVAMMExchange import BaseVAMMExchange
 
 
 class DatedIRSVAMMExchange(BaseVAMMExchange):
@@ -33,7 +34,9 @@ class DatedIRSVAMMExchange(BaseVAMMExchange):
 
     @override
     def _track_fixed_tokens(self, base, tick_lower, tick_upper):
-        avg_price = (self.price_at_tick(tick_lower) + self.price_at_tick(tick_upper)) / 2
+        avg_price = (
+            self.price_at_tick(tick_lower) + self.price_at_tick(tick_upper)
+        ) / 2
         time_delta = (self.term_end_in_seconds - self.block.timestamp) / YEAR_IN_SECONDS
         return -base * self.oracle.latest() * (avg_price * time_delta + 1)
 

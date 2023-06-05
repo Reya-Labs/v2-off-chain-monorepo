@@ -1,5 +1,7 @@
 from unittest.mock import Mock
+
 from typing_extensions import override
+
 from pypackages.risk_engine.src.exchanges.vamm.baseVAMMExchange import BaseVAMMExchange
 
 
@@ -23,7 +25,7 @@ class MockExchange(BaseVAMMExchange):
         raise Exception("mock pool: not implemented")
 
     def mock_supported_maturities(self, return_value):
-        self.supported_maturities =  Mock(return_value=return_value)
+        self.supported_maturities = Mock(return_value=return_value)
 
     def mock_execute_limit_order(self, return_value):
         self.execute_limit_order = Mock(return_value=return_value)
