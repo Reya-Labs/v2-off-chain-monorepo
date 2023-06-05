@@ -1,0 +1,28 @@
+name: Open pull request to main
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  pr-check:
+    name: Main pull request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.17.0'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Prettier check, Eslint check, Typescript check
+        run: lerna run code-quality:check
+      - name: Run tests
+        run: lerna run test
+      - name: Build packages
+        run: lerna run build
