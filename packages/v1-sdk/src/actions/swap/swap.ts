@@ -10,7 +10,6 @@ import { getSwapPeripheryParams } from './getSwapPeripheryParams';
 import { estimateSwapGasUnits } from './estimateSwapGasUnits';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
 
-// todo: add option to simulate a swap, same goes for other actions
 export const swap = async ({
   isFT,
   notional,
@@ -53,7 +52,6 @@ export const swap = async ({
     tickSpacing,
   });
 
-  // need to be careful to make sure we don't double count margin, may need to refactor
   const swapPeripheryTempOverrides: {
     value?: BigNumber;
     gasLimit?: BigNumber;

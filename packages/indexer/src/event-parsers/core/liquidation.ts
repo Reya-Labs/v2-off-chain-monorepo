@@ -1,9 +1,12 @@
 import { Event, BigNumber } from 'ethers';
 
-import { ProtocolEventType, LiquidationEvent } from '../types';
-import { getTokenDetails } from '../../utils/token';
 import { parseBaseEvent } from '../utils/baseEvent';
-import { convertLowercaseString } from '../utils/convertLowercase';
+import {
+  convertLowercaseString,
+  ProtocolEventType,
+  LiquidationEvent,
+  getTokenDetails,
+} from '@voltz-protocol/commons-v2';
 
 export const parseLiquidation = (
   chainId: number,

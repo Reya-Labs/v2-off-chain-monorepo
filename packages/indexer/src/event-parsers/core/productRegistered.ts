@@ -1,10 +1,13 @@
 import { Event } from 'ethers';
 
-import { ProtocolEventType, ProductRegisteredEvent } from '../types';
 import { parseBaseEvent } from '../utils/baseEvent';
-import { convertLowercaseString } from '../utils/convertLowercase';
+import {
+  convertLowercaseString,
+  ProtocolEventType,
+  ProductRegisteredEvent,
+} from '@voltz-protocol/commons-v2';
 
-export const parseMarketFeeConfigured = (
+export const parseProductRegistered = (
   chainId: number,
   event: Event,
 ): ProductRegisteredEvent => {

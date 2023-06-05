@@ -5,12 +5,18 @@
   "command": {
     "publish": {
       "ignoreChanges": [],
+      "registry": "https://npm.pkg.github.com",
+      "conventionalCommits": true,
+      "yes": true,
       "skipGit": true,
       "skipNpm": false
+    },
+    "version": {
+      "message": "chore(release): bump updated packages",
+      "conventionalCommits": true
     }
   },
   "packages": [
-    "packages/*",
-    "!packages/transformer"
+    "packages/*"
   ]
 }

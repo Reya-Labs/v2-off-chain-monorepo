@@ -1,7 +1,7 @@
 import { compareEvents } from '../utils/compareEvents';
 import { parseCollateralUpdate } from '../../src/event-parsers/core/collateralUpdate';
 import { collateralUpdateEvmEvent } from '../utils/evmEventMocks';
-import { CollateralUpdateEvent } from '../../src/event-parsers/types';
+import { CollateralUpdateEvent } from '@voltz-protocol/commons-v2';
 
 describe('taker order parser', () => {
   test('usual event', () => {

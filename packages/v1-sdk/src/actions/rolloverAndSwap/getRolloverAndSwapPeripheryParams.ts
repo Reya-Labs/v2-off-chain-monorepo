@@ -1,10 +1,14 @@
-import { RolloverAndSwapArgs, RolloverAndSwapPeripheryParams, SwapPeripheryParams } from "../types/actionArgTypes";
+import {
+  RolloverAndSwapArgs,
+  RolloverAndSwapPeripheryParams,
+  SwapPeripheryParams,
+} from '../types/actionArgTypes';
 import { BigNumberish } from 'ethers';
-import {getDefaultSqrtPriceLimit} from "../swap/getDefaultSqrtPriceLimits";
+import { getDefaultSqrtPriceLimit } from '../swap/getDefaultSqrtPriceLimits';
 import { getSqrtPriceLimitFromFixedRateLimit } from '../swap/getSqrtPriceLimitFromFixedRate';
 import { getClosestTickAndFixedRate } from '../swap/getClosestTickAndFixedRate';
 import { scale } from '../../common/math/scale';
-import { getSwapPeripheryParams } from "../swap/getSwapPeripheryParams";
+import { getSwapPeripheryParams } from '../swap/getSwapPeripheryParams';
 
 export type GetRolloverAndSwapPeripheryParamsArgs = {
   margin: number;
@@ -24,42 +28,39 @@ export type GetRolloverAndSwapPeripheryParamsArgs = {
 };
 
 export const getRolloverAndSwapPeripheryParams = ({
-   margin,
-   isFT,
-   notional,
-   fixedLow,
-   fixedHigh,
-   marginEngineAddress,
-   underlyingTokenDecimals,
-   fixedRateLimit,
-   tickSpacing,
-   maturedMarginEngineAddress,
+  margin,
+  isFT,
+  notional,
+  fixedLow,
+  fixedHigh,
+  marginEngineAddress,
+  underlyingTokenDecimals,
+  fixedRateLimit,
+  tickSpacing,
+  maturedMarginEngineAddress,
   maturedPositionOwnerAddress,
- maturedPositionSettlementBalance,
+  maturedPositionSettlementBalance,
   maturedPositionTickLower,
   maturedPositionTickUpper,
-   }: GetRolloverAndSwapPeripheryParamsArgs): RolloverAndSwapPeripheryParams => {
-
-  const newSwapPeripheryParams: SwapPeripheryParams = getSwapPeripheryParams(
-    {
-      margin,
-      isFT,
-      notional,
-      fixedLow,
-      fixedHigh,
-      marginEngineAddress,
-      underlyingTokenDecimals,
-      fixedRateLimit,
-      tickSpacing
-    }
-  );
+}: GetRolloverAndSwapPeripheryParamsArgs): RolloverAndSwapPeripheryParams => {
+  const newSwapPeripheryParams: SwapPeripheryParams = getSwapPeripheryParams({
+    margin,
+    isFT,
+    notional,
+    fixedLow,
+    fixedHigh,
+    marginEngineAddress,
+    underlyingTokenDecimals,
+    fixedRateLimit,
+    tickSpacing,
+  });
 
   const rolloverAndSwapPeripheryParams: RolloverAndSwapPeripheryParams = {
     maturedMarginEngineAddress: marginEngineAddress,
     maturedPositionOwnerAddress: marginEngineAddress,
     maturedPositionTickLower: maturedPositionTickLower,
     maturedPositionTickUpper: maturedPositionTickUpper,
-    newSwapPeripheryParams: newSwapPeripheryParams
+    newSwapPeripheryParams: newSwapPeripheryParams,
   };
 
   return rolloverAndSwapPeripheryParams;

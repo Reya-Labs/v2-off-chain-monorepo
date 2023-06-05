@@ -1,5 +1,17 @@
 import { handleCollateralUpdate } from '../event-handlers/handleCollateralUpdate';
-import { CollateralUpdateEvent } from '../event-parsers/types';
+import { handleMarketConfigured } from '../event-handlers/handleMarketConfigured';
+import { handleMarketFeeConfigured } from '../event-handlers/handleMarketFeeConfigured';
+import { handleRateOracleConfigured } from '../event-handlers/handleRateOracleConfigured';
+import { handleVammCreated } from '../event-handlers/handleVammCreated';
+import { handleVammPriceChange } from '../event-handlers/handleVammPriceChange';
+import {
+  CollateralUpdateEvent,
+  MarketConfiguredEvent,
+  MarketFeeConfiguredEvent,
+  RateOracleConfiguredEvent,
+  VammCreatedEvent,
+  VammPriceChangeEvent,
+} from '@voltz-protocol/commons-v2';
 import { fetchEvents } from '../fetch-events/fetchEvents';
 import { getProvider } from '../services/provider';
 
@@ -14,7 +26,14 @@ export const sync = async (chainIds: number[]): Promise<void> => {
 
     const events = await fetchEvents(
       chainId,
-      ['collateral-update'],
+      [
+        'collateral-update',
+        'market-fee-configured',
+        'market-configured',
+        'rate-oracle-configured',
+        'vamm-created',
+        'vamm-price-change',
+      ],
       0,
       currentBlock,
     );
@@ -23,6 +42,26 @@ export const sync = async (chainIds: number[]): Promise<void> => {
       switch (e.type) {
         case 'collateral-update': {
           await handleCollateralUpdate(e as CollateralUpdateEvent);
+          break;
+        }
+        case 'vamm-created': {
+          await handleVammCreated(e as VammCreatedEvent);
+          break;
+        }
+        case 'market-fee-configured': {
+          await handleMarketFeeConfigured(e as MarketFeeConfiguredEvent);
+          break;
+        }
+        case 'market-configured': {
+          await handleMarketConfigured(e as MarketConfiguredEvent);
+          break;
+        }
+        case 'rate-oracle-configured': {
+          await handleRateOracleConfigured(e as RateOracleConfiguredEvent);
+          break;
+        }
+        case 'vamm-price-change': {
+          await handleVammPriceChange(e as VammPriceChangeEvent);
           break;
         }
         default: {

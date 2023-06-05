@@ -9,10 +9,7 @@ export const estimateSwapGasUnits = async (
   const estimatedGas: BigNumber = await peripheryContract.estimateGas
     .swap(swapPeripheryParams, swapPeripheryTempOverrides)
     .catch((error) => {
-      throw new Error('TODO: implement');
-      // todo: implement
-      // const errorMessage = getReadableErrorMessage(error);
-      // throw new Error(errorMessage);
+      throw new Error('Failed to estimate gas for swap transaction');
     });
 
   return estimatedGas;

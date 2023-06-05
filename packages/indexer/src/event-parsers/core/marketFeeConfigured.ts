@@ -1,8 +1,11 @@
 import { Event, BigNumber } from 'ethers';
 
-import { ProtocolEventType, MarketFeeConfiguredEvent } from '../types';
 import { parseBaseEvent } from '../utils/baseEvent';
-import { descale } from '../../utils/token';
+import {
+  descale,
+  ProtocolEventType,
+  MarketFeeConfiguredEvent,
+} from '@voltz-protocol/commons-v2';
 
 export const parseMarketFeeConfigured = (
   chainId: number,
@@ -12,12 +15,17 @@ export const parseMarketFeeConfigured = (
   const type: ProtocolEventType = 'market-fee-configured';
 
   // 2. Parse particular args
-  const productId = event.args?.productId as string;
-  const marketId = event.args?.marketId as string;
-  const feeCollectorAccountId = event.args?.feeCollectorAccountId as string;
+  const productId = event.args?.config.productId as string;
+  const marketId = event.args?.config.marketId as string;
+  const feeCollectorAccountId = event.args?.config
+    .feeCollectorAccountId as string;
 
-  const atomicMakerFee = descale(18)(event.args?.atomicMakerFee as BigNumber);
-  const atomicTakerFee = descale(18)(event.args?.atomicTakerFee as BigNumber);
+  const atomicMakerFee = descale(18)(
+    event.args?.config.atomicMakerFee as BigNumber,
+  );
+  const atomicTakerFee = descale(18)(
+    event.args?.config.atomicTakerFee as BigNumber,
+  );
 
   // 3. Parse base event
   const baseEvent = parseBaseEvent(chainId, event, type);

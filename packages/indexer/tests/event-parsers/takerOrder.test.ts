@@ -1,6 +1,6 @@
 import { parseTakerOrder } from '../../src/event-parsers/dated-irs-vamm/takerOrder';
 import { compareEvents } from '../utils/compareEvents';
-import { TakerOrderEvent } from '../../src/event-parsers/types';
+import { TakerOrderEvent } from '@voltz-protocol/commons-v2';
 import { takerOrderEvmEvent } from '../utils/evmEventMocks';
 
 describe('taker order parser', () => {
@@ -8,7 +8,7 @@ describe('taker order parser', () => {
     const chainId = 1;
 
     const takerOrderEvent: TakerOrderEvent = {
-      id: '1_taker-order_Block-Hash_0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A_124',
+      id: '1_taker-order_Block-Hash_0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A_123',
       type: 'taker-order',
 
       chainId: 1,
@@ -21,7 +21,7 @@ describe('taker order parser', () => {
       transactionIndex: 21,
       transactionHash:
         '0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A',
-      logIndex: 124,
+      logIndex: 123,
 
       accountId: '1000000000',
 

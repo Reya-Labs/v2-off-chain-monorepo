@@ -1,6 +1,6 @@
 {
   "name": "@voltz-protocol/sdk-v1-stateless",
-  "version": "1.0.0",
+  "version": "1.5.0",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -18,17 +18,20 @@
     "ts:check-types": "npx tsc --noEmit",
     "ts:circular-check": "dpdm --no-output --no-tree --no-warning --exit-code circular:1 -T ./src/index.ts",
     "ts:check": "yarn ts:check-types && yarn ts:circular-check",
-    "lint:check": "eslint '{src,tests}/**/*.ts'",
+    "lint:check": "npx eslint '{src,tests}/**/*.ts'",
     "prettier:check": "npx prettier --check './{src,tests}/**/*.ts'",
     "code-quality:check": "npx concurrently 'yarn ts:check' 'yarn prettier:check' 'yarn lint:check --quiet'",
     "lint:fix": "npx eslint --fix '{src,tests}/**/*.ts'",
     "prettier:fix": "npx prettier --write './{src,tests}/**/*.ts'",
     "test": "npx jest --silent",
     "test:coverage": "yarn test --coverage",
-    "generate:coverage-badges": "npx istanbul-badges-readme --silent",
-    "release": "semantic-release --node-version=18 --extends=../../release.config.js --require=ts-node/register"
+    "generate:coverage-badges": "npx istanbul-badges-readme --silent"
   },
   "packageManager": "yarn@3.5.1",
+  "devDependencies": {
+    "@types/big.js": "^6.1.3",
+    "@types/jest": "^29.2.4"
+  },
   "dependencies": {
     "big.js": "^6.1.1",
     "decimal.js-light": "^2.5.1",

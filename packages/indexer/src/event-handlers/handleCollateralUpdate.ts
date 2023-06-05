@@ -1,6 +1,8 @@
-import { CollateralUpdateEvent } from '../event-parsers/types';
-import { pullCollateralUpdateEvent } from '../services/big-query/collateral-updates-table/pull-data/pullCollateralUpdateEvent';
-import { insertCollateralUpdateEvent } from '../services/big-query/collateral-updates-table/push-data/insertCollateralUpdateEvent';
+import {
+  CollateralUpdateEvent,
+  pullCollateralUpdateEvent,
+  insertCollateralUpdateEvent,
+} from '@voltz-protocol/commons-v2';
 
 export const handleCollateralUpdate = async (event: CollateralUpdateEvent) => {
   const existingEvent = await pullCollateralUpdateEvent(event.id);
