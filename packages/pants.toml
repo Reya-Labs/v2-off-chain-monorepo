@@ -8,3 +8,12 @@ backend_packages = [
   "pants.backend.python.lint.isort",
   "pants.backend.python.typecheck.mypy"
 ]
+
+[python]
+enable_resolves = true
+interpreter_constraints = ["CPython==3.11.*"]
+
+[python.resolves]
+python-default = "defaultpy.lock"
+
+

@@ -140,6 +140,27 @@ In order to check before running tailor:
 pants tailor --check ::
 ```
 
+Pants use `python_source` and `python_test` targets to know which Python files to run on and to set any metadata.
+The `python_sources` target generates a `python_source` target for each file in its `sources` field, and `python_tests` 
+generates a `python_test` target for each file in its sources field.
+
+More information about third-party dependencies in pants refer to https://www.pantsbuild.org/docs/python-third-party-dependencies.
+
+### Lockfiles
+
+Note that Pants does not consume your `poetry.lock` file. Pants has two types of lockfiles:
+
+- User lockfiles, for your own code such as packaging binaries and running tests.
+- Tool lockfiles, to install tools that Pants runs like Pytest and Flake8.
+
+In order to generate the lockfile run the following command:
+
+```bash
+pants generate-lockfiles
+```
+
+
+
 
 ## Contributing
 
