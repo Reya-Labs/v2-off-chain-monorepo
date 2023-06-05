@@ -19,7 +19,7 @@ jobs:
           node-version: '16.17.0'
           cache: 'yarn'
       - name: Install dependencies
-        run: yarn install --immutable --immutable-cache
+        run: yarn install --immutable
       - name: Prettier check, Eslint check, Typescript check
         run: lerna run code-quality:check
       - name: Run tests
