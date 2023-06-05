@@ -170,7 +170,7 @@ class Test(unittest.TestCase):
         self.assertAlmostEqual(unrealized_pnl, 0)
 
         # Alice: Check margin requirements
-        margin_requirements = self.liquidation_module.get_account_margin_requirements(account_id="alice")
+        margin_requirements = self.liquidation_module.get_account_margin_requirements(account_id="alice", account_manager=self.account_manager)
 
         self.assertAlmostEqual(margin_requirements[0], 135.6164383561644)
         self.assertAlmostEqual(margin_requirements[1], 90.41095890410959)
@@ -208,7 +208,7 @@ class Test(unittest.TestCase):
         self.assertAlmostEqual(unrealized_pnl, 200 * self.observations[1][1] * 0.004 * 20 / 365)
 
         # Bob: Check margin requirement
-        margin_requirements = self.liquidation_module.get_account_margin_requirements(account_id="bob")
+        margin_requirements = self.liquidation_module.get_account_margin_requirements(account_id="bob", account_manager=self.account_manager)
 
         self.assertAlmostEqual(margin_requirements[0], 36.22216279621038)
         self.assertAlmostEqual(margin_requirements[1], 24.14810853080692)
@@ -227,7 +227,7 @@ class Test(unittest.TestCase):
         self.assertAlmostEqual(unrealized_pnl, -0.05075998221735745)
 
         # Alice: Check margin requirements
-        margin_requirements = self.liquidation_module.get_account_margin_requirements(account_id="alice")
+        margin_requirements = self.liquidation_module.get_account_margin_requirements(account_id="alice", account_manager=self.account_manager)
 
         self.assertAlmostEqual(margin_requirements[0], 45.35004292962463)
         self.assertAlmostEqual(margin_requirements[1], 30.233361953083087)
@@ -243,7 +243,7 @@ class Test(unittest.TestCase):
         self.assertAlmostEqual(unrealized_pnl, 0.05075998221735745)
 
         # Bob: Check margin requirement
-        margin_requirements = self.liquidation_module.get_account_margin_requirements(account_id="bob")
+        margin_requirements = self.liquidation_module.get_account_margin_requirements(account_id="bob", account_manager=self.account_manager)
 
         self.assertAlmostEqual(margin_requirements[0], 18.140017171849852)
         self.assertAlmostEqual(margin_requirements[1], 12.093344781233235)

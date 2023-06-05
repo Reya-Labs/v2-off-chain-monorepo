@@ -142,7 +142,7 @@ class BaseMarket:
         )
 
         # check the margin requirement of the account that executed this trade
-        is_im_satisfied = self.get_liquidation_module().is_im_satisfied(account_id=account_id)
+        is_im_satisfied = self.get_liquidation_module().is_im_satisfied(account_id=account_id, account_manager=self._account_manager, collateral_module=self._collateral_module)
 
         if not is_im_satisfied:
             raise Exception("Initial margin requirement of the account_id is not satisfied")
@@ -210,7 +210,8 @@ class BaseMarket:
         )
 
         # check the margin requirement of the account that executed this trade
-        is_im_satisfied = self.get_liquidation_module().is_im_satisfied(account_id=account_id)
+        is_im_satisfied = self.get_liquidation_module().is_im_satisfied(account_id=account_id, account_manager=self._account_manager,
+                                                                        collateral_module=self._collateral_module)
 
         if not is_im_satisfied:
             raise Exception("Initial margin requirement of the account_id is not satisfied")
