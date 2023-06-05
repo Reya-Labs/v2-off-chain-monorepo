@@ -19,6 +19,11 @@ root_patterns = [
 enable_resolves = true
 interpreter_constraints = ["CPython==3.11.*"]
 
+[python-bootstrap]
+search_path = [
+    "/usr/local/bin",
+]
+
 [python.resolves]
 python-default = "defaultpy.lock"
 
