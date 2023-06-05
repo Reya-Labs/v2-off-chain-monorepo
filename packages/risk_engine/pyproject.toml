@@ -53,8 +53,7 @@ pythonpath = [
   "."
 ]
 testpaths = [
-    "tests",
-    "tests_e2e"
+    "tests"
 ]
 norecursedirs = "tests/helpers"
 

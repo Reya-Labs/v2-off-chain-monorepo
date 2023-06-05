@@ -1,3 +1,8 @@
+# Pants workspace files
+/.pants.*
+/dist/
+/.pids
+
 # Compiler files
 cache/
 out/

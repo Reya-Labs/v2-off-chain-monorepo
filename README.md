@@ -120,6 +120,25 @@ npx lerna run generate:coverage-badges
 npx lerna add <package-name>
 ```
 
+## Pants Configuration
+
+In order to install Pants (https://www.pantsbuild.org/docs/) on MacOS, run the following command
+
+```bash
+brew install pantsbuild/tap/pants
+```
+
+Generate and Update Build Files by running the following command:
+
+```bash
+pants tailor ::
+```
+
+In order to check before running tailor:
+
+```bash
+pants tailor --check ::
+```
 
 
 ## Contributing
