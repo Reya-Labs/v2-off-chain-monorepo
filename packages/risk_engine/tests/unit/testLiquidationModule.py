@@ -63,7 +63,9 @@ class TestLiquidationModule(unittest.TestCase):
         self.collateral_module.mock_get_account_net_worth(return_value=210)
 
         # Trigger call
-        is_im_satisfied = self.liquidation_module.is_im_satisfied(account_id="user")
+        is_im_satisfied = self.liquidation_module.is_im_satisfied(account_id="user",
+                                                                  account_manager=self.account_manager,
+                                                                  collateral_module=self.collateral_module)
 
         # Check result
         self.assertAlmostEqual(is_im_satisfied, True)
@@ -73,7 +75,8 @@ class TestLiquidationModule(unittest.TestCase):
         self.collateral_module.mock_get_account_net_worth(return_value=20)
 
         # Trigger call
-        is_im_satisfied = self.liquidation_module.is_im_satisfied(account_id="user")
+        is_im_satisfied = self.liquidation_module.is_im_satisfied(account_id="user", account_manager=self.account_manager,
+                                                                  collateral_module=self.collateral_module)
 
         # Check result
         self.assertAlmostEqual(is_im_satisfied, False)
@@ -92,7 +95,8 @@ class TestLiquidationModule(unittest.TestCase):
 
         # Trigger call
         self.liquidation_module.liquidate_account(
-            liquidated_account_id="user", liquidator_account_id="liquidator"
+            liquidated_account_id="user", liquidator_account_id="liquidator",
+            account_manager=self.account_manager, collateral_module=self.collateral_module
         )
 
         # Check state change
@@ -108,7 +112,7 @@ class TestLiquidationModule(unittest.TestCase):
 
     def test_get_account_margin_requirements(self):
 
-        IMR, LMR = self.liquidation_module.get_account_margin_requirements(account_id="user")
+        IMR, LMR = self.liquidation_module.get_account_margin_requirements(account_id="user", account_manager=self.account_manager)
 
         self.assertAlmostEqual(LMR, 43)
         self.assertAlmostEqual(IMR, 64.5)
