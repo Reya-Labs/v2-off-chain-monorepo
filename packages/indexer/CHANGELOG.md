@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/indexer-v2@1.3.0...@voltz-protocol/indexer-v2@1.4.0) (2023-06-05)
+
+### Bug Fixes
+
+- cleanup ([fc6da81](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/fc6da8130a067c2ac9cdc5347cccfa19eaee01a1))
+- tests fis after rebase ([19b6f8b](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/19b6f8b3d4c299b4926d69d5e2de00dd92541234))
+
+### Features
+
+- raw vamm price change ([fc8f21f](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/fc8f21ffca2b929c6687ea33b7eaa69269b6d396))
+- vamm created ([eeeb1f3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/eeeb1f33e32f4d7c525c682446dbe44a499c5a67))
+
 # 1.3.0 (2023-06-01)
 
 ### Features
