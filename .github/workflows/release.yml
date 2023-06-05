@@ -22,7 +22,7 @@ jobs:
           node-version: 'lts/*'
           registry-url: 'https://npm.pkg.github.com'
       - name: Install dependencies
-        run: yarn install --immutable --immutable-cache
+        run: yarn install
       - name: Run tests
         run: lerna run test
       - name: Run coverage reports
