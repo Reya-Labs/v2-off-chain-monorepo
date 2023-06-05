@@ -9,6 +9,13 @@ backend_packages = [
   "pants.backend.python.typecheck.mypy"
 ]
 
+[source]
+# The Python source root is the repo root. See https://pants.readme.io/docs/source-roots.
+root_patterns = [
+    "pypackages/risk_engine/src",
+    "pypackages/risk_engine/tests"
+]
+
 [python]
 enable_resolves = true
 interpreter_constraints = ["CPython==3.11.*"]
