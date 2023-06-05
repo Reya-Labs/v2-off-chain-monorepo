@@ -90,8 +90,8 @@ class TestLiquidationModule(unittest.TestCase):
         )
 
         # Mock account balance with low collateral
-        self.collateral_module.mock_get_account_net_worth(return_value=20)
-        self.collateral_module.mock_get_collateral_to_USD_exchange_rate(return_value=1)
+        self.collateral_module.mock_get_account_total_value(return_value=20)
+        # self.collateral_module.mock_get_collateral_to_USD_exchange_rate(return_value=1)
 
         # Trigger call
         self.liquidation_module.liquidate_account(

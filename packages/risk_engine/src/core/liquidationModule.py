@@ -10,13 +10,13 @@ class LiquidationModule:
 
     def is_im_satisfied(self, account_id, account_manager: AccountManager, collateral_module: CollateralModule):
         account_net_worth = collateral_module.get_account_total_value(account_id=account_id, account_manager=account_manager)
-        IMR, _ = self.get_account_margin_requirements(account_id=account_id)
+        IMR, _ = self.get_account_margin_requirements(account_id=account_id, account_manager=account_manager)
 
         return account_net_worth >= IMR
 
     def is_account_liquidatable(self, account_id, account_manager: AccountManager, collateral_module: CollateralModule):
         account_value = collateral_module.get_account_total_value(account_id=account_id, account_manager=account_manager)
-        IMR, LMR = self.get_account_margin_requirements(account_id=account_id)
+        IMR, LMR = self.get_account_margin_requirements(account_id=account_id, account_manager=account_manager)
 
         return account_value < LMR, IMR, LMR
 
@@ -32,13 +32,14 @@ class LiquidationModule:
 
         is_account_liquidatable, im_pre_account_closing, _ = self.is_account_liquidatable(
             account_id=liquidated_account_id,
-            collateral_module=collateral_module
+            collateral_module=collateral_module,
+            account_manager=account_manager
         )
         if not is_account_liquidatable:
             raise Exception("liquidation engine: account is not liquidatable")
 
         account.close_all_account_filled_and_unfilled_orders()
-        im_post_account_closing, _ = self.get_account_margin_requirements(account_id=liquidated_account_id)
+        im_post_account_closing, _ = self.get_account_margin_requirements(account_id=liquidated_account_id, account_manager=account_manager)
         delta_im = im_pre_account_closing - im_post_account_closing
 
         if delta_im < 0:
