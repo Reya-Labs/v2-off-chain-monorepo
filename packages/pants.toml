@@ -16,4 +16,10 @@ interpreter_constraints = ["CPython==3.11.*"]
 [python.resolves]
 python-default = "defaultpy.lock"
 
+[mypy]
+config = "mypy.ini"
+
+[flake8]
+config = ".flake8"
+args = ["--output-file=reports/report.txt"]
 
