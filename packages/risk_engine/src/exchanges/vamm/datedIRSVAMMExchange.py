@@ -1,5 +1,5 @@
 from typing_extensions import override
-from packages.risk_engine.src.exchanges.vamm.BaseVAMMExchange import BaseVAMMExchange
+from packages.risk_engine.src.exchanges.vamm.baseVAMMExchange import BaseVAMMExchange
 from packages.risk_engine.src.constants import YEAR_IN_SECONDS
 
 

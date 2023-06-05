@@ -2,8 +2,7 @@ import unittest
 from packages.risk_engine.tests.mocks.mockOracle import MockOracle
 from packages.risk_engine.src.evm.block import Block
 from packages.risk_engine.src.constants import MONTH_IN_SECONDS
-from packages.risk_engine.src.exchanges.vamm import DatedIRSVAMMExchange
-
+from packages.risk_engine.src.exchanges.vamm.datedIRSVAMMExchange import DatedIRSVAMMExchange
 
 class TestIRSPool(unittest.TestCase):
     def setUp(self):

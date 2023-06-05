@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from typing_extensions import override
-from packages.risk_engine.src.exchanges.vamm.VAMM import VAMM
+from packages.risk_engine.src.exchanges.vamm.vamm import VAMM
 
 
 class BaseVAMMExchange(VAMM):
