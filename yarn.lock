@@ -10322,6 +10322,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"risk-engine@workspace:packages/risk_engine":
+  version: 0.0.0-use.local
+  resolution: "risk-engine@workspace:packages/risk_engine"
+  languageName: unknown
+  linkType: soft
+
 "run-async@npm:^2.4.0":
   version: 2.4.1
   resolution: "run-async@npm:2.4.1"
