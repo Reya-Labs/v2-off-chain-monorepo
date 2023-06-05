@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.1.0 (2023-06-05)
+
+### Bug Fixes
+
+- imports ([380cf24](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/380cf2427b4c4e30b30d672d4fcb10d85a2588c5))
+
+### Features
+
+- commons package ([d4fabb5](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/d4fabb5002de16340e9e100be46a405259ca3011))
+
 # 1.35.0 (2023-06-01)
 
 ### Features
