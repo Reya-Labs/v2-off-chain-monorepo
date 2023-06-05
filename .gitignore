@@ -2,6 +2,13 @@
 /.pants.*
 /dist/
 /.pids
+/.pants.workdir.file_lock*
+
+# Python files
+__pycache__/
+*.pyc
+/.venv/
+
 
 # Compiler files
 cache/

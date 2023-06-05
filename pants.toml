@@ -19,6 +19,7 @@ root_patterns = [
 [python]
 enable_resolves = true
 interpreter_constraints = ["CPython==3.11.*"]
+requirement_constraints = "constraints.txt"
 
 [python.resolves]
 python-default = "defaultpy.lock"
@@ -30,3 +31,5 @@ config = "mypy.ini"
 config = ".flake8"
 args = ["--output-file=reports/report.txt"]
 
+[isort]
+config = [".isort.cfg"]
