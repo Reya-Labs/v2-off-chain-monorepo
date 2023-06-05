@@ -11,7 +11,7 @@ import {
   RateOracleConfiguredEvent,
   VammCreatedEvent,
   VammPriceChangeEvent,
-} from '../event-parsers/types';
+} from '@voltz-protocol/commons-v2';
 import { fetchEvents } from '../fetch-events/fetchEvents';
 import { getProvider } from '../services/provider';
 

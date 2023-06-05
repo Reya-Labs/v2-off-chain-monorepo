@@ -1,9 +1,12 @@
 import { Event, BigNumber, ethers } from 'ethers';
 
-import { CollateralConfiguredEvent, ProtocolEventType } from '../types';
 import { parseBaseEvent } from '../utils/baseEvent';
-import { convertLowercaseString } from '../utils/convertLowercase';
-import { getTokenDetails } from '../../utils/token';
+import { convertLowercaseString } from '@voltz-protocol/commons-v2';
+import {
+  getTokenDetails,
+  CollateralConfiguredEvent,
+  ProtocolEventType,
+} from '@voltz-protocol/commons-v2';
 
 export const parseCollateralConfigured = (
   chainId: number,

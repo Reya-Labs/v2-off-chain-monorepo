@@ -1,10 +1,13 @@
-import { MarketConfiguredEvent } from '../event-parsers/types';
-import { pullMarketEntry } from '../services/big-query/markets-table/pull-data/pullMarketEntry';
-import { insertMarketEntry } from '../services/big-query/markets-table/push-data/insertMarketEntry';
-import { updateMarketEntry } from '../services/big-query/markets-table/push-data/updateMarketEntry';
-import { pullMarketConfiguredEvent } from '../services/big-query/raw-market-configured-table/pull-data/pullMarketConfiguredEvent';
-import { insertMarketConfiguredEvent } from '../services/big-query/raw-market-configured-table/push-data/insertMarketConfiguredEvent';
-import { ZERO_ACCOUNT, ZERO_ADDRESS } from '../utils/constants';
+import {
+  MarketConfiguredEvent,
+  pullMarketEntry,
+  insertMarketEntry,
+  updateMarketEntry,
+  pullMarketConfiguredEvent,
+  insertMarketConfiguredEvent,
+  ZERO_ACCOUNT,
+  ZERO_ADDRESS,
+} from '@voltz-protocol/commons-v2';
 
 export const handleMarketConfigured = async (event: MarketConfiguredEvent) => {
   // Check if the event has been processed

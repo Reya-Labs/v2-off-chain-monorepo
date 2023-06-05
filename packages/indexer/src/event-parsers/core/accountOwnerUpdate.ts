@@ -1,8 +1,11 @@
 import { Event, BigNumber } from 'ethers';
 
-import { AccountOwnerUpdateEvent, ProtocolEventType } from '../types';
 import { parseBaseEvent } from '../utils/baseEvent';
-import { convertLowercaseString } from '../utils/convertLowercase';
+import {
+  convertLowercaseString,
+  AccountOwnerUpdateEvent,
+  ProtocolEventType,
+} from '@voltz-protocol/commons-v2';
 
 export const parseAccountOwnerUpdate = (
   chainId: number,

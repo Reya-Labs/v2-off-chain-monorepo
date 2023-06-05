@@ -4,6 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
     "prebuild": "yarn code-quality:check && rm -rf dist",
@@ -20,13 +21,9 @@
     "test:coverage": "yarn test --coverage",
     "generate:coverage-badges": "npx istanbul-badges-readme --silent"
   },
-  "devDependencies": {
-    "@voltz-protocol/indexer-v2": "workspace:^",
-    "@voltz-protocol/api-v2": "workspace:^"
-  },
   "dependencies": {
-    "ethers": "5.5.4",
-    "@google-cloud/bigquery": "6.2.0"
+    "@google-cloud/bigquery": "6.2.0",
+    "ethers": "5.5.4"
   },
   "packageManager": "yarn@3.5.1"
 }

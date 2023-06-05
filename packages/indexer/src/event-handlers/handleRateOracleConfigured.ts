@@ -1,10 +1,13 @@
-import { RateOracleConfiguredEvent } from '../event-parsers/types';
-import { pullMarketEntry } from '../services/big-query/markets-table/pull-data/pullMarketEntry';
-import { insertMarketEntry } from '../services/big-query/markets-table/push-data/insertMarketEntry';
-import { updateMarketEntry } from '../services/big-query/markets-table/push-data/updateMarketEntry';
-import { pullRateOracleConfiguredEvent } from '../services/big-query/raw-rate-oracle-configured-table/pull-data/pullMarketConfiguredEvent';
-import { insertRateOracleConfiguredEvent } from '../services/big-query/raw-rate-oracle-configured-table/push-data/insertMarketConfiguredEvent';
-import { ZERO_ACCOUNT, ZERO_ADDRESS } from '../utils/constants';
+import {
+  RateOracleConfiguredEvent,
+  pullMarketEntry,
+  insertMarketEntry,
+  updateMarketEntry,
+  pullRateOracleConfiguredEvent,
+  insertRateOracleConfiguredEvent,
+  ZERO_ACCOUNT,
+  ZERO_ADDRESS,
+} from '@voltz-protocol/commons-v2';
 
 export const handleRateOracleConfigured = async (
   event: RateOracleConfiguredEvent,

@@ -1,5 +1,5 @@
-import { ZERO_ADDRESS } from '../utils/constants';
-import { Address } from '../utils/types';
+import { ZERO_ADDRESS } from '@voltz-protocol/commons-v2';
+import { Address } from '@voltz-protocol/commons-v2';
 
 type NetworkAddresses = { [name: string]: Address };
 

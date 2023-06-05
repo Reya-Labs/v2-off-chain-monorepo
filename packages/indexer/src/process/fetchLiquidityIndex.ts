@@ -1,8 +1,8 @@
 import { getRateOracleContract } from '../contract-generators/rate-oracle';
-import { descale } from '../utils/token';
-import { insertLiquidityIndex } from '../services/big-query/liquidity-indices-table/push-data/insertCollateralUpdateEvent';
+import { descale } from '@voltz-protocol/commons-v2';
+import { insertLiquidityIndex } from '@voltz-protocol/commons-v2';
 import { getProvider } from '../services/provider';
-import { pullRateOracleEntries } from '../services/big-query/cross-queries/pullRateOracleEntries';
+import { pullRateOracleEntries } from '@voltz-protocol/commons-v2';
 
 export const fetchLiquidityIndices = async (): Promise<void> => {
   const oracles = await pullRateOracleEntries();

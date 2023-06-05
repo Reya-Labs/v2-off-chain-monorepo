@@ -1,4 +1,4 @@
-import { BaseEvent } from '../../src/event-parsers/types';
+import { BaseEvent } from '@voltz-protocol/commons-v2';
 
 const EPSILON = 1e-5;
 

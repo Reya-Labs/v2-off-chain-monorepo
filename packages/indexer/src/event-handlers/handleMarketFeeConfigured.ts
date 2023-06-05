@@ -1,10 +1,12 @@
-import { MarketFeeConfiguredEvent } from '../event-parsers/types';
-import { pullMarketEntry } from '../services/big-query/markets-table/pull-data/pullMarketEntry';
-import { insertMarketEntry } from '../services/big-query/markets-table/push-data/insertMarketEntry';
-import { updateMarketEntry } from '../services/big-query/markets-table/push-data/updateMarketEntry';
-import { pullMarketFeeConfiguredEvent } from '../services/big-query/raw-market-fee-configured-table/pull-data/pullMarketFeeConfiguredEvent';
-import { insertMarketFeeConfiguredEvent } from '../services/big-query/raw-market-fee-configured-table/push-data/insertMarketFeeConfiguredEvent';
-import { ZERO_ADDRESS } from '../utils/constants';
+import {
+  MarketFeeConfiguredEvent,
+  pullMarketEntry,
+  insertMarketEntry,
+  updateMarketEntry,
+  pullMarketFeeConfiguredEvent,
+  insertMarketFeeConfiguredEvent,
+  ZERO_ADDRESS,
+} from '@voltz-protocol/commons-v2';
 
 export const handleMarketFeeConfigured = async (
   event: MarketFeeConfiguredEvent,

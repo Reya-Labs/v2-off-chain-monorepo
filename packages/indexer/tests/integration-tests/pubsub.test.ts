@@ -6,7 +6,7 @@ import { createTopic, deleteTopic } from '../../src/services/pub-sub/topic';
 import { pullEvents } from '../../src/services/pub-sub/pullEvents';
 import { pushEvents } from '../../src/services/pub-sub/pushEvents';
 import { compareEvents } from '../utils/compareEvents';
-import { TakerOrderEvent } from '../../src/event-parsers/types';
+import { TakerOrderEvent } from '@voltz-protocol/commons-v2';
 import { parseTakerOrder } from '../../src/event-parsers/dated-irs-vamm/takerOrder';
 import { takerOrderEvmEvent } from '../utils/evmEventMocks';
 

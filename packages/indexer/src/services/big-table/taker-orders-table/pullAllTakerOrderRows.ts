@@ -1,4 +1,4 @@
-import { TakerOrderEvent } from '../../../event-parsers/types';
+import { TakerOrderEvent } from '@voltz-protocol/commons-v2';
 import { getTable, mapBigtableRow } from './utils';
 
 export const pullAllTakerOrderRows = async (): Promise<TakerOrderEvent[]> => {

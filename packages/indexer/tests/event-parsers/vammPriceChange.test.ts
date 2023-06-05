@@ -1,5 +1,5 @@
 import { parseVammPriceChange } from '../../src/event-parsers/dated-irs-vamm/vammPriceChange';
-import { VammPriceChangeEvent } from '../../src/event-parsers/types';
+import { VammPriceChangeEvent } from '@voltz-protocol/commons-v2';
 import { compareEvents } from '../utils/compareEvents';
 import { vammPriceChangeEvmEvent } from '../utils/evmEventMocks';
 
