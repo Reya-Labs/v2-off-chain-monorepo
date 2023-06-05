@@ -1,5 +1,5 @@
 [GLOBAL]
-pants_version = "2.15"
+pants_version = "2.15.1"
 
 backend_packages = [
   "pants.backend.python",
@@ -19,7 +19,6 @@ root_patterns = [
 [python]
 enable_resolves = true
 interpreter_constraints = ["CPython==3.11.*"]
-requirement_constraints = "constraints.txt"
 
 [python.resolves]
 python-default = "defaultpy.lock"
