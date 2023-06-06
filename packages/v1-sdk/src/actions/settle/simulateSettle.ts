@@ -1,4 +1,4 @@
-import { ExecuteOrSimulateSettleArgs, SettlePeripheryParams } from "../types/actionArgTypes";
+import { SettleArgs, SettlePeripheryParams } from "../types/actionArgTypes";
 import { BigNumber, ContractReceipt, ethers, providers } from "ethers";
 import { SettleSimulationResults } from "./types";
 import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from "../../common/constants";
@@ -6,15 +6,19 @@ import { getPeripheryContract } from "../../common/contract-generators";
 import { estimateSettleGasUnits } from "./estimateSettleGasUnits";
 import { getNativeGasToken } from "../../common/gas/getNativeGasToken";
 import { convertGasUnitsToNativeTokenUnits } from "../../common/gas/convertGasUnitsToNativeTokenUnits";
+import { PositionInfo } from "../../common/api/position/types";
+import { getPositionInfo } from "../../common/api/position/getPositionInfo";
 
 export const simulateSettle =  async ({
-  positionInfo,
+  positionId,
   signer
-}: ExecuteOrSimulateSettleArgs): Promise<SettleSimulationResults> => {
+}: SettleArgs): Promise<SettleSimulationResults> => {
 
   if (signer.provider === undefined) {
     throw new Error('Signer Provider Undefined');
   }
+
+  const positionInfo: PositionInfo = await getPositionInfo(positionId);
 
   const chainId: number = await signer.getChainId();
 

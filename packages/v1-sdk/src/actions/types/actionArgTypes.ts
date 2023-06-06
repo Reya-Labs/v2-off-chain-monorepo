@@ -130,11 +130,6 @@ export type LpPeripheryParams = {
 export type SettleArgs = {
   positionId: string;
   signer: Signer;
-}
-
-export type ExecuteOrSimulateSettleArgs = {
-  positionInfo: PositionInfo;
-  signer: Signer;
 };
 
 export type SettlePeripheryParams = {
