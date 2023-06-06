@@ -132,7 +132,6 @@ export type SettleArgs = {
   underlyingTokenAddress: string;
   underlyingTokenDecimals: number;
   tickSpacing: number;
-  chainId: number;
   marginEngineAddress: string;
   signer: Signer;
 };

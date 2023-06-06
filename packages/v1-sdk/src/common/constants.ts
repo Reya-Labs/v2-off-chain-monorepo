@@ -37,3 +37,6 @@ export const PERIPHERY_ADDRESS_BY_CHAIN_ID: { [key: number]: string } = {
   42161: "0x5971eEdc4ae37C7FE86aF716737e5C19EfD07a80",
   43114: "0x4870b57E2e4bAA82ac8CC87350A2959e4b51694f"
 }
+
+// todo: remove hardcoded tick spacing and replace by api call
+export const DEFAULT_TICK_SPACING: number = 60;
