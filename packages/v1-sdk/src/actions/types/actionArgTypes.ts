@@ -127,8 +127,13 @@ export type LpPeripheryParams = {
 // settle
 
 export type SettleArgs = {
-  fixedLow: number;
-  fixedHigh: number;
+  positionId: string;
+  signer: Signer;
+}
+
+export type ExecuteSettleArgs = {
+  tickLower: number;
+  tickUpper: number;
   underlyingTokenAddress: string;
   underlyingTokenDecimals: number;
   tickSpacing: number;

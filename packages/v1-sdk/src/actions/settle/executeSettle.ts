@@ -5,22 +5,21 @@ import {
   utils,
   ContractTransaction, providers
 } from "ethers";
-import { SettleArgs, SettlePeripheryParams } from '../types/actionArgTypes';
+import { ExecuteSettleArgs, SettlePeripheryParams } from '../types/actionArgTypes';
 import { getPeripheryContract } from '../../common/contract-generators';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
-import { getSettlePeripheryParams } from './getSettlePeripheryParams';
 import { estimateSettleGasUnits } from './estimateSettleGasUnits';
 import { PERIPHERY_ADDRESS_BY_CHAIN_ID} from "../../common/constants";
 
 export const executeSettle = async ({
-  fixedLow,
-  fixedHigh,
+  tickLower,
+  tickUpper,
   underlyingTokenAddress,
   underlyingTokenDecimals,
   tickSpacing,
   marginEngineAddress,
   signer
-}: SettleArgs): Promise<ContractReceipt> => {
+}: ExecuteSettleArgs): Promise<ContractReceipt> => {
 
   if (signer.provider === undefined) {
     throw new Error('Signer Provider Undefined');
@@ -41,13 +40,12 @@ export const executeSettle = async ({
 
   peripheryContract.connect(signer);
 
-  const settlePeripheryParams: SettlePeripheryParams = getSettlePeripheryParams(
-    marginEngineAddress,
-    positionOwnerAddress,
-    fixedLow,
-    fixedHigh,
-    tickSpacing,
-  );
+  const settlePeripheryParams: SettlePeripheryParams = {
+    marginEngineAddress: marginEngineAddress,
+    positionOwnerAddress: positionOwnerAddress,
+    tickLower: tickLower,
+    tickUpper: tickUpper,
+  };
 
   const settlePeripheryTempOverrides: {
     value?: BigNumber;
