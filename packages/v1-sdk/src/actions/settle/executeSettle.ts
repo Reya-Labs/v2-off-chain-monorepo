@@ -39,7 +39,7 @@ export const executeSettle = async ({
     marginEngineAddress: positionInfo.ammMarginEngineAddress,
     positionOwnerAddress: positionOwnerAddress,
     tickLower: positionInfo.positionTickLower,
-    tickUpper: positionInfo.positinTickUpper,
+    tickUpper: positionInfo.positionTickUpper,
   };
 
   const settlePeripheryTempOverrides: {
