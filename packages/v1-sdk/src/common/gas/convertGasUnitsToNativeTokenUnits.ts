@@ -1,6 +1,6 @@
 import { BigNumber, ethers, providers } from 'ethers';
 
-export async function convertGasUnitsToNativeToken(
+export async function convertGasUnitsToNativeTokenUnits(
   provider: providers.Provider,
   gasUnits: number,
 ): Promise<number> {
