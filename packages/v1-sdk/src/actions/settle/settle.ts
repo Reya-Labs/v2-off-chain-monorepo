@@ -14,7 +14,7 @@ import { PositionInfo } from "../../common/api/position/types";
 import { getPositionInfo } from "../../common/api/position/getPositionInfo";
 import { getSentryTracker } from "../../init";
 
-export const executeSettle = async ({
+export const settle = async ({
   positionId,
   signer
 }: SettleArgs): Promise<ContractReceipt> => {
