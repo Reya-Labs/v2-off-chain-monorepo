@@ -1,4 +1,4 @@
-import {SettleArgs} from "../types/actionArgTypes";
+import { ExecuteSettleArgs, SettleArgs } from "../types/actionArgTypes";
 import {ContractReceipt} from "ethers";
 
 export const settle = async ({
@@ -6,6 +6,9 @@ export const settle = async ({
   signer
 }: SettleArgs): Promise<ContractReceipt> => {
 
+  // need to get tickLower, tickUpper, underlyingTokenAddress,
+  // underlyingTokenDecimals, tickSpacing, marginEngineAddress
 
+  const positionInfo = await getPositionInfo(positionId);
 
 }
