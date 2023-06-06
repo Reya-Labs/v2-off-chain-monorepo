@@ -1,6 +1,6 @@
 import { ExecuteSettleArgs, SettleArgs } from "../types/actionArgTypes";
 import {ContractReceipt} from "ethers";
-import {PositionInfo} from "../../common/api/position/type";
+import {PositionInfo} from "../../common/api/position/types";
 import {executeSettle} from "./executeSettle";
 import {getPositionInfo} from "../../common/api/position/getPositionInfo";
 

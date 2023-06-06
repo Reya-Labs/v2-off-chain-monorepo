@@ -1,4 +1,4 @@
-import { PositionInfo } from "./type";
+import { PositionInfo } from "./types";
 import axios from 'axios';
 import {getServiceUrl} from "../urls";
 import {AxiosResponse} from "axios";
