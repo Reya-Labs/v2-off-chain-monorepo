@@ -1,4 +1,4 @@
-const baseUrl: string = 'https://api.voltz.xyz';
+const baseUrl = 'https://api.voltz.xyz';
 
 type Service =
   | 'chain-information'
