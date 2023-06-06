@@ -6,6 +6,8 @@ import {
   marketFeeConfiguredEvmEvent,
   productPositionUpdatedEvmEvent,
   rateOracleConfiguredEvmEvent,
+  vammCreatedEvmEvent,
+  vammPriceChangeEvmEvent,
 } from '../utils/evmEventMocks';
 import { getCoreContract } from '../../src/contract-generators/core';
 import { createTable } from '@voltz-protocol/commons-v2';
@@ -49,6 +51,8 @@ describe.skip('Collateral Update Indexer integration test', () => {
     await createTable(TableType.raw_market_fee_configured);
     await createTable(TableType.raw_rate_oracle_configured);
     await createTable(TableType.raw_collateral_updates);
+    await createTable(TableType.raw_vamm_created);
+    await createTable(TableType.raw_vamm_price_change);
     await createTable(TableType.raw_product_position_updated);
     await createTable(TableType.markets);
     await createTable(TableType.positions);
@@ -98,8 +102,10 @@ describe.skip('Collateral Update Indexer integration test', () => {
     // Mock instrument contract event filters
     {
       const queryFilter = jest.fn(async () => {});
-      (queryFilter as jest.Mock).mockResolvedValueOnce([]);
-      (queryFilter as jest.Mock).mockResolvedValueOnce([]);
+      (queryFilter as jest.Mock).mockResolvedValueOnce([vammCreatedEvmEvent]);
+      (queryFilter as jest.Mock).mockResolvedValueOnce([
+        vammPriceChangeEvmEvent,
+      ]);
 
       (getDatedIrsVammContract as jest.Mock).mockReturnValueOnce({
         queryFilter,
