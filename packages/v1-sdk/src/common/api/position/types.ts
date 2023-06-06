@@ -55,10 +55,8 @@ export type HistoryTransaction = {
 };
 
 export type PositionInfo = {
-  positionId: string;
-  positionOwnerAddress: string;
   positionTickLower: number;
-  positinTickUpper: number;
+  positionTickUpper: number;
   ammUnderlyingTokenDecimals: number;
   ammMarginEngineAddress: string;
 }
