@@ -1,4 +1,4 @@
-
+import axios from 'axios';
 
 
 export type PositionInfo = {
@@ -7,20 +7,17 @@ export type PositionInfo = {
   tickUpper: number;
   underlyingTokenAddress: string;
   underlyingTokenDecimals: number;
-  tickSpacing: number;
   marginEngineAddress: string;
   positionOwnerAddress: string;
 }
 
 export const getPositionInfo = async (positionId: string): Promise<PositionInfo> => {
-  return {
-    positionId: positionId,
-    tickLower: 0,
-    tickUpper: 0,
-    underlyingTokenAddress: '',
-    underlyingTokenDecimals: 0,
-    tickSpacing: 0,
-    marginEngineAddress: '',
-    positionOwnerAddress: '',
-  }
+
+    const baseUrl = getServiceUrl('portfolio-positions');
+    const url = `${baseUrl}/${chainIds.join('&')}/${ownerAddress.toLowerCase()}`;
+
+    const res = await axios.get<PortfolioPosition[]>(url, {
+      withCredentials: false,
+    });
+
 }
