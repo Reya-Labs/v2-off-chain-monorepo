@@ -12,6 +12,7 @@ import { estimateSettleGasUnits } from './estimateSettleGasUnits';
 import { PERIPHERY_ADDRESS_BY_CHAIN_ID} from "../../common/constants";
 import { PositionInfo } from "../../common/api/position/types";
 import { getPositionInfo } from "../../common/api/position/getPositionInfo";
+import { getSentryTracker } from "../../init";
 
 export const executeSettle = async ({
   positionId,
@@ -65,8 +66,11 @@ export const executeSettle = async ({
       settlePeripheryParams,
       settlePeripheryTempOverrides,
     )
-    .catch(() => {
-      throw new Error('Settle Transaction Confirmation Error');
+    .catch((error: any) => {
+      const sentryTracker = getSentryTracker();
+      sentryTracker.captureException(error);
+      sentryTracker.captureMessage('Transaction Confirmation Error');
+      throw new Error('Transaction Confirmation Error');
     });
 
   const receipt: ContractReceipt = await settleTransaction.wait();
