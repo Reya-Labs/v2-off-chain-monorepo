@@ -1,7 +1,7 @@
-import { PortfolioPositionDetails, PositionInfo } from "./types";
+import { PortfolioPositionDetails, PositionInfo } from './types';
 import axios from 'axios';
-import {getServiceUrl} from "../urls";
-import {AxiosResponse} from "axios";
+import { getServiceUrl } from '../urls';
+import { AxiosResponse } from 'axios';
 
 const decodePositionId = (
   positionId: string,
@@ -23,8 +23,9 @@ const decodePositionId = (
   };
 };
 
-export const getPositionInfo = async (positionId: string): Promise<PositionInfo> => {
-
+export const getPositionInfo = async (
+  positionId: string,
+): Promise<PositionInfo> => {
   const baseUrl = getServiceUrl('portfolio-position-details');
   const url = `${baseUrl}/${positionId.toLowerCase()}`;
 
@@ -34,20 +35,17 @@ export const getPositionInfo = async (positionId: string): Promise<PositionInfo>
 
   const portfolioPositionDetails: PortfolioPositionDetails = res.data;
 
-  const {
-    chainId,
-    tickLower,
-    tickUpper,
-    ownerAddress,
-  } = decodePositionId(portfolioPositionDetails.id);
+  const { chainId, tickLower, tickUpper, ownerAddress } = decodePositionId(
+    portfolioPositionDetails.id,
+  );
 
   const positionInfo: PositionInfo = {
     positionTickLower: tickLower,
     positionTickUpper: tickUpper,
-    ammUnderlyingTokenDecimals: portfolioPositionDetails.amm.underlyingToken.tokenDecimals,
-    ammMarginEngineAddress: portfolioPositionDetails.amm.marginEngineAddress
-  }
+    ammUnderlyingTokenDecimals:
+      portfolioPositionDetails.amm.underlyingToken.tokenDecimals,
+    ammMarginEngineAddress: portfolioPositionDetails.amm.marginEngineAddress,
+  };
 
-  return  positionInfo;
-
-}
+  return positionInfo;
+};

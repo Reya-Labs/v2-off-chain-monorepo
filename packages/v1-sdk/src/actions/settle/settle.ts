@@ -3,22 +3,22 @@ import {
   ethers,
   BigNumber,
   utils,
-  ContractTransaction, providers
-} from "ethers";
-import { SettleArgs, SettlePeripheryParams } from "../types/actionArgTypes";
+  ContractTransaction,
+  providers,
+} from 'ethers';
+import { SettleArgs, SettlePeripheryParams } from '../types/actionArgTypes';
 import { getPeripheryContract } from '../../common/contract-generators';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
 import { estimateSettleGasUnits } from './estimateSettleGasUnits';
-import { PERIPHERY_ADDRESS_BY_CHAIN_ID} from "../../common/constants";
-import { PositionInfo } from "../../common/api/position/types";
-import { getPositionInfo } from "../../common/api/position/getPositionInfo";
-import { getSentryTracker } from "../../init";
+import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
+import { PositionInfo } from '../../common/api/position/types';
+import { getPositionInfo } from '../../common/api/position/getPositionInfo';
+import { getSentryTracker } from '../../init';
 
 export const settle = async ({
   positionId,
-  signer
+  signer,
 }: SettleArgs): Promise<ContractReceipt> => {
-
   if (signer.provider === undefined) {
     throw new Error('Signer Provider Undefined');
   }
@@ -82,5 +82,4 @@ export const settle = async ({
     sentryTracker.captureMessage('Transaction Confirmation Error');
     throw new Error('Transaction Confirmation Error');
   }
-
 };

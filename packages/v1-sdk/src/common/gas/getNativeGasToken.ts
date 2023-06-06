@@ -9,7 +9,9 @@ const CHAIN_TOKEN_MAP: Record<SupportedChainId, 'ETH' | 'AVAX'> = {
   [SupportedChainId.avalanche]: 'AVAX',
   [SupportedChainId.avalancheFuji]: 'AVAX',
 };
-export async function getNativeGasToken(provider: providers.Provider): Promise<'ETH' | 'AVAX'> {
+export async function getNativeGasToken(
+  provider: providers.Provider,
+): Promise<'ETH' | 'AVAX'> {
   let chainId: SupportedChainId | null = null;
 
   const attempts = 5;

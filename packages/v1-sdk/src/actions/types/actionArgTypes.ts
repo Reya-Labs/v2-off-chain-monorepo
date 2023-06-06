@@ -1,5 +1,5 @@
 import { BigNumberish, providers, Signer } from 'ethers';
-import { PositionInfo } from "../../common/api/position/types";
+import { PositionInfo } from '../../common/api/position/types';
 
 // todo: not sure if chainid is needed or its already in provider, same goes for the signer
 

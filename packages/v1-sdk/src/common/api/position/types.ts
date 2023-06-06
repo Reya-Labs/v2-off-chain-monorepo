@@ -5,7 +5,14 @@ export type PortfolioPositionAMM = {
   marginEngineAddress: string;
 
   isBorrowing: boolean;
-  market: 'Aave V2' | 'Aave V3' | 'Compound' | 'Lido' | 'Rocket' | 'GMX:GLP' | 'SOFR';
+  market:
+    | 'Aave V2'
+    | 'Aave V3'
+    | 'Compound'
+    | 'Lido'
+    | 'Rocket'
+    | 'GMX:GLP'
+    | 'SOFR';
 
   rateOracle: {
     address: string;
@@ -44,9 +51,15 @@ export type PortfolioPositionDetails = {
   amm: PortfolioPositionAMM;
 };
 
-
 export type HistoryTransaction = {
-  type: 'swap' | 'mint' | 'burn' | 'margin-update' | 'liquidation' | 'settlement' | 'maturity';
+  type:
+    | 'swap'
+    | 'mint'
+    | 'burn'
+    | 'margin-update'
+    | 'liquidation'
+    | 'settlement'
+    | 'maturity';
   creationTimestampInMS: number;
   notional: number;
   paidFees: number;
@@ -59,5 +72,4 @@ export type PositionInfo = {
   positionTickUpper: number;
   ammUnderlyingTokenDecimals: number;
   ammMarginEngineAddress: string;
-}
-
+};

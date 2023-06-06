@@ -19,6 +19,7 @@ export async function convertGasUnitsToNativeTokenUnits(
     }
   }
 
-  const gasUnitsToNativeToken = parseFloat(ethers.utils.formatEther(gasPriceWei)) * gasUnits;
+  const gasUnitsToNativeToken =
+    parseFloat(ethers.utils.formatEther(gasPriceWei)) * gasUnits;
   return gasUnitsToNativeToken;
 }

@@ -10,7 +10,6 @@ import {
   ethers,
 } from 'ethers';
 import { getPeripheryContract } from '../../common/contract-generators';
-import { getSettlePeripheryParams } from '../settle/getSettlePeripheryParams';
 import { estimateSettleGasUnits } from '../settle/estimateSettleGasUnits';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
 import { getUpdateMarginPeripheryParams } from './getUpdateMarginPeripheryParams';
