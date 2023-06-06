@@ -5,7 +5,7 @@ import {
   utils,
   ContractTransaction, providers
 } from "ethers";
-import { ExecuteSettleArgs, SettlePeripheryParams } from '../types/actionArgTypes';
+import { ExecuteOrSimulateSettleArgs, SettlePeripheryParams } from "../types/actionArgTypes";
 import { getPeripheryContract } from '../../common/contract-generators';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
 import { estimateSettleGasUnits } from './estimateSettleGasUnits';
@@ -14,7 +14,7 @@ import { PERIPHERY_ADDRESS_BY_CHAIN_ID} from "../../common/constants";
 export const executeSettle = async ({
   positionInfo,
   signer
-}: ExecuteSettleArgs): Promise<ContractReceipt> => {
+}: ExecuteOrSimulateSettleArgs): Promise<ContractReceipt> => {
 
   if (signer.provider === undefined) {
     throw new Error('Signer Provider Undefined');

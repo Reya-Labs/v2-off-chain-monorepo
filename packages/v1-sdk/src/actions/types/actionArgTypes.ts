@@ -132,7 +132,7 @@ export type SettleArgs = {
   signer: Signer;
 }
 
-export type ExecuteSettleArgs = {
+export type ExecuteOrSimulateSettleArgs = {
   positionInfo: PositionInfo;
   signer: Signer;
 };
