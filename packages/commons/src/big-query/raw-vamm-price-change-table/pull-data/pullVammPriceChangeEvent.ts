@@ -8,7 +8,7 @@ export const pullVammPriceChangeEvent = async (
   id: string,
 ): Promise<VammPriceChangeEvent | null> => {
   const bigQuery = getBigQuery();
-  const tableName = getTableFullName(TableType.raw_vamm_created);
+  const tableName = getTableFullName(TableType.raw_vamm_price_change);
 
   const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE id="${id}"`;
 
