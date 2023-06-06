@@ -4,6 +4,7 @@ import { SettleSimulationResults } from "./types";
 import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from "../../common/constants";
 import { getPeripheryContract } from "../../common/contract-generators";
 import { estimateSettleGasUnits } from "./estimateSettleGasUnits";
+import { getNativeGasToken } from "../../common/gas/getNativeGasToken";
 
 export const simulateSettle =  async ({
   positionInfo,
@@ -57,7 +58,7 @@ export const simulateSettle =  async ({
   return {
     gasFee: {
       value: estmatedGasCostInNativeToken,
-      token: await getNativeToken(provider),
+      token: await getNativeGasToken(provider),
     },
   };
 
