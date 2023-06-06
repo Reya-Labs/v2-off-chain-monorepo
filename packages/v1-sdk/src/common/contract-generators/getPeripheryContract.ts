@@ -12,6 +12,18 @@ export const getPeripheryContract = (
     `
     function mintOrBurn(address, int24, int24, uint256, bool, int256) external payable returns (int256)
     `,
+    `
+    function settlePositionAndUpdateMargin(address, address, int24, int24) external
+    `,
+    `
+    function rolloverWithMint(address, address, int24, int24, address, int24, int24, uint256, bool, int256) external
+    `,
+    `
+    function rolloverWithSwap(address, address, int24, int24, address, bool, uint256, uint160, int24, int24, int256) external
+    `,
+    `
+    function updatePositionMargin(address, int24, int24, int256, bool)
+    `,
   ];
 
   const contract: ethers.Contract = new ethers.Contract(

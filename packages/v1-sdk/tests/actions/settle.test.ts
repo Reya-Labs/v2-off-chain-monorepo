@@ -1,5 +1,7 @@
 import { BigNumber } from "ethers";
 import {getPeripheryContract} from "../../src/common/contract-generators";
+import { jest } from '@jest/globals';
+
 
 jest.mock(
   '../../../src/common/contract-generators/getPeripheryContract',

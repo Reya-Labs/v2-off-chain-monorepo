@@ -14,6 +14,7 @@ import {
   GetSwapPeripheryParamsArgs,
 } from '../../src/actions/swap/getSwapPeripheryParams';
 import { getDefaultSqrtPriceLimit } from '../../src/actions/swap/getDefaultSqrtPriceLimits';
+import { jest } from '@jest/globals';
 
 jest.mock(
   '../../../src/common/contract-generators/getPeripheryContract',
