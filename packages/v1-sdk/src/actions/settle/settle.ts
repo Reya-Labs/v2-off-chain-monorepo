@@ -10,6 +10,7 @@ import { getPeripheryContract } from '../../common/contract-generators';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
 import { getSettlePeripheryParams } from './getSettlePeripheryParams';
 import { estimateSettleGasUnits } from './estimateSettleGasUnits';
+import { PERIPHERY_ADDRESS_BY_CHAIN_ID} from "../../common/constants";
 
 export const settle = async ({
   fixedLow,
@@ -18,12 +19,14 @@ export const settle = async ({
   underlyingTokenDecimals,
   tickSpacing,
   chainId,
-  peripheryAddress,
   marginEngineAddress,
   provider,
   signer,
   positionOwnerAddress,
 }: SettleArgs): Promise<ContractReceipt> => {
+
+  const peripheryAddress = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
+
   const peripheryContract: ethers.Contract = getPeripheryContract(
     peripheryAddress,
     provider,

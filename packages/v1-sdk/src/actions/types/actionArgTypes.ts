@@ -133,7 +133,6 @@ export type SettleArgs = {
   underlyingTokenDecimals: number;
   tickSpacing: number;
   chainId: number;
-  peripheryAddress: string;
   marginEngineAddress: string;
   provider: providers.Provider;
   signer: Signer;
