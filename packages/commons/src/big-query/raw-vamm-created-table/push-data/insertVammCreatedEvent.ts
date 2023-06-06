@@ -25,7 +25,7 @@ export const insertVammCreatedEvent = async (
     ${event.priceImpactBeta},
     ${event.spread},
     "${event.rateOracle}",
-    ${event.maxLiquidityPerTick},
+    "${event.maxLiquidityPerTick}",
     ${event.tickSpacing},
     ${event.maturityTimestamp}
   `;

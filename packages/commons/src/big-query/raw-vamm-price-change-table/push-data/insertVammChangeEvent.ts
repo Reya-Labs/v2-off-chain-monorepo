@@ -22,7 +22,7 @@ export const insertVammPriceChangeEvent = async (
     ${event.logIndex},
     "${event.marketId}", 
     ${event.maturityTimestamp},
-    ${event.tick},
+    ${event.tick}
   `;
 
   // build and fire sql query

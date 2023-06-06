@@ -143,9 +143,9 @@ export type VammCreatedEvent = BaseEvent & {
   marketId: string; // big number
 
   // mutable
-  priceImpactPhi: number; // big number
-  priceImpactBeta: number; // big number
-  spread: number; // big number
+  priceImpactPhi: number;
+  priceImpactBeta: number;
+  spread: number;
   rateOracle: Address;
 
   // immutable
