@@ -27,3 +27,8 @@ export * from './big-query/raw-vamm-created-table/push-data/insertVammCreatedEve
 export * from './big-query/raw-vamm-price-change-table/pull-data/pullVammPriceChangeEvent';
 export * from './big-query/raw-vamm-price-change-table/push-data/insertVammChangeEvent';
 export * from './big-query/cross-queries/pullRateOracleEntries';
+export * from './big-query/raw-product-position-updated-table/pull-data/pullProductPositionUpdatedEvent';
+export * from './big-query/raw-product-position-updated-table/push-data/insertMarketConfiguredEvent';
+export * from './big-query/positions-table/pull-data/pullPositionEntry';
+export * from './big-query/positions-table/push-data/insertPositionEntry';
+export * from './big-query/positions-table/push-data/updatePositionEntry';

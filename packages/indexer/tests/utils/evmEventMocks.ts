@@ -78,6 +78,20 @@ export const rateOracleConfiguredEvmEvent = {
 
 /////////////////////////////////////////////////////////////////////////////
 
+export const productPositionUpdatedEvmEvent = {
+  ...evmEventDefault,
+  args: {
+    blockTimestamp: blockTimestampDefault,
+    accountId: accountIdDefault,
+    marketId: marketIdDefault,
+    maturityTimestamp: maturityTimestampDefault,
+    baseDelta: BigNumber.from('100000000'),
+    quoteDelta: BigNumber.from('-500000000'),
+  },
+} as unknown as Event;
+
+/////////////////////////////////////////////////////////////////////////////
+
 export const vammCreatedEvmEvent = {
   ...evmEventDefault,
   args: {
