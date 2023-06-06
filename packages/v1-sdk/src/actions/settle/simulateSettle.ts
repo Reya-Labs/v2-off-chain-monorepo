@@ -1,24 +1,18 @@
-import {
-  ContractReceipt,
-  ethers,
-  BigNumber,
-  utils,
-  ContractTransaction,
-  providers,
-} from 'ethers';
 import { SettleArgs, SettlePeripheryParams } from '../types/actionArgTypes';
-import { getPeripheryContract } from '../../common/contract-generators';
-import { getGasBuffer } from '../../common/gas/getGasBuffer';
-import { estimateSettleGasUnits } from './estimateSettleGasUnits';
+import { BigNumber, ContractReceipt, ethers, providers } from 'ethers';
+import { SettleSimulationResults } from './types';
 import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
+import { getPeripheryContract } from '../../common/contract-generators';
+import { estimateSettleGasUnits } from './estimateSettleGasUnits';
+import { getNativeGasToken } from '../../common/gas/getNativeGasToken';
+import { convertGasUnitsToNativeTokenUnits } from '../../common/gas/convertGasUnitsToNativeTokenUnits';
 import { PositionInfo } from '../../common/api/position/types';
 import { getPositionInfo } from '../../common/api/position/getPositionInfo';
-import { getSentryTracker } from '../../init';
 
-export const settle = async ({
+export const simulateSettle = async ({
   positionId,
   signer,
-}: SettleArgs): Promise<ContractReceipt> => {
+}: SettleArgs): Promise<SettleSimulationResults> => {
   if (signer.provider === undefined) {
     throw new Error('Signer Provider Undefined');
   }
@@ -58,28 +52,15 @@ export const settle = async ({
     settlePeripheryTempOverrides,
   );
 
-  settlePeripheryTempOverrides.gasLimit = getGasBuffer(estimatedGasUnits);
+  const estmatedGasCostInNativeToken = await convertGasUnitsToNativeTokenUnits(
+    provider,
+    estimatedGasUnits.toNumber(),
+  );
 
-  const settleTransaction: ContractTransaction = await peripheryContract
-    .connect(signer)
-    .settlePositionAndWithdrawMargin(
-      settlePeripheryParams,
-      settlePeripheryTempOverrides,
-    )
-    .catch((error: any) => {
-      const sentryTracker = getSentryTracker();
-      sentryTracker.captureException(error);
-      sentryTracker.captureMessage('Transaction Confirmation Error');
-      throw new Error('Transaction Confirmation Error');
-    });
-
-  try {
-    const receipt: ContractReceipt = await settleTransaction.wait();
-    return receipt;
-  } catch (error) {
-    const sentryTracker = getSentryTracker();
-    sentryTracker.captureException(error);
-    sentryTracker.captureMessage('Transaction Confirmation Error');
-    throw new Error('Transaction Confirmation Error');
-  }
+  return {
+    gasFee: {
+      value: estmatedGasCostInNativeToken,
+      token: await getNativeGasToken(provider),
+    },
+  };
 };

@@ -1,4 +1,5 @@
 import { BigNumberish, providers, Signer } from 'ethers';
+import { PositionInfo } from '../../common/api/position/types';
 
 // todo: not sure if chainid is needed or its already in provider, same goes for the signer
 
@@ -127,17 +128,8 @@ export type LpPeripheryParams = {
 // settle
 
 export type SettleArgs = {
-  fixedLow: number;
-  fixedHigh: number;
-  underlyingTokenAddress: string;
-  underlyingTokenDecimals: number;
-  tickSpacing: number;
-  chainId: number;
-  peripheryAddress: string;
-  marginEngineAddress: string;
-  provider: providers.Provider;
+  positionId: string;
   signer: Signer;
-  positionOwnerAddress: string;
 };
 
 export type SettlePeripheryParams = {

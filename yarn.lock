@@ -2513,6 +2513,73 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/browser@npm:7.25.0":
+  version: 7.25.0
+  resolution: "@sentry/browser@npm:7.25.0"
+  dependencies:
+    "@sentry/core": 7.25.0
+    "@sentry/types": 7.25.0
+    "@sentry/utils": 7.25.0
+    tslib: ^1.9.3
+  checksum: 3be0a0798953c36544066a2a915ed9d7494bd6abcf3556e2c14b4c04452619b52c5ee595637b99ddc550ad8752a329cd9d9fa6c3cc0a892634bdf6acd181d007
+  languageName: node
+  linkType: hard
+
+"@sentry/cli@npm:2.10.0":
+  version: 2.10.0
+  resolution: "@sentry/cli@npm:2.10.0"
+  dependencies:
+    https-proxy-agent: ^5.0.0
+    node-fetch: ^2.6.7
+    progress: ^2.0.3
+    proxy-from-env: ^1.1.0
+    which: ^2.0.2
+  bin:
+    sentry-cli: bin/sentry-cli
+  checksum: 0d5110b886d40a962a1b22f5b4244283be6ad6ebb8e154169258b820126b55e3ac907db0d03a0197bc929ce1bb27d5d4744b59dfc44859ade734d417ef70c07d
+  languageName: node
+  linkType: hard
+
+"@sentry/core@npm:7.25.0":
+  version: 7.25.0
+  resolution: "@sentry/core@npm:7.25.0"
+  dependencies:
+    "@sentry/types": 7.25.0
+    "@sentry/utils": 7.25.0
+    tslib: ^1.9.3
+  checksum: 82ad84bbf0948fa44f3471e268d7e8be9225a9057291f7c51e66b631b930b9767f265fef25e9fb3bb5757731595e561930d5fb29881a5c0349b693926ab8c6f5
+  languageName: node
+  linkType: hard
+
+"@sentry/tracing@npm:7.25.0":
+  version: 7.25.0
+  resolution: "@sentry/tracing@npm:7.25.0"
+  dependencies:
+    "@sentry/core": 7.25.0
+    "@sentry/types": 7.25.0
+    "@sentry/utils": 7.25.0
+    tslib: ^1.9.3
+  checksum: 0e353312d96e1c7debe80a88171a262b69b402a1bf1aa1f92985cee83f8595ed8784ca12c4e1218fc496842469dfb84fd05e6468ff8f72e6e9cc0b8e58033193
+  languageName: node
+  linkType: hard
+
+"@sentry/types@npm:7.25.0":
+  version: 7.25.0
+  resolution: "@sentry/types@npm:7.25.0"
+  checksum: 47ddda6b3fa73310f85bf11b3bbe92ceae8dbf705cbcab6168dbfb4a44affcab3eb9f901b13d6c76af535a23775217589d43b6dd0d39d995bbc2c10b79d117bf
+  languageName: node
+  linkType: hard
+
+"@sentry/utils@npm:7.25.0":
+  version: 7.25.0
+  resolution: "@sentry/utils@npm:7.25.0"
+  dependencies:
+    "@sentry/types": 7.25.0
+    tslib: ^1.9.3
+  checksum: 2dd0c75751e909c8886367961bba63e295d50bb71ea09da56f97aed70657f706772cc708ea1e4bbcf47767b4face478dcf5a816d48cf9b4cee5edc498910495a
+  languageName: node
+  linkType: hard
+
 "@sigstore/protobuf-specs@npm:^0.1.0":
   version: 0.1.0
   resolution: "@sigstore/protobuf-specs@npm:0.1.0"
@@ -3347,6 +3414,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@voltz-protocol/sdk-v1-stateless@workspace:packages/v1-sdk"
   dependencies:
+    "@sentry/browser": 7.25.0
+    "@sentry/cli": 2.10.0
+    "@sentry/tracing": 7.25.0
     "@types/big.js": ^6.1.3
     "@types/jest": ^29.2.4
     big.js: ^6.1.1
@@ -9756,6 +9826,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"progress@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "progress@npm:2.0.3"
+  checksum: f67403fe7b34912148d9252cb7481266a354bd99ce82c835f79070643bb3c6583d10dbcfda4d41e04bbc1d8437e9af0fb1e1f2135727878f5308682a579429b7
+  languageName: node
+  linkType: hard
+
 "promise-all-reject-late@npm:^1.0.0":
   version: 1.0.1
   resolution: "promise-all-reject-late@npm:1.0.1"
@@ -11180,7 +11257,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^1.8.1":
+"tslib@npm:^1.8.1, tslib@npm:^1.9.3":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: dbe628ef87f66691d5d2959b3e41b9ca0045c3ee3c7c7b906cc1e328b39f199bb1ad9e671c39025bd56122ac57dfbf7385a94843b1cc07c60a4db74795829acd
