@@ -1,5 +1,4 @@
 import { providers } from 'ethers';
-import { getSentryTracker } from '../init';
 import { SupportedChainId } from '../types';
 
 const CHAIN_TOKEN_MAP: Record<SupportedChainId, 'ETH' | 'AVAX'> = {
@@ -21,16 +20,13 @@ export async function getNativeToken(provider: providers.Provider): Promise<'ETH
       break;
     } catch (error) {
       if (attempt + 1 === attempts) {
-        const sentryTracker = getSentryTracker();
-        sentryTracker.captureException(error);
-        sentryTracker.captureMessage('Unable to provider.getNetwork after 5 attempts');
+        // todo: bring back sentry
+        throw error;
       }
     }
   }
 
   if (!chainId) {
-    const sentryTracker = getSentryTracker();
-    sentryTracker.captureMessage('Cannot detect chain id');
     throw Error('Cannot detect chain id');
   }
 
