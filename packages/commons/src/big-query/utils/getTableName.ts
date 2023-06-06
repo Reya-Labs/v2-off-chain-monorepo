@@ -21,6 +21,10 @@ export const getTableName = (tableType: TableType): string => {
       return `Raw Rate Oracle Configured`;
     }
 
+    case TableType.raw_product_position_updated: {
+      return `Raw Product Position Updated`;
+    }
+
     case TableType.raw_vamm_created: {
       return `Raw Vamm Created`;
     }
@@ -35,6 +39,10 @@ export const getTableName = (tableType: TableType): string => {
 
     case TableType.liquidity_indices: {
       return `Liquidity Indices`;
+    }
+
+    case TableType.positions: {
+      return `Positions`;
     }
   }
 };

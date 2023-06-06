@@ -66,12 +66,14 @@ describe('Collateral Update Indexer unit tests', () => {
       const queryFilter = jest.fn(async () => {});
       (queryFilter as jest.Mock).mockResolvedValueOnce([]);
       (queryFilter as jest.Mock).mockResolvedValueOnce([]);
+      (queryFilter as jest.Mock).mockResolvedValueOnce([]);
 
       (getDatedIrsInstrumentContract as jest.Mock).mockReturnValueOnce({
         queryFilter,
         filters: {
           MarketConfigured: () => null as unknown as EventFilter,
           RateOracleConfigured: () => null as unknown as EventFilter,
+          ProductPositionUpdated: () => null as unknown as EventFilter,
         },
       });
     }
@@ -131,12 +133,14 @@ describe('Collateral Update Indexer unit tests', () => {
       const queryFilter = jest.fn(async () => {});
       (queryFilter as jest.Mock).mockResolvedValueOnce([]);
       (queryFilter as jest.Mock).mockResolvedValueOnce([]);
+      (queryFilter as jest.Mock).mockResolvedValueOnce([]);
 
       (getDatedIrsInstrumentContract as jest.Mock).mockReturnValueOnce({
         queryFilter,
         filters: {
           MarketConfigured: () => null as unknown as EventFilter,
           RateOracleConfigured: () => null as unknown as EventFilter,
+          ProductPositionUpdated: () => null as unknown as EventFilter,
         },
       });
     }

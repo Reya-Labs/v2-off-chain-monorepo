@@ -8,12 +8,14 @@ import {
   CollateralUpdateEvent,
   MarketConfiguredEvent,
   MarketFeeConfiguredEvent,
+  ProductPositionUpdatedEvent,
   RateOracleConfiguredEvent,
   VammCreatedEvent,
   VammPriceChangeEvent,
 } from '@voltz-protocol/commons-v2';
 import { fetchEvents } from '../fetch-events/fetchEvents';
 import { getProvider } from '../services/provider';
+import { handleProductPositionUpdated } from '../event-handlers/handleProductPositionUpdated';
 
 export const sync = async (chainIds: number[]): Promise<void> => {
   for (const chainId of chainIds) {
@@ -31,6 +33,7 @@ export const sync = async (chainIds: number[]): Promise<void> => {
         'market-fee-configured',
         'market-configured',
         'rate-oracle-configured',
+        'product-position-updated',
         'vamm-created',
         'vamm-price-change',
       ],
@@ -58,6 +61,10 @@ export const sync = async (chainIds: number[]): Promise<void> => {
         }
         case 'rate-oracle-configured': {
           await handleRateOracleConfigured(e as RateOracleConfiguredEvent);
+          break;
+        }
+        case 'product-position-updated': {
+          await handleProductPositionUpdated(e as ProductPositionUpdatedEvent);
           break;
         }
         case 'vamm-price-change': {
