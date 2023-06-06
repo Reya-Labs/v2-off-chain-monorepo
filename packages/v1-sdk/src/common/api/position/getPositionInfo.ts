@@ -1,6 +1,7 @@
 import { PositionInfo } from "./type";
 import axios from 'axios';
 import {getServiceUrl} from "../urls";
+import {AxiosResponse} from "axios";
 
 export const getPositionInfo = async (positionId: string): Promise<PositionInfo> => {
 
@@ -11,6 +12,8 @@ export const getPositionInfo = async (positionId: string): Promise<PositionInfo>
     withCredentials: false,
   });
 
-  return res.data;
+  const positionInfo: PositionInfo = res.data;
+
+  return positionInfo;
 
 }
