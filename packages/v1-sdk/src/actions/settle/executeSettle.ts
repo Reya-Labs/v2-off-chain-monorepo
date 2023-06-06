@@ -73,7 +73,14 @@ export const executeSettle = async ({
       throw new Error('Transaction Confirmation Error');
     });
 
-  const receipt: ContractReceipt = await settleTransaction.wait();
+  try {
+    const receipt: ContractReceipt = await settleTransaction.wait();
+    return receipt;
+  } catch (error) {
+    const sentryTracker = getSentryTracker();
+    sentryTracker.captureException(error);
+    sentryTracker.captureMessage('Transaction Confirmation Error');
+    throw new Error('Transaction Confirmation Error');
+  }
 
-  return receipt;
 };
