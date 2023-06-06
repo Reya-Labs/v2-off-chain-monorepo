@@ -3,8 +3,8 @@ import {
   ethers,
   BigNumber,
   utils,
-  ContractTransaction,
-} from 'ethers';
+  ContractTransaction, providers
+} from "ethers";
 import { SettleArgs, SettlePeripheryParams } from '../types/actionArgTypes';
 import { getPeripheryContract } from '../../common/contract-generators';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
@@ -20,12 +20,18 @@ export const settle = async ({
   tickSpacing,
   chainId,
   marginEngineAddress,
-  provider,
-  signer,
-  positionOwnerAddress,
+  signer
 }: SettleArgs): Promise<ContractReceipt> => {
 
-  const peripheryAddress = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
+  if (signer.provider === undefined) {
+    throw new Error('Signer Provider Undefined');
+  }
+
+  const peripheryAddress: string = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
+
+  const positionOwnerAddress: string = await signer.getAddress();
+
+  const provider: providers.Provider = signer.provider;
 
   const peripheryContract: ethers.Contract = getPeripheryContract(
     peripheryAddress,

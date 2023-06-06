@@ -134,9 +134,7 @@ export type SettleArgs = {
   tickSpacing: number;
   chainId: number;
   marginEngineAddress: string;
-  provider: providers.Provider;
   signer: Signer;
-  positionOwnerAddress: string;
 };
 
 export type SettlePeripheryParams = {
