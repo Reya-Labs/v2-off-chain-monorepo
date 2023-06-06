@@ -36,10 +36,10 @@ export const executeSettle = async ({
   peripheryContract.connect(signer);
 
   const settlePeripheryParams: SettlePeripheryParams = {
-    marginEngineAddress: positionInfo.marginEngineAddress,
+    marginEngineAddress: positionInfo.ammMarginEngineAddress,
     positionOwnerAddress: positionOwnerAddress,
-    tickLower: positionInfo.tickLower,
-    tickUpper: positionInfo.tickUpper,
+    tickLower: positionInfo.positionTickLower,
+    tickUpper: positionInfo.positinTickUpper,
   };
 
   const settlePeripheryTempOverrides: {
