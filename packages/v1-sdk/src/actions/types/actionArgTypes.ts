@@ -1,4 +1,5 @@
 import { BigNumberish, providers, Signer } from 'ethers';
+import { PositionInfo } from "../../common/api/position/position";
 
 // todo: not sure if chainid is needed or its already in provider, same goes for the signer
 
@@ -132,12 +133,7 @@ export type SettleArgs = {
 }
 
 export type ExecuteSettleArgs = {
-  tickLower: number;
-  tickUpper: number;
-  underlyingTokenAddress: string;
-  underlyingTokenDecimals: number;
-  tickSpacing: number;
-  marginEngineAddress: string;
+  positionInfo: PositionInfo;
   signer: Signer;
 };
 

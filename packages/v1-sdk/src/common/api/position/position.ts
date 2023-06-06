@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import {getServiceUrl} from "../urls";
 
 export type PositionInfo = {
   positionId: string;
@@ -13,11 +13,13 @@ export type PositionInfo = {
 
 export const getPositionInfo = async (positionId: string): Promise<PositionInfo> => {
 
-    const baseUrl = getServiceUrl('portfolio-positions');
-    const url = `${baseUrl}/${chainIds.join('&')}/${ownerAddress.toLowerCase()}`;
+  const baseUrl = getServiceUrl('portfolio-position-details');
+  const url = `${baseUrl}/${positionId.toLowerCase()}`;
 
-    const res = await axios.get<PortfolioPosition[]>(url, {
-      withCredentials: false,
-    });
+  const res = await axios.get<PortfolioPositionDetails>(url, {
+    withCredentials: false,
+  });
+
+  return res.data;
 
 }

@@ -12,12 +12,7 @@ import { estimateSettleGasUnits } from './estimateSettleGasUnits';
 import { PERIPHERY_ADDRESS_BY_CHAIN_ID} from "../../common/constants";
 
 export const executeSettle = async ({
-  tickLower,
-  tickUpper,
-  underlyingTokenAddress,
-  underlyingTokenDecimals,
-  tickSpacing,
-  marginEngineAddress,
+  positionInfo,
   signer
 }: ExecuteSettleArgs): Promise<ContractReceipt> => {
 
@@ -41,10 +36,10 @@ export const executeSettle = async ({
   peripheryContract.connect(signer);
 
   const settlePeripheryParams: SettlePeripheryParams = {
-    marginEngineAddress: marginEngineAddress,
+    marginEngineAddress: positionInfo.marginEngineAddress,
     positionOwnerAddress: positionOwnerAddress,
-    tickLower: tickLower,
-    tickUpper: tickUpper,
+    tickLower: positionInfo.tickLower,
+    tickUpper: positionInfo.tickUpper,
   };
 
   const settlePeripheryTempOverrides: {
