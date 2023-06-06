@@ -48,5 +48,6 @@ export const getPositionInfo = async (positionId: string): Promise<PositionInfo>
     ammMarginEngineAddress: portfolioPositionDetails.amm.marginEngineAddress
   }
 
+  return  positionInfo;
 
 }
