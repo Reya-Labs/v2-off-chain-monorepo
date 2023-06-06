@@ -4,6 +4,7 @@ import {
   collateralUpdateEvmEvent,
   marketConfiguredEvmEvent,
   marketFeeConfiguredEvmEvent,
+  productPositionUpdatedEvmEvent,
   rateOracleConfiguredEvmEvent,
 } from '../utils/evmEventMocks';
 import { getCoreContract } from '../../src/contract-generators/core';
@@ -11,6 +12,7 @@ import { createTable } from '@voltz-protocol/commons-v2';
 import { createProtocolV2Dataset } from '@voltz-protocol/commons-v2';
 import { TableType } from '@voltz-protocol/commons-v2';
 import { getDatedIrsInstrumentContract } from '../../src/contract-generators/dated-irs-instrument';
+import { getDatedIrsVammContract } from '../../src/contract-generators/dated-irs-vamm';
 
 jest.setTimeout(100_000);
 
@@ -47,6 +49,9 @@ describe.skip('Collateral Update Indexer integration test', () => {
     await createTable(TableType.raw_market_fee_configured);
     await createTable(TableType.raw_rate_oracle_configured);
     await createTable(TableType.raw_collateral_updates);
+    await createTable(TableType.raw_product_position_updated);
+    await createTable(TableType.markets);
+    await createTable(TableType.positions);
 
     // Mock core contract event filters
     {
@@ -76,12 +81,31 @@ describe.skip('Collateral Update Indexer integration test', () => {
       (queryFilter as jest.Mock).mockResolvedValueOnce([
         rateOracleConfiguredEvmEvent,
       ]);
+      (queryFilter as jest.Mock).mockResolvedValueOnce([
+        productPositionUpdatedEvmEvent,
+      ]);
 
       (getDatedIrsInstrumentContract as jest.Mock).mockReturnValueOnce({
         queryFilter,
         filters: {
           MarketConfigured: () => null as unknown as EventFilter,
           RateOracleConfigured: () => null as unknown as EventFilter,
+          ProductPositionUpdated: () => null as unknown as EventFilter,
+        },
+      });
+    }
+
+    // Mock instrument contract event filters
+    {
+      const queryFilter = jest.fn(async () => {});
+      (queryFilter as jest.Mock).mockResolvedValueOnce([]);
+      (queryFilter as jest.Mock).mockResolvedValueOnce([]);
+
+      (getDatedIrsVammContract as jest.Mock).mockReturnValueOnce({
+        queryFilter,
+        filters: {
+          VammCreated: () => null as unknown as EventFilter,
+          VammPriceChange: () => null as unknown as EventFilter,
         },
       });
     }

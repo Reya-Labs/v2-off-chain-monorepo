@@ -10,6 +10,7 @@ export type ProtocolEventType =
   | 'product-registered' // core
   | 'market-configured' // product
   | 'rate-oracle-configured' // product
+  | 'product-position-updated' // product
   | 'maker-order' // exchange
   | 'taker-order' // exchange
   | 'vamm-created' // exchange
@@ -102,6 +103,15 @@ export type RateOracleConfiguredEvent = BaseEvent & {
   oracleAddress: Address;
 };
 
+// state-capturing event
+export type ProductPositionUpdatedEvent = BaseEvent & {
+  accountId: string; // big number
+  marketId: string; // big number
+  maturityTimestamp: number;
+  baseDelta: number;
+  quoteDelta: number;
+};
+
 // Exchange
 
 export type TakerOrderEvent = BaseEvent & {
@@ -160,6 +170,7 @@ export type ProtocolEvent =
   | ProductRegisteredEvent
   | MarketConfiguredEvent
   | RateOracleConfiguredEvent
+  | ProductPositionUpdatedEvent
   | TakerOrderEvent
   | MakerOrderEvent
   | VammCreatedEvent

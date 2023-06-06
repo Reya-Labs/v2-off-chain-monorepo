@@ -4,6 +4,7 @@ import { getDatedIrsVammContract } from '../contract-generators/dated-irs-vamm';
 import { parseCollateralUpdate } from '../event-parsers/core/collateralUpdate';
 import { parseMarketFeeConfigured } from '../event-parsers/core/marketFeeConfigured';
 import { parseMarketConfigured } from '../event-parsers/dated-irs-instrument/marketConfigured';
+import { parseProductPositionUpdated } from '../event-parsers/dated-irs-instrument/productPositionUpdated';
 import { parseRateOracleConfigured } from '../event-parsers/dated-irs-instrument/rateOracleConfigured';
 import { parseVammCreated } from '../event-parsers/dated-irs-vamm/vammCreated';
 import { parseVammPriceChange } from '../event-parsers/dated-irs-vamm/vammPriceChange';
@@ -67,6 +68,20 @@ export const fetchEvents = async (
       .queryFilter(eventFilter, fromBlock, toBlock)
       .then((evmEvents) =>
         evmEvents.map((e) => parseRateOracleConfigured(chainId, e)),
+      )
+      .then((events) => {
+        allEvents.push(...events);
+      });
+  }
+
+  if (eventTypes.includes('product-position-updated')) {
+    const eventFilter =
+      datedIrsInstrumentContract.filters.ProductPositionUpdated();
+
+    await datedIrsInstrumentContract
+      .queryFilter(eventFilter, fromBlock, toBlock)
+      .then((evmEvents) =>
+        evmEvents.map((e) => parseProductPositionUpdated(chainId, e)),
       )
       .then((events) => {
         allEvents.push(...events);

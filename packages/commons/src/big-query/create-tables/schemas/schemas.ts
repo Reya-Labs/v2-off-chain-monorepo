@@ -8,6 +8,8 @@ import { rawRateOracleConfiguredTableSchema } from './rawRateOracleConfiguredTab
 import { marketsTableSchema } from './marketsTableSchema';
 import { rawVammCreatedTableSchema } from './rawVammCreatedTableSchema';
 import { rawVammPriceChangeTableSchema } from './rawVammPriceChangeTableSchema';
+import { rawProductPositionUpdatedTableSchema } from './rawProductPositionUpdatedTableSchema';
+import { positionsTableSchema } from './positionsTableSchema';
 
 export const getTableSchema = (tableType: TableType): TableField[] => {
   switch (tableType) {
@@ -27,6 +29,10 @@ export const getTableSchema = (tableType: TableType): TableField[] => {
       return rawRateOracleConfiguredTableSchema;
     }
 
+    case TableType.raw_product_position_updated: {
+      return rawProductPositionUpdatedTableSchema;
+    }
+
     case TableType.raw_vamm_created: {
       return rawVammCreatedTableSchema;
     }
@@ -37,6 +43,10 @@ export const getTableSchema = (tableType: TableType): TableField[] => {
 
     case TableType.markets: {
       return marketsTableSchema;
+    }
+
+    case TableType.positions: {
+      return positionsTableSchema;
     }
 
     case TableType.liquidity_indices: {
