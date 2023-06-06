@@ -5,32 +5,34 @@ import { TableType } from '../types';
 import { getTableFullName } from '../utils/getTableName';
 
 export type PoolEntry = {
-    chainId: number;
-    marketId: string;
-    maturityTimestamp: number;
-    quoteToken: Address;
-    rateOracle: Address;
-    atomicMakerFee: number;
-    atomicTakerFee: number;
-    spread: number;
-    priceImpactPhi: number;
-    priceImpactBeta: number;
-    tickSpacing: number;
-    latestApy: number;
-    lastFixedRate: number;
-  };
+  chainId: number;
+  marketId: string;
+  maturityTimestamp: number;
+  quoteToken: Address;
+  rateOracle: Address;
+  atomicMakerFee: number;
+  atomicTakerFee: number;
+  spread: number;
+  priceImpactPhi: number;
+  priceImpactBeta: number;
+  tickSpacing: number;
+  latestApy: number;
+  lastFixedRate: number;
+};
 
 const mapToPoolEntry = (row: any): PoolEntry => {
-   return {...row, lastFixedRate: 1.0001**(-row.lastTick)};
-  };
+  return { ...row, lastFixedRate: 1.0001 ** -row.lastTick };
+};
 
 export const pullAllPoolsConfig = async (): Promise<PoolEntry[]> => {
   const bigQuery = getBigQuery();
   const marketsTableName = getTableFullName(TableType.markets);
   const vammTableName = getTableFullName(TableType.raw_vamm_created);
-  const vammPriceChangeTableName = getTableFullName(TableType.raw_vamm_price_change);
+  const vammPriceChangeTableName = getTableFullName(
+    TableType.raw_vamm_price_change,
+  );
   const liquidityIndexTableName = getTableFullName(TableType.liquidity_indices);
-  console.log(vammTableName)
+  console.log(vammTableName);
 
   const sqlQuery = `
     WITH liquidity_ranking AS 

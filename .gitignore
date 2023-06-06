@@ -18,9 +18,6 @@ docs/
 # Node modules
 /node_modules/
 
-# Yarn
-.yarn/install-state.gz
-
 # Coverage Files
 lcov.info
 
