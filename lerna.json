@@ -5,7 +5,7 @@
   "command": {
     "publish": {
       "ignoreChanges": [],
-      "registry": "https://npm.pkg.github.com",
+      "registry": "https://registry.npmjs.org",
       "conventionalCommits": true,
       "yes": true,
       "skipGit": true,
