@@ -8,15 +8,15 @@ import { parseProductPositionUpdated } from '../event-parsers/dated-irs-instrume
 import { parseRateOracleConfigured } from '../event-parsers/dated-irs-instrument/rateOracleConfigured';
 import { parseVammCreated } from '../event-parsers/dated-irs-vamm/vammCreated';
 import { parseVammPriceChange } from '../event-parsers/dated-irs-vamm/vammPriceChange';
-import { ProtocolEvent, ProtocolEventType } from '@voltz-protocol/commons-v2';
+import { BaseEvent, ProtocolEventType } from '@voltz-protocol/commons-v2';
 
 export const fetchEvents = async (
   chainId: number,
   eventTypes: ProtocolEventType[],
   fromBlock: number,
   toBlock: number,
-): Promise<ProtocolEvent[]> => {
-  const allEvents: ProtocolEvent[] = [];
+): Promise<BaseEvent[]> => {
+  const allEvents: BaseEvent[] = [];
   const coreContract = getCoreContract(chainId);
   const datedIrsInstrumentContract = getDatedIrsInstrumentContract(chainId);
   const datedIrsExchangeContract = getDatedIrsVammContract(chainId);
