@@ -1,6 +1,6 @@
 import { BigNumberish } from 'ethers';
 import { getClosestTickAndFixedRate } from './getClosestTickAndFixedRate';
-import { TickMath } from '../../common/math/tickMath';
+import { TickMath } from './tickMath';
 
 export const getSqrtPriceLimitFromFixedRateLimit = (
   fixedRateLimit: number,
