@@ -13,14 +13,14 @@ import {DEFAULT_TICK_SPACING, PERIPHERY_ADDRESS_BY_CHAIN_ID} from "../../common/
 
 export const swap = async ({
   isFT,
+  isEth,
   notional,
   margin,
   fixedRateLimit,
   fixedLow,
   fixedHigh,
   ammInfo,
-  signer,
-  isEth,
+  signer
 }: SwapArgs): Promise<ContractReceipt> => {
   handleSwapErrors({
     notional,
