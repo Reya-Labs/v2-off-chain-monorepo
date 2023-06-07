@@ -1,6 +1,6 @@
 // Imports required for test setup
-import { SwapPeripheryParams } from '../../../src/actions/types/actionArgTypes';
-import { swap } from '../../../src/actions/swap/swap';
+import { SwapPeripheryParams } from '../../src/actions/types/actionArgTypes';
+import { swap } from '../../src/actions/swap/swap';
 import {
   Signer,
   getDefaultProvider,
@@ -8,15 +8,16 @@ import {
   ContractReceipt,
   BigNumberish,
 } from 'ethers';
-import { getPeripheryContract } from '../../../src/common/contract-generators/getPeripheryContract';
+import { getPeripheryContract } from '../../src/common/contract-generators/getPeripheryContract';
 import {
   getSwapPeripheryParams,
   GetSwapPeripheryParamsArgs,
-} from '../../../src/actions/swap/getSwapPeripheryParams';
-import { getDefaultSqrtPriceLimit } from '../../../src/actions/swap/getDefaultSqrtPriceLimits';
+} from '../../src/actions/swap/getSwapPeripheryParams';
+import { getDefaultSqrtPriceLimit } from '../../src/actions/swap/getDefaultSqrtPriceLimits';
+import { jest } from '@jest/globals';
 
 jest.mock(
-  '../../../src/common/contract-generators/getPeripheryContract',
+  '../../src/common/contract-generators/getPeripheryContract',
   () => ({
     getPeripheryContract: jest.fn(() => {}),
   }),
