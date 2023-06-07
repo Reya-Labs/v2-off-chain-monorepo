@@ -10,7 +10,6 @@ import {
   MethodParameters,
   MultiAction,
   SettleTradeMaker,
-  SettleTradeTaker,
   TakerTrade,
 } from '../utils/types';
 import { getTokenInfo } from '../utils/constants';
@@ -66,43 +65,35 @@ export async function encodeTakerOrder(
   return encodeRouterCall(multiAction, BigNumber.from(ethAmount));
 }
 
-export function encodeSettlementTakers(
-  trade: SettleTradeTaker,
+export function encodeSettlement(
+  trade: TakerTrade,
+  newMakerOrder?: MakerTrade,
+  newTakerOrder?: TakerTrade,
 ): MethodParameters {
   const multiAction = new MultiAction();
 
   // settle
   encodeSingleSettle(trade, multiAction);
 
-  // extract margin??
-  // add margin?
+  if (!newMakerOrder && !newTakerOrder) {
+    // withdraw
+    encodeSingleWithdraw(trade, multiAction);
+  }
 
-  if (trade.newTrade && trade.newTrade.baseAmount) {
+  if (newMakerOrder && newMakerOrder.baseAmount) {
     // rollover
-    encodeSingleSwap(trade.newTrade, multiAction);
+    encodeSingleMakerOrder(newMakerOrder, multiAction);
+  }
+
+  if (newTakerOrder && newTakerOrder.baseAmount) {
+    // rollover
+    encodeSingleSwap(newTakerOrder, multiAction);
   }
 
   return encodeRouterCall(multiAction, BigNumber.from(0));
 }
 
-export function encodeSettlementMakers(
-  trade: SettleTradeMaker,
-): MethodParameters {
-  const multiAction = new MultiAction();
-
-  // settle
-  encodeSingleSettle(trade, multiAction);
-
-  // extract margin??
-  // add margin?
-
-  if (trade.newTrade && trade.newTrade.baseAmount) {
-    // rollover
-    encodeSingleMakerOrder(trade.newTrade, multiAction);
-  }
-
-  return encodeRouterCall(multiAction, BigNumber.from(0));
-}
+////////////////////  ENCODE SINGLE  ////////////////////
 
 function encodeSingleSettle(trade: BaseTrade, multiAction: MultiAction) {
   multiAction.newAction(
