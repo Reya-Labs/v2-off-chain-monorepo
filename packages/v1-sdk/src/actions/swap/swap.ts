@@ -101,7 +101,7 @@ export const swap = async ({
       swapPeripheryParams.marginDelta,
       swapPeripheryTempOverrides,
     )
-    .catch((error) => {
+    .catch((error: any) => {
       const sentryTracker = getSentryTracker();
       sentryTracker.captureException(error);
       sentryTracker.captureMessage('Transaction Confirmation Error');
@@ -111,7 +111,7 @@ export const swap = async ({
   try {
     const receipt: ContractReceipt = await swapTransaction.wait();
     return receipt;
-  } catch (error) {
+  } catch (error: any) {
     const sentryTracker = getSentryTracker();
     sentryTracker.captureException(error);
     sentryTracker.captureMessage('Transaction Confirmation Error');
