@@ -9,6 +9,7 @@ import { getPeripheryContract } from '../../common/contract-generators/getPeriph
 import { getSwapPeripheryParams } from './getSwapPeripheryParams';
 import { estimateSwapGasUnits } from './estimateSwapGasUnits';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
+import {DEFAULT_TICK_SPACING, PERIPHERY_ADDRESS_BY_CHAIN_ID} from "../../common/constants";
 
 export const swap = async ({
   isFT,
@@ -19,8 +20,7 @@ export const swap = async ({
   fixedHigh,
   underlyingTokenAddress,
   underlyingTokenDecimals,
-  tickSpacing,
-  peripheryAddress,
+  chainId,
   marginEngineAddress,
   provider,
   signer,
@@ -32,6 +32,10 @@ export const swap = async ({
     fixedHigh,
     underlyingTokenAddress,
   });
+
+  const tickSpacing: number = DEFAULT_TICK_SPACING;
+
+  const peripheryAddress: string = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
 
   const peripheryContract: ethers.Contract = getPeripheryContract(
     peripheryAddress,
