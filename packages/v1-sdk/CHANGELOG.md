@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.5.2...@voltz-protocol/sdk-v1-stateless@1.6.0) (2023-06-07)
+
+### Features
+
+- settle test ([98171ba](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/98171baae654c1285b42c8820de0fb38a5983a89))
+- update periphery abi v1 sdk ([106dfb5](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/106dfb53e501bff0ba5f1ea4de45d230223269e9))
+
 ## [1.5.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.5.1...@voltz-protocol/sdk-v1-stateless@1.5.2) (2023-06-06)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
