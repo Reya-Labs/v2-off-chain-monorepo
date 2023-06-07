@@ -74,9 +74,17 @@ export const swap = async ({
 
   swapPeripheryTempOverrides.gasLimit = getGasBuffer(estimatedGasUnits);
 
+  // todo: find a cleaner way to unwrap swapPeripheryParams
   const swapTransaction: ContractTransaction = await peripheryContract
     .connect(signer)
-    .swap(swapPeripheryParams, swapPeripheryTempOverrides)
+    .swap(swapPeripheryParams.marginEngineAddress,
+          swapPeripheryParams.isFT,
+          swapPeripheryParams.notional,
+          swapPeripheryParams.sqrtPriceLimitX96,
+          swapPeripheryParams.tickLower,
+          swapPeripheryParams.tickUpper,
+          swapPeripheryParams.marginDelta,
+          swapPeripheryTempOverrides)
     .catch(() => {
       throw new Error('Swap Transaction Confirmation Error');
     });
