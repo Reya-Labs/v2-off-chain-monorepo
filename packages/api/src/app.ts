@@ -3,8 +3,12 @@ import express from 'express';
 import rateLimit from 'express-rate-limit';
 import RedisStore from 'rate-limit-redis';
 
-import { pullAllPoolsConfig } from '@voltz-protocol/commons-v2';
+import {
+  pullAllPoolsConfig,
+  SECONDS_IN_HOUR,
+} from '@voltz-protocol/commons-v2';
 import { getRedisClient, getTrustedProxies } from '@voltz-protocol/commons-v2';
+import { getApyFromTo } from './helpers/getApyFromTo';
 
 export const app = express();
 
@@ -57,13 +61,20 @@ app.get('/pools', (req, res) => {
     }[] = [];
 
     for (const pool of pools) {
-      console.log('pool');
+      const currentTimestamp = Math.round(Date.now() / 1000);
+      // note leave 1h buffer -> can be configured depending on indexer frequency
+      const latestApy = await getApyFromTo(
+        pool.chainId,
+        pool.rateOracle,
+        currentTimestamp - 2 * SECONDS_IN_HOUR,
+        currentTimestamp - 1 * SECONDS_IN_HOUR,
+      );
       result.push({
         chainId: pool.chainId,
         marketId: pool.marketId,
         maturityTimestamp: pool.maturityTimestamp,
         fixedRate: pool.lastFixedRate,
-        latestApy: pool.latestApy,
+        latestApy: latestApy,
       });
     }
 
