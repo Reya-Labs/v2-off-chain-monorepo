@@ -1,11 +1,8 @@
 import { BigNumberish, providers, Signer } from 'ethers';
 import { PositionInfo } from '../../common/api/position/types';
 
-// todo: not sure if chainid is needed or its already in provider, same goes for the signer
-
 // swap
 export type AMMInfo = {
-  chainId: number;
   marginEngineAddress: string;
   underlyingTokenAddress: string;
   underlyingTokenDecimals: number;
@@ -20,7 +17,6 @@ export type SwapArgs = {
   fixedLow: number;
   fixedHigh: number;
   ammInfo: AMMInfo;
-  provider: providers.Provider;
   signer: Signer;
 };
 

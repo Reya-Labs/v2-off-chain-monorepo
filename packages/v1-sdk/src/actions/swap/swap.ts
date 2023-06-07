@@ -1,5 +1,5 @@
 import { SwapArgs, SwapPeripheryParams } from '../types/actionArgTypes';
-import { BigNumber, ContractReceipt, ContractTransaction, utils } from 'ethers';
+import { BigNumber, ContractReceipt, ContractTransaction, providers, utils } from "ethers";
 import { handleSwapErrors } from './handleSwapErrors';
 import { BigNumberish, ethers } from 'ethers';
 import { getClosestTickAndFixedRate } from '../../common/math/getClosestTickAndFixedRate';
@@ -18,11 +18,7 @@ export const swap = async ({
   fixedRateLimit,
   fixedLow,
   fixedHigh,
-  underlyingTokenAddress,
-  underlyingTokenDecimals,
-  chainId,
-  marginEngineAddress,
-  provider,
+  ammInfo,
   signer,
   isEth,
 }: SwapArgs): Promise<ContractReceipt> => {
@@ -30,10 +26,13 @@ export const swap = async ({
     notional,
     fixedLow,
     fixedHigh,
-    underlyingTokenAddress,
+    underlyingTokenAddress: ammInfo.underlyingTokenAddress,
   });
 
   const tickSpacing: number = DEFAULT_TICK_SPACING;
+
+  const chainId: number = await signer.getChainId();
+  const provider: providers.Provider = signer.provider;
 
   const peripheryAddress: string = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
 
@@ -50,8 +49,8 @@ export const swap = async ({
     notional,
     fixedLow,
     fixedHigh,
-    marginEngineAddress,
-    underlyingTokenDecimals,
+    marginEngineAddress: ammInfo.marginEngineAddress,
+    underlyingTokenDecimals: ammInfo.underlyingTokenDecimals,
     fixedRateLimit,
     tickSpacing,
   });
