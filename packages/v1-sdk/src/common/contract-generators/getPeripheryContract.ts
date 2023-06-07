@@ -13,7 +13,7 @@ export const getPeripheryContract = (
     function mintOrBurn(address, int24, int24, uint256, bool, int256) external payable returns (int256)
     `,
     `
-    function settlePositionAndUpdateMargin(address, address, int24, int24) external
+    function settlePositionAndWithdrawMargin(address, address, int24, int24) external
     `,
     `
     function rolloverWithMint(address, address, int24, int24, address, int24, int24, uint256, bool, int256) external
