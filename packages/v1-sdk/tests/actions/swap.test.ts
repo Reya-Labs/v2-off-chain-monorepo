@@ -16,12 +16,9 @@ import {
 import { getDefaultSqrtPriceLimit } from '../../src/actions/swap/getDefaultSqrtPriceLimits';
 import { jest } from '@jest/globals';
 
-jest.mock(
-  '../../src/common/contract-generators/getPeripheryContract',
-  () => ({
-    getPeripheryContract: jest.fn(() => {}),
-  }),
-);
+jest.mock('../../src/common/contract-generators/getPeripheryContract', () => ({
+  getPeripheryContract: jest.fn(() => {}),
+}));
 
 describe('swap', () => {
   it.skip('setup all the mocks', async () => {
