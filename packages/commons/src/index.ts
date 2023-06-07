@@ -34,5 +34,6 @@ export * from './big-query/raw-product-position-updated-table/push-data/insertMa
 export * from './big-query/positions-table/pull-data/pullPositionEntry';
 export * from './big-query/positions-table/push-data/insertPositionEntry';
 export * from './big-query/positions-table/push-data/updatePositionEntry';
-
 export * from './big-query/cross-queries/pullAllPoolsConfig';
+export * from './big-query/raw-liquidity-changes-table/pull-data/pullLiquidityChangeEvent';
+export * from './big-query/raw-liquidity-changes-table/push-data/insertLiquidityChangeEvent';

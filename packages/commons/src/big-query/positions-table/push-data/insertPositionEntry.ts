@@ -21,6 +21,7 @@ export const insertPositionEntry = async (
     ${entry.baseBalance},
     ${entry.quoteBalance},
     ${entry.notionalBalance},
+    ${entry.liquidityBalance},
     ${entry.paidFees},
     "${entry.type}",
     ${entry.tickLower},

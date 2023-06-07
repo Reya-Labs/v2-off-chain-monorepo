@@ -10,6 +10,7 @@ import { rawVammCreatedTableSchema } from './rawVammCreatedTableSchema';
 import { rawVammPriceChangeTableSchema } from './rawVammPriceChangeTableSchema';
 import { rawProductPositionUpdatedTableSchema } from './rawProductPositionUpdatedTableSchema';
 import { positionsTableSchema } from './positionsTableSchema';
+import { rawLiquidityChangeTableSchema } from './rawLiquidityChangeTableSchema';
 
 export const getTableSchema = (tableType: TableType): TableField[] => {
   switch (tableType) {
@@ -39,6 +40,10 @@ export const getTableSchema = (tableType: TableType): TableField[] => {
 
     case TableType.raw_vamm_price_change: {
       return rawVammPriceChangeTableSchema;
+    }
+
+    case TableType.raw_liquidity_change: {
+      return rawLiquidityChangeTableSchema;
     }
 
     case TableType.markets: {

@@ -34,6 +34,14 @@ export const positionsTableSchema: TableField[] = [
   },
 
   {
+    name: 'liquidityBalance',
+    type: 'BIGNUMERIC',
+    mode: 'REQUIRED',
+    precision: PRECISION.toString(),
+    scale: SCALE.toString(),
+  },
+
+  {
     name: 'paidFees',
     type: 'BIGNUMERIC',
     mode: 'REQUIRED',

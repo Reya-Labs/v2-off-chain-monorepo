@@ -11,6 +11,7 @@ export type ProtocolEventType =
   | 'market-configured' // product
   | 'rate-oracle-configured' // product
   | 'product-position-updated' // product
+  | 'liquidity-change' // exchange
   | 'maker-order' // exchange
   | 'taker-order' // exchange
   | 'vamm-created' // exchange
@@ -139,6 +140,18 @@ export type MakerOrderEvent = BaseEvent & {
   executedBaseAmount: number;
 };
 
+export type LiquidityChangeEvent = BaseEvent & {
+  accountId: string; // big number
+
+  marketId: string; // big number
+  maturityTimestamp: number;
+  quoteToken: Address;
+
+  tickLower: number;
+  tickUpper: number;
+  liquidityDelta: number;
+};
+
 export type VammCreatedEvent = BaseEvent & {
   marketId: string; // big number
 
@@ -159,19 +172,3 @@ export type VammPriceChangeEvent = BaseEvent & {
   maturityTimestamp: number;
   tick: number;
 };
-
-export type ProtocolEvent =
-  | AccountCreatedEvent
-  | AccountOwnerUpdateEvent
-  | CollateralConfiguredEvent
-  | CollateralUpdateEvent
-  | LiquidationEvent
-  | MarketFeeConfiguredEvent
-  | ProductRegisteredEvent
-  | MarketConfiguredEvent
-  | RateOracleConfiguredEvent
-  | ProductPositionUpdatedEvent
-  | TakerOrderEvent
-  | MakerOrderEvent
-  | VammCreatedEvent
-  | VammPriceChangeEvent;

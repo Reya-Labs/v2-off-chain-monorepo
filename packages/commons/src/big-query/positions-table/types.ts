@@ -7,6 +7,7 @@ export type PositionEntry = {
   baseBalance: number;
   quoteBalance: number;
   notionalBalance: number; // for PnL
+  liquidityBalance: number;
   paidFees: number;
   type: 'trader' | 'lp';
   tickLower: number;
@@ -17,5 +18,6 @@ export type PositionEntryUpdate = {
   baseBalance?: number;
   quoteBalance?: number;
   notionalBalance?: number; // for PnL
+  liquidityBalance?: number;
   paidFees?: number;
 };

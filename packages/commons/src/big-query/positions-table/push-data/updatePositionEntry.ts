@@ -27,6 +27,10 @@ export const updatePositionEntry = async (
     updates.push(`notionalBalance=${update.notionalBalance}`);
   }
 
+  if (!isUndefined(update.notionalBalance)) {
+    updates.push(`liquidityBalance=${update.liquidityBalance}`);
+  }
+
   if (!isUndefined(update.paidFees)) {
     updates.push(`paidFees=${update.paidFees}`);
   }

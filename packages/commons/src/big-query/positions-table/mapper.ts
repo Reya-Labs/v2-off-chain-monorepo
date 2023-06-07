@@ -12,6 +12,7 @@ export const mapToPositionEntry = (row: any): PositionEntry => ({
   baseBalance: bqNumericToNumber(row.baseBalance),
   quoteBalance: bqNumericToNumber(row.quoteBalance),
   notionalBalance: bqNumericToNumber(row.notionalBalance),
+  liquidityBalance: bqNumericToNumber(row.notionalBalance),
   paidFees: bqNumericToNumber(row.paidFees),
 
   type: row.type,
