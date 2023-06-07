@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feat/sdk-v1-tests
 
 jobs:
   release:
@@ -20,7 +21,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 'lts/*'
-          registry-url: 'https://npm.pkg.github.com'
+          registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
         run: yarn install
       - name: Run tests
@@ -45,3 +46,4 @@ jobs:
         run: lerna publish from-package
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
