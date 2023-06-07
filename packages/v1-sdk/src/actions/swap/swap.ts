@@ -1,5 +1,11 @@
 import { SwapArgs, SwapPeripheryParams } from '../types/actionArgTypes';
-import { BigNumber, ContractReceipt, ContractTransaction, providers, utils } from "ethers";
+import {
+  BigNumber,
+  ContractReceipt,
+  ContractTransaction,
+  providers,
+  utils,
+} from 'ethers';
 import { handleSwapErrors } from './handleSwapErrors';
 import { BigNumberish, ethers } from 'ethers';
 import { getClosestTickAndFixedRate } from '../../common/math/getClosestTickAndFixedRate';
@@ -9,9 +15,12 @@ import { getPeripheryContract } from '../../common/contract-generators/getPeriph
 import { getSwapPeripheryParams } from './getSwapPeripheryParams';
 import { estimateSwapGasUnits } from './estimateSwapGasUnits';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
-import {DEFAULT_TICK_SPACING, PERIPHERY_ADDRESS_BY_CHAIN_ID} from "../../common/constants";
-import { getReadableErrorMessage } from "../../common/errors/errorHandling";
-import { getSentryTracker } from "../../init";
+import {
+  DEFAULT_TICK_SPACING,
+  PERIPHERY_ADDRESS_BY_CHAIN_ID,
+} from '../../common/constants';
+import { getReadableErrorMessage } from '../../common/errors/errorHandling';
+import { getSentryTracker } from '../../init';
 
 export const swap = async ({
   isFT,
@@ -22,7 +31,7 @@ export const swap = async ({
   fixedLow,
   fixedHigh,
   ammInfo,
-  signer
+  signer,
 }: SwapArgs): Promise<ContractReceipt> => {
   handleSwapErrors({
     notional,
@@ -78,14 +87,16 @@ export const swap = async ({
 
   // todo: find a cleaner way to unwrap swapPeripheryParams
   const swapTransaction: ContractTransaction = await peripheryContract
-    .swap(swapPeripheryParams.marginEngineAddress,
-          swapPeripheryParams.isFT,
-          swapPeripheryParams.notional,
-          swapPeripheryParams.sqrtPriceLimitX96,
-          swapPeripheryParams.tickLower,
-          swapPeripheryParams.tickUpper,
-          swapPeripheryParams.marginDelta,
-          swapPeripheryTempOverrides)
+    .swap(
+      swapPeripheryParams.marginEngineAddress,
+      swapPeripheryParams.isFT,
+      swapPeripheryParams.notional,
+      swapPeripheryParams.sqrtPriceLimitX96,
+      swapPeripheryParams.tickLower,
+      swapPeripheryParams.tickUpper,
+      swapPeripheryParams.marginDelta,
+      swapPeripheryTempOverrides,
+    )
     .catch((error) => {
       const sentryTracker = getSentryTracker();
       sentryTracker.captureException(error);
@@ -102,5 +113,4 @@ export const swap = async ({
     sentryTracker.captureMessage('Transaction Confirmation Error');
     throw new Error('Transaction Confirmation Error');
   }
-
 };

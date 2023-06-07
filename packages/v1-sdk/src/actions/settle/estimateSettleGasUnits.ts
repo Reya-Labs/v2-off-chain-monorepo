@@ -3,14 +3,14 @@ import { SettlePeripheryParams } from '../types/actionArgTypes';
 
 export const estimateSettleGasUnits = async (
   peripheryContract: ethers.Contract,
-  settlePeripheryParams: SettlePeripheryParams
+  settlePeripheryParams: SettlePeripheryParams,
 ): Promise<BigNumber> => {
   const estimatedGas: BigNumber = await peripheryContract.estimateGas
     .settlePositionAndWithdrawMargin(
       settlePeripheryParams.marginEngineAddress,
       settlePeripheryParams.positionOwnerAddress,
       settlePeripheryParams.tickLower,
-      settlePeripheryParams.tickUpper
+      settlePeripheryParams.tickUpper,
     )
     .catch((error) => {
       console.error(error);

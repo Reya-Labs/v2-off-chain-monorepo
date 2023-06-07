@@ -1,6 +1,6 @@
 import { ethers, BigNumber } from 'ethers';
 import { SwapPeripheryParams } from '../types/actionArgTypes';
-import { getReadableErrorMessage } from "../../common/errors/errorHandling";
+import { getReadableErrorMessage } from '../../common/errors/errorHandling';
 
 export const estimateSwapGasUnits = async (
   peripheryContract: ethers.Contract,
@@ -16,7 +16,7 @@ export const estimateSwapGasUnits = async (
       swapPeripheryParams.tickLower,
       swapPeripheryParams.tickUpper,
       swapPeripheryParams.marginDelta,
-      swapPeripheryTempOverrides
+      swapPeripheryTempOverrides,
     )
     .catch((error) => {
       const errorMessage = getReadableErrorMessage(error);

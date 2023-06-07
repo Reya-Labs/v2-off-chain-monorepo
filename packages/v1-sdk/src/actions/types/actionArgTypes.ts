@@ -6,7 +6,7 @@ export type AMMInfo = {
   marginEngineAddress: string;
   underlyingTokenAddress: string;
   underlyingTokenDecimals: number;
-}
+};
 
 export type SwapArgs = {
   isFT: boolean;

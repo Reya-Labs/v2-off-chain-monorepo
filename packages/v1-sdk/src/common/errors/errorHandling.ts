@@ -86,7 +86,10 @@ const getReadableErrorMessageWithoutSentry = (error: any): string => {
       // Remove the error signature
       const encodedMessage = reason.slice(0, 2).concat(reason.slice(10));
 
-      const rawErrorMessage = utils.defaultAbiCoder.decode(['string'], encodedMessage)[0];
+      const rawErrorMessage = utils.defaultAbiCoder.decode(
+        ['string'],
+        encodedMessage,
+      )[0];
 
       if (Object.keys(errorJson).some((e) => e === rawErrorMessage)) {
         return errorJson[rawErrorMessage as keyof typeof errorJson];
