@@ -52,6 +52,8 @@ export const simulateSettle = async ({
     settlePeripheryTempOverrides,
   );
 
+  // todo: add sentry
+
   const estmatedGasCostInNativeToken = await convertGasUnitsToNativeTokenUnits(
     provider,
     estimatedGasUnits.toNumber(),
