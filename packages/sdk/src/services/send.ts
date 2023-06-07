@@ -1,18 +1,14 @@
 import { BigNumber, Signer } from 'ethers';
 import { PERIPHERY_ADDRESS } from '../utils/constants';
 import {
+  BaseTrade,
   MakerTrade,
   SettleTradeMaker,
   SettleTradeTaker,
   TakerTrade,
 } from '../utils/types';
 import { getGasBuffer } from '../utils/txHelpers';
-import {
-  encodeMakerOrder,
-  encodeSettlementMakers,
-  encodeSettlementTakers,
-  encodeTakerOrder,
-} from './encode';
+import { encodeMakerOrder, encodeSettlement, encodeTakerOrder } from './encode';
 
 export type Transaction = {
   from: string;
@@ -33,13 +29,17 @@ export async function makerOrder(trade: MakerTrade, chainId: number) {
   await executeTransaction(trade.owner, data, value, chainId);
 }
 
-export async function settleMaker(trade: SettleTradeMaker, chainId: number) {
-  const { calldata: data, value } = encodeSettlementMakers(trade);
-  await executeTransaction(trade.owner, data, value, chainId);
-}
-
-export async function settleTaker(trade: SettleTradeTaker, chainId: number) {
-  const { calldata: data, value } = encodeSettlementTakers(trade);
+export async function settle(
+  trade: TakerTrade,
+  chainId: number,
+  newMakerOrder?: MakerTrade,
+  newTakerOrder?: TakerTrade,
+) {
+  const { calldata: data, value } = encodeSettlement(
+    trade,
+    newMakerOrder,
+    newTakerOrder,
+  );
   await executeTransaction(trade.owner, data, value, chainId);
 }
 

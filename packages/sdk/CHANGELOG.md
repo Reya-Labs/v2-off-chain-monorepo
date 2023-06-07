@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.36.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.35.0...@voltz-protocol/sdk-v2@1.36.0) (2023-06-07)
+
+### Bug Fixes
+
+- exports ([53cb883](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/53cb8839a097fd60753f6cfd8c82679ea176c2a6))
+
+### Features
+
+- mock settle flow ([c29620c](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/c29620c55eb2570ef5581cc2da8cb4f166f857a8))
+
 # 1.35.0 (2023-06-01)
 
 ### Bug Fixes
