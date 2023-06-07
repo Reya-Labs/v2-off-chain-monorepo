@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.5.2...@voltz-protocol/sdk-v1-stateless@1.7.0) (2023-06-07)
+
+### Bug Fixes
+
+- sdk formatting ([6b0a0d3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/6b0a0d3f5aaef6637ef9da397417014e7c00e62e))
+
+### Features
+
+- add index.ts ([324508b](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/324508b76e63977893e018a093ece78c3638dd36))
+- adj package ([255c77c](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/255c77cf296946813631256ec77282d8e9f20ca8))
+- adj ts build ([ce8cb66](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/ce8cb669477a7248309b7b4d160e02d9335a70dd))
+- configs sdk v1 ([c4d9ab8](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/c4d9ab88d5ae09aa0bbbbe29817c54a7cc12137f))
+
 ## [1.6.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.6.0...@voltz-protocol/sdk-v1-stateless@1.6.1) (2023-06-07)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
