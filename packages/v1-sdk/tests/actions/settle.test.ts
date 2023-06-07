@@ -1,19 +1,13 @@
-import { BigNumber } from "ethers";
-import {getPeripheryContract} from "../../src/common/contract-generators";
+import { BigNumber } from 'ethers';
+import { getPeripheryContract } from '../../src/common/contract-generators';
 import { jest } from '@jest/globals';
 
-
-jest.mock(
-  '../../src/common/contract-generators',
-  () => ({
-    getPeripheryContract: jest.fn(() => {}),
-  }),
-);
-
-
+jest.mock('../../src/common/contract-generators', () => ({
+  getPeripheryContract: jest.fn(() => {}),
+}));
 
 describe.skip('settle', () => {
-  it("periphery function executed with expected args", async () => {
+  it('periphery function executed with expected args', async () => {
     (getPeripheryContract as jest.Mock).mockReturnValueOnce({
       connect: jest.fn(() => {
         console.log('Connecting to periphery contract');
@@ -33,5 +27,5 @@ describe.skip('settle', () => {
         }),
       },
     });
-  })
-})
+  });
+});
