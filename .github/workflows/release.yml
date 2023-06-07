@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feat/sdk-v1-settleIndex
 jobs:
   release:
     name: Release

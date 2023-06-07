@@ -10,7 +10,8 @@
     "dist/**/*",
     "README.md"
   ],
-  "main": "build/index.js",
+  "main": "dist/index.js",
+  "types": "dist/types",
   "scripts": {
     "prebuild": "yarn code-quality:check && rm -rf dist",
     "build": "yarn prebuild && tsc -p tsconfig.build.json",
