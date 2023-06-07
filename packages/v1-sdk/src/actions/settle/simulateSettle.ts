@@ -13,6 +13,8 @@ export const simulateSettle = async ({
   positionId,
   signer,
 }: SettleArgs): Promise<SettleSimulationResults> => {
+  // todo: add sentry
+
   if (signer.provider === undefined) {
     throw new Error('Signer Provider Undefined');
   }
@@ -49,10 +51,7 @@ export const simulateSettle = async ({
   const estimatedGasUnits: BigNumber = await estimateSettleGasUnits(
     peripheryContract,
     settlePeripheryParams,
-    settlePeripheryTempOverrides,
   );
-
-  // todo: add sentry
 
   const estmatedGasCostInNativeToken = await convertGasUnitsToNativeTokenUnits(
     provider,

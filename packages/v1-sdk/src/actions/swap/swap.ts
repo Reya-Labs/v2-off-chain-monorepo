@@ -33,6 +33,10 @@ export const swap = async ({
   ammInfo,
   signer,
 }: SwapArgs): Promise<ContractReceipt> => {
+  if (signer.provider === undefined) {
+    throw new Error('Signer Provider Undefined');
+  }
+
   handleSwapErrors({
     notional,
     fixedLow,
