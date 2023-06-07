@@ -40,8 +40,6 @@ jobs:
           git commit -m "chore: update coverage badges"
           lerna version
           git stash
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Publish packages with Lerna
         run: lerna publish from-package
         env:
