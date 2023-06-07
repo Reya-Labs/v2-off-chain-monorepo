@@ -11,6 +11,7 @@ import { estimateSwapGasUnits } from './estimateSwapGasUnits';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
 import {DEFAULT_TICK_SPACING, PERIPHERY_ADDRESS_BY_CHAIN_ID} from "../../common/constants";
 import { getReadableErrorMessage } from "../../common/errors/errorHandling";
+import { getSentryTracker } from "../../init";
 
 export const swap = async ({
   isFT,
@@ -85,11 +86,21 @@ export const swap = async ({
           swapPeripheryParams.tickUpper,
           swapPeripheryParams.marginDelta,
           swapPeripheryTempOverrides)
-    .catch(() => {
-      throw new Error('Swap Transaction Confirmation Error');
+    .catch((error) => {
+      const sentryTracker = getSentryTracker();
+      sentryTracker.captureException(error);
+      sentryTracker.captureMessage('Transaction Confirmation Error');
+      throw new Error('Transaction Confirmation Error');
     });
 
-  const receipt: ContractReceipt = await swapTransaction.wait();
+  try {
+    const receipt: ContractReceipt = await swapTransaction.wait();
+    return receipt;
+  } catch (error) {
+    const sentryTracker = getSentryTracker();
+    sentryTracker.captureException(error);
+    sentryTracker.captureMessage('Transaction Confirmation Error');
+    throw new Error('Transaction Confirmation Error');
+  }
 
-  return receipt;
 };
