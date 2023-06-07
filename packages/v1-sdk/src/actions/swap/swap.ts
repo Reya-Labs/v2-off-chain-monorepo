@@ -89,7 +89,7 @@ export const swap = async ({
 
   swapPeripheryTempOverrides.gasLimit = getGasBuffer(estimatedGasUnits);
 
-  // todo: find a cleaner way to unwrap swapPeripheryParams
+  // todo: find cleaner way to unwrap swapPeripheryParams
   const swapTransaction: ContractTransaction = await peripheryContract
     .swap(
       swapPeripheryParams.marginEngineAddress,
