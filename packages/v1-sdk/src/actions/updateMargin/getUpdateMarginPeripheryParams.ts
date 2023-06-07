@@ -1,5 +1,5 @@
 import { UpdateMarginPeripheryParams } from '../types/actionArgTypes';
-import { getClosestTickAndFixedRate } from '../swap/getClosestTickAndFixedRate';
+import { getClosestTickAndFixedRate } from '../../common/math/getClosestTickAndFixedRate';
 import { scale } from '../../common/math/scale';
 
 export const getUpdateMarginPeripheryParams = (

@@ -1,25 +1,23 @@
 import { BigNumberish, providers, Signer } from 'ethers';
 import { PositionInfo } from '../../common/api/position/types';
 
-// todo: not sure if chainid is needed or its already in provider, same goes for the signer
-
 // swap
+export type AMMInfo = {
+  marginEngineAddress: string;
+  underlyingTokenAddress: string;
+  underlyingTokenDecimals: number;
+};
+
 export type SwapArgs = {
   isFT: boolean;
+  isEth: boolean;
   notional: number;
   margin: number;
   fixedRateLimit?: number;
   fixedLow: number;
   fixedHigh: number;
-  underlyingTokenAddress: string;
-  underlyingTokenDecimals: number;
-  tickSpacing: number;
-  chainId: number;
-  peripheryAddress: string;
-  marginEngineAddress: string;
-  provider: providers.Provider;
+  ammInfo: AMMInfo;
   signer: Signer;
-  isEth: boolean;
 };
 
 export type SwapPeripheryParams = {

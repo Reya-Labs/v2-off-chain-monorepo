@@ -1,5 +1,5 @@
 import { LpPeripheryParams } from '../types/actionArgTypes';
-import { getClosestTickAndFixedRate } from '../swap/getClosestTickAndFixedRate';
+import { getClosestTickAndFixedRate } from '../../common/math/getClosestTickAndFixedRate';
 import { scale } from '../../common/math/scale';
 
 export type GetLpPeripheryParamsArgs = {

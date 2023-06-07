@@ -1,37 +1,55 @@
 import { SwapArgs, SwapPeripheryParams } from '../types/actionArgTypes';
-import { BigNumber, ContractReceipt, ContractTransaction, utils } from 'ethers';
+import {
+  BigNumber,
+  ContractReceipt,
+  ContractTransaction,
+  providers,
+  utils,
+} from 'ethers';
 import { handleSwapErrors } from './handleSwapErrors';
 import { BigNumberish, ethers } from 'ethers';
-import { getClosestTickAndFixedRate } from './getClosestTickAndFixedRate';
-import { getSqrtPriceLimitFromFixedRateLimit } from './getSqrtPriceLimitFromFixedRate';
-import { getDefaultSqrtPriceLimit } from './getDefaultSqrtPriceLimits';
+import { getClosestTickAndFixedRate } from '../../common/math/getClosestTickAndFixedRate';
+import { getSqrtPriceLimitFromFixedRateLimit } from '../../common/math/getSqrtPriceLimitFromFixedRate';
+import { getDefaultSqrtPriceLimit } from '../../common/math/getDefaultSqrtPriceLimits';
 import { getPeripheryContract } from '../../common/contract-generators/getPeripheryContract';
 import { getSwapPeripheryParams } from './getSwapPeripheryParams';
 import { estimateSwapGasUnits } from './estimateSwapGasUnits';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
+import {
+  DEFAULT_TICK_SPACING,
+  PERIPHERY_ADDRESS_BY_CHAIN_ID,
+} from '../../common/constants';
+import { getReadableErrorMessage } from '../../common/errors/errorHandling';
+import { getSentryTracker } from '../../init';
 
 export const swap = async ({
   isFT,
+  isEth,
   notional,
   margin,
   fixedRateLimit,
   fixedLow,
   fixedHigh,
-  underlyingTokenAddress,
-  underlyingTokenDecimals,
-  tickSpacing,
-  peripheryAddress,
-  marginEngineAddress,
-  provider,
+  ammInfo,
   signer,
-  isEth,
 }: SwapArgs): Promise<ContractReceipt> => {
+  if (signer.provider === undefined) {
+    throw new Error('Signer Provider Undefined');
+  }
+
   handleSwapErrors({
     notional,
     fixedLow,
     fixedHigh,
-    underlyingTokenAddress,
+    underlyingTokenAddress: ammInfo.underlyingTokenAddress,
   });
+
+  const tickSpacing: number = DEFAULT_TICK_SPACING;
+
+  const chainId: number = await signer.getChainId();
+  const provider: providers.Provider = signer.provider;
+
+  const peripheryAddress: string = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
 
   const peripheryContract: ethers.Contract = getPeripheryContract(
     peripheryAddress,
@@ -46,8 +64,8 @@ export const swap = async ({
     notional,
     fixedLow,
     fixedHigh,
-    marginEngineAddress,
-    underlyingTokenDecimals,
+    marginEngineAddress: ammInfo.marginEngineAddress,
+    underlyingTokenDecimals: ammInfo.underlyingTokenDecimals,
     fixedRateLimit,
     tickSpacing,
   });
@@ -71,14 +89,32 @@ export const swap = async ({
 
   swapPeripheryTempOverrides.gasLimit = getGasBuffer(estimatedGasUnits);
 
+  // todo: find cleaner way to unwrap swapPeripheryParams
   const swapTransaction: ContractTransaction = await peripheryContract
-    .connect(signer)
-    .swap(swapPeripheryParams, swapPeripheryTempOverrides)
-    .catch(() => {
-      throw new Error('Swap Transaction Confirmation Error');
+    .swap(
+      swapPeripheryParams.marginEngineAddress,
+      swapPeripheryParams.isFT,
+      swapPeripheryParams.notional,
+      swapPeripheryParams.sqrtPriceLimitX96,
+      swapPeripheryParams.tickLower,
+      swapPeripheryParams.tickUpper,
+      swapPeripheryParams.marginDelta,
+      swapPeripheryTempOverrides,
+    )
+    .catch((error: any) => {
+      const sentryTracker = getSentryTracker();
+      sentryTracker.captureException(error);
+      sentryTracker.captureMessage('Transaction Confirmation Error');
+      throw new Error('Transaction Confirmation Error');
     });
 
-  const receipt: ContractReceipt = await swapTransaction.wait();
-
-  return receipt;
+  try {
+    const receipt: ContractReceipt = await swapTransaction.wait();
+    return receipt;
+  } catch (error: any) {
+    const sentryTracker = getSentryTracker();
+    sentryTracker.captureException(error);
+    sentryTracker.captureMessage('Transaction Confirmation Error');
+    throw new Error('Transaction Confirmation Error');
+  }
 };

@@ -1,5 +1,5 @@
 import { BigNumberish } from 'ethers';
-import { TickMath } from '../../common/math/tickMath';
+import { TickMath } from './tickMath';
 
 export const getDefaultSqrtPriceLimit = (
   isFixedTaker: boolean,

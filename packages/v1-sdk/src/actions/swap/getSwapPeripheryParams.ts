@@ -1,8 +1,8 @@
 import { SwapArgs, SwapPeripheryParams } from '../types/actionArgTypes';
 import { BigNumberish } from 'ethers';
-import { getDefaultSqrtPriceLimit } from './getDefaultSqrtPriceLimits';
-import { getSqrtPriceLimitFromFixedRateLimit } from './getSqrtPriceLimitFromFixedRate';
-import { getClosestTickAndFixedRate } from './getClosestTickAndFixedRate';
+import { getDefaultSqrtPriceLimit } from '../../common/math/getDefaultSqrtPriceLimits';
+import { getSqrtPriceLimitFromFixedRateLimit } from '../../common/math/getSqrtPriceLimitFromFixedRate';
+import { getClosestTickAndFixedRate } from '../../common/math/getClosestTickAndFixedRate';
 import { scale } from '../../common/math/scale';
 
 export type GetSwapPeripheryParamsArgs = {

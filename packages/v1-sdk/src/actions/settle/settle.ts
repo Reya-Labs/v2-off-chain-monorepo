@@ -55,7 +55,6 @@ export const settle = async ({
   const estimatedGasUnits: BigNumber = await estimateSettleGasUnits(
     peripheryContract,
     settlePeripheryParams,
-    settlePeripheryTempOverrides,
   );
 
   settlePeripheryTempOverrides.gasLimit = getGasBuffer(estimatedGasUnits);
@@ -63,7 +62,10 @@ export const settle = async ({
   const settleTransaction: ContractTransaction = await peripheryContract
     .connect(signer)
     .settlePositionAndWithdrawMargin(
-      settlePeripheryParams,
+      settlePeripheryParams.marginEngineAddress,
+      settlePeripheryParams.positionOwnerAddress,
+      settlePeripheryParams.tickLower,
+      settlePeripheryParams.tickUpper,
       settlePeripheryTempOverrides,
     )
     .catch((error: any) => {

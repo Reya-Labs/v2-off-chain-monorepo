@@ -1,11 +1,11 @@
-import { ClosestTickAndFixedRate } from '../types/priceAndRateTypes';
-import { MAX_FIXED_RATE, MIN_FIXED_RATE } from '../../common/constants';
-import { Price } from '../../common/math/price';
+import { ClosestTickAndFixedRate } from '../../actions/types/priceAndRateTypes';
+import { MAX_FIXED_RATE, MIN_FIXED_RATE } from '../constants';
+import { Price } from './price';
 import {
   fixedRateToClosestTick,
   tickToFixedRate,
-} from '../../common/math/priceTickConversions';
-import { nearestUsableTick } from '../../common/math/nearestUsableTick';
+} from './priceTickConversions';
+import { nearestUsableTick } from './nearestUsableTick';
 
 export const getClosestTickAndFixedRate = (
   fixedRate: number,

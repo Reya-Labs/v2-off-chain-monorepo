@@ -4,9 +4,9 @@ import {
   SwapPeripheryParams,
 } from '../types/actionArgTypes';
 import { BigNumberish } from 'ethers';
-import { getDefaultSqrtPriceLimit } from '../swap/getDefaultSqrtPriceLimits';
-import { getSqrtPriceLimitFromFixedRateLimit } from '../swap/getSqrtPriceLimitFromFixedRate';
-import { getClosestTickAndFixedRate } from '../swap/getClosestTickAndFixedRate';
+import { getDefaultSqrtPriceLimit } from '../../common/math/getDefaultSqrtPriceLimits';
+import { getSqrtPriceLimitFromFixedRateLimit } from '../../common/math/getSqrtPriceLimitFromFixedRate';
+import { getClosestTickAndFixedRate } from '../../common/math/getClosestTickAndFixedRate';
 import { scale } from '../../common/math/scale';
 import { getSwapPeripheryParams } from '../swap/getSwapPeripheryParams';
 
