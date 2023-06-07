@@ -1,9 +1,11 @@
-import { SwapArgs, SwapPeripheryParams } from "../types/actionArgTypes";
+import { SimulateSwapArgs, SwapPeripheryParams } from "../types/actionArgTypes";
 import { handleSwapErrors } from "./handleSwapErrors";
 import { DEFAULT_TICK_SPACING, PERIPHERY_ADDRESS_BY_CHAIN_ID } from "../../common/constants";
 import { BigNumber, ethers, providers, utils } from "ethers";
 import { getPeripheryContract } from "../../common/contract-generators";
 import { getSwapPeripheryParams } from "./getSwapPeripheryParams";
+import getDummyWallet from "../../common/wallet/getDummyWallet";
+
 
 
 export const simulateSwap = async ({
@@ -15,8 +17,13 @@ export const simulateSwap = async ({
    fixedLow,
    fixedHigh,
    ammInfo,
+   provider,
    signer,
-}: SwapArgs) => {
+}: SimulateSwapArgs) => {
+
+  if (signer === undefined) {
+    signer = getDummyWallet().connect(provider);
+  }
 
   if (signer.provider === undefined) {
     throw new Error('Signer Provider Undefined');
@@ -32,7 +39,6 @@ export const simulateSwap = async ({
   const tickSpacing: number = DEFAULT_TICK_SPACING;
 
   const chainId: number = await signer.getChainId();
-  const provider: providers.Provider = signer.provider;
 
   const peripheryAddress: string = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
 

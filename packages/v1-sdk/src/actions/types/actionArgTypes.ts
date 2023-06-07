@@ -8,6 +8,19 @@ export type AMMInfo = {
   underlyingTokenDecimals: number;
 };
 
+export type SimulateSwapArgs = {
+  isFT: boolean;
+  isEth: boolean;
+  notional: number;
+  margin: number;
+  fixedRateLimit?: number;
+  fixedLow: number;
+  fixedHigh: number;
+  ammInfo: AMMInfo;
+  provider: providers.Provider;
+  signer?: Signer;
+}
+
 export type SwapArgs = {
   isFT: boolean;
   isEth: boolean;
