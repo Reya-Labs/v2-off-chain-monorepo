@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-      - feat/sdk-v1-tests
-
 jobs:
   release:
     name: Release
@@ -24,12 +22,12 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
         run: yarn install
-#      - name: Run tests
-#        run: lerna run test
-#      - name: Run coverage reports
-#        run: lerna run test:coverage
-#      - name: Build packages
-#        run: lerna run build
+      - name: Run tests
+        run: lerna run test
+      - name: Run coverage reports
+        run: lerna run test:coverage
+      - name: Build packages
+        run: lerna run build
       - name: Configure Git, Generate coverage badges and Bump Updated Packages
         run : |
           git config --global user.name "voltzprotocol"

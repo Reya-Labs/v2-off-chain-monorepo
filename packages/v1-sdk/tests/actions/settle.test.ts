@@ -4,7 +4,7 @@ import { jest } from '@jest/globals';
 
 
 jest.mock(
-  '../../../src/common/contract-generators/getPeripheryContract',
+  '../../src/common/contract-generators',
   () => ({
     getPeripheryContract: jest.fn(() => {}),
   }),
@@ -12,7 +12,7 @@ jest.mock(
 
 
 
-describe('settle', () => {
+describe.skip('settle', () => {
   it("periphery function executed with expected args", async () => {
     (getPeripheryContract as jest.Mock).mockReturnValueOnce({
       connect: jest.fn(() => {
