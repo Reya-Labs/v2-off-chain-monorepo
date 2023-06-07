@@ -10,6 +10,7 @@ import { getSwapPeripheryParams } from './getSwapPeripheryParams';
 import { estimateSwapGasUnits } from './estimateSwapGasUnits';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
 import {DEFAULT_TICK_SPACING, PERIPHERY_ADDRESS_BY_CHAIN_ID} from "../../common/constants";
+import { getReadableErrorMessage } from "../../common/errors/errorHandling";
 
 export const swap = async ({
   isFT,
@@ -76,7 +77,6 @@ export const swap = async ({
 
   // todo: find a cleaner way to unwrap swapPeripheryParams
   const swapTransaction: ContractTransaction = await peripheryContract
-    .connect(signer)
     .swap(swapPeripheryParams.marginEngineAddress,
           swapPeripheryParams.isFT,
           swapPeripheryParams.notional,
