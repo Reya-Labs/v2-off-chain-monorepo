@@ -36,6 +36,8 @@ export const simulateSwap = async ({
     underlyingTokenAddress: ammInfo.underlyingTokenAddress,
   });
 
+  const signerAddress: string = await signer.getAddress();
+
   const tickSpacing: number = DEFAULT_TICK_SPACING;
 
   const chainId: number = await signer.getChainId();
@@ -71,6 +73,10 @@ export const simulateSwap = async ({
       margin.toFixed(18).toString(),
     );
   }
+
+  const infoPostSwap = await getInfoPostSwap();
+
+  return infoPostSwap;
 
 }
 
