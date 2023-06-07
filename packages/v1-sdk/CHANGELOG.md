@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.7.1...@voltz-protocol/sdk-v1-stateless@1.8.0) (2023-06-07)
+
+### Features
+
+- expose settle results type ([#38](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/38)) ([0d43a85](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/0d43a85102e891e64c28ed5555d874c3782cd37a))
+
 ## [1.7.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.5.2...@voltz-protocol/sdk-v1-stateless@1.7.1) (2023-06-07)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
