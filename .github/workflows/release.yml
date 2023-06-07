@@ -8,6 +8,8 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    env:
+      CI_COMMIT_AUTHOR: ${{ github.event.repository.name }} Voltz Bot
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -30,8 +32,8 @@ jobs:
         run: lerna run build
       - name: Configure Git, Generate coverage badges and Bump Updated Packages
         run : |
-          git config --global user.name "voltzprotocol"
-          git config --global user.email "dev@voltz.xyz"
+          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.email "devcold@voltz.xyz"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Voltz-Protocol/v2-off-chain-monorepo.git
           lerna run generate:coverage-badges 
           git add .
