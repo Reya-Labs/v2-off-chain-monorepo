@@ -1,12 +1,18 @@
-import { BigNumber, Contract } from "ethers";
+import { BigNumber, Contract, Signer } from "ethers";
 import { SwapPeripheryParams } from "../types/actionArgTypes";
 import { exponentialBackoff } from "../../common/retry";
 import { decodeInfoPostSwap } from "../../common/errors/errorHandling";
+import {descale} from "../../common/math/descale";
+import { estimateSwapGasUnits } from "./estimateSwapGasUnits";
+import { SupportedChainId } from "../../common/types";
+import { roughEstimateSwapGasUnits } from "./roughEstimateSwapGasUnits";
 
 
 export type GetInfoPostSwapArgs = {
   peripheryContract: Contract;
   marginEngineAddress: string;
+  underlyingTokenDecimals: number;
+  signer: Signer;
   swapPeripheryParams: SwapPeripheryParams;
 }
 
@@ -30,6 +36,8 @@ export type InfoPostSwap = {
 export const getInfoPostSwap = async ({
   peripheryContract,
   marginEngineAddress,
+  underlyingTokenDecimals,
+  signer,
   swapPeripheryParams
 }
 : GetInfoPostSwapArgs): Promise<InfoPostSwap> => {
@@ -70,9 +78,9 @@ export const getInfoPostSwap = async ({
   const fixedRateDelta = fixedRateAfter.subtract(fixedRateBefore);
   const fixedRateDeltaRaw = fixedRateDelta.toNumber();
 
-  const scaledAvailableNotional = descale(availableNotional);
-  const scaledFee = descale(fee);
-  const scaledMarginRequirement = (descale(marginRequirement) + scaledFee) * 1.01;
+  const scaledAvailableNotional = descale(availableNotional, underlyingTokenDecimals);
+  const scaledFee = descale(fee, underlyingTokenDecimals);
+  const scaledMarginRequirement = (descale(marginRequirement, underlyingTokenDecimals) + scaledFee) * 1.01;
 
   const additionalMargin =
     scaledMarginRequirement > scaledCurrentMargin
@@ -85,9 +93,9 @@ export const getInfoPostSwap = async ({
     1000;
 
   let swapGasUnits = 0;
-  const chainId = await wallet.getChainId();
+  const chainId = await signer.getChainId();
   if (Object.values(SupportedChainId).includes(chainId)) {
-    swapGasUnits = estimateSwapGasUnits(chainId);
+    swapGasUnits = roughEstimateSwapGasUnits(chainId);
   }
 
   const gasFeeNativeToken = await convertGasUnitsToNativeToken(this.provider, swapGasUnits);
