@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.12.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.12.0...@voltz-protocol/sdk-v1-stateless@1.12.1) (2023-06-08)
+
+### Bug Fixes
+
+- simulate swap signer ([e66992e](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/e66992ee07080c5857249e2053b8ae347ed14c43))
+- swap signer ([4fca24f](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/4fca24fd914b754f387abbf2375e643e2502ddd1))
+
 # [1.12.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.11.0...@voltz-protocol/sdk-v1-stateless@1.12.0) (2023-06-08)
 
 ### Features
