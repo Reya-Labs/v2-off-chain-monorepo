@@ -9,9 +9,9 @@ import {
   RolloverAndSwapPeripheryParams,
 } from '../types/actionArgTypes';
 import { getPeripheryContract } from '../../common/contract-generators';
-import { getRolloverAndSwapPeripheryParams } from './getRolloverAndSwapPeripheryParams';
+import { getRolloverWithSwapPeripheryParams } from './getRolloverWithSwapPeripheryParams';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
-import { estimateRolloverAndSwapGasUnits } from './estimateRolloverAndSwapGasUnits';
+import { estimateRolloverWithSwapGasUnits } from './estimateRolloverWithSwapGasUnits';
 import { PositionInfo } from '../../common/api/position/types';
 import { getPositionInfo } from '../../common/api/position/getPositionInfo';
 import {
@@ -20,8 +20,8 @@ import {
 } from '../../common/constants';
 import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
 import { AMMInfo } from '../../common/api/amm/types';
+import { getSentryTracker } from '../../init';
 
-// todo: add sentry
 export const rolloverWithSwap = async ({
   maturedPositionId,
   ammId,
@@ -48,7 +48,7 @@ export const rolloverWithSwap = async ({
     signer,
   );
 
-  const rolloverAndSwapPeripheryTempOverrides: {
+  const rolloverWithSwapPeripheryTempOverrides: {
     value?: BigNumber;
     gasLimit?: BigNumber;
   } = {};
@@ -60,13 +60,13 @@ export const rolloverWithSwap = async ({
   let marginDelta = margin;
   if (maturedPositionInfo.isEth && maturedPositionSettlementBalance < margin) {
     marginDelta = maturedPositionSettlementBalance;
-    rolloverAndSwapPeripheryTempOverrides.value = BigNumber.from(
+    rolloverWithSwapPeripheryTempOverrides.value = BigNumber.from(
       margin - maturedPositionSettlementBalance,
     );
   }
   const tickSpacing: number = DEFAULT_TICK_SPACING;
 
-  const rolloverAndSwapPeripheryParams: RolloverAndSwapPeripheryParams = getRolloverAndSwapPeripheryParams(
+  const rolloverAndSwapPeripheryParams: RolloverAndSwapPeripheryParams = getRolloverWithSwapPeripheryParams(
     {
       margin: marginDelta,
       isFT,
@@ -79,26 +79,45 @@ export const rolloverWithSwap = async ({
     },
   );
 
-  const estimatedGasUnits: BigNumber = await estimateRolloverAndSwapGasUnits(
+  const estimatedGasUnits: BigNumber = await estimateRolloverWithSwapGasUnits(
     peripheryContract,
     rolloverAndSwapPeripheryParams,
-    rolloverAndSwapPeripheryTempOverrides,
+    rolloverWithSwapPeripheryTempOverrides,
   );
 
-  rolloverAndSwapPeripheryTempOverrides.gasLimit = getGasBuffer(
+  rolloverWithSwapPeripheryTempOverrides.gasLimit = getGasBuffer(
     estimatedGasUnits,
   );
 
-  const rolloverAndSwapTransaction: ContractTransaction = await peripheryContract
+  const rolloverWithSwapTransaction: ContractTransaction = await peripheryContract
     .rolloverWithSwap(
-      rolloverAndSwapPeripheryParams,
-      rolloverAndSwapPeripheryTempOverrides,
+      rolloverAndSwapPeripheryParams.maturedMarginEngineAddress,
+      rolloverAndSwapPeripheryParams.maturedPositionOwnerAddress,
+      rolloverAndSwapPeripheryParams.maturedPositionTickLower,
+      rolloverAndSwapPeripheryParams.maturedPositionTickUpper,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.marginEngineAddress,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.isFT,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.notional,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.sqrtPriceLimitX96,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.tickLower,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.tickUpper,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.marginDelta,
+      rolloverWithSwapPeripheryTempOverrides,
     )
-    .catch(() => {
-      throw new Error('RolloverAndSwap Transaction Confirmation Error');
+    .catch((error: any) => {
+      const sentryTracker = getSentryTracker();
+      sentryTracker.captureException(error);
+      sentryTracker.captureMessage('Transaction Confirmation Error');
+      throw new Error('Transaction Confirmation Error');
     });
 
-  const receipt: ContractReceipt = await rolloverAndSwapTransaction.wait();
-
-  return receipt;
+  try {
+    const receipt = await rolloverWithSwapTransaction.wait();
+    return receipt;
+  } catch (error) {
+    const sentryTracker = getSentryTracker();
+    sentryTracker.captureException(error);
+    sentryTracker.captureMessage('Transaction Confirmation Error');
+    throw new Error('Transaction Confirmation Error');
+  }
 };

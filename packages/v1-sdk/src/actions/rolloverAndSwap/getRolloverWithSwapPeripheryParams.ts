@@ -22,7 +22,7 @@ export type GetRolloverAndSwapPeripheryParamsArgs = {
   maturedPosition: PositionInfo;
 };
 
-export const getRolloverAndSwapPeripheryParams = ({
+export const getRolloverWithSwapPeripheryParams = ({
   margin,
   isFT,
   notional,
