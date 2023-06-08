@@ -42,7 +42,7 @@ export type SwapPeripheryParams = {
   marginDelta: BigNumberish;
 };
 
-// rolloverAndSwap
+// rolloverWithSwap
 
 export type RolloverAndSwapArgs = {
   maturedPositionId: string;

@@ -12,6 +12,12 @@ export const estimateRolloverWithSwapGasUnits = async (
 ): Promise<BigNumber> => {
   // todo: need typings for contracts to not have to unwrap rolloverAndSwapPeripheryParams
 
+  if (peripheryContract.signer == null) {
+    throw new Error(
+      'Signer is missing to estimate gas units of rollover with swap',
+    );
+  }
+
   const estimatedGas: BigNumber = await peripheryContract.estimateGas
     .rolloverWithSwap(
       rolloverAndSwapPeripheryParams.maturedMarginEngineAddress,
