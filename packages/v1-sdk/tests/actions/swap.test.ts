@@ -87,8 +87,8 @@ describe('swap', () => {
       isFT: false,
       notional: '100000000000000000000',
       sqrtPriceLimitX96: '250704317490035741267292715206',
-      tickLower: 16080,
-      tickUpper: 23040,
+      tickLower: -69060,
+      tickUpper: 0,
       marginDelta: '100000000000000000000',
     };
 
