@@ -34,7 +34,6 @@ export const simulateSwap = async ({
     notional,
     fixedLow,
     fixedHigh,
-    underlyingTokenAddress: ammInfo.underlyingTokenAddress,
   });
 
   const signerAddress: string = await signer.getAddress();
