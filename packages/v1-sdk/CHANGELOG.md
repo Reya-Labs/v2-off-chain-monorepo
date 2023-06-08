@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.13.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.12.4...@voltz-protocol/sdk-v1-stateless@1.13.0) (2023-06-08)
+
+### Bug Fixes
+
+- bug fixes ([d33e92c](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/d33e92c7076da9319be20a1bf41a5662b65779f9))
+- linting ([0b1f305](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/0b1f30502dc36f76ad1d6d83975ba9f5ec1e2c01))
+- swap test ([3b0489f](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/3b0489f08ee823ca271dacbef0e5f0134ff56ef2))
+
+### Features
+
+- adjust swap flow to account for api ([9fd7917](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/9fd7917d0e54dfa641904fcd301d7ec790c639f1))
+- get amm info ([24e5b38](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/24e5b386c878f16a93a934a964d1a9d5e2519157))
+- get amm info implementation ([b0bd61c](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/b0bd61ce57bcf206ab5dcacb89945e6e958ba796))
+- refactor simulate swap ([46f0fca](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/46f0fca9af2569dbf997df106767b70dfacb4618))
+- setup connection to pools api ([4f22535](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/4f22535d37aa6f4d0ad13e78982c301245764cea))
+- simplify swap periphery params ([560ef69](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/560ef69409415ab8c872fbbec2c91988a8982be2))
+- swap tests ([8baadae](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/8baadaeedcc3371e3650c728f43b2f7df4b5d2d8))
+
 ## [1.12.4](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.12.3...@voltz-protocol/sdk-v1-stateless@1.12.4) (2023-06-08)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
