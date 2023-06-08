@@ -1,4 +1,6 @@
 export enum TableType {
+  raw_account_created,
+  raw_account_owner_updates,
   raw_collateral_updates,
   raw_market_configured,
   raw_market_fee_configured,
@@ -10,4 +12,5 @@ export enum TableType {
   liquidity_indices,
   markets,
   positions,
+  accounts,
 }

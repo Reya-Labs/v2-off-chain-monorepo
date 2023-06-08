@@ -1,0 +1,44 @@
+import { getBigQuery } from '../../client';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { mapToVammPriceChangeEvent } from '../mapper';
+
+/**
+ Get latest tick of VAMM
+ */
+export const getLatestVammTick = async (
+  chainId: number,
+  marketId: string,
+  maturityTimestamp: number,
+): Promise<number | null> => {
+  const bigQuery = getBigQuery();
+  const tableName = getTableFullName(TableType.raw_vamm_created);
+
+  const condition = `chainId="${chainId}" AND marketId="${marketId}" AND maturityTimestamp=${maturityTimestamp}`;
+
+  const volumeQuery = `
+    SELECT * FROM \`${tableName}\` WHERE (
+        ${condition} AND blockNumber = (
+            SELECT MAX(blockNumber) WHERE ${condition}
+        )
+    );
+  `;
+
+  const options = {
+    query: volumeQuery,
+  };
+
+  const [rows] = await bigQuery.query(options);
+
+  if (!rows || rows.length === 0) {
+    return null;
+  }
+
+  // all the price changes in the last block -- expect very few entries
+  const entries = rows.map(mapToVammPriceChangeEvent);
+
+  // sort them by log index to get the latest entry in the block
+  entries.sort((a, b) => b.logIndex - a.logIndex);
+
+  return entries[0].tick;
+};

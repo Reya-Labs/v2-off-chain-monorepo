@@ -1,13 +1,13 @@
-import { VammCreatedEvent } from '../../../utils/eventTypes';
+import { AccountCreatedEvent } from '../../../utils/eventTypes';
 import { getBigQuery } from '../../client';
 import { TableType } from '../../types';
 import { getTableFullName } from '../../utils/getTableName';
 
-export const insertVammCreatedEvent = async (
-  event: VammCreatedEvent,
+export const insertAccountCreatedEvent = async (
+  event: AccountCreatedEvent,
 ): Promise<void> => {
   const bigQuery = getBigQuery();
-  const tableName = getTableFullName(TableType.raw_vamm_created);
+  const tableName = getTableFullName(TableType.raw_account_created);
 
   const row = `
     "${event.id}",
@@ -20,15 +20,8 @@ export const insertVammCreatedEvent = async (
     ${event.transactionIndex}, 
     "${event.transactionHash}", 
     ${event.logIndex},
-    "${event.marketId}", 
-    ${event.tick},
-    ${event.priceImpactPhi},
-    ${event.priceImpactBeta},
-    ${event.spread},
-    "${event.rateOracle}",
-    "${event.maxLiquidityPerTick}",
-    ${event.tickSpacing},
-    ${event.maturityTimestamp}
+    "${event.accountId}", 
+    "${event.owner}"
   `;
 
   // build and fire sql query

@@ -154,6 +154,7 @@ export type LiquidityChangeEvent = BaseEvent & {
 
 export type VammCreatedEvent = BaseEvent & {
   marketId: string; // big number
+  tick: number;
 
   // mutable
   priceImpactPhi: number;

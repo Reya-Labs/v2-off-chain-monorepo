@@ -1,4 +1,4 @@
-import { Event, BigNumber, ethers } from 'ethers';
+import { Event, BigNumber } from 'ethers';
 
 import {
   ProtocolEventType,
@@ -12,12 +12,15 @@ export const parseVammCreated = (
   chainId: number,
   event: Event,
 ): VammCreatedEvent => {
+  const wadDescaler = descale(18);
+
   // 1. Type of event
   const type: ProtocolEventType = 'vamm-created';
 
   // 2. Parse particular args
   const marketId = (event.args?._marketId as BigNumber).toString();
-  const wadDescaler = descale(18);
+
+  const tick = Number(event.args?.tick);
 
   const priceImpactPhi = wadDescaler(
     event.args?._mutableConfig.priceImpactPhi as BigNumber,
@@ -47,6 +50,7 @@ export const parseVammCreated = (
     ...baseEvent,
 
     marketId,
+    tick,
     priceImpactPhi,
     priceImpactBeta,
     spread,

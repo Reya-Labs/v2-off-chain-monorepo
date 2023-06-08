@@ -1,10 +1,10 @@
 import {
   LiquidityChangeEvent,
-  pullLiquidityChangeEvent,
-  insertLiquidityChangeEvent,
   pullPositionEntry,
   updatePositionEntry,
   insertPositionEntry,
+  insertLiquidityChangeEvent,
+  pullLiquidityChangeEvent,
 } from '@voltz-protocol/commons-v2';
 
 export const handleLiquidityChange = async (event: LiquidityChangeEvent) => {

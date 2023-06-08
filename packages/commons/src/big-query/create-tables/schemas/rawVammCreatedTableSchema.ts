@@ -6,6 +6,7 @@ export const rawVammCreatedTableSchema: TableField[] = [
   ...rawEventsBaseTableSchema,
 
   { name: 'marketId', type: 'STRING', mode: 'REQUIRED' },
+  { name: 'tick', type: 'INTEGER', mode: 'REQUIRED' },
 
   {
     name: 'priceImpactPhi',

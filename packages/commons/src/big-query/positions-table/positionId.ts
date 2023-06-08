@@ -19,13 +19,14 @@ export const encodePositionId = ({
   tickLower,
   tickUpper,
 }: PositionIdData): string => {
-  const baseId = `v2_${chainId}_${accountId}_${marketId}_${maturityTimestamp}_${type}`;
-
-  if (type === 'lp') {
-    return `${baseId}_${tickLower}_${tickUpper}`;
+  switch (type) {
+    case 'trader': {
+      return `${chainId}_${accountId}_${marketId}_${maturityTimestamp}_trader_v2`;
+    }
+    case 'lp': {
+      return `${chainId}_${accountId}_${marketId}_${maturityTimestamp}_lp_${tickLower}_${tickUpper}_v2`; 
+    }
   }
-
-  return baseId;
 };
 
 export const decodePositionId = (positionId: string): PositionIdData => {

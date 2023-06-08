@@ -16,6 +16,7 @@ export const mapToVammCreatedEvent = (row: any): VammCreatedEvent => ({
   logIndex: row.logIndex,
 
   marketId: row.marketId,
+  tick: row.tick,
 
   priceImpactPhi: row.priceImpactPhi,
   priceImpactBeta: row.priceImpactBeta,

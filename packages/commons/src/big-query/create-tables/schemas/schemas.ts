@@ -11,9 +11,20 @@ import { rawVammPriceChangeTableSchema } from './rawVammPriceChangeTableSchema';
 import { rawProductPositionUpdatedTableSchema } from './rawProductPositionUpdatedTableSchema';
 import { positionsTableSchema } from './positionsTableSchema';
 import { rawLiquidityChangeTableSchema } from './rawLiquidityChangeTableSchema';
+import { accountsTableSchema } from './accountsTableSchema';
+import { rawAccountCreatedTableSchema } from './rawAccountCreatedTableSchema';
+import { rawAccountOwnerUpdatesTableSchema } from './rawAccountOwnerUpdatesTableSchema';
 
 export const getTableSchema = (tableType: TableType): TableField[] => {
   switch (tableType) {
+    case TableType.raw_account_created: {
+      return rawAccountCreatedTableSchema;
+    }
+
+    case TableType.raw_account_owner_updates: {
+      return rawAccountOwnerUpdatesTableSchema;
+    }
+
     case TableType.raw_collateral_updates: {
       return rawCollateralUpdateTableSchema;
     }
@@ -56,6 +67,10 @@ export const getTableSchema = (tableType: TableType): TableField[] => {
 
     case TableType.liquidity_indices: {
       return liquidityIndicesTableSchema;
+    }
+
+    case TableType.accounts: {
+      return accountsTableSchema;
     }
   }
 };
