@@ -1,7 +1,11 @@
 import { ApprovePeripheryArgs } from '../types/actionArgTypes';
 import { getERC20TokenContract } from '../../common/contract-generators';
-import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
+import {
+  MaxUint256Bn,
+  PERIPHERY_ADDRESS_BY_CHAIN_ID,
+} from '../../common/constants';
 import { getSentryTracker } from '../../init';
+import { getGasBuffer } from '../../common/gas/getGasBuffer';
 
 export const approvePeriphery = async ({
   chainId,
@@ -28,30 +32,24 @@ export const approvePeriphery = async ({
       `Unable to approve. If your existing allowance is non-zero but lower than needed, some tokens like USDT require you to call approve("${this.peripheryAddress}", 0) before you can increase the allowance.`,
     );
   }
+
+  const approvalTransaction = await tokenContract
+    .approve(peripheryAddress, MaxUint256Bn, {
+      gasLimit: getGasBuffer(estimatedGas),
+    })
+    .catch((error: any) => {
+      const sentryTracker = getSentryTracker();
+      sentryTracker.captureException(error);
+      sentryTracker.captureMessage('Transaction Confirmation Error');
+      throw new Error('Transaction Confirmation Error');
+    });
+
+  try {
+    await approvalTransaction.wait();
+  } catch (error) {
+    const sentryTracker = getSentryTracker();
+    sentryTracker.captureException(error);
+    sentryTracker.captureMessage('Token approval failed');
+    throw new Error('Token approval failed');
+  }
 };
-
-// public async approveUnderlyingTokenForPeriphery(): Promise<void> {
-
-//
-
-//
-// const approvalTransaction = await token
-//   .approve(this.peripheryAddress, MaxUint256Bn, {
-//     gasLimit: getGasBuffer(estimatedGas),
-//   })
-//   .catch((error) => {
-//     const sentryTracker = getSentryTracker();
-//     sentryTracker.captureException(error);
-//     sentryTracker.captureMessage('Transaction Confirmation Error');
-//     throw new Error('Transaction Confirmation Error');
-//   });
-//
-// try {
-//   await approvalTransaction.wait();
-// } catch (error) {
-//   const sentryTracker = getSentryTracker();
-//   sentryTracker.captureException(error);
-//   sentryTracker.captureMessage('Token approval failed');
-//   throw new Error('Token approval failed');
-// }
-// }
