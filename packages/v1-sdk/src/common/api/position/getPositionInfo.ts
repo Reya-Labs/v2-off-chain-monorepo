@@ -20,6 +20,7 @@ export const getPositionInfo = async (
   );
 
   const positionInfo: PositionInfo = {
+    isEth: portfolioPositionDetails.amm.underlyingToken.name === 'eth',
     positionTickLower: tickLower,
     positionTickUpper: tickUpper,
     ammUnderlyingTokenDecimals:

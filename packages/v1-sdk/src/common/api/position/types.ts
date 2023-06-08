@@ -68,6 +68,7 @@ export type HistoryTransaction = {
 };
 
 export type PositionInfo = {
+  isEth: boolean;
   positionTickLower: number;
   positionTickUpper: number;
   ammUnderlyingTokenDecimals: number;

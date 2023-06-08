@@ -23,6 +23,15 @@ export type SwapArgs = {
   signer: Signer;
 };
 
+export type EditSwapArgs = {
+  positionId: string;
+  isFT: boolean;
+  notional: number;
+  margin: number;
+  fixedRateLimit?: number;
+  signer: Signer;
+};
+
 export type SwapPeripheryParams = {
   marginEngineAddress: string;
   isFT: boolean;
