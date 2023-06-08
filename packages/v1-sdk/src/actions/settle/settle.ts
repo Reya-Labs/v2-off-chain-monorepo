@@ -26,20 +26,18 @@ export const settle = async ({
 
   const positionInfo: PositionInfo = await getPositionInfo(positionId);
 
+  // todo: use decode of id
   const chainId: number = await signer.getChainId();
 
   const peripheryAddress: string = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
 
+  // todo: use decode of id
   const positionOwnerAddress: string = await signer.getAddress();
-
-  const provider: providers.Provider = signer.provider;
 
   const peripheryContract: ethers.Contract = getPeripheryContract(
     peripheryAddress,
-    provider,
+    signer,
   );
-
-  peripheryContract.connect(signer);
 
   const settlePeripheryParams: SettlePeripheryParams = {
     marginEngineAddress: positionInfo.ammMarginEngineAddress,

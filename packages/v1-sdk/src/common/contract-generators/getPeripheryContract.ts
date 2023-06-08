@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 
 export const getPeripheryContract = (
   peripheryAddress: string,
-  provider: ethers.providers.Provider,
+  providerOrSigner: ethers.providers.Provider | ethers.Signer,
 ): ethers.Contract => {
   const abi: string[] = [
     `
@@ -28,7 +28,7 @@ export const getPeripheryContract = (
   const contract: ethers.Contract = new ethers.Contract(
     peripheryAddress,
     abi,
-    provider,
+    providerOrSigner,
   );
 
   return contract;
