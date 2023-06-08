@@ -1,51 +1,8 @@
 import {
   Address,
-  descale,
-  scale,
+  getLiquidityIndexAt,
   SECONDS_IN_YEAR,
 } from '@voltz-protocol/commons-v2';
-import { pullClosestIndices } from '@voltz-protocol/commons-v2';
-import { ethers } from 'ethers';
-
-async function getLiquidityIndexAt(
-  chainId: number,
-  rateOracle: Address,
-  targetTimestamp: number,
-): Promise<number | null> {
-  const closestIndices = await pullClosestIndices(
-    chainId,
-    rateOracle,
-    targetTimestamp,
-  );
-
-  if (!closestIndices || closestIndices?.length != 2) {
-    return null;
-  }
-
-  const [before, after] = closestIndices.sort(
-    (a, b) => a.blockTimestamp - b.blockTimestamp,
-  );
-
-  const scaleWad = scale(18);
-  const descaleWad = descale(18);
-
-  const fromToIndexDelta = scaleWad(after.liquidityIndex).sub(
-    scaleWad(before.liquidityIndex),
-  );
-  const fromToTimeDelta = ethers.BigNumber.from(
-    after.blockTimestamp - before.blockTimestamp,
-  );
-  const fromTargetTimeDelta = ethers.BigNumber.from(
-    targetTimestamp - before.blockTimestamp,
-  );
-
-  const targetIndex = fromToIndexDelta
-    .mul(fromTargetTimeDelta)
-    .div(fromToTimeDelta)
-    .add(scaleWad(before.liquidityIndex));
-
-  return descaleWad(targetIndex);
-}
 
 export async function getApyFromTo(
   chainId: number,
@@ -53,6 +10,10 @@ export async function getApyFromTo(
   fromTimestamp: number,
   toTimestamp: number,
 ): Promise<number | null> {
+  if (fromTimestamp > toTimestamp) {
+    throw new Error('Unordered timestamps');
+  }
+
   const fromIndex = await getLiquidityIndexAt(
     chainId,
     rateOracle,

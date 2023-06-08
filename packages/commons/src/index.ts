@@ -12,7 +12,7 @@ export * from './big-query/utils/datasets';
 export * from './big-query/create-tables/createTable';
 export * from './big-query/delete-tables/deleteTable';
 export * from './big-query/liquidity-indices-table/push-data/insertCollateralUpdateEvent';
-export * from './big-query/liquidity-indices-table/pull-data/pullClosestIndices';
+export * from './big-query/liquidity-indices-table/pull-data/getLiquidityIndexAt';
 export * from './big-query/markets-table/push-data/insertMarketEntry';
 export * from './big-query/markets-table/push-data/updateMarketEntry';
 export * from './big-query/markets-table/pull-data/pullMarketEntry';
