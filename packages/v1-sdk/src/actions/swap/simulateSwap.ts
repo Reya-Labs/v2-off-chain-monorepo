@@ -47,10 +47,8 @@ export const simulateSwap = async ({
 
   const peripheryContract: ethers.Contract = getPeripheryContract(
     peripheryAddress,
-    provider,
+    signer,
   );
-
-  peripheryContract.connect(signer);
 
   const swapPeripheryParams: SwapPeripheryParams = getSwapPeripheryParams({
     margin,

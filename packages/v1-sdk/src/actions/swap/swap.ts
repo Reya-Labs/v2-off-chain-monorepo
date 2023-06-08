@@ -47,16 +47,13 @@ export const swap = async ({
   const tickSpacing: number = DEFAULT_TICK_SPACING;
 
   const chainId: number = await signer.getChainId();
-  const provider: providers.Provider = signer.provider;
 
   const peripheryAddress: string = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
 
   const peripheryContract: ethers.Contract = getPeripheryContract(
     peripheryAddress,
-    provider,
+    signer,
   );
-
-  peripheryContract.connect(signer);
 
   const swapPeripheryParams: SwapPeripheryParams = getSwapPeripheryParams({
     margin,

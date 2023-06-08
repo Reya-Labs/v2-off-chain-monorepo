@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 
 export const getMarginEngineContract = (
   marginEngineAddress: string,
-  provider: ethers.providers.Provider,
+  providerOrSigner: ethers.providers.Provider | ethers.Signer,
 ): ethers.Contract => {
   const abi: string[] = [
     `
@@ -13,7 +13,7 @@ export const getMarginEngineContract = (
   const contract: ethers.Contract = new ethers.Contract(
     marginEngineAddress,
     abi,
-    provider,
+    providerOrSigner,
   );
 
   return contract;
