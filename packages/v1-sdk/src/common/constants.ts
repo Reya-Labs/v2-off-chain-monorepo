@@ -50,3 +50,6 @@ export const MaxUint256Bn = BigNumber.from(
 export const TresholdApprovalBn = BigNumber.from(
   '6277101735386680763835789423207666416102355444464034512896',
 );
+
+export const TRADER_TICK_LOWER = -69060;
+export const TRADER_TICK_UPPER = 0;
