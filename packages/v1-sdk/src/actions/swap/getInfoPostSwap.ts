@@ -8,6 +8,7 @@ import { SupportedChainId } from "../../common/types";
 import { roughEstimateSwapGasUnits } from "./roughEstimateSwapGasUnits";
 import { convertGasUnitsToNativeTokenUnits } from "../../common/gas/convertGasUnitsToNativeTokenUnits";
 import { tickToFixedRate } from "../../common/math/priceTickConversions";
+import { getNativeGasToken } from "../../common/gas/getNativeGasToken";
 
 
 export type GetInfoPostSwapArgs = {
@@ -123,10 +124,22 @@ export const getInfoPostSwap = async ({
     descale(currentMargin.sub(marginRequirement).sub(BigNumber.from(1)), underlyingTokenDecimals),
   );
 
-
   const result: InfoPostSwap = {
-
-  }
+    marginRequirement: additionalMargin,
+    maxMarginWithdrawable: maxMarginWithdrawable,
+    availableNotional:
+      scaledAvailableNotional < 0 ? -scaledAvailableNotional : scaledAvailableNotional,
+    fee: scaledFee < 0 ? -scaledFee : scaledFee,
+    slippage: fixedRateDeltaRaw < 0 ? -fixedRateDeltaRaw : fixedRateDeltaRaw,
+    averageFixedRate: averageFixedRate < 0 ? -averageFixedRate : averageFixedRate,
+    fixedTokenDeltaBalance: descale(fixedTokenDelta, underlyingTokenDecimals),
+    variableTokenDeltaBalance: descale(availableNotional, underlyingTokenDecimals),
+    fixedTokenDeltaUnbalanced: descale(fixedTokenDeltaUnbalanced, underlyingTokenDecimals),
+    gasFee: {
+      value: gasFeeNativeToken,
+      token: await getNativeGasToken(provider),
+    },
+  };
 
   return result;
 
