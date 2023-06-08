@@ -40,7 +40,6 @@ export const rolloverAndSwap = async ({
     notional,
     fixedLow,
     fixedHigh,
-    underlyingTokenAddress,
   });
 
   const peripheryContract: ethers.Contract = getPeripheryContract(

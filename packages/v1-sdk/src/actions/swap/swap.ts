@@ -41,7 +41,6 @@ export const swap = async ({
     notional,
     fixedLow,
     fixedHigh,
-    underlyingTokenAddress: ammInfo.underlyingTokenAddress,
   });
 
   const tickSpacing: number = DEFAULT_TICK_SPACING;
@@ -108,7 +107,7 @@ export const swap = async ({
   try {
     const receipt: ContractReceipt = await swapTransaction.wait();
     return receipt;
-  } catch (error: any) {
+  } catch (error) {
     const sentryTracker = getSentryTracker();
     sentryTracker.captureException(error);
     sentryTracker.captureMessage('Transaction Confirmation Error');

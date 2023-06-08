@@ -6,7 +6,6 @@ export const handleSwapErrors = ({
   notional,
   fixedLow,
   fixedHigh,
-  underlyingTokenAddress,
 }: SwapValidateArgs): void => {
   if (fixedLow >= fixedHigh) {
     throw new Error('Lower Rate must be smaller than Upper Rate');
@@ -22,9 +21,5 @@ export const handleSwapErrors = ({
 
   if (notional <= 0) {
     throw new Error('Amount of notional must be greater than 0');
-  }
-
-  if (!underlyingTokenAddress) {
-    throw new Error('No underlying error');
   }
 };
