@@ -9,4 +9,14 @@ export const getAmmInfo = async (ammId: string): Promise<AMMInfo> => {
   const res = await axios.get<RawAMM>(url, {
     withCredentials: false,
   });
+
+  const rawAMM: RawAMM = res.data;
+
+  const ammInfo: AMMInfo = {
+    isEth: rawAMM.tokenName === 'ETH',
+    marginEngineAddress: rawAMM.marginEngine,
+    underlyingTokenDecimals: rawAMM.tokenDecimals,
+  };
+
+  return ammInfo;
 };
