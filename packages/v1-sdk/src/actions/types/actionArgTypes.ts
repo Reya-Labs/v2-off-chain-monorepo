@@ -174,3 +174,28 @@ export type UpdateMarginPeripheryParams = {
   marginDelta: BigNumberish;
   fullyWithdraw: boolean;
 };
+
+// token
+
+export type ApprovePeripheryArgs = {
+  chainId: number;
+  tokenAddress: string;
+  signer: Signer;
+};
+
+export type GetAllowanceArgs = {
+  isEth: boolean;
+  chainId: number;
+  tokenAddress: string;
+  tokenDecimals: number;
+  walletAddress: string;
+  provider: providers.Provider;
+};
+
+export type GetBalanceArgs = {
+  isEth: boolean;
+  tokenAddress: string;
+  tokenDecimals: number;
+  walletAddress: string;
+  provider: providers.Provider;
+};
