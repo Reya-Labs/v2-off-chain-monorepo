@@ -15,7 +15,7 @@ export const getPositionInfo = async (
 
   const portfolioPositionDetails: PortfolioPositionDetails = res.data;
 
-  const { chainId, tickLower, tickUpper, ownerAddress } = decodePositionId(
+  const { tickLower, tickUpper } = decodePositionId(
     portfolioPositionDetails.id,
   );
 

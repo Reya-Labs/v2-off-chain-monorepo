@@ -4,6 +4,7 @@ import { getDefaultSqrtPriceLimit } from '../../common/math/getDefaultSqrtPriceL
 import { getSqrtPriceLimitFromFixedRateLimit } from '../../common/math/getSqrtPriceLimitFromFixedRate';
 import { getClosestTickAndFixedRate } from '../../common/math/getClosestTickAndFixedRate';
 import { scale } from '../../common/math/scale';
+import { TRADER_TICK_LOWER, TRADER_TICK_UPPER } from '../../common/constants';
 
 export type GetSwapPeripheryParamsArgs = {
   margin: number;
@@ -29,8 +30,8 @@ export const getSwapPeripheryParams = ({
     isFT: isFT,
     notional: scale(notional, underlyingTokenDecimals),
     sqrtPriceLimitX96: getDefaultSqrtPriceLimit(isFT),
-    tickLower: -69060,
-    tickUpper: 0,
+    tickLower: TRADER_TICK_LOWER,
+    tickUpper: TRADER_TICK_UPPER,
     marginDelta: scale(margin, underlyingTokenDecimals),
   };
 
