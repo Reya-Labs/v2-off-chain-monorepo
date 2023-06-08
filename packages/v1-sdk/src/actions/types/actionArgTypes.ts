@@ -139,18 +139,10 @@ export type SettlePeripheryParams = {
 // updateMargin
 
 export type UpdateMarginArgs = {
-  fixedLow: number;
-  fixedHigh: number;
+  positionId: string;
   margin: number;
-  underlyingTokenAddress: string;
-  underlyingTokenDecimals: number;
-  tickSpacing: number;
-  chainId: number;
-  peripheryAddress: string;
-  marginEngineAddress: string;
-  provider: providers.Provider;
-  signer: Signer;
   fullyWithdraw: boolean;
+  signer: Signer;
 };
 
 export type UpdateMarginPeripheryParams = {

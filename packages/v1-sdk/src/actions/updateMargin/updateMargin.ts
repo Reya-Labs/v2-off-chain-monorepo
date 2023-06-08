@@ -14,38 +14,37 @@ import { estimateSettleGasUnits } from '../settle/estimateSettleGasUnits';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
 import { getUpdateMarginPeripheryParams } from './getUpdateMarginPeripheryParams';
 import { estimateUpdateMarginGasUnits } from './estimateUpdateMarginGasUnits';
+import { PositionInfo } from '../../common/api/position/types';
+import { getPositionInfo } from '../../common/api/position/getPositionInfo';
+import { decodePositionId } from '../../common/api/position/decodePositionId';
+import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
 
 export const updateMargin = async ({
-  fixedLow,
-  fixedHigh,
+  positionId,
   margin,
-  underlyingTokenAddress,
-  underlyingTokenDecimals,
-  tickSpacing,
-  chainId,
-  peripheryAddress,
-  marginEngineAddress,
-  provider,
   signer,
   fullyWithdraw,
 }: UpdateMarginArgs): Promise<ContractReceipt> => {
+  const positionInfo: PositionInfo = await getPositionInfo(positionId);
+
+  const { chainId } = decodePositionId(positionId);
+
+  const peripheryAddress = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
+
   const peripheryContract: ethers.Contract = getPeripheryContract(
     peripheryAddress,
-    provider,
+    signer,
   );
 
-  peripheryContract.connect(signer);
-
-  const updateMarginPeripheryParams: UpdateMarginPeripheryParams =
-    getUpdateMarginPeripheryParams(
-      marginEngineAddress,
-      fullyWithdraw,
-      fixedLow,
-      fixedHigh,
-      tickSpacing,
-      margin,
-      underlyingTokenDecimals,
-    );
+  const updateMarginPeripheryParams: UpdateMarginPeripheryParams = getUpdateMarginPeripheryParams(
+    marginEngineAddress,
+    fullyWithdraw,
+    fixedLow,
+    fixedHigh,
+    tickSpacing,
+    margin,
+    underlyingTokenDecimals,
+  );
 
   const updateMarginPeripheryTempOverrides: {
     value?: BigNumber;
