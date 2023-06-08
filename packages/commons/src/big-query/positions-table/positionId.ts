@@ -24,7 +24,7 @@ export const encodePositionId = ({
       return `${chainId}_${accountId}_${marketId}_${maturityTimestamp}_trader_v2`;
     }
     case 'lp': {
-      return `${chainId}_${accountId}_${marketId}_${maturityTimestamp}_lp_${tickLower}_${tickUpper}_v2`; 
+      return `${chainId}_${accountId}_${marketId}_${maturityTimestamp}_lp_${tickLower}_${tickUpper}_v2`;
     }
   }
 };

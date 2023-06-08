@@ -1,6 +1,6 @@
 import { TableField } from '@google-cloud/bigquery';
 import { TableType } from '../../types';
-import { liquidityIndicesTableSchema } from './liquidityIndicesTableSchema';
+import { liquidityIndicesTableSchema } from '../../liquidity-indices-table/schema';
 import { rawCollateralUpdateTableSchema } from './rawCollateralUpdateTableSchema';
 import { rawMarketConfiguredTableSchema } from './rawMarketConfiguredTableSchema';
 import { rawMarketFeeConfiguredTableSchema } from './rawMarketFeeConfiguredTableSchema';
@@ -11,7 +11,7 @@ import { rawVammPriceChangeTableSchema } from './rawVammPriceChangeTableSchema';
 import { rawProductPositionUpdatedTableSchema } from './rawProductPositionUpdatedTableSchema';
 import { positionsTableSchema } from './positionsTableSchema';
 import { rawLiquidityChangeTableSchema } from './rawLiquidityChangeTableSchema';
-import { accountsTableSchema } from './accountsTableSchema';
+import { accountsTableSchema } from '../../accounts-table/schema';
 import { rawAccountCreatedTableSchema } from './rawAccountCreatedTableSchema';
 import { rawAccountOwnerUpdatesTableSchema } from './rawAccountOwnerUpdatesTableSchema';
 

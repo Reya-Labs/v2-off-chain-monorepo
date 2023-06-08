@@ -15,20 +15,6 @@ export const getRedisClient = (): Redis => {
 export const getTrustedProxies = () => {
   let trustedProxies: string[] = [];
 
-  // Google Cloud IP address ranges
-  // https://support.google.com/a/answer/10026322?hl=en
-  // for (const ipPrefixEntry of (gcloudJson as GCloudIpRanges).prefixes) {
-  //   if (ipPrefixEntry.ipv4Prefix !== undefined) {
-  //     trustedProxies.push(ipPrefixEntry.ipv4Prefix);
-  //   }
-
-  //   if (ipPrefixEntry.ipv6Prefix !== undefined) {
-  //     trustedProxies.push(ipPrefixEntry.ipv6Prefix);
-  //   }
-  // }
-
-  // todo: read from file, as this function must still remain async
-  // must figure out resolveJsonModule issue on gcloud side
   trustedProxies = [
     '34.80.0.0/15',
     '34.137.0.0/16',
