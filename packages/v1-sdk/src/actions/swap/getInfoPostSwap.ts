@@ -88,10 +88,9 @@ export const getInfoPostSwap = async ({
 
   const marginEngineContract = getMarginEngineContract(
     marginEngineAddress,
-    provider,
+    signer,
   );
 
-  marginEngineContract.connect(signer);
   const currentMargin = (
     await exponentialBackoff(() =>
       marginEngineContract.callStatic.getPosition(
