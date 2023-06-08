@@ -9,6 +9,7 @@ import { roughEstimateSwapGasUnits } from "./roughEstimateSwapGasUnits";
 import { convertGasUnitsToNativeTokenUnits } from "../../common/gas/convertGasUnitsToNativeTokenUnits";
 import { tickToFixedRate } from "../../common/math/priceTickConversions";
 import { getNativeGasToken } from "../../common/gas/getNativeGasToken";
+import { getMarginEngineContract } from "../../common/contract-generators";
 
 
 export type GetInfoPostSwapArgs = {
@@ -37,6 +38,7 @@ export type InfoPostSwap = {
   };
 }
 
+// todo: simplify and break down into smaller functions
 
 export const getInfoPostSwap = async ({
   peripheryContract,

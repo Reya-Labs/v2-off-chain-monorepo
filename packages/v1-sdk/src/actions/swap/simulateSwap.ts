@@ -5,7 +5,7 @@ import { BigNumber, ethers, providers, utils } from "ethers";
 import { getPeripheryContract } from "../../common/contract-generators";
 import { getSwapPeripheryParams } from "./getSwapPeripheryParams";
 import getDummyWallet from "../../common/wallet/getDummyWallet";
-
+import { getInfoPostSwap } from "./getInfoPostSwap";
 
 
 export const simulateSwap = async ({
@@ -74,7 +74,17 @@ export const simulateSwap = async ({
     );
   }
 
-  const infoPostSwap = await getInfoPostSwap();
+  const infoPostSwap = await getInfoPostSwap(
+    {
+      peripheryContract,
+      marginEngineAddress: ammInfo.marginEngineAddress,
+      underlyingTokenDecimals: ammInfo.underlyingTokenDecimals,
+      provider,
+      chainId,
+      signer,
+      swapPeripheryParams
+    }
+  );
 
   return infoPostSwap;
 
