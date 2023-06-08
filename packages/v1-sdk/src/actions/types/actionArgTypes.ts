@@ -19,7 +19,7 @@ export type SimulateSwapArgs = {
   ammInfo: AMMInfo;
   provider: providers.Provider;
   signer?: Signer;
-}
+};
 
 export type SwapArgs = {
   isFT: boolean;

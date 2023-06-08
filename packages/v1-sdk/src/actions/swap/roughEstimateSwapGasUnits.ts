@@ -1,4 +1,4 @@
-import { SupportedChainId } from "../../common/types";
+import { SupportedChainId } from '../../common/types';
 
 export function roughEstimateSwapGasUnits(chainId: SupportedChainId): number {
   switch (chainId) {

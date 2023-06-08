@@ -1,26 +1,27 @@
-import { SimulateSwapArgs, SwapPeripheryParams } from "../types/actionArgTypes";
-import { handleSwapErrors } from "./handleSwapErrors";
-import { DEFAULT_TICK_SPACING, PERIPHERY_ADDRESS_BY_CHAIN_ID } from "../../common/constants";
-import { BigNumber, ethers, providers, utils } from "ethers";
-import { getPeripheryContract } from "../../common/contract-generators";
-import { getSwapPeripheryParams } from "./getSwapPeripheryParams";
-import getDummyWallet from "../../common/wallet/getDummyWallet";
-import { getInfoPostSwap } from "./getInfoPostSwap";
-
+import { SimulateSwapArgs, SwapPeripheryParams } from '../types/actionArgTypes';
+import { handleSwapErrors } from './handleSwapErrors';
+import {
+  DEFAULT_TICK_SPACING,
+  PERIPHERY_ADDRESS_BY_CHAIN_ID,
+} from '../../common/constants';
+import { BigNumber, ethers, providers, utils } from 'ethers';
+import { getPeripheryContract } from '../../common/contract-generators';
+import { getSwapPeripheryParams } from './getSwapPeripheryParams';
+import getDummyWallet from '../../common/wallet/getDummyWallet';
+import { getInfoPostSwap } from './getInfoPostSwap';
 
 export const simulateSwap = async ({
-   isFT,
-   isEth,
-   notional,
-   margin,
-   fixedRateLimit,
-   fixedLow,
-   fixedHigh,
-   ammInfo,
-   provider,
-   signer,
+  isFT,
+  isEth,
+  notional,
+  margin,
+  fixedRateLimit,
+  fixedLow,
+  fixedHigh,
+  ammInfo,
+  provider,
+  signer,
 }: SimulateSwapArgs) => {
-
   if (signer === undefined) {
     signer = getDummyWallet().connect(provider);
   }
@@ -74,19 +75,15 @@ export const simulateSwap = async ({
     );
   }
 
-  const infoPostSwap = await getInfoPostSwap(
-    {
-      peripheryContract,
-      marginEngineAddress: ammInfo.marginEngineAddress,
-      underlyingTokenDecimals: ammInfo.underlyingTokenDecimals,
-      provider,
-      chainId,
-      signer,
-      swapPeripheryParams
-    }
-  );
+  const infoPostSwap = await getInfoPostSwap({
+    peripheryContract,
+    marginEngineAddress: ammInfo.marginEngineAddress,
+    underlyingTokenDecimals: ammInfo.underlyingTokenDecimals,
+    provider,
+    chainId,
+    signer,
+    swapPeripheryParams,
+  });
 
   return infoPostSwap;
-
-}
-
+};

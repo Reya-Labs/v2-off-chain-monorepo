@@ -1,16 +1,15 @@
-import { BigNumber, Contract, providers, Signer } from "ethers";
-import { SwapPeripheryParams } from "../types/actionArgTypes";
-import { exponentialBackoff } from "../../common/retry";
-import { decodeInfoPostSwap } from "../../common/errors/errorHandling";
-import {descale} from "../../common/math/descale";
-import { estimateSwapGasUnits } from "./estimateSwapGasUnits";
-import { SupportedChainId } from "../../common/types";
-import { roughEstimateSwapGasUnits } from "./roughEstimateSwapGasUnits";
-import { convertGasUnitsToNativeTokenUnits } from "../../common/gas/convertGasUnitsToNativeTokenUnits";
-import { tickToFixedRate } from "../../common/math/priceTickConversions";
-import { getNativeGasToken } from "../../common/gas/getNativeGasToken";
-import { getMarginEngineContract } from "../../common/contract-generators";
-
+import { BigNumber, Contract, providers, Signer } from 'ethers';
+import { SwapPeripheryParams } from '../types/actionArgTypes';
+import { exponentialBackoff } from '../../common/retry';
+import { decodeInfoPostSwap } from '../../common/errors/errorHandling';
+import { descale } from '../../common/math/descale';
+import { estimateSwapGasUnits } from './estimateSwapGasUnits';
+import { SupportedChainId } from '../../common/types';
+import { roughEstimateSwapGasUnits } from './roughEstimateSwapGasUnits';
+import { convertGasUnitsToNativeTokenUnits } from '../../common/gas/convertGasUnitsToNativeTokenUnits';
+import { tickToFixedRate } from '../../common/math/priceTickConversions';
+import { getNativeGasToken } from '../../common/gas/getNativeGasToken';
+import { getMarginEngineContract } from '../../common/contract-generators';
 
 export type GetInfoPostSwapArgs = {
   peripheryContract: Contract;
@@ -20,7 +19,7 @@ export type GetInfoPostSwapArgs = {
   chainId: SupportedChainId;
   signer: Signer;
   swapPeripheryParams: SwapPeripheryParams;
-}
+};
 
 export type InfoPostSwap = {
   marginRequirement: number;
@@ -36,7 +35,7 @@ export type InfoPostSwap = {
     value: number;
     token: 'ETH' | 'AVAX';
   };
-}
+};
 
 // todo: simplify and break down into smaller functions
 
@@ -47,10 +46,8 @@ export const getInfoPostSwap = async ({
   provider,
   chainId,
   signer,
-  swapPeripheryParams
-}
-: GetInfoPostSwapArgs): Promise<InfoPostSwap> => {
-
+  swapPeripheryParams,
+}: GetInfoPostSwapArgs): Promise<InfoPostSwap> => {
   const tickBefore = await exponentialBackoff(() =>
     peripheryContract.getCurrentTick(marginEngineAddress),
   );
@@ -89,20 +86,31 @@ export const getInfoPostSwap = async ({
 
   const signerAddress = await signer.getAddress();
 
-  const marginEngineContract = getMarginEngineContract(marginEngineAddress, provider);
+  const marginEngineContract = getMarginEngineContract(
+    marginEngineAddress,
+    provider,
+  );
 
   marginEngineContract.connect(signer);
   const currentMargin = (
     await exponentialBackoff(() =>
-      marginEngineContract.callStatic.getPosition(signerAddress, swapPeripheryParams.tickLower, swapPeripheryParams.tickUpper),
+      marginEngineContract.callStatic.getPosition(
+        signerAddress,
+        swapPeripheryParams.tickLower,
+        swapPeripheryParams.tickUpper,
+      ),
     )
   ).margin;
 
   const scaledCurrentMargin = descale(currentMargin, underlyingTokenDecimals);
 
-  const scaledAvailableNotional = descale(availableNotional, underlyingTokenDecimals);
+  const scaledAvailableNotional = descale(
+    availableNotional,
+    underlyingTokenDecimals,
+  );
   const scaledFee = descale(fee, underlyingTokenDecimals);
-  const scaledMarginRequirement = (descale(marginRequirement, underlyingTokenDecimals) + scaledFee) * 1.01;
+  const scaledMarginRequirement =
+    (descale(marginRequirement, underlyingTokenDecimals) + scaledFee) * 1.01;
 
   const additionalMargin =
     scaledMarginRequirement > scaledCurrentMargin
@@ -111,32 +119,49 @@ export const getInfoPostSwap = async ({
 
   const averageFixedRate = availableNotional.eq(BigNumber.from(0))
     ? 0
-    : fixedTokenDeltaUnbalanced.mul(BigNumber.from(1000)).div(availableNotional).toNumber() /
-    1000;
+    : fixedTokenDeltaUnbalanced
+        .mul(BigNumber.from(1000))
+        .div(availableNotional)
+        .toNumber() / 1000;
 
   let swapGasUnits = 0;
   if (Object.values(SupportedChainId).includes(chainId)) {
     swapGasUnits = roughEstimateSwapGasUnits(chainId);
   }
 
-  const gasFeeNativeToken = await convertGasUnitsToNativeTokenUnits(provider, swapGasUnits);
+  const gasFeeNativeToken = await convertGasUnitsToNativeTokenUnits(
+    provider,
+    swapGasUnits,
+  );
 
   const maxMarginWithdrawable = Math.max(
     0,
-    descale(currentMargin.sub(marginRequirement).sub(BigNumber.from(1)), underlyingTokenDecimals),
+    descale(
+      currentMargin.sub(marginRequirement).sub(BigNumber.from(1)),
+      underlyingTokenDecimals,
+    ),
   );
 
   const result: InfoPostSwap = {
     marginRequirement: additionalMargin,
     maxMarginWithdrawable: maxMarginWithdrawable,
     availableNotional:
-      scaledAvailableNotional < 0 ? -scaledAvailableNotional : scaledAvailableNotional,
+      scaledAvailableNotional < 0
+        ? -scaledAvailableNotional
+        : scaledAvailableNotional,
     fee: scaledFee < 0 ? -scaledFee : scaledFee,
     slippage: fixedRateDeltaRaw < 0 ? -fixedRateDeltaRaw : fixedRateDeltaRaw,
-    averageFixedRate: averageFixedRate < 0 ? -averageFixedRate : averageFixedRate,
+    averageFixedRate:
+      averageFixedRate < 0 ? -averageFixedRate : averageFixedRate,
     fixedTokenDeltaBalance: descale(fixedTokenDelta, underlyingTokenDecimals),
-    variableTokenDeltaBalance: descale(availableNotional, underlyingTokenDecimals),
-    fixedTokenDeltaUnbalanced: descale(fixedTokenDeltaUnbalanced, underlyingTokenDecimals),
+    variableTokenDeltaBalance: descale(
+      availableNotional,
+      underlyingTokenDecimals,
+    ),
+    fixedTokenDeltaUnbalanced: descale(
+      fixedTokenDeltaUnbalanced,
+      underlyingTokenDecimals,
+    ),
     gasFee: {
       value: gasFeeNativeToken,
       token: await getNativeGasToken(provider),
@@ -144,5 +169,4 @@ export const getInfoPostSwap = async ({
   };
 
   return result;
-
-}
+};
