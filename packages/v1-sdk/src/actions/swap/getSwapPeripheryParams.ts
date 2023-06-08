@@ -9,8 +9,6 @@ export type GetSwapPeripheryParamsArgs = {
   margin: number;
   isFT: boolean;
   notional: number;
-  fixedLow: number;
-  fixedHigh: number;
   marginEngineAddress: string;
   underlyingTokenDecimals: number;
   fixedRateLimit?: number | null;
@@ -21,8 +19,6 @@ export const getSwapPeripheryParams = ({
   margin,
   isFT,
   notional,
-  fixedLow,
-  fixedHigh,
   marginEngineAddress,
   underlyingTokenDecimals,
   fixedRateLimit,
@@ -33,10 +29,8 @@ export const getSwapPeripheryParams = ({
     isFT: isFT,
     notional: scale(notional, underlyingTokenDecimals),
     sqrtPriceLimitX96: getDefaultSqrtPriceLimit(isFT),
-    tickLower: getClosestTickAndFixedRate(fixedHigh, tickSpacing)
-      .closestUsableTick,
-    tickUpper: getClosestTickAndFixedRate(fixedLow, tickSpacing)
-      .closestUsableTick,
+    tickLower: -69060,
+    tickUpper: 0,
     marginDelta: scale(margin, underlyingTokenDecimals),
   };
 
