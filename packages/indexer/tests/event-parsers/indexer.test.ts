@@ -31,7 +31,7 @@ jest.mock('../../src/contract-generators/dated-irs-vamm.ts', () => ({
 }));
 
 jest.mock(
-  '@voltz-protocol/commons-v2/src/big-query/raw-collateral-updates-table/pull-data/pullCollateralUpdateEvent.ts',
+  '@voltz-protocol/commons-v2/src/big-query/raw-collateral-updates-table/operations/pullEntry.ts',
   () => ({
     pullCollateralUpdateEvent: jest.fn(() => {}),
   }),
