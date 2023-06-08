@@ -30,8 +30,8 @@ jobs:
 #        run: lerna run test
 #      - name: Run coverage reports
 #        run: lerna run test:coverage
-#      - name: Build packages
-#        run: lerna run build
+      - name: Build packages
+        run: lerna run build
       - name: Configure Git, Generate coverage badges and Bump Updated Packages
         run : |
           git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"

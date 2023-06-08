@@ -24,7 +24,7 @@ export const estimateSettleGasUnits = async (
       console.error(error);
       console.log(unsignedTx);
       throw new Error(
-        'Error estimating settle position and withdraw margin gas units',
+        'Error estimating settle position and withdraw margin gas units.',
       );
     });
 
