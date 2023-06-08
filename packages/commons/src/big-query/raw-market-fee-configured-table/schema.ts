@@ -1,12 +1,12 @@
 import { TableField } from '@google-cloud/bigquery';
-import { PRECISION, SCALE } from '../../constants';
+import { PRECISION, SCALE } from '../constants';
+import { rawEventsBaseTableSchema } from '../common-table-support/rawEventsBaseTableSchema';
 
-export const marketsTableSchema: TableField[] = [
-  { name: 'chainId', type: 'INTEGER', mode: 'REQUIRED' },
+export const rawMarketFeeConfiguredTableSchema: TableField[] = [
+  ...rawEventsBaseTableSchema,
+
+  { name: 'productId', type: 'STRING', mode: 'REQUIRED' },
   { name: 'marketId', type: 'STRING', mode: 'REQUIRED' },
-
-  { name: 'quoteToken', type: 'STRING', mode: 'REQUIRED' },
-  { name: 'oracleAddress', type: 'STRING', mode: 'REQUIRED' },
   { name: 'feeCollectorAccountId', type: 'STRING', mode: 'REQUIRED' },
 
   {

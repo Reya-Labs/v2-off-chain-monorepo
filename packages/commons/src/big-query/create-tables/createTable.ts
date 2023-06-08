@@ -3,14 +3,14 @@ import { Table, TableMetadata } from '@google-cloud/bigquery';
 import { getTable } from '../utils/getTable';
 import { getBigQuery } from '../client';
 import { getTableName } from '../utils/getTableName';
-import { getTableSchema } from './schemas/schemas';
+import { tableSchemas } from './tableSchemas';
 import { TableType } from '../types';
 import { getProtocolV2DatasetName } from '../utils/datasets';
 
 export const createTable = async (tableType: TableType): Promise<void> => {
   const bigQuery = getBigQuery();
   const tableName = getTableName(tableType);
-  const schema = getTableSchema(tableType);
+  const schema = tableSchemas[tableType];
 
   const existingTable: Table | null = await getTable(tableName);
 

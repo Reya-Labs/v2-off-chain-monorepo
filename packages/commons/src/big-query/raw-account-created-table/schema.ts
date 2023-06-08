@@ -1,5 +1,5 @@
 import { TableField } from '@google-cloud/bigquery';
-import { rawEventsBaseTableSchema } from './rawEventsBaseTableSchema';
+import { rawEventsBaseTableSchema } from '../common-table-support/rawEventsBaseTableSchema';
 
 export const rawAccountCreatedTableSchema: TableField[] = [
   ...rawEventsBaseTableSchema,

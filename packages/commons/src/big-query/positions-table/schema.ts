@@ -1,5 +1,5 @@
 import { TableField } from '@google-cloud/bigquery';
-import { PRECISION, SCALE } from '../../constants';
+import { PRECISION, SCALE } from '../constants';
 
 export const positionsTableSchema: TableField[] = [
   { name: 'id', type: 'STRING', mode: 'REQUIRED' },

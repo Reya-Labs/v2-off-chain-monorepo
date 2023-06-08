@@ -1,6 +1,6 @@
 import { TableField } from '@google-cloud/bigquery';
-import { PRECISION, SCALE } from '../../constants';
-import { rawEventsBaseTableSchema } from './rawEventsBaseTableSchema';
+import { PRECISION, SCALE } from '../constants';
+import { rawEventsBaseTableSchema } from '../common-table-support/rawEventsBaseTableSchema';
 
 export const rawLiquidityChangeTableSchema: TableField[] = [
   ...rawEventsBaseTableSchema,

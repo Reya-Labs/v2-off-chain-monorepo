@@ -1,15 +1,16 @@
 import { TableField } from '@google-cloud/bigquery';
-import { PRECISION, SCALE } from '../../constants';
-import { rawEventsBaseTableSchema } from './rawEventsBaseTableSchema';
+import { PRECISION, SCALE } from '../constants';
+import { rawEventsBaseTableSchema } from '../common-table-support/rawEventsBaseTableSchema';
 
-export const rawCollateralUpdateTableSchema: TableField[] = [
+export const rawProductPositionUpdatedTableSchema: TableField[] = [
   ...rawEventsBaseTableSchema,
 
   { name: 'accountId', type: 'STRING', mode: 'REQUIRED' },
-  { name: 'collateralType', type: 'STRING', mode: 'REQUIRED' },
+  { name: 'marketId', type: 'STRING', mode: 'REQUIRED' },
+  { name: 'maturityTimestamp', type: 'INTEGER', mode: 'REQUIRED' },
 
   {
-    name: 'collateralAmount',
+    name: 'baseDelta',
     type: 'BIGNUMERIC',
     mode: 'REQUIRED',
     precision: PRECISION.toString(),
@@ -17,7 +18,7 @@ export const rawCollateralUpdateTableSchema: TableField[] = [
   },
 
   {
-    name: 'liquidatorBoosterAmount',
+    name: 'quoteDelta',
     type: 'BIGNUMERIC',
     mode: 'REQUIRED',
     precision: PRECISION.toString(),
