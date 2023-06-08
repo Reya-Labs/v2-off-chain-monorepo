@@ -21,6 +21,7 @@ export const simulateSettle = async ({
 
   const positionInfo: PositionInfo = await getPositionInfo(positionId);
 
+  // todo: decode
   const chainId: number = await signer.getChainId();
 
   const peripheryAddress: string = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
@@ -31,10 +32,8 @@ export const simulateSettle = async ({
 
   const peripheryContract: ethers.Contract = getPeripheryContract(
     peripheryAddress,
-    provider,
+    signer,
   );
-
-  peripheryContract.connect(signer);
 
   const settlePeripheryParams: SettlePeripheryParams = {
     marginEngineAddress: positionInfo.ammMarginEngineAddress,
