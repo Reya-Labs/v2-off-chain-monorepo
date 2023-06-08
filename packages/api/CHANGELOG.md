@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.36.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.35.0...@voltz-protocol/api-v2@1.36.0) (2023-06-08)
+
+### Bug Fixes
+
+- getLiqIndex with sql ([4ae3380](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/4ae33800322245b3fe2cc4c5b59fb0da6f1d45e6))
+
+### Features
+
+- get apy from to ([081ddff](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/081ddff71cd000cf7185dadcc1a9de3d3c496c7c))
+- pools api ([fe9c1ee](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/fe9c1eee3b4733d7062fa00dd185cb17758485db))
+
 # 1.35.0 (2023-06-01)
 
 ### Features
