@@ -1,5 +1,6 @@
-import { ethers, BigNumber } from 'ethers';
+import { ethers, BigNumber, BigNumberish } from 'ethers';
 import { RolloverAndSwapPeripheryParams } from '../types/actionArgTypes';
+import { getReadableErrorMessage } from '../../common/errors/errorHandling';
 
 export const estimateRolloverAndSwapGasUnits = async (
   peripheryContract: ethers.Contract,
@@ -9,13 +10,26 @@ export const estimateRolloverAndSwapGasUnits = async (
     gasLimit?: BigNumber;
   },
 ): Promise<BigNumber> => {
+  // todo: need typings for contracts to not have to unwrap rolloverAndSwapPeripheryParams
+
   const estimatedGas: BigNumber = await peripheryContract.estimateGas
     .rolloverWithSwap(
-      rolloverAndSwapPeripheryParams,
+      rolloverAndSwapPeripheryParams.maturedMarginEngineAddress,
+      rolloverAndSwapPeripheryParams.maturedPositionOwnerAddress,
+      rolloverAndSwapPeripheryParams.maturedPositionTickLower,
+      rolloverAndSwapPeripheryParams.maturedPositionTickUpper,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.marginEngineAddress,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.isFT,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.notional,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.sqrtPriceLimitX96,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.tickLower,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.tickUpper,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.marginDelta,
       rolloverAndSwapPeripheryTempOverrides,
     )
-    .catch((error) => {
-      throw new Error('Error estimating rollover and swap gas units');
+    .catch(error => {
+      const errorMessage = getReadableErrorMessage(error);
+      throw new Error(errorMessage);
     });
 
   return estimatedGas;
