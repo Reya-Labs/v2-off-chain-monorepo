@@ -6,7 +6,6 @@ import {
   providers,
   utils,
 } from 'ethers';
-import { handleSwapErrors } from './handleSwapErrors';
 import { BigNumberish, ethers } from 'ethers';
 import { getClosestTickAndFixedRate } from '../../common/math/getClosestTickAndFixedRate';
 import { getSqrtPriceLimitFromFixedRateLimit } from '../../common/math/getSqrtPriceLimitFromFixedRate';
@@ -23,25 +22,16 @@ import { getReadableErrorMessage } from '../../common/errors/errorHandling';
 import { getSentryTracker } from '../../init';
 
 export const swap = async ({
+  ammId,
   isFT,
-  isEth,
   notional,
   margin,
   fixedRateLimit,
-  fixedLow,
-  fixedHigh,
-  ammInfo,
   signer,
 }: SwapArgs): Promise<ContractReceipt> => {
   if (signer.provider === undefined) {
     throw new Error('Signer Provider Undefined');
   }
-
-  handleSwapErrors({
-    notional,
-    fixedLow,
-    fixedHigh,
-  });
 
   const tickSpacing: number = DEFAULT_TICK_SPACING;
 
@@ -58,8 +48,6 @@ export const swap = async ({
     margin,
     isFT,
     notional,
-    fixedLow,
-    fixedHigh,
     marginEngineAddress: ammInfo.marginEngineAddress,
     underlyingTokenDecimals: ammInfo.underlyingTokenDecimals,
     fixedRateLimit,

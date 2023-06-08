@@ -2,6 +2,7 @@ import { BigNumberish, providers, Signer } from 'ethers';
 import { PositionInfo } from '../../common/api/position/types';
 
 // swap
+// todo: consider moving to api folder
 export type AMMInfo = {
   marginEngineAddress: string;
   underlyingTokenAddress: string;
@@ -22,14 +23,11 @@ export type SimulateSwapArgs = {
 };
 
 export type SwapArgs = {
+  ammId: string;
   isFT: boolean;
-  isEth: boolean;
   notional: number;
   margin: number;
   fixedRateLimit?: number;
-  fixedLow: number;
-  fixedHigh: number;
-  ammInfo: AMMInfo;
   signer: Signer;
 };
 
