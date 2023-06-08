@@ -19,8 +19,10 @@ import {
   PERIPHERY_ADDRESS_BY_CHAIN_ID,
 } from '../../common/constants';
 import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
+import { AMMInfo } from '../../common/api/amm/types';
 
-export const rolloverAndSwap = async ({
+// todo: add sentry
+export const rolloverWithSwap = async ({
   maturedPositionId,
   ammId,
   isFT,
@@ -33,7 +35,10 @@ export const rolloverAndSwap = async ({
     maturedPositionId,
   );
 
-  const rolloverAmmInfo = await getAmmInfo(ammId, maturedPositionInfo.chainId);
+  const rolloverAmmInfo: AMMInfo = await getAmmInfo(
+    ammId,
+    maturedPositionInfo.chainId,
+  );
 
   const peripheryAddress =
     PERIPHERY_ADDRESS_BY_CHAIN_ID[maturedPositionInfo.chainId];
@@ -85,7 +90,6 @@ export const rolloverAndSwap = async ({
   );
 
   const rolloverAndSwapTransaction: ContractTransaction = await peripheryContract
-    .connect(signer)
     .rolloverWithSwap(
       rolloverAndSwapPeripheryParams,
       rolloverAndSwapPeripheryTempOverrides,
