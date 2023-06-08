@@ -55,8 +55,8 @@ describe('Collateral Update Indexer unit tests', () => {
       (getCoreContract as jest.Mock).mockReturnValueOnce({
         queryFilter,
         filters: {
-          MarketFeeConfigured: () => null as unknown as EventFilter,
           CollateralUpdate: () => null as unknown as EventFilter,
+          MarketFeeConfigured: () => null as unknown as EventFilter,
         },
       });
     }

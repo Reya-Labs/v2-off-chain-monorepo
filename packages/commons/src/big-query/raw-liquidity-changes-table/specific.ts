@@ -1,5 +1,6 @@
 import { Address } from '../../utils/convertLowercase';
-import { BaseEvent } from '../../utils/eventTypes';
+import { BaseEvent } from '../common-table-support/baseEvent';
+import { mapBaseRow } from '../common-table-support/mapBaseRow';
 import { TableType } from '../types';
 import { bqNumericToNumber } from '../utils/converters';
 import { getTableFullName } from '../utils/getTableName';
@@ -19,19 +20,7 @@ export type LiquidityChangeEvent = BaseEvent & {
 export const tableName = getTableFullName(TableType.raw_liquidity_change);
 
 export const mapRow = (row: any): LiquidityChangeEvent => ({
-  id: row.id,
-  type: row.type,
-
-  chainId: row.chainId,
-  source: row.source,
-
-  blockTimestamp: row.blockTimestamp,
-  blockNumber: row.blockNumber,
-  blockHash: row.blockHash,
-
-  transactionIndex: row.transactionIndex,
-  transactionHash: row.transactionHash,
-  logIndex: row.logIndex,
+  ...mapBaseRow(row),
 
   accountId: row.accountId,
   marketId: row.marketId,

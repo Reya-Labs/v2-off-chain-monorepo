@@ -1,5 +1,6 @@
 import { Address } from '../../utils/convertLowercase';
-import { BaseEvent } from '../../utils/eventTypes';
+import { BaseEvent } from '../common-table-support/baseEvent';
+import { mapBaseRow } from '../common-table-support/mapBaseRow';
 import { TableType } from '../types';
 import { getTableFullName } from '../utils/getTableName';
 
@@ -12,19 +13,7 @@ export type MarketConfiguredEvent = BaseEvent & {
 export const tableName = getTableFullName(TableType.raw_market_configured);
 
 export const mapRow = (row: any): MarketConfiguredEvent => ({
-  id: row.id,
-  type: row.type,
-
-  chainId: row.chainId,
-  source: row.source,
-
-  blockTimestamp: row.blockTimestamp,
-  blockNumber: row.blockNumber,
-  blockHash: row.blockHash,
-
-  transactionIndex: row.transactionIndex,
-  transactionHash: row.transactionHash,
-  logIndex: row.logIndex,
+  ...mapBaseRow(row),
 
   marketId: row.marketId,
   quoteToken: row.quoteToken,

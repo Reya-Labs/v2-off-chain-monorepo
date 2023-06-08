@@ -26,20 +26,7 @@ export const sync = async (chainIds: number[]): Promise<void> => {
       `[Protocol indexer, ${chainId}]: Processing up to block ${currentBlock}...`,
     );
 
-    const events = await fetchEvents(
-      chainId,
-      [
-        'collateral-update',
-        'market-fee-configured',
-        'market-configured',
-        'rate-oracle-configured',
-        'product-position-updated',
-        'vamm-created',
-        'vamm-price-change',
-      ],
-      0,
-      currentBlock,
-    );
+    const events = await fetchEvents(chainId, 0, currentBlock);
 
     for (const e of events) {
       switch (e.type) {

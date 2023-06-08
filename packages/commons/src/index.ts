@@ -26,3 +26,4 @@ export * from './big-query/raw-account-created-table';
 export * from './big-query/raw-account-owner-updates-table';
 export * from './big-query/accounts-table';
 export * from './big-query/raw-liquidity-changes-table';
+export * from './big-query/common-table-support';

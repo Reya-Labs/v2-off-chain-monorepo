@@ -1,37 +1,5 @@
+import { BaseEvent } from '../big-query/common-table-support/baseEvent';
 import { Address } from './convertLowercase';
-
-export type ProtocolEventType =
-  | 'account-created' // core
-  | 'account-owner-update' // core
-  | 'collateral-configured' // core
-  | 'collateral-update' // core
-  | 'liquidation' // core
-  | 'market-fee-configured' // core
-  | 'product-registered' // core
-  | 'market-configured' // product
-  | 'rate-oracle-configured' // product
-  | 'product-position-updated' // product
-  | 'liquidity-change' // exchange
-  | 'maker-order' // exchange
-  | 'taker-order' // exchange
-  | 'vamm-created' // exchange
-  | 'vamm-price-change'; // exchange
-
-export type BaseEvent = {
-  id: string;
-  type: ProtocolEventType;
-
-  chainId: number;
-  source: Address;
-
-  blockTimestamp: number;
-  blockNumber: number;
-  blockHash: string;
-
-  transactionIndex: number;
-  transactionHash: string;
-  logIndex: number;
-};
 
 // state-capturing event
 export type CollateralConfiguredEvent = BaseEvent & {
@@ -52,7 +20,7 @@ export type LiquidationEvent = BaseEvent & {
   imPostClose: number;
 };
 
-// state-capturing event
+// action-tracking event
 export type ProductRegisteredEvent = BaseEvent & {
   product: Address;
   productId: string; // big number
@@ -60,10 +28,7 @@ export type ProductRegisteredEvent = BaseEvent & {
   sender: Address;
 };
 
-// Product
-
-// Exchange
-
+// action-tracking event
 export type TakerOrderEvent = BaseEvent & {
   accountId: string; // big number
 
@@ -77,6 +42,7 @@ export type TakerOrderEvent = BaseEvent & {
   annualizedBaseAmount: number;
 };
 
+// action-tracking event
 export type MakerOrderEvent = BaseEvent & {
   accountId: string; // big number
 
