@@ -29,7 +29,7 @@ export const approvePeriphery = async ({
       `Could not increase periphery allowance (${tokenAddress}, ${MaxUint256Bn.toString()})`,
     );
     throw new Error(
-      `Unable to approve. If your existing allowance is non-zero but lower than needed, some tokens like USDT require you to call approve("${this.peripheryAddress}", 0) before you can increase the allowance.`,
+      `Unable to approve. If your existing allowance is non-zero but lower than needed, some tokens like USDT require you to call approve("${peripheryAddress}", 0) before you can increase the allowance.`,
     );
   }
 
