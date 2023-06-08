@@ -1,4 +1,4 @@
-import { BigNumber, Contract, Signer } from "ethers";
+import { BigNumber, Contract, providers, Signer } from "ethers";
 import { SwapPeripheryParams } from "../types/actionArgTypes";
 import { exponentialBackoff } from "../../common/retry";
 import { decodeInfoPostSwap } from "../../common/errors/errorHandling";
@@ -6,12 +6,16 @@ import {descale} from "../../common/math/descale";
 import { estimateSwapGasUnits } from "./estimateSwapGasUnits";
 import { SupportedChainId } from "../../common/types";
 import { roughEstimateSwapGasUnits } from "./roughEstimateSwapGasUnits";
+import { convertGasUnitsToNativeTokenUnits } from "../../common/gas/convertGasUnitsToNativeTokenUnits";
+import { tickToFixedRate } from "../../common/math/priceTickConversions";
 
 
 export type GetInfoPostSwapArgs = {
   peripheryContract: Contract;
   marginEngineAddress: string;
   underlyingTokenDecimals: number;
+  provider: providers.Provider;
+  chainId: SupportedChainId;
   signer: Signer;
   swapPeripheryParams: SwapPeripheryParams;
 }
@@ -37,6 +41,8 @@ export const getInfoPostSwap = async ({
   peripheryContract,
   marginEngineAddress,
   underlyingTokenDecimals,
+  provider,
+  chainId,
   signer,
   swapPeripheryParams
 }
@@ -78,6 +84,19 @@ export const getInfoPostSwap = async ({
   const fixedRateDelta = fixedRateAfter.subtract(fixedRateBefore);
   const fixedRateDeltaRaw = fixedRateDelta.toNumber();
 
+  const signerAddress = await signer.getAddress();
+
+  const marginEngineContract = getMarginEngineContract(marginEngineAddress, provider);
+
+  marginEngineContract.connect(signer);
+  const currentMargin = (
+    await exponentialBackoff(() =>
+      marginEngineContract.callStatic.getPosition(signerAddress, swapPeripheryParams.tickLower, swapPeripheryParams.tickUpper),
+    )
+  ).margin;
+
+  const scaledCurrentMargin = descale(currentMargin, underlyingTokenDecimals);
+
   const scaledAvailableNotional = descale(availableNotional, underlyingTokenDecimals);
   const scaledFee = descale(fee, underlyingTokenDecimals);
   const scaledMarginRequirement = (descale(marginRequirement, underlyingTokenDecimals) + scaledFee) * 1.01;
@@ -93,16 +112,15 @@ export const getInfoPostSwap = async ({
     1000;
 
   let swapGasUnits = 0;
-  const chainId = await signer.getChainId();
   if (Object.values(SupportedChainId).includes(chainId)) {
     swapGasUnits = roughEstimateSwapGasUnits(chainId);
   }
 
-  const gasFeeNativeToken = await convertGasUnitsToNativeToken(this.provider, swapGasUnits);
+  const gasFeeNativeToken = await convertGasUnitsToNativeTokenUnits(provider, swapGasUnits);
 
   const maxMarginWithdrawable = Math.max(
     0,
-    descale(currentMargin.sub(marginRequirement).sub(BigNumber.from(1))),
+    descale(currentMargin.sub(marginRequirement).sub(BigNumber.from(1)), underlyingTokenDecimals),
   );
 
 
