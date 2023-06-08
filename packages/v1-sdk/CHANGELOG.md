@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.14.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.13.0...@voltz-protocol/sdk-v1-stateless@1.14.0) (2023-06-08)
+
+### Bug Fixes
+
+- rollvoer and swpa fixs ([f9b6621](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/f9b662113e2433bdea4ad4e355d43c44b788d986))
+
+### Features
+
+- enrich position info ([60c6ea7](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/60c6ea79a4c946fa41a0772aa54f70632f505e33))
+- estimate rollover and swap gas units ([2063a21](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/2063a21dcfcf2c9248efb7d559af828becd1f610))
+- expose rollover with swap ([f7313aa](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/f7313aab1ce3733ecd712c0cbb6880efeb185d2b))
+- lint ([cf14cba](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/cf14cba402b6cae40d389950f914289c3e2a8fd2))
+- refactor rollover and swap ([d7518ec](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/d7518ec9873f9db9acf5b53e0ebf8cdbbe0c5a44))
+- rollover and swap flow refactor ([20b4c80](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/20b4c800ab058bb4ffeacd13486adb3113e654ba))
+- rollover with swap refactor ([ddfd461](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/ddfd4616f17e9eb19a288e9f6b7ddc755a7898fd))
+
 # [1.13.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.12.4...@voltz-protocol/sdk-v1-stateless@1.13.0) (2023-06-08)
 
 ### Bug Fixes
