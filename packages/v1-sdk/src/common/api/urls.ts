@@ -3,6 +3,7 @@ const baseUrl = 'https://api.voltz.xyz';
 type Service =
   | 'chain-information'
   | 'all-pools'
+  | 'pool'
   | 'position-pnl'
   | 'fixed-rates'
   | 'variable-rates'
