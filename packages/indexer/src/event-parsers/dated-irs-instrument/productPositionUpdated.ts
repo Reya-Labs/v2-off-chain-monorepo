@@ -1,7 +1,6 @@
 import { BigNumber, Event } from 'ethers';
 
 import {
-  ProtocolEventType,
   ProductPositionUpdatedEvent,
   getTokenDetails,
 } from '@voltz-protocol/commons-v2';
@@ -13,7 +12,7 @@ export const parseProductPositionUpdated = (
   event: Event,
 ): ProductPositionUpdatedEvent => {
   // 1. Type of event
-  const type: ProtocolEventType = 'product-position-updated';
+  const type = 'product-position-updated';
 
   // 2. Parse particular args
   const accountId = (event.args?.accountId as BigNumber).toString();

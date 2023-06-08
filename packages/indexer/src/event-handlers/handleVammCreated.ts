@@ -2,6 +2,7 @@ import {
   VammCreatedEvent,
   pullVammCreatedEvent,
   insertVammCreatedEvent,
+  insertVammPriceChangeEvent,
 } from '@voltz-protocol/commons-v2';
 
 export const handleVammCreated = async (event: VammCreatedEvent) => {
@@ -12,4 +13,5 @@ export const handleVammCreated = async (event: VammCreatedEvent) => {
   }
 
   await insertVammCreatedEvent(event);
+  await insertVammPriceChangeEvent(event);
 };

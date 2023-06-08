@@ -44,6 +44,7 @@ export const handleProductPositionUpdated = async (
       baseBalance: event.baseDelta,
       quoteBalance: event.quoteDelta,
       notionalBalance: notionalDelta,
+      liquidityBalance: 0,
       paidFees: 0,
       tickLower: 0,
       tickUpper: 0,

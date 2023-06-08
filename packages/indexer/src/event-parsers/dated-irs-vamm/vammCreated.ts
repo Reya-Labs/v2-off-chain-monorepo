@@ -1,10 +1,6 @@
-import { Event, BigNumber, ethers } from 'ethers';
+import { Event, BigNumber } from 'ethers';
 
-import {
-  ProtocolEventType,
-  VammCreatedEvent,
-  descale,
-} from '@voltz-protocol/commons-v2';
+import { VammCreatedEvent, descale } from '@voltz-protocol/commons-v2';
 import { parseBaseEvent } from '../utils/baseEvent';
 import { convertLowercaseString } from '@voltz-protocol/commons-v2';
 
@@ -12,12 +8,15 @@ export const parseVammCreated = (
   chainId: number,
   event: Event,
 ): VammCreatedEvent => {
+  const wadDescaler = descale(18);
+
   // 1. Type of event
-  const type: ProtocolEventType = 'vamm-created';
+  const type = 'vamm-created';
 
   // 2. Parse particular args
   const marketId = (event.args?._marketId as BigNumber).toString();
-  const wadDescaler = descale(18);
+
+  const tick = Number(event.args?.tick);
 
   const priceImpactPhi = wadDescaler(
     event.args?._mutableConfig.priceImpactPhi as BigNumber,
@@ -47,6 +46,7 @@ export const parseVammCreated = (
     ...baseEvent,
 
     marketId,
+    tick,
     priceImpactPhi,
     priceImpactBeta,
     spread,

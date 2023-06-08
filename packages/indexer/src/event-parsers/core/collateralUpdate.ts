@@ -5,7 +5,6 @@ import { parseBaseEvent } from '../utils/baseEvent';
 import {
   convertLowercaseString,
   CollateralUpdateEvent,
-  ProtocolEventType,
 } from '@voltz-protocol/commons-v2';
 
 export const parseCollateralUpdate = (
@@ -13,7 +12,7 @@ export const parseCollateralUpdate = (
   event: Event,
 ): CollateralUpdateEvent => {
   // 1. Type of event
-  const type: ProtocolEventType = 'collateral-update';
+  const type = 'collateral-update';
 
   // 2. Parse particular args
   const accountId = (event.args?.accountId as BigNumber).toString();

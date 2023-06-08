@@ -1,3 +1,4 @@
+import { Event, Contract } from 'ethers';
 import { getCoreContract } from '../contract-generators/core';
 import { getDatedIrsInstrumentContract } from '../contract-generators/dated-irs-instrument';
 import { getDatedIrsVammContract } from '../contract-generators/dated-irs-vamm';
@@ -8,109 +9,84 @@ import { parseProductPositionUpdated } from '../event-parsers/dated-irs-instrume
 import { parseRateOracleConfigured } from '../event-parsers/dated-irs-instrument/rateOracleConfigured';
 import { parseVammCreated } from '../event-parsers/dated-irs-vamm/vammCreated';
 import { parseVammPriceChange } from '../event-parsers/dated-irs-vamm/vammPriceChange';
-import { ProtocolEvent, ProtocolEventType } from '@voltz-protocol/commons-v2';
 
 export const fetchEvents = async (
   chainId: number,
-  eventTypes: ProtocolEventType[],
   fromBlock: number,
   toBlock: number,
-): Promise<ProtocolEvent[]> => {
-  const allEvents: ProtocolEvent[] = [];
+) => {
+  const fetchSpecificEvents = async <T>(
+    contract: Contract,
+    eventName: string,
+    parser: (chainId: number, e: Event) => T,
+  ): Promise<T[]> => {
+    const eventFilter = contract.filters[eventName]();
+
+    const events = await contract
+      .queryFilter(eventFilter, fromBlock, toBlock)
+      .then((evmEvents) => evmEvents.map((e) => parser(chainId, e)));
+
+    return events;
+  };
+
   const coreContract = getCoreContract(chainId);
   const datedIrsInstrumentContract = getDatedIrsInstrumentContract(chainId);
   const datedIrsExchangeContract = getDatedIrsVammContract(chainId);
 
-  if (eventTypes.includes('collateral-update')) {
-    const eventFilter = coreContract.filters.CollateralUpdate();
+  const allPromises = [
+    fetchSpecificEvents(
+      coreContract,
+      'CollateralUpdate',
+      parseCollateralUpdate,
+    ),
 
-    await coreContract
-      .queryFilter(eventFilter, fromBlock, toBlock)
-      .then((evmEvents) =>
-        evmEvents.map((e) => parseCollateralUpdate(chainId, e)),
-      )
-      .then((events) => {
-        allEvents.push(...events);
-      });
-  }
+    fetchSpecificEvents(
+      coreContract,
+      'MarketFeeConfigured',
+      parseMarketFeeConfigured,
+    ),
 
-  if (eventTypes.includes('market-fee-configured')) {
-    const eventFilter = coreContract.filters.MarketFeeConfigured();
+    fetchSpecificEvents(
+      datedIrsInstrumentContract,
+      'MarketConfigured',
+      parseMarketConfigured,
+    ),
 
-    await coreContract
-      .queryFilter(eventFilter, fromBlock, toBlock)
-      .then((evmEvents) =>
-        evmEvents.map((e) => parseMarketFeeConfigured(chainId, e)),
-      )
-      .then((events) => {
-        allEvents.push(...events);
-      });
-  }
+    fetchSpecificEvents(
+      datedIrsInstrumentContract,
+      'RateOracleConfigured',
+      parseRateOracleConfigured,
+    ),
 
-  if (eventTypes.includes('market-configured')) {
-    const eventFilter = datedIrsInstrumentContract.filters.MarketConfigured();
+    fetchSpecificEvents(
+      datedIrsInstrumentContract,
+      'ProductPositionUpdated',
+      parseProductPositionUpdated,
+    ),
 
-    await datedIrsInstrumentContract
-      .queryFilter(eventFilter, fromBlock, toBlock)
-      .then((evmEvents) =>
-        evmEvents.map((e) => parseMarketConfigured(chainId, e)),
-      )
-      .then((events) => {
-        allEvents.push(...events);
-      });
-  }
+    fetchSpecificEvents(
+      datedIrsExchangeContract,
+      'VammCreated',
+      parseVammCreated,
+    ),
 
-  if (eventTypes.includes('rate-oracle-configured')) {
-    const eventFilter =
-      datedIrsInstrumentContract.filters.RateOracleConfigured();
+    fetchSpecificEvents(
+      datedIrsExchangeContract,
+      'VammPriceChange',
+      parseVammPriceChange,
+    ),
+  ];
 
-    await datedIrsInstrumentContract
-      .queryFilter(eventFilter, fromBlock, toBlock)
-      .then((evmEvents) =>
-        evmEvents.map((e) => parseRateOracleConfigured(chainId, e)),
-      )
-      .then((events) => {
-        allEvents.push(...events);
-      });
-  }
+  const responses = await Promise.allSettled(allPromises);
 
-  if (eventTypes.includes('product-position-updated')) {
-    const eventFilter =
-      datedIrsInstrumentContract.filters.ProductPositionUpdated();
-
-    await datedIrsInstrumentContract
-      .queryFilter(eventFilter, fromBlock, toBlock)
-      .then((evmEvents) =>
-        evmEvents.map((e) => parseProductPositionUpdated(chainId, e)),
-      )
-      .then((events) => {
-        allEvents.push(...events);
-      });
-  }
-
-  if (eventTypes.includes('vamm-created')) {
-    const eventFilter = datedIrsExchangeContract.filters.VammCreated();
-
-    await datedIrsExchangeContract
-      .queryFilter(eventFilter, fromBlock, toBlock)
-      .then((evmEvents) => evmEvents.map((e) => parseVammCreated(chainId, e)))
-      .then((events) => {
-        allEvents.push(...events);
-      });
-  }
-
-  if (eventTypes.includes('vamm-price-change')) {
-    const eventFilter = datedIrsExchangeContract.filters.VammPriceChange();
-
-    await datedIrsExchangeContract
-      .queryFilter(eventFilter, fromBlock, toBlock)
-      .then((evmEvents) =>
-        evmEvents.map((e) => parseVammPriceChange(chainId, e)),
-      )
-      .then((events) => {
-        allEvents.push(...events);
-      });
-  }
+  const allEvents = responses
+    .map((r) => {
+      if (r.status === 'rejected') {
+        throw new Error(`Fetching event failed with ${r.reason}`);
+      }
+      return r.value;
+    })
+    .flat();
 
   const sortedEvents = allEvents.sort((a, b) => {
     if (a.blockNumber === b.blockNumber) {

@@ -3,7 +3,6 @@ import { Event, BigNumber } from 'ethers';
 import { parseBaseEvent } from '../utils/baseEvent';
 import {
   convertLowercaseString,
-  ProtocolEventType,
   LiquidationEvent,
   getTokenDetails,
 } from '@voltz-protocol/commons-v2';
@@ -13,7 +12,7 @@ export const parseLiquidation = (
   event: Event,
 ): LiquidationEvent => {
   // 1. Type of event
-  const type: ProtocolEventType = 'liquidation';
+  const type = 'liquidation';
 
   // 2. Parse particular args
   const liquidatedAccountId = (
