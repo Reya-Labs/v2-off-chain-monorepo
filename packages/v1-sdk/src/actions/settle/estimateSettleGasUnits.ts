@@ -5,13 +5,13 @@ export const estimateSettleGasUnits = async (
   peripheryContract: ethers.Contract,
   settlePeripheryParams: SettlePeripheryParams,
 ): Promise<BigNumber> => {
-
-  const unsignedTx: ethers.PopulatedTransaction = await peripheryContract.populateTransaction.settlePositionAndWithdrawMargin(
-    settlePeripheryParams.marginEngineAddress,
-    settlePeripheryParams.positionOwnerAddress,
-    settlePeripheryParams.tickLower,
-    settlePeripheryParams.tickUpper,
-  );
+  const unsignedTx: ethers.PopulatedTransaction =
+    await peripheryContract.populateTransaction.settlePositionAndWithdrawMargin(
+      settlePeripheryParams.marginEngineAddress,
+      settlePeripheryParams.positionOwnerAddress,
+      settlePeripheryParams.tickLower,
+      settlePeripheryParams.tickUpper,
+    );
 
   const estimatedGas: BigNumber = await peripheryContract.estimateGas
     .settlePositionAndWithdrawMargin(
