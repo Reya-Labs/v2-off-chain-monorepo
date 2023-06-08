@@ -8,7 +8,6 @@ import {
   RolloverAndSwapArgs,
   RolloverAndSwapPeripheryParams,
 } from '../types/actionArgTypes';
-import { handleSwapErrors } from '../swap/handleSwapErrors';
 import { getPeripheryContract } from '../../common/contract-generators';
 import { getRolloverAndSwapPeripheryParams } from './getRolloverAndSwapPeripheryParams';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
@@ -36,12 +35,6 @@ export const rolloverAndSwap = async ({
   maturedPositionTickLower,
   maturedPositionTickUpper,
 }: RolloverAndSwapArgs): Promise<ContractReceipt> => {
-  handleSwapErrors({
-    notional,
-    fixedLow,
-    fixedHigh,
-  });
-
   const peripheryContract: ethers.Contract = getPeripheryContract(
     peripheryAddress,
     provider,
@@ -62,8 +55,8 @@ export const rolloverAndSwap = async ({
     );
   }
 
-  const rolloverAndSwapPeripheryParams: RolloverAndSwapPeripheryParams =
-    getRolloverAndSwapPeripheryParams({
+  const rolloverAndSwapPeripheryParams: RolloverAndSwapPeripheryParams = getRolloverAndSwapPeripheryParams(
+    {
       margin: marginDelta,
       isFT,
       notional,
@@ -78,7 +71,8 @@ export const rolloverAndSwap = async ({
       maturedPositionSettlementBalance,
       maturedPositionTickLower,
       maturedPositionTickUpper,
-    });
+    },
+  );
 
   const estimatedGasUnits: BigNumber = await estimateRolloverAndSwapGasUnits(
     peripheryContract,
@@ -86,19 +80,19 @@ export const rolloverAndSwap = async ({
     rolloverAndSwapPeripheryTempOverrides,
   );
 
-  rolloverAndSwapPeripheryTempOverrides.gasLimit =
-    getGasBuffer(estimatedGasUnits);
+  rolloverAndSwapPeripheryTempOverrides.gasLimit = getGasBuffer(
+    estimatedGasUnits,
+  );
 
-  const rolloverAndSwapTransaction: ContractTransaction =
-    await peripheryContract
-      .connect(signer)
-      .rolloverWithSwap(
-        rolloverAndSwapPeripheryParams,
-        rolloverAndSwapPeripheryTempOverrides,
-      )
-      .catch(() => {
-        throw new Error('RolloverAndSwap Transaction Confirmation Error');
-      });
+  const rolloverAndSwapTransaction: ContractTransaction = await peripheryContract
+    .connect(signer)
+    .rolloverWithSwap(
+      rolloverAndSwapPeripheryParams,
+      rolloverAndSwapPeripheryTempOverrides,
+    )
+    .catch(() => {
+      throw new Error('RolloverAndSwap Transaction Confirmation Error');
+    });
 
   const receipt: ContractReceipt = await rolloverAndSwapTransaction.wait();
 

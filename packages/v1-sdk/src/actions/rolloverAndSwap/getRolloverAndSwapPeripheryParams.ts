@@ -47,8 +47,6 @@ export const getRolloverAndSwapPeripheryParams = ({
     margin,
     isFT,
     notional,
-    fixedLow,
-    fixedHigh,
     marginEngineAddress,
     underlyingTokenDecimals,
     fixedRateLimit,
