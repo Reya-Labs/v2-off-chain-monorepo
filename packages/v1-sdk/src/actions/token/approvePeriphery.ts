@@ -7,6 +7,7 @@ import {
 import { getSentryTracker } from '../../init';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
 
+// todo: check against https://github.com/Voltz-Protocol/v1-sdk/blob/a22ab02703259ae81323c561c13c3f78d16dc399/src/entities/amm/amm.ts#L1745
 export const approvePeriphery = async ({
   chainId,
   tokenAddress,
