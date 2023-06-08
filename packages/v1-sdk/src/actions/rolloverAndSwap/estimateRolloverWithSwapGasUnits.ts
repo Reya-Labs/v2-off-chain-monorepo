@@ -2,7 +2,7 @@ import { ethers, BigNumber, BigNumberish } from 'ethers';
 import { RolloverAndSwapPeripheryParams } from '../types/actionArgTypes';
 import { getReadableErrorMessage } from '../../common/errors/errorHandling';
 
-export const estimateRolloverAndSwapGasUnits = async (
+export const estimateRolloverWithSwapGasUnits = async (
   peripheryContract: ethers.Contract,
   rolloverAndSwapPeripheryParams: RolloverAndSwapPeripheryParams,
   rolloverAndSwapPeripheryTempOverrides: {
