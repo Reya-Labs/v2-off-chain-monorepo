@@ -174,3 +174,11 @@ export type UpdateMarginPeripheryParams = {
   marginDelta: BigNumberish;
   fullyWithdraw: boolean;
 };
+
+// token
+
+export type ApprovePeripheryArgs = {
+  chainId: number;
+  tokenAddress: string;
+  signer: Signer;
+};

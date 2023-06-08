@@ -1,4 +1,6 @@
 import JSBI from 'jsbi';
+import { BigNumber } from 'ethers';
+
 /**
  * The minimum fixed rate that can be used on any pool.
  */
@@ -40,3 +42,11 @@ export const PERIPHERY_ADDRESS_BY_CHAIN_ID: { [key: number]: string } = {
 
 // todo: remove hardcoded tick spacing and replace by api call
 export const DEFAULT_TICK_SPACING = 60;
+
+export const MaxUint256Bn = BigNumber.from(
+  '115792089237316195423570985008687907853269984665640564039457584007913129639935',
+);
+
+export const TresholdApprovalBn = BigNumber.from(
+  '6277101735386680763835789423207666416102355444464034512896',
+);
