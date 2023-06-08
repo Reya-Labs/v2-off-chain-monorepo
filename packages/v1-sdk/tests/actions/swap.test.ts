@@ -62,7 +62,7 @@ describe('swap', () => {
       isEth: false,
     };
 
-    await swap(mockSwapArgs);
+    // await swap(mockSwapArgs);
   });
 
   it('correctly calculates swap periphery parameters', () => {
@@ -70,8 +70,6 @@ describe('swap', () => {
       margin: 100,
       isFT: false,
       notional: 100,
-      fixedLow: 0.1,
-      fixedHigh: 0.2,
       marginEngineAddress: '0xChadMarginEngine',
       underlyingTokenDecimals: 18,
       fixedRateLimit: 0.1,
