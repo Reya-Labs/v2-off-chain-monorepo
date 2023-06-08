@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feat/sdk-settle-fixes
 
 jobs:
   release:
@@ -26,10 +25,10 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
         run: yarn install
-#      - name: Run tests
-#        run: lerna run test
-#      - name: Run coverage reports
-#        run: lerna run test:coverage
+      - name: Run tests
+        run: lerna run test
+      - name: Run coverage reports
+        run: lerna run test:coverage
       - name: Build packages
         run: lerna run build
       - name: Configure Git, Generate coverage badges and Bump Updated Packages
