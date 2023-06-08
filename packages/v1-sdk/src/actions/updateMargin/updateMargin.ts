@@ -12,12 +12,12 @@ import {
 import { getPeripheryContract } from '../../common/contract-generators';
 import { estimateSettleGasUnits } from '../settle/estimateSettleGasUnits';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
-import { getUpdateMarginPeripheryParams } from './getUpdateMarginPeripheryParams';
 import { estimateUpdateMarginGasUnits } from './estimateUpdateMarginGasUnits';
 import { PositionInfo } from '../../common/api/position/types';
 import { getPositionInfo } from '../../common/api/position/getPositionInfo';
 import { decodePositionId } from '../../common/api/position/decodePositionId';
 import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
+import { scale } from '../../common/math/scale';
 
 export const updateMargin = async ({
   positionId,
@@ -36,15 +36,13 @@ export const updateMargin = async ({
     signer,
   );
 
-  const updateMarginPeripheryParams: UpdateMarginPeripheryParams = getUpdateMarginPeripheryParams(
-    marginEngineAddress,
-    fullyWithdraw,
-    fixedLow,
-    fixedHigh,
-    tickSpacing,
-    margin,
-    underlyingTokenDecimals,
-  );
+  const updateMarginPeripheryParams: UpdateMarginPeripheryParams = {
+    marginEngineAddress: positionInfo.ammMarginEngineAddress,
+    tickLower: positionInfo.positionTickLower,
+    tickUpper: positionInfo.positionTickUpper,
+    marginDelta: scale(margin, positionInfo.ammUnderlyingTokenDecimals),
+    fullyWithdraw: fullyWithdraw,
+  };
 
   const updateMarginPeripheryTempOverrides: {
     value?: BigNumber;
