@@ -5,7 +5,6 @@ import { convertLowercaseString } from '@voltz-protocol/commons-v2';
 import {
   getTokenDetails,
   CollateralConfiguredEvent,
-  ProtocolEventType,
 } from '@voltz-protocol/commons-v2';
 
 export const parseCollateralConfigured = (
@@ -13,7 +12,7 @@ export const parseCollateralConfigured = (
   event: Event,
 ): CollateralConfiguredEvent => {
   // 1. Type of event
-  const type: ProtocolEventType = 'collateral-configured';
+  const type = 'collateral-configured';
 
   // 2. Parse particular args
   const depositingEnabled = event.args?.depositingEnabled as boolean;

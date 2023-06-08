@@ -1,6 +1,6 @@
 import { Event, BigNumber } from 'ethers';
 
-import { ProtocolEventType, TakerOrderEvent } from '@voltz-protocol/commons-v2';
+import { TakerOrderEvent } from '@voltz-protocol/commons-v2';
 import { getTokenDetails } from '@voltz-protocol/commons-v2';
 import { getMarketQuoteToken } from '../../utils/markets/getMarketQuoteToken';
 import { parseBaseEvent } from '../utils/baseEvent';
@@ -11,7 +11,7 @@ export const parseTakerOrder = (
   event: Event,
 ): TakerOrderEvent => {
   // 1. Type of event
-  const type: ProtocolEventType = 'taker-order';
+  const type = 'taker-order';
 
   // 2. Parse particular args
   const accountId = (event.args?.accountId as BigNumber).toString();

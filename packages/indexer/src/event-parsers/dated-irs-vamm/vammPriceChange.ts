@@ -1,9 +1,6 @@
 import { Event, BigNumber } from 'ethers';
 
-import {
-  ProtocolEventType,
-  VammPriceChangeEvent,
-} from '@voltz-protocol/commons-v2';
+import { VammPriceChangeEvent } from '@voltz-protocol/commons-v2';
 import { parseBaseEvent } from '../utils/baseEvent';
 
 export const parseVammPriceChange = (
@@ -11,7 +8,7 @@ export const parseVammPriceChange = (
   event: Event,
 ): VammPriceChangeEvent => {
   // 1. Type of event
-  const type: ProtocolEventType = 'vamm-price-change';
+  const type = 'vamm-price-change';
 
   // 2. Parse particular args
   const marketId = (event.args?.marketId as BigNumber).toString();
