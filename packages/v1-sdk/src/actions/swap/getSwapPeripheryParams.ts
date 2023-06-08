@@ -32,7 +32,7 @@ export const getSwapPeripheryParams = ({
     marginEngineAddress: marginEngineAddress,
     isFT: isFT,
     notional: scale(notional, underlyingTokenDecimals),
-    sqrtPriceLimitX96: 0,
+    sqrtPriceLimitX96: getDefaultSqrtPriceLimit(isFT),
     tickLower: getClosestTickAndFixedRate(fixedHigh, tickSpacing)
       .closestUsableTick,
     tickUpper: getClosestTickAndFixedRate(fixedLow, tickSpacing)
@@ -40,15 +40,13 @@ export const getSwapPeripheryParams = ({
     marginDelta: scale(margin, underlyingTokenDecimals),
   };
 
-  let sqrtPriceLimitX96: BigNumberish = getDefaultSqrtPriceLimit(isFT);
   if (fixedRateLimit) {
-    sqrtPriceLimitX96 = getSqrtPriceLimitFromFixedRateLimit(
+    const sqrtPriceLimitX96 = getSqrtPriceLimitFromFixedRateLimit(
       fixedRateLimit,
       tickSpacing,
     );
+    swapPeripheryParams.sqrtPriceLimitX96 = sqrtPriceLimitX96;
   }
-
-  swapPeripheryParams.sqrtPriceLimitX96 = sqrtPriceLimitX96;
 
   return swapPeripheryParams;
 };
