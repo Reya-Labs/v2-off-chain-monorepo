@@ -14,7 +14,11 @@ import { getGasBuffer } from '../../common/gas/getGasBuffer';
 import { estimateRolloverAndSwapGasUnits } from './estimateRolloverAndSwapGasUnits';
 import { PositionInfo } from '../../common/api/position/types';
 import { getPositionInfo } from '../../common/api/position/getPositionInfo';
-import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
+import {
+  DEFAULT_TICK_SPACING,
+  PERIPHERY_ADDRESS_BY_CHAIN_ID,
+} from '../../common/constants';
+import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
 
 export const rolloverAndSwap = async ({
   maturedPositionId,
@@ -28,6 +32,8 @@ export const rolloverAndSwap = async ({
   const maturedPositionInfo: PositionInfo = await getPositionInfo(
     maturedPositionId,
   );
+
+  const rolloverAmmInfo = await getAmmInfo(ammId, maturedPositionInfo.chainId);
 
   const peripheryAddress =
     PERIPHERY_ADDRESS_BY_CHAIN_ID[maturedPositionInfo.chainId];
@@ -53,23 +59,18 @@ export const rolloverAndSwap = async ({
       margin - maturedPositionSettlementBalance,
     );
   }
+  const tickSpacing: number = DEFAULT_TICK_SPACING;
 
   const rolloverAndSwapPeripheryParams: RolloverAndSwapPeripheryParams = getRolloverAndSwapPeripheryParams(
     {
       margin: marginDelta,
       isFT,
       notional,
-      fixedLow,
-      fixedHigh,
-      marginEngineAddress,
-      underlyingTokenDecimals,
+      marginEngineAddress: rolloverAmmInfo.marginEngineAddress,
+      underlyingTokenDecimals: rolloverAmmInfo.underlyingTokenDecimals,
       fixedRateLimit,
       tickSpacing,
-      maturedMarginEngineAddress,
-      maturedPositionOwnerAddress,
-      maturedPositionSettlementBalance,
-      maturedPositionTickLower,
-      maturedPositionTickUpper,
+      maturedPosition: maturedPositionInfo,
     },
   );
 
