@@ -1,5 +1,4 @@
 import { SimulateSwapArgs, SwapPeripheryParams } from '../types/actionArgTypes';
-import { handleSwapErrors } from './handleSwapErrors';
 import {
   DEFAULT_TICK_SPACING,
   PERIPHERY_ADDRESS_BY_CHAIN_ID,
@@ -9,16 +8,15 @@ import { getPeripheryContract } from '../../common/contract-generators';
 import { getSwapPeripheryParams } from './getSwapPeripheryParams';
 import getDummyWallet from '../../common/wallet/getDummyWallet';
 import { getInfoPostSwap } from './getInfoPostSwap';
+import { AMMInfo } from '../../common/api/amm/types';
+import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
 
 export const simulateSwap = async ({
+  ammId,
   isFT,
-  isEth,
   notional,
   margin,
   fixedRateLimit,
-  fixedLow,
-  fixedHigh,
-  ammInfo,
   provider,
   signer,
 }: SimulateSwapArgs) => {
@@ -29,18 +27,13 @@ export const simulateSwap = async ({
   if (signer.provider === undefined) {
     throw new Error('Signer Provider Undefined');
   }
+  const chainId: number = await signer.getChainId();
 
-  handleSwapErrors({
-    notional,
-    fixedLow,
-    fixedHigh,
-  });
+  const ammInfo: AMMInfo = await getAmmInfo(ammId, chainId);
 
   const signerAddress: string = await signer.getAddress();
 
   const tickSpacing: number = DEFAULT_TICK_SPACING;
-
-  const chainId: number = await signer.getChainId();
 
   const peripheryAddress: string = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
 
@@ -53,8 +46,6 @@ export const simulateSwap = async ({
     margin,
     isFT,
     notional,
-    fixedLow,
-    fixedHigh,
     marginEngineAddress: ammInfo.marginEngineAddress,
     underlyingTokenDecimals: ammInfo.underlyingTokenDecimals,
     fixedRateLimit,
@@ -66,7 +57,7 @@ export const simulateSwap = async ({
     gasLimit?: BigNumber;
   } = {};
 
-  if (isEth && margin > 0) {
+  if (ammInfo.isEth && margin > 0) {
     swapPeripheryTempOverrides.value = utils.parseEther(
       margin.toFixed(18).toString(),
     );
