@@ -1,4 +1,4 @@
-import { ethers, Signer } from 'ethers';
+import { ethers } from 'ethers';
 
 export const getPeripheryContract = (
   peripheryAddress: string,
