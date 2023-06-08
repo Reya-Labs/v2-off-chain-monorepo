@@ -9,39 +9,28 @@ import { getSqrtPriceLimitFromFixedRateLimit } from '../../common/math/getSqrtPr
 import { getClosestTickAndFixedRate } from '../../common/math/getClosestTickAndFixedRate';
 import { scale } from '../../common/math/scale';
 import { getSwapPeripheryParams } from '../swap/getSwapPeripheryParams';
+import { PositionInfo } from '../../common/api/position/types';
 
 export type GetRolloverAndSwapPeripheryParamsArgs = {
   margin: number;
   isFT: boolean;
   notional: number;
-  fixedLow: number;
-  fixedHigh: number;
   marginEngineAddress: string;
   underlyingTokenDecimals: number;
   fixedRateLimit?: number | null;
   tickSpacing: number;
-  maturedMarginEngineAddress: string;
-  maturedPositionOwnerAddress: string;
-  maturedPositionSettlementBalance: number;
-  maturedPositionTickLower: number;
-  maturedPositionTickUpper: number;
+  maturedPosition: PositionInfo;
 };
 
 export const getRolloverAndSwapPeripheryParams = ({
   margin,
   isFT,
   notional,
-  fixedLow,
-  fixedHigh,
   marginEngineAddress,
   underlyingTokenDecimals,
   fixedRateLimit,
   tickSpacing,
-  maturedMarginEngineAddress,
-  maturedPositionOwnerAddress,
-  maturedPositionSettlementBalance,
-  maturedPositionTickLower,
-  maturedPositionTickUpper,
+  maturedPosition,
 }: GetRolloverAndSwapPeripheryParamsArgs): RolloverAndSwapPeripheryParams => {
   const newSwapPeripheryParams: SwapPeripheryParams = getSwapPeripheryParams({
     margin,
@@ -54,10 +43,10 @@ export const getRolloverAndSwapPeripheryParams = ({
   });
 
   const rolloverAndSwapPeripheryParams: RolloverAndSwapPeripheryParams = {
-    maturedMarginEngineAddress: marginEngineAddress,
-    maturedPositionOwnerAddress: marginEngineAddress,
-    maturedPositionTickLower: maturedPositionTickLower,
-    maturedPositionTickUpper: maturedPositionTickUpper,
+    maturedMarginEngineAddress: maturedPosition.ammMarginEngineAddress,
+    maturedPositionOwnerAddress: maturedPosition.positionOwnerAddress,
+    maturedPositionTickLower: maturedPosition.positionTickLower,
+    maturedPositionTickUpper: maturedPosition.positionTickUpper,
     newSwapPeripheryParams: newSwapPeripheryParams,
   };
 

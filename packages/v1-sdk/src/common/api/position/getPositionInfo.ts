@@ -15,12 +15,13 @@ export const getPositionInfo = async (
 
   const portfolioPositionDetails: PortfolioPositionDetails = res.data;
 
-  const { tickLower, tickUpper } = decodePositionId(
+  const { tickLower, tickUpper, ownerAddress } = decodePositionId(
     portfolioPositionDetails.id,
   );
 
   const positionInfo: PositionInfo = {
     chainId: portfolioPositionDetails.amm.chainId,
+    positionOwnerAddress: ownerAddress,
     isEth: portfolioPositionDetails.amm.underlyingToken.name === 'eth',
     positionTickLower: tickLower,
     positionTickUpper: tickUpper,
