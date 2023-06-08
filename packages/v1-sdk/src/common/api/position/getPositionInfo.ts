@@ -20,12 +20,15 @@ export const getPositionInfo = async (
   );
 
   const positionInfo: PositionInfo = {
+    chainId: portfolioPositionDetails.amm.chainId,
     isEth: portfolioPositionDetails.amm.underlyingToken.name === 'eth',
     positionTickLower: tickLower,
     positionTickUpper: tickUpper,
     ammUnderlyingTokenDecimals:
       portfolioPositionDetails.amm.underlyingToken.tokenDecimals,
     ammMarginEngineAddress: portfolioPositionDetails.amm.marginEngineAddress,
+    realizedPNLTotal: portfolioPositionDetails.realizedPNLTotal,
+    margin: portfolioPositionDetails.margin,
   };
 
   return positionInfo;

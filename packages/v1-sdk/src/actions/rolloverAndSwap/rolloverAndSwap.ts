@@ -12,51 +12,50 @@ import { getPeripheryContract } from '../../common/contract-generators';
 import { getRolloverAndSwapPeripheryParams } from './getRolloverAndSwapPeripheryParams';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
 import { estimateRolloverAndSwapGasUnits } from './estimateRolloverAndSwapGasUnits';
+import { PositionInfo } from '../../common/api/position/types';
+import { getPositionInfo } from '../../common/api/position/getPositionInfo';
+import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
 
 export const rolloverAndSwap = async ({
+  maturedPositionId,
+  ammId,
   isFT,
   notional,
   margin,
   fixedRateLimit,
-  fixedLow,
-  fixedHigh,
-  underlyingTokenAddress,
-  underlyingTokenDecimals,
-  tickSpacing,
-  chainId,
-  peripheryAddress,
-  marginEngineAddress,
-  provider,
   signer,
-  isEth,
-  maturedMarginEngineAddress,
-  maturedPositionOwnerAddress,
-  maturedPositionSettlementBalance,
-  maturedPositionTickLower,
-  maturedPositionTickUpper,
 }: RolloverAndSwapArgs): Promise<ContractReceipt> => {
-  const peripheryContract: ethers.Contract = getPeripheryContract(
-    peripheryAddress,
-    provider,
+  const maturedPositionInfo: PositionInfo = await getPositionInfo(
+    maturedPositionId,
   );
 
-  peripheryContract.connect(signer);
+  const peripheryAddress =
+    PERIPHERY_ADDRESS_BY_CHAIN_ID[maturedPositionInfo.chainId];
+
+  const peripheryContract: ethers.Contract = getPeripheryContract(
+    peripheryAddress,
+    signer,
+  );
 
   const rolloverAndSwapPeripheryTempOverrides: {
     value?: BigNumber;
     gasLimit?: BigNumber;
   } = {};
 
+  // todo: make sure below logic is correct
+  const maturedPositionSettlementBalance: number =
+    maturedPositionInfo.margin + maturedPositionInfo.realizedPNLTotal;
+
   let marginDelta = margin;
-  if (isEth && maturedPositionSettlementBalance < margin) {
+  if (maturedPositionInfo.isEth && maturedPositionSettlementBalance < margin) {
     marginDelta = maturedPositionSettlementBalance;
     rolloverAndSwapPeripheryTempOverrides.value = BigNumber.from(
       margin - maturedPositionSettlementBalance,
     );
   }
 
-  const rolloverAndSwapPeripheryParams: RolloverAndSwapPeripheryParams =
-    getRolloverAndSwapPeripheryParams({
+  const rolloverAndSwapPeripheryParams: RolloverAndSwapPeripheryParams = getRolloverAndSwapPeripheryParams(
+    {
       margin: marginDelta,
       isFT,
       notional,
@@ -71,7 +70,8 @@ export const rolloverAndSwap = async ({
       maturedPositionSettlementBalance,
       maturedPositionTickLower,
       maturedPositionTickUpper,
-    });
+    },
+  );
 
   const estimatedGasUnits: BigNumber = await estimateRolloverAndSwapGasUnits(
     peripheryContract,
@@ -79,19 +79,19 @@ export const rolloverAndSwap = async ({
     rolloverAndSwapPeripheryTempOverrides,
   );
 
-  rolloverAndSwapPeripheryTempOverrides.gasLimit =
-    getGasBuffer(estimatedGasUnits);
+  rolloverAndSwapPeripheryTempOverrides.gasLimit = getGasBuffer(
+    estimatedGasUnits,
+  );
 
-  const rolloverAndSwapTransaction: ContractTransaction =
-    await peripheryContract
-      .connect(signer)
-      .rolloverWithSwap(
-        rolloverAndSwapPeripheryParams,
-        rolloverAndSwapPeripheryTempOverrides,
-      )
-      .catch(() => {
-        throw new Error('RolloverAndSwap Transaction Confirmation Error');
-      });
+  const rolloverAndSwapTransaction: ContractTransaction = await peripheryContract
+    .connect(signer)
+    .rolloverWithSwap(
+      rolloverAndSwapPeripheryParams,
+      rolloverAndSwapPeripheryTempOverrides,
+    )
+    .catch(() => {
+      throw new Error('RolloverAndSwap Transaction Confirmation Error');
+    });
 
   const receipt: ContractReceipt = await rolloverAndSwapTransaction.wait();
 

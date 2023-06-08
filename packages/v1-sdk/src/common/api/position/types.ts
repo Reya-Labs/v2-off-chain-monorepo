@@ -68,9 +68,12 @@ export type HistoryTransaction = {
 };
 
 export type PositionInfo = {
+  chainId: number;
   isEth: boolean;
   positionTickLower: number;
   positionTickUpper: number;
   ammUnderlyingTokenDecimals: number;
   ammMarginEngineAddress: string;
+  realizedPNLTotal: number;
+  margin: number;
 };
