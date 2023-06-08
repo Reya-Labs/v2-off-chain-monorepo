@@ -9,7 +9,7 @@ export const getAllowanceToPeriphery = async ({
   isEth,
   chainId,
   tokenAddress,
-  underlyingTokenDecimals,
+  tokenDecimals,
   walletAddress,
   provider,
 }: GetAllowanceArgs): Promise<number> => {
@@ -26,10 +26,10 @@ export const getAllowanceToPeriphery = async ({
   );
 
   let descaledCappedAllowance;
-  if (allowance.gt(scale(Number.MAX_SAFE_INTEGER, underlyingTokenDecimals))) {
+  if (allowance.gt(scale(Number.MAX_SAFE_INTEGER, tokenDecimals))) {
     descaledCappedAllowance = Number.MAX_SAFE_INTEGER;
   } else {
-    descaledCappedAllowance = descale(allowance, underlyingTokenDecimals);
+    descaledCappedAllowance = descale(allowance, tokenDecimals);
   }
 
   return descaledCappedAllowance;

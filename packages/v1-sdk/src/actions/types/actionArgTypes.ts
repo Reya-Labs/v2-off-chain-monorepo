@@ -187,7 +187,15 @@ export type GetAllowanceArgs = {
   isEth: boolean;
   chainId: number;
   tokenAddress: string;
-  underlyingTokenDecimals: number;
+  tokenDecimals: number;
+  walletAddress: string;
+  provider: providers.Provider;
+};
+
+export type GetBalanceArgs = {
+  isEth: boolean;
+  tokenAddress: string;
+  tokenDecimals: number;
   walletAddress: string;
   provider: providers.Provider;
 };
