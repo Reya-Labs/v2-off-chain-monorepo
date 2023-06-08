@@ -20,6 +20,8 @@ import {
 } from '../../common/constants';
 import { getReadableErrorMessage } from '../../common/errors/errorHandling';
 import { getSentryTracker } from '../../init';
+import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
+import { AMMInfo } from '../../common/api/amm/types';
 
 export const swap = async ({
   ammId,
@@ -33,9 +35,11 @@ export const swap = async ({
     throw new Error('Signer Provider Undefined');
   }
 
-  const tickSpacing: number = DEFAULT_TICK_SPACING;
-
   const chainId: number = await signer.getChainId();
+
+  const ammInfo: AMMInfo = await getAmmInfo(ammId, chainId);
+
+  const tickSpacing: number = DEFAULT_TICK_SPACING;
 
   const peripheryAddress: string = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
 
@@ -59,7 +63,7 @@ export const swap = async ({
     gasLimit?: BigNumber;
   } = {};
 
-  if (isEth && margin > 0) {
+  if (ammInfo.isEth && margin > 0) {
     swapPeripheryTempOverrides.value = utils.parseEther(
       margin.toFixed(18).toString(),
     );
