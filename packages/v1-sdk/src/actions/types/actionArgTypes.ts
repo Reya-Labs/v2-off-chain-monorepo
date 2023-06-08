@@ -182,3 +182,12 @@ export type ApprovePeripheryArgs = {
   tokenAddress: string;
   signer: Signer;
 };
+
+export type GetAllowanceArgs = {
+  isEth: boolean;
+  chainId: number;
+  tokenAddress: string;
+  underlyingTokenDecimals: number;
+  walletAddress: string;
+  provider: providers.Provider;
+};
