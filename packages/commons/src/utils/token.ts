@@ -11,7 +11,9 @@ export const descale = (tokenDecimals: number) => {
 
 export const scale = (tokenDecimals: number) => {
   const f = (value: number) => {
-    return ethers.BigNumber.from(ethers.utils.parseUnits(value.toString(), tokenDecimals));
+    return ethers.BigNumber.from(
+      ethers.utils.parseUnits(value.toString(), tokenDecimals),
+    );
   };
 
   return f;

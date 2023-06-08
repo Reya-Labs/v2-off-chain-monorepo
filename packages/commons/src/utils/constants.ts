@@ -1,5 +1,3 @@
-import { BigNumber } from "ethers";
-
 export const SECONDS_IN_YEAR = 31_536_000;
 export const SECONDS_IN_DAY = 86_400;
 export const SECONDS_IN_HOUR = 3_600;
