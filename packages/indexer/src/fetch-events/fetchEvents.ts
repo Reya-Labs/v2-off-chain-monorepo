@@ -2,13 +2,13 @@ import { Event, Contract } from 'ethers';
 import { getCoreContract } from '../contract-generators/core';
 import { getDatedIrsInstrumentContract } from '../contract-generators/dated-irs-instrument';
 import { getDatedIrsVammContract } from '../contract-generators/dated-irs-vamm';
-import { parseCollateralUpdate } from '../event-parsers/core/collateralUpdate';
-import { parseMarketFeeConfigured } from '../event-parsers/core/marketFeeConfigured';
-import { parseMarketConfigured } from '../event-parsers/dated-irs-instrument/marketConfigured';
-import { parseProductPositionUpdated } from '../event-parsers/dated-irs-instrument/productPositionUpdated';
-import { parseRateOracleConfigured } from '../event-parsers/dated-irs-instrument/rateOracleConfigured';
-import { parseVammCreated } from '../event-parsers/dated-irs-vamm/vammCreated';
-import { parseVammPriceChange } from '../event-parsers/dated-irs-vamm/vammPriceChange';
+import { parseCollateralUpdate } from '../event-parsers/parseCollateralUpdate';
+import { parseMarketFeeConfigured } from '../event-parsers/parseMarketFeeConfigured';
+import { parseMarketConfigured } from '../event-parsers/parseMarketConfigured';
+import { parseProductPositionUpdated } from '../event-parsers/parseProductPositionUpdated';
+import { parseRateOracleConfigured } from '../event-parsers/parseRateOracleConfigured';
+import { parseVammCreated } from '../event-parsers/parseVammCreated';
+import { parseVammPriceChange } from '../event-parsers/parseVammPriceChange';
 import { BaseEvent } from '@voltz-protocol/commons-v2';
 
 export const fetchEvents = async (

@@ -1,7 +1,7 @@
 import { Event, BigNumber } from 'ethers';
 
 import { getTokenDetails } from '@voltz-protocol/commons-v2';
-import { parseBaseEvent } from '../utils/baseEvent';
+import { parseBaseEvent } from './utils/parseBaseEvent';
 import {
   convertLowercaseString,
   CollateralUpdateEvent,

@@ -1,5 +1,5 @@
 import { compareEvents } from '../utils/compareEvents';
-import { parseCollateralUpdate } from '../../src/event-parsers/core/collateralUpdate';
+import { parseCollateralUpdate } from '../../src/event-parsers/parseCollateralUpdate';
 import { collateralUpdateEvmEvent } from '../utils/evmEventMocks';
 import { CollateralUpdateEvent } from '@voltz-protocol/commons-v2';
 

@@ -1,6 +1,6 @@
 import { Event } from 'ethers';
 
-import { parseBaseEvent } from '../utils/baseEvent';
+import { parseBaseEvent } from './utils/parseBaseEvent';
 import {
   convertLowercaseString,
   ProductRegisteredEvent,

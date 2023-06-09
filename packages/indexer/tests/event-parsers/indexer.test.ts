@@ -1,7 +1,7 @@
 import { EventFilter } from 'ethers';
 import { sync } from '../../src/process/sync';
 import { collateralUpdateEvmEvent } from '../utils/evmEventMocks';
-import { parseCollateralUpdate } from '../../src/event-parsers/core/collateralUpdate';
+import { parseCollateralUpdate } from '../../src/event-parsers/parseCollateralUpdate';
 import { pullCollateralUpdateEvent } from '@voltz-protocol/commons-v2';
 import { getBigQuery } from '@voltz-protocol/commons-v2';
 import { getCoreContract } from '../../src/contract-generators/core';

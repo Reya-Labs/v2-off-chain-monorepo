@@ -1,4 +1,4 @@
-import { parseTakerOrder } from '../../src/event-parsers/dated-irs-vamm/takerOrder';
+import { parseTakerOrder } from '../../src/event-parsers/parseTakerOrder';
 import { compareEvents } from '../utils/compareEvents';
 import { TakerOrderEvent } from '@voltz-protocol/commons-v2';
 import { takerOrderEvmEvent } from '../utils/evmEventMocks';

@@ -1,4 +1,4 @@
-import { parseTakerOrder } from '../../src/event-parsers/dated-irs-vamm/takerOrder';
+import { parseTakerOrder } from '../../src/event-parsers/parseTakerOrder';
 import { createTakerOrdersTable } from '../../src/services/big-table/taker-orders-table/createTakerOrdersTable';
 import { deleteTakerOrdersTable } from '../../src/services/big-table/taker-orders-table/deleteTakerOrdersTable';
 import { pullAllTakerOrderRows } from '../../src/services/big-table/taker-orders-table/pullAllTakerOrderRows';

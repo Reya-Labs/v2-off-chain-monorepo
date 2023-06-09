@@ -1,7 +1,7 @@
 import { compareEvents } from '../utils/compareEvents';
 import { vammCreatedEvmEvent } from '../utils/evmEventMocks';
 import { VammCreatedEvent } from '@voltz-protocol/commons-v2';
-import { parseVammCreated } from '../../src/event-parsers/dated-irs-vamm/vammCreated';
+import { parseVammCreated } from '../../src/event-parsers/parseVammCreated';
 
 describe('vamm created parser', () => {
   test('usual event', () => {

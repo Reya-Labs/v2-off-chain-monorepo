@@ -1,17 +1,17 @@
 import { Event, BigNumber } from 'ethers';
 
-import { TakerOrderEvent } from '@voltz-protocol/commons-v2';
+import { LiquidityChangeEvent } from '@voltz-protocol/commons-v2';
 import { getTokenDetails } from '@voltz-protocol/commons-v2';
-import { getMarketQuoteToken } from '../../utils/markets/getMarketQuoteToken';
-import { parseBaseEvent } from '../utils/baseEvent';
+import { getMarketQuoteToken } from '../utils/markets/getMarketQuoteToken';
+import { parseBaseEvent } from './utils/parseBaseEvent';
 import { convertLowercaseString } from '@voltz-protocol/commons-v2';
 
-export const parseTakerOrder = (
+export const parseLiquidityChange = (
   chainId: number,
   event: Event,
-): TakerOrderEvent => {
+): LiquidityChangeEvent => {
   // 1. Type of event
-  const type = 'taker-order';
+  const type = 'liquidity-change';
 
   // 2. Parse particular args
   const accountId = (event.args?.accountId as BigNumber).toString();
@@ -21,15 +21,10 @@ export const parseTakerOrder = (
   const quoteToken = getMarketQuoteToken(marketId);
   const { tokenDescaler } = getTokenDetails(quoteToken);
 
-  const executedBaseAmount = tokenDescaler(
-    event.args?.executedBaseAmount as BigNumber,
-  );
-  const executedQuoteAmount = tokenDescaler(
-    event.args?.executedQuoteAmount as BigNumber,
-  );
-  const annualizedBaseAmount = tokenDescaler(
-    event.args?.annualizedBaseAmount as BigNumber,
-  );
+  const tickLower = event.args?.tickLower as number;
+  const tickUpper = event.args?.tickLower as number;
+
+  const liquidityDelta = tokenDescaler(event.args?.liquidityDelta as BigNumber);
 
   // 3. Parse base event
   const baseEvent = parseBaseEvent(chainId, event, type);
@@ -38,13 +33,13 @@ export const parseTakerOrder = (
   return {
     ...baseEvent,
 
-    accountId,
-    marketId,
+    accountId: accountId,
+    marketId: marketId,
     maturityTimestamp,
     quoteToken: convertLowercaseString(quoteToken),
 
-    executedBaseAmount,
-    executedQuoteAmount,
-    annualizedBaseAmount,
+    tickLower,
+    tickUpper,
+    liquidityDelta,
   };
 };

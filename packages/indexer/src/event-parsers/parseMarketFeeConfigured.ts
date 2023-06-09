@@ -1,6 +1,6 @@
 import { Event, BigNumber } from 'ethers';
 
-import { parseBaseEvent } from '../utils/baseEvent';
+import { parseBaseEvent } from './utils/parseBaseEvent';
 import { descale, MarketFeeConfiguredEvent } from '@voltz-protocol/commons-v2';
 
 export const parseMarketFeeConfigured = (

@@ -1,7 +1,7 @@
 import { compareEvents } from '../utils/compareEvents';
 import { productPositionUpdatedEvmEvent } from '../utils/evmEventMocks';
 import { ProductPositionUpdatedEvent } from '@voltz-protocol/commons-v2';
-import { parseProductPositionUpdated } from '../../src/event-parsers/dated-irs-instrument/productPositionUpdated';
+import { parseProductPositionUpdated } from '../../src/event-parsers/parseProductPositionUpdated';
 
 describe('product position updated', () => {
   test('usual event', () => {

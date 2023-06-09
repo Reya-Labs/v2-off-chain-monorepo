@@ -4,8 +4,8 @@ import {
   ProductPositionUpdatedEvent,
   getTokenDetails,
 } from '@voltz-protocol/commons-v2';
-import { parseBaseEvent } from '../utils/baseEvent';
-import { getMarketQuoteToken } from '../../utils/markets/getMarketQuoteToken';
+import { parseBaseEvent } from './utils/parseBaseEvent';
+import { getMarketQuoteToken } from '../utils/markets/getMarketQuoteToken';
 
 export const parseProductPositionUpdated = (
   chainId: number,

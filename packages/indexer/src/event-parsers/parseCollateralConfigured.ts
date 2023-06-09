@@ -1,6 +1,6 @@
 import { Event, BigNumber, ethers } from 'ethers';
 
-import { parseBaseEvent } from '../utils/baseEvent';
+import { parseBaseEvent } from './utils/parseBaseEvent';
 import { convertLowercaseString } from '@voltz-protocol/commons-v2';
 import {
   getTokenDetails,
