@@ -41,12 +41,12 @@ export function closestTickAndFixedRate(
 
 function fixedRateToClosestTick(fixedRate: Fraction) {
   // fixed rate to price
-  const price = fixedRateToPrice(fixedRate);
+  const price = fixedRateToPriceFraction(fixedRate);
   // price to closest tick
   return priceToClosestTick(price);
 }
 
-function fixedRateToPrice(fixedRate: Fraction) {
+function fixedRateToPriceFraction(fixedRate: Fraction) {
   // the fixed rate is the reciprocal of the price
   // NOTE: below the first argument to the Price constructor is the denominator and the second argument is the numerator
   return new Fraction(fixedRate.numerator, fixedRate.denominator);
@@ -138,4 +138,9 @@ function tickToFixedRate(tick: number) {
   const price: Fraction = tickToPrice(inRangeTick);
 
   return priceToFixedRate(price);
+}
+
+export function fixedRateToPrice(fixedRate: number): string {
+  const { closestUsableTick: tick } = closestTickAndFixedRate(fixedRate);
+  return TickMath.getSqrtRatioAtTick(tick).toString();
 }

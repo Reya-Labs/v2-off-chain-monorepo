@@ -1,8 +1,6 @@
 import { BigNumber, ContractReceipt, Signer } from 'ethers';
 import { PERIPHERY_ADDRESS } from '../utils/configuration';
-import { MakerTrade, TakerTrade } from '../utils/types';
 import { getGasBuffer } from '../utils/txHelpers';
-import { encodeMakerOrder, encodeTakerOrder } from './encode';
 
 export type Transaction = {
   from: string;
@@ -13,15 +11,10 @@ export type Transaction = {
 
 // todo: come up with a nice way of sending the owner address from the top level function
 
-export async function swap(trade: TakerTrade, chainId: number) {
-  const { calldata: data, value } = await encodeTakerOrder(trade);
-  await executeTransaction(trade.owner, data, value, chainId);
-}
-
-export async function makerOrder(trade: MakerTrade, chainId: number) {
-  const { calldata: data, value } = await encodeMakerOrder(trade);
-  await executeTransaction(trade.owner, data, value, chainId);
-}
+// export async function makerOrder(trade: MakerTrade, chainId: number) {
+//   const { calldata: data, value } = await encodeMakerOrder(trade);
+//   await executeTransaction(trade.owner, data, value, chainId);
+// }
 
 export async function estimateGas(
   signer: Signer,

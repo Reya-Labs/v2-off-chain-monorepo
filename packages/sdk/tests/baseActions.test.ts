@@ -26,7 +26,7 @@ function utilSpy() {
   const spyEncodeMakerOrder = sinon.spy(encode, 'encodeMakerOrder');
 
   // single encoders
-  const spyEncodeOpenAccount = sinon.spy(encode, 'encodeSingleOpenAccount');
+  const spyEncodeOpenAccount = sinon.spy(encode, 'encodeSingleCreateAccount');
   const spyEncodeSingleApprove = sinon.spy(encode, 'encodeSingleApprove');
   const spyEncodeSingleDepositETH = sinon.spy(encode, 'encodeSingleDepositETH');
   const spyEncodeSingleDepositERC20 = sinon.spy(
@@ -50,7 +50,7 @@ function utilSpy() {
   );
 
   spy.encodeOrder = spyEncodeOrder;
-  spy.encodeSingleOpenAccount = spyEncodeOpenAccount;
+  spy.encodeSingleCreateAccount = spyEncodeOpenAccount;
   spy.encodeSingleApprove = spyEncodeSingleApprove;
   spy.encodeSingleDepositETH = spyEncodeSingleDepositETH;
   spy.encodeSingleDepositERC20 = spyEncodeSingleDepositERC20;
@@ -128,8 +128,8 @@ describe('takers', async () => {
     sinon.assert.calledOnce(spy.encodeOrder);
     sinon.assert.calledWith(spy.encodeOrder, trade);
 
-    sinon.assert.calledOnce(spy.encodeSingleOpenAccount);
-    assert.equal(spy.encodeSingleOpenAccount.getCalls()[0].firstArg, trade);
+    sinon.assert.calledOnce(spy.encodeSingleCreateAccount);
+    assert.equal(spy.encodeSingleCreateAccount.getCalls()[0].firstArg, trade);
 
     sinon.assert.calledOnce(spy.createAccountId);
     sinon.assert.calledWith(spy.createAccountId, trade, false);
@@ -178,8 +178,8 @@ describe('takers', async () => {
     sinon.assert.calledOnce(spy.createAccountId);
     sinon.assert.calledWith(spy.createAccountId, trade, false);
 
-    sinon.assert.calledOnce(spy.encodeSingleOpenAccount);
-    assert.equal(spy.encodeSingleOpenAccount.getCalls()[0].firstArg, trade);
+    sinon.assert.calledOnce(spy.encodeSingleCreateAccount);
+    assert.equal(spy.encodeSingleCreateAccount.getCalls()[0].firstArg, trade);
 
     sinon.assert.calledOnce(spy.encodeSingleApprove);
     assert.equal(
@@ -375,8 +375,8 @@ describe('takers', async () => {
     sinon.assert.calledOnce(spy.createAccountId);
     sinon.assert.calledWith(spy.createAccountId, trade, false);
 
-    sinon.assert.calledOnce(spy.encodeSingleOpenAccount);
-    assert.equal(spy.encodeSingleOpenAccount.getCalls()[0].firstArg, trade);
+    sinon.assert.calledOnce(spy.encodeSingleCreateAccount);
+    assert.equal(spy.encodeSingleCreateAccount.getCalls()[0].firstArg, trade);
 
     // toto: stop calling it so often
     sinon.assert.calledThrice(spy.getTokenInfo);
@@ -733,8 +733,8 @@ describe('lps', async () => {
     sinon.assert.calledOnce(spy.encodeMakerOrder);
     sinon.assert.calledWith(spy.encodeMakerOrder, trade);
 
-    sinon.assert.calledOnce(spy.encodeSingleOpenAccount);
-    assert.equal(spy.encodeSingleOpenAccount.getCalls()[0].firstArg, trade);
+    sinon.assert.calledOnce(spy.encodeSingleCreateAccount);
+    assert.equal(spy.encodeSingleCreateAccount.getCalls()[0].firstArg, trade);
 
     sinon.assert.calledOnce(spy.createAccountId);
     sinon.assert.calledWith(

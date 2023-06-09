@@ -9,8 +9,8 @@ import {
 import { SettleArgs, SettleParameters, SettleSimulationResults } from './types';
 
 export async function settle({
-    positionId,
-    signer,
+  positionId,
+  signer,
 }: SettleArgs): Promise<ContractReceipt> {
   // fetch: send request to api
   const partialOrder = await getSettlePeripheryParams(positionId);
@@ -27,12 +27,12 @@ export async function settle({
   return result;
 }
 
-export async function getInfoPostSettle(
-  signer: Signer,
-  positionId: string,
-): Promise<SettleSimulationResults> {
+export async function getInfoPostSettle({
+  positionId,
+  signer,
+}: SettleArgs): Promise<SettleSimulationResults> {
   // fetch: send request to api
-  const response = await estimateSettleGasUnits(signer, positionId);
+  const response = await estimateSettleGasUnits({ signer, positionId });
 
   const provider = signer.provider;
   if (!provider) {
@@ -52,10 +52,10 @@ export async function getInfoPostSettle(
   };
 }
 
-export async function estimateSettleGasUnits(
-  signer: Signer,
-  positionId: string,
-): Promise<BigNumber> {
+export async function estimateSettleGasUnits({
+  positionId,
+  signer,
+}: SettleArgs): Promise<BigNumber> {
   const partialOrder = await getSettlePeripheryParams(positionId);
 
   const chainId = await signer.getChainId();
