@@ -5,22 +5,18 @@ import { getPeripheryContract } from '../../common/contract-generators';
 import { getLpPeripheryParams } from './getLpPeripheryParams';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
 import { estimateLpGasUnits } from './estimateLpGasUnits';
+import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
+import { AMMInfo } from '../../common/api/amm/types';
+import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
 
 export const lp = async ({
+  ammId,
   addLiquidity,
   fixedLow,
   fixedHigh,
   notional,
   margin,
-  underlyingTokenAddress,
-  underlyingTokenDecimals,
-  chainId,
-  peripheryAddress,
-  marginEngineAddress,
-  provider,
   signer,
-  tickSpacing,
-  isEth,
 }: LpArgs): Promise<ContractReceipt> => {
   handleLpErrors({
     notional,
@@ -28,12 +24,15 @@ export const lp = async ({
     fixedHigh,
   });
 
+  const chainId: number = await signer.getChainId();
+  const ammInfo: AMMInfo = await getAmmInfo(ammId, chainId);
+
+  const peripheryAddress = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
+
   const peripheryContract: ethers.Contract = getPeripheryContract(
     peripheryAddress,
-    provider,
+    signer,
   );
-
-  peripheryContract.connect(signer);
 
   const lpPeripheryParams: LpPeripheryParams = getLpPeripheryParams({
     addLiquidity,
