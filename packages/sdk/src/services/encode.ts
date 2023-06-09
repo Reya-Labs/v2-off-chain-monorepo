@@ -9,10 +9,9 @@ import {
   MakerTrade,
   MethodParameters,
   MultiAction,
-  SettleTradeMaker,
   TakerTrade,
 } from '../utils/types';
-import { getTokenInfo } from '../utils/constants';
+import { getTokenInfo } from '../utils/configuration';
 
 export async function encodeMakerOrder(
   trade: MakerTrade,
@@ -65,42 +64,19 @@ export async function encodeTakerOrder(
   return encodeRouterCall(multiAction, BigNumber.from(ethAmount));
 }
 
-export function encodeSettlement(
-  trade: TakerTrade,
-  newMakerOrder?: MakerTrade,
-  newTakerOrder?: TakerTrade,
-): MethodParameters {
-  const multiAction = new MultiAction();
-
-  // settle
-  encodeSingleSettle(trade, multiAction);
-
-  if (!newMakerOrder && !newTakerOrder) {
-    // withdraw
-    encodeSingleWithdraw(trade, multiAction);
-  }
-
-  if (newMakerOrder && newMakerOrder.baseAmount) {
-    // rollover
-    encodeSingleMakerOrder(newMakerOrder, multiAction);
-  }
-
-  if (newTakerOrder && newTakerOrder.baseAmount) {
-    // rollover
-    encodeSingleSwap(newTakerOrder, multiAction);
-  }
-
-  return encodeRouterCall(multiAction, BigNumber.from(0));
-}
-
 ////////////////////  ENCODE SINGLE  ////////////////////
 
-function encodeSingleSettle(trade: BaseTrade, multiAction: MultiAction) {
+export function encodeSingleSettle(
+  accountId: string,
+  marketId: string,
+  maturityTimestamp: number,
+  multiAction: MultiAction,
+) {
   multiAction.newAction(
     getCommand(CommandType.V2_DATED_IRS_INSTRUMENT_SETTLE, [
-      trade.accountId,
-      trade.marketId,
-      trade.maturityTimestamp,
+      accountId,
+      marketId,
+      maturityTimestamp,
     ]),
   );
 }
@@ -173,14 +149,16 @@ export const encodeSingleApprove = (
 };
 
 export const encodeSingleWithdraw = (
-  trade: MakerTrade | TakerTrade,
+  accountId: string,
+  quoteTokenAddress: string,
+  marginAmount: number,
   multiAction: MultiAction,
 ) => {
-  const scaledAmount = scaleAmount(trade.marginAmount, trade.quoteTokenAddress);
+  const scaledAmount = scaleAmount(marginAmount, quoteTokenAddress);
   multiAction.newAction(
     getCommand(CommandType.V2_CORE_WITHDRAW, [
-      trade.accountId,
-      trade.quoteTokenAddress,
+      accountId,
+      quoteTokenAddress,
       scaledAmount,
     ]),
   );
@@ -242,9 +220,14 @@ const encodeDeposit = (trade: TakerTrade, multiAction: MultiAction): string => {
       encodeSingleDepositERC20(trade, multiAction);
     }
   } else if (trade.marginAmount < 0) {
+    if (trade.accountId === undefined) {
+      throw new Error('Withdraw: missing accountId');
+    }
     // withdraw
     encodeSingleWithdraw(
-      { ...trade, marginAmount: -trade.marginAmount },
+      trade.accountId,
+      trade.quoteTokenAddress,
+      -trade.marginAmount,
       multiAction,
     );
   }

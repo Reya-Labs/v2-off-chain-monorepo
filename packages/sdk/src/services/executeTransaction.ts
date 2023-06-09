@@ -1,14 +1,8 @@
-import { BigNumber, Signer } from 'ethers';
-import { PERIPHERY_ADDRESS } from '../utils/constants';
-import {
-  BaseTrade,
-  MakerTrade,
-  SettleTradeMaker,
-  SettleTradeTaker,
-  TakerTrade,
-} from '../utils/types';
+import { BigNumber, ContractReceipt, Signer } from 'ethers';
+import { PERIPHERY_ADDRESS } from '../utils/configuration';
+import { MakerTrade, TakerTrade } from '../utils/types';
 import { getGasBuffer } from '../utils/txHelpers';
-import { encodeMakerOrder, encodeSettlement, encodeTakerOrder } from './encode';
+import { encodeMakerOrder, encodeTakerOrder } from './encode';
 
 export type Transaction = {
   from: string;
@@ -29,26 +23,12 @@ export async function makerOrder(trade: MakerTrade, chainId: number) {
   await executeTransaction(trade.owner, data, value, chainId);
 }
 
-export async function settle(
-  trade: TakerTrade,
-  chainId: number,
-  newMakerOrder?: MakerTrade,
-  newTakerOrder?: TakerTrade,
-) {
-  const { calldata: data, value } = encodeSettlement(
-    trade,
-    newMakerOrder,
-    newTakerOrder,
-  );
-  await executeTransaction(trade.owner, data, value, chainId);
-}
-
-export async function executeTransaction(
+export async function estimateGas(
   signer: Signer,
   data: string,
   value: string,
   chainId: number,
-) {
+): Promise<Transaction & { gasLimit: BigNumber }> {
   const accountAddress = await signer.getAddress();
 
   const tx = {
@@ -76,11 +56,24 @@ export async function executeTransaction(
     throw new Error(errorMessage);
   }
 
+  return { ...tx, gasLimit };
+}
+
+export async function executeTransaction(
+  signer: Signer,
+  data: string,
+  value: string,
+  chainId: number,
+): Promise<ContractReceipt> {
+  const txData = await estimateGas(signer, data, value, chainId);
   try {
-    await signer.sendTransaction({ ...tx, gasLimit });
+    const txResponse = await signer.sendTransaction(txData);
+    const txReceipt = await txResponse.wait();
+    return txReceipt;
   } catch (error) {
     // sentry error & thorw
     console.warn(error);
+    throw new Error('Transaction Execution Error');
     //getReadableErrorMessage(error);
   }
 }
