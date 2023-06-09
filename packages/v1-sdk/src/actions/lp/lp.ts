@@ -5,7 +5,11 @@ import { getPeripheryContract } from '../../common/contract-generators';
 import { getLpPeripheryParams } from './getLpPeripheryParams';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
 import { estimateLpGasUnits } from './estimateLpGasUnits';
-import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
+import {
+  DEFAULT_TICK_SPACING,
+  NUMBER_OF_DECIMALS_ETHER,
+  PERIPHERY_ADDRESS_BY_CHAIN_ID,
+} from '../../common/constants';
 import { AMMInfo } from '../../common/api/amm/types';
 import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
 
@@ -26,6 +30,7 @@ export const lp = async ({
 
   const chainId: number = await signer.getChainId();
   const ammInfo: AMMInfo = await getAmmInfo(ammId, chainId);
+  const tickSpacing: number = DEFAULT_TICK_SPACING;
 
   const peripheryAddress = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
 
@@ -40,8 +45,8 @@ export const lp = async ({
     notional,
     fixedLow,
     fixedHigh,
-    marginEngineAddress,
-    underlyingTokenDecimals,
+    marginEngineAddress: ammInfo.marginEngineAddress,
+    underlyingTokenDecimals: ammInfo.underlyingTokenDecimals,
     tickSpacing,
   });
 
@@ -50,9 +55,9 @@ export const lp = async ({
     gasLimit?: ethers.BigNumber;
   } = {};
 
-  if (isEth && margin > 0) {
+  if (ammInfo.isEth && margin > 0) {
     lpPeripheryTempOverrides.value = utils.parseEther(
-      margin.toFixed(18).toString(),
+      margin.toFixed(NUMBER_OF_DECIMALS_ETHER).toString(),
     );
   }
 
