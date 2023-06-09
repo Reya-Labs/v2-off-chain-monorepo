@@ -1,7 +1,7 @@
 import md5 from 'crypto-js/md5';
 import { BigNumber, utils } from 'ethers';
 import { BaseTrade } from './types';
-import { getTokenInfo } from './constants';
+import { getTokenInfo } from './configuration';
 
 // would be good to turn prices into ticks to decrease chances of collision
 export async function createAccountId(
