@@ -24,8 +24,8 @@ import { getSentryTracker } from '../../init';
 export const updateMargin = async ({
   positionId,
   margin,
-  signer,
   fullyWithdraw,
+  signer,
 }: UpdateMarginArgs): Promise<ContractReceipt> => {
   const positionInfo: PositionInfo = await getPositionInfo(positionId);
 
