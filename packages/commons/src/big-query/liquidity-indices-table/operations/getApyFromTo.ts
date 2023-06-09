@@ -1,8 +1,6 @@
-import {
-  Address,
-  getLiquidityIndexAt,
-  SECONDS_IN_YEAR,
-} from '@voltz-protocol/commons-v2';
+import { SECONDS_IN_YEAR } from '../../../utils/constants';
+import { Address } from '../../../utils/convertLowercase';
+import { getLiquidityIndexAt } from './getLiquidityIndexAt';
 
 export async function getApyFromTo(
   chainId: number,

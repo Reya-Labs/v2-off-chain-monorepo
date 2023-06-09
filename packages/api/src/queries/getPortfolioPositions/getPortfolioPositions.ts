@@ -1,11 +1,12 @@
 import {
-  getTokenDetails,
   pullAccountCollateral,
+  getTokenDetails,
   pullAccountPositionEntries,
   pullMarketEntry,
 } from '@voltz-protocol/commons-v2';
-import { SupportedChainId } from '../services/provider';
-import { tickToFixedRate } from '../utils/vamm/tickConversions';
+
+import { SupportedChainId } from '../../../../indexer/src/services/provider';
+import { tickToFixedRate } from '../../../../indexer/src/utils/vamm/tickConversions';
 
 export type PortfolioPositionAMM = {
   id: string;

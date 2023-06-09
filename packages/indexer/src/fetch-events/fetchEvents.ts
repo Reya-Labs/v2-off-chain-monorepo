@@ -9,12 +9,13 @@ import { parseProductPositionUpdated } from '../event-parsers/dated-irs-instrume
 import { parseRateOracleConfigured } from '../event-parsers/dated-irs-instrument/rateOracleConfigured';
 import { parseVammCreated } from '../event-parsers/dated-irs-vamm/vammCreated';
 import { parseVammPriceChange } from '../event-parsers/dated-irs-vamm/vammPriceChange';
+import { BaseEvent } from '@voltz-protocol/commons-v2';
 
 export const fetchEvents = async (
   chainId: number,
   fromBlock: number,
   toBlock: number,
-) => {
+): Promise<BaseEvent[]> => {
   const fetchSpecificEvents = async <T>(
     contract: Contract,
     eventName: string,
