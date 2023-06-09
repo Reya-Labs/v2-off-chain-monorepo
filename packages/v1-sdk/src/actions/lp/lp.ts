@@ -12,6 +12,8 @@ import {
 } from '../../common/constants';
 import { AMMInfo } from '../../common/api/amm/types';
 import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
+import { getReadableErrorMessage } from '../../common/errors/errorHandling';
+import { getSentryTracker } from '../../init';
 
 export const lp = async ({
   ammId,
@@ -61,6 +63,21 @@ export const lp = async ({
     );
   }
 
+  await peripheryContract.callStatic
+    .mintOrBurn(
+      lpPeripheryParams.marginEngineAddress,
+      lpPeripheryParams.tickLower,
+      lpPeripheryParams.tickUpper,
+      lpPeripheryParams.notional,
+      lpPeripheryParams.isMint,
+      lpPeripheryParams.marginDelta,
+      lpPeripheryTempOverrides,
+    )
+    .catch((error: any) => {
+      const errorMessage = getReadableErrorMessage(error);
+      throw new Error(errorMessage);
+    });
+
   const estimatedGasUnits: BigNumber = await estimateLpGasUnits(
     peripheryContract,
     lpPeripheryParams,
@@ -69,13 +86,30 @@ export const lp = async ({
 
   lpPeripheryTempOverrides.gasLimit = getGasBuffer(estimatedGasUnits);
 
-  const tx: ethers.ContractTransaction = await peripheryContract
-    .mintOrBurn(lpPeripheryParams, lpPeripheryTempOverrides)
-    .catch(() => {
-      throw new Error('LP Transaction Confirmation Error');
+  const lpTransaction: ethers.ContractTransaction = await peripheryContract
+    .mintOrBurn(
+      lpPeripheryParams.marginEngineAddress,
+      lpPeripheryParams.tickLower,
+      lpPeripheryParams.tickUpper,
+      lpPeripheryParams.notional,
+      lpPeripheryParams.isMint,
+      lpPeripheryParams.marginDelta,
+      lpPeripheryTempOverrides,
+    )
+    .catch((error: any) => {
+      const sentryTracker = getSentryTracker();
+      sentryTracker.captureException(error);
+      sentryTracker.captureMessage('Transaction Confirmation Error');
+      throw new Error('Transaction Confirmation Error');
     });
 
-  const receipt: ContractReceipt = await tx.wait();
-
-  return receipt;
+  try {
+    const receipt = await lpTransaction.wait();
+    return receipt;
+  } catch (error) {
+    const sentryTracker = getSentryTracker();
+    sentryTracker.captureException(error);
+    sentryTracker.captureMessage('Transaction Confirmation Error');
+    throw new Error('Transaction Confirmation Error');
+  }
 };
