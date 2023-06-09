@@ -4,6 +4,7 @@ import { parseBaseEvent } from './utils/parseBaseEvent';
 import {
   convertLowercaseString,
   AccountCreatedEvent,
+  ProtocolEventType,
 } from '@voltz-protocol/commons-v2';
 
 export const parseAccountCreated = (
@@ -11,7 +12,7 @@ export const parseAccountCreated = (
   event: Event,
 ): AccountCreatedEvent => {
   // 1. Type of event
-  const type = 'account-created';
+  const type = ProtocolEventType.account_created;
 
   // 2. Parse particular args
   const accountId = (event.args?.accountId as BigNumber).toString();

@@ -1,14 +1,18 @@
 import { Event, BigNumber } from 'ethers';
 
 import { parseBaseEvent } from './utils/parseBaseEvent';
-import { descale, MarketFeeConfiguredEvent } from '@voltz-protocol/commons-v2';
+import {
+  descale,
+  MarketFeeConfiguredEvent,
+  ProtocolEventType,
+} from '@voltz-protocol/commons-v2';
 
 export const parseMarketFeeConfigured = (
   chainId: number,
   event: Event,
 ): MarketFeeConfiguredEvent => {
   // 1. Type of event
-  const type = 'market-fee-configured';
+  const type = ProtocolEventType.market_fee_configured;
 
   // 2. Parse particular args
   const productId = event.args?.config.productId as string;

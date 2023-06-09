@@ -4,6 +4,7 @@ import { parseBaseEvent } from './utils/parseBaseEvent';
 import {
   convertLowercaseString,
   ProductRegisteredEvent,
+  ProtocolEventType,
 } from '@voltz-protocol/commons-v2';
 
 export const parseProductRegistered = (
@@ -11,7 +12,7 @@ export const parseProductRegistered = (
   event: Event,
 ): ProductRegisteredEvent => {
   // 1. Type of event
-  const type = 'product-registered';
+  const type = ProtocolEventType.product_registered;
 
   // 2. Parse particular args
   const product = event.args?.product as string;

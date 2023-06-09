@@ -1,6 +1,6 @@
 import { parseTakerOrder } from '../../src/event-parsers/parseTakerOrder';
 import { compareEvents } from '../utils/compareEvents';
-import { TakerOrderEvent } from '@voltz-protocol/commons-v2';
+import { ProtocolEventType, TakerOrderEvent } from '@voltz-protocol/commons-v2';
 import { takerOrderEvmEvent } from '../utils/evmEventMocks';
 
 describe('taker order parser', () => {
@@ -8,8 +8,8 @@ describe('taker order parser', () => {
     const chainId = 1;
 
     const takerOrderEvent: TakerOrderEvent = {
-      id: '1_taker-order_Block-Hash_0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A_123',
-      type: 'taker-order',
+      id: '1$taker_order$Block-Hash$0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A$123',
+      type: ProtocolEventType.taker_order,
 
       chainId: 1,
       source: '0xe9a6569995f3d8ec971f1d314e0e832c38a735cc',

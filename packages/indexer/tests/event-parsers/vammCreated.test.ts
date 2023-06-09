@@ -1,6 +1,9 @@
 import { compareEvents } from '../utils/compareEvents';
 import { vammCreatedEvmEvent } from '../utils/evmEventMocks';
-import { VammCreatedEvent } from '@voltz-protocol/commons-v2';
+import {
+  ProtocolEventType,
+  VammCreatedEvent,
+} from '@voltz-protocol/commons-v2';
 import { parseVammCreated } from '../../src/event-parsers/parseVammCreated';
 
 describe('vamm created parser', () => {
@@ -8,8 +11,8 @@ describe('vamm created parser', () => {
     const chainId = 1;
 
     const vammCreatedEvent: VammCreatedEvent = {
-      id: '1_vamm-created_Block-Hash_0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A_123',
-      type: 'vamm-created',
+      id: '1$vamm_created$Block-Hash$0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A$123',
+      type: ProtocolEventType.vamm_created,
 
       chainId: 1,
       source: '0xe9a6569995f3d8ec971f1d314e0e832c38a735cc',

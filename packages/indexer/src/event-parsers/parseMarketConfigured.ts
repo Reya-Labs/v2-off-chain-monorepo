@@ -1,6 +1,9 @@
 import { Event } from 'ethers';
 
-import { MarketConfiguredEvent } from '@voltz-protocol/commons-v2';
+import {
+  MarketConfiguredEvent,
+  ProtocolEventType,
+} from '@voltz-protocol/commons-v2';
 import { parseBaseEvent } from './utils/parseBaseEvent';
 import { convertLowercaseString } from '@voltz-protocol/commons-v2';
 
@@ -9,7 +12,7 @@ export const parseMarketConfigured = (
   event: Event,
 ): MarketConfiguredEvent => {
   // 1. Type of event
-  const type = 'market-configured';
+  const type = ProtocolEventType.market_configured;
 
   // 2. Parse particular args
   const marketId = event.args?.config.marketId as string;

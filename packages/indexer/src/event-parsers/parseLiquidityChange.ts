@@ -1,6 +1,9 @@
 import { Event, BigNumber } from 'ethers';
 
-import { LiquidityChangeEvent } from '@voltz-protocol/commons-v2';
+import {
+  LiquidityChangeEvent,
+  ProtocolEventType,
+} from '@voltz-protocol/commons-v2';
 import { getTokenDetails } from '@voltz-protocol/commons-v2';
 import { getMarketQuoteToken } from '../utils/markets/getMarketQuoteToken';
 import { parseBaseEvent } from './utils/parseBaseEvent';
@@ -11,7 +14,7 @@ export const parseLiquidityChange = (
   event: Event,
 ): LiquidityChangeEvent => {
   // 1. Type of event
-  const type = 'liquidity-change';
+  const type = ProtocolEventType.liquidity_change;
 
   // 2. Parse particular args
   const accountId = (event.args?.accountId as BigNumber).toString();

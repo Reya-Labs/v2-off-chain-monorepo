@@ -3,6 +3,7 @@ import { Event, BigNumber } from 'ethers';
 import {
   convertLowercaseString,
   AccountOwnerUpdateEvent,
+  ProtocolEventType,
 } from '@voltz-protocol/commons-v2';
 import { parseBaseEvent } from './utils/parseBaseEvent';
 
@@ -11,7 +12,7 @@ export const parseAccountOwnerUpdate = (
   event: Event,
 ): AccountOwnerUpdateEvent => {
   // 1. Type of event
-  const type = 'account-owner-update';
+  const type = ProtocolEventType.account_owner_update;
 
   // 2. Parse particular args
   const accountId = (event.args?.accountId as BigNumber).toString();

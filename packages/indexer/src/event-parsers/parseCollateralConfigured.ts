@@ -1,7 +1,10 @@
 import { Event, BigNumber, ethers } from 'ethers';
 
 import { parseBaseEvent } from './utils/parseBaseEvent';
-import { convertLowercaseString } from '@voltz-protocol/commons-v2';
+import {
+  ProtocolEventType,
+  convertLowercaseString,
+} from '@voltz-protocol/commons-v2';
 import {
   getTokenDetails,
   CollateralConfiguredEvent,
@@ -12,7 +15,7 @@ export const parseCollateralConfigured = (
   event: Event,
 ): CollateralConfiguredEvent => {
   // 1. Type of event
-  const type = 'collateral-configured';
+  const type = ProtocolEventType.collateral_configured;
 
   // 2. Parse particular args
   const depositingEnabled = event.args?.depositingEnabled as boolean;

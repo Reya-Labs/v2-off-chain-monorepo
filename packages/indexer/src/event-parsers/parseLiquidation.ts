@@ -5,6 +5,7 @@ import {
   convertLowercaseString,
   LiquidationEvent,
   getTokenDetails,
+  ProtocolEventType,
 } from '@voltz-protocol/commons-v2';
 
 export const parseLiquidation = (
@@ -12,7 +13,7 @@ export const parseLiquidation = (
   event: Event,
 ): LiquidationEvent => {
   // 1. Type of event
-  const type = 'liquidation';
+  const type = ProtocolEventType.liquidation;
 
   // 2. Parse particular args
   const liquidatedAccountId = (

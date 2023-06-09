@@ -1,6 +1,9 @@
 import { compareEvents } from '../utils/compareEvents';
 import { productPositionUpdatedEvmEvent } from '../utils/evmEventMocks';
-import { ProductPositionUpdatedEvent } from '@voltz-protocol/commons-v2';
+import {
+  ProductPositionUpdatedEvent,
+  ProtocolEventType,
+} from '@voltz-protocol/commons-v2';
 import { parseProductPositionUpdated } from '../../src/event-parsers/parseProductPositionUpdated';
 
 describe('product position updated', () => {
@@ -8,8 +11,8 @@ describe('product position updated', () => {
     const chainId = 1;
 
     const expectedEvent: ProductPositionUpdatedEvent = {
-      id: '1_product-position-updated_Block-Hash_0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A_123',
-      type: 'product-position-updated',
+      id: '1$product_position_updated$Block-Hash$0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A$123',
+      type: ProtocolEventType.product_position_updated,
 
       chainId: 1,
       source: '0xe9a6569995f3d8ec971f1d314e0e832c38a735cc',

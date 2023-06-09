@@ -10,7 +10,7 @@ export const parseBaseEvent = (
 ): BaseEvent => {
   const blockTimestamp = event.args?.blockTimestamp as number;
 
-  const id = `${chainId}_${type}_${event.blockHash}_${event.transactionHash}_${event.logIndex}`;
+  const id = `${chainId}$${type}$${event.blockHash}$${event.transactionHash}$${event.logIndex}`;
 
   return {
     id,

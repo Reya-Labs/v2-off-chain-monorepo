@@ -1,6 +1,9 @@
 import { Event } from 'ethers';
 
-import { RateOracleConfiguredEvent } from '@voltz-protocol/commons-v2';
+import {
+  ProtocolEventType,
+  RateOracleConfiguredEvent,
+} from '@voltz-protocol/commons-v2';
 import { parseBaseEvent } from './utils/parseBaseEvent';
 import { convertLowercaseString } from '@voltz-protocol/commons-v2';
 
@@ -9,7 +12,7 @@ export const parseRateOracleConfigured = (
   event: Event,
 ): RateOracleConfiguredEvent => {
   // 1. Type of event
-  const type = 'rate-oracle-configured';
+  const type = ProtocolEventType.rate_oracle_configured;
 
   // 2. Parse particular args
   const marketId = event.args?.marketId as string;

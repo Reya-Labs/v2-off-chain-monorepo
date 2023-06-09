@@ -1,5 +1,8 @@
 import { parseVammPriceChange } from '../../src/event-parsers/parseVammPriceChange';
-import { VammPriceChangeEvent } from '@voltz-protocol/commons-v2';
+import {
+  ProtocolEventType,
+  VammPriceChangeEvent,
+} from '@voltz-protocol/commons-v2';
 import { compareEvents } from '../utils/compareEvents';
 import { vammPriceChangeEvmEvent } from '../utils/evmEventMocks';
 
@@ -8,8 +11,8 @@ describe('vamm price change parser', () => {
     const chainId = 1;
 
     const vammPriceChangeEvent: VammPriceChangeEvent = {
-      id: '1_vamm-price-change_Block-Hash_0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A_123',
-      type: 'vamm-price-change',
+      id: '1$vamm_price_change$Block-Hash$0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A$123',
+      type: ProtocolEventType.vamm_price_change,
 
       chainId: 1,
       source: '0xe9a6569995f3d8ec971f1d314e0e832c38a735cc',

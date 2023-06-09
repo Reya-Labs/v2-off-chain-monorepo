@@ -1,6 +1,6 @@
 import { Event, BigNumber } from 'ethers';
 
-import { getTokenDetails } from '@voltz-protocol/commons-v2';
+import { ProtocolEventType, getTokenDetails } from '@voltz-protocol/commons-v2';
 import { parseBaseEvent } from './utils/parseBaseEvent';
 import {
   convertLowercaseString,
@@ -12,7 +12,7 @@ export const parseCollateralUpdate = (
   event: Event,
 ): CollateralUpdateEvent => {
   // 1. Type of event
-  const type = 'collateral-update';
+  const type = ProtocolEventType.collateral_update;
 
   // 2. Parse particular args
   const accountId = (event.args?.accountId as BigNumber).toString();
