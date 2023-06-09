@@ -12,45 +12,58 @@ import {
 import { getPeripheryContract } from '../../common/contract-generators';
 import { estimateSettleGasUnits } from '../settle/estimateSettleGasUnits';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
-import { getUpdateMarginPeripheryParams } from './getUpdateMarginPeripheryParams';
 import { estimateUpdateMarginGasUnits } from './estimateUpdateMarginGasUnits';
+import { PositionInfo } from '../../common/api/position/types';
+import { getPositionInfo } from '../../common/api/position/getPositionInfo';
+import { decodePositionId } from '../../common/api/position/decodePositionId';
+import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
+import { scale } from '../../common/math/scale';
+import { getReadableErrorMessage } from '../../common/errors/errorHandling';
+import { getSentryTracker } from '../../init';
 
 export const updateMargin = async ({
-  fixedLow,
-  fixedHigh,
+  positionId,
   margin,
-  underlyingTokenAddress,
-  underlyingTokenDecimals,
-  tickSpacing,
-  chainId,
-  peripheryAddress,
-  marginEngineAddress,
-  provider,
-  signer,
   fullyWithdraw,
+  signer,
 }: UpdateMarginArgs): Promise<ContractReceipt> => {
+  const positionInfo: PositionInfo = await getPositionInfo(positionId);
+
+  const { chainId } = decodePositionId(positionId);
+
+  const peripheryAddress = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
+
   const peripheryContract: ethers.Contract = getPeripheryContract(
     peripheryAddress,
-    provider,
+    signer,
   );
 
-  peripheryContract.connect(signer);
-
-  const updateMarginPeripheryParams: UpdateMarginPeripheryParams =
-    getUpdateMarginPeripheryParams(
-      marginEngineAddress,
-      fullyWithdraw,
-      fixedLow,
-      fixedHigh,
-      tickSpacing,
-      margin,
-      underlyingTokenDecimals,
-    );
+  const updateMarginPeripheryParams: UpdateMarginPeripheryParams = {
+    marginEngineAddress: positionInfo.ammMarginEngineAddress,
+    tickLower: positionInfo.positionTickLower,
+    tickUpper: positionInfo.positionTickUpper,
+    marginDelta: scale(margin, positionInfo.ammUnderlyingTokenDecimals),
+    fullyWithdraw: fullyWithdraw,
+  };
 
   const updateMarginPeripheryTempOverrides: {
     value?: BigNumber;
     gasLimit?: BigNumber;
   } = {};
+
+  await peripheryContract.callStatic
+    .updatePositionMargin(
+      updateMarginPeripheryParams.marginEngineAddress,
+      updateMarginPeripheryParams.tickLower,
+      updateMarginPeripheryParams.tickUpper,
+      updateMarginPeripheryParams.marginDelta,
+      updateMarginPeripheryParams.fullyWithdraw,
+      updateMarginPeripheryTempOverrides,
+    )
+    .catch((error: any) => {
+      const errorMessage = getReadableErrorMessage(error);
+      throw new Error(errorMessage);
+    });
 
   const estimatedGasUnits: BigNumber = await estimateUpdateMarginGasUnits(
     peripheryContract,
@@ -61,16 +74,28 @@ export const updateMargin = async ({
   updateMarginPeripheryTempOverrides.gasLimit = getGasBuffer(estimatedGasUnits);
 
   const updateMarginTransaction: ContractTransaction = await peripheryContract
-    .connect(signer)
     .updatePositionMargin(
-      updateMarginPeripheryParams,
+      updateMarginPeripheryParams.marginEngineAddress,
+      updateMarginPeripheryParams.tickLower,
+      updateMarginPeripheryParams.tickUpper,
+      updateMarginPeripheryParams.marginDelta,
+      updateMarginPeripheryParams.fullyWithdraw,
       updateMarginPeripheryTempOverrides,
     )
-    .catch(() => {
-      throw new Error('Update Margin Transaction Confirmation Error');
+    .catch((error: any) => {
+      const sentryTracker = getSentryTracker();
+      sentryTracker.captureException(error);
+      sentryTracker.captureMessage('Transaction Confirmation Error');
+      throw new Error('Transaction Confirmation Error');
     });
 
-  const receipt: ContractReceipt = await updateMarginTransaction.wait();
-
-  return receipt;
+  try {
+    const receipt = await updateMarginTransaction.wait();
+    return receipt;
+  } catch (error) {
+    const sentryTracker = getSentryTracker();
+    sentryTracker.captureException(error);
+    sentryTracker.captureMessage('Transaction Confirmation Error');
+    throw new Error('Transaction Confirmation Error');
+  }
 };
