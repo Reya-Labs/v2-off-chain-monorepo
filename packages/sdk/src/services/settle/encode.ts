@@ -1,7 +1,3 @@
-/// encode command
-/// command definition
-
-import { Signer } from 'ethers';
 import { ZERO_BN } from '../../utils/constants';
 import { MethodParameters, MultiAction } from '../../utils/types';
 import {
