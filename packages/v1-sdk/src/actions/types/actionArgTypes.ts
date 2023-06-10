@@ -134,7 +134,6 @@ export type SettlePeripheryParams = {
 export type UpdateMarginArgs = {
   positionId: string;
   margin: number;
-  fullyWithdraw: boolean;
   signer: Signer;
 };
 
