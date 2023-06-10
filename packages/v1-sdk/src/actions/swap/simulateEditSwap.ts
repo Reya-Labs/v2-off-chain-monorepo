@@ -1,4 +1,4 @@
-import { SwapArgs, SwapPeripheryParams } from '../types/actionArgTypes';
+import { SimulateSwapArgs, SwapPeripheryParams } from '../types/actionArgTypes';
 import {
   DEFAULT_TICK_SPACING,
   PERIPHERY_ADDRESS_BY_CHAIN_ID,
@@ -17,8 +17,13 @@ export const simulateSwap = async ({
   notional,
   margin,
   fixedRateLimit,
+  provider,
   signer,
-}: SwapArgs) => {
+}: SimulateSwapArgs) => {
+  if (signer === undefined) {
+    signer = getDummyWallet().connect(provider);
+  }
+
   if (signer.provider === undefined) {
     throw new Error('Signer Provider Undefined');
   }
@@ -62,7 +67,7 @@ export const simulateSwap = async ({
     peripheryContract,
     marginEngineAddress: ammInfo.marginEngineAddress,
     underlyingTokenDecimals: ammInfo.underlyingTokenDecimals,
-    provider: signer.provider,
+    provider,
     chainId,
     signer,
     swapPeripheryParams,
