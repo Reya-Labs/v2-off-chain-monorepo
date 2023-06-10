@@ -4,16 +4,6 @@ import { AMMInfo } from '../../common/api/amm/types';
 
 // swap
 
-export type SimulateSwapArgs = {
-  ammId: string;
-  isFT: boolean;
-  notional: number;
-  margin: number;
-  fixedRateLimit?: number;
-  provider: providers.Provider;
-  signer?: Signer;
-};
-
 export type SwapArgs = {
   ammId: string;
   isFT: boolean;
@@ -31,6 +21,8 @@ export type EditSwapArgs = {
   fixedRateLimit?: number;
   signer: Signer;
 };
+
+export type SimulateEditSwapArgs = {};
 
 export type SwapPeripheryParams = {
   marginEngineAddress: string;
