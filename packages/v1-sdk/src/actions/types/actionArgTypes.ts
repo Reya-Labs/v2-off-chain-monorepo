@@ -149,8 +149,7 @@ export type UpdateMarginPeripheryParams = {
 // token
 
 export type ApprovePeripheryArgs = {
-  chainId: number;
-  tokenAddress: string;
+  ammId: string;
   signer: Signer;
 };
 

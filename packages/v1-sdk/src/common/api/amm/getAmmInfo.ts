@@ -22,6 +22,7 @@ export const getAmmInfo = async (
     isEth: rawAMM.tokenName === 'ETH',
     marginEngineAddress: rawAMM.marginEngine,
     underlyingTokenDecimals: rawAMM.tokenDecimals,
+    underlyingTokenAddress: rawAMM.tokenId, // todo: make sure this is the case
   };
 
   return ammInfo;
