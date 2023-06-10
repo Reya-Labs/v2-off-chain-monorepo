@@ -4,7 +4,7 @@ import { exponentialBackoff } from '../../common/retry';
 import { getERC20TokenContract } from '../../common/contract-generators';
 import { descale } from '../../common/math/descale';
 
-const getBalance = async ({
+export const getBalance = async ({
   isEth,
   tokenAddress,
   tokenDecimals,
