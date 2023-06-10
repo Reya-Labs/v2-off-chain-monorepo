@@ -24,7 +24,6 @@ import { getSentryTracker } from '../../init';
 export const updateMargin = async ({
   positionId,
   margin,
-  fullyWithdraw,
   signer,
 }: UpdateMarginArgs): Promise<ContractReceipt> => {
   const positionInfo: PositionInfo = await getPositionInfo(positionId);
@@ -43,7 +42,7 @@ export const updateMargin = async ({
     tickLower: positionInfo.positionTickLower,
     tickUpper: positionInfo.positionTickUpper,
     marginDelta: scale(margin, positionInfo.ammUnderlyingTokenDecimals),
-    fullyWithdraw: fullyWithdraw,
+    fullyWithdraw: false,
   };
 
   const updateMarginPeripheryTempOverrides: {
