@@ -17,7 +17,7 @@ export const estimateLpGasUnits = async (
       lpPeripheryParams.marginDelta,
       lpPeripheryTempOverrides,
     )
-    .catch(error => {
+    .catch((error: any) => {
       const errorMessage = getReadableErrorMessage(error);
       throw new Error(errorMessage);
     });
