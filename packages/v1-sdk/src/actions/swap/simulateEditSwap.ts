@@ -1,37 +1,30 @@
-import { SimulateSwapArgs, SwapPeripheryParams } from '../types/actionArgTypes';
+import { EditSwapArgs, SwapPeripheryParams } from '../types/actionArgTypes';
 import {
   DEFAULT_TICK_SPACING,
   PERIPHERY_ADDRESS_BY_CHAIN_ID,
 } from '../../common/constants';
-import { BigNumber, ethers, providers, utils } from 'ethers';
+import { BigNumber, ethers, utils } from 'ethers';
 import { getPeripheryContract } from '../../common/contract-generators';
 import { getSwapPeripheryParams } from './getSwapPeripheryParams';
-import getDummyWallet from '../../common/wallet/getDummyWallet';
 import { getInfoPostSwap } from './getInfoPostSwap';
-import { AMMInfo } from '../../common/api/amm/types';
-import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
+import { PositionInfo } from '../../common/api/position/types';
+import { getPositionInfo } from '../../common/api/position/getPositionInfo';
+import { InfoPostSwap } from './getInfoPostSwap';
 
-export const simulateSwap = async ({
-  ammId,
+export const simulateEditSwap = async ({
+  positionId,
   isFT,
   notional,
   margin,
   fixedRateLimit,
-  provider,
   signer,
-}: SimulateSwapArgs) => {
-  if (signer === undefined) {
-    signer = getDummyWallet().connect(provider);
-  }
-
+}: EditSwapArgs): Promise<InfoPostSwap> => {
   if (signer.provider === undefined) {
     throw new Error('Signer Provider Undefined');
   }
   const chainId: number = await signer.getChainId();
 
-  const ammInfo: AMMInfo = await getAmmInfo(ammId, chainId);
-
-  const signerAddress: string = await signer.getAddress();
+  const positionInfo: PositionInfo = await getPositionInfo(positionId);
 
   const tickSpacing: number = DEFAULT_TICK_SPACING;
 
@@ -46,8 +39,8 @@ export const simulateSwap = async ({
     margin,
     isFT,
     notional,
-    marginEngineAddress: ammInfo.marginEngineAddress,
-    underlyingTokenDecimals: ammInfo.underlyingTokenDecimals,
+    marginEngineAddress: positionInfo.ammMarginEngineAddress,
+    underlyingTokenDecimals: positionInfo.ammUnderlyingTokenDecimals,
     fixedRateLimit,
     tickSpacing,
   });
@@ -57,7 +50,7 @@ export const simulateSwap = async ({
     gasLimit?: BigNumber;
   } = {};
 
-  if (ammInfo.isEth && margin > 0) {
+  if (positionInfo.isEth && margin > 0) {
     swapPeripheryTempOverrides.value = utils.parseEther(
       margin.toFixed(18).toString(),
     );
@@ -65,9 +58,9 @@ export const simulateSwap = async ({
 
   const infoPostSwap = await getInfoPostSwap({
     peripheryContract,
-    marginEngineAddress: ammInfo.marginEngineAddress,
-    underlyingTokenDecimals: ammInfo.underlyingTokenDecimals,
-    provider,
+    marginEngineAddress: positionInfo.ammMarginEngineAddress,
+    underlyingTokenDecimals: positionInfo.ammUnderlyingTokenDecimals,
+    provider: signer.provider,
     chainId,
     signer,
     swapPeripheryParams,
