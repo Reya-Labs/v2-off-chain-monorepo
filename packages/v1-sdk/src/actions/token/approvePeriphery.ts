@@ -6,14 +6,22 @@ import {
 } from '../../common/constants';
 import { getSentryTracker } from '../../init';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
+import { AMMInfo } from '../../common/api/amm/types';
+import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
 
 // todo: check against https://github.com/Voltz-Protocol/v1-sdk/blob/a22ab02703259ae81323c561c13c3f78d16dc399/src/entities/amm/amm.ts#L1745
 export const approvePeriphery = async ({
-  chainId,
-  tokenAddress,
+  ammId,
   signer,
 }: ApprovePeripheryArgs): Promise<void> => {
-  const tokenContract = getERC20TokenContract(tokenAddress, signer);
+  const chainId = await signer.getChainId();
+
+  const ammInfo: AMMInfo = await getAmmInfo(ammId, chainId);
+
+  const tokenContract = getERC20TokenContract(
+    ammInfo.underlyingTokenAddress,
+    signer,
+  );
 
   const peripheryAddress = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
 
@@ -27,7 +35,9 @@ export const approvePeriphery = async ({
     const sentryTracker = getSentryTracker();
     sentryTracker.captureException(error);
     sentryTracker.captureMessage(
-      `Could not increase periphery allowance (${tokenAddress}, ${MaxUint256Bn.toString()})`,
+      `Could not increase periphery allowance (${
+        ammInfo.underlyingTokenAddress
+      }, ${MaxUint256Bn.toString()})`,
     );
     throw new Error(
       `Unable to approve. If your existing allowance is non-zero but lower than needed, some tokens like USDT require you to call approve("${peripheryAddress}", 0) before you can increase the allowance.`,
