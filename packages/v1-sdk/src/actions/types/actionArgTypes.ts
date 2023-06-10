@@ -97,20 +97,13 @@ export type RolloverAndLpPeripheryParams = {
 // lp
 
 export type LpArgs = {
+  ammId: string;
   addLiquidity: boolean;
   fixedLow: number;
   fixedHigh: number;
   notional: number;
   margin: number;
-  underlyingTokenAddress: string;
-  underlyingTokenDecimals: number;
-  tickSpacing: number;
-  chainId: number;
-  peripheryAddress: string;
-  marginEngineAddress: string;
-  provider: providers.Provider;
   signer: Signer;
-  isEth: boolean;
 };
 
 export type LpPeripheryParams = {

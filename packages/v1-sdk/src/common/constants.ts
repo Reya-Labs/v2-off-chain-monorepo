@@ -53,3 +53,5 @@ export const TresholdApprovalBn = BigNumber.from(
 
 export const TRADER_TICK_LOWER = -69060;
 export const TRADER_TICK_UPPER = 0;
+
+export const NUMBER_OF_DECIMALS_ETHER = 18;

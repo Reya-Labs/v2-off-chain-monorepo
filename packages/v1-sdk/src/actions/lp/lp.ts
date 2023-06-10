@@ -5,22 +5,24 @@ import { getPeripheryContract } from '../../common/contract-generators';
 import { getLpPeripheryParams } from './getLpPeripheryParams';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
 import { estimateLpGasUnits } from './estimateLpGasUnits';
+import {
+  DEFAULT_TICK_SPACING,
+  NUMBER_OF_DECIMALS_ETHER,
+  PERIPHERY_ADDRESS_BY_CHAIN_ID,
+} from '../../common/constants';
+import { AMMInfo } from '../../common/api/amm/types';
+import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
+import { getReadableErrorMessage } from '../../common/errors/errorHandling';
+import { getSentryTracker } from '../../init';
 
 export const lp = async ({
+  ammId,
   addLiquidity,
   fixedLow,
   fixedHigh,
   notional,
   margin,
-  underlyingTokenAddress,
-  underlyingTokenDecimals,
-  chainId,
-  peripheryAddress,
-  marginEngineAddress,
-  provider,
   signer,
-  tickSpacing,
-  isEth,
 }: LpArgs): Promise<ContractReceipt> => {
   handleLpErrors({
     notional,
@@ -28,12 +30,16 @@ export const lp = async ({
     fixedHigh,
   });
 
+  const chainId: number = await signer.getChainId();
+  const ammInfo: AMMInfo = await getAmmInfo(ammId, chainId);
+  const tickSpacing: number = DEFAULT_TICK_SPACING;
+
+  const peripheryAddress = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
+
   const peripheryContract: ethers.Contract = getPeripheryContract(
     peripheryAddress,
-    provider,
+    signer,
   );
-
-  peripheryContract.connect(signer);
 
   const lpPeripheryParams: LpPeripheryParams = getLpPeripheryParams({
     addLiquidity,
@@ -41,8 +47,8 @@ export const lp = async ({
     notional,
     fixedLow,
     fixedHigh,
-    marginEngineAddress,
-    underlyingTokenDecimals,
+    marginEngineAddress: ammInfo.marginEngineAddress,
+    underlyingTokenDecimals: ammInfo.underlyingTokenDecimals,
     tickSpacing,
   });
 
@@ -51,11 +57,26 @@ export const lp = async ({
     gasLimit?: ethers.BigNumber;
   } = {};
 
-  if (isEth && margin > 0) {
+  if (ammInfo.isEth && margin > 0) {
     lpPeripheryTempOverrides.value = utils.parseEther(
-      margin.toFixed(18).toString(),
+      margin.toFixed(NUMBER_OF_DECIMALS_ETHER).toString(),
     );
   }
+
+  await peripheryContract.callStatic
+    .mintOrBurn(
+      lpPeripheryParams.marginEngineAddress,
+      lpPeripheryParams.tickLower,
+      lpPeripheryParams.tickUpper,
+      lpPeripheryParams.notional,
+      lpPeripheryParams.isMint,
+      lpPeripheryParams.marginDelta,
+      lpPeripheryTempOverrides,
+    )
+    .catch((error: any) => {
+      const errorMessage = getReadableErrorMessage(error);
+      throw new Error(errorMessage);
+    });
 
   const estimatedGasUnits: BigNumber = await estimateLpGasUnits(
     peripheryContract,
@@ -65,13 +86,30 @@ export const lp = async ({
 
   lpPeripheryTempOverrides.gasLimit = getGasBuffer(estimatedGasUnits);
 
-  const tx: ethers.ContractTransaction = await peripheryContract
-    .mintOrBurn(lpPeripheryParams, lpPeripheryTempOverrides)
-    .catch(() => {
-      throw new Error('LP Transaction Confirmation Error');
+  const lpTransaction: ethers.ContractTransaction = await peripheryContract
+    .mintOrBurn(
+      lpPeripheryParams.marginEngineAddress,
+      lpPeripheryParams.tickLower,
+      lpPeripheryParams.tickUpper,
+      lpPeripheryParams.notional,
+      lpPeripheryParams.isMint,
+      lpPeripheryParams.marginDelta,
+      lpPeripheryTempOverrides,
+    )
+    .catch((error: any) => {
+      const sentryTracker = getSentryTracker();
+      sentryTracker.captureException(error);
+      sentryTracker.captureMessage('Transaction Confirmation Error');
+      throw new Error('Transaction Confirmation Error');
     });
 
-  const receipt: ContractReceipt = await tx.wait();
-
-  return receipt;
+  try {
+    const receipt = await lpTransaction.wait();
+    return receipt;
+  } catch (error) {
+    const sentryTracker = getSentryTracker();
+    sentryTracker.captureException(error);
+    sentryTracker.captureMessage('Transaction Confirmation Error');
+    throw new Error('Transaction Confirmation Error');
+  }
 };
