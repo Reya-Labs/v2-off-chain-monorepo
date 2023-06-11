@@ -4,5 +4,6 @@ export * from './actions/token';
 export * from './actions/rolloverWithSwap';
 export * from './actions/updateMargin';
 export * from './actions/poolSwapInfo';
+export * from './actions/poolLpInfo';
 export * from './init';
 export * from './actions/types';
