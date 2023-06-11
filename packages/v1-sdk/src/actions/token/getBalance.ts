@@ -1,8 +1,7 @@
 import { GetBalanceArgs } from '../types/actionArgTypes';
-import { BigNumber } from 'ethers';
 import { exponentialBackoff } from '../../common/retry';
 import { getERC20TokenContract } from '../../common/contract-generators';
-import { descale } from '../../common/math/descale';
+import { getEthBalance } from './getEthBalance';
 
 export const getBalance = async ({
   isEth,
@@ -10,12 +9,10 @@ export const getBalance = async ({
   tokenDecimals,
   walletAddress,
   provider,
-}: GetBalanceArgs) => {
-  let currentBalance: BigNumber;
+}: GetBalanceArgs): Promise<number> => {
+  let currentBalance: number;
   if (isEth) {
-    currentBalance = await exponentialBackoff(() =>
-      provider.getBalance(walletAddress),
-    );
+    currentBalance = await getEthBalance({ walletAddress, provider });
   } else {
     const token = getERC20TokenContract(tokenAddress, provider);
 
@@ -24,5 +21,5 @@ export const getBalance = async ({
     );
   }
 
-  return descale(currentBalance, tokenDecimals);
+  return currentBalance;
 };
