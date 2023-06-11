@@ -145,12 +145,8 @@ export type ApprovePeripheryArgs = {
 };
 
 export type GetAllowanceArgs = {
-  isEth: boolean;
-  chainId: number;
-  tokenAddress: string;
-  tokenDecimals: number;
-  walletAddress: string;
-  provider: providers.Provider;
+  ammId: string;
+  signer: Signer;
 };
 
 export type GetBalanceArgs = {
