@@ -14,7 +14,7 @@ import {
   CompleteSwapDetails,
   InfoPostSwap,
   SwapArgs,
-  SwapParipheryParameters,
+  SwapPeripheryParameters,
 } from './types';
 import { getSwapPeripheryParams } from './getSwapPeripheryParams';
 import {
@@ -85,13 +85,7 @@ export async function swap({
     priceLimit,
   });
 
-  const swapPeripheryParams: SwapParipheryParameters = {
-    ...params,
-    priceLimit: params.priceLimit !== undefined ? params.priceLimit : ZERO_BN,
-  };
-
-  const { calldata: data, value } = await encodeSwap(swapPeripheryParams);
-  const chainId = await signer.getChainId();
+  const { data, value, chainId } = await getSwapTxData(params);
   const result = await executeTransaction(signer, data, value, chainId);
   return result;
 }
@@ -104,7 +98,6 @@ export async function getInfoPostSwap({
   priceLimit,
 }: SwapArgs): Promise<InfoPostSwap> {
   // fetch: send request to api
-  const chainId = await signer.getChainId();
 
   const params = await createSwapParams({
     poolId,
@@ -114,13 +107,7 @@ export async function getInfoPostSwap({
     priceLimit,
   });
 
-  const swapPeripheryParams: SwapParipheryParameters = {
-    ...params,
-    priceLimit: params.priceLimit !== undefined ? params.priceLimit : ZERO_BN,
-  } as SwapParipheryParameters;
-
-  const { calldata: data, value } = await encodeSwap(swapPeripheryParams);
-
+  const { data, value, chainId } = await getSwapTxData(params);
   const { txData, bytesOutput } = await simulateTx(
     signer,
     data,
@@ -134,7 +121,8 @@ export async function getInfoPostSwap({
   let availableNotionalRaw = ZERO_BN;
   {
     const { calldata: data, value } = await encodeSwap({
-      ...swapPeripheryParams,
+      ...params,
+      priceLimit: params.priceLimit !== undefined ? params.priceLimit : ZERO_BN,
       baseAmount: VERY_BIG_NUMBER,
     });
     const bytesOutput = (await simulateTx(signer, data, value, chainId))
@@ -168,8 +156,6 @@ export async function estimateSwapGasUnits({
   marginAmount,
   priceLimit,
 }: SwapArgs): Promise<BigNumber> {
-  const chainId = await signer.getChainId();
-
   const params = await createSwapParams({
     poolId,
     signer,
@@ -178,16 +164,13 @@ export async function estimateSwapGasUnits({
     priceLimit,
   });
 
-  const swapPeripheryParams: SwapParipheryParameters = {
-    ...params,
-    priceLimit: params.priceLimit !== undefined ? params.priceLimit : ZERO_BN,
-  };
-
-  const { calldata: data, value } = await encodeSwap(swapPeripheryParams);
+  const { data, value, chainId } = await getSwapTxData(params);
   const estimate = await estimateGas(signer, data, value, chainId);
 
   return estimate.gasLimit;
 }
+
+// HELPERS
 
 export function decodeSwapOutput(bytesData: any): {
   executedBaseAmount: BigNumber;
@@ -200,8 +183,6 @@ export function decodeSwapOutput(bytesData: any): {
   if (!bytesData[0]) {
     throw new Error('unable to decode Swap output');
   }
-
-  console.log(bytesData[0]);
 
   const result = defaultAbiCoder.decode(
     ['int256', 'int256', 'uint256', 'uint256', 'int24'],
@@ -284,5 +265,25 @@ export async function processInfoPostSwap(
     variableTokenDeltaBalance: descale(tokenDecimals)(executedBaseAmount),
     fixedTokenDeltaUnbalanced: -descale(tokenDecimals)(executedBaseAmount), // how do we interpret unbalanced?
     gasFee: gasFee,
+  };
+}
+
+async function getSwapTxData(params: CompleteSwapDetails): Promise<{
+  data: string;
+  value: string;
+  chainId: number;
+}> {
+  const chainId = await params.owner.getChainId();
+  const swapPeripheryParams: SwapPeripheryParameters = {
+    ...params,
+    priceLimit: params.priceLimit !== undefined ? params.priceLimit : ZERO_BN,
+  };
+
+  const { calldata: data, value } = await encodeSwap(swapPeripheryParams);
+
+  return {
+    data,
+    value,
+    chainId,
   };
 }

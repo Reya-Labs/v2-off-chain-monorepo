@@ -4,12 +4,12 @@ import {
   encodeDeposit,
   encodeRouterCall,
   encodeSingleCreateAccount,
-  encodeSingleSwap,
+  encodeSingleMakerOrder,
 } from '../encode';
-import { SwapPeripheryParameters } from './types';
+import { LpPeripheryParameters } from './types';
 
-export async function encodeSwap(
-  trade: SwapPeripheryParameters,
+export async function encodeLp(
+  trade: LpPeripheryParameters,
   accountId?: string,
 ): Promise<MethodParameters> {
   const multiAction = new MultiAction();
@@ -35,14 +35,15 @@ export async function encodeSwap(
     multiAction,
   );
 
-  if (trade.baseAmount) {
+  if (trade.liquidityAmount) {
     // swap
-    encodeSingleSwap(
+    encodeSingleMakerOrder(
       accountId,
       trade.marketId,
       trade.maturityTimestamp,
-      trade.baseAmount,
-      trade.priceLimit,
+      trade.fixedRateLower,
+      trade.fixedRateUpper,
+      trade.liquidityAmount,
       multiAction,
     );
   }
