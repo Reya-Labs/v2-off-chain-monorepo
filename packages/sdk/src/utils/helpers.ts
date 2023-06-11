@@ -1,5 +1,7 @@
+import { scale } from '@voltz-protocol/commons-v2';
 import md5 from 'crypto-js/md5';
 import { BigNumber } from 'ethers';
+import { RAY, WAD } from './constants';
 
 type CreateAccountParams = {
   ownerAddress: string;
@@ -39,7 +41,15 @@ export async function createAccountId({
 
 export function notionalToBaseAmount(
   notional: number,
+  tokenDecilams: number,
   liquidityIndex: number,
-): number {
-  return notional / liquidityIndex;
+): BigNumber {
+  return scale(tokenDecilams)(notional).mul(RAY).div(scale(27)(liquidityIndex));
+}
+
+export function baseAmountToNotionalBN(
+  baseAmount: BigNumber,
+  liquidityIndex: number,
+): BigNumber {
+  return baseAmount.mul(scale(27)(liquidityIndex)).div(RAY);
 }

@@ -1,35 +1,60 @@
 import { BigNumber, Signer } from 'ethers';
 
-export type SwapSimulationResults = {
-  gasFee: {
-    value: number;
-    token: 'ETH' | 'AVAX';
-  };
-};
+/**
+ * @dev Full list of swap details
+ */
+export type CompleteSwapDetails = PoolInfo & SwapUserInputs;
 
-export type SwapParameters = {
-  owner: Signer;
+/**
+ * @dev Params required to encode periphery command
+ */
+export type SwapParipheryParameters = Required<PoolConfig & SwapUserInputs>;
+
+export type PoolConfig = {
   productAddress: string;
   maturityTimestamp: number;
   marketId: string;
   quoteTokenAddress: string;
+};
+
+/**
+ * @dev Pool information retreived from API
+ */
+export type PoolInfo = PoolConfig & {
+  currentFixedRate: number;
+  currentLiquidityIndex: number;
+};
+
+export type SwapUserInputs = {
+  owner: Signer;
   baseAmount: BigNumber;
   marginAmount: BigNumber;
-  priceLimit: BigNumber;
+  priceLimit?: BigNumber;
 };
 
-export type SwapInfo = {
-  productAddress: string;
-  maturityTimestamp: number;
-  marketId: string;
-  quoteTokenAddress: string;
-  currentLiqudityIndex: number;
-};
-
+/**
+ * @dev Swap flow inputs, provided by client (e.g. UI)
+ */
 export type SwapArgs = {
   poolId: string;
   signer: Signer;
   notionalAmount: number;
   marginAmount: number;
-  fixedRateLimit: number; // e.g. 0.0125 = 1.25%
+  priceLimit?: number; // e.g. 0.0125 = 1.25%
+};
+
+export type InfoPostSwap = {
+  marginRequirement: number;
+  maxMarginWithdrawable: number;
+  availableNotional: number;
+  fee: number;
+  slippage: number;
+  averageFixedRate: number;
+  fixedTokenDeltaBalance: number;
+  variableTokenDeltaBalance: number;
+  fixedTokenDeltaUnbalanced: number;
+  gasFee: {
+    value: number;
+    token: 'ETH' | 'AVAX';
+  };
 };

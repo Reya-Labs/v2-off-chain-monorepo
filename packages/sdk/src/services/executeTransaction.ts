@@ -1,6 +1,7 @@
 import { BigNumber, ContractReceipt, Signer } from 'ethers';
 import { PERIPHERY_ADDRESS } from '../utils/configuration';
 import { getGasBuffer } from '../utils/txHelpers';
+import { defaultAbiCoder } from 'ethers/lib/utils';
 
 export type Transaction = {
   from: string;
@@ -31,16 +32,10 @@ export async function estimateGas(
     ...(value && value !== '0' ? { value: value } : {}),
   };
 
-  const provider = signer.provider;
-  if (!provider) {
-    throw new Error(`Missing provider for ${await signer.getAddress()}`);
-  }
-
   let gasLimit: BigNumber;
 
   try {
-    const gasEstimate = await provider.estimateGas(tx);
-    await provider.call(tx);
+    const gasEstimate = await signer.estimateGas(tx);
     gasLimit = getGasBuffer(gasEstimate);
   } catch (error) {
     // sentry error & thorw
@@ -50,6 +45,37 @@ export async function estimateGas(
   }
 
   return { ...tx, gasLimit };
+}
+
+export async function simulateTx(
+  signer: Signer,
+  data: string,
+  value: string,
+  chainId: number,
+): Promise<{
+  txData: Transaction & { gasLimit: BigNumber };
+  bytesOutput: any;
+}> {
+  const txData = await estimateGas(signer, data, value, chainId);
+
+  let bytesOutput;
+  try {
+    const encodedOutput = await signer.call(txData);
+    if (encodedOutput === undefined) {
+      throw new Error('Failed to get transaction output');
+    }
+    bytesOutput = defaultAbiCoder.decode(['bytes[]'], encodedOutput);
+  } catch (error) {
+    // sentry error & thorw
+    console.warn(error);
+    const errorMessage = ''; //getReadableErrorMessage(error);
+    throw new Error(errorMessage);
+  }
+
+  return {
+    txData: txData,
+    bytesOutput: bytesOutput[0],
+  };
 }
 
 export async function executeTransaction(
