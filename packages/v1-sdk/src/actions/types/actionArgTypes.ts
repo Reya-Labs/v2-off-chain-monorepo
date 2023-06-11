@@ -22,6 +22,10 @@ export type EditSwapArgs = {
   signer: Signer;
 };
 
+export type SimulateMaxSwapArgs = {
+  ammId: string;
+};
+
 export type SwapPeripheryParams = {
   marginEngineAddress: string;
   isFT: boolean;
