@@ -5,6 +5,10 @@ import { providers } from 'ethers';
 import { scale } from '../../common/math/scale';
 import { TRADER_TICK_LOWER, TRADER_TICK_UPPER } from '../../common/constants';
 import { getDefaultSqrtPriceLimit } from '../../common/math/getDefaultSqrtPriceLimits';
+import {
+  decodeInfoPostSwap,
+  RawInfoPostSwap,
+} from '../../common/errors/errorHandling';
 
 export type SimulateMaxSwapResults = {
   availableNotionalFixedTaker: number;
@@ -43,6 +47,36 @@ export const simulateMaxSwapOneSide = async ({
     tickUpper: TRADER_TICK_UPPER,
     marginDelta: '0',
   };
+
+  await peripheryContract.callStatic
+    .swap(
+      swapPeripheryParamsLargeSwap.marginEngineAddress,
+      swapPeripheryParamsLargeSwap.isFT,
+      swapPeripheryParamsLargeSwap.notional,
+      swapPeripheryParamsLargeSwap.sqrtPriceLimitX96,
+      swapPeripheryParamsLargeSwap.tickLower,
+      swapPeripheryParamsLargeSwap.tickUpper,
+      swapPeripheryParamsLargeSwap.marginDelta,
+    )
+    .then(
+      (result: any) => {
+        const availableNotional = result[1];
+      },
+      (error: any) => {
+        const result: RawInfoPostSwap = decodeInfoPostSwap(error);
+        const availableNotional = result.availableNotional;
+      },
+    );
+
+  // await peripheryContract.callStatic.swap(swapPeripheryParamsLargeSwap).then(
+  //   (result: any) => {
+  //     availableNotional = result[1];
+  //   },
+  //   (error: any) => {
+  //     const result = decodeInfoPostSwap(error);
+  //     availableNotional = result.availableNotional;
+  //   },
+  // );
 };
 
 export const simulateMaxSwap = async ({
