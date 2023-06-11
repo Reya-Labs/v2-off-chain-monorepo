@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.15.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.14.2...@voltz-protocol/sdk-v1-stateless@1.15.0) (2023-06-11)
+
+### Features
+
+- align simulate swap and swap args ([9ee94a9](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/9ee94a994716f1d6cc7de5958e1ccc36d93effbe))
+- get allowance to periphery refactor ([d12ef3e](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/d12ef3e7fc63e183e3978e9d9e3a466164b8022e))
+- get balance refactor ([08d37e9](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/08d37e9744ff0eadcd61cfeee6e923bc0a793c9a))
+- get balance refactor ([7c61378](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/7c61378dfb37078b8a93f6470c6a9a5c75a6d424))
+- get erc20 balance ([ff3cfa0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/ff3cfa031fe4b449870eb7af6a71c1915634b413))
+- linting sdk ([836a8e4](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/836a8e4f00df60c85e1ca723ddee9f4d3307ccad))
+- setup refactor of get balance ([39e74b2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/39e74b260f18185ab3af85b5838e5c73e8b17d94))
+- simplify approve periphery flow ([db82e54](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/db82e543f9b7a62bb212330697dcc6e3552b2cde))
+- simplify update margin flow ([a08a68a](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/a08a68aea9fa4235f0d4f9594c1b059536360820))
+- simulate edit swap flow ([5ec7220](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/5ec72208f898fa789a1d0d04463ab3dab35e7ade))
+
 ## [1.14.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.14.1...@voltz-protocol/sdk-v1-stateless@1.14.2) (2023-06-10)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
