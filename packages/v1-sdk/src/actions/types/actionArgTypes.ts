@@ -22,8 +22,9 @@ export type EditSwapArgs = {
   signer: Signer;
 };
 
-export type SimulateMaxSwapArgs = {
+export type GetPoolSwapInfoArgs = {
   ammId: string;
+  isFixedTaker: boolean;
   provider: providers.Provider;
 };
 
