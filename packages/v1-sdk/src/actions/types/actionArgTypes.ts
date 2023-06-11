@@ -22,6 +22,12 @@ export type EditSwapArgs = {
   signer: Signer;
 };
 
+export type GetPoolSwapInfoArgs = {
+  ammId: string;
+  isFixedTaker: boolean;
+  provider: providers.Provider;
+};
+
 export type SwapPeripheryParams = {
   marginEngineAddress: string;
   isFT: boolean;
