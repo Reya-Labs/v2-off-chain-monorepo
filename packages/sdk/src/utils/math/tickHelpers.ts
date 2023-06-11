@@ -31,7 +31,8 @@ export function closestTickAndFixedRate(
     closestTick,
     TICK_SPACING,
   );
-  const closestUsableFixedRate: Fraction = tickToFixedRate(closestUsableTick);
+  const closestUsableFixedRate: Fraction =
+    tickToFixedRateFraction(closestUsableTick);
 
   return {
     closestUsableTick,
@@ -126,7 +127,7 @@ function nearestUsableTick(tick: number, tickSpacing: number) {
  * @param quoteToken the quote token of the price
  * @param tick the tick for which to return the price
  */
-function tickToFixedRate(tick: number) {
+function tickToFixedRateFraction(tick: number) {
   let inRangeTick = tick;
   if (tick < MIN_TICK) {
     inRangeTick = MIN_TICK;
@@ -143,4 +144,8 @@ function tickToFixedRate(tick: number) {
 export function fixedRateToPrice(fixedRate: number): string {
   const { closestUsableTick: tick } = closestTickAndFixedRate(fixedRate);
   return TickMath.getSqrtRatioAtTick(tick).toString();
+}
+
+export function tickToFixedRate(tick: number): number {
+  return 1.0001 ** -tick;
 }

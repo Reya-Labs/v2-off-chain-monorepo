@@ -1,47 +1,71 @@
 import { BigNumber, ContractReceipt } from 'ethers';
-import { estimateGas, executeTransaction } from '../executeTransaction';
+import {
+  estimateGas,
+  executeTransaction,
+  simulateTx,
+  Transaction,
+} from '../executeTransaction';
 import { encodeSwap } from './encode';
 import {
   getNativeGasToken,
   convertGasUnitsToNativeTokenUnits,
 } from '@voltz-protocol/sdk-v1-stateless';
-import { SwapArgs, SwapParameters, SwapSimulationResults } from './types';
+import {
+  CompleteSwapDetails,
+  InfoPostSwap,
+  SwapArgs,
+  SwapParipheryParameters,
+} from './types';
 import { getSwapPeripheryParams } from './getSwapPeripheryParams';
-import { getTokenDetails, scale } from '@voltz-protocol/commons-v2';
-import { notionalToBaseAmount } from '../../utils/helpers';
-import { ZERO_BN } from '../../utils/constants';
-import { fixedRateToPrice } from '../../utils/math/tickHelpers';
+import {
+  getTokenDetails,
+  scale,
+  descale,
+  SECONDS_IN_YEAR,
+} from '@voltz-protocol/commons-v2';
+import {
+  baseAmountToNotionalBN,
+  notionalToBaseAmount,
+} from '../../utils/helpers';
+import { VERY_BIG_NUMBER, WAD, ZERO_BN } from '../../utils/constants';
+import {
+  fixedRateToPrice,
+  tickToFixedRate,
+} from '../../utils/math/tickHelpers';
+import { defaultAbiCoder } from 'ethers/lib/utils';
 
-async function createSwapOrder({
+async function createSwapParams({
   poolId,
   signer,
   notionalAmount,
   marginAmount,
-  fixedRateLimit,
-}: SwapArgs): Promise<SwapParameters> {
+  priceLimit,
+}: SwapArgs): Promise<CompleteSwapDetails> {
   const swapInfo = await getSwapPeripheryParams(poolId);
 
   const tokenDecimals = getTokenDetails(
     swapInfo.quoteTokenAddress,
   ).tokenDecimals;
-  const baseAmount = scale(tokenDecimals)(
-    notionalToBaseAmount(notionalAmount, swapInfo.currentLiqudityIndex),
+  const baseAmount = notionalToBaseAmount(
+    notionalAmount,
+    tokenDecimals,
+    swapInfo.currentLiquidityIndex,
   );
 
-  let priceLimit = ZERO_BN;
-  if (fixedRateLimit) {
-    priceLimit = BigNumber.from(fixedRateToPrice(fixedRateLimit));
+  let priceLimitRaw = ZERO_BN;
+  if (priceLimit !== undefined) {
+    priceLimitRaw = BigNumber.from(fixedRateToPrice(priceLimit));
   }
 
-  const order: SwapParameters = {
+  const params: CompleteSwapDetails = {
     ...swapInfo,
     owner: signer,
     baseAmount: baseAmount,
     marginAmount: scale(tokenDecimals)(marginAmount),
-    priceLimit: priceLimit,
+    priceLimit: priceLimitRaw,
   };
 
-  return order;
+  return params;
 }
 
 export async function swap({
@@ -49,19 +73,24 @@ export async function swap({
   signer,
   notionalAmount,
   marginAmount,
-  fixedRateLimit,
+  priceLimit,
 }: SwapArgs): Promise<ContractReceipt> {
   // fetch: send request to api
 
-  const order = await createSwapOrder({
+  const params = await createSwapParams({
     poolId,
     signer,
     notionalAmount,
     marginAmount,
-    fixedRateLimit,
+    priceLimit,
   });
 
-  const { calldata: data, value } = await encodeSwap(order);
+  const swapPeripheryParams: SwapParipheryParameters = {
+    ...params,
+    priceLimit: params.priceLimit !== undefined ? params.priceLimit : ZERO_BN,
+  };
+
+  const { calldata: data, value } = await encodeSwap(swapPeripheryParams);
   const chainId = await signer.getChainId();
   const result = await executeTransaction(signer, data, value, chainId);
   return result;
@@ -72,33 +101,64 @@ export async function getInfoPostSwap({
   signer,
   notionalAmount,
   marginAmount,
-  fixedRateLimit,
-}: SwapArgs): Promise<SwapSimulationResults> {
+  priceLimit,
+}: SwapArgs): Promise<InfoPostSwap> {
   // fetch: send request to api
-  const response = await estimateSwapGasUnits({
+  const chainId = await signer.getChainId();
+
+  const params = await createSwapParams({
     poolId,
     signer,
     notionalAmount,
     marginAmount,
-    fixedRateLimit,
+    priceLimit,
   });
 
-  const provider = signer.provider;
-  if (!provider) {
-    throw new Error(`Missing provider for ${await signer.getAddress()}`);
-  }
+  const swapPeripheryParams: SwapParipheryParameters = {
+    ...params,
+    priceLimit: params.priceLimit !== undefined ? params.priceLimit : ZERO_BN,
+  } as SwapParipheryParameters;
 
-  const price = await convertGasUnitsToNativeTokenUnits(
-    provider,
-    response.toNumber(),
+  const { calldata: data, value } = await encodeSwap(swapPeripheryParams);
+
+  const { txData, bytesOutput } = await simulateTx(
+    signer,
+    data,
+    value,
+    chainId,
   );
 
-  return {
-    gasFee: {
-      value: price,
-      token: await getNativeGasToken(signer.provider),
-    },
-  };
+  const { executedBaseAmount, executedQuoteAmount, fee, im, currentTick } =
+    decodeSwapOutput(bytesOutput);
+
+  let availableNotionalRaw = ZERO_BN;
+  {
+    const { calldata: data, value } = await encodeSwap({
+      ...swapPeripheryParams,
+      baseAmount: VERY_BIG_NUMBER,
+    });
+    const bytesOutput = (await simulateTx(signer, data, value, chainId))
+      .bytesOutput;
+
+    const executedBaseAmount = decodeSwapOutput(bytesOutput).executedBaseAmount;
+    availableNotionalRaw = baseAmountToNotionalBN(
+      executedBaseAmount,
+      params.currentLiquidityIndex,
+    );
+  }
+
+  const result = await processInfoPostSwap(
+    executedBaseAmount,
+    executedQuoteAmount,
+    fee,
+    im,
+    currentTick,
+    availableNotionalRaw,
+    txData,
+    params,
+  );
+
+  return result;
 }
 
 export async function estimateSwapGasUnits({
@@ -106,20 +166,123 @@ export async function estimateSwapGasUnits({
   signer,
   notionalAmount,
   marginAmount,
-  fixedRateLimit,
+  priceLimit,
 }: SwapArgs): Promise<BigNumber> {
   const chainId = await signer.getChainId();
 
-  const order = await createSwapOrder({
+  const params = await createSwapParams({
     poolId,
     signer,
     notionalAmount,
     marginAmount,
-    fixedRateLimit,
+    priceLimit,
   });
 
-  const { calldata: data, value } = await encodeSwap(order);
+  const swapPeripheryParams: SwapParipheryParameters = {
+    ...params,
+    priceLimit: params.priceLimit !== undefined ? params.priceLimit : ZERO_BN,
+  };
+
+  const { calldata: data, value } = await encodeSwap(swapPeripheryParams);
   const estimate = await estimateGas(signer, data, value, chainId);
 
   return estimate.gasLimit;
+}
+
+export function decodeSwapOutput(bytesData: any): {
+  executedBaseAmount: BigNumber;
+  executedQuoteAmount: BigNumber;
+  fee: BigNumber;
+  im: BigNumber;
+  currentTick: number;
+} {
+  // (int256 executedBaseAmount, int256 executedQuoteAmount, uint256 fee, uint256 im, int24 currentTick)
+  if (!bytesData[0]) {
+    throw new Error('unable to decode Swap output');
+  }
+
+  console.log(bytesData[0]);
+
+  const result = defaultAbiCoder.decode(
+    ['int256', 'int256', 'uint256', 'uint256', 'int24'],
+    bytesData[0],
+  );
+
+  return {
+    executedBaseAmount: result[0],
+    executedQuoteAmount: result[1],
+    fee: result[2],
+    im: result[3],
+    currentTick: result[4],
+  };
+}
+
+export async function processInfoPostSwap(
+  executedBaseAmount: BigNumber,
+  executedQuoteAmount: BigNumber,
+  fee: BigNumber,
+  im: BigNumber,
+  currentTick: number,
+  availableNotionalRaw: BigNumber,
+  txData: Transaction & {
+    gasLimit: BigNumber;
+  },
+  params: CompleteSwapDetails,
+  positionMargin?: number,
+): Promise<InfoPostSwap> {
+  const provider = params.owner.provider;
+  if (!provider) {
+    throw new Error(`Missing provider for ${await params.owner.getAddress()}`);
+  }
+  const price = await convertGasUnitsToNativeTokenUnits(
+    provider,
+    txData.gasLimit.toNumber(),
+  );
+
+  const gasFee = {
+    value: price,
+    token: await getNativeGasToken(provider),
+  };
+
+  // MARGIN & FEE
+  const tokenDecimals = getTokenDetails(params.quoteTokenAddress).tokenDecimals;
+  const marginRequirement = descale(tokenDecimals)(im);
+  const descaledFee = descale(tokenDecimals)(fee);
+
+  const maxMarginWithdrawable =
+    positionMargin === undefined ? 0 : positionMargin - marginRequirement;
+
+  // available notional
+  const availableNotional = descale(tokenDecimals)(availableNotionalRaw);
+
+  // SLIPPAGE
+  const fixedRateDelta = tickToFixedRate(currentTick) - params.currentFixedRate;
+  const slippage = Math.abs(fixedRateDelta);
+
+  // AVG FIXED RATE
+  // ft = -base * index * ( 1 + avgFR*timetillMaturity/year) = -notional * ( 1 + avgFR*timetillMaturity/year)
+  const yearsTillMaturityinWad = BigNumber.from(SECONDS_IN_YEAR)
+    .mul(WAD)
+    .div(Math.round(Date.now() / 1000) - params.maturityTimestamp);
+  const fixedRateTillMaturityInWad = executedQuoteAmount
+    .mul(WAD)
+    .div(availableNotionalRaw)
+    .sub(WAD);
+  const averageFixedRateInWad = availableNotionalRaw.eq(ZERO_BN)
+    ? ZERO_BN
+    : fixedRateTillMaturityInWad.mul(WAD).div(yearsTillMaturityinWad);
+  const averageFixedRate = descale(18)(averageFixedRateInWad);
+
+  return {
+    marginRequirement: marginRequirement,
+    maxMarginWithdrawable: maxMarginWithdrawable,
+    availableNotional: availableNotional, // simulate with max notional
+    fee: descaledFee,
+    slippage: slippage,
+    averageFixedRate: Math.abs(averageFixedRate),
+    fixedTokenDeltaBalance: descale(tokenDecimals)(executedQuoteAmount),
+    variableTokenDeltaBalance: descale(tokenDecimals)(executedBaseAmount),
+    fixedTokenDeltaUnbalanced: -descale(tokenDecimals)(executedBaseAmount), // how do we interpret unbalanced?
+    gasFee: gasFee,
+  };
 }

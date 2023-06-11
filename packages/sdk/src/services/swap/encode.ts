@@ -6,23 +6,26 @@ import {
   encodeSingleCreateAccount,
   encodeSingleSwap,
 } from '../encode';
-import { SwapParameters } from './types';
+import { SwapParipheryParameters } from './types';
 
 export async function encodeSwap(
-  trade: SwapParameters,
+  trade: SwapParipheryParameters,
+  accountId?: string,
 ): Promise<MethodParameters> {
   const multiAction = new MultiAction();
 
-  const ownerAddress = await trade.owner.getAddress();
-  // open account
-  const accountId = await createAccountId({
-    ownerAddress,
-    productAddress: trade.productAddress,
-    marketId: trade.marketId,
-    maturityTimestamp: trade.maturityTimestamp,
-    isLp: false,
-  });
-  encodeSingleCreateAccount(accountId, multiAction);
+  if (accountId === undefined) {
+    const ownerAddress = await trade.owner.getAddress();
+    // open account
+    accountId = await createAccountId({
+      ownerAddress,
+      productAddress: trade.productAddress,
+      marketId: trade.marketId,
+      maturityTimestamp: trade.maturityTimestamp,
+      isLp: false,
+    });
+    encodeSingleCreateAccount(accountId, multiAction);
+  }
 
   // deposit
   const ethAmount = encodeDeposit(

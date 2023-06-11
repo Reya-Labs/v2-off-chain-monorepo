@@ -24,6 +24,7 @@ const ABI_DEFINITION: { [key in CommandType]: string[] } = {
     'uint128',
     'uint32',
     'int256',
+    'uint160',
   ],
   [CommandType.V2_DATED_IRS_INSTRUMENT_SETTLE]: [
     'uint128',
