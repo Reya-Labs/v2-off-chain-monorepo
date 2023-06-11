@@ -1,36 +1,34 @@
 import { GetAllowanceArgs } from '../types/actionArgTypes';
-import { getERC20TokenContract } from '../../common/contract-generators';
-import { exponentialBackoff } from '../../common/retry';
 import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
-import { descale } from '../../common/math/descale';
-import { scale } from '../../common/math/scale';
+import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
+import { AMMInfo } from '../../common/api/amm/types';
+import { getERC20Allowance } from '../../common/token/getERC20Allowance';
 
 export const getAllowanceToPeriphery = async ({
-  isEth,
-  chainId,
-  tokenAddress,
-  tokenDecimals,
-  walletAddress,
-  provider,
+  ammId,
+  signer,
 }: GetAllowanceArgs): Promise<number> => {
-  if (isEth) {
+  if (signer.provider === undefined) {
+    throw new Error('Signer must have a provider');
+  }
+
+  const chainId = await signer.getChainId();
+  const ammInfo: AMMInfo = await getAmmInfo(ammId, chainId);
+  const walletAddress: string = await signer.getAddress();
+
+  if (ammInfo.isEth) {
     return Number.MAX_SAFE_INTEGER;
   }
 
-  const tokenContract = getERC20TokenContract(tokenAddress, provider);
-
   const peripheryAddress = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
 
-  const allowance = await exponentialBackoff(() =>
-    tokenContract.allowance(walletAddress, peripheryAddress),
-  );
-
-  let descaledCappedAllowance;
-  if (allowance.gt(scale(Number.MAX_SAFE_INTEGER, tokenDecimals))) {
-    descaledCappedAllowance = Number.MAX_SAFE_INTEGER;
-  } else {
-    descaledCappedAllowance = descale(allowance, tokenDecimals);
-  }
+  const descaledCappedAllowance = getERC20Allowance({
+    walletAddress,
+    tokenAddress: ammInfo.underlyingTokenAddress,
+    tokenDecimals: ammInfo.underlyingTokenDecimals,
+    spenderAddress: peripheryAddress,
+    provider: signer.provider,
+  });
 
   return descaledCappedAllowance;
 };
