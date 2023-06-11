@@ -2,62 +2,10 @@ import { abi } from '../../abis/ExecutionModule.json';
 import { TickMath } from '@uniswap/v3-sdk';
 import { BigNumber, ethers } from 'ethers';
 import { closestTickAndFixedRate } from '../utils/math/tickHelpers';
-import { createAccountId } from '../utils/helpers';
 import { CommandType, getCommand } from '../utils/routerCommands';
 import { MethodParameters, MultiAction } from '../utils/types';
-import { getTokenDetails, scale } from '@voltz-protocol/commons-v2';
+import { getTokenDetails } from '@voltz-protocol/commons-v2';
 import { MINUS_ONE_BN, ZERO_BN } from '../utils/constants';
-
-// export async function encodeMakerOrder(
-//   trade: MakerTrade,
-// ): Promise<MethodParameters> {
-//   const multiAction = new MultiAction();
-
-//   if (!trade.accountId) {
-//     // open account
-//     const accountId = await createAccountId(
-//       trade,
-//       true,
-//       trade.fixedRateLower,
-//       trade.fixedRateUpper,
-//     );
-//     trade.accountId = accountId;
-//     encodeSingleCreateAccount(trade, multiAction);
-//   }
-
-//   // deposit
-//   const ethAmount = encodeDeposit(trade, multiAction);
-
-//   if (trade.baseAmount) {
-//     // swap
-//     encodeSingleMakerOrder(trade, multiAction);
-//   }
-
-//   return encodeRouterCall(multiAction, BigNumber.from(ethAmount));
-// }
-
-// export async function encodeTakerOrder(
-//   trade: TakerTrade,
-// ): Promise<MethodParameters> {
-//   const multiAction = new MultiAction();
-
-//   if (!trade.accountId) {
-//     // open account
-//     const accountId = await createAccountId(trade, false);
-//     trade.accountId = accountId;
-//     encodeSingleCreateAccount(trade as BaseTrade, multiAction);
-//   }
-
-//   // deposit
-//   const ethAmount = encodeDeposit(trade, multiAction);
-
-//   if (trade.baseAmount) {
-//     // swap
-//     encodeSingleSwap(trade, multiAction);
-//   }
-
-//   return encodeRouterCall(multiAction, BigNumber.from(ethAmount));
-// }
 
 ////////////////////  ENCODE SINGLE  ////////////////////
 

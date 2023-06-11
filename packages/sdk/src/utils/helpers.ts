@@ -2,6 +2,8 @@ import { scale } from '@voltz-protocol/commons-v2';
 import md5 from 'crypto-js/md5';
 import { BigNumber } from 'ethers';
 import { RAY, WAD } from './constants';
+import { Q96 } from './math/constants';
+import { fixedRateToPrice } from './math/tickHelpers';
 
 type CreateAccountParams = {
   ownerAddress: string;
@@ -52,4 +54,16 @@ export function baseAmountToNotionalBN(
   liquidityIndex: number,
 ): BigNumber {
   return baseAmount.mul(scale(27)(liquidityIndex)).div(RAY);
+}
+
+export function notionalToLiquidityBN(
+  notionalAmount: BigNumber,
+  fixedRateLower: number,
+  fixedRateUpper: number,
+): BigNumber {
+  const sqrtPriceDelta = BigNumber.from(fixedRateToPrice(fixedRateLower)).sub(
+    fixedRateToPrice(fixedRateUpper),
+  );
+
+  return notionalAmount.mul(BigNumber.from(Q96)).div(sqrtPriceDelta.abs());
 }

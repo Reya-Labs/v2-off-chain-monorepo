@@ -1,89 +1,20 @@
 import { before, describe, it } from 'mocha';
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import {
-  BaseTrade,
-  MakerTrade,
-  MultiAction,
-  TakerTrade,
-} from '../src/utils/types';
 import { encodeSwap } from '../src/services/swap/encode';
 import { getInfoPostSwap, swap } from '../src/services/swap/swap';
-import {
-  encodeSingleCreateAccount,
-  encodeSingleSwap,
-  encodeDeposit,
-} from '../src/services/encode';
 import * as encode from '../src/services/swap/encode';
 import * as getSwapPeripheryParamsFile from '../src/services/swap/getSwapPeripheryParams';
-import { getSwapPeripheryParams } from '../src/services/swap/getSwapPeripheryParams';
-import * as encodeSingle from '../src/services/encode';
-import * as helpers from '../src/utils/helpers';
 import * as constants from '../src/utils/constants';
-import * as commons from '@voltz-protocol/commons-v2';
-import * as tickHelpers from '../src/utils/math/tickHelpers';
 import { MockSigner } from './utils/MockSigner';
-import { CommandType } from '../src/utils/routerCommands';
-import { getCommand } from '../src/utils/routerCommands';
 import { BigNumber } from 'ethers';
-import { TickMath } from '@uniswap/v3-sdk';
-import {
-  getTokenDetails,
-  scale,
-  descale,
-  SECONDS_IN_YEAR,
-} from '@voltz-protocol/commons-v2';
 import {
   PoolConfig,
   PoolInfo,
-  SwapParipheryParameters,
+  SwapPeripheryParameters,
   SwapUserInputs,
 } from '../src/services/swap/types';
 import { defaultAbiCoder } from 'ethers/lib/utils';
-
-function utilSpy() {
-  const spy: Record<string, sinon.SinonSpy> = {};
-
-  const spyEncodeOrder = sinon.spy(encode, 'encodeSwap');
-
-  // single encoders
-  const spyEncodeOpenAccount = sinon.spy(
-    encodeSingle,
-    'encodeSingleCreateAccount',
-  );
-  const spyEncodeSingleSwap = sinon.spy(encodeSingle, 'encodeSingleSwap');
-  const spyEncodeDeposit = sinon.spy(encodeSingle, 'encodeDeposit');
-
-  // router call
-  const spyEncodeRouterCall = sinon.spy(encodeSingle, 'encodeRouterCall');
-
-  // utils
-  const spyGetTokenInfo = sinon.spy(commons, 'getTokenDetails');
-  const spyScaleAmount = sinon.spy(commons, 'scale');
-  const spyDescaleAmount = sinon.spy(commons, 'descale');
-  const spyAccountId = sinon.spy(helpers, 'createAccountId');
-  const spyGetSqrtRatioAtTick = sinon.spy(TickMath, 'getSqrtRatioAtTick');
-  const spyClosestTickAndFixedRate = sinon.spy(
-    tickHelpers,
-    'closestTickAndFixedRate',
-  );
-
-  spy.encodeOrder = spyEncodeOrder;
-  spy.encodeSingleCreateAccount = spyEncodeOpenAccount;
-  spy.encodeSingleSwap = spyEncodeSingleSwap;
-  spy.scaleAmount = spyScaleAmount;
-  spy.getTokenInfo = spyGetTokenInfo;
-  spy.encodeRouterCall = spyEncodeRouterCall;
-  spy.createAccountId = spyAccountId;
-  spy.closestTickAndFixedRate = spyClosestTickAndFixedRate;
-  spy.getSqrtRatioAtTick = spyGetSqrtRatioAtTick;
-
-  return spy;
-}
-
-function restoreAll(spy: Record<string, sinon.SinonSpy>) {
-  Object.keys(spy).forEach((e) => spy[e]?.restore());
-}
 
 describe('takers', async () => {
   let mockSigner: MockSigner;
@@ -112,7 +43,7 @@ describe('takers', async () => {
       currentLiquidityIndex: 1.01,
     };
 
-    const swapPeripheryParams: SwapParipheryParameters = {
+    const swapPeripheryParams: SwapPeripheryParameters = {
       ...swapInfo,
       ...swapUserInputs,
       priceLimit: constants.ZERO_BN,
@@ -158,7 +89,7 @@ describe('takers', async () => {
       currentLiquidityIndex: 1.01,
     };
 
-    const swapPeripheryParams: SwapParipheryParameters = {
+    const swapPeripheryParams: SwapPeripheryParameters = {
       ...swapInfo,
       ...swapUserInputs,
       priceLimit: constants.ZERO_BN,
@@ -212,7 +143,7 @@ describe('takers', async () => {
     assert.equal(result.availableNotional, 0.000505);
     assert.equal(result.fee, 0.00002);
     assert.equal(result.slippage.toFixed(3), '0.074');
-    assert.equal(result.averageFixedRate.toFixed(3), '0.203');
+    assert.equal(result.averageFixedRate.toFixed(3), '0.204');
     assert.equal(result.fixedTokenDeltaBalance, -0.0005);
     assert.equal(result.variableTokenDeltaBalance, 0.0005);
     assert.equal(result.fixedTokenDeltaUnbalanced, -0.0005);

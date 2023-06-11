@@ -10,13 +10,6 @@ export type Transaction = {
   value?: string;
 };
 
-// todo: come up with a nice way of sending the owner address from the top level function
-
-// export async function makerOrder(trade: MakerTrade, chainId: number) {
-//   const { calldata: data, value } = await encodeMakerOrder(trade);
-//   await executeTransaction(trade.owner, data, value, chainId);
-// }
-
 export async function estimateGas(
   signer: Signer,
   data: string,

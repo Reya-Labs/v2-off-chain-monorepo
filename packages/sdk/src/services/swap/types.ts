@@ -8,7 +8,7 @@ export type CompleteSwapDetails = PoolInfo & SwapUserInputs;
 /**
  * @dev Params required to encode periphery command
  */
-export type SwapParipheryParameters = Required<PoolConfig & SwapUserInputs>;
+export type SwapPeripheryParameters = Required<PoolConfig & SwapUserInputs>;
 
 export type PoolConfig = {
   productAddress: string;
