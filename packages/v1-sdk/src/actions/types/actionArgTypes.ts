@@ -24,6 +24,7 @@ export type EditSwapArgs = {
 
 export type SimulateMaxSwapArgs = {
   ammId: string;
+  provider: providers.Provider;
 };
 
 export type SwapPeripheryParams = {
