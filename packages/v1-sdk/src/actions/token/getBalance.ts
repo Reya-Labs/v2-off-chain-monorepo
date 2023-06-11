@@ -1,7 +1,7 @@
 import { GetBalanceArgs } from '../types/actionArgTypes';
-import { exponentialBackoff } from '../../common/retry';
 import { getERC20TokenContract } from '../../common/contract-generators';
 import { getEthBalance } from './getEthBalance';
+import { getERC20Balance } from './getERC20Balance';
 
 export const getBalance = async ({
   isEth,
@@ -14,11 +14,12 @@ export const getBalance = async ({
   if (isEth) {
     currentBalance = await getEthBalance({ walletAddress, provider });
   } else {
-    const token = getERC20TokenContract(tokenAddress, provider);
-
-    currentBalance = await exponentialBackoff(() =>
-      token.balanceOf(walletAddress),
-    );
+    currentBalance = await getERC20Balance({
+      walletAddress,
+      provider,
+      tokenAddress,
+      tokenDecimals,
+    });
   }
 
   return currentBalance;
