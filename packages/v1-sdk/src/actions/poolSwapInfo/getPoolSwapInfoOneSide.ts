@@ -33,36 +33,4 @@ export const getPoolSwapInfoOneSide = async ({
 
   const availableNotional = getAvailableNotional(isFixedTaker);
   const maxLeverage = getMaxLeverage(isFixedTaker);
-
-  const swapPeripheryParamsSmallSwap: SwapPeripheryParams = {
-    marginEngineAddress,
-    isFT: isFixedTaker,
-    notional: scale(1, tokenDecimals),
-    sqrtPriceLimitX96: getDefaultSqrtPriceLimit(isFixedTaker),
-    tickLower: TRADER_TICK_LOWER,
-    tickUpper: TRADER_TICK_UPPER,
-    marginDelta: '0',
-  };
-
-  let marginRequirement = BigNumber.from(0);
-
-  await peripheryContract.callStatic
-    .swap(
-      swapPeripheryParamsSmallSwap.marginEngineAddress,
-      swapPeripheryParamsSmallSwap.isFT,
-      swapPeripheryParamsSmallSwap.notional,
-      swapPeripheryParamsSmallSwap.sqrtPriceLimitX96,
-      swapPeripheryParamsSmallSwap.tickLower,
-      swapPeripheryParamsSmallSwap.tickUpper,
-      swapPeripheryParamsSmallSwap.marginDelta,
-    )
-    .then(
-      (result: any) => {
-        marginRequirement = result[4];
-      },
-      (error: any) => {
-        const result: RawInfoPostSwap = decodeInfoPostSwap(error);
-        marginRequirement = result.marginRequirement;
-      },
-    );
 };
