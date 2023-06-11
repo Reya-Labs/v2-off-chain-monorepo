@@ -154,9 +154,6 @@ export type GetAllowanceArgs = {
 };
 
 export type GetBalanceArgs = {
-  isEth: boolean;
-  tokenAddress: string;
-  tokenDecimals: number;
-  walletAddress: string;
-  provider: providers.Provider;
+  ammId: string;
+  signer: Signer;
 };
