@@ -1,13 +1,6 @@
-import { GetPoolSwapInfoArgs, SwapPeripheryParams } from '../types';
-import { getPeripheryContract } from '../../common/contract-generators';
-import { BigNumber, providers } from 'ethers';
-import { scale } from '../../common/math/scale';
-import { getDefaultSqrtPriceLimit } from '../../common/math/getDefaultSqrtPriceLimits';
-import { TRADER_TICK_LOWER, TRADER_TICK_UPPER } from '../../common/constants';
-import {
-  decodeInfoPostSwap,
-  RawInfoPostSwap,
-} from '../../common/errors/errorHandling';
+import { providers } from 'ethers';
+import { getAvailableNotional } from './getAvailableNotional';
+import { getMaxLeverage } from './getMaxLeverage';
 
 export type GetPoolSwapInfoOneSideArgs = {
   isFixedTaker: boolean;
@@ -29,8 +22,23 @@ export const getPoolSwapInfoOneSide = async ({
   tokenDecimals,
   provider,
 }: GetPoolSwapInfoOneSideArgs): Promise<GetPoolSwapInfoOneSideArgsResults> => {
-  const peripheryContract = getPeripheryContract(peripheryAddress, provider);
+  const availableNotional = await getAvailableNotional({
+    isFixedTaker,
+    marginEngineAddress,
+    tokenDecimals,
+    peripheryAddress,
+    provider,
+  });
+  const maxLeverage = await getMaxLeverage({
+    isFixedTaker,
+    marginEngineAddress,
+    tokenDecimals,
+    peripheryAddress,
+    provider,
+  });
 
-  const availableNotional = getAvailableNotional(isFixedTaker);
-  const maxLeverage = getMaxLeverage(isFixedTaker);
+  return {
+    availableNotional,
+    maxLeverage,
+  };
 };
