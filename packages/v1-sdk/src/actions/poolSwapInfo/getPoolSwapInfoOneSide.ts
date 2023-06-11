@@ -31,18 +31,8 @@ export const getPoolSwapInfoOneSide = async ({
 }: GetPoolSwapInfoOneSideArgs): Promise<GetPoolSwapInfoOneSideArgsResults> => {
   const peripheryContract = getPeripheryContract(peripheryAddress, provider);
 
-  let availableNotional = BigNumber.from(0);
-  const maxLeverage = BigNumber.from(0);
-
-  const swapPeripheryParamsLargeSwap: SwapPeripheryParams = {
-    marginEngineAddress,
-    isFT: isFixedTaker,
-    notional: scale(1000000000000000, tokenDecimals),
-    sqrtPriceLimitX96: getDefaultSqrtPriceLimit(isFixedTaker),
-    tickLower: TRADER_TICK_LOWER,
-    tickUpper: TRADER_TICK_UPPER,
-    marginDelta: '0',
-  };
+  const availableNotional = getAvailableNotional(isFixedTaker);
+  const maxLeverage = getMaxLeverage(isFixedTaker);
 
   const swapPeripheryParamsSmallSwap: SwapPeripheryParams = {
     marginEngineAddress,
@@ -53,26 +43,6 @@ export const getPoolSwapInfoOneSide = async ({
     tickUpper: TRADER_TICK_UPPER,
     marginDelta: '0',
   };
-
-  await peripheryContract.callStatic
-    .swap(
-      swapPeripheryParamsLargeSwap.marginEngineAddress,
-      swapPeripheryParamsLargeSwap.isFT,
-      swapPeripheryParamsLargeSwap.notional,
-      swapPeripheryParamsLargeSwap.sqrtPriceLimitX96,
-      swapPeripheryParamsLargeSwap.tickLower,
-      swapPeripheryParamsLargeSwap.tickUpper,
-      swapPeripheryParamsLargeSwap.marginDelta,
-    )
-    .then(
-      (result: any) => {
-        availableNotional = result[1];
-      },
-      (error: any) => {
-        const result: RawInfoPostSwap = decodeInfoPostSwap(error);
-        availableNotional = result.availableNotional;
-      },
-    );
 
   let marginRequirement = BigNumber.from(0);
 
