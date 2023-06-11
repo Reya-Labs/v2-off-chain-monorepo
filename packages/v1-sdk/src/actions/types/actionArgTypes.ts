@@ -111,6 +111,13 @@ export type LpPeripheryParams = {
   marginDelta: BigNumberish;
 };
 
+export type GetPoolLpInfoArgs = {
+  ammId: string;
+  fixedHigh: number;
+  fixedLow: number;
+  provider: providers.Provider;
+};
+
 // settle
 
 export type SettleArgs = {

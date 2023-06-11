@@ -5,7 +5,7 @@ import { AMMInfo } from '../../common/api/amm/types';
 import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
 import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
 
-export type SimulateMaxSwapResults = {
+export type GetPoolSwapInfoResults = {
   availableNotionalFixedTaker: number;
   availableNotionalVariableTaker: number;
   maxLeverageFixedTaker: number;
@@ -15,7 +15,7 @@ export type SimulateMaxSwapResults = {
 export const getPoolSwapInfo = async ({
   ammId,
   provider,
-}: GetPoolSwapInfoArgs): Promise<SimulateMaxSwapResults> => {
+}: GetPoolSwapInfoArgs): Promise<GetPoolSwapInfoResults> => {
   const chainId = (await provider.getNetwork()).chainId;
 
   const peripheryAddress = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
@@ -45,7 +45,7 @@ export const getPoolSwapInfo = async ({
       provider,
     });
 
-    const result: SimulateMaxSwapResults = {
+    const result: GetPoolSwapInfoResults = {
       availableNotionalFixedTaker,
       availableNotionalVariableTaker,
       maxLeverageFixedTaker,
