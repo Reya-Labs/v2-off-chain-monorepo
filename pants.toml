@@ -1,0 +1,41 @@
+[GLOBAL]
+pants_version = "2.15.1"
+
+backend_packages = [
+  "pants.backend.python",
+  "pants.backend.python.lint.black",
+  "pants.backend.python.lint.flake8",
+  "pants.backend.python.lint.isort",
+  "pants.backend.python.typecheck.mypy"
+]
+
+[source]
+root_patterns = [
+    # The Python source root is the repo root. See https://www.pantsbuild.org/docs/source-roots.
+    "/"
+]
+
+[python]
+enable_resolves = true
+interpreter_constraints = ["CPython==3.11.*"]
+
+[python-bootstrap]
+search_path = [
+    "/usr/local/bin",
+]
+
+[python.resolves]
+python-default = "defaultpy.lock"
+
+[mypy]
+config = "mypy.ini"
+
+[flake8]
+config = ".flake8"
+args = ["--output-file=reports/report.txt"]
+
+[isort]
+config = [".isort.cfg"]
+
+[pytest]
+version = "pytest==7.0.1"
