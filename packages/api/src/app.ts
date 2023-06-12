@@ -3,8 +3,22 @@ import express from 'express';
 import rateLimit from 'express-rate-limit';
 import RedisStore from 'rate-limit-redis';
 import { getRedisClient, getTrustedProxies } from '@voltz-protocol/commons-v2';
-import { getPools } from './queries/getPools/getPools';
-import { getPortfolioPositions } from './queries/getPortfolioPositions/getPortfolioPositions';
+import { getPools } from './v2-queries/getPools/getPools';
+import { getPortfolioPositions } from './v2-queries/getPortfolioPositions/getPortfolioPositions';
+import { getAmm } from './v1-queries/common/getAMM';
+import { getPortfolioPositionDetails } from './v1-queries/get-position-details/getPortfolioPositionDetails';
+import { getPositionPnL } from './v1-queries/position-pnl/getPositionPnL';
+import {
+  pullAllChainPools,
+  getFixedRates,
+  getVariableRates,
+  SDKVoyage,
+  getChainTradingVolume,
+  getChainTotalLiquidity,
+  getVoyageBadges,
+  getVoyages,
+  getWalletVoyages,
+} from '@voltz-protocol/indexer-v1';
 
 export const app = express();
 
@@ -60,6 +74,241 @@ app.get('/positions/:chainIds/:ownerAddress', (req, res) => {
   const ownerAddress = req.params.ownerAddress.toLowerCase();
 
   getPortfolioPositions(chainIds, ownerAddress).then(
+    (output) => {
+      res.json(output);
+    },
+    (error) => {
+      console.log(`API query failed with message ${(error as Error).message}`);
+    },
+  );
+});
+
+// V1-only support
+
+app.get('/pool/:chainId/:vammAddress', (req, res) => {
+  const chainId = Number(req.params.chainId);
+  const vammAddress = req.params.vammAddress.toLowerCase();
+
+  getAmm(chainId, vammAddress).then(
+    (output) => {
+      res.json(output);
+    },
+    (error) => {
+      console.log(`API query failed with message ${(error as Error).message}`);
+    },
+  );
+});
+
+// todo: move this to function
+app.get('/chain-information/:chainIds', (req, res) => {
+  const process = async () => {
+    const chainIds = req.params.chainIds.split('&').map((s) => Number(s));
+
+    const response = await Promise.allSettled([
+      getChainTradingVolume(chainIds),
+      getChainTotalLiquidity(chainIds),
+    ]);
+
+    if (
+      response[0].status === 'rejected' ||
+      response[1].status === 'rejected'
+    ) {
+      throw new Error(`Couldn't fetch chain information.`);
+    }
+
+    return {
+      volume30Day: response[0].value,
+      totalLiquidity: response[1].value,
+    };
+  };
+
+  process().then(
+    (output) => {
+      res.json(output);
+    },
+    (error) => {
+      console.log(`API query failed with message ${(error as Error).message}`);
+    },
+  );
+});
+
+app.get('/all-pools/:chainIds', (req, res) => {
+  const chainIds = req.params.chainIds.split('&').map((s) => Number(s));
+
+  pullAllChainPools(chainIds).then(
+    (output) => {
+      res.json(output);
+    },
+    (error) => {
+      console.log(`API query failed with message ${(error as Error).message}`);
+    },
+  );
+});
+
+app.get('/portfolio-positions/:chainIds/:ownerAddress', (req, res) => {
+  const chainIds = req.params.chainIds.split('&').map((s) => Number(s));
+  const ownerAddress = req.params.ownerAddress;
+
+  getPortfolioPositions(chainIds, ownerAddress).then(
+    (output) => {
+      res.json(output);
+    },
+    (error) => {
+      console.log(`API query failed with message ${(error as Error).message}`);
+    },
+  );
+});
+
+app.get('/portfolio-position-details/:positionId', (req, res) => {
+  const positionId = req.params.positionId;
+  const includeHistory = Boolean(
+    req.query.includeHistory &&
+      typeof req.query.includeHistory === 'string' &&
+      req.query.includeHistory.toLowerCase() === 'true',
+  );
+
+  getPortfolioPositionDetails({
+    positionId,
+    includeHistory,
+  }).then(
+    (output) => {
+      res.json(output);
+    },
+    (error) => {
+      console.log(`API query failed with message ${(error as Error).message}`);
+    },
+  );
+});
+
+// todo: deprecate when SDK stops consuming it
+app.get(
+  '/position-pnl/:chainId/:vammAddress/:ownerAddress/:tickLower/:tickUpper',
+  (req, res) => {
+    const chainId = Number(req.params.chainId);
+    const vammAddress = req.params.vammAddress;
+    const ownerAddress = req.params.ownerAddress;
+    const tickLower = Number(req.params.tickLower);
+    const tickUpper = Number(req.params.tickUpper);
+
+    getPositionPnL(
+      chainId,
+      vammAddress,
+      ownerAddress,
+      tickLower,
+      tickUpper,
+    ).then(
+      (output) => {
+        res.json(output);
+      },
+      (error) => {
+        console.log(
+          `API query failed with message ${(error as Error).message}`,
+        );
+      },
+    );
+  },
+);
+
+app.get(
+  '/fixed-rates/:chainId/:vammAddress/:startTimestamp/:endTimestamp',
+  (req, res) => {
+    const chainId = Number(req.params.chainId);
+    const vammAddress = req.params.vammAddress;
+    const startTimestamp = Number(req.params.startTimestamp);
+    const endTimestamp = Number(req.params.endTimestamp);
+
+    getFixedRates(chainId, vammAddress, startTimestamp, endTimestamp).then(
+      (output) => {
+        res.json(output);
+      },
+      (error) => {
+        console.log(
+          `API query failed with message ${(error as Error).message}`,
+        );
+      },
+    );
+  },
+);
+
+app.get(
+  '/variable-rates/:chainId/:rateOracleAddress/:startTimestamp/:endTimestamp',
+  (req, res) => {
+    const chainId = Number(req.params.chainId);
+    const rateOracleAddress = req.params.rateOracleAddress;
+    const startTimestamp = Number(req.params.startTimestamp);
+    const endTimestamp = Number(req.params.endTimestamp);
+
+    getVariableRates(
+      chainId,
+      rateOracleAddress,
+      startTimestamp,
+      endTimestamp,
+    ).then(
+      (output) => {
+        res.json(output);
+      },
+      (error) => {
+        console.log(
+          `API query failed with message ${(error as Error).message}`,
+        );
+      },
+    );
+  },
+);
+
+app.get('/voyage/:chainId/:ownerAddress', (req, res) => {
+  const ownerAddress = req.params.ownerAddress.toLowerCase();
+
+  getVoyageBadges(ownerAddress).then(
+    (output) => {
+      res.json(output);
+    },
+    (error) => {
+      console.log(`API query failed with message ${(error as Error).message}`);
+    },
+  );
+});
+
+// todo: move this to function
+app.get('/voyage-V1/:chainId/:walletAddress', (req, res) => {
+  console.log(`Requesting information about Voyage Badges`);
+
+  const process = async () => {
+    const voyages = await getVoyages();
+
+    const chainId = Number(req.params.chainId);
+    const walletAddress = req.params.walletAddress.toLowerCase();
+    const walletVoyages = await getWalletVoyages(chainId, walletAddress);
+
+    const result: SDKVoyage[] = [];
+    const currentTimestamp = Math.floor(Date.now() / 1000);
+    const inTransitPeriod = 3 * 60 * 60; // 3 hours
+
+    for (const voyage of voyages) {
+      let status: 'achieved' | 'notAchieved' | 'notStarted' | 'inProgress';
+      let timestampInMS: number | null = null;
+      if (currentTimestamp < voyage.startTimestamp) {
+        status = 'notStarted';
+      } else if (currentTimestamp < voyage.endTimestamp + inTransitPeriod) {
+        status = 'inProgress';
+      } else if (!walletVoyages.includes(voyage.id)) {
+        status = 'notAchieved';
+      } else {
+        status = 'achieved';
+        timestampInMS = voyage.endTimestamp * 1000;
+      }
+
+      result.push({
+        id: voyage.id,
+        status,
+        timestamp: timestampInMS,
+      });
+    }
+
+    return result;
+  };
+
+  process().then(
     (output) => {
       res.json(output);
     },

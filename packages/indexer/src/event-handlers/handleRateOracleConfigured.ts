@@ -5,9 +5,8 @@ import {
   updateMarketEntry,
   pullRateOracleConfiguredEvent,
   insertRateOracleConfiguredEvent,
-  ZERO_ACCOUNT,
-  ZERO_ADDRESS,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
+import { ZERO_ADDRESS, ZERO_ACCOUNT } from '@voltz-protocol/commons-v2';
 
 export const handleRateOracleConfigured = async (
   event: RateOracleConfiguredEvent,

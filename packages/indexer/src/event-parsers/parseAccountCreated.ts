@@ -2,10 +2,10 @@ import { Event, BigNumber } from 'ethers';
 
 import { parseBaseEvent } from './utils/parseBaseEvent';
 import {
-  convertLowercaseString,
   AccountCreatedEvent,
   ProtocolEventType,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
+import { convertLowercaseString } from '@voltz-protocol/commons-v2';
 
 // todo: add sanity checks for arguments to all events
 export const parseAccountCreated = (

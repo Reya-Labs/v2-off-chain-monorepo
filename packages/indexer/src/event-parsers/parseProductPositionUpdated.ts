@@ -4,9 +4,9 @@ import {
   ProductPositionUpdatedEvent,
   ProtocolEventType,
   getMarketQuoteToken,
-  getTokenDetails,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
 import { parseBaseEvent } from './utils/parseBaseEvent';
+import { getTokenDetails } from '@voltz-protocol/commons-v2';
 
 export const parseProductPositionUpdated = (
   chainId: number,

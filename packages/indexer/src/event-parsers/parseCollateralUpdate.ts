@@ -1,11 +1,14 @@
 import { Event, BigNumber } from 'ethers';
 
-import { ProtocolEventType, getTokenDetails } from '@voltz-protocol/commons-v2';
+import {
+  getTokenDetails,
+  convertLowercaseString,
+} from '@voltz-protocol/commons-v2';
 import { parseBaseEvent } from './utils/parseBaseEvent';
 import {
-  convertLowercaseString,
   CollateralUpdateEvent,
-} from '@voltz-protocol/commons-v2';
+  ProtocolEventType,
+} from '@voltz-protocol/bigquery-v2';
 
 export const parseCollateralUpdate = (
   chainId: number,

@@ -1,4 +1,4 @@
-import { TakerOrderEvent } from '@voltz-protocol/commons-v2';
+import { TakerOrderEvent } from '@voltz-protocol/bigquery-v2';
 import { getTable, mapBigtableRow } from './utils';
 
 export const pullTakerOrderRow = async (

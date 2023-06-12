@@ -2,10 +2,12 @@ import { Event, BigNumber } from 'ethers';
 
 import { parseBaseEvent } from './utils/parseBaseEvent';
 import {
-  convertLowercaseString,
   LiquidationEvent,
-  getTokenDetails,
   ProtocolEventType,
+} from '@voltz-protocol/bigquery-v2';
+import {
+  getTokenDetails,
+  convertLowercaseString,
 } from '@voltz-protocol/commons-v2';
 
 export const parseLiquidation = (

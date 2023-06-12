@@ -5,9 +5,8 @@ import {
   updateMarketEntry,
   pullMarketConfiguredEvent,
   insertMarketConfiguredEvent,
-  ZERO_ACCOUNT,
-  ZERO_ADDRESS,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
+import { ZERO_ACCOUNT, ZERO_ADDRESS } from '@voltz-protocol/commons-v2';
 
 export const handleMarketConfigured = async (event: MarketConfiguredEvent) => {
   // Check if the event has been processed

@@ -2,10 +2,10 @@ import { Event, BigNumber } from 'ethers';
 
 import { parseBaseEvent } from './utils/parseBaseEvent';
 import {
-  descale,
   MarketFeeConfiguredEvent,
   ProtocolEventType,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
+import { descale } from '@voltz-protocol/commons-v2';
 
 export const parseMarketFeeConfigured = (
   chainId: number,

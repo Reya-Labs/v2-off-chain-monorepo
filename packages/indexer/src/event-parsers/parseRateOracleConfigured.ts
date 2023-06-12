@@ -1,10 +1,10 @@
 import { Event } from 'ethers';
 
-import {
-  ProtocolEventType,
-  RateOracleConfiguredEvent,
-} from '@voltz-protocol/commons-v2';
 import { parseBaseEvent } from './utils/parseBaseEvent';
+import {
+  RateOracleConfiguredEvent,
+  ProtocolEventType,
+} from '@voltz-protocol/bigquery-v2';
 import { convertLowercaseString } from '@voltz-protocol/commons-v2';
 
 export const parseRateOracleConfigured = (

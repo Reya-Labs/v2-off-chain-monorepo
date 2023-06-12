@@ -1358,6 +1358,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@graphql-typed-document-node/core@npm:^3.1.1":
+  version: 3.2.0
+  resolution: "@graphql-typed-document-node/core@npm:3.2.0"
+  peerDependencies:
+    graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+  checksum: fa44443accd28c8cf4cb96aaaf39d144a22e8b091b13366843f4e97d19c7bfeaf609ce3c7603a4aeffe385081eaf8ea245d078633a7324c11c5ec4b2011bb76d
+  languageName: node
+  linkType: hard
+
 "@grpc/grpc-js@npm:^1.7.0, @grpc/grpc-js@npm:~1.8.0":
   version: 1.8.14
   resolution: "@grpc/grpc-js@npm:1.8.14"
@@ -3488,11 +3497,23 @@ __metadata:
     "@types/cors": 2.8.13
     "@types/express": 4.17.17
     "@voltz-protocol/commons-v2": "workspace:^"
+    "@voltz-protocol/indexer-v1": "workspace:^"
+    "@voltz-protocol/subgraph-data": ^1.18.1
     cors: ^2.8.5
     ethers: 5.5.4
     express: ^4.18.2
     express-rate-limit: ^6.7.0
     rate-limit-redis: ^3.0.2
+  languageName: unknown
+  linkType: soft
+
+"@voltz-protocol/bigquery-v2@workspace:packages/v2-bigquery":
+  version: 0.0.0-use.local
+  resolution: "@voltz-protocol/bigquery-v2@workspace:packages/v2-bigquery"
+  dependencies:
+    "@google-cloud/bigquery": 6.2.0
+    "@voltz-protocol/commons-v2": "workspace:^"
+    ethers: 5.5.4
   languageName: unknown
   linkType: soft
 
@@ -3502,6 +3523,20 @@ __metadata:
   dependencies:
     "@google-cloud/bigquery": 6.2.0
     ethers: 5.5.4
+  languageName: unknown
+  linkType: soft
+
+"@voltz-protocol/indexer-v1@workspace:^, @voltz-protocol/indexer-v1@workspace:packages/v1-indexer":
+  version: 0.0.0-use.local
+  resolution: "@voltz-protocol/indexer-v1@workspace:packages/v1-indexer"
+  dependencies:
+    "@google-cloud/bigquery": 6.2.0
+    "@google-cloud/bigtable": 4.5.1
+    "@google-cloud/pubsub": 3.5.2
+    "@google-cloud/storage": 6.10.0
+    "@voltz-protocol/commons-v2": "workspace:^"
+    ethers: 5.5.4
+    ioredis: 5.3.2
   languageName: unknown
   linkType: soft
 
@@ -3554,11 +3589,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@voltz-protocol/ts-utils-v2@workspace:packages/utils":
-  version: 0.0.0-use.local
-  resolution: "@voltz-protocol/ts-utils-v2@workspace:packages/utils"
-  languageName: unknown
-  linkType: soft
+"@voltz-protocol/subgraph-data@npm:^1.18.1":
+  version: 1.18.1
+  resolution: "@voltz-protocol/subgraph-data@npm:1.18.1"
+  dependencies:
+    ethers: 5.5.4
+    graphql: 16.3.0
+    graphql-request: 5.0.0
+    lodash.isundefined: 3.0.1
+  checksum: c701c411b6cdd30724c2f9e0129c2a6e98f0a127c1b52ce8fcd561c27e20935cc45c3e45006b101fb0fb449cfada980ad4fc20920194f86d479f0e147bdfec5c
+  languageName: node
+  linkType: hard
 
 "@yarnpkg/lockfile@npm:^1.1.0":
   version: 1.1.0
@@ -4939,6 +4980,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cross-fetch@npm:^3.1.5":
+  version: 3.1.6
+  resolution: "cross-fetch@npm:3.1.6"
+  dependencies:
+    node-fetch: ^2.6.11
+  checksum: 704b3519ab7de488328cc49a52cf1aa14132ec748382be5b9557b22398c33ffa7f8c2530e8a97ed8cb55da52b0a9740a9791d361271c4591910501682d981d9c
+  languageName: node
+  linkType: hard
+
 "cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.2, cross-spawn@npm:^7.0.3":
   version: 7.0.3
   resolution: "cross-spawn@npm:7.0.3"
@@ -5930,6 +5980,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"extract-files@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "extract-files@npm:9.0.0"
+  checksum: c31781d090f8d8f62cc541f1023b39ea863f24bd6fb3d4011922d71cbded70cef8191f2b70b43ec6cb5c5907cdad1dc5e9f29f78228936c10adc239091d8ab64
+  languageName: node
+  linkType: hard
+
 "fast-deep-equal@npm:^3.1.1, fast-deep-equal@npm:^3.1.3":
   version: 3.1.3
   resolution: "fast-deep-equal@npm:3.1.3"
@@ -6139,6 +6196,17 @@ __metadata:
     cross-spawn: ^7.0.0
     signal-exit: ^4.0.1
   checksum: 139d270bc82dc9e6f8bc045fe2aae4001dc2472157044fdfad376d0a3457f77857fa883c1c8b21b491c6caade9a926a4bed3d3d2e8d3c9202b151a4cbbd0bcd5
+  languageName: node
+  linkType: hard
+
+"form-data@npm:^3.0.0":
+  version: 3.0.1
+  resolution: "form-data@npm:3.0.1"
+  dependencies:
+    asynckit: ^0.4.0
+    combined-stream: ^1.0.8
+    mime-types: ^2.1.12
+  checksum: b019e8d35c8afc14a2bd8a7a92fa4f525a4726b6d5a9740e8d2623c30e308fbb58dc8469f90415a856698933c8479b01646a9dff33c87cc4e76d72aedbbf860d
   languageName: node
   linkType: hard
 
@@ -6658,6 +6726,27 @@ __metadata:
   version: 1.0.4
   resolution: "grapheme-splitter@npm:1.0.4"
   checksum: 0c22ec54dee1b05cd480f78cf14f732cb5b108edc073572c4ec205df4cd63f30f8db8025afc5debc8835a8ddeacf648a1c7992fe3dcd6ad38f9a476d84906620
+  languageName: node
+  linkType: hard
+
+"graphql-request@npm:5.0.0":
+  version: 5.0.0
+  resolution: "graphql-request@npm:5.0.0"
+  dependencies:
+    "@graphql-typed-document-node/core": ^3.1.1
+    cross-fetch: ^3.1.5
+    extract-files: ^9.0.0
+    form-data: ^3.0.0
+  peerDependencies:
+    graphql: 14 - 16
+  checksum: 2e8900d10cded401b253a05650719321123e3b0ad5bc57523288892e0226dccf43668ec937753420084f649fb4e3f998f2547c884b746a3e91fa0a43f93e62d4
+  languageName: node
+  linkType: hard
+
+"graphql@npm:16.3.0":
+  version: 16.3.0
+  resolution: "graphql@npm:16.3.0"
+  checksum: ba540641e9cd2a8de5b989ff1433b015f232fa73aaef478d6709c1339cd43113347917acb965a5799c004667687852fc8ff0cfaa935eb26374c91c1fd7fdaeb1
   languageName: node
   linkType: hard
 
@@ -8498,6 +8587,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.isundefined@npm:3.0.1":
+  version: 3.0.1
+  resolution: "lodash.isundefined@npm:3.0.1"
+  checksum: 52b4d99a47bd41daa4e2860200258f56b1f2c99263c11a5f607fbbd91d6447fe674bdafc172735d099908a09136d4a0f98cf79715e38ca4b490fdda7162be289
+  languageName: node
+  linkType: hard
+
 "lodash.merge@npm:^4.6.2":
   version: 4.6.2
   resolution: "lodash.merge@npm:4.6.2"
@@ -9230,6 +9326,20 @@ __metadata:
     encoding:
       optional: true
   checksum: acb04f9ce7224965b2b59e71b33c639794d8991efd73855b0b250921382b38331ffc9d61bce502571f6cc6e11a8905ca9b1b6d4aeb586ab093e2756a1fd190d0
+  languageName: node
+  linkType: hard
+
+"node-fetch@npm:^2.6.11":
+  version: 2.6.11
+  resolution: "node-fetch@npm:2.6.11"
+  dependencies:
+    whatwg-url: ^5.0.0
+  peerDependencies:
+    encoding: ^0.1.0
+  peerDependenciesMeta:
+    encoding:
+      optional: true
+  checksum: 249d0666a9497553384d46b5ab296ba223521ac88fed4d8a17d6ee6c2efb0fc890f3e8091cafe7f9fba8151a5b8d925db2671543b3409a56c3cd522b468b47b3
   languageName: node
   linkType: hard
 

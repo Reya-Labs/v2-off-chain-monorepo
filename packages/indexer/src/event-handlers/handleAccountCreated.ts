@@ -3,7 +3,7 @@ import {
   pullAccountCreatedEvent,
   insertAccountCreatedEvent,
   insertAccountEntry,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
 
 export const handleAccountCreated = async (event: AccountCreatedEvent) => {
   const existingEvent = await pullAccountCreatedEvent(event.id);

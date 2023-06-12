@@ -1,4 +1,4 @@
-import { BaseEvent } from '@voltz-protocol/commons-v2';
+import { BaseEvent } from '@voltz-protocol/bigquery-v2';
 
 const EPSILON = 1e-5;
 

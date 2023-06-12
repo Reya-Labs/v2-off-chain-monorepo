@@ -5,9 +5,8 @@ import {
   getLatestVammTick,
   pullLpPositionEntries,
   updatePositionEntry,
-  isNull,
-  computePassiveDeltas,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
+import { isNull, computePassiveDeltas } from '@voltz-protocol/commons-v2';
 
 export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
   const existingEvent = await pullVammPriceChangeEvent(event.id);

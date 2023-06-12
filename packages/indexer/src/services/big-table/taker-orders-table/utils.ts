@@ -1,6 +1,6 @@
 import { Row, Table } from '@google-cloud/bigtable';
 import { getBigtableInstance } from '../clients';
-import { TakerOrderEvent } from '@voltz-protocol/commons-v2';
+import { TakerOrderEvent } from '@voltz-protocol/bigquery-v2';
 
 export const tableName = 'raw-taker-orders';
 export const columnFamilyId = 'cf';

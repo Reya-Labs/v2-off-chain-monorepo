@@ -3,7 +3,7 @@ import { parseCollateralUpdate } from '../../src/event-parsers/parseCollateralUp
 import {
   CollateralUpdateEvent,
   ProtocolEventType,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
 import { evmTestEvents } from '../utils/evmTestEvents';
 
 describe('taker order parser', () => {

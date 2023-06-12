@@ -1,6 +1,6 @@
 import { EventFilter } from 'ethers';
 import { evmTestEvents } from '../utils/evmTestEvents';
-import { ProtocolEventType } from '@voltz-protocol/commons-v2';
+import { ProtocolEventType } from '@voltz-protocol/bigquery-v2';
 import { fetchEvents } from '../../src/fetch-events/fetchEvents';
 
 // Mock smart contract dependencies
