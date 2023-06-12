@@ -124,7 +124,7 @@ export async function estimateLpGasUnits({
 
 // HELPERS
 
-async function createLpParams({
+export async function createLpParams({
   ammId,
   signer,
   notional,
@@ -170,7 +170,7 @@ export function decodeLpOutput(bytesData: any): {
   };
 }
 
-async function getLpTxData(params: CompleteLpDetails): Promise<{
+export async function getLpTxData(params: CompleteLpDetails): Promise<{
   data: string;
   value: string;
   chainId: number;
