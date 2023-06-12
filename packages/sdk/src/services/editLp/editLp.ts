@@ -99,7 +99,7 @@ export async function simulateEditLp({
   return result;
 }
 
-export async function estimateSwapGasUnits({
+export async function estimateEditLpGasUnits({
   positionId,
   signer,
   notional,
