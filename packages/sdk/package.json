@@ -2,10 +2,11 @@
   "name": "@voltz-protocol/sdk-v2",
   "version": "1.36.0",
   "description": "A TypeScript wrapper for the Voltz V2 smart contract",
-  "main": "src/index.ts",
   "publishConfig": {
     "access": "public"
   },
+  "main": "dist/index.js",
+  "types": "dist/types",
   "license": "MIT",
   "scripts": {
     "prebuild": "yarn code-quality:check && rm -rf dist",
