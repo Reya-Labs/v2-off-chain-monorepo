@@ -22,7 +22,6 @@ root_patterns = [
 # `generate-lockfiles` goal for Pants to generate the lockfile for you.
 interpreter_constraints = ["==3.11.*"]
 enable_resolves = true
-resolves = { python-default = "python-default.lock"}
 
 [python-bootstrap]
 search_path = [
