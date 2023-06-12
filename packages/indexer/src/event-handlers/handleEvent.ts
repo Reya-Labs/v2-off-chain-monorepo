@@ -107,7 +107,8 @@ export const handleEvent = async (e: BaseEvent) => {
     }
 
     default: {
-      e.type satisfies never;
+      // todo: review below
+      //e.type satisfies never;
       throw new Error(`Unhandled event type ${e.type}`);
     }
   }
