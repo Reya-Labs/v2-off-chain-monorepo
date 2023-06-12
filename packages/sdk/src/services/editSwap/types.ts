@@ -29,10 +29,9 @@ export type PositionInfo = PoolInfo & {
  * @dev Edit Swap flow inputs, provided by client (e.g. UI)
  */
 export type EditSwapArgs = {
-  poolId: string;
   positionId: string;
   signer: Signer;
-  notionalAmount: number;
-  marginAmount: number;
-  priceLimit?: number; // e.g. 0.0125 = 1.25%
+  notional: number;
+  margin: number;
+  fixedRateLimit?: number; // e.g. 0.0125 = 1.25%
 };

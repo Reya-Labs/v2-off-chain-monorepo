@@ -21,51 +21,51 @@ import { getLpPeripheryParams } from './getLpPeripheryParams';
 import { encodeLp } from './encode';
 
 async function createLpParams({
-  poolId,
+  ammId,
   signer,
-  notionalAmount,
-  marginAmount,
-  fixedRateLower,
-  fixedRateUpper,
+  notional,
+  margin,
+  fixedLow,
+  fixedHigh,
 }: LpArgs): Promise<CompleteLpDetails> {
-  const lpInfo = await getLpPeripheryParams(poolId);
+  const lpInfo = await getLpPeripheryParams(ammId);
 
   const tokenDecimals = getTokenDetails(lpInfo.quoteTokenAddress).tokenDecimals;
   const liquidityAmount = notionalToLiquidityBN(
-    scale(tokenDecimals)(notionalAmount),
+    scale(tokenDecimals)(notional),
     tokenDecimals,
-    fixedRateLower,
+    fixedLow,
   );
 
   const params: CompleteLpDetails = {
     ...lpInfo,
     owner: signer,
     liquidityAmount: liquidityAmount,
-    marginAmount: scale(tokenDecimals)(marginAmount),
-    fixedRateLower,
-    fixedRateUpper,
+    margin: scale(tokenDecimals)(margin),
+    fixedLow,
+    fixedHigh,
   };
 
   return params;
 }
 
 export async function lp({
-  poolId,
+  ammId,
   signer,
-  notionalAmount,
-  marginAmount,
-  fixedRateLower,
-  fixedRateUpper,
+  notional,
+  margin,
+  fixedLow,
+  fixedHigh,
 }: LpArgs): Promise<ContractReceipt> {
   // fetch: send request to api
 
   const params = await createLpParams({
-    poolId,
+    ammId,
     signer,
-    notionalAmount,
-    marginAmount,
-    fixedRateLower,
-    fixedRateUpper,
+    notional,
+    margin,
+    fixedLow,
+    fixedHigh,
   });
 
   const { data, value, chainId } = await getLpTxData(params);
@@ -74,22 +74,22 @@ export async function lp({
 }
 
 export async function getInfoPostLp({
-  poolId,
+  ammId,
   signer,
-  notionalAmount,
-  marginAmount,
-  fixedRateLower,
-  fixedRateUpper,
+  notional,
+  margin,
+  fixedLow,
+  fixedHigh,
 }: LpArgs): Promise<InfoPostLp> {
   // fetch: send request to api
 
   const params = await createLpParams({
-    poolId,
+    ammId,
     signer,
-    notionalAmount,
-    marginAmount,
-    fixedRateLower,
-    fixedRateUpper,
+    notional,
+    margin,
+    fixedLow,
+    fixedHigh,
   });
 
   const { data, value, chainId } = await getLpTxData(params);
@@ -128,21 +128,21 @@ export async function getInfoPostLp({
   return result;
 }
 
-export async function estimateSwapGasUnits({
-  poolId,
+export async function estimateLpGasUnits({
+  ammId,
   signer,
-  notionalAmount,
-  marginAmount,
-  fixedRateLower,
-  fixedRateUpper,
+  notional,
+  margin,
+  fixedLow,
+  fixedHigh,
 }: LpArgs): Promise<BigNumber> {
   const params = await createLpParams({
-    poolId,
+    ammId,
     signer,
-    notionalAmount,
-    marginAmount,
-    fixedRateLower,
-    fixedRateUpper,
+    notional,
+    margin,
+    fixedLow,
+    fixedHigh,
   });
 
   const { data, value, chainId } = await getLpTxData(params);

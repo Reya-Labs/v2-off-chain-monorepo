@@ -21,7 +21,6 @@ import { getPositionInfo } from '../../common/api/position/getPositionInfo';
 // todo: refactor since a lot of shared logic with swap and simulateSwap
 export const editSwap = async ({
   positionId,
-  isFT,
   notional,
   margin,
   fixedRateLimit,
@@ -46,7 +45,7 @@ export const editSwap = async ({
 
   const swapPeripheryParams: SwapPeripheryParams = getSwapPeripheryParams({
     margin,
-    isFT,
+    isFT: notional > 0,
     notional,
     marginEngineAddress: positionInfo.ammMarginEngineAddress,
     underlyingTokenDecimals: positionInfo.ammUnderlyingTokenDecimals,

@@ -6,7 +6,6 @@ import { AMMInfo } from '../../common/api/amm/types';
 
 export type SwapArgs = {
   ammId: string;
-  isFT: boolean;
   notional: number;
   margin: number;
   fixedRateLimit?: number;
@@ -15,7 +14,6 @@ export type SwapArgs = {
 
 export type EditSwapArgs = {
   positionId: string;
-  isFT: boolean;
   notional: number;
   margin: number;
   fixedRateLimit?: number;
@@ -94,7 +92,6 @@ export type RolloverAndLpPeripheryParams = {
 
 export type LpArgs = {
   ammId: string;
-  addLiquidity: boolean;
   fixedLow: number;
   fixedHigh: number;
   notional: number;

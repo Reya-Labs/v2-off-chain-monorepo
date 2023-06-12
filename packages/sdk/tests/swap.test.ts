@@ -15,6 +15,7 @@ import {
   SwapUserInputs,
 } from '../src/services/swap/types';
 import { defaultAbiCoder } from 'ethers/lib/utils';
+import { SECONDS_IN_YEAR } from '@voltz-protocol/commons-v2';
 
 describe('takers', async () => {
   let mockSigner: MockSigner;
@@ -24,7 +25,7 @@ describe('takers', async () => {
     mockSigner = new MockSigner(); // the args will be overwritten by stub above
     poolConfig = {
       productAddress: '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9',
-      maturityTimestamp: 1683274995,
+      maturityTimestamp: Math.round(Date.now() / 1000) + SECONDS_IN_YEAR,
       marketId: '1898738',
       quoteTokenAddress: '0x2f3a40a3db8a7e3d09b0adfefbce4f6f81927557',
     };
@@ -34,7 +35,7 @@ describe('takers', async () => {
     const swapUserInputs: SwapUserInputs = {
       owner: mockSigner,
       baseAmount: BigNumber.from(9900990099),
-      marginAmount: BigNumber.from(10000000),
+      margin: BigNumber.from(10000000),
     };
 
     const swapInfo: PoolInfo = {
@@ -46,7 +47,7 @@ describe('takers', async () => {
     const swapPeripheryParams: SwapPeripheryParameters = {
       ...swapInfo,
       ...swapUserInputs,
-      priceLimit: constants.ZERO_BN,
+      fixedRateLimit: constants.ZERO_BN,
     };
 
     const expectedResult = await encodeSwap(swapPeripheryParams);
@@ -64,10 +65,10 @@ describe('takers', async () => {
       .returns(expectedResult);
 
     await swap({
-      poolId: '1234',
+      ammId: '1234',
       signer: mockSigner,
-      notionalAmount: 10000,
-      marginAmount: 10,
+      notional: 10000,
+      margin: 10,
     });
 
     encodeMock.verify();
@@ -80,7 +81,7 @@ describe('takers', async () => {
     const swapUserInputs: SwapUserInputs = {
       owner: mockSigner,
       baseAmount: BigNumber.from(9900990099),
-      marginAmount: BigNumber.from(10000000),
+      margin: BigNumber.from(10000000),
     };
 
     const swapInfo: PoolInfo = {
@@ -92,7 +93,7 @@ describe('takers', async () => {
     const swapPeripheryParams: SwapPeripheryParameters = {
       ...swapInfo,
       ...swapUserInputs,
-      priceLimit: constants.ZERO_BN,
+      fixedRateLimit: constants.ZERO_BN,
     };
 
     const expectedResult = await encodeSwap(swapPeripheryParams);
@@ -127,10 +128,10 @@ describe('takers', async () => {
     mockSigner.setFunctionOutputData(simulationOutput);
 
     const result = await getInfoPostSwap({
-      poolId: '1234',
+      ammId: '1234',
       signer: mockSigner,
-      notionalAmount: 10000,
-      marginAmount: 10,
+      notional: 10000,
+      margin: 10,
     });
 
     encodeMock.verify();
@@ -143,7 +144,7 @@ describe('takers', async () => {
     assert.equal(result.availableNotional, 0.000505);
     assert.equal(result.fee, 0.00002);
     assert.equal(result.slippage.toFixed(3), '0.074');
-    assert.equal(result.averageFixedRate.toFixed(3), '0.204');
+    assert.equal(result.averageFixedRate.toFixed(3), '1.990');
     assert.equal(result.fixedTokenDeltaBalance, -0.0005);
     assert.equal(result.variableTokenDeltaBalance, 0.0005);
     assert.equal(result.fixedTokenDeltaUnbalanced, -0.0005);

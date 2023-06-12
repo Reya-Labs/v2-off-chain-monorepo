@@ -3,7 +3,6 @@
 import { PositionInfo } from '../editSwap';
 
 export async function getEditLpPeripheryParams(
-  poolId: string,
   positionId: string,
 ): Promise<PositionInfo> {
   return {

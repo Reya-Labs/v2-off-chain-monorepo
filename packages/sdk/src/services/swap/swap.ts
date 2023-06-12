@@ -35,54 +35,54 @@ import {
 import { defaultAbiCoder } from 'ethers/lib/utils';
 
 async function createSwapParams({
-  poolId,
+  ammId,
   signer,
-  notionalAmount,
-  marginAmount,
-  priceLimit,
+  notional,
+  margin,
+  fixedRateLimit,
 }: SwapArgs): Promise<CompleteSwapDetails> {
-  const swapInfo = await getSwapPeripheryParams(poolId);
+  const swapInfo = await getSwapPeripheryParams(ammId);
 
   const tokenDecimals = getTokenDetails(
     swapInfo.quoteTokenAddress,
   ).tokenDecimals;
   const baseAmount = notionalToBaseAmount(
-    notionalAmount,
+    notional,
     tokenDecimals,
     swapInfo.currentLiquidityIndex,
   );
 
-  let priceLimitRaw = ZERO_BN;
-  if (priceLimit !== undefined) {
-    priceLimitRaw = BigNumber.from(fixedRateToPrice(priceLimit));
+  let fixedRateLimitRaw = ZERO_BN;
+  if (fixedRateLimit !== undefined) {
+    fixedRateLimitRaw = BigNumber.from(fixedRateToPrice(fixedRateLimit));
   }
 
   const params: CompleteSwapDetails = {
     ...swapInfo,
     owner: signer,
     baseAmount: baseAmount,
-    marginAmount: scale(tokenDecimals)(marginAmount),
-    priceLimit: priceLimitRaw,
+    margin: scale(tokenDecimals)(margin),
+    fixedRateLimit: fixedRateLimitRaw,
   };
 
   return params;
 }
 
 export async function swap({
-  poolId,
+  ammId,
   signer,
-  notionalAmount,
-  marginAmount,
-  priceLimit,
+  notional,
+  margin,
+  fixedRateLimit,
 }: SwapArgs): Promise<ContractReceipt> {
   // fetch: send request to api
 
   const params = await createSwapParams({
-    poolId,
+    ammId,
     signer,
-    notionalAmount,
-    marginAmount,
-    priceLimit,
+    notional,
+    margin,
+    fixedRateLimit,
   });
 
   const { data, value, chainId } = await getSwapTxData(params);
@@ -91,20 +91,20 @@ export async function swap({
 }
 
 export async function getInfoPostSwap({
-  poolId,
+  ammId,
   signer,
-  notionalAmount,
-  marginAmount,
-  priceLimit,
+  notional,
+  margin,
+  fixedRateLimit,
 }: SwapArgs): Promise<InfoPostSwap> {
   // fetch: send request to api
 
   const params = await createSwapParams({
-    poolId,
+    ammId,
     signer,
-    notionalAmount,
-    marginAmount,
-    priceLimit,
+    notional,
+    margin,
+    fixedRateLimit,
   });
 
   const { data, value, chainId } = await getSwapTxData(params);
@@ -122,7 +122,8 @@ export async function getInfoPostSwap({
   {
     const { calldata: data, value } = await encodeSwap({
       ...params,
-      priceLimit: params.priceLimit !== undefined ? params.priceLimit : ZERO_BN,
+      fixedRateLimit:
+        params.fixedRateLimit !== undefined ? params.fixedRateLimit : ZERO_BN,
       baseAmount: VERY_BIG_NUMBER,
     });
     const bytesOutput = (await simulateTx(signer, data, value, chainId))
@@ -150,18 +151,18 @@ export async function getInfoPostSwap({
 }
 
 export async function estimateSwapGasUnits({
-  poolId,
+  ammId,
   signer,
-  notionalAmount,
-  marginAmount,
-  priceLimit,
+  notional,
+  margin,
+  fixedRateLimit,
 }: SwapArgs): Promise<BigNumber> {
   const params = await createSwapParams({
-    poolId,
+    ammId,
     signer,
-    notionalAmount,
-    marginAmount,
-    priceLimit,
+    notional,
+    margin,
+    fixedRateLimit,
   });
 
   const { data, value, chainId } = await getSwapTxData(params);
@@ -276,7 +277,8 @@ async function getSwapTxData(params: CompleteSwapDetails): Promise<{
   const chainId = await params.owner.getChainId();
   const swapPeripheryParams: SwapPeripheryParameters = {
     ...params,
-    priceLimit: params.priceLimit !== undefined ? params.priceLimit : ZERO_BN,
+    fixedRateLimit:
+      params.fixedRateLimit !== undefined ? params.fixedRateLimit : ZERO_BN,
   };
 
   const { calldata: data, value } = await encodeSwap(swapPeripheryParams);

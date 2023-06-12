@@ -3,7 +3,6 @@ import { PositionInfo } from './types';
 import { BigNumber } from 'ethers';
 
 export async function getEditSwapPeripheryParams(
-  poolId: string,
   positionId: string,
 ): Promise<PositionInfo> {
   return {

@@ -21,57 +21,54 @@ import { fixedRateToPrice } from '../../utils/math/tickHelpers';
 import { decodeSwapOutput, InfoPostSwap, processInfoPostSwap } from '../swap';
 
 async function createEditSwapParams({
-  poolId,
   positionId,
   signer,
-  notionalAmount,
-  marginAmount,
-  priceLimit,
+  notional,
+  margin,
+  fixedRateLimit,
 }: EditSwapArgs): Promise<CompleteEditSwapDetails> {
-  const swapInfo = await getEditSwapPeripheryParams(poolId, positionId);
+  const swapInfo = await getEditSwapPeripheryParams(positionId);
 
   const tokenDecimals = getTokenDetails(
     swapInfo.quoteTokenAddress,
   ).tokenDecimals;
   const baseAmount = notionalToBaseAmount(
-    notionalAmount,
+    notional,
     tokenDecimals,
     swapInfo.currentLiquidityIndex,
   );
 
-  let priceLimitRaw = ZERO_BN;
-  if (priceLimit !== undefined) {
-    priceLimitRaw = BigNumber.from(fixedRateToPrice(priceLimit));
+  let fixedRateLimitRaw = ZERO_BN;
+  if (fixedRateLimit !== undefined) {
+    fixedRateLimitRaw = BigNumber.from(fixedRateToPrice(fixedRateLimit));
   }
 
   const params: CompleteEditSwapDetails = {
     ...swapInfo,
     owner: signer,
     baseAmount: baseAmount,
-    marginAmount: scale(tokenDecimals)(marginAmount),
-    priceLimit: priceLimitRaw,
+    margin: scale(tokenDecimals)(margin),
+    fixedRateLimit: fixedRateLimitRaw,
   };
 
   return params;
 }
 
 export async function editSwap({
-  poolId,
   positionId,
   signer,
-  notionalAmount,
-  marginAmount,
-  priceLimit,
+  notional,
+  margin,
+  fixedRateLimit,
 }: EditSwapArgs): Promise<ContractReceipt> {
   // fetch: send request to api
 
   const params = await createEditSwapParams({
-    poolId,
     positionId,
     signer,
-    notionalAmount,
-    marginAmount,
-    priceLimit,
+    notional,
+    margin,
+    fixedRateLimit,
   });
 
   const { data, value, chainId } = await getEditSwapTxData(params);
@@ -80,20 +77,18 @@ export async function editSwap({
 }
 
 export async function getInfoPostEditSwap({
-  poolId,
   positionId,
   signer,
-  notionalAmount,
-  marginAmount,
-  priceLimit,
+  notional,
+  margin,
+  fixedRateLimit,
 }: EditSwapArgs): Promise<InfoPostSwap> {
   const params = await createEditSwapParams({
-    poolId,
     positionId,
     signer,
-    notionalAmount,
-    marginAmount,
-    priceLimit,
+    notional,
+    margin,
+    fixedRateLimit,
   });
 
   // SIMULATE TX
@@ -143,20 +138,18 @@ export async function getInfoPostEditSwap({
 }
 
 export async function estimateEditSwapGasUnits({
-  poolId,
   positionId,
   signer,
-  notionalAmount,
-  marginAmount,
-  priceLimit,
+  notional,
+  margin,
+  fixedRateLimit,
 }: EditSwapArgs): Promise<BigNumber> {
   const params = await createEditSwapParams({
-    poolId,
     positionId,
     signer,
-    notionalAmount,
-    marginAmount,
-    priceLimit,
+    notional,
+    margin,
+    fixedRateLimit,
   });
 
   const { data, value, chainId } = await getEditSwapTxData(params);
@@ -173,7 +166,8 @@ async function getEditSwapTxData(params: CompleteEditSwapDetails): Promise<{
   const chainId = await params.owner.getChainId();
   const swapPeripheryParams: EditSwapPeripheryParameters = {
     ...params,
-    priceLimit: params.priceLimit !== undefined ? params.priceLimit : ZERO_BN,
+    fixedRateLimit:
+      params.fixedRateLimit !== undefined ? params.fixedRateLimit : ZERO_BN,
   };
 
   const { calldata: data, value } = await encodeSwap(
