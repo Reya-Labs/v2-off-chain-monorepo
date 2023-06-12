@@ -1,4 +1,6 @@
-# todo: add typings for market manager
+
+from pypackages.risk_engine.src.instruments.datedIrs
+
 class Account:
     def __init__(self, account_id: str, base_token: str):
 
@@ -6,7 +8,7 @@ class Account:
         self._base_token = base_token
 
         self._market_manager = None
-        self._active_markets = []
+        self._active_markets: List<> = []
 
     def set_market_manager(self, market_manager):
         self._market_manager = market_manager

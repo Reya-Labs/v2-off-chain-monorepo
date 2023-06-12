@@ -1,7 +1,4 @@
 from abc import abstractmethod
-
-from typing_extensions import override
-
 from pypackages.risk_engine.src.exchanges.vamm.vamm import VAMM
 
 
@@ -37,15 +34,12 @@ class BaseVAMMExchange(VAMM):
             tick_spacing=tick_spacing,
         )
 
-    @override
     def vamm_f(self, tick):
         return tick
 
-    @override
     def inv_vamm_f(self, tick):
         return tick
 
-    @override
     def no_of_trackers(self):
         return 2
 
@@ -57,7 +51,7 @@ class BaseVAMMExchange(VAMM):
     def _track_fixed_tokens(self, base, tick_lower, tick_upper):
         pass
 
-    @override
+    
     def _track(self, index_tracker, base, tick_lower, tick_upper):
         if index_tracker == 0:
             return self._track_variable_tokens(base=base)
