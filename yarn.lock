@@ -10890,12 +10890,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"risk-engine@workspace:packages/risk_engine":
-  version: 0.0.0-use.local
-  resolution: "risk-engine@workspace:packages/risk_engine"
-  languageName: unknown
-  linkType: soft
-
 "run-async@npm:^2.4.0":
   version: 2.4.1
   resolution: "run-async@npm:2.4.1"
@@ -11734,12 +11728,6 @@ __metadata:
   checksum: 726321c5eaf41b5002e17ffbd1fb7245999a073e8979085dacd47c4b4e8068ff5777142fc6726d6ca1fd2ff16921b48788b87225cbc57c72636f6efa8efbffe3
   languageName: node
   linkType: hard
-
-"transformer@workspace:packages/transformer":
-  version: 0.0.0-use.local
-  resolution: "transformer@workspace:packages/transformer"
-  languageName: unknown
-  linkType: soft
 
 "tree-kill@npm:^1.2.2":
   version: 1.2.2
