@@ -63,3 +63,20 @@ source root configuration in pants refer to https://www.pantsbuild.org/docs/sour
 ```bash
 pants roots
 ```
+
+### Third Party Dependencies 
+
+Pants understands exactly which dependencies every file in the project needs, and efficiently uses just that
+subset of dependencies needed for the task:
+
+#### Lockfiles
+
+Lockfiles are strongly recommended as they make the builds more stable (https://classic.yarnpkg.com/blog/2016/11/24/lockfiles-for-all/) .
+
+### Export Env
+
+In order to create a virtual environment, run the following command:
+
+```bash
+pants export --symlink-python-virtualenv --resolve=python-default
+```
