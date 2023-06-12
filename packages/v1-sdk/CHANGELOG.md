@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.17.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.16.0...@voltz-protocol/sdk-v1-stateless@1.17.0) (2023-06-12)
+
+### Bug Fixes
+
+- args sync v1-v2 ([938c25b](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/938c25bd2a693bee1d425892c5f754f694bd37ab))
+- lint v1 ([a726201](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/a726201a1228e086a4f2c42f3ac2a848e2b2f1f3))
+
+### Features
+
+- settle flow base ([7a39969](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/7a39969a104e4a13f9337b6a773d4f7944cfb53f))
+
 # [1.16.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.15.2...@voltz-protocol/sdk-v1-stateless@1.16.0) (2023-06-12)
 
 ### Features

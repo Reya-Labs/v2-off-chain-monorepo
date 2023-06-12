@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.37.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.36.0...@voltz-protocol/sdk-v2@1.37.0) (2023-06-12)
+
+### Bug Fixes
+
+- args sync v1-v2 ([938c25b](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/938c25bd2a693bee1d425892c5f754f694bd37ab))
+- exports ([bde98ae](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/bde98ae3824d7decca0cd923b8652079129c3c0a))
+- import commons as js ([1d3abd6](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/1d3abd671dafc3cf7cf12e2793f6f4f08dbd4733))
+- sync function names v1-v2 ([471e998](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/471e998ceb8012556e18954ea5410e4807ce43cc))
+- v2 build ([5115ec5](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/5115ec5b2ccd3b7f852bbd7cda0ac01ee2a6d092))
+
+### Features
+
+- LP flows and swap test ([1a421ae](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/1a421ae74308cd30e816df299e24233265c5db29))
+- settle flow base ([7a39969](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/7a39969a104e4a13f9337b6a773d4f7944cfb53f))
+- swap flow ([2c88f17](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/2c88f179c30f8d9c4a85d5a1afedd1e835596862))
+
 # [1.36.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.35.0...@voltz-protocol/sdk-v2@1.36.0) (2023-06-07)
 
 ### Bug Fixes
