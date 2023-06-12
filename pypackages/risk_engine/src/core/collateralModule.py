@@ -4,7 +4,7 @@ from risk_engine.src.core.accountManager import AccountManager
 class CollateralModule:
     def __init__(self):
 
-        self._account_collateral_balance_mapping: dict[str, float]= {}
+        self._account_collateral_balance_mapping: dict[str, float] = {}
 
     def get_account_collateral_balance(self, account_id: str) -> float:
         if account_id not in self._account_collateral_balance_mapping:

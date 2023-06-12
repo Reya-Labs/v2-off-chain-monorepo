@@ -7,22 +7,18 @@ from risk_engine.src.exchanges.vamm.baseVAMMExchange import BaseVAMMExchange
 
 
 class MockPool(BaseVAMMExchange):
-    
     def _track_variable_tokens(self, base):
         return base
 
-    
     def _track_fixed_tokens(self, base, tick_lower, tick_upper):
         avg_price = (
             self.price_at_tick(tick_lower) + self.price_at_tick(tick_upper)
         ) / 2
         return -base * avg_price
 
-    
     def price_at_tick(self, tick):
         return tick
 
-    
     def tick_at_price(self, price):
         return self.closest_tick(price)
 

@@ -14,11 +14,9 @@ class MockExchange(BaseVAMMExchange):
         self.gwap = Mock()
         self.close_positions = Mock()
 
-    
     def _track_variable_tokens(self, base):
         raise Exception("mock pool: not implemented")
 
-    
     def _track_fixed_tokens(self, base, tick_lower, tick_upper):
         raise Exception("mock pool: not implemented")
 
