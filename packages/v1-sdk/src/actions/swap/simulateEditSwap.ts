@@ -13,7 +13,6 @@ import { InfoPostSwap } from './getInfoPostSwap';
 
 export const simulateEditSwap = async ({
   positionId,
-  isFT,
   notional,
   margin,
   fixedRateLimit,
@@ -37,7 +36,7 @@ export const simulateEditSwap = async ({
 
   const swapPeripheryParams: SwapPeripheryParams = getSwapPeripheryParams({
     margin,
-    isFT,
+    isFT: notional > 0,
     notional,
     marginEngineAddress: positionInfo.ammMarginEngineAddress,
     underlyingTokenDecimals: positionInfo.ammUnderlyingTokenDecimals,
