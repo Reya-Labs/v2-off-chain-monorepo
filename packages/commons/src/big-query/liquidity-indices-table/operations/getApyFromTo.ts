@@ -23,7 +23,7 @@ export async function getApyFromTo(
     return null;
   }
 
-  // note: only for compound oracles
+  // todo: add flag (currently for compound oracles)
   const timeFactor = SECONDS_IN_YEAR / (toTimestamp - fromTimestamp);
   const apy = (toIndex / fromIndex) ** timeFactor - 1;
   // if linear

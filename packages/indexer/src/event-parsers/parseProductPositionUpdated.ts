@@ -3,10 +3,10 @@ import { BigNumber, Event } from 'ethers';
 import {
   ProductPositionUpdatedEvent,
   ProtocolEventType,
+  getMarketQuoteToken,
   getTokenDetails,
 } from '@voltz-protocol/commons-v2';
 import { parseBaseEvent } from './utils/parseBaseEvent';
-import { getMarketQuoteToken } from '../utils/markets/getMarketQuoteToken';
 
 export const parseProductPositionUpdated = (
   chainId: number,

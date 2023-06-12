@@ -22,8 +22,6 @@ export const computePassiveDeltas = ({
   tickMove,
   tickRange,
 }: Args): Response => {
-  console.log('args:', liquidity, tickMove, tickRange);
-
   if (tickMove.from > tickMove.to) {
     const result = computePassiveDeltas({
       liquidity,

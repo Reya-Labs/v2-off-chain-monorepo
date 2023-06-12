@@ -3,9 +3,9 @@ import { Event, BigNumber } from 'ethers';
 import {
   LiquidityChangeEvent,
   ProtocolEventType,
+  getMarketQuoteToken,
 } from '@voltz-protocol/commons-v2';
 import { getTokenDetails } from '@voltz-protocol/commons-v2';
-import { getMarketQuoteToken } from '../utils/markets/getMarketQuoteToken';
 import { parseBaseEvent } from './utils/parseBaseEvent';
 import { convertLowercaseString } from '@voltz-protocol/commons-v2';
 

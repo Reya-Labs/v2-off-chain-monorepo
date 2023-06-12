@@ -4,10 +4,10 @@ import {
   pullAccountPositionEntries,
   pullMarketEntry,
   pullAccountsByAddress,
+  tickToFixedRate,
 } from '@voltz-protocol/commons-v2';
 
 import { SupportedChainId } from '../../../../indexer/src/services/provider';
-import { tickToFixedRate } from '../../../../indexer/src/utils/vamm/tickConversions';
 
 export type PortfolioPositionAMM = {
   id: string;
@@ -78,9 +78,7 @@ export const getPortfolioPositions = async (
   chainIds: SupportedChainId[],
   ownerAddress: string,
 ): Promise<PortfolioPosition[]> => {
-  console.log('a');
   const accounts = await pullAccountsByAddress(chainIds, ownerAddress);
-  console.log('b', accounts);
 
   const portfolio: PortfolioPosition[] = [];
 
@@ -89,7 +87,6 @@ export const getPortfolioPositions = async (
 
   for (const { chainId, accountId } of accounts) {
     const accountCollaterals = await pullAccountCollateral(chainId, accountId);
-    console.log('c', accountCollaterals);
 
     if (accountCollaterals.length === 0) {
       continue;
@@ -106,8 +103,6 @@ export const getPortfolioPositions = async (
       accountId,
     );
 
-    console.log('d', positionEntries);
-
     for (const {
       id: positionId,
       marketId,
@@ -121,8 +116,6 @@ export const getPortfolioPositions = async (
       tickUpper,
     } of positionEntries) {
       const market = await pullMarketEntry(chainId, marketId);
-      console.log('e', market);
-
       // todo: query getLatestFixedRate() on price change table
       const poolFixedRate = 0.01;
 
