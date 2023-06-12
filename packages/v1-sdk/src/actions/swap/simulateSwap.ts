@@ -13,7 +13,6 @@ import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
 
 export const simulateSwap = async ({
   ammId,
-  isFT,
   notional,
   margin,
   fixedRateLimit,
@@ -39,7 +38,7 @@ export const simulateSwap = async ({
 
   const swapPeripheryParams: SwapPeripheryParams = getSwapPeripheryParams({
     margin,
-    isFT,
+    isFT: notional > 0,
     notional,
     marginEngineAddress: ammInfo.marginEngineAddress,
     underlyingTokenDecimals: ammInfo.underlyingTokenDecimals,

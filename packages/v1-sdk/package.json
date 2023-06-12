@@ -16,7 +16,7 @@
     "prebuild": "yarn code-quality:check && rm -rf dist",
     "build": "yarn prebuild && tsc -p tsconfig.build.json",
     "ts:check-types": "npx tsc --noEmit",
-    "ts:circular-check": "dpdm --no-output --no-tree --no-warning --exit-code circular:1 -T ./src/index.ts",
+    "ts:circular-check": "npx dpdm --no-output --no-tree --no-warning --exit-code circular:1 -T ./src/index.ts",
     "ts:check": "yarn ts:check-types && yarn ts:circular-check",
     "lint:check": "npx eslint '{src,tests}/**/*.ts'",
     "prettier:check": "npx prettier --check './{src,tests}/**/*.ts'",
