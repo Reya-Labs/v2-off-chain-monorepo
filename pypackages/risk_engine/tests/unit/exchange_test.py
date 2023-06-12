@@ -4,26 +4,25 @@ from unittest import mock
 from risk_engine.src.constants import MONTH_IN_SECONDS
 from risk_engine.src.evm.block import Block
 from risk_engine.src.exchanges.vamm.baseVAMMExchange import BaseVAMMExchange
-from typing_extensions import override
 
 
 class MockPool(BaseVAMMExchange):
-    @override
+    
     def _track_variable_tokens(self, base):
         return base
 
-    @override
+    
     def _track_fixed_tokens(self, base, tick_lower, tick_upper):
         avg_price = (
             self.price_at_tick(tick_lower) + self.price_at_tick(tick_upper)
         ) / 2
         return -base * avg_price
 
-    @override
+    
     def price_at_tick(self, tick):
         return tick
 
-    @override
+    
     def tick_at_price(self, price):
         return self.closest_tick(price)
 
