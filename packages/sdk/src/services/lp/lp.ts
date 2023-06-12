@@ -20,35 +20,6 @@ import {
 import { getLpPeripheryParams } from './getLpPeripheryParams';
 import { encodeLp } from './encode';
 
-async function createLpParams({
-  ammId,
-  signer,
-  notional,
-  margin,
-  fixedLow,
-  fixedHigh,
-}: LpArgs): Promise<CompleteLpDetails> {
-  const lpInfo = await getLpPeripheryParams(ammId);
-
-  const tokenDecimals = getTokenDetails(lpInfo.quoteTokenAddress).tokenDecimals;
-  const liquidityAmount = notionalToLiquidityBN(
-    scale(tokenDecimals)(notional),
-    tokenDecimals,
-    fixedLow,
-  );
-
-  const params: CompleteLpDetails = {
-    ...lpInfo,
-    owner: signer,
-    liquidityAmount: liquidityAmount,
-    margin: scale(tokenDecimals)(margin),
-    fixedLow,
-    fixedHigh,
-  };
-
-  return params;
-}
-
 export async function lp({
   ammId,
   signer,
@@ -73,7 +44,7 @@ export async function lp({
   return result;
 }
 
-export async function getInfoPostLp({
+export async function simulateLp({
   ammId,
   signer,
   notional,
@@ -152,6 +123,35 @@ export async function estimateLpGasUnits({
 }
 
 // HELPERS
+
+async function createLpParams({
+  ammId,
+  signer,
+  notional,
+  margin,
+  fixedLow,
+  fixedHigh,
+}: LpArgs): Promise<CompleteLpDetails> {
+  const lpInfo = await getLpPeripheryParams(ammId);
+
+  const tokenDecimals = getTokenDetails(lpInfo.quoteTokenAddress).tokenDecimals;
+  const liquidityAmount = notionalToLiquidityBN(
+    scale(tokenDecimals)(notional),
+    tokenDecimals,
+    fixedLow,
+  );
+
+  const params: CompleteLpDetails = {
+    ...lpInfo,
+    owner: signer,
+    liquidityAmount: liquidityAmount,
+    margin: scale(tokenDecimals)(margin),
+    fixedLow,
+    fixedHigh,
+  };
+
+  return params;
+}
 
 export function decodeLpOutput(bytesData: any): {
   fee: BigNumber;

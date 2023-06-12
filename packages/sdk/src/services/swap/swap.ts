@@ -34,40 +34,6 @@ import {
 } from '../../utils/math/tickHelpers';
 import { defaultAbiCoder } from 'ethers/lib/utils';
 
-async function createSwapParams({
-  ammId,
-  signer,
-  notional,
-  margin,
-  fixedRateLimit,
-}: SwapArgs): Promise<CompleteSwapDetails> {
-  const swapInfo = await getSwapPeripheryParams(ammId);
-
-  const tokenDecimals = getTokenDetails(
-    swapInfo.quoteTokenAddress,
-  ).tokenDecimals;
-  const baseAmount = notionalToBaseAmount(
-    notional,
-    tokenDecimals,
-    swapInfo.currentLiquidityIndex,
-  );
-
-  let fixedRateLimitRaw = ZERO_BN;
-  if (fixedRateLimit !== undefined) {
-    fixedRateLimitRaw = BigNumber.from(fixedRateToPrice(fixedRateLimit));
-  }
-
-  const params: CompleteSwapDetails = {
-    ...swapInfo,
-    owner: signer,
-    baseAmount: baseAmount,
-    margin: scale(tokenDecimals)(margin),
-    fixedRateLimit: fixedRateLimitRaw,
-  };
-
-  return params;
-}
-
 export async function swap({
   ammId,
   signer,
@@ -90,7 +56,7 @@ export async function swap({
   return result;
 }
 
-export async function getInfoPostSwap({
+export async function simulateSwap({
   ammId,
   signer,
   notional,
@@ -172,6 +138,40 @@ export async function estimateSwapGasUnits({
 }
 
 // HELPERS
+
+async function createSwapParams({
+  ammId,
+  signer,
+  notional,
+  margin,
+  fixedRateLimit,
+}: SwapArgs): Promise<CompleteSwapDetails> {
+  const swapInfo = await getSwapPeripheryParams(ammId);
+
+  const tokenDecimals = getTokenDetails(
+    swapInfo.quoteTokenAddress,
+  ).tokenDecimals;
+  const baseAmount = notionalToBaseAmount(
+    notional,
+    tokenDecimals,
+    swapInfo.currentLiquidityIndex,
+  );
+
+  let fixedRateLimitRaw = ZERO_BN;
+  if (fixedRateLimit !== undefined) {
+    fixedRateLimitRaw = BigNumber.from(fixedRateToPrice(fixedRateLimit));
+  }
+
+  const params: CompleteSwapDetails = {
+    ...swapInfo,
+    owner: signer,
+    baseAmount: baseAmount,
+    margin: scale(tokenDecimals)(margin),
+    fixedRateLimit: fixedRateLimitRaw,
+  };
+
+  return params;
+}
 
 export function decodeSwapOutput(bytesData: any): {
   executedBaseAmount: BigNumber;

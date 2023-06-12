@@ -20,40 +20,6 @@ import { VERY_BIG_NUMBER, ZERO_BN } from '../../utils/constants';
 import { fixedRateToPrice } from '../../utils/math/tickHelpers';
 import { decodeSwapOutput, InfoPostSwap, processInfoPostSwap } from '../swap';
 
-async function createEditSwapParams({
-  positionId,
-  signer,
-  notional,
-  margin,
-  fixedRateLimit,
-}: EditSwapArgs): Promise<CompleteEditSwapDetails> {
-  const swapInfo = await getEditSwapPeripheryParams(positionId);
-
-  const tokenDecimals = getTokenDetails(
-    swapInfo.quoteTokenAddress,
-  ).tokenDecimals;
-  const baseAmount = notionalToBaseAmount(
-    notional,
-    tokenDecimals,
-    swapInfo.currentLiquidityIndex,
-  );
-
-  let fixedRateLimitRaw = ZERO_BN;
-  if (fixedRateLimit !== undefined) {
-    fixedRateLimitRaw = BigNumber.from(fixedRateToPrice(fixedRateLimit));
-  }
-
-  const params: CompleteEditSwapDetails = {
-    ...swapInfo,
-    owner: signer,
-    baseAmount: baseAmount,
-    margin: scale(tokenDecimals)(margin),
-    fixedRateLimit: fixedRateLimitRaw,
-  };
-
-  return params;
-}
-
 export async function editSwap({
   positionId,
   signer,
@@ -76,7 +42,7 @@ export async function editSwap({
   return result;
 }
 
-export async function getInfoPostEditSwap({
+export async function simulateEditSwap({
   positionId,
   signer,
   notional,
@@ -135,6 +101,42 @@ export async function getInfoPostEditSwap({
   );
 
   return result;
+}
+
+////// HELPERS
+
+async function createEditSwapParams({
+  positionId,
+  signer,
+  notional,
+  margin,
+  fixedRateLimit,
+}: EditSwapArgs): Promise<CompleteEditSwapDetails> {
+  const swapInfo = await getEditSwapPeripheryParams(positionId);
+
+  const tokenDecimals = getTokenDetails(
+    swapInfo.quoteTokenAddress,
+  ).tokenDecimals;
+  const baseAmount = notionalToBaseAmount(
+    notional,
+    tokenDecimals,
+    swapInfo.currentLiquidityIndex,
+  );
+
+  let fixedRateLimitRaw = ZERO_BN;
+  if (fixedRateLimit !== undefined) {
+    fixedRateLimitRaw = BigNumber.from(fixedRateToPrice(fixedRateLimit));
+  }
+
+  const params: CompleteEditSwapDetails = {
+    ...swapInfo,
+    owner: signer,
+    baseAmount: baseAmount,
+    margin: scale(tokenDecimals)(margin),
+    fixedRateLimit: fixedRateLimitRaw,
+  };
+
+  return params;
 }
 
 export async function estimateEditSwapGasUnits({

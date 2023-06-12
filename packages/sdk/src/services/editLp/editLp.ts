@@ -20,36 +20,7 @@ import { getEditLpPeripheryParams } from './getEditLpPeripheryParams';
 import { InfoPostLp } from '../lp';
 import { encodeLp } from '../lp/encode';
 
-async function createEditLpParams({
-  positionId,
-  signer,
-  notional,
-  margin,
-  fixedLow,
-  fixedHigh,
-}: EditLpArgs): Promise<CompleteEditLpDetails> {
-  const lpInfo = await getEditLpPeripheryParams(positionId);
-
-  const tokenDecimals = getTokenDetails(lpInfo.quoteTokenAddress).tokenDecimals;
-  const liquidityAmount = notionalToLiquidityBN(
-    scale(tokenDecimals)(notional),
-    tokenDecimals,
-    fixedLow,
-  );
-
-  const params: CompleteEditLpDetails = {
-    ...lpInfo,
-    owner: signer,
-    liquidityAmount: liquidityAmount,
-    margin: scale(tokenDecimals)(margin),
-    fixedLow,
-    fixedHigh,
-  };
-
-  return params;
-}
-
-export async function lp({
+export async function editLp({
   positionId,
   signer,
   notional,
@@ -152,6 +123,35 @@ export async function estimateSwapGasUnits({
 }
 
 // HELPERS
+
+async function createEditLpParams({
+  positionId,
+  signer,
+  notional,
+  margin,
+  fixedLow,
+  fixedHigh,
+}: EditLpArgs): Promise<CompleteEditLpDetails> {
+  const lpInfo = await getEditLpPeripheryParams(positionId);
+
+  const tokenDecimals = getTokenDetails(lpInfo.quoteTokenAddress).tokenDecimals;
+  const liquidityAmount = notionalToLiquidityBN(
+    scale(tokenDecimals)(notional),
+    tokenDecimals,
+    fixedLow,
+  );
+
+  const params: CompleteEditLpDetails = {
+    ...lpInfo,
+    owner: signer,
+    liquidityAmount: liquidityAmount,
+    margin: scale(tokenDecimals)(margin),
+    fixedLow,
+    fixedHigh,
+  };
+
+  return params;
+}
 
 export function decodeEditLpOutput(bytesData: any): {
   fee: BigNumber;
