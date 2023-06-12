@@ -56,7 +56,7 @@ export type RolloverAndSwapPeripheryParams = {
   newSwapPeripheryParams: SwapPeripheryParams;
 };
 
-// rolloverAndLp
+// rolloverWithLp
 
 export type RolloverAndLpArgs = {
   addLiquidity: boolean;

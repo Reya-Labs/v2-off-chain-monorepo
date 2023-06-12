@@ -20,7 +20,7 @@ export type GetRolloverAndLpPeripheryParamsArgs = {
   maturedPositionTickUpper: number;
 };
 
-export const getRolloverAndLpPeripheryParams = ({
+export const getRolloverWithLpPeripheryParams = ({
   addLiquidity,
   margin,
   notional,

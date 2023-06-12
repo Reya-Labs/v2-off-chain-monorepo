@@ -1,7 +1,7 @@
 import { BigNumber, ethers } from 'ethers';
 import { RolloverAndLpPeripheryParams } from '../types/actionArgTypes';
 
-export const estimateRolloverAndLpGasUnits = async (
+export const estimateRolloverWithLpGasUnits = async (
   peripheryContract: ethers.Contract,
   rolloverAndLpPeripheryParams: RolloverAndLpPeripheryParams,
   rolloverAndLpPeripheryTempOverrides: {
@@ -14,7 +14,7 @@ export const estimateRolloverAndLpGasUnits = async (
       rolloverAndLpPeripheryParams,
       rolloverAndLpPeripheryTempOverrides,
     )
-    .catch((error) => {
+    .catch(error => {
       throw new Error('Error estimating rollover and lp gas units.');
     });
 
