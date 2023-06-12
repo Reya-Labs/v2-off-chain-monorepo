@@ -1,8 +1,6 @@
 from unittest.mock import Mock
 
-from typing_extensions import override
-
-from pypackages.risk_engine.src.exchanges.vamm.baseVAMMExchange import BaseVAMMExchange
+from risk_engine.src.exchanges.vamm.baseVAMMExchange import BaseVAMMExchange
 
 
 class MockExchange(BaseVAMMExchange):
@@ -16,11 +14,9 @@ class MockExchange(BaseVAMMExchange):
         self.gwap = Mock()
         self.close_positions = Mock()
 
-    @override
     def _track_variable_tokens(self, base):
         raise Exception("mock pool: not implemented")
 
-    @override
     def _track_fixed_tokens(self, base, tick_lower, tick_upper):
         raise Exception("mock pool: not implemented")
 

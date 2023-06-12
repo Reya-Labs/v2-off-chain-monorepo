@@ -2,6 +2,7 @@
 pants_version = "2.15.1"
 
 backend_packages = [
+  "pants.backend.build_files.fmt.black",
   "pants.backend.python",
   "pants.backend.python.lint.black",
   "pants.backend.python.lint.flake8",
@@ -12,12 +13,15 @@ backend_packages = [
 [source]
 root_patterns = [
     # The Python source root is the repo root. See https://www.pantsbuild.org/docs/source-roots.
-    "/"
+    "/pypackages/"
 ]
 
 [python]
+# Enable the "resolves" mechanism, which turns on lockfiles for user code. See
+# https://www.pantsbuild.org/docs/python-third-party-dependencies. This also adds the
+# `generate-lockfiles` goal for Pants to generate the lockfile for you.
+interpreter_constraints = ["==3.11.*"]
 enable_resolves = true
-interpreter_constraints = ["CPython==3.11.*"]
 
 [python-bootstrap]
 search_path = [

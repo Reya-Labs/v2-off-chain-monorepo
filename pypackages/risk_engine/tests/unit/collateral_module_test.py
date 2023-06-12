@@ -1,13 +1,11 @@
 import unittest
 
-from pypackages.risk_engine.src.constants import MONTH_IN_SECONDS
-from pypackages.risk_engine.src.core.collateralModule import CollateralModule
-from pypackages.risk_engine.src.evm.block import Block
-from pypackages.risk_engine.tests.mocks.mockAccount import MockAccount
-from pypackages.risk_engine.tests.mocks.mockAccountManager import MockAccountManager
-from pypackages.risk_engine.tests.mocks.mockLiquidationModule import (
-    MockLiquidationModule,
-)
+from risk_engine.src.constants import MONTH_IN_SECONDS
+from risk_engine.src.core.collateralModule import CollateralModule
+from risk_engine.src.evm.block import Block
+from risk_engine.tests.mocks.mockAccount import MockAccount
+from risk_engine.tests.mocks.mockAccountManager import MockAccountManager
+from risk_engine.tests.mocks.mockLiquidationModule import MockLiquidationModule
 
 
 class TestCollateralModule(unittest.TestCase):

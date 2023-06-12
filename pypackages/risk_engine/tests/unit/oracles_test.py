@@ -1,15 +1,12 @@
 import math
 import unittest
 
+import risk_engine.src.oracles.rate.math as oracle_math
 from pytest import approx, raises
-
-import pypackages.risk_engine.src.oracles.rate.math as oracle_math
-from pypackages.risk_engine.src.evm.block import Block
-from pypackages.risk_engine.src.oracles.rate.mock import MockRateOracle
-from pypackages.risk_engine.src.oracles.rate.rateOracle import (
-    Observation as RateObservation,
-)
-from pypackages.risk_engine.src.oracles.twap.twap import TWAP
+from risk_engine.src.evm.block import Block
+from risk_engine.src.oracles.rate.mock import MockRateOracle
+from risk_engine.src.oracles.rate.rateOracle import Observation as RateObservation
+from risk_engine.src.oracles.twap.twap import TWAP
 
 
 def tick_to_price(tick: int) -> float:
@@ -21,7 +18,7 @@ def price_to_tick(price: float) -> int:
 
 
 def assert_prices_are_close(price1: float, price2: float):
-    """Close in this context is within 0.15%"""
+    """Close in this context is within 0.15% of each other"""
     max_price = max(price1, price2)
     min_price = min(price1, price2)
     assert max_price <= 1.0015 * min_price, "prices are not close"

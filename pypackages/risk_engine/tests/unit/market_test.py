@@ -1,18 +1,16 @@
 import unittest
 from unittest import mock
 
-from pypackages.risk_engine.src.constants import MONTH_IN_SECONDS
-from pypackages.risk_engine.src.evm.block import Block
-from pypackages.risk_engine.src.instruments.dated_irs.baseMarket import BaseMarket
-from pypackages.risk_engine.tests.mocks.mockAccount import MockAccount
-from pypackages.risk_engine.tests.mocks.mockAccountManager import MockAccountManager
-from pypackages.risk_engine.tests.mocks.mockCollateralModule import MockCollateralModule
-from pypackages.risk_engine.tests.mocks.mockExchange import MockExchange
-from pypackages.risk_engine.tests.mocks.mockFeeManager import MockFeeManager
-from pypackages.risk_engine.tests.mocks.mockLiquidationModule import (
-    MockLiquidationModule,
-)
-from pypackages.risk_engine.tests.mocks.mockOracle import MockOracle
+from risk_engine.src.constants import MONTH_IN_SECONDS
+from risk_engine.src.evm.block import Block
+from risk_engine.src.instruments.dated_irs.baseMarket import BaseMarket
+from risk_engine.tests.mocks.mockAccount import MockAccount
+from risk_engine.tests.mocks.mockAccountManager import MockAccountManager
+from risk_engine.tests.mocks.mockCollateralModule import MockCollateralModule
+from risk_engine.tests.mocks.mockExchange import MockExchange
+from risk_engine.tests.mocks.mockFeeManager import MockFeeManager
+from risk_engine.tests.mocks.mockLiquidationModule import MockLiquidationModule
+from risk_engine.tests.mocks.mockOracle import MockOracle
 
 
 class MockMarket(BaseMarket):
@@ -216,7 +214,11 @@ class TestIRSMarket(unittest.TestCase):
             fee_debits_and_credits=mock_fee_debits_and_credits
         )
 
-        self.liquidation_module.is_im_satisfied.assert_called_with(account_id="user")
+        self.liquidation_module.is_im_satisfied.assert_called_with(
+            account_id="user",
+            account_manager=self.account_manager,
+            collateral_module=self.collateral_module,
+        )
 
     def test_process_limit_order_when_IM_unsatisfied(self):
         # Mock Fee Manager return values
@@ -332,7 +334,11 @@ class TestIRSMarket(unittest.TestCase):
             fee_debits_and_credits=mock_fee_debits_and_credits
         )
 
-        self.liquidation_module.is_im_satisfied.assert_called_with(account_id="user")
+        self.liquidation_module.is_im_satisfied.assert_called_with(
+            account_id="user",
+            account_manager=self.account_manager,
+            collateral_module=self.collateral_module,
+        )
 
     def test_process_market_order_when_IM_unsatisfied(self):
         # Mock Fee Manager return values

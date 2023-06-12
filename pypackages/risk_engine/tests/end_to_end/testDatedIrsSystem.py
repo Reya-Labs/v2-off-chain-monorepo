@@ -1,20 +1,16 @@
 import unittest
 
-from pypackages.risk_engine.src.constants import DAY_IN_SECONDS, MONTH_IN_SECONDS
-from pypackages.risk_engine.src.core.accountManager import AccountManager
-from pypackages.risk_engine.src.core.collateralModule import CollateralModule
-from pypackages.risk_engine.src.core.feeManager import FeeManager
-from pypackages.risk_engine.src.core.liquidationModule import LiquidationModule
-from pypackages.risk_engine.src.evm.block import Block
-from pypackages.risk_engine.src.exchanges.vamm.datedIRSVAMMExchange import (
-    DatedIRSVAMMExchange,
-)
-from pypackages.risk_engine.src.instruments.dated_irs.datedIRSMarket import (
-    DatedIRSMarket,
-)
-from pypackages.risk_engine.src.instruments.dated_irs.marketManager import MarketManager
-from pypackages.risk_engine.src.oracles.oracle import Oracle
-from pypackages.risk_engine.tests.end_to_end.helpers import get_rate_given_apy
+from risk_engine.src.constants import DAY_IN_SECONDS, MONTH_IN_SECONDS
+from risk_engine.src.core.accountManager import AccountManager
+from risk_engine.src.core.collateralModule import CollateralModule
+from risk_engine.src.core.feeManager import FeeManager
+from risk_engine.src.core.liquidationModule import LiquidationModule
+from risk_engine.src.evm.block import Block
+from risk_engine.src.exchanges.vamm.datedIRSVAMMExchange import DatedIRSVAMMExchange
+from risk_engine.src.instruments.dated_irs.datedIRSMarket import DatedIRSMarket
+from risk_engine.src.instruments.dated_irs.marketManager import MarketManager
+from risk_engine.src.oracles.oracle import Oracle
+from risk_engine.tests.end_to_end.helpers import get_rate_given_apy
 
 """
 This end-to-end test has the following assumptions and series of actions:

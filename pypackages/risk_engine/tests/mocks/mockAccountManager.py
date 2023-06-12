@@ -1,6 +1,6 @@
 from unittest.mock import Mock
 
-from pypackages.risk_engine.src.core.accountManager import AccountManager
+from risk_engine.src.core.accountManager import AccountManager
 
 
 class MockAccountManager(AccountManager):

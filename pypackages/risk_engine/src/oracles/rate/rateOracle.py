@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from pypackages.risk_engine.src.evm.block import Block
+from risk_engine.src.evm.block import Block
 
 
 @dataclass  # generates __init__, __repr__, etc.

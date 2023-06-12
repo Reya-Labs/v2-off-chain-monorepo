@@ -1,64 +1,82 @@
 # Voltz V2 Risk Engine
 
-## Todo: update with pants dependencies
+## Pants
 
-## Dependencies
+### Installing Pants
 
-[`python`](https://www.python.org/downloads/) += 3.11.1 and [`poetry`](https://python-poetry.org/docs/#installation) to manage python package dependencies.
+On MacOS Pants can be installed via brew using the command below:
 
-## Get started
-
-Install python packages in a virtual environment:
-
-```sh
-poetry install
+```bash
+brew install pantsbuild/tap/pants
 ```
 
-## Testing
+For alternative ways to install pants refer to https://www.pantsbuild.org/docs/installation.
 
-To run all tests:
+### Goals
 
-```sh
-poetry run pytest
+Pants commands are referred to as goals, a list of goals can be found by running the following command:
+
+```bash
+pants help goals
 ```
 
-To run all tests and print any console output:
+### List targets
 
-```sh
-poetry run pytest -s
+```bash 
+pants list ::  # All targets.
 ```
 
-Example of running a specific test file:
+### Run formatters and linters
 
-```sh
-poetry run pytest tests/test_oracles.py
+```bash
+pants fmt ::
+pants lint ::
 ```
 
-Example of running only some specific test case(s) matching a pattern:
+### Run MyPy
 
-```sh
-poetry run pytest test/test_oracles.py -k "latest_round_data or some_other_test_case_substring"
+```bash
+pants check ::
 ```
 
-## Check code
+### Run tests
 
-Run the pre-commit hooks:
-
-```sh
-poetry run pre-commit run --all-files
+```bash
+pants test ::  # Run all tests in the repo.
+pants test --output=all ::  # Run all tests in the repo and view pytest output even for tests that passed (you can set this permanently in pants.toml).
+pants test helloworld/translator:tests  # Run all the tests in this target.
+pants test helloworld/translator/translator_test.py  # Run just the tests in this file.
+pants test helloworld/translator/translator_test.py -- -k test_unknown_phrase  # Run just this one test by passing through pytest args.
 ```
 
-## Terminology
-Free Collateral 
+### Create virtualenv for IDE integration
 
-## Run simulations to output margin requirements and unrealized PnLs in different markets
+```bash
+pants export ::
+```
 
-There should be a folder in the root directory called ``data``. (Otherwise, please create it and git ignore it).
+### Source Roots 
 
-Each dataset in the ``data`` folder should be in ``.csv`` format and should consist of three columns: ``timestamp``, ``liquidity_index`` and ``apy``.
+In order to list all the python source roots, we can run the following commands, more details about
+source root configuration in pants refer to https://www.pantsbuild.org/docs/source-roots
 
-Once the process is executed (command below), the simulation will be run for each dataset and the results will be written in ``simulations/margin_requirements/outputs``.
+```bash
+pants roots
+```
 
-```sh
-poetry run output-margin-requirements
+### Third Party Dependencies 
+
+Pants understands exactly which dependencies every file in the project needs, and efficiently uses just that
+subset of dependencies needed for the task:
+
+#### Lockfiles
+
+Lockfiles are strongly recommended as they make the builds more stable (https://classic.yarnpkg.com/blog/2016/11/24/lockfiles-for-all/) .
+
+### Export Env
+
+In order to create a virtual environment, run the following command:
+
+```bash
+pants export --symlink-python-virtualenv --resolve=python-default
 ```

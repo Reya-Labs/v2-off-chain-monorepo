@@ -1,6 +1,6 @@
 from unittest.mock import Mock
 
-from pypackages.risk_engine.src.core.collateralModule import CollateralModule
+from risk_engine.src.core.collateralModule import CollateralModule
 
 
 class MockCollateralModule(CollateralModule):

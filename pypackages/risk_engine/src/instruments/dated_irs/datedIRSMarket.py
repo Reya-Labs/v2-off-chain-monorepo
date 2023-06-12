@@ -1,6 +1,4 @@
-from typing_extensions import override
-
-from pypackages.risk_engine.src.constants import YEAR_IN_SECONDS
+from risk_engine.src.constants import YEAR_IN_SECONDS
 
 from .baseMarket import BaseMarket
 
@@ -16,14 +14,12 @@ class DatedIRSMarket(BaseMarket):
             quote_token=quote_token,
         )
 
-    @override
     def _annualize(self, bases, maturity):
         time_factor = max(0, (maturity - self.block.timestamp) / YEAR_IN_SECONDS)
         li = self._oracle.latest()
 
         return list(map(lambda x: (x * time_factor * li), bases))
 
-    @override
     def get_unrealized_pnl_in_quote(self, maturity, account_id):
         base, quote = self.get_account_filled_balances(
             maturity=maturity, account_id=account_id

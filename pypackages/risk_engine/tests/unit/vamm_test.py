@@ -1,12 +1,10 @@
 import unittest
 from unittest import mock
 
-from typing_extensions import override
-
-from pypackages.risk_engine.src.constants import MONTH_IN_SECONDS, YEAR_IN_SECONDS
-from pypackages.risk_engine.src.evm.block import Block
-from pypackages.risk_engine.src.exchanges.vamm.vamm import VAMM
-from pypackages.risk_engine.tests.mocks.mockOracle import MockOracle
+from risk_engine.src.constants import MONTH_IN_SECONDS, YEAR_IN_SECONDS
+from risk_engine.src.evm.block import Block
+from risk_engine.src.exchanges.vamm.vamm import VAMM
+from risk_engine.tests.mocks.mockOracle import MockOracle
 
 
 class MockPool(VAMM):
@@ -27,15 +25,13 @@ class MockPool(VAMM):
         )
 
     # Overriden functions
-    @override
+
     def vamm_f(self, tick):
         return tick
 
-    @override
     def inv_vamm_f(self, tick):
         return tick
 
-    @override
     def no_of_trackers(self):
         return 2
 
@@ -47,7 +43,6 @@ class MockPool(VAMM):
         time_delta = MONTH_IN_SECONDS / YEAR_IN_SECONDS
         return -base * (avg_price * time_delta + 1)
 
-    @override
     def _track(self, index_tracker, base, tick_lower, tick_upper):
         if index_tracker == 0:
             return self._track_variable_tokens(base=base)

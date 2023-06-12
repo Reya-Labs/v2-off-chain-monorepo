@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from pypackages.risk_engine.src.evm.block import Block
-from pypackages.risk_engine.src.oracles.ringBuffer import RingBuffer
-from pypackages.risk_engine.src.oracles.twap import constants
+from risk_engine.src.evm.block import Block
+from risk_engine.src.oracles.ringBuffer import RingBuffer
+from risk_engine.src.oracles.twap import constants
 
 
 @dataclass  # generates __init__, __repr__, etc.

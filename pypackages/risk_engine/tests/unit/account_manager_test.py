@@ -1,7 +1,7 @@
 import unittest
 
-from pypackages.risk_engine.src.core.accountManager import AccountManager
-from pypackages.risk_engine.tests.mocks.mockMarketManager import MockMarketManager
+from risk_engine.src.core.accountManager import AccountManager
+from risk_engine.tests.mocks.mockMarketManager import MockMarketManager
 
 
 class TestAccountManager(unittest.TestCase):

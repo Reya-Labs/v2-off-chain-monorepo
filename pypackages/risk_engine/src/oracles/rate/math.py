@@ -1,11 +1,11 @@
-from pypackages.risk_engine.src.oracles.rate.rateOracle import Observation
+from risk_engine.src.oracles.rate.rateOracle import Observation
 
 
 def linear_interpolate(
     start: Observation, end: Observation, target_seconds_since_start
 ) -> float:
     elapsed_proportion = target_seconds_since_start / (end.timestamp - start.timestamp)
-    delta = (end.rate - start.rate) * elapsed_proportion
+    delta: float = (end.rate - start.rate) * elapsed_proportion
     return start.rate + delta
 
 
