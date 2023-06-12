@@ -2,5 +2,11 @@
   "extends": "./tsconfig.json",
   "include": [
     "./src"
-  ]
+  ],
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "./dist",
+    "declarationDir": "./dist/types"
+  }
 }
