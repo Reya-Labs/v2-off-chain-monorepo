@@ -3,6 +3,7 @@ import { LpPeripheryParams } from '../types';
 import { estimateLpGasUnits } from './estimateLpGasUnits';
 import { convertGasUnitsToNativeTokenUnits } from '../../common';
 import { getNativeGasToken } from '../../common/gas/getNativeGasToken';
+import { getMarginRequirementPostLp } from './getMarginRequirementPostLp';
 
 export type InfoPostLp = {
   marginRequirement: number;
