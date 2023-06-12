@@ -1,8 +1,5 @@
 name: Open pull request to main
 on:
-  push:
-    branches:
-      - feat/risk-v2-sofr-run
   pull_request:
     branches:
       - main
