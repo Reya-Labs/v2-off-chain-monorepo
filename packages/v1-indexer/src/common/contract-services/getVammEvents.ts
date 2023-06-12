@@ -1,5 +1,4 @@
 import { BigQueryPoolRow } from '../../big-query-support/types';
-import { isTestingAccount } from '../constants';
 import { parseMintOrBurnEvent } from '../event-parsers/parseMintOrBurnEvent';
 import { parseSwapEvent } from '../event-parsers/parseSwapEvent';
 import { parseVAMMPriceChangeEvent } from '../event-parsers/parseVAMMPriceChangeEvent';
@@ -20,13 +19,11 @@ export const getVammEvents = async (
 
   if (eventTypes.includes('mint')) {
     const eventFilter = vammContract.filters.Mint();
-    let events = await vammContract.queryFilter(
+    const events = await vammContract.queryFilter(
       eventFilter,
       fromBlock,
       toBlock,
     );
-
-    events = events.filter((e) => isTestingAccount(e.args?.owner as string));
 
     const extendedEvents = events.map((event) =>
       parseMintOrBurnEvent(event, amm, chainId, true),
@@ -37,13 +34,11 @@ export const getVammEvents = async (
 
   if (eventTypes.includes('burn')) {
     const eventFilter = vammContract.filters.Burn();
-    let events = await vammContract.queryFilter(
+    const events = await vammContract.queryFilter(
       eventFilter,
       fromBlock,
       toBlock,
     );
-
-    events = events.filter((e) => isTestingAccount(e.args?.owner as string));
 
     const extendedEvents = events.map((event) =>
       parseMintOrBurnEvent(event, amm, chainId, false),
@@ -54,14 +49,10 @@ export const getVammEvents = async (
 
   if (eventTypes.includes('swap')) {
     const eventFilter = vammContract.filters.Swap();
-    let events = await vammContract.queryFilter(
+    const events = await vammContract.queryFilter(
       eventFilter,
       fromBlock,
       toBlock,
-    );
-
-    events = events.filter((e) =>
-      isTestingAccount(e.args?.recipient as string),
     );
 
     const extendedEvents = events.map((event) =>

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { SECONDS_IN_DAY } from '../../../common/constants';
+import { SECONDS_IN_DAY } from '@voltz-protocol/commons-v2';
 import { getBigQuery } from '../../../global';
 import { mapToBigQueryHistoricalRateRow } from '../../mappers';
 import { find24HourDatapoint } from './utils/find24HourDatapoint';

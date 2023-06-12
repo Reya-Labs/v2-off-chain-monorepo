@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import { getBigQuery } from '../../../global';
-import { getTableFullID } from '../../utils';
+import { TableType, getTableFullID } from '../../utils';
 
 /**
  Get maximum event block number per chain
@@ -13,7 +13,7 @@ export const getPoolsMaxEventBlock = async (
 
   const volumeQuery = `
     SELECT MAX(deploymentBlockNumber) as amount
-      FROM \`${getTableFullID('pools')}\`
+      FROM \`${getTableFullID(TableType.pools)}\`
       WHERE chainId=${chainId};
   `;
 

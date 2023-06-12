@@ -1,7 +1,7 @@
 import { getBigQuery } from '../../../global';
 import { mapToBigQueryPoolRow } from '../../mappers';
 import { BigQueryPoolRow } from '../../types';
-import { getTableFullID } from '../../utils';
+import { TableType, getTableFullID } from '../../utils';
 
 export const pullExistingPoolRow = async (
   vammAddress: string,
@@ -10,7 +10,7 @@ export const pullExistingPoolRow = async (
   const bigQuery = getBigQuery();
 
   const sqlQuery = `SELECT * FROM \`${getTableFullID(
-    'pools',
+    TableType.pools,
   )}\` WHERE vamm="${vammAddress}" AND chainId=${chainId}`;
 
   const options = {

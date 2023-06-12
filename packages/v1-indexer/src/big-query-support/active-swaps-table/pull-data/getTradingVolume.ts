@@ -1,7 +1,7 @@
 import { BigQueryInt } from '@google-cloud/bigquery';
 
 import { getBigQuery } from '../../../global';
-import { bqNumericToNumber, getTableFullID } from '../../utils';
+import { TableType, bqNumericToNumber, getTableFullID } from '../../utils';
 import { getTotalAmountInUSD } from '@voltz-protocol/commons-v2';
 
 /**
@@ -14,7 +14,7 @@ export const getChainTradingVolume = async (
 
   const volumeQuery = `
     SELECT underlyingToken, sum(abs(variableTokenDelta)) as amount
-      FROM \`${getTableFullID('active_swaps')}\`
+      FROM \`${getTableFullID(TableType.active_swaps)}\`
           
       WHERE (eventTimestamp > TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY)) AND 
             (chainId IN (${chainIds.join(',')}))

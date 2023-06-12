@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import { getBigQuery } from '../../../global';
-import { getTableFullID } from '../../utils';
+import { TableType, getTableFullID } from '../../utils';
 
 /**
  Get maximum event block number per vamm
@@ -14,7 +14,7 @@ export const getActiveSwapsMaxEventBlock = async (
 
   const volumeQuery = `
     SELECT MAX(eventBlockNumber) as amount
-      FROM \`${getTableFullID('active_swaps')}\`
+      FROM \`${getTableFullID(TableType.active_swaps)}\`
       WHERE (vammAddress="${vammAddress}") AND (chainId=${chainId});
   `;
 

@@ -1,4 +1,4 @@
-import { SECONDS_IN_YEAR } from '../constants';
+import { SECONDS_IN_YEAR } from '@voltz-protocol/commons-v2';
 
 export const getCashflowInfo = (
   net: {

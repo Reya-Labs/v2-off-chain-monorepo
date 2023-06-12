@@ -2,11 +2,17 @@ import { Table } from '@google-cloud/bigquery';
 
 import { getBigQuery } from '../../global';
 import { getTable } from '../get-table';
-import { DATASET_ID, getTableName, PRECISION, SCALE } from '../utils';
+import {
+  getProtocolV1DatasetName,
+  getTableName,
+  PRECISION,
+  SCALE,
+  TableType,
+} from '../utils';
 
 export const createMintsAndBurnsTable = async (): Promise<void> => {
   const bigQuery = getBigQuery();
-  const tableName = getTableName('mints_and_burns');
+  const tableName = getTableName(TableType.mints_and_burns);
 
   const existingTable: Table | null = await getTable(tableName);
 
@@ -49,7 +55,7 @@ export const createMintsAndBurnsTable = async (): Promise<void> => {
 
   // Create a new table in the dataset
   const [table] = await bigQuery
-    .dataset(DATASET_ID)
+    .dataset(getProtocolV1DatasetName())
     .createTable(tableName, options);
 
   console.log(`Table ${table.id || ''} created.`);

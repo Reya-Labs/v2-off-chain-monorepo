@@ -2,11 +2,17 @@ import { Table } from '@google-cloud/bigquery';
 
 import { getBigQuery } from '../../global';
 import { getTable } from '../get-table';
-import { DATASET_ID, getTableName, PRECISION, SCALE } from '../utils';
+import {
+  getProtocolV1DatasetName,
+  getTableName,
+  PRECISION,
+  SCALE,
+  TableType,
+} from '../utils';
 
 export const createActiveSwapsTable = async (): Promise<void> => {
   const bigQuery = getBigQuery();
-  const tableName = getTableName('active_swaps');
+  const tableName = getTableName(TableType.active_swaps);
 
   const existingTable: Table | null = await getTable(tableName);
 
@@ -15,7 +21,6 @@ export const createActiveSwapsTable = async (): Promise<void> => {
     return;
   }
 
-  // todo: replace precision and scale in here with the constants PRECISION & SCALE
   const schema = [
     { name: 'eventId', type: 'STRING', mode: 'REQUIRED' },
     { name: 'vammAddress', type: 'STRING', mode: 'REQUIRED' },
@@ -63,7 +68,7 @@ export const createActiveSwapsTable = async (): Promise<void> => {
 
   // Create a new table in the dataset
   const [table] = await bigQuery
-    .dataset(DATASET_ID)
+    .dataset(getProtocolV1DatasetName())
     .createTable(tableName, options);
 
   console.log(`Table ${table.id || ''} created.`);

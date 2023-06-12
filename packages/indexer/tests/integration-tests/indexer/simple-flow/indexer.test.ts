@@ -9,12 +9,12 @@ import { chainId, events } from './scenario';
 jest.setTimeout(100_000);
 
 // Mock environment tag to testing and provider
-jest.mock('@voltz-protocol/commons-v2/src/utils/env-vars.ts', () => ({
+jest.mock('@voltz-protocol/commons-v2/src/env-vars.ts', () => ({
   getEnvironment: jest.fn(() => 'TESTING'),
 }));
 
 // Mock provider.getBlockNumber to 0
-jest.mock('../../../../src/services/provider.ts', () => ({
+jest.mock('@voltz-protocol/commons-v2/src/provider.ts', () => ({
   getProvider: () => ({
     getBlockNumber: async () => 0,
   }),

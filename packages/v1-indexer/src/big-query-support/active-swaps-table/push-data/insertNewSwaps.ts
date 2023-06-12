@@ -1,14 +1,14 @@
 import { getTimestampInSeconds } from '@voltz-protocol/commons-v2';
 import { SwapEventInfo } from '../../../common/event-parsers/types';
 import { sendQueriesInBatches } from '../../sendQueriesInBatches';
-import { getTableFullID, secondsToBqDate } from '../../utils';
+import { TableType, getTableFullID, secondsToBqDate } from '../../utils';
 
 export const insertNewSwaps = async (
   processName: string,
   events: SwapEventInfo[],
 ): Promise<void> => {
   const updates: string[] = [];
-  const tableId = getTableFullID('active_swaps');
+  const tableId = getTableFullID(TableType.active_swaps);
   const currentTimestamp = getTimestampInSeconds();
 
   for (const event of events) {

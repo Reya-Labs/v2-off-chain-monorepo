@@ -1,6 +1,5 @@
+import { getAlchemyApiKey, getInfuraApiKey } from '@voltz-protocol/commons-v2';
 import { ethers } from 'ethers';
-
-import { ALCHEMY_API_KEY, INFURA_API_KEY } from '../constants';
 
 enum SupportedChainId {
   mainnet = 1,
@@ -43,8 +42,8 @@ export const getProvider = (
 ): ethers.providers.JsonRpcProvider => {
   const providerURL = providerApiKeyToURL(
     chainId,
-    ALCHEMY_API_KEY,
-    INFURA_API_KEY,
+    getAlchemyApiKey(),
+    getInfuraApiKey(),
   );
   return new ethers.providers.JsonRpcProvider(providerURL);
 };

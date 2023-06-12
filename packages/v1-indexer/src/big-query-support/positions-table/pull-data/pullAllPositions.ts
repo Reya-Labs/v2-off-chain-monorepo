@@ -1,7 +1,7 @@
 import { getBigQuery } from '../../../global';
 import { mapToBigQueryPositionRow } from '../../mappers';
 import { BigQueryPositionRow } from '../../types';
-import { getTableFullID } from '../../utils';
+import { TableType, getTableFullID } from '../../utils';
 
 export type TrackedBigQueryPositionRow = {
   position: BigQueryPositionRow;
@@ -15,7 +15,7 @@ export const pullAllPositions = async (): Promise<
   const bigQuery = getBigQuery();
 
   const sqlQuery = `
-    SELECT * FROM \`${getTableFullID('positions')}\` 
+    SELECT * FROM \`${getTableFullID(TableType.positions)}\` 
   `;
 
   const options = {

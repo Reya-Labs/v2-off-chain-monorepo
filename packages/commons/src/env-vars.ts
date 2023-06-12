@@ -43,3 +43,9 @@ export const getCoingeckoApiKey = (): string => {
 
   throw new Error(`Unspecified Coingecko API key.`);
 };
+
+export const getApiPort = (): number => {
+  const port = process.env.PORT;
+
+  return Number(port || '8080');
+};

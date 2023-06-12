@@ -1,6 +1,6 @@
+import { SECONDS_IN_DAY } from '@voltz-protocol/commons-v2';
 import { pullAllChainPools } from '../big-query-support/pools-table/pull-data/pullAllChainPools';
 import { BigQueryPoolRow } from '../big-query-support/types';
-import { SECONDS_IN_DAY } from './constants';
 
 export const getAmms = async (chainId: number): Promise<BigQueryPoolRow[]> => {
   const amms = await pullAllChainPools([chainId]);

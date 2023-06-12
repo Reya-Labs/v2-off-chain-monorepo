@@ -1,7 +1,7 @@
 import { BigQueryInt } from '@google-cloud/bigquery';
 
 import { getBigQuery } from '../../../global';
-import { bqNumericToNumber, getTableFullID } from '../../utils';
+import { TableType, bqNumericToNumber, getTableFullID } from '../../utils';
 import { getTotalAmountInUSD } from '@voltz-protocol/commons-v2';
 
 /**
@@ -14,8 +14,8 @@ export const getChainTotalLiquidity = async (
 
   const liquidityQuery = `
     SELECT A.underlyingToken, sum(A.notionalDelta) AS amount
-    FROM \`${getTableFullID('mints_and_burns')}\` as A
-    JOIN \`${getTableFullID('pools')}\` as B ON A.vammAddress = B.vamm
+    FROM \`${getTableFullID(TableType.mints_and_burns)}\` as A
+    JOIN \`${getTableFullID(TableType.pools)}\` as B ON A.vammAddress = B.vamm
     WHERE B.termEndTimestampInMS > ${Date.now().valueOf()} AND (B.chainId IN (${chainIds.join(
     ',',
   )}))

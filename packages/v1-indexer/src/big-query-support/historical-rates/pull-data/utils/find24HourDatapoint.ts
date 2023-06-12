@@ -1,4 +1,4 @@
-import { SECONDS_IN_DAY } from '../../../../common/constants';
+import { SECONDS_IN_DAY } from '@voltz-protocol/commons-v2';
 import { BigQueryHistoricalRateRow } from '../../../types';
 
 export const find24HourDatapoint = (

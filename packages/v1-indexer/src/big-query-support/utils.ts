@@ -3,89 +3,44 @@ import {
   BigQueryInt,
   BigQueryTimestamp,
 } from '@google-cloud/bigquery';
-import * as dotenv from 'dotenv';
+import { getEnvironment } from '@voltz-protocol/commons-v2';
 
-dotenv.config();
-
-type Table =
-  | 'active_swaps'
-  | 'mints_and_burns'
-  | 'positions'
-  | 'pools'
-  | 'margin_updates';
+export enum TableType {
+  active_swaps,
+  mints_and_burns,
+  positions,
+  pools,
+  margin_updates,
+}
 
 // BigQuery project and dataset IDs
-export const PROJECT_ID = 'risk-monitoring-361911';
-export const DATASET_ID = 'voltz_v1_positions';
+export const PROJECT_ID = 'voltz-v2-infra';
+
+export const getProtocolV1DatasetName = (): string => {
+  const tag = getEnvironment();
+  return `${tag}_indexer_v1`;
+};
 
 // Scale and precision of number in Big Query
 export const PRECISION = 36;
 export const SCALE = 18;
 
+const tableNames: Record<TableType, string> = {
+  [TableType.active_swaps]: 'Active Swaps',
+  [TableType.mints_and_burns]: 'Mints and Burns',
+  [TableType.positions]: 'Positions',
+  [TableType.pools]: 'Pools',
+  [TableType.margin_updates]: 'Margin Updates',
+};
+
 // Returns the name of BigQuery tables
-export const getTableName = (table: Table): string => {
-  if (!process.env.ENV) {
-    throw new Error(
-      'Environment has not been specified in environment variables',
-    );
-  }
-
-  switch (table) {
-    case 'active_swaps': {
-      if (!process.env.ACTIVE_SWAPS_TABLE_ID) {
-        throw new Error(
-          'Active swaps table has not specified in environment variables',
-        );
-      }
-
-      return `${process.env.ACTIVE_SWAPS_TABLE_ID} ${process.env.ENV}`;
-    }
-
-    case 'mints_and_burns': {
-      if (!process.env.MINTS_BURNS_TABLE_ID) {
-        throw new Error(
-          'Mints and burns table has not specified in environment variables',
-        );
-      }
-
-      return `${process.env.MINTS_BURNS_TABLE_ID} ${process.env.ENV}`;
-    }
-
-    case 'positions': {
-      if (!process.env.POSITIONS_TABLE_ID) {
-        throw new Error(
-          'Positions table has not specified in environment variables',
-        );
-      }
-
-      return `${process.env.POSITIONS_TABLE_ID} ${process.env.ENV}`;
-    }
-
-    case 'pools': {
-      if (!process.env.POOLS_TABLE_ID) {
-        throw new Error(
-          'Pools table has not specified in environment variables',
-        );
-      }
-
-      return `${process.env.POOLS_TABLE_ID} ${process.env.ENV}`;
-    }
-
-    case 'margin_updates': {
-      if (!process.env.MARGIN_UPDATES_TABLE_ID) {
-        throw new Error(
-          'Margin updates table has not specified in environment variables',
-        );
-      }
-
-      return `${process.env.MARGIN_UPDATES_TABLE_ID} ${process.env.ENV}`;
-    }
-  }
+export const getTableName = (table: TableType): string => {
+  return tableNames[table];
 };
 
 // Returns the full ID of BigQuery tables
-export const getTableFullID = (table: Table): string => {
-  return `${PROJECT_ID}.${DATASET_ID}.${getTableName(table)}`;
+export const getTableFullID = (table: TableType): string => {
+  return `${PROJECT_ID}.${getProtocolV1DatasetName()}.${getTableName(table)}`;
 };
 
 // Converts BigQuery number to JS number

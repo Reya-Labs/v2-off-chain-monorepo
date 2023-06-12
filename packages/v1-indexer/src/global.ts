@@ -2,7 +2,7 @@ import { BigQuery } from '@google-cloud/bigquery';
 import { Redis } from 'ioredis';
 
 import { PROJECT_ID } from './big-query-support/utils';
-import { REDISHOST, REDISPORT } from './common/constants';
+import { getRedisHost, getRedisPort } from '@voltz-protocol/commons-v2';
 
 let bigQuery: BigQuery | null = null;
 let redisClient: Redis | null = null;
@@ -25,6 +25,6 @@ export const getRedisClient = (): Redis => {
     return redisClient;
   }
 
-  redisClient = new Redis(REDISPORT, REDISHOST);
+  redisClient = new Redis(getRedisPort(), getRedisHost());
   return redisClient;
 };

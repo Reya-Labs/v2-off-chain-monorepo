@@ -1,5 +1,7 @@
-import { getTimestampInSeconds } from '@voltz-protocol/commons-v2';
-import { SECONDS_IN_YEAR } from '../../../common/constants';
+import {
+  SECONDS_IN_YEAR,
+  getTimestampInSeconds,
+} from '@voltz-protocol/commons-v2';
 import { SwapEventInfo } from '../../../common/event-parsers/types';
 import { getCashflowInfo } from '../../../common/services/getCashflowInfo';
 import { BigQueryPoolRow, BigQueryPositionRow } from '../../types';

@@ -1,12 +1,12 @@
 import { sendQueriesInBatches } from '../../sendQueriesInBatches';
-import { getTableFullID, secondsToBqDate } from '../../utils';
+import { TableType, getTableFullID, secondsToBqDate } from '../../utils';
 import { TrackedBigQueryPositionRow } from '../pull-data/pullAllPositions';
 
 export const updatePositions = async (
   processName: string,
   positions: TrackedBigQueryPositionRow[],
 ): Promise<void> => {
-  const tableId = getTableFullID('positions');
+  const tableId = getTableFullID(TableType.positions);
 
   const updates = positions
     .map(({ position, added, modified }) => {

@@ -2,7 +2,7 @@ import { getTimestampInSeconds } from '@voltz-protocol/commons-v2';
 import { IrsInstanceEventInfo } from '../../../common/event-parsers/types';
 import { getTokenName } from '../../../common/getTokenName';
 import { getBigQuery } from '../../../global';
-import { getTableFullID } from '../../utils';
+import { TableType, getTableFullID } from '../../utils';
 
 export const insertNewPool = async (
   event: IrsInstanceEventInfo,
@@ -43,7 +43,7 @@ export const insertNewPool = async (
   `;
 
   const sqlTransactionQuery = `INSERT INTO \`${getTableFullID(
-    'pools',
+    TableType.pools,
   )}\` VALUES (${rawPoolRow});`;
 
   const options = {

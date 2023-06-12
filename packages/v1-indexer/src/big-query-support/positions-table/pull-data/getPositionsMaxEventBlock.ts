@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import { getBigQuery } from '../../../global';
-import { getTableFullID } from '../../utils';
+import { TableType, getTableFullID } from '../../utils';
 
 /**
  Get maximum event block number per vamm
@@ -14,7 +14,7 @@ export const getPositionsMaxEventBlock = async (
 
   const volumeQuery = `
     SELECT MAX(lastUpdatedBlockNumber) as amount
-      FROM \`${getTableFullID('positions')}\`
+      FROM \`${getTableFullID(TableType.positions)}\`
       WHERE (vammAddress="${vammAddress}") AND (chainId=${chainId});
   `;
 

@@ -1,7 +1,7 @@
 import { getBigQuery } from '../../../global';
 import { mapToBigQueryPoolRow } from '../../mappers';
 import { BigQueryPoolRow } from '../../types';
-import { getTableFullID } from '../../utils';
+import { TableType, getTableFullID } from '../../utils';
 
 export const pullAllChainPools = async (
   chainIds: number[],
@@ -9,7 +9,7 @@ export const pullAllChainPools = async (
   const bigQuery = getBigQuery();
 
   const sqlQuery = `SELECT * FROM \`${getTableFullID(
-    'pools',
+    TableType.pools,
   )}\` WHERE (chainId IN (${chainIds.join(',')}))`;
 
   const options = {

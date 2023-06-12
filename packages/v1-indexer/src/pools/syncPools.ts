@@ -1,4 +1,4 @@
-import { getFactory } from '../common/constants';
+import { getFactory } from '../common/getFactory';
 import { getFactoryEvents } from '../common/contract-services/getFactoryEvents';
 import { getProvider } from '../common/provider/getProvider';
 import {

@@ -1,7 +1,7 @@
 import { getBigQuery } from '../../../global';
 import { mapToBigQueryMarginUpdatesRow } from '../../mappers';
 import { BigQueryMarginUpdateRow } from '../../types';
-import { getTableFullID } from '../../utils';
+import { TableType, getTableFullID } from '../../utils';
 
 export const pullExistingMarginUpdateRow = async (
   eventId: string,
@@ -9,7 +9,7 @@ export const pullExistingMarginUpdateRow = async (
   const bigQuery = getBigQuery();
 
   const sqlQuery = `SELECT * FROM \`${getTableFullID(
-    'margin_updates',
+    TableType.margin_updates,
   )}\` WHERE eventId="${eventId}"`;
 
   const options = {

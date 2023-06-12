@@ -1,7 +1,7 @@
 import { getBigQuery } from '../../../global';
 import { mapToBigQuerySwapRow } from '../../mappers';
 import { BigQuerySwapRow } from '../../types';
-import { getTableFullID } from '../../utils';
+import { TableType, getTableFullID } from '../../utils';
 
 export const pullExistingSwapRow = async (
   eventId: string,
@@ -9,7 +9,7 @@ export const pullExistingSwapRow = async (
   const bigQuery = getBigQuery();
 
   const sqlQuery = `SELECT * FROM \`${getTableFullID(
-    'active_swaps',
+    TableType.active_swaps,
   )}\` WHERE eventId="${eventId}"`;
 
   const options = {

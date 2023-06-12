@@ -1,14 +1,14 @@
 import { getTimestampInSeconds } from '@voltz-protocol/commons-v2';
 import { MarginUpdateEventInfo } from '../../../common/event-parsers/types';
 import { sendQueriesInBatches } from '../../sendQueriesInBatches';
-import { getTableFullID, secondsToBqDate } from '../../utils';
+import { TableType, getTableFullID, secondsToBqDate } from '../../utils';
 
 export const insertNewMarginUpdates = async (
   processName: string,
   events: MarginUpdateEventInfo[],
 ): Promise<void> => {
   const updates: string[] = [];
-  const tableId = getTableFullID('margin_updates');
+  const tableId = getTableFullID(TableType.margin_updates);
   const currentTimestamp = getTimestampInSeconds();
 
   for (const event of events) {
