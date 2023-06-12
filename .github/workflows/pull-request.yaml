@@ -20,9 +20,9 @@ jobs:
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install
+      - name: Build packages
+        run: lerna run build
       - name: Prettier check, Eslint check, Typescript check
         run: lerna run code-quality:check
       - name: Run tests
         run: lerna run test
-      - name: Build packages
-        run: lerna run build
