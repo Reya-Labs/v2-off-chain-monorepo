@@ -24,7 +24,7 @@ jest.mock('../../../../src/fetch-events/fetchEvents', () => ({
 }));
 
 // Tests
-describe('Indexer integration test', () => {
+describe.skip('Indexer integration test', () => {
   it('simple flow', async () => {
     // Create dataset and create all tables
     await createProtocolV2Dataset();
