@@ -19,3 +19,10 @@ Pants commands are referred to as goals, a list of goals can be found by running
 ```bash
 pants help goals
 ```
+
+### List targets
+
+```bash
+pants fmt ::
+pants lint ::
+```

@@ -1,4 +1,5 @@
 from abc import abstractmethod
+
 from pypackages.risk_engine.src.exchanges.vamm.vamm import VAMM
 
 
@@ -51,7 +52,6 @@ class BaseVAMMExchange(VAMM):
     def _track_fixed_tokens(self, base, tick_lower, tick_upper):
         pass
 
-    
     def _track(self, index_tracker, base, tick_lower, tick_upper):
         if index_tracker == 0:
             return self._track_variable_tokens(base=base)
