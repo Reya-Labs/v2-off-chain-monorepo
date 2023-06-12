@@ -5,7 +5,7 @@ export const liquidityIndicesTableSchema: TableField[] = [
   { name: 'chainId', type: 'INTEGER', mode: 'REQUIRED' },
   { name: 'blockNumber', type: 'INTEGER', mode: 'REQUIRED' },
   { name: 'blockTimestamp', type: 'INTEGER', mode: 'REQUIRED' },
-  { name: 'oracleAddres', type: 'STRING', mode: 'REQUIRED' },
+  { name: 'oracleAddress', type: 'STRING', mode: 'REQUIRED' },
 
   {
     name: 'liquidityIndex',

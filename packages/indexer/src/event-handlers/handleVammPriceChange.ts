@@ -5,8 +5,9 @@ import {
   getLatestVammTick,
   pullLpPositionEntries,
   updatePositionEntry,
+  isNull,
+  computePassiveDeltas,
 } from '@voltz-protocol/commons-v2';
-import { computePassiveDeltas } from '../utils/vamm/computePassiveDeltas';
 
 export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
   const existingEvent = await pullVammPriceChangeEvent(event.id);
@@ -15,19 +16,19 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
     return;
   }
 
-  await insertVammPriceChangeEvent(event);
-
   const latestTick = await getLatestVammTick(
     event.chainId,
     event.marketId,
     event.maturityTimestamp,
   );
 
-  if (!latestTick) {
+  if (isNull(latestTick)) {
     throw new Error(
       `Latest tick not found for ${event.chainId} - ${event.marketId} - ${event.maturityTimestamp}`,
     );
   }
+
+  await insertVammPriceChangeEvent(event);
 
   // todo: improve this naive approach
   const lpPositions = await pullLpPositionEntries(
@@ -40,7 +41,7 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
     const { baseDelta, quoteDelta } = computePassiveDeltas({
       liquidity: lp.liquidityBalance,
       tickMove: {
-        from: latestTick,
+        from: latestTick as number,
         to: event.tick,
       },
       tickRange: {

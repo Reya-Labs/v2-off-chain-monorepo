@@ -2,13 +2,9 @@ import cors from 'cors';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 import RedisStore from 'rate-limit-redis';
-
-import {
-  pullAllPoolsConfig,
-  SECONDS_IN_HOUR,
-} from '@voltz-protocol/commons-v2';
 import { getRedisClient, getTrustedProxies } from '@voltz-protocol/commons-v2';
-import { getApyFromTo } from './helpers/getApyFromTo';
+import { getPools } from './queries/getPools/getPools';
+import { getPortfolioPositions } from './queries/getPortfolioPositions/getPortfolioPositions';
 
 export const app = express();
 
@@ -49,39 +45,21 @@ app.get('/ip', (req, res) => {
  * if there aren't yet two recorder points in the Oracle
  */
 app.get('/pools', (req, res) => {
-  const process = async () => {
-    const pools = await pullAllPoolsConfig();
+  getPools().then(
+    (output) => {
+      res.json(output);
+    },
+    (error) => {
+      console.log(`API query failed with message ${(error as Error).message}`);
+    },
+  );
+});
 
-    const result: {
-      chainId: number;
-      marketId: string;
-      maturityTimestamp: number;
-      fixedRate: number | null;
-      latestApy: number | null;
-    }[] = [];
+app.get('/positions/:chainIds/:ownerAddress', (req, res) => {
+  const chainIds = req.params.chainIds.split('&').map((s) => Number(s));
+  const ownerAddress = req.params.ownerAddress.toLowerCase();
 
-    for (const pool of pools) {
-      const currentTimestamp = Math.round(Date.now() / 1000);
-      // note leave 1h buffer -> can be configured depending on indexer frequency
-      const latestApy = await getApyFromTo(
-        pool.chainId,
-        pool.rateOracle,
-        currentTimestamp - 2 * SECONDS_IN_HOUR,
-        currentTimestamp - 1 * SECONDS_IN_HOUR,
-      );
-      result.push({
-        chainId: pool.chainId,
-        marketId: pool.marketId,
-        maturityTimestamp: pool.maturityTimestamp,
-        fixedRate: pool.lastFixedRate,
-        latestApy: latestApy,
-      });
-    }
-
-    return result;
-  };
-
-  process().then(
+  getPortfolioPositions(chainIds, ownerAddress).then(
     (output) => {
       res.json(output);
     },

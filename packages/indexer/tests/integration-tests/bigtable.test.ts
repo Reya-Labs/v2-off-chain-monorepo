@@ -1,11 +1,12 @@
-import { parseTakerOrder } from '../../src/event-parsers/dated-irs-vamm/takerOrder';
+import { ProtocolEventType } from '@voltz-protocol/commons-v2';
+import { parseTakerOrder } from '../../src/event-parsers/parseTakerOrder';
 import { createTakerOrdersTable } from '../../src/services/big-table/taker-orders-table/createTakerOrdersTable';
 import { deleteTakerOrdersTable } from '../../src/services/big-table/taker-orders-table/deleteTakerOrdersTable';
 import { pullAllTakerOrderRows } from '../../src/services/big-table/taker-orders-table/pullAllTakerOrderRows';
 import { pullTakerOrderRow } from '../../src/services/big-table/taker-orders-table/pullTakerOrderRow';
 import { pushTakerOrders } from '../../src/services/big-table/taker-orders-table/pushTakerOrders';
 import { compareEvents } from '../utils/compareEvents';
-import { takerOrderEvmEvent } from '../utils/evmEventMocks';
+import { evmTestEvents } from '../utils/evmTestEvents';
 
 jest.setTimeout(100_000);
 
@@ -20,6 +21,9 @@ const cleanUp = async () => {
 
 const test = async () => {
   const chainId = 1;
+  const type = ProtocolEventType.taker_order;
+  const takerOrderEvmEvent = evmTestEvents[type];
+
   const takerOrderEvent = parseTakerOrder(chainId, takerOrderEvmEvent);
 
   // 1. Create table

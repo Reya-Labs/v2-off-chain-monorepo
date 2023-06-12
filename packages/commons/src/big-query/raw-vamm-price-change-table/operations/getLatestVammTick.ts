@@ -11,12 +11,12 @@ export const getLatestVammTick = async (
 ): Promise<number | null> => {
   const bigQuery = getBigQuery();
 
-  const condition = `chainId="${chainId}" AND marketId="${marketId}" AND maturityTimestamp=${maturityTimestamp}`;
+  const condition = `chainId=${chainId} AND marketId="${marketId}" AND maturityTimestamp=${maturityTimestamp}`;
 
   const volumeQuery = `
     SELECT * FROM \`${tableName}\` WHERE (
         ${condition} AND blockNumber = (
-            SELECT MAX(blockNumber) WHERE ${condition}
+            SELECT MAX(blockNumber) FROM \`${tableName}\` WHERE ${condition}
         )
     );
   `;
