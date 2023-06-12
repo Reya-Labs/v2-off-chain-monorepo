@@ -1,14 +1,11 @@
 import math
 import unittest
 
-from pytest import approx, raises
-
 import risk_engine.src.oracles.rate.math as oracle_math
+from pytest import approx, raises
 from risk_engine.src.evm.block import Block
 from risk_engine.src.oracles.rate.mock import MockRateOracle
-from risk_engine.src.oracles.rate.rateOracle import (
-    Observation as RateObservation,
-)
+from risk_engine.src.oracles.rate.rateOracle import Observation as RateObservation
 from risk_engine.src.oracles.twap.twap import TWAP
 
 

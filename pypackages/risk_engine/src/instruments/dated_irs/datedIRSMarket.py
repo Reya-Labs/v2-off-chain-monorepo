@@ -1,6 +1,5 @@
-from typing_extensions import override
-
 from risk_engine.src.constants import YEAR_IN_SECONDS
+from typing_extensions import override
 
 from .baseMarket import BaseMarket
 

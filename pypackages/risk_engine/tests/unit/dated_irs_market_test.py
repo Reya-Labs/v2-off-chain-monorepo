@@ -2,17 +2,13 @@ import unittest
 
 from risk_engine.src.constants import MONTH_IN_SECONDS
 from risk_engine.src.evm.block import Block
-from risk_engine.src.instruments.dated_irs.datedIRSMarket import (
-    DatedIRSMarket,
-)
+from risk_engine.src.instruments.dated_irs.datedIRSMarket import DatedIRSMarket
 from risk_engine.tests.mocks.mockAccount import MockAccount
 from risk_engine.tests.mocks.mockAccountManager import MockAccountManager
 from risk_engine.tests.mocks.mockCollateralModule import MockCollateralModule
 from risk_engine.tests.mocks.mockExchange import MockExchange
 from risk_engine.tests.mocks.mockFeeManager import MockFeeManager
-from risk_engine.tests.mocks.mockLiquidationModule import (
-    MockLiquidationModule,
-)
+from risk_engine.tests.mocks.mockLiquidationModule import MockLiquidationModule
 from risk_engine.tests.mocks.mockOracle import MockOracle
 
 

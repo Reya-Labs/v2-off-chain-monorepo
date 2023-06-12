@@ -9,9 +9,7 @@ from risk_engine.tests.mocks.mockAccountManager import MockAccountManager
 from risk_engine.tests.mocks.mockCollateralModule import MockCollateralModule
 from risk_engine.tests.mocks.mockExchange import MockExchange
 from risk_engine.tests.mocks.mockFeeManager import MockFeeManager
-from risk_engine.tests.mocks.mockLiquidationModule import (
-    MockLiquidationModule,
-)
+from risk_engine.tests.mocks.mockLiquidationModule import MockLiquidationModule
 from risk_engine.tests.mocks.mockOracle import MockOracle
 
 
@@ -216,7 +214,11 @@ class TestIRSMarket(unittest.TestCase):
             fee_debits_and_credits=mock_fee_debits_and_credits
         )
 
-        self.liquidation_module.is_im_satisfied.assert_called_with(account_id="user", account_manager=self.account_manager, collateral_module=self.collateral_module)
+        self.liquidation_module.is_im_satisfied.assert_called_with(
+            account_id="user",
+            account_manager=self.account_manager,
+            collateral_module=self.collateral_module,
+        )
 
     def test_process_limit_order_when_IM_unsatisfied(self):
         # Mock Fee Manager return values
@@ -332,7 +334,11 @@ class TestIRSMarket(unittest.TestCase):
             fee_debits_and_credits=mock_fee_debits_and_credits
         )
 
-        self.liquidation_module.is_im_satisfied.assert_called_with(account_id="user", account_manager=self.account_manager, collateral_module=self.collateral_module)
+        self.liquidation_module.is_im_satisfied.assert_called_with(
+            account_id="user",
+            account_manager=self.account_manager,
+            collateral_module=self.collateral_module,
+        )
 
     def test_process_market_order_when_IM_unsatisfied(self):
         # Mock Fee Manager return values

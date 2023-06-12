@@ -1,12 +1,11 @@
 import unittest
 from unittest import mock
 
-from typing_extensions import override
-
 from risk_engine.src.constants import MONTH_IN_SECONDS, YEAR_IN_SECONDS
 from risk_engine.src.evm.block import Block
 from risk_engine.src.exchanges.vamm.vamm import VAMM
 from risk_engine.tests.mocks.mockOracle import MockOracle
+from typing_extensions import override
 
 
 class MockPool(VAMM):

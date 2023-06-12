@@ -2,9 +2,7 @@ import unittest
 
 from risk_engine.src.constants import MONTH_IN_SECONDS
 from risk_engine.src.evm.block import Block
-from risk_engine.src.exchanges.vamm.datedIRSVAMMExchange import (
-    DatedIRSVAMMExchange,
-)
+from risk_engine.src.exchanges.vamm.datedIRSVAMMExchange import DatedIRSVAMMExchange
 from risk_engine.tests.mocks.mockOracle import MockOracle
 
 
