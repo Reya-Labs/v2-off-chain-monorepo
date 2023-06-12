@@ -1,53 +1,59 @@
 import { SwapArgs, SwapPeripheryParams } from '../types/actionArgTypes';
-import { BigNumber, ContractReceipt, ContractTransaction, utils } from 'ethers';
-import { handleSwapErrors } from './handleSwapErrors';
+import {
+  BigNumber,
+  ContractReceipt,
+  ContractTransaction,
+  providers,
+  utils,
+} from 'ethers';
 import { BigNumberish, ethers } from 'ethers';
-import { getClosestTickAndFixedRate } from './getClosestTickAndFixedRate';
-import { getSqrtPriceLimitFromFixedRateLimit } from './getSqrtPriceLimitFromFixedRate';
-import { getDefaultSqrtPriceLimit } from './getDefaultSqrtPriceLimits';
+import { getClosestTickAndFixedRate } from '../../common/math/getClosestTickAndFixedRate';
+import { getSqrtPriceLimitFromFixedRateLimit } from '../../common/math/getSqrtPriceLimitFromFixedRate';
+import { getDefaultSqrtPriceLimit } from '../../common/math/getDefaultSqrtPriceLimits';
 import { getPeripheryContract } from '../../common/contract-generators/getPeripheryContract';
 import { getSwapPeripheryParams } from './getSwapPeripheryParams';
 import { estimateSwapGasUnits } from './estimateSwapGasUnits';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
+import {
+  DEFAULT_TICK_SPACING,
+  PERIPHERY_ADDRESS_BY_CHAIN_ID,
+} from '../../common/constants';
+import { getReadableErrorMessage } from '../../common/errors/errorHandling';
+import { getSentryTracker } from '../../init';
+import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
+import { AMMInfo } from '../../common/api/amm/types';
 
 export const swap = async ({
+  ammId,
   isFT,
   notional,
   margin,
   fixedRateLimit,
-  fixedLow,
-  fixedHigh,
-  underlyingTokenAddress,
-  underlyingTokenDecimals,
-  tickSpacing,
-  peripheryAddress,
-  marginEngineAddress,
-  provider,
   signer,
-  isEth,
 }: SwapArgs): Promise<ContractReceipt> => {
-  handleSwapErrors({
-    notional,
-    fixedLow,
-    fixedHigh,
-    underlyingTokenAddress,
-  });
+  if (signer.provider === undefined) {
+    throw new Error('Signer Provider Undefined');
+  }
+
+  const chainId: number = await signer.getChainId();
+
+  const ammInfo: AMMInfo = await getAmmInfo(ammId, chainId);
+
+  const tickSpacing: number = DEFAULT_TICK_SPACING;
+
+  const peripheryAddress: string = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
 
   const peripheryContract: ethers.Contract = getPeripheryContract(
     peripheryAddress,
-    provider,
+    signer,
   );
-
-  peripheryContract.connect(signer);
 
   const swapPeripheryParams: SwapPeripheryParams = getSwapPeripheryParams({
     margin,
     isFT,
     notional,
-    fixedLow,
-    fixedHigh,
-    marginEngineAddress,
-    underlyingTokenDecimals,
+    marginEngineAddress: ammInfo.marginEngineAddress,
+    underlyingTokenDecimals: ammInfo.underlyingTokenDecimals,
     fixedRateLimit,
     tickSpacing,
   });
@@ -57,7 +63,7 @@ export const swap = async ({
     gasLimit?: BigNumber;
   } = {};
 
-  if (isEth && margin > 0) {
+  if (ammInfo.isEth && margin > 0) {
     swapPeripheryTempOverrides.value = utils.parseEther(
       margin.toFixed(18).toString(),
     );
@@ -71,14 +77,32 @@ export const swap = async ({
 
   swapPeripheryTempOverrides.gasLimit = getGasBuffer(estimatedGasUnits);
 
+  // todo: find cleaner way to unwrap swapPeripheryParams
   const swapTransaction: ContractTransaction = await peripheryContract
-    .connect(signer)
-    .swap(swapPeripheryParams, swapPeripheryTempOverrides)
-    .catch(() => {
-      throw new Error('Swap Transaction Confirmation Error');
+    .swap(
+      swapPeripheryParams.marginEngineAddress,
+      swapPeripheryParams.isFT,
+      swapPeripheryParams.notional,
+      swapPeripheryParams.sqrtPriceLimitX96,
+      swapPeripheryParams.tickLower,
+      swapPeripheryParams.tickUpper,
+      swapPeripheryParams.marginDelta,
+      swapPeripheryTempOverrides,
+    )
+    .catch((error: any) => {
+      const sentryTracker = getSentryTracker();
+      sentryTracker.captureException(error);
+      sentryTracker.captureMessage('Transaction Confirmation Error');
+      throw new Error('Transaction Confirmation Error');
     });
 
-  const receipt: ContractReceipt = await swapTransaction.wait();
-
-  return receipt;
+  try {
+    const receipt: ContractReceipt = await swapTransaction.wait();
+    return receipt;
+  } catch (error) {
+    const sentryTracker = getSentryTracker();
+    sentryTracker.captureException(error);
+    sentryTracker.captureMessage('Transaction Confirmation Error');
+    throw new Error('Transaction Confirmation Error');
+  }
 };

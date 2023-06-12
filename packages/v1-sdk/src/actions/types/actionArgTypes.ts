@@ -1,24 +1,31 @@
 import { BigNumberish, providers, Signer } from 'ethers';
-
-// todo: not sure if chainid is needed or its already in provider, same goes for the signer
+import { PositionInfo } from '../../common/api/position/types';
+import { AMMInfo } from '../../common/api/amm/types';
 
 // swap
+
 export type SwapArgs = {
+  ammId: string;
   isFT: boolean;
   notional: number;
   margin: number;
   fixedRateLimit?: number;
-  fixedLow: number;
-  fixedHigh: number;
-  underlyingTokenAddress: string;
-  underlyingTokenDecimals: number;
-  tickSpacing: number;
-  chainId: number;
-  peripheryAddress: string;
-  marginEngineAddress: string;
-  provider: providers.Provider;
   signer: Signer;
-  isEth: boolean;
+};
+
+export type EditSwapArgs = {
+  positionId: string;
+  isFT: boolean;
+  notional: number;
+  margin: number;
+  fixedRateLimit?: number;
+  signer: Signer;
+};
+
+export type GetPoolSwapInfoArgs = {
+  ammId: string;
+  isFixedTaker: boolean;
+  provider: providers.Provider;
 };
 
 export type SwapPeripheryParams = {
@@ -31,29 +38,16 @@ export type SwapPeripheryParams = {
   marginDelta: BigNumberish;
 };
 
-// rolloverAndSwap
+// rolloverWithSwap
 
 export type RolloverAndSwapArgs = {
+  maturedPositionId: string;
+  ammId: string;
   isFT: boolean;
   notional: number;
   margin: number;
   fixedRateLimit?: number;
-  fixedLow: number;
-  fixedHigh: number;
-  underlyingTokenAddress: string;
-  underlyingTokenDecimals: number;
-  tickSpacing: number;
-  chainId: number;
-  peripheryAddress: string;
-  marginEngineAddress: string;
-  provider: providers.Provider;
   signer: Signer;
-  isEth: boolean;
-  maturedMarginEngineAddress: string;
-  maturedPositionOwnerAddress: string;
-  maturedPositionSettlementBalance: number;
-  maturedPositionTickLower: number;
-  maturedPositionTickUpper: number;
 };
 
 export type RolloverAndSwapPeripheryParams = {
@@ -99,20 +93,13 @@ export type RolloverAndLpPeripheryParams = {
 // lp
 
 export type LpArgs = {
+  ammId: string;
   addLiquidity: boolean;
   fixedLow: number;
   fixedHigh: number;
   notional: number;
   margin: number;
-  underlyingTokenAddress: string;
-  underlyingTokenDecimals: number;
-  tickSpacing: number;
-  chainId: number;
-  peripheryAddress: string;
-  marginEngineAddress: string;
-  provider: providers.Provider;
   signer: Signer;
-  isEth: boolean;
 };
 
 export type LpPeripheryParams = {
@@ -124,20 +111,18 @@ export type LpPeripheryParams = {
   marginDelta: BigNumberish;
 };
 
+export type GetPoolLpInfoArgs = {
+  ammId: string;
+  fixedHigh: number;
+  fixedLow: number;
+  provider: providers.Provider;
+};
+
 // settle
 
 export type SettleArgs = {
-  fixedLow: number;
-  fixedHigh: number;
-  underlyingTokenAddress: string;
-  underlyingTokenDecimals: number;
-  tickSpacing: number;
-  chainId: number;
-  peripheryAddress: string;
-  marginEngineAddress: string;
-  provider: providers.Provider;
+  positionId: string;
   signer: Signer;
-  positionOwnerAddress: string;
 };
 
 export type SettlePeripheryParams = {
@@ -150,18 +135,9 @@ export type SettlePeripheryParams = {
 // updateMargin
 
 export type UpdateMarginArgs = {
-  fixedLow: number;
-  fixedHigh: number;
+  positionId: string;
   margin: number;
-  underlyingTokenAddress: string;
-  underlyingTokenDecimals: number;
-  tickSpacing: number;
-  chainId: number;
-  peripheryAddress: string;
-  marginEngineAddress: string;
-  provider: providers.Provider;
   signer: Signer;
-  fullyWithdraw: boolean;
 };
 
 export type UpdateMarginPeripheryParams = {
@@ -170,4 +146,21 @@ export type UpdateMarginPeripheryParams = {
   tickUpper: BigNumberish;
   marginDelta: BigNumberish;
   fullyWithdraw: boolean;
+};
+
+// token
+
+export type ApprovePeripheryArgs = {
+  ammId: string;
+  signer: Signer;
+};
+
+export type GetAllowanceArgs = {
+  ammId: string;
+  signer: Signer;
+};
+
+export type GetBalanceArgs = {
+  ammId: string;
+  signer: Signer;
 };

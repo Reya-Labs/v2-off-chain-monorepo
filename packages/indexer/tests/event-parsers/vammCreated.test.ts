@@ -33,6 +33,8 @@ describe('vamm created parser', () => {
       maxLiquidityPerTick: '1000000000000',
       tickSpacing: 60,
       maturityTimestamp: 1687919400,
+
+      tick: 6060,
     };
 
     const outputVammCreatedEvent = parseVammCreated(

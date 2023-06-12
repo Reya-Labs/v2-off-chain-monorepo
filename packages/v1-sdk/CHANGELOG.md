@@ -3,6 +3,169 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.15.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.15.1...@voltz-protocol/sdk-v1-stateless@1.15.2) (2023-06-11)
+
+**Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
+
+## [1.15.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.15.0...@voltz-protocol/sdk-v1-stateless@1.15.1) (2023-06-11)
+
+**Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
+
+# [1.15.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.14.2...@voltz-protocol/sdk-v1-stateless@1.15.0) (2023-06-11)
+
+### Features
+
+- align simulate swap and swap args ([9ee94a9](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/9ee94a994716f1d6cc7de5958e1ccc36d93effbe))
+- get allowance to periphery refactor ([d12ef3e](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/d12ef3e7fc63e183e3978e9d9e3a466164b8022e))
+- get balance refactor ([08d37e9](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/08d37e9744ff0eadcd61cfeee6e923bc0a793c9a))
+- get balance refactor ([7c61378](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/7c61378dfb37078b8a93f6470c6a9a5c75a6d424))
+- get erc20 balance ([ff3cfa0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/ff3cfa031fe4b449870eb7af6a71c1915634b413))
+- linting sdk ([836a8e4](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/836a8e4f00df60c85e1ca723ddee9f4d3307ccad))
+- setup refactor of get balance ([39e74b2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/39e74b260f18185ab3af85b5838e5c73e8b17d94))
+- simplify approve periphery flow ([db82e54](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/db82e543f9b7a62bb212330697dcc6e3552b2cde))
+- simplify update margin flow ([a08a68a](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/a08a68aea9fa4235f0d4f9594c1b059536360820))
+- simulate edit swap flow ([5ec7220](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/5ec72208f898fa789a1d0d04463ab3dab35e7ade))
+
+## [1.14.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.14.1...@voltz-protocol/sdk-v1-stateless@1.14.2) (2023-06-10)
+
+**Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
+
+## [1.14.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.14.0...@voltz-protocol/sdk-v1-stateless@1.14.1) (2023-06-09)
+
+**Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
+
+# [1.14.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.13.0...@voltz-protocol/sdk-v1-stateless@1.14.0) (2023-06-08)
+
+### Bug Fixes
+
+- rollvoer and swpa fixs ([f9b6621](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/f9b662113e2433bdea4ad4e355d43c44b788d986))
+
+### Features
+
+- enrich position info ([60c6ea7](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/60c6ea79a4c946fa41a0772aa54f70632f505e33))
+- estimate rollover and swap gas units ([2063a21](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/2063a21dcfcf2c9248efb7d559af828becd1f610))
+- expose rollover with swap ([f7313aa](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/f7313aab1ce3733ecd712c0cbb6880efeb185d2b))
+- lint ([cf14cba](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/cf14cba402b6cae40d389950f914289c3e2a8fd2))
+- refactor rollover and swap ([d7518ec](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/d7518ec9873f9db9acf5b53e0ebf8cdbbe0c5a44))
+- rollover and swap flow refactor ([20b4c80](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/20b4c800ab058bb4ffeacd13486adb3113e654ba))
+- rollover with swap refactor ([ddfd461](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/ddfd4616f17e9eb19a288e9f6b7ddc755a7898fd))
+
+# [1.13.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.12.4...@voltz-protocol/sdk-v1-stateless@1.13.0) (2023-06-08)
+
+### Bug Fixes
+
+- bug fixes ([d33e92c](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/d33e92c7076da9319be20a1bf41a5662b65779f9))
+- linting ([0b1f305](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/0b1f30502dc36f76ad1d6d83975ba9f5ec1e2c01))
+- swap test ([3b0489f](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/3b0489f08ee823ca271dacbef0e5f0134ff56ef2))
+
+### Features
+
+- adjust swap flow to account for api ([9fd7917](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/9fd7917d0e54dfa641904fcd301d7ec790c639f1))
+- get amm info ([24e5b38](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/24e5b386c878f16a93a934a964d1a9d5e2519157))
+- get amm info implementation ([b0bd61c](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/b0bd61ce57bcf206ab5dcacb89945e6e958ba796))
+- refactor simulate swap ([46f0fca](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/46f0fca9af2569dbf997df106767b70dfacb4618))
+- setup connection to pools api ([4f22535](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/4f22535d37aa6f4d0ad13e78982c301245764cea))
+- simplify swap periphery params ([560ef69](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/560ef69409415ab8c872fbbec2c91988a8982be2))
+- swap tests ([8baadae](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/8baadaeedcc3371e3650c728f43b2f7df4b5d2d8))
+
+## [1.12.4](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.12.3...@voltz-protocol/sdk-v1-stateless@1.12.4) (2023-06-08)
+
+**Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
+
+## [1.12.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.12.2...@voltz-protocol/sdk-v1-stateless@1.12.3) (2023-06-08)
+
+**Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
+
+## [1.12.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.8.3...@voltz-protocol/sdk-v1-stateless@1.12.2) (2023-06-08)
+
+**Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
+
+## [1.12.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.12.0...@voltz-protocol/sdk-v1-stateless@1.12.1) (2023-06-08)
+
+### Bug Fixes
+
+- simulate swap signer ([e66992e](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/e66992ee07080c5857249e2053b8ae347ed14c43))
+- swap signer ([4fca24f](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/4fca24fd914b754f387abbf2375e643e2502ddd1))
+
+# [1.12.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.11.0...@voltz-protocol/sdk-v1-stateless@1.12.0) (2023-06-08)
+
+### Features
+
+- fix simulate settle flow ([72f5419](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/72f5419df7228cb80b488268ba7e00dc65994f97))
+
+# [1.11.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.10.0...@voltz-protocol/sdk-v1-stateless@1.11.0) (2023-06-08)
+
+### Features
+
+- pass signer directly ([13cbb67](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/13cbb670af8580045b50b9f1ba91aea61d952e98))
+
+# [1.10.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.9.0...@voltz-protocol/sdk-v1-stateless@1.10.0) (2023-06-08)
+
+### Features
+
+- ensure build ([65074ea](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/65074ea8dcac68ada1e5761eeaa73e35ae7fff46))
+
+# [1.9.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.8.3...@voltz-protocol/sdk-v1-stateless@1.9.0) (2023-06-08)
+
+### Features
+
+- callstatic in settle flow ([864dcdb](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/864dcdb790da2b477bebe3e56b6d8245f615efae))
+- formatting and linting ([9220199](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/9220199b706f545ca426bef79c0c526c578e9934))
+
+## [1.8.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.8.2...@voltz-protocol/sdk-v1-stateless@1.8.3) (2023-06-08)
+
+**Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
+
+## [1.8.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.8.1...@voltz-protocol/sdk-v1-stateless@1.8.2) (2023-06-07)
+
+**Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
+
+## [1.8.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.8.0...@voltz-protocol/sdk-v1-stateless@1.8.1) (2023-06-07)
+
+**Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
+
+# [1.8.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.7.1...@voltz-protocol/sdk-v1-stateless@1.8.0) (2023-06-07)
+
+### Features
+
+- expose settle results type ([#38](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/38)) ([0d43a85](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/0d43a85102e891e64c28ed5555d874c3782cd37a))
+
+## [1.7.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.5.2...@voltz-protocol/sdk-v1-stateless@1.7.1) (2023-06-07)
+
+**Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
+
+# [1.7.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.5.2...@voltz-protocol/sdk-v1-stateless@1.7.0) (2023-06-07)
+
+### Bug Fixes
+
+- sdk formatting ([6b0a0d3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/6b0a0d3f5aaef6637ef9da397417014e7c00e62e))
+
+### Features
+
+- add index.ts ([324508b](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/324508b76e63977893e018a093ece78c3638dd36))
+- adj package ([255c77c](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/255c77cf296946813631256ec77282d8e9f20ca8))
+- adj ts build ([ce8cb66](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/ce8cb669477a7248309b7b4d160e02d9335a70dd))
+- configs sdk v1 ([c4d9ab8](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/c4d9ab88d5ae09aa0bbbbe29817c54a7cc12137f))
+
+## [1.6.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.6.0...@voltz-protocol/sdk-v1-stateless@1.6.1) (2023-06-07)
+
+**Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
+
+# [1.6.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.5.2...@voltz-protocol/sdk-v1-stateless@1.6.0) (2023-06-07)
+
+### Features
+
+- settle test ([98171ba](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/98171baae654c1285b42c8820de0fb38a5983a89))
+- update periphery abi v1 sdk ([106dfb5](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/106dfb53e501bff0ba5f1ea4de45d230223269e9))
+
+## [1.5.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.5.1...@voltz-protocol/sdk-v1-stateless@1.5.2) (2023-06-06)
+
+**Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
+
+## [1.5.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.5.0...@voltz-protocol/sdk-v1-stateless@1.5.1) (2023-06-06)
+
+**Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
+
 # 1.5.0 (2023-06-01)
 
 ### Bug Fixes

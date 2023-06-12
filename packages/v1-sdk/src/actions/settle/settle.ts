@@ -4,40 +4,60 @@ import {
   BigNumber,
   utils,
   ContractTransaction,
+  providers,
 } from 'ethers';
 import { SettleArgs, SettlePeripheryParams } from '../types/actionArgTypes';
 import { getPeripheryContract } from '../../common/contract-generators';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
-import { getSettlePeripheryParams } from './getSettlePeripheryParams';
 import { estimateSettleGasUnits } from './estimateSettleGasUnits';
+import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
+import { PositionInfo } from '../../common/api/position/types';
+import { getPositionInfo } from '../../common/api/position/getPositionInfo';
+import { getSentryTracker } from '../../init';
+import { getReadableErrorMessage } from '../../common/errors/errorHandling';
 
 export const settle = async ({
-  fixedLow,
-  fixedHigh,
-  underlyingTokenAddress,
-  underlyingTokenDecimals,
-  tickSpacing,
-  chainId,
-  peripheryAddress,
-  marginEngineAddress,
-  provider,
+  positionId,
   signer,
-  positionOwnerAddress,
 }: SettleArgs): Promise<ContractReceipt> => {
+  if (signer.provider === undefined) {
+    throw new Error('Signer Provider Undefined');
+  }
+
+  const positionInfo: PositionInfo = await getPositionInfo(positionId);
+
+  // todo: use decode of id
+  const chainId: number = await signer.getChainId();
+
+  const peripheryAddress: string = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
+
+  // todo: use decode of id
+  const positionOwnerAddress: string = await signer.getAddress();
+
   const peripheryContract: ethers.Contract = getPeripheryContract(
     peripheryAddress,
-    provider,
+    signer,
   );
 
-  peripheryContract.connect(signer);
+  const settlePeripheryParams: SettlePeripheryParams = {
+    marginEngineAddress: positionInfo.ammMarginEngineAddress,
+    positionOwnerAddress: positionOwnerAddress,
+    tickLower: positionInfo.positionTickLower,
+    tickUpper: positionInfo.positionTickUpper,
+  };
 
-  const settlePeripheryParams: SettlePeripheryParams = getSettlePeripheryParams(
-    marginEngineAddress,
-    positionOwnerAddress,
-    fixedLow,
-    fixedHigh,
-    tickSpacing,
-  );
+  await peripheryContract.callStatic
+    .settlePositionAndWithdrawMargin(
+      settlePeripheryParams.marginEngineAddress,
+      settlePeripheryParams.positionOwnerAddress,
+      settlePeripheryParams.tickLower,
+      settlePeripheryParams.tickUpper,
+    )
+    .catch((error) => {
+      const errorMessage = getReadableErrorMessage(error);
+      console.log(errorMessage);
+      // throw new Error(errorMessage);
+    });
 
   const settlePeripheryTempOverrides: {
     value?: BigNumber;
@@ -47,7 +67,6 @@ export const settle = async ({
   const estimatedGasUnits: BigNumber = await estimateSettleGasUnits(
     peripheryContract,
     settlePeripheryParams,
-    settlePeripheryTempOverrides,
   );
 
   settlePeripheryTempOverrides.gasLimit = getGasBuffer(estimatedGasUnits);
@@ -55,14 +74,26 @@ export const settle = async ({
   const settleTransaction: ContractTransaction = await peripheryContract
     .connect(signer)
     .settlePositionAndWithdrawMargin(
-      settlePeripheryParams,
+      settlePeripheryParams.marginEngineAddress,
+      settlePeripheryParams.positionOwnerAddress,
+      settlePeripheryParams.tickLower,
+      settlePeripheryParams.tickUpper,
       settlePeripheryTempOverrides,
     )
-    .catch(() => {
-      throw new Error('Settle Transaction Confirmation Error');
+    .catch((error: any) => {
+      const sentryTracker = getSentryTracker();
+      sentryTracker.captureException(error);
+      sentryTracker.captureMessage('Transaction Confirmation Error');
+      throw new Error('Transaction Confirmation Error');
     });
 
-  const receipt: ContractReceipt = await settleTransaction.wait();
-
-  return receipt;
+  try {
+    const receipt: ContractReceipt = await settleTransaction.wait();
+    return receipt;
+  } catch (error) {
+    const sentryTracker = getSentryTracker();
+    sentryTracker.captureException(error);
+    sentryTracker.captureMessage('Transaction Confirmation Error');
+    throw new Error('Transaction Confirmation Error');
+  }
 };

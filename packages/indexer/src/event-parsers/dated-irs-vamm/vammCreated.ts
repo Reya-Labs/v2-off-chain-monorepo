@@ -1,9 +1,6 @@
-import { Event, BigNumber, ethers } from 'ethers';
+import { Event, BigNumber } from 'ethers';
 
-import {
-  ProtocolEventType,
-  VammCreatedEvent,
-} from '@voltz-protocol/commons-v2';
+import { VammCreatedEvent, descale } from '@voltz-protocol/commons-v2';
 import { parseBaseEvent } from '../utils/baseEvent';
 import { convertLowercaseString } from '@voltz-protocol/commons-v2';
 
@@ -11,32 +8,34 @@ export const parseVammCreated = (
   chainId: number,
   event: Event,
 ): VammCreatedEvent => {
+  const wadDescaler = descale(18);
+
   // 1. Type of event
-  const type: ProtocolEventType = 'vamm-created';
+  const type = 'vamm-created';
 
   // 2. Parse particular args
   const marketId = (event.args?._marketId as BigNumber).toString();
-  const priceImpactPhi = Number(
-    ethers.utils.formatUnits(
-      event.args?._mutableConfig.priceImpactPhi.toString(),
-      18,
-    ),
+
+  const tick = Number(event.args?.tick);
+
+  const priceImpactPhi = wadDescaler(
+    event.args?._mutableConfig.priceImpactPhi as BigNumber,
   );
-  const priceImpactBeta = Number(
-    ethers.utils.formatUnits(
-      event.args?._mutableConfig.priceImpactBeta.toString(),
-      18,
-    ),
+
+  const priceImpactBeta = wadDescaler(
+    event.args?._mutableConfig.priceImpactBeta as BigNumber,
   );
-  const spread = Number(
-    ethers.utils.formatUnits(event.args?._mutableConfig.spread.toString(), 18),
-  );
+
+  const spread = wadDescaler(event.args?._mutableConfig.spread as BigNumber);
+
   const rateOracle = event.args?._mutableConfig.rateOracle as string;
 
   const maxLiquidityPerTick = (
     event.args?._config._maxLiquidityPerTick as BigNumber
   ).toString();
+
   const tickSpacing = event.args?._config._tickSpacing as number;
+
   const maturityTimestamp = event.args?._config.maturityTimestamp as number;
 
   // 3. Parse base event
@@ -47,6 +46,7 @@ export const parseVammCreated = (
     ...baseEvent,
 
     marketId,
+    tick,
     priceImpactPhi,
     priceImpactBeta,
     spread,

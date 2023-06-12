@@ -1,5 +1,5 @@
 import { LpPeripheryParams } from '../types/actionArgTypes';
-import { getClosestTickAndFixedRate } from '../swap/getClosestTickAndFixedRate';
+import { getClosestTickAndFixedRate } from '../../common/math/getClosestTickAndFixedRate';
 import { scale } from '../../common/math/scale';
 
 export type GetLpPeripheryParamsArgs = {
@@ -26,25 +26,13 @@ export const getLpPeripheryParams = ({
   const lpPeripheryParams: LpPeripheryParams = {
     isMint: addLiquidity,
     marginEngineAddress: marginEngineAddress,
-    notional: 0,
-    tickLower: 0,
-    tickUpper: 0,
-    marginDelta: 0,
+    notional: scale(notional, underlyingTokenDecimals),
+    tickLower: getClosestTickAndFixedRate(fixedHigh, tickSpacing)
+      .closestUsableTick,
+    tickUpper: getClosestTickAndFixedRate(fixedLow, tickSpacing)
+      .closestUsableTick,
+    marginDelta: scale(margin, underlyingTokenDecimals),
   };
-
-  const { closestUsableTick: tickUpper } = getClosestTickAndFixedRate(
-    fixedLow,
-    tickSpacing,
-  );
-  const { closestUsableTick: tickLower } = getClosestTickAndFixedRate(
-    fixedHigh,
-    tickSpacing,
-  );
-
-  lpPeripheryParams.notional = scale(notional, underlyingTokenDecimals);
-  lpPeripheryParams.marginDelta = scale(margin, underlyingTokenDecimals);
-  lpPeripheryParams.tickLower = tickLower;
-  lpPeripheryParams.tickUpper = tickUpper;
 
   return lpPeripheryParams;
 };

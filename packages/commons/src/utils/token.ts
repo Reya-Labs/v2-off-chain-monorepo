@@ -9,6 +9,16 @@ export const descale = (tokenDecimals: number) => {
   return f;
 };
 
+export const scale = (tokenDecimals: number) => {
+  const f = (value: number) => {
+    return ethers.BigNumber.from(
+      ethers.utils.parseUnits(value.toString(), tokenDecimals),
+    );
+  };
+
+  return f;
+};
+
 const tokenDetails: {
   [address: Address]: {
     tokenName: Uppercase<string>;

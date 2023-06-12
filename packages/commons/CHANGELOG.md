@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.2.0...@voltz-protocol/commons-v2@1.2.1) (2023-06-08)
+
+**Note:** Version bump only for package @voltz-protocol/commons-v2
+
+# [1.2.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.1.1...@voltz-protocol/commons-v2@1.2.0) (2023-06-08)
+
+### Bug Fixes
+
+- getLiqIndex with sql ([4ae3380](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/4ae33800322245b3fe2cc4c5b59fb0da6f1d45e6))
+- yarn lock ([fa2b18a](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/fa2b18a19384297bc85f7a10b88689acaea8bd70))
+
+### Features
+
+- get apy tables ([f52d7f3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/f52d7f33d30f0074d5bc77de6a978304830df3e2))
+- pools api ([fe9c1ee](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/fe9c1eee3b4733d7062fa00dd185cb17758485db))
+
+## [1.1.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.1.0...@voltz-protocol/commons-v2@1.1.1) (2023-06-06)
+
+**Note:** Version bump only for package @voltz-protocol/commons-v2
+
 # 1.1.0 (2023-06-05)
 
 ### Bug Fixes

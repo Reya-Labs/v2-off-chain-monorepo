@@ -9,6 +9,8 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    env:
+      CI_COMMIT_AUTHOR: ${{ github.event.repository.name }} Voltz Bot
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -20,7 +22,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 'lts/*'
-          registry-url: 'https://npm.pkg.github.com'
+          registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
         run: yarn install
       - name: Run tests
@@ -31,17 +33,15 @@ jobs:
         run: lerna run build
       - name: Configure Git, Generate coverage badges and Bump Updated Packages
         run : |
-          git config --global user.name "voltzprotocol"
-          git config --global user.email "dev@voltz.xyz"
+          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.email "devcold@voltz.xyz"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Voltz-Protocol/v2-off-chain-monorepo.git
           lerna run generate:coverage-badges 
           git add .
           git commit -m "chore: update coverage badges"
           lerna version
           git stash
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Publish packages with Lerna
         run: lerna publish from-package
         env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
