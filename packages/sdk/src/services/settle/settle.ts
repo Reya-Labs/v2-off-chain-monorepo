@@ -27,7 +27,7 @@ export async function settle({
   return result;
 }
 
-export async function getInfoPostSettle({
+export async function simulateSettle({
   positionId,
   signer,
 }: SettleArgs): Promise<SettleSimulationResults> {

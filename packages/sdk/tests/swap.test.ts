@@ -2,7 +2,7 @@ import { before, describe, it } from 'mocha';
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { encodeSwap } from '../src/services/swap/encode';
-import { getInfoPostSwap, swap } from '../src/services/swap/swap';
+import { simulateSwap, swap } from '../src/services/swap/swap';
 import * as encode from '../src/services/swap/encode';
 import * as getSwapPeripheryParamsFile from '../src/services/swap/getSwapPeripheryParams';
 import * as constants from '../src/utils/constants';
@@ -127,7 +127,7 @@ describe('takers', async () => {
     const simulationOutput = defaultAbiCoder.encode([`bytes[]`], [array]);
     mockSigner.setFunctionOutputData(simulationOutput);
 
-    const result = await getInfoPostSwap({
+    const result = await simulateSwap({
       ammId: '1234',
       signer: mockSigner,
       notional: 10000,
