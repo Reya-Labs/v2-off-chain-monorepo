@@ -1,7 +1,7 @@
 import math
 from abc import ABC, abstractmethod
 
-from pypackages.risk_engine.src.oracles.twap.twap import TWAP
+from risk_engine.src.oracles.twap.twap import TWAP
 
 
 class VAMM(ABC):

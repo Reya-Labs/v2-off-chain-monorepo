@@ -1,6 +1,6 @@
 from typing import List
 
-from pypackages.risk_engine.src.instruments.dated_irs.baseMarket import BaseMarket
+from risk_engine.src.instruments.dated_irs.baseMarket import BaseMarket
 
 
 class Account:

@@ -1,11 +1,11 @@
 import unittest
 
-from pypackages.risk_engine.src.evm.block import (
+from risk_engine.src.evm.block import (
     FIRST_MAINNET_POS_BLOCK_TIMESTAMP,
     POS_SECONDS_PER_BLOCK,
     Block,
 )
-from pypackages.risk_engine.src.oracles.oracle import Oracle
+from risk_engine.src.oracles.oracle import Oracle
 
 
 class TestAccountManager(unittest.TestCase):

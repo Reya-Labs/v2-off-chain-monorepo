@@ -1,6 +1,6 @@
 import unittest
 
-from pypackages.risk_engine.src.core.feeManager import FeeManager
+from risk_engine.src.core.feeManager import FeeManager
 
 
 class TestFeeManager(unittest.TestCase):

@@ -1,6 +1,6 @@
 from typing_extensions import override
 
-from pypackages.risk_engine.src.constants import YEAR_IN_SECONDS
+from risk_engine.src.constants import YEAR_IN_SECONDS
 
 from .baseMarket import BaseMarket
 

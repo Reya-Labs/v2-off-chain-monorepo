@@ -3,13 +3,13 @@ import unittest
 
 from pytest import approx, raises
 
-import pypackages.risk_engine.src.oracles.rate.math as oracle_math
-from pypackages.risk_engine.src.evm.block import Block
-from pypackages.risk_engine.src.oracles.rate.mock import MockRateOracle
-from pypackages.risk_engine.src.oracles.rate.rateOracle import (
+import risk_engine.src.oracles.rate.math as oracle_math
+from risk_engine.src.evm.block import Block
+from risk_engine.src.oracles.rate.mock import MockRateOracle
+from risk_engine.src.oracles.rate.rateOracle import (
     Observation as RateObservation,
 )
-from pypackages.risk_engine.src.oracles.twap.twap import TWAP
+from risk_engine.src.oracles.twap.twap import TWAP
 
 
 def tick_to_price(tick: int) -> float:

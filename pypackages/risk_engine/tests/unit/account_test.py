@@ -1,11 +1,11 @@
 import unittest
 from unittest.mock import Mock
 
-from pypackages.risk_engine.src.constants import MONTH_IN_SECONDS
-from pypackages.risk_engine.src.core.account import Account
-from pypackages.risk_engine.src.evm.block import Block
-from pypackages.risk_engine.tests.mocks.mockMarket import MockMarket
-from pypackages.risk_engine.tests.mocks.mockMarketManager import MockMarketManager
+from risk_engine.src.constants import MONTH_IN_SECONDS
+from risk_engine.src.core.account import Account
+from risk_engine.src.evm.block import Block
+from risk_engine.tests.mocks.mockMarket import MockMarket
+from risk_engine.tests.mocks.mockMarketManager import MockMarketManager
 
 
 class TestAccount(unittest.TestCase):

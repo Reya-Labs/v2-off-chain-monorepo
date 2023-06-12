@@ -1,7 +1,7 @@
 from bisect import bisect
 
-from pypackages.risk_engine.src.evm.block import Block
-from pypackages.risk_engine.src.oracles.rate.rateOracle import Observation, RateOracle
+from risk_engine.src.evm.block import Block
+from risk_engine.src.oracles.rate.rateOracle import Observation, RateOracle
 
 from .math import linear_interpolate
 

@@ -1,7 +1,7 @@
 import unittest
 
-from pypackages.risk_engine.src.instruments.dated_irs.marketManager import MarketManager
-from pypackages.risk_engine.tests.mocks.mockMarket import MockMarket
+from risk_engine.src.instruments.dated_irs.marketManager import MarketManager
+from risk_engine.tests.mocks.mockMarket import MockMarket
 
 
 class TestMarketManager(unittest.TestCase):

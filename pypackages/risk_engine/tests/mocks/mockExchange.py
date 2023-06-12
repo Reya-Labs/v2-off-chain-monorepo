@@ -2,7 +2,7 @@ from unittest.mock import Mock
 
 from typing_extensions import override
 
-from pypackages.risk_engine.src.exchanges.vamm.baseVAMMExchange import BaseVAMMExchange
+from risk_engine.src.exchanges.vamm.baseVAMMExchange import BaseVAMMExchange
 
 
 class MockExchange(BaseVAMMExchange):

@@ -1,6 +1,6 @@
 from unittest.mock import Mock
 
-from pypackages.risk_engine.src.core.liquidationModule import LiquidationModule
+from risk_engine.src.core.liquidationModule import LiquidationModule
 
 
 class MockLiquidationModule(LiquidationModule):

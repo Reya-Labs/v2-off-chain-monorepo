@@ -1,5 +1,5 @@
-from pypackages.risk_engine.src.core.accountManager import AccountManager
-from pypackages.risk_engine.src.core.collateralModule import CollateralModule
+from risk_engine.src.core.accountManager import AccountManager
+from risk_engine.src.core.collateralModule import CollateralModule
 
 
 class LiquidationModule:

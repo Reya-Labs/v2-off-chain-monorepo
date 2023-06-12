@@ -3,9 +3,9 @@ from unittest import mock
 
 from typing_extensions import override
 
-from pypackages.risk_engine.src.constants import MONTH_IN_SECONDS
-from pypackages.risk_engine.src.evm.block import Block
-from pypackages.risk_engine.src.exchanges.vamm.baseVAMMExchange import BaseVAMMExchange
+from risk_engine.src.constants import MONTH_IN_SECONDS
+from risk_engine.src.evm.block import Block
+from risk_engine.src.exchanges.vamm.baseVAMMExchange import BaseVAMMExchange
 
 
 class MockPool(BaseVAMMExchange):

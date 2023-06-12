@@ -1,4 +1,4 @@
-from pypackages.risk_engine.src.oracles.rate.rateOracle import Observation
+from risk_engine.src.oracles.rate.rateOracle import Observation
 
 
 def linear_interpolate(
