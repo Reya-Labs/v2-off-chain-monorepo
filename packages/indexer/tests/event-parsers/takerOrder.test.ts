@@ -1,27 +1,29 @@
-import { parseTakerOrder } from '../../src/event-parsers/dated-irs-vamm/takerOrder';
+import { parseTakerOrder } from '../../src/event-parsers/parseTakerOrder';
 import { compareEvents } from '../utils/compareEvents';
-import { TakerOrderEvent } from '@voltz-protocol/commons-v2';
-import { takerOrderEvmEvent } from '../utils/evmEventMocks';
+import { ProtocolEventType, TakerOrderEvent } from '@voltz-protocol/commons-v2';
+import { evmTestEvents } from '../utils/evmTestEvents';
 
 describe('taker order parser', () => {
   test('usual event', () => {
     const chainId = 1;
+    const type = ProtocolEventType.taker_order;
+    const evmEvent = evmTestEvents[type];
 
-    const takerOrderEvent: TakerOrderEvent = {
-      id: '1_taker-order_Block-Hash_0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A_123',
-      type: 'taker-order',
+    const event: TakerOrderEvent = {
+      id: '1$taker_order$Block-Hash$0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A$100',
+      type,
 
-      chainId: 1,
+      chainId,
       source: '0xe9a6569995f3d8ec971f1d314e0e832c38a735cc',
 
       blockTimestamp: 1683092975,
-      blockNumber: 17178234,
+      blockNumber: 1,
       blockHash: 'Block-Hash',
 
-      transactionIndex: 21,
+      transactionIndex: 10,
       transactionHash:
         '0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A',
-      logIndex: 123,
+      logIndex: 100,
 
       accountId: '1000000000',
 
@@ -35,8 +37,7 @@ describe('taker order parser', () => {
       annualizedBaseAmount: 7.5,
     };
 
-    const outputTakerOrderEvent = parseTakerOrder(chainId, takerOrderEvmEvent);
-
-    expect(compareEvents(outputTakerOrderEvent, takerOrderEvent)).toBe(null);
+    const output = parseTakerOrder(chainId, evmEvent);
+    expect(compareEvents(output, event)).toBe(null);
   });
 });

@@ -8,7 +8,7 @@ export class MockProvider extends BaseProvider {
   public getNetwork(): Promise<Network> {
     return Promise.resolve({
       name: 'test',
-      chainId: 0,
+      chainId: 5,
     });
   }
 
@@ -23,6 +23,10 @@ export class MockProvider extends BaseProvider {
   }
 
   estimateGas(transaction: Deferrable<TransactionRequest>): Promise<BigNumber> {
+    return Promise.resolve(BigNumber.from(1000));
+  }
+
+  getGasPrice(): Promise<BigNumber> {
     return Promise.resolve(BigNumber.from(1000));
   }
 }

@@ -1,27 +1,32 @@
 import { compareEvents } from '../utils/compareEvents';
-import { vammCreatedEvmEvent } from '../utils/evmEventMocks';
-import { VammCreatedEvent } from '@voltz-protocol/commons-v2';
-import { parseVammCreated } from '../../src/event-parsers/dated-irs-vamm/vammCreated';
+import {
+  ProtocolEventType,
+  VammCreatedEvent,
+} from '@voltz-protocol/commons-v2';
+import { parseVammCreated } from '../../src/event-parsers/parseVammCreated';
+import { evmTestEvents } from '../utils/evmTestEvents';
 
 describe('vamm created parser', () => {
   test('usual event', () => {
     const chainId = 1;
+    const type = ProtocolEventType.vamm_created;
+    const evmEvent = evmTestEvents[type];
 
-    const vammCreatedEvent: VammCreatedEvent = {
-      id: '1_vamm-created_Block-Hash_0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A_123',
-      type: 'vamm-created',
+    const event: VammCreatedEvent = {
+      id: '1$vamm_created$Block-Hash$0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A$100',
+      type,
 
-      chainId: 1,
+      chainId,
       source: '0xe9a6569995f3d8ec971f1d314e0e832c38a735cc',
 
       blockTimestamp: 1683092975,
-      blockNumber: 17178234,
+      blockNumber: 1,
       blockHash: 'Block-Hash',
 
-      transactionIndex: 21,
+      transactionIndex: 10,
       transactionHash:
         '0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A',
-      logIndex: 123,
+      logIndex: 100,
 
       marketId: '168236',
 
@@ -34,14 +39,10 @@ describe('vamm created parser', () => {
       tickSpacing: 60,
       maturityTimestamp: 1687919400,
 
-      tick: 6060,
+      tick: 1200,
     };
 
-    const outputVammCreatedEvent = parseVammCreated(
-      chainId,
-      vammCreatedEvmEvent,
-    );
-
-    expect(compareEvents(outputVammCreatedEvent, vammCreatedEvent)).toBe(null);
+    const output = parseVammCreated(chainId, evmEvent);
+    expect(compareEvents(output, event)).toBe(null);
   });
 });

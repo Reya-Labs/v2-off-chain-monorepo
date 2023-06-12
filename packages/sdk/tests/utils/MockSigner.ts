@@ -4,6 +4,7 @@ import {
   TransactionRequest,
   BlockTag,
   TransactionResponse,
+  TransactionReceipt,
 } from '@ethersproject/abstract-provider';
 import { BigNumber, Bytes, ethers } from 'ethers';
 import { Deferrable } from 'ethers/lib/utils';
@@ -11,6 +12,8 @@ import { MockProvider } from './MockProvider';
 
 export class MockSigner extends Signer {
   readonly provider?: Provider;
+
+  public output = '';
 
   ///////////////////
   // Sub-classes MUST implement these
@@ -65,18 +68,39 @@ export class MockSigner extends Signer {
     return Promise.resolve(BigNumber.from(10));
   }
 
+  public setFunctionOutputData(output: string) {
+    this.output = output;
+  }
+
   // Populates "from" if unspecified, and calls with the transaction
   async call(
     transaction: Deferrable<TransactionRequest>,
     blockTag?: BlockTag,
   ): Promise<string> {
-    return Promise.resolve('');
+    return Promise.resolve(this.output);
   }
 
   // Populates all fields in a transaction, signs it and sends it to the network
   async sendTransaction(
     transaction: Deferrable<TransactionRequest>,
   ): Promise<TransactionResponse> {
+    const receipt: TransactionReceipt = {
+      to: '',
+      from: '',
+      contractAddress: '',
+      transactionIndex: 1,
+      gasUsed: BigNumber.from(1),
+      logsBloom: '',
+      blockHash: '',
+      transactionHash: '',
+      logs: [],
+      blockNumber: 0,
+      confirmations: 0,
+      cumulativeGasUsed: BigNumber.from(1),
+      effectiveGasPrice: BigNumber.from(1),
+      byzantium: true,
+      type: 1,
+    };
     return Promise.resolve({
       hash: '',
       nonce: 6,
@@ -87,7 +111,7 @@ export class MockSigner extends Signer {
       confirmations: 2,
       from: '',
       wait: (confirmations?: number) => {
-        throw new Error("can't wait");
+        return Promise.resolve(receipt);
       },
     });
   }

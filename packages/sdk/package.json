@@ -1,18 +1,19 @@
 {
   "name": "@voltz-protocol/sdk-v2",
-  "version": "1.36.0",
+  "version": "1.37.0",
   "description": "A TypeScript wrapper for the Voltz V2 smart contract",
-  "main": "src/index.ts",
   "publishConfig": {
     "access": "public"
   },
+  "main": "dist/index.js",
+  "types": "dist/types",
   "license": "MIT",
   "scripts": {
     "prebuild": "yarn code-quality:check && rm -rf dist",
     "build": "yarn prebuild && tsc -p tsconfig.build.json",
     "start": "npx ts-node src/index.ts",
     "ts:check-types": "npx tsc --noEmit",
-    "ts:circular-check": "dpdm --no-output --no-tree --no-warning --exit-code circular:1 -T ./src/index.ts",
+    "ts:circular-check": "npx dpdm --no-output --no-tree --no-warning --exit-code circular:1 -T ./src/index.ts",
     "ts:check": "yarn ts:check-types && yarn ts:circular-check",
     "lint:check": "eslint '{src,tests}/**/*.ts'",
     "prettier:check": "npx prettier --check './{src,tests}/**/*.ts'",
@@ -29,6 +30,8 @@
     "@types/crypto-js": "^4.1.1",
     "@uniswap/sdk-core": "3.2.2",
     "@uniswap/v3-sdk": "^3.9.0",
+    "@voltz-protocol/commons-v2": "workspace:^",
+    "@voltz-protocol/sdk-v1-stateless": "workspace:^",
     "crypto-js": "^4.1.1",
     "jsbi": "^3.1.4"
   }

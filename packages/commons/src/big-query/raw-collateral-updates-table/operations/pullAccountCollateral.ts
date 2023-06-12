@@ -12,7 +12,7 @@ export const pullAccountCollateral = async (
 ): Promise<PullAccountCollateralResponse> => {
   const bigQuery = getBigQuery();
 
-  const sqlQuery = `SELECT SUM(collateralAmount) as balance, collateralType FROM \`${tableName}\` WHERE chainId=${chainId} AND accountId=${accountId} GROUP BY collateralType`;
+  const sqlQuery = `SELECT SUM(collateralAmount) as balance, collateralType FROM \`${tableName}\` WHERE chainId=${chainId} AND accountId="${accountId}" GROUP BY collateralType`;
 
   const [rows] = await bigQuery.query({
     query: sqlQuery,

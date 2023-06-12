@@ -1,8 +1,7 @@
-import { authenticateImplicitWithAdc } from '@voltz-protocol/commons-v2';
+import { authenticateImplicitWithAdc, sleep } from '@voltz-protocol/commons-v2';
 import { createTable } from '@voltz-protocol/commons-v2';
 import { TableType } from '@voltz-protocol/commons-v2';
 import { createProtocolV2Dataset } from '@voltz-protocol/commons-v2';
-import { sleep } from '@voltz-protocol/commons-v2';
 import { CHAIN_IDS, INDEXING_BUFFER } from './constants';
 import { fetchLiquidityIndices } from './fetchLiquidityIndex';
 import { sync } from './sync';

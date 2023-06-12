@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/indexer-v2@1.5.2...@voltz-protocol/indexer-v2@1.5.3) (2023-06-12)
+
+### Bug Fixes
+
+- import commons as js ([1d3abd6](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/1d3abd671dafc3cf7cf12e2793f6f4f08dbd4733))
+- rebase fix ([3ab2ebc](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/3ab2ebc2aa7bdeb3464c29e0d371ed2bdffb311c))
+- sdkv2 -> dist ([66fec50](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/66fec50c0526b0315116ba9c09c857b858b8708c))
+
+## [1.5.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/indexer-v2@1.5.1...@voltz-protocol/indexer-v2@1.5.2) (2023-06-12)
+
+**Note:** Version bump only for package @voltz-protocol/indexer-v2
+
 ## [1.5.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/indexer-v2@1.5.0...@voltz-protocol/indexer-v2@1.5.1) (2023-06-08)
 
 **Note:** Version bump only for package @voltz-protocol/indexer-v2

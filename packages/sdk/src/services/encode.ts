@@ -2,212 +2,131 @@ import { abi } from '../../abis/ExecutionModule.json';
 import { TickMath } from '@uniswap/v3-sdk';
 import { BigNumber, ethers } from 'ethers';
 import { closestTickAndFixedRate } from '../utils/math/tickHelpers';
-import { createAccountId, scaleAmount } from '../utils/helpers';
 import { CommandType, getCommand } from '../utils/routerCommands';
-import {
-  BaseTrade,
-  MakerTrade,
-  MethodParameters,
-  MultiAction,
-  SettleTradeMaker,
-  TakerTrade,
-} from '../utils/types';
-import { getTokenInfo } from '../utils/constants';
-
-export async function encodeMakerOrder(
-  trade: MakerTrade,
-): Promise<MethodParameters> {
-  const multiAction = new MultiAction();
-
-  if (!trade.accountId) {
-    // open account
-    const accountId = await createAccountId(
-      trade,
-      true,
-      trade.fixedRateLower,
-      trade.fixedRateUpper,
-    );
-    trade.accountId = accountId;
-    encodeSingleOpenAccount(trade, multiAction);
-  }
-
-  // deposit
-  const ethAmount = encodeDeposit(trade, multiAction);
-
-  if (trade.baseAmount) {
-    // swap
-    encodeSingleMakerOrder(trade, multiAction);
-  }
-
-  return encodeRouterCall(multiAction, BigNumber.from(ethAmount));
-}
-
-export async function encodeTakerOrder(
-  trade: TakerTrade,
-): Promise<MethodParameters> {
-  const multiAction = new MultiAction();
-
-  if (!trade.accountId) {
-    // open account
-    const accountId = await createAccountId(trade, false);
-    trade.accountId = accountId;
-    encodeSingleOpenAccount(trade as BaseTrade, multiAction);
-  }
-
-  // deposit
-  const ethAmount = encodeDeposit(trade, multiAction);
-
-  if (trade.baseAmount) {
-    // swap
-    encodeSingleSwap(trade, multiAction);
-  }
-
-  return encodeRouterCall(multiAction, BigNumber.from(ethAmount));
-}
-
-export function encodeSettlement(
-  trade: TakerTrade,
-  newMakerOrder?: MakerTrade,
-  newTakerOrder?: TakerTrade,
-): MethodParameters {
-  const multiAction = new MultiAction();
-
-  // settle
-  encodeSingleSettle(trade, multiAction);
-
-  if (!newMakerOrder && !newTakerOrder) {
-    // withdraw
-    encodeSingleWithdraw(trade, multiAction);
-  }
-
-  if (newMakerOrder && newMakerOrder.baseAmount) {
-    // rollover
-    encodeSingleMakerOrder(newMakerOrder, multiAction);
-  }
-
-  if (newTakerOrder && newTakerOrder.baseAmount) {
-    // rollover
-    encodeSingleSwap(newTakerOrder, multiAction);
-  }
-
-  return encodeRouterCall(multiAction, BigNumber.from(0));
-}
+import { MethodParameters, MultiAction } from '../utils/types';
+import { getTokenDetails } from '@voltz-protocol/commons-v2';
+import { MINUS_ONE_BN, ZERO_BN } from '../utils/constants';
 
 ////////////////////  ENCODE SINGLE  ////////////////////
 
-function encodeSingleSettle(trade: BaseTrade, multiAction: MultiAction) {
+export function encodeSingleSettle(
+  accountId: string,
+  marketId: string,
+  maturityTimestamp: number,
+  multiAction: MultiAction,
+) {
   multiAction.newAction(
     getCommand(CommandType.V2_DATED_IRS_INSTRUMENT_SETTLE, [
-      trade.accountId,
-      trade.marketId,
-      trade.maturityTimestamp,
+      accountId,
+      marketId,
+      maturityTimestamp,
     ]),
   );
 }
 
 export const encodeSingleSwap = (
-  trade: TakerTrade,
+  accountId: string,
+  marketId: string,
+  maturityTimestamp: number,
+  baseAmount: BigNumber,
+  priceLimit: BigNumber,
   multiAction: MultiAction,
 ) => {
-  const scaledBaseAmount = scaleAmount(
-    trade.baseAmount,
-    trade.quoteTokenAddress,
-  );
   multiAction.newAction(
     getCommand(CommandType.V2_DATED_IRS_INSTRUMENT_SWAP, [
-      trade.accountId,
-      trade.marketId,
-      trade.maturityTimestamp,
-      scaledBaseAmount,
+      accountId,
+      marketId,
+      maturityTimestamp,
+      baseAmount,
+      priceLimit,
     ]),
   );
 };
 
 export const encodeSingleMakerOrder = (
-  trade: MakerTrade,
+  accountId: string,
+  marketId: string,
+  maturityTimestamp: number,
+  fixedRateLower: number,
+  fixedRateUpper: number,
+  liquidityDelta: BigNumber,
   multiAction: MultiAction,
 ) => {
-  const scaledBaseAmount = scaleAmount(
-    trade.baseAmount,
-    trade.quoteTokenAddress,
-  );
-  const { closestUsableTick: tickUpper } = closestTickAndFixedRate(
-    trade.fixedRateLower,
-  );
+  const { closestUsableTick: tickUpper } =
+    closestTickAndFixedRate(fixedRateLower);
   const sqrtPriceLowerX96 = TickMath.getSqrtRatioAtTick(tickUpper).toString();
 
-  const { closestUsableTick: tickLower } = closestTickAndFixedRate(
-    trade.fixedRateUpper,
-  );
+  const { closestUsableTick: tickLower } =
+    closestTickAndFixedRate(fixedRateUpper);
   const sqrtPriceUpperX96 = TickMath.getSqrtRatioAtTick(tickLower).toString();
 
   multiAction.newAction(
     getCommand(CommandType.V2_VAMM_EXCHANGE_LP, [
-      trade.accountId,
-      trade.marketId,
-      trade.maturityTimestamp,
+      accountId,
+      marketId,
+      maturityTimestamp,
       sqrtPriceLowerX96,
       sqrtPriceUpperX96,
-      scaledBaseAmount,
+      liquidityDelta,
     ]),
   );
 };
 
-export const encodeSingleOpenAccount = (
-  trade: BaseTrade,
+export const encodeSingleCreateAccount = (
+  accountId: string,
   multiAction: MultiAction,
 ): void => {
   multiAction.newAction(
-    getCommand(CommandType.V2_OPEN_ACCOUNT, [trade.accountId]),
+    getCommand(CommandType.V2_CORE_CREATE_ACCOUNT, [accountId]),
   );
-  return;
-};
-
-export const encodeSingleApprove = (
-  marginAmount: BigNumber,
-  multiAction: MultiAction,
-) => {
-  // approve
-  // todo: permit command & look into encodePermit Uniswap
-  // multiAction.newAction(one);
 };
 
 export const encodeSingleWithdraw = (
-  trade: MakerTrade | TakerTrade,
+  accountId: string,
+  quoteTokenAddress: string,
+  marginAmount: BigNumber,
   multiAction: MultiAction,
 ) => {
-  const scaledAmount = scaleAmount(trade.marginAmount, trade.quoteTokenAddress);
   multiAction.newAction(
     getCommand(CommandType.V2_CORE_WITHDRAW, [
-      trade.accountId,
-      trade.quoteTokenAddress,
-      scaledAmount,
+      accountId,
+      quoteTokenAddress,
+      marginAmount,
     ]),
   );
 };
 
 export const encodeSingleDepositERC20 = (
-  trade: MakerTrade | TakerTrade,
+  accountId: string,
+  quoteTokenAddress: string,
+  marginAmount: BigNumber,
   multiAction: MultiAction,
 ) => {
-  const scaledAmount = scaleAmount(trade.marginAmount, trade.quoteTokenAddress);
   multiAction.newAction(
     getCommand(CommandType.V2_CORE_DEPOSIT, [
-      trade.accountId,
-      trade.quoteTokenAddress,
-      scaledAmount,
+      accountId,
+      quoteTokenAddress,
+      marginAmount,
     ]),
   );
 };
 
+export const encodeSingleWrapETH = (
+  marginAmount: BigNumber,
+  multiAction: MultiAction,
+) => {
+  multiAction.newAction(getCommand(CommandType.WRAP_ETH, [marginAmount]));
+};
+
 export const encodeSingleDepositETH = (
-  trade: MakerTrade | TakerTrade,
+  accountId: string,
+  quoteTokenAddress: string,
   multiAction: MultiAction,
 ) => {
   multiAction.newAction(
     getCommand(CommandType.V2_CORE_DEPOSIT, [
-      trade.accountId,
-      trade.quoteTokenAddress,
+      accountId,
+      quoteTokenAddress,
       '0',
     ]),
   );
@@ -226,25 +145,39 @@ export const encodeRouterCall = (
   return { calldata: calldata, value: nativeCurrencyValue.toHexString() };
 };
 
-const encodeDeposit = (trade: TakerTrade, multiAction: MultiAction): string => {
-  let ethAmount = '0';
-  if (trade.marginAmount > 0) {
+export const encodeDeposit = (
+  accountId: string,
+  quoteTokenAddress: string,
+  marginAmount: BigNumber,
+  multiAction: MultiAction,
+): BigNumber => {
+  let ethAmount = ZERO_BN;
+
+  if (marginAmount.gt(ZERO_BN)) {
     // scale amount
-    const isETH = getTokenInfo(trade.quoteTokenAddress).name === 'ETH';
-    if (trade.marginAmount > 0 && !isETH) {
-      encodeSingleApprove(BigNumber.from(trade.marginAmount), multiAction);
-    }
+    const isETH = getTokenDetails(quoteTokenAddress).tokenName === 'ETH';
     // deposit
     if (isETH) {
-      encodeSingleDepositETH(trade, multiAction);
-      ethAmount = scaleAmount(trade.marginAmount, trade.quoteTokenAddress);
+      encodeSingleWrapETH(marginAmount, multiAction);
+      encodeSingleDepositETH(accountId, quoteTokenAddress, multiAction);
+      ethAmount = marginAmount;
     } else {
-      encodeSingleDepositERC20(trade, multiAction);
+      encodeSingleDepositERC20(
+        accountId,
+        quoteTokenAddress,
+        marginAmount,
+        multiAction,
+      );
     }
-  } else if (trade.marginAmount < 0) {
+  } else if (marginAmount.lt(ZERO_BN)) {
+    if (accountId === undefined) {
+      throw new Error('Withdraw: missing accountId');
+    }
     // withdraw
     encodeSingleWithdraw(
-      { ...trade, marginAmount: -trade.marginAmount },
+      accountId,
+      quoteTokenAddress,
+      marginAmount.mul(MINUS_ONE_BN),
       multiAction,
     );
   }

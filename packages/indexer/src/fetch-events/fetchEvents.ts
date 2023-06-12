@@ -2,19 +2,28 @@ import { Event, Contract } from 'ethers';
 import { getCoreContract } from '../contract-generators/core';
 import { getDatedIrsInstrumentContract } from '../contract-generators/dated-irs-instrument';
 import { getDatedIrsVammContract } from '../contract-generators/dated-irs-vamm';
-import { parseCollateralUpdate } from '../event-parsers/core/collateralUpdate';
-import { parseMarketFeeConfigured } from '../event-parsers/core/marketFeeConfigured';
-import { parseMarketConfigured } from '../event-parsers/dated-irs-instrument/marketConfigured';
-import { parseProductPositionUpdated } from '../event-parsers/dated-irs-instrument/productPositionUpdated';
-import { parseRateOracleConfigured } from '../event-parsers/dated-irs-instrument/rateOracleConfigured';
-import { parseVammCreated } from '../event-parsers/dated-irs-vamm/vammCreated';
-import { parseVammPriceChange } from '../event-parsers/dated-irs-vamm/vammPriceChange';
+import { parseCollateralUpdate } from '../event-parsers/parseCollateralUpdate';
+import { parseMarketFeeConfigured } from '../event-parsers/parseMarketFeeConfigured';
+import { parseMarketConfigured } from '../event-parsers/parseMarketConfigured';
+import { parseProductPositionUpdated } from '../event-parsers/parseProductPositionUpdated';
+import { parseRateOracleConfigured } from '../event-parsers/parseRateOracleConfigured';
+import { parseVammCreated } from '../event-parsers/parseVammCreated';
+import { parseVammPriceChange } from '../event-parsers/parseVammPriceChange';
+import { BaseEvent } from '@voltz-protocol/commons-v2';
+import { parseAccountCreated } from '../event-parsers/parseAccountCreated';
+import { parseAccountOwnerUpdate } from '../event-parsers/parseAccountOwnerUpdate';
+import { parseCollateralConfigured } from '../event-parsers/parseCollateralConfigured';
+import { parseLiquidation } from '../event-parsers/parseLiquidation';
+import { parseProductRegistered } from '../event-parsers/parseProductRegistered';
+import { parseLiquidityChange } from '../event-parsers/parseLiquidityChange';
+import { parseMakerOrder } from '../event-parsers/parseMakerOrder';
+import { parseTakerOrder } from '../event-parsers/parseTakerOrder';
 
 export const fetchEvents = async (
   chainId: number,
   fromBlock: number,
   toBlock: number,
-) => {
+): Promise<BaseEvent[]> => {
   const fetchSpecificEvents = async <T>(
     contract: Contract,
     eventName: string,
@@ -22,11 +31,10 @@ export const fetchEvents = async (
   ): Promise<T[]> => {
     const eventFilter = contract.filters[eventName]();
 
-    const events = await contract
-      .queryFilter(eventFilter, fromBlock, toBlock)
-      .then((evmEvents) => evmEvents.map((e) => parser(chainId, e)));
+    const events = await contract.queryFilter(eventFilter, fromBlock, toBlock);
+    const parsedEvents = events.map((e) => parser(chainId, e));
 
-    return events;
+    return parsedEvents;
   };
 
   const coreContract = getCoreContract(chainId);
@@ -34,11 +42,28 @@ export const fetchEvents = async (
   const datedIrsExchangeContract = getDatedIrsVammContract(chainId);
 
   const allPromises = [
+    // core
+    fetchSpecificEvents(coreContract, 'AccountCreated', parseAccountCreated),
+
+    fetchSpecificEvents(
+      coreContract,
+      'AccountOwnerUpdate',
+      parseAccountOwnerUpdate,
+    ),
+
+    fetchSpecificEvents(
+      coreContract,
+      'CollateralConfigured',
+      parseCollateralConfigured,
+    ),
+
     fetchSpecificEvents(
       coreContract,
       'CollateralUpdate',
       parseCollateralUpdate,
     ),
+
+    fetchSpecificEvents(coreContract, 'Liquidation', parseLiquidation),
 
     fetchSpecificEvents(
       coreContract,
@@ -47,9 +72,22 @@ export const fetchEvents = async (
     ),
 
     fetchSpecificEvents(
+      coreContract,
+      'ProductRegistered',
+      parseProductRegistered,
+    ),
+
+    // product
+    fetchSpecificEvents(
       datedIrsInstrumentContract,
       'MarketConfigured',
       parseMarketConfigured,
+    ),
+
+    fetchSpecificEvents(
+      datedIrsInstrumentContract,
+      'ProductPositionUpdated',
+      parseProductPositionUpdated,
     ),
 
     fetchSpecificEvents(
@@ -58,10 +96,23 @@ export const fetchEvents = async (
       parseRateOracleConfigured,
     ),
 
+    // exchange
     fetchSpecificEvents(
-      datedIrsInstrumentContract,
-      'ProductPositionUpdated',
-      parseProductPositionUpdated,
+      datedIrsExchangeContract,
+      'LiquidityChange',
+      parseLiquidityChange,
+    ),
+
+    fetchSpecificEvents(
+      datedIrsExchangeContract,
+      'MakerOrder',
+      parseMakerOrder,
+    ),
+
+    fetchSpecificEvents(
+      datedIrsExchangeContract,
+      'TakerOrder',
+      parseTakerOrder,
     ),
 
     fetchSpecificEvents(

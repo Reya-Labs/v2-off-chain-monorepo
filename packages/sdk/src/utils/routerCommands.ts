@@ -10,14 +10,11 @@ export enum CommandType {
   V2_DATED_IRS_INSTRUMENT_SWAP = 0x00,
   V2_DATED_IRS_INSTRUMENT_SETTLE = 0x01,
   V2_VAMM_EXCHANGE_LP = 0x02,
-  V2_CORE_DEPOSIT = 0x03,
-  V2_CORE_WITHDRAW = 0x04,
-
-  TRANSFER = 0x05,
+  V2_CORE_CREATE_ACCOUNT = 0x03,
+  V2_CORE_DEPOSIT = 0x04,
+  V2_CORE_WITHDRAW = 0x05,
   WRAP_ETH = 0x06,
-  UNWRAP_ETH = 0x07,
-
-  V2_OPEN_ACCOUNT = 0x08, // todo: add in Periphery & modify order
+  TRANSFER_FROM = 0x07,
 }
 
 const ABI_DEFINITION: { [key in CommandType]: string[] } = {
@@ -27,6 +24,7 @@ const ABI_DEFINITION: { [key in CommandType]: string[] } = {
     'uint128',
     'uint32',
     'int256',
+    'uint160',
   ],
   [CommandType.V2_DATED_IRS_INSTRUMENT_SETTLE]: [
     'uint128',
@@ -36,19 +34,18 @@ const ABI_DEFINITION: { [key in CommandType]: string[] } = {
   [CommandType.V2_VAMM_EXCHANGE_LP]: [
     'uint128',
     'uint128',
-    'uint256',
-    'uint160',
-    'uint160',
+    'uint32',
+    'int24',
+    'int24',
     'int128',
-  ], // todo: complete
+  ],
   [CommandType.V2_CORE_DEPOSIT]: ['uint128', 'address', 'uint256'],
   [CommandType.V2_CORE_WITHDRAW]: ['uint128', 'address', 'uint256'],
-  [CommandType.V2_OPEN_ACCOUNT]: ['uint128'], // todo: complete
+  [CommandType.V2_CORE_CREATE_ACCOUNT]: ['uint128'],
 
   // Token Actions and Checks
-  [CommandType.WRAP_ETH]: ['address', 'uint256'],
-  [CommandType.UNWRAP_ETH]: ['address', 'uint256'],
-  [CommandType.TRANSFER]: ['address', 'address', 'uint256'],
+  [CommandType.WRAP_ETH]: ['uint256'],
+  [CommandType.TRANSFER_FROM]: ['address', 'address', 'uint160'],
 };
 
 export type RouterCommand = {

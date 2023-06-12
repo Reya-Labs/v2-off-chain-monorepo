@@ -17,7 +17,6 @@ import { getSentryTracker } from '../../init';
 
 export const lp = async ({
   ammId,
-  addLiquidity,
   fixedLow,
   fixedHigh,
   notional,
@@ -42,7 +41,7 @@ export const lp = async ({
   );
 
   const lpPeripheryParams: LpPeripheryParams = getLpPeripheryParams({
-    addLiquidity,
+    addLiquidity: notional > 0,
     margin,
     notional,
     fixedLow,
