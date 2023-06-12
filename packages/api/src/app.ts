@@ -4,6 +4,7 @@ import rateLimit from 'express-rate-limit';
 import RedisStore from 'rate-limit-redis';
 import { getRedisClient, getTrustedProxies } from '@voltz-protocol/commons-v2';
 import { getPools } from './queries/getPools/getPools';
+import { getPortfolioPositions } from './queries/getPortfolioPositions/getPortfolioPositions';
 
 export const app = express();
 
@@ -45,6 +46,20 @@ app.get('/ip', (req, res) => {
  */
 app.get('/pools', (req, res) => {
   getPools().then(
+    (output) => {
+      res.json(output);
+    },
+    (error) => {
+      console.log(`API query failed with message ${(error as Error).message}`);
+    },
+  );
+});
+
+app.get('/positions/:chainIds/:ownerAddress', (req, res) => {
+  const chainIds = req.params.chainIds.split('&').map((s) => Number(s));
+  const ownerAddress = req.params.ownerAddress.toLowerCase();
+
+  getPortfolioPositions(chainIds, ownerAddress).then(
     (output) => {
       res.json(output);
     },

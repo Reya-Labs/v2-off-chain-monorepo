@@ -5,6 +5,8 @@ import { parseVammCreated } from '../../../../src/event-parsers/parseVammCreated
 import { parseLiquidityChange } from '../../../../src/event-parsers/parseLiquidityChange';
 import { parseVammPriceChange } from '../../../../src/event-parsers/parseVammPriceChange';
 import { parseProductPositionUpdated } from '../../../../src/event-parsers/parseProductPositionUpdated';
+import { parseCollateralUpdate } from '../../../../src/event-parsers/parseCollateralUpdate';
+import { parseMarketConfigured } from '../../../../src/event-parsers/parseMarketConfigured';
 
 export const chainId = 1;
 
@@ -12,6 +14,7 @@ const transactionHash = 'Transaction-Hash';
 const blockHash = 'Block-Hash';
 
 const marketId = BigNumber.from('1111111111');
+const collateralType = '0xa0b86991c6218b36c1d19D4a2e9eb0ce3606eb48';
 
 const owner = '0xF8F6B70a36f4398f0853a311dC6699Aba8333Cc1';
 const accountId = BigNumber.from('1000000000');
@@ -35,14 +38,31 @@ export const events: BaseEvent[] = [
     },
   } as unknown as Event),
 
+  // One market is created
+  parseMarketConfigured(chainId, {
+    address: ZERO_ADDRESS,
+    blockHash,
+    transactionHash,
+    blockNumber: 2,
+    transactionIndex: 10,
+    logIndex: 100,
+    args: {
+      blockTimestamp: 1682942400, // Mon May 01 2023 12:00:00 GMT+0000
+      config: {
+        marketId,
+        quoteToken: collateralType,
+      },
+    },
+  } as unknown as Event),
+
   // One pool is launched with starting price 1%
   parseVammCreated(chainId, {
     address: ZERO_ADDRESS,
     blockHash,
     transactionHash,
-    blockNumber: 1,
+    blockNumber: 3,
     transactionIndex: 10,
-    logIndex: 101,
+    logIndex: 100,
     args: {
       blockTimestamp: 1682942400, // Mon May 01 2023 12:00:00 GMT+0000
       marketId,
@@ -61,14 +81,30 @@ export const events: BaseEvent[] = [
     },
   } as unknown as Event),
 
+  // Collateral is updated
+  parseCollateralUpdate(chainId, {
+    address: ZERO_ADDRESS,
+    blockHash,
+    transactionHash,
+    blockNumber: 4,
+    transactionIndex: 10,
+    logIndex: 100,
+    args: {
+      blockTimestamp: 1682942400, // Mon May 01 2023 12:00:00 GMT+0000
+      accountId,
+      collateralType,
+      tokenAmount: BigNumber.from(10000000),
+    },
+  } as unknown as Event),
+
   // Liquidity is minted between [0.5%, 2%]
   parseLiquidityChange(chainId, {
     address: ZERO_ADDRESS,
     blockHash,
     transactionHash,
-    blockNumber: 1,
+    blockNumber: 4,
     transactionIndex: 10,
-    logIndex: 102,
+    logIndex: 101,
     args: {
       blockTimestamp: 1682942400, // Mon May 01 2023 12:00:00 GMT+0000
       accountId,
@@ -85,7 +121,7 @@ export const events: BaseEvent[] = [
     address: ZERO_ADDRESS,
     blockHash,
     transactionHash,
-    blockNumber: 2,
+    blockNumber: 5,
     transactionIndex: 10,
     logIndex: 100,
     args: {
@@ -101,7 +137,7 @@ export const events: BaseEvent[] = [
     address: ZERO_ADDRESS,
     blockHash,
     transactionHash,
-    blockNumber: 2,
+    blockNumber: 5,
     transactionIndex: 10,
     logIndex: 101,
     args: {

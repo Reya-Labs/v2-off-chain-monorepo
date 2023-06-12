@@ -3,6 +3,7 @@ import {
   getTokenDetails,
   pullAccountPositionEntries,
   pullMarketEntry,
+  pullAccountsByAddress,
 } from '@voltz-protocol/commons-v2';
 
 import { SupportedChainId } from '../../../../indexer/src/services/provider';
@@ -77,19 +78,9 @@ export const getPortfolioPositions = async (
   chainIds: SupportedChainId[],
   ownerAddress: string,
 ): Promise<PortfolioPosition[]> => {
-  // Grab all accounts that belong to owner address for those specific chain IDs
-  const accounts = [
-    {
-      chainId: 1,
-      accountId: '00',
-      owner: '0x0000',
-    },
-    {
-      chainId: 1,
-      accountId: '11',
-      owner: '0x0000',
-    },
-  ];
+  console.log('a');
+  const accounts = await pullAccountsByAddress(chainIds, ownerAddress);
+  console.log('b', accounts);
 
   const portfolio: PortfolioPosition[] = [];
 
@@ -98,6 +89,7 @@ export const getPortfolioPositions = async (
 
   for (const { chainId, accountId } of accounts) {
     const accountCollaterals = await pullAccountCollateral(chainId, accountId);
+    console.log('c', accountCollaterals);
 
     if (accountCollaterals.length === 0) {
       continue;
@@ -114,6 +106,8 @@ export const getPortfolioPositions = async (
       accountId,
     );
 
+    console.log('d', positionEntries);
+
     for (const {
       id: positionId,
       marketId,
@@ -127,6 +121,7 @@ export const getPortfolioPositions = async (
       tickUpper,
     } of positionEntries) {
       const market = await pullMarketEntry(chainId, marketId);
+      console.log('e', market);
 
       // todo: query getLatestFixedRate() on price change table
       const poolFixedRate = 0.01;
