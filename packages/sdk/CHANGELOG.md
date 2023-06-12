@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.38.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.37.0...@voltz-protocol/sdk-v2@1.38.0) (2023-06-12)
+
+### Features
+
+- mock rollover v2 ([3bcdd69](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/3bcdd69e7e717239c2d18ccfc73a77cf852b1e39))
+- pool getters & token allowance ([e217c1a](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/e217c1ada955a60c43956a55c675b65df53a8b3b))
+
 # [1.37.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.36.0...@voltz-protocol/sdk-v2@1.37.0) (2023-06-12)
 
 ### Bug Fixes
