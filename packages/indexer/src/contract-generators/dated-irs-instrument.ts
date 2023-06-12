@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
-import { SupportedChainId, getProvider } from '../services/provider';
 import { getAddress } from './addresses';
+import { SupportedChainId, getProvider } from '@voltz-protocol/commons-v2';
 
 export const getDatedIrsInstrumentContract = (
   chainId: SupportedChainId,

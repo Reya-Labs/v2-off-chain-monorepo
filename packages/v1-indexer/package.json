@@ -1,0 +1,35 @@
+{
+  "name": "@voltz-protocol/indexer-v1",
+  "version": "1.5.1",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prebuild": "yarn code-quality:check && rm -rf dist",
+    "build": "yarn prebuild && tsc -p tsconfig.build.json",
+    "start": "npx ts-node src/index.ts",
+    "ts:check-types": "npx tsc --noEmit",
+    "ts:circular-check": "dpdm --no-output --no-tree --no-warning --exit-code circular:1 -T ./src/index.ts",
+    "ts:check": "yarn ts:check-types && yarn ts:circular-check",
+    "lint:check": "eslint '{src,tests}/**/*.ts'",
+    "prettier:check": "npx prettier --check './{src,tests}/**/*.ts'",
+    "code-quality:check": "npx concurrently 'yarn ts:check' 'yarn prettier:check' 'yarn lint:check --quiet'",
+    "lint:fix": "npx eslint --fix '{src,tests}/**/*.ts'",
+    "prettier:fix": "npx prettier --write './{src,tests}/**/*.ts'",
+    "test": "npx jest --silent",
+    "test:coverage": "yarn test --coverage",
+    "generate:coverage-badges": "npx istanbul-badges-readme --silent"
+  },
+  "packageManager": "yarn@3.5.1",
+  "dependencies": {
+    "@google-cloud/bigquery": "6.2.0",
+    "@google-cloud/bigtable": "4.5.1",
+    "@google-cloud/pubsub": "3.5.2",
+    "@google-cloud/storage": "6.10.0",
+    "@voltz-protocol/commons-v2": "workspace:^",
+    "ethers": "5.5.4",
+    "ioredis": "5.3.2"
+  }
+}

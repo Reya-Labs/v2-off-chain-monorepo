@@ -33,3 +33,13 @@ export const getInfuraApiKey = (): string => {
 
   throw new Error(`Unspecified Infura API key.`);
 };
+
+export const getCoingeckoApiKey = (): string => {
+  const key = process.env.COINGECKO_API_KEY;
+
+  if (key) {
+    return key;
+  }
+
+  throw new Error(`Unspecified Coingecko API key.`);
+};

@@ -1,4 +1,4 @@
-import { SupportedChainId } from '../services/provider';
+import { SupportedChainId } from '@voltz-protocol/commons-v2';
 
 // export const CHAIN_IDS: SupportedChainId[] = [1, 5, 42161, 421613, 43114, 43113];
 export const CHAIN_IDS: SupportedChainId[] = [1];
