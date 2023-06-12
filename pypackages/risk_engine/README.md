@@ -1,5 +1,7 @@
 # Voltz V2 Risk Engine
 
+## Todo: update with pants dependencies
+
 ## Dependencies
 
 [`python`](https://www.python.org/downloads/) += 3.11.1 and [`poetry`](https://python-poetry.org/docs/#installation) to manage python package dependencies.
@@ -60,29 +62,3 @@ Once the process is executed (command below), the simulation will be run for eac
 ```sh
 poetry run output-margin-requirements
 ```
-
-## Ongoing work / next priorities
-
-introduce market manager smart contract?
-keeps track of which markets exist
-and is potentially the main window between a given market and the rest of the system
-
-introduce a feature flag module?
-
-same pool on top of multiple markets idea -> further generalisability (ref: synthetix staking)?
-
-split files into folders: core, markets, pools, oracles, etc
-
-consider splitting the margin engine into the collateral engine and liquidation engine
-
-can we make complexity O(a) where a is the number of positions which have been affected since latest calculation of  margin requirements
-
-annualized notional calculation in context of swaps
-
-## CyclopsRex plan
-
-Look at oracles:
-
-- chainlink style
-- rate style (Voltz)
-- something suitable for predicting unrealised profit/loss, factoring in current VAMM rates - fees and cost of an unwind. See proposal for "GWAP", but consider possible simplifications/efficiencies re: saving gas.
