@@ -14,7 +14,7 @@ export type GetMarginRequirementPostLp = {
 };
 
 export type GetMarginRequirementPostLpResults = {
-  marginRequirementBn: BigNumber;
+  maxMarginWithdrawable: number;
   additionalMargin: number;
 };
 
@@ -63,8 +63,16 @@ export const getMarginRequirementPostLp = async ({
     additionalMargin = scaledMarginRequirement - scaledCurrentMargin;
   }
 
+  const maxMarginWithdrawable: number = Math.max(
+    0,
+    descale(
+      currentMargin.sub(marginRequirement).sub(BigNumber.from(1)),
+      underlyingTokenDecimals,
+    ),
+  );
+
   return {
     additionalMargin,
-    marginRequirementBn: marginRequirement,
+    maxMarginWithdrawable,
   };
 };

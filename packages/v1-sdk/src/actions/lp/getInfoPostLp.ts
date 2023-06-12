@@ -4,6 +4,7 @@ import { estimateLpGasUnits } from './estimateLpGasUnits';
 import { convertGasUnitsToNativeTokenUnits } from '../../common';
 import { getNativeGasToken } from '../../common/gas/getNativeGasToken';
 import { getMarginRequirementPostLp } from './getMarginRequirementPostLp';
+import { GetMarginRequirementPostLpResults } from './getMarginRequirementPostLp';
 
 export type InfoPostLp = {
   marginRequirement: number;
@@ -30,20 +31,15 @@ export const getInfoPostLp = async ({
   lpPeripheryParams,
 }: GetInfoPostLpArgs): Promise<InfoPostLp> => {
   // todo: the periphery contract expected to have signer check
-  const marginRequirement: number = await getMarginRequirementPostLp({
-    peripheryContract,
-    lpPeripheryParams,
-    underlyingTokenDecimals,
-  });
-
-  const maxMarginWithdrawable: number = await getMaxMarginWithdrawablePostLp({
-    marginEngineContract,
-    walletAddress,
-    marginRequirement,
-    tickLower: lpPeripheryParams.tickLower,
-    tickUpper: lpPeripheryParams.tickUpper,
-    underlyingTokenDecimals,
-  });
+  const marginRequirementPostLpResults: GetMarginRequirementPostLpResults = await getMarginRequirementPostLp(
+    {
+      peripheryContract,
+      marginEngineContract,
+      lpPeripheryParams,
+      underlyingTokenDecimals,
+      walletAddress,
+    },
+  );
 
   // todo: test to number conversion does not overflow
   const lpGasUnits = (
@@ -56,8 +52,8 @@ export const getInfoPostLp = async ({
   );
 
   return {
-    marginRequirement,
-    maxMarginWithdrawable,
+    marginRequirement: marginRequirementPostLpResults.additionalMargin,
+    maxMarginWithdrawable: marginRequirementPostLpResults.maxMarginWithdrawable,
     gasFee: {
       value: gasFeeNativeToken,
       token: await getNativeGasToken(peripheryContract.provider),
