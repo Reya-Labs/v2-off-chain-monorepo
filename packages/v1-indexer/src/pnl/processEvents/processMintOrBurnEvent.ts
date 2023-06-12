@@ -1,6 +1,6 @@
+import { getTimestampInSeconds } from '@voltz-protocol/commons-v2';
 import { TrackedBigQueryPositionRow } from '../../big-query-support/positions-table/pull-data/pullAllPositions';
 import { MintOrBurnEventInfo } from '../../common/event-parsers/types';
-import { getTimestampInSeconds } from '../../common/utils';
 
 export const processMintOrBurnEvent = (
   currentPositions: TrackedBigQueryPositionRow[],

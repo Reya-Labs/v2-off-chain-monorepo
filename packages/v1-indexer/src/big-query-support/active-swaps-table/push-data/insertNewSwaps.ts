@@ -1,5 +1,5 @@
+import { getTimestampInSeconds } from '@voltz-protocol/commons-v2';
 import { SwapEventInfo } from '../../../common/event-parsers/types';
-import { getTimestampInSeconds } from '../../../common/utils';
 import { sendQueriesInBatches } from '../../sendQueriesInBatches';
 import { getTableFullID, secondsToBqDate } from '../../utils';
 

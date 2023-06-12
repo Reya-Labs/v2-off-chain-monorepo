@@ -1,6 +1,6 @@
+import { getTimestampInSeconds } from '@voltz-protocol/commons-v2';
 import { IrsInstanceEventInfo } from '../../../common/event-parsers/types';
 import { getTokenName } from '../../../common/getTokenName';
-import { getTimestampInSeconds } from '../../../common/utils';
 import { getBigQuery } from '../../../global';
 import { getTableFullID } from '../../utils';
 

@@ -1,5 +1,5 @@
+import { sleep } from '@voltz-protocol/commons-v2';
 import { createMarginUpdatesTable } from './big-query-support/margin-updates-table/createActiveSwapsTable';
-import { sleep } from './common/utils';
 import { indexInactiveTimeInMS } from './global';
 import { syncMarginUpdates } from './margin-updates/syncMarginUpdate';
 

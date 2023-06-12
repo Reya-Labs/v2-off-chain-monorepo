@@ -7,6 +7,7 @@ export * from './convertLowercase';
 export * from './env-vars';
 export * from './getBlockAtTimestamp';
 export * from './getTimeInYearsBetweenTimestamps';
+export * from './getTimestampInSeconds';
 export * from './isNull';
 export * from './isUndefined';
 export * from './provider';
