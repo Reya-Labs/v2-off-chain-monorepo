@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.16.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.15.2...@voltz-protocol/sdk-v1-stateless@1.16.0) (2023-06-12)
+
+### Features
+
+- expose simulate edit ([#55](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/55)) ([ac22386](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/ac223863a7771b6278cbdc70c1d352edd8730eb5))
+
 ## [1.15.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.15.1...@voltz-protocol/sdk-v1-stateless@1.15.2) (2023-06-11)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
