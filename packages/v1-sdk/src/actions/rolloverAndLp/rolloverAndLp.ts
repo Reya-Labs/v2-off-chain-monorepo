@@ -15,7 +15,6 @@ import { getGasBuffer } from '../../common/gas/getGasBuffer';
 import { estimateRolloverAndLpGasUnits } from './estimateRolloverAndLpGasUnits';
 
 export const rolloverAndLp = async ({
-  addLiquidity,
   fixedLow,
   fixedHigh,
   notional,
@@ -63,7 +62,7 @@ export const rolloverAndLp = async ({
 
   const rolloverAndLpPeripheryParams: RolloverAndLpPeripheryParams =
     getRolloverAndLpPeripheryParams({
-      addLiquidity,
+      addLiquidity: notional > 0,
       margin: marginDelta,
       notional,
       fixedLow,
