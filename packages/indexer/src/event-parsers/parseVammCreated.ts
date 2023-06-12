@@ -3,10 +3,9 @@ import { Event, BigNumber } from 'ethers';
 import {
   ProtocolEventType,
   VammCreatedEvent,
-  descale,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
 import { parseBaseEvent } from './utils/parseBaseEvent';
-import { convertLowercaseString } from '@voltz-protocol/commons-v2';
+import { convertLowercaseString, descale } from '@voltz-protocol/commons-v2';
 
 export const parseVammCreated = (
   chainId: number,

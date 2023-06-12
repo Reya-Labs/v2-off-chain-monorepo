@@ -1,7 +1,9 @@
+import {
+  createProtocolV2Dataset,
+  createTable,
+  TableType,
+} from '@voltz-protocol/bigquery-v2';
 import { fetchLiquidityIndices } from '../../src/process/fetchLiquidityIndex';
-import { createTable } from '@voltz-protocol/commons-v2';
-import { TableType } from '@voltz-protocol/commons-v2';
-import { createProtocolV2Dataset } from '@voltz-protocol/commons-v2';
 
 jest.setTimeout(100_000);
 

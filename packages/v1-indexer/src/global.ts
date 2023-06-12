@@ -1,5 +1,4 @@
 import { BigQuery } from '@google-cloud/bigquery';
-import { Storage } from '@google-cloud/storage';
 import { Redis } from 'ioredis';
 
 import { PROJECT_ID } from './big-query-support/utils';
@@ -28,12 +27,4 @@ export const getRedisClient = (): Redis => {
 
   redisClient = new Redis(REDISPORT, REDISHOST);
   return redisClient;
-};
-
-export const authenticateImplicitWithAdc = async () => {
-  const storage = new Storage({
-    projectId: PROJECT_ID,
-  });
-
-  await storage.getBuckets();
 };

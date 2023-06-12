@@ -5,8 +5,8 @@ import {
   updateMarketEntry,
   pullMarketFeeConfiguredEvent,
   insertMarketFeeConfiguredEvent,
-  ZERO_ADDRESS,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
+import { ZERO_ADDRESS } from '@voltz-protocol/commons-v2';
 
 export const handleMarketFeeConfigured = async (
   event: MarketFeeConfiguredEvent,

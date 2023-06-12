@@ -1,13 +1,11 @@
-import { authenticateImplicitWithAdc } from '@voltz-protocol/commons-v2';
 import { createPoolsTable } from './big-query-support/pools-table/createPoolsTable';
-import { sleep } from './common/utils';
 import { syncPools } from './pools/syncPools';
 import { indexInactiveTimeInMS } from './global';
+import { sleep } from '@voltz-protocol/commons-v2';
 
 const chainIds = [1, 5, 42161, 421613, 43114, 43113];
 
 export const main = async () => {
-  await authenticateImplicitWithAdc();
   await createPoolsTable();
 
   while (true) {

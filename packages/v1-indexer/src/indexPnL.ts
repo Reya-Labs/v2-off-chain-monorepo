@@ -1,13 +1,11 @@
-import { authenticateImplicitWithAdc } from '@voltz-protocol/commons-v2';
 import { createPositionsTable } from './big-query-support/positions-table/createPositionsTable';
-import { sleep } from './common/utils';
 import { syncPnL } from './pnl/syncPnL';
 import { indexInactiveTimeInMS } from './global';
+import { sleep } from '@voltz-protocol/commons-v2';
 
 const chainIds = [1, 42161, 43114];
 
 export const main = async () => {
-  await authenticateImplicitWithAdc();
   await createPositionsTable();
 
   while (true) {

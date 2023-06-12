@@ -1,8 +1,5 @@
-import {
-  pullAllPoolsConfig,
-  getApyFromTo,
-  SECONDS_IN_HOUR,
-} from '@voltz-protocol/commons-v2';
+import { SECONDS_IN_HOUR } from '@voltz-protocol/commons-v2';
+import { pullAllPoolsConfig, getApyFromTo } from '@voltz-protocol/bigquery-v2';
 
 export const getPools = async () => {
   const pools = await pullAllPoolsConfig();

@@ -2,7 +2,7 @@ import { BigQueryInt } from '@google-cloud/bigquery';
 
 import { getBigQuery } from '../../../global';
 import { bqNumericToNumber, getTableFullID } from '../../utils';
-import { getTotalAmountInUSD } from '@voltz-protocol/commons-v2/src/utils/get-token-price/getTotalAmountInUSD';
+import { getTotalAmountInUSD } from '@voltz-protocol/commons-v2';
 
 /**
  Get trading volume over last 30 days on given chain

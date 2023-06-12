@@ -3,7 +3,7 @@ import { Event, BigNumber } from 'ethers';
 import {
   ProtocolEventType,
   VammPriceChangeEvent,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
 import { parseBaseEvent } from './utils/parseBaseEvent';
 
 export const parseVammPriceChange = (

@@ -1,7 +1,9 @@
+import {
+  createProtocolV2Dataset,
+  TableType,
+  createTable,
+} from '@voltz-protocol/bigquery-v2';
 import { sync } from '../../../../src/process/sync';
-import { createTable } from '@voltz-protocol/commons-v2';
-import { createProtocolV2Dataset } from '@voltz-protocol/commons-v2';
-import { TableType } from '@voltz-protocol/commons-v2';
 import { chainId, events } from './scenario';
 
 jest.setTimeout(100_000);

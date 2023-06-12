@@ -1,13 +1,11 @@
-import { authenticateImplicitWithAdc } from '@voltz-protocol/commons-v2';
 import { createMintsAndBurnsTable } from './big-query-support/mints-and-burns-table/createMintsAndBurnsTable';
-import { sleep } from './common/utils';
 import { syncMintsAndBurns } from './mints-and-burns/syncMintsAndBurns';
 import { indexInactiveTimeInMS } from './global';
+import { sleep } from '@voltz-protocol/commons-v2';
 
 const chainIds = [1, 42161, 43114];
 
 export const main = async () => {
-  await authenticateImplicitWithAdc();
   await createMintsAndBurnsTable();
 
   while (true) {

@@ -5,7 +5,7 @@ import {
   insertPositionEntry,
   insertLiquidityChangeEvent,
   pullLiquidityChangeEvent,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
 
 export const handleLiquidityChange = async (event: LiquidityChangeEvent) => {
   const existingEvent = await pullLiquidityChangeEvent(event.id);

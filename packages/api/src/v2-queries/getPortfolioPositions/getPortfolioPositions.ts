@@ -1,12 +1,15 @@
 import {
-  pullAccountCollateral,
   getTokenDetails,
-  pullAccountPositionEntries,
-  pullMarketEntry,
-  pullAccountsByAddress,
   tickToFixedRate,
   SupportedChainId,
 } from '@voltz-protocol/commons-v2';
+
+import {
+  pullAccountCollateral,
+  pullAccountPositionEntries,
+  pullMarketEntry,
+  pullAccountsByAddress,
+} from '@voltz-protocol/bigquery-v2';
 
 export type PortfolioPositionAMM = {
   id: string;

@@ -3507,6 +3507,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@voltz-protocol/bigquery-v2@workspace:packages/v2-bigquery":
+  version: 0.0.0-use.local
+  resolution: "@voltz-protocol/bigquery-v2@workspace:packages/v2-bigquery"
+  dependencies:
+    "@google-cloud/bigquery": 6.2.0
+    "@voltz-protocol/commons-v2": "workspace:^"
+    ethers: 5.5.4
+  languageName: unknown
+  linkType: soft
+
 "@voltz-protocol/commons-v2@workspace:^, @voltz-protocol/commons-v2@workspace:packages/commons":
   version: 0.0.0-use.local
   resolution: "@voltz-protocol/commons-v2@workspace:packages/commons"

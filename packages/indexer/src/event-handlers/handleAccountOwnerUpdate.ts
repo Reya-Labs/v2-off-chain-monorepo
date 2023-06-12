@@ -4,7 +4,7 @@ import {
   insertAccountOwnerUpdateEvent,
   pullAccountEntry,
   updateAccountEntry,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
 
 export const handleAccountOwnerUpdate = async (
   event: AccountOwnerUpdateEvent,

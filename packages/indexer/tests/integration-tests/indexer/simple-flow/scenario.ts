@@ -1,4 +1,4 @@
-import { BaseEvent, ZERO_ADDRESS } from '@voltz-protocol/commons-v2';
+import { BaseEvent } from '@voltz-protocol/bigquery-v2';
 import { BigNumber, Event } from 'ethers';
 import { parseAccountCreated } from '../../../../src/event-parsers/parseAccountCreated';
 import { parseVammCreated } from '../../../../src/event-parsers/parseVammCreated';
@@ -7,6 +7,7 @@ import { parseVammPriceChange } from '../../../../src/event-parsers/parseVammPri
 import { parseProductPositionUpdated } from '../../../../src/event-parsers/parseProductPositionUpdated';
 import { parseCollateralUpdate } from '../../../../src/event-parsers/parseCollateralUpdate';
 import { parseMarketConfigured } from '../../../../src/event-parsers/parseMarketConfigured';
+import { ZERO_ADDRESS } from '@voltz-protocol/commons-v2';
 
 export const chainId = 1;
 

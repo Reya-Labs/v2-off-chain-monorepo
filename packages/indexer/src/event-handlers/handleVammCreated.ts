@@ -3,7 +3,7 @@ import {
   pullVammCreatedEvent,
   insertVammCreatedEvent,
   insertVammPriceChangeEvent,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
 
 export const handleVammCreated = async (event: VammCreatedEvent) => {
   const existingEvent = await pullVammCreatedEvent(event.id);

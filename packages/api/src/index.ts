@@ -1,4 +1,3 @@
-import { authenticateImplicitWithAdc } from '@voltz-protocol/commons-v2';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -6,8 +5,6 @@ dotenv.config();
 import { app } from './app';
 
 const main = async () => {
-  await authenticateImplicitWithAdc();
-
   const PORT = process.env.PORT || 8080;
   console.log('PORT:', PORT);
   app.listen(PORT, () => {

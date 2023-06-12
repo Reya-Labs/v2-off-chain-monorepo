@@ -2,10 +2,10 @@ import { Event } from 'ethers';
 
 import { parseBaseEvent } from './utils/parseBaseEvent';
 import {
-  convertLowercaseString,
   ProductRegisteredEvent,
   ProtocolEventType,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
+import { convertLowercaseString } from '@voltz-protocol/commons-v2';
 
 export const parseProductRegistered = (
   chainId: number,

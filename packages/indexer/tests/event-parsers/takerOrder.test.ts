@@ -1,6 +1,9 @@
 import { parseTakerOrder } from '../../src/event-parsers/parseTakerOrder';
 import { compareEvents } from '../utils/compareEvents';
-import { ProtocolEventType, TakerOrderEvent } from '@voltz-protocol/commons-v2';
+import {
+  ProtocolEventType,
+  TakerOrderEvent,
+} from '@voltz-protocol/bigquery-v2';
 import { evmTestEvents } from '../utils/evmTestEvents';
 
 describe('taker order parser', () => {

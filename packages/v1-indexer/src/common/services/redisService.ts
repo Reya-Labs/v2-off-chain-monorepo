@@ -1,9 +1,9 @@
-import { getRedisClient } from '@voltz-protocol/commons-v2';
 import { getActiveSwapsMaxEventBlock } from '../../big-query-support/active-swaps-table/pull-data/getActiveSwapsMaxEventBlock';
 import { getMarginUpdatesMaxEventBlock } from '../../big-query-support/margin-updates-table/pull-data/getMarginUpdatesMaxEventBlock';
 import { getMintsAndBurnsMaxEventBlock } from '../../big-query-support/mints-and-burns-table/pull-data/getMintsAndBurnsMaxEventBlock';
 import { getPoolsMaxEventBlock } from '../../big-query-support/pools-table/pull-data/getPoolsMaxEventBlock';
 import { getPositionsMaxEventBlock } from '../../big-query-support/positions-table/pull-data/getPositionsMaxEventBlock';
+import { getRedisClient } from '../../global';
 import { getRedisID } from '../constants';
 import { getCurrentTick } from '../contract-services/getCurrentTick';
 
