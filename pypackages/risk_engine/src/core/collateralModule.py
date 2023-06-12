@@ -4,15 +4,15 @@ from risk_engine.src.core.accountManager import AccountManager
 class CollateralModule:
     def __init__(self):
 
-        self._account_collateral_balance_mapping = {}
+        self._account_collateral_balance_mapping: dict[str, float]= {}
 
-    def get_account_collateral_balance(self, account_id) -> int:
+    def get_account_collateral_balance(self, account_id: str) -> float:
         if account_id not in self._account_collateral_balance_mapping:
             return 0
 
         return self._account_collateral_balance_mapping[account_id]
 
-    def _update_account_collateral(self, account_id, amount: float):
+    def _update_account_collateral(self, account_id: str, amount: float):
         if account_id not in self._account_collateral_balance_mapping:
             self._account_collateral_balance_mapping[account_id] = 0
 
