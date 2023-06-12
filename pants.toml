@@ -13,8 +13,9 @@ backend_packages = [
 [source]
 root_patterns = [
     # The Python source root is the repo root. See https://www.pantsbuild.org/docs/source-roots.
-    "/"
+    "/pypackages/risk_engine"
 ]
+marker_filenames = ["setup.py"]
 
 [python]
 # Enable the "resolves" mechanism, which turns on lockfiles for user code. See

@@ -54,3 +54,12 @@ pants test helloworld/translator/translator_test.py -- -k test_unknown_phrase  #
 ```bash
 pants export ::
 ```
+
+### Source Roots 
+
+In order to list all the python source roots, we can run the following commands, more details about
+source root configuration in pants refer to https://www.pantsbuild.org/docs/source-roots
+
+```bash
+pants roots
+```
