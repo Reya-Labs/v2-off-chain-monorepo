@@ -11,11 +11,14 @@ slippage_parameters = {"aUSDC_IRS": {"phi": 2e-5, "beta": 1.02}}
 
 class Slippage:
     def __init__(self, market_factor: float, beta: float = 0.5) -> None:
-        self.market_factor = market_factor
-        self.beta = beta
+        self.market_factor: float = market_factor
+        self.beta: float = beta
 
     def model(self, order_size: float) -> float:
-        return self.market_factor * pow(order_size, self.beta)
+
+        slippage: float = self.market_factor * pow(order_size, self.beta)
+
+        return slippage
 
     def apply_correction(
         self, order_size: float, uncorrected_value: float = 1
