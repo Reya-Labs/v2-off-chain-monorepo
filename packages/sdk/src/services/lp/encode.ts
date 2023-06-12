@@ -31,7 +31,7 @@ export async function encodeLp(
   const ethAmount = encodeDeposit(
     accountId,
     trade.quoteTokenAddress,
-    trade.marginAmount,
+    trade.margin,
     multiAction,
   );
 
@@ -41,8 +41,8 @@ export async function encodeLp(
       accountId,
       trade.marketId,
       trade.maturityTimestamp,
-      trade.fixedRateLower,
-      trade.fixedRateUpper,
+      trade.fixedLow,
+      trade.fixedHigh,
       trade.liquidityAmount,
       multiAction,
     );

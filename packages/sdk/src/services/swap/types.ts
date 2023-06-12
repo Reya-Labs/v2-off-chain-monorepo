@@ -28,19 +28,19 @@ export type PoolInfo = PoolConfig & {
 export type SwapUserInputs = {
   owner: Signer;
   baseAmount: BigNumber;
-  marginAmount: BigNumber;
-  priceLimit?: BigNumber;
+  margin: BigNumber;
+  fixedRateLimit?: BigNumber;
 };
 
 /**
  * @dev Swap flow inputs, provided by client (e.g. UI)
  */
 export type SwapArgs = {
-  poolId: string;
+  ammId: string;
   signer: Signer;
-  notionalAmount: number;
-  marginAmount: number;
-  priceLimit?: number; // e.g. 0.0125 = 1.25%
+  notional: number;
+  margin: number;
+  fixedRateLimit?: number; // e.g. 0.0125 = 1.25%
 };
 
 export type InfoPostSwap = {

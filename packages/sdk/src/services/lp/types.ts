@@ -14,21 +14,21 @@ export type LpPeripheryParameters = Required<PoolConfig & LpUserInputs>;
 export type LpUserInputs = {
   owner: Signer;
   liquidityAmount: BigNumber;
-  marginAmount: BigNumber;
-  fixedRateUpper: number;
-  fixedRateLower: number;
+  margin: BigNumber;
+  fixedHigh: number;
+  fixedLow: number;
 };
 
 /**
  * @dev Swap flow inputs, provided by client (e.g. UI)
  */
 export type LpArgs = {
-  poolId: string;
+  ammId: string;
   signer: Signer;
-  notionalAmount: number;
-  marginAmount: number;
-  fixedRateUpper: number;
-  fixedRateLower: number;
+  notional: number;
+  margin: number;
+  fixedHigh: number;
+  fixedLow: number;
 };
 
 export type InfoPostLp = {

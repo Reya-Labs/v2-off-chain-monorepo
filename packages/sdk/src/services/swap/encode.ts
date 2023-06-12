@@ -31,7 +31,7 @@ export async function encodeSwap(
   const ethAmount = encodeDeposit(
     accountId,
     trade.quoteTokenAddress,
-    trade.marginAmount,
+    trade.fixedRateLimit,
     multiAction,
   );
 
@@ -42,7 +42,7 @@ export async function encodeSwap(
       trade.marketId,
       trade.maturityTimestamp,
       trade.baseAmount,
-      trade.priceLimit,
+      trade.fixedRateLimit,
       multiAction,
     );
   }

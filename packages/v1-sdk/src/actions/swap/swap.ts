@@ -1,15 +1,6 @@
 import { SwapArgs, SwapPeripheryParams } from '../types/actionArgTypes';
-import {
-  BigNumber,
-  ContractReceipt,
-  ContractTransaction,
-  providers,
-  utils,
-} from 'ethers';
-import { BigNumberish, ethers } from 'ethers';
-import { getClosestTickAndFixedRate } from '../../common/math/getClosestTickAndFixedRate';
-import { getSqrtPriceLimitFromFixedRateLimit } from '../../common/math/getSqrtPriceLimitFromFixedRate';
-import { getDefaultSqrtPriceLimit } from '../../common/math/getDefaultSqrtPriceLimits';
+import { BigNumber, ContractReceipt, ContractTransaction, utils } from 'ethers';
+import { ethers } from 'ethers';
 import { getPeripheryContract } from '../../common/contract-generators/getPeripheryContract';
 import { getSwapPeripheryParams } from './getSwapPeripheryParams';
 import { estimateSwapGasUnits } from './estimateSwapGasUnits';
@@ -18,14 +9,12 @@ import {
   DEFAULT_TICK_SPACING,
   PERIPHERY_ADDRESS_BY_CHAIN_ID,
 } from '../../common/constants';
-import { getReadableErrorMessage } from '../../common/errors/errorHandling';
 import { getSentryTracker } from '../../init';
 import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
 import { AMMInfo } from '../../common/api/amm/types';
 
 export const swap = async ({
   ammId,
-  isFT,
   notional,
   margin,
   fixedRateLimit,
@@ -50,7 +39,7 @@ export const swap = async ({
 
   const swapPeripheryParams: SwapPeripheryParams = getSwapPeripheryParams({
     margin,
-    isFT,
+    isFT: notional > 0,
     notional,
     marginEngineAddress: ammInfo.marginEngineAddress,
     underlyingTokenDecimals: ammInfo.underlyingTokenDecimals,

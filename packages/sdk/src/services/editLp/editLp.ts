@@ -11,60 +11,61 @@ import {
 import { getTokenDetails, scale, descale } from '@voltz-protocol/commons-v2';
 import { notionalToLiquidityBN } from '../../utils/helpers';
 import { defaultAbiCoder } from 'ethers/lib/utils';
-import { CompleteEditLpDetails, LpArgs, LpPeripheryParameters } from './types';
+import {
+  CompleteEditLpDetails,
+  EditLpArgs,
+  EditLpPeripheryParameters,
+} from './types';
 import { getEditLpPeripheryParams } from './getEditLpPeripheryParams';
 import { InfoPostLp } from '../lp';
 import { encodeLp } from '../lp/encode';
 
-async function createLpParams({
-  poolId,
+async function createEditLpParams({
   positionId,
   signer,
-  notionalAmount,
-  marginAmount,
-  fixedRateLower,
-  fixedRateUpper,
-}: LpArgs): Promise<CompleteEditLpDetails> {
-  const lpInfo = await getEditLpPeripheryParams(poolId, positionId);
+  notional,
+  margin,
+  fixedLow,
+  fixedHigh,
+}: EditLpArgs): Promise<CompleteEditLpDetails> {
+  const lpInfo = await getEditLpPeripheryParams(positionId);
 
   const tokenDecimals = getTokenDetails(lpInfo.quoteTokenAddress).tokenDecimals;
   const liquidityAmount = notionalToLiquidityBN(
-    scale(tokenDecimals)(notionalAmount),
+    scale(tokenDecimals)(notional),
     tokenDecimals,
-    fixedRateLower,
+    fixedLow,
   );
 
   const params: CompleteEditLpDetails = {
     ...lpInfo,
     owner: signer,
     liquidityAmount: liquidityAmount,
-    marginAmount: scale(tokenDecimals)(marginAmount),
-    fixedRateLower,
-    fixedRateUpper,
+    margin: scale(tokenDecimals)(margin),
+    fixedLow,
+    fixedHigh,
   };
 
   return params;
 }
 
 export async function lp({
-  poolId,
   positionId,
   signer,
-  notionalAmount,
-  marginAmount,
-  fixedRateLower,
-  fixedRateUpper,
-}: LpArgs): Promise<ContractReceipt> {
+  notional,
+  margin,
+  fixedLow,
+  fixedHigh,
+}: EditLpArgs): Promise<ContractReceipt> {
   // fetch: send request to api
 
-  const params = await createLpParams({
-    poolId,
+  const params = await createEditLpParams({
     positionId,
     signer,
-    notionalAmount,
-    marginAmount,
-    fixedRateLower,
-    fixedRateUpper,
+    notional,
+    margin,
+    fixedLow,
+    fixedHigh,
   });
 
   const { data, value, chainId } = await getLpTxData(params);
@@ -72,25 +73,23 @@ export async function lp({
   return result;
 }
 
-export async function getInfoPostLp({
-  poolId,
+export async function simulateEditLp({
   positionId,
   signer,
-  notionalAmount,
-  marginAmount,
-  fixedRateLower,
-  fixedRateUpper,
-}: LpArgs): Promise<InfoPostLp> {
+  notional,
+  margin,
+  fixedLow,
+  fixedHigh,
+}: EditLpArgs): Promise<InfoPostLp> {
   // fetch: send request to api
 
-  const params = await createLpParams({
-    poolId,
+  const params = await createEditLpParams({
     positionId,
     signer,
-    notionalAmount,
-    marginAmount,
-    fixedRateLower,
-    fixedRateUpper,
+    notional,
+    margin,
+    fixedLow,
+    fixedHigh,
   });
 
   const { data, value, chainId } = await getLpTxData(params);
@@ -130,22 +129,20 @@ export async function getInfoPostLp({
 }
 
 export async function estimateSwapGasUnits({
-  poolId,
   positionId,
   signer,
-  notionalAmount,
-  marginAmount,
-  fixedRateLower,
-  fixedRateUpper,
-}: LpArgs): Promise<BigNumber> {
-  const params = await createLpParams({
-    poolId,
+  notional,
+  margin,
+  fixedLow,
+  fixedHigh,
+}: EditLpArgs): Promise<BigNumber> {
+  const params = await createEditLpParams({
     positionId,
     signer,
-    notionalAmount,
-    marginAmount,
-    fixedRateLower,
-    fixedRateUpper,
+    notional,
+    margin,
+    fixedLow,
+    fixedHigh,
   });
 
   const { data, value, chainId } = await getLpTxData(params);
@@ -179,7 +176,7 @@ async function getLpTxData(params: CompleteEditLpDetails): Promise<{
   chainId: number;
 }> {
   const chainId = await params.owner.getChainId();
-  const swapPeripheryParams: LpPeripheryParameters = params;
+  const swapPeripheryParams: EditLpPeripheryParameters = params;
 
   const { calldata: data, value } = await encodeLp(
     swapPeripheryParams,
