@@ -1,15 +1,5 @@
 [flake8]
-max-line-length = 110
-extend-ignore = D401,D100,D101,D102,D107,E501,E203
-exclude =
-    .git
-    .venv
-    .tox
-    .mypy_cache
-    .pytest_cache
-    .vscode
-    .github
-    __pycache__
-    setup.py
-    build
-    dist
+extend-ignore:
+  E203,  # whitespace before ':' (conflicts with Black)
+  E231,  # Bad trailing comma (conflicts with Black)
+  E501,  # line too long (conflicts with Black)
