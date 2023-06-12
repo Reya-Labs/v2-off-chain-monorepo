@@ -99,6 +99,13 @@ export type LpArgs = {
   signer: Signer;
 };
 
+export type EditLpArgs = {
+  positionId: string;
+  notional: number;
+  margin: number;
+  signer: Signer;
+};
+
 export type LpPeripheryParams = {
   marginEngineAddress: string;
   tickLower: BigNumberish;
