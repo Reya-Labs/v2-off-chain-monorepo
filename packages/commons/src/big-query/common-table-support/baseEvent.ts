@@ -8,9 +8,11 @@ export enum ProtocolEventType {
   liquidation = 'liquidation', // core
   market_fee_configured = 'market_fee_configured', // core
   product_registered = 'product_registered', // core
+
   market_configured = 'market_configured', // product
-  rate_oracle_configured = 'rate_oracle_configured', // product
   product_position_updated = 'product_position_updated', // product
+  rate_oracle_configured = 'rate_oracle_configured', // product
+
   liquidity_change = 'liquidity_change', // exchange
   maker_order = 'maker_order', // exchange
   taker_order = 'taker_order', // exchange

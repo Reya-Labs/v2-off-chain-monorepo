@@ -7,6 +7,7 @@ import {
   ProtocolEventType,
 } from '@voltz-protocol/commons-v2';
 
+// todo: add sanity checks for arguments to all events
 export const parseAccountCreated = (
   chainId: number,
   event: Event,

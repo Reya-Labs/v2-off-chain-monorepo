@@ -1,6 +1,8 @@
 import { BaseEvent } from '../big-query/common-table-support/baseEvent';
 import { Address } from './convertLowercase';
 
+// todo: add tables for these events and move them to their particular folder
+
 // state-capturing event
 export type CollateralConfiguredEvent = BaseEvent & {
   depositingEnabled: boolean;

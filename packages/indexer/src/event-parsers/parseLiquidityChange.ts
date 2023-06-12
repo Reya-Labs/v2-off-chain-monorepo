@@ -25,7 +25,7 @@ export const parseLiquidityChange = (
   const { tokenDescaler } = getTokenDetails(quoteToken);
 
   const tickLower = event.args?.tickLower as number;
-  const tickUpper = event.args?.tickLower as number;
+  const tickUpper = event.args?.tickUpper as number;
 
   const liquidityDelta = tokenDescaler(event.args?.liquidityDelta as BigNumber);
 

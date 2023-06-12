@@ -6,9 +6,9 @@ import { createTopic, deleteTopic } from '../../src/services/pub-sub/topic';
 import { pullEvents } from '../../src/services/pub-sub/pullEvents';
 import { pushEvents } from '../../src/services/pub-sub/pushEvents';
 import { compareEvents } from '../utils/compareEvents';
-import { TakerOrderEvent } from '@voltz-protocol/commons-v2';
+import { ProtocolEventType, TakerOrderEvent } from '@voltz-protocol/commons-v2';
 import { parseTakerOrder } from '../../src/event-parsers/parseTakerOrder';
-import { takerOrderEvmEvent } from '../utils/evmEventMocks';
+import { evmTestEvents } from '../utils/evmTestEvents';
 
 const topicId = 'integration-test-topic';
 const subscriptionName = 'integration-test-subscription';
@@ -32,6 +32,9 @@ const cleanUp = async () => {
 
 const test = async () => {
   const chainId = 1;
+  const type = ProtocolEventType.taker_order;
+  const takerOrderEvmEvent = evmTestEvents[type];
+
   const takerOrderEvent = parseTakerOrder(chainId, takerOrderEvmEvent);
 
   // 1. Create test topic

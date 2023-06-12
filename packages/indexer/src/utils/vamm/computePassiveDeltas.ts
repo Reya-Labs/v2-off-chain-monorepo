@@ -22,37 +22,40 @@ export const computePassiveDeltas = ({
   tickMove,
   tickRange,
 }: Args): Response => {
-  if (tickMove.from === tickMove.to) {
+  console.log('args:', liquidity, tickMove, tickRange);
+
+  if (tickMove.from > tickMove.to) {
+    const result = computePassiveDeltas({
+      liquidity,
+      tickMove: {
+        from: tickMove.to,
+        to: tickMove.from,
+      },
+      tickRange,
+    });
+
     return {
-      baseDelta: 0,
-      quoteDelta: 0,
+      baseDelta: -result.baseDelta,
+      quoteDelta: -result.quoteDelta,
     };
   }
-
-  const isVT = tickMove.to > tickMove.from;
-
-  let tradedLower = Math.min(tickMove.from, tickMove.to);
-  let tradedUpper = Math.max(tickMove.from, tickMove.to);
 
   // no overlap, LP is not affected by this trade
-  if (tradedLower >= tickRange.upper || tradedUpper <= tickRange.lower) {
+  if (tickMove.from >= tickRange.upper || tickMove.to <= tickRange.lower) {
     return {
       baseDelta: 0,
       quoteDelta: 0,
     };
   }
-
-  tradedLower = Math.max(tradedLower, tickRange.lower);
-  tradedUpper = Math.min(tradedUpper, tickRange.upper);
 
   const { absBaseDelta, absQuoteDelta } = getDeltasFromLiquidity(
     liquidity,
-    tradedLower,
-    tradedUpper,
+    Math.max(tickMove.from, tickRange.lower),
+    Math.min(tickMove.to, tickRange.upper),
   );
 
   return {
-    baseDelta: isVT ? absBaseDelta : -absBaseDelta,
-    quoteDelta: isVT ? -absQuoteDelta : absQuoteDelta,
+    baseDelta: -absBaseDelta,
+    quoteDelta: absQuoteDelta,
   };
 };

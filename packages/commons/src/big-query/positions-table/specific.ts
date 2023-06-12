@@ -39,7 +39,7 @@ export const mapRow = (row: any): PositionEntry => ({
   baseBalance: bqNumericToNumber(row.baseBalance),
   quoteBalance: bqNumericToNumber(row.quoteBalance),
   notionalBalance: bqNumericToNumber(row.notionalBalance),
-  liquidityBalance: bqNumericToNumber(row.notionalBalance),
+  liquidityBalance: bqNumericToNumber(row.liquidityBalance),
   paidFees: bqNumericToNumber(row.paidFees),
 
   type: row.type,

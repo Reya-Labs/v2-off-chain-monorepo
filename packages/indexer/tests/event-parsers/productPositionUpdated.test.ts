@@ -1,30 +1,33 @@
 import { compareEvents } from '../utils/compareEvents';
-import { productPositionUpdatedEvmEvent } from '../utils/evmEventMocks';
 import {
   ProductPositionUpdatedEvent,
   ProtocolEventType,
+  ZERO_ADDRESS,
 } from '@voltz-protocol/commons-v2';
 import { parseProductPositionUpdated } from '../../src/event-parsers/parseProductPositionUpdated';
+import { evmTestEvents } from '../utils/evmTestEvents';
 
 describe('product position updated', () => {
   test('usual event', () => {
     const chainId = 1;
+    const type = ProtocolEventType.product_position_updated;
+    const evmEvent = evmTestEvents[type];
 
-    const expectedEvent: ProductPositionUpdatedEvent = {
-      id: '1$product_position_updated$Block-Hash$0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A$123',
-      type: ProtocolEventType.product_position_updated,
+    const event: ProductPositionUpdatedEvent = {
+      id: '1$product_position_updated$Block-Hash$0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A$100',
+      type,
 
-      chainId: 1,
+      chainId,
       source: '0xe9a6569995f3d8ec971f1d314e0e832c38a735cc',
 
       blockTimestamp: 1683092975,
-      blockNumber: 17178234,
+      blockNumber: 1,
       blockHash: 'Block-Hash',
 
-      transactionIndex: 21,
+      transactionIndex: 10,
       transactionHash:
         '0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A',
-      logIndex: 123,
+      logIndex: 100,
 
       accountId: '1000000000',
       marketId: '1111111111',
@@ -33,11 +36,7 @@ describe('product position updated', () => {
       quoteDelta: -500,
     };
 
-    const outputEvent = parseProductPositionUpdated(
-      chainId,
-      productPositionUpdatedEvmEvent,
-    );
-
-    expect(compareEvents(outputEvent, expectedEvent)).toBe(null);
+    const output = parseProductPositionUpdated(chainId, evmEvent);
+    expect(compareEvents(output, event)).toBe(null);
   });
 });
