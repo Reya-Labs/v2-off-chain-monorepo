@@ -1,7 +1,8 @@
-import { BigNumber, Contract, providers, Signer } from 'ethers';
+import { Contract } from 'ethers';
 import { LpPeripheryParams } from '../types';
 import { estimateLpGasUnits } from './estimateLpGasUnits';
 import { convertGasUnitsToNativeTokenUnits } from '../../common';
+import { getNativeGasToken } from '../../common/gas/getNativeGasToken';
 
 export type InfoPostLp = {
   marginRequirement: number;
@@ -52,4 +53,13 @@ export const getInfoPostLp = async ({
     peripheryContract.provider,
     lpGasUnits,
   );
+
+  return {
+    marginRequirement,
+    maxMarginWithdrawable,
+    gasFee: {
+      value: gasFeeNativeToken,
+      token: await getNativeGasToken(peripheryContract.provider),
+    },
+  };
 };
