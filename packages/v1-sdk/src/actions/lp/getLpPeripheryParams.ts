@@ -3,7 +3,6 @@ import { getClosestTickAndFixedRate } from '../../common/math/getClosestTickAndF
 import { scale } from '../../common/math/scale';
 
 export type GetLpPeripheryParamsArgs = {
-  addLiquidity: boolean;
   margin: number;
   notional: number;
   fixedLow: number;
@@ -14,7 +13,6 @@ export type GetLpPeripheryParamsArgs = {
 };
 
 export const getLpPeripheryParams = ({
-  addLiquidity,
   margin,
   notional,
   fixedLow,
@@ -24,7 +22,7 @@ export const getLpPeripheryParams = ({
   tickSpacing,
 }: GetLpPeripheryParamsArgs): LpPeripheryParams => {
   const lpPeripheryParams: LpPeripheryParams = {
-    isMint: addLiquidity,
+    isMint: notional > 0,
     marginEngineAddress: marginEngineAddress,
     notional: scale(notional, underlyingTokenDecimals),
     tickLower: getClosestTickAndFixedRate(fixedHigh, tickSpacing)

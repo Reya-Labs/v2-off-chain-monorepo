@@ -1,12 +1,12 @@
-export const decodePositionId = (
-  positionId: string,
-): {
+export type DecodedPosition = {
   chainId: number;
   vammAddress: string;
   ownerAddress: string;
   tickLower: number;
   tickUpper: number;
-} => {
+};
+
+export const decodePositionId = (positionId: string): DecodedPosition => {
   const parts = positionId.split('_');
 
   return {
