@@ -41,7 +41,6 @@ export const lp = async ({
   );
 
   const lpPeripheryParams: LpPeripheryParams = getLpPeripheryParams({
-    addLiquidity: notional > 0,
     margin,
     notional,
     fixedLow,

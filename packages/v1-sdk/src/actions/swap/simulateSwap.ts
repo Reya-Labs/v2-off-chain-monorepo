@@ -7,7 +7,7 @@ import { BigNumber, ethers, providers, utils } from 'ethers';
 import { getPeripheryContract } from '../../common/contract-generators';
 import { getSwapPeripheryParams } from './getSwapPeripheryParams';
 import getDummyWallet from '../../common/wallet/getDummyWallet';
-import { getInfoPostSwap } from './getInfoPostSwap';
+import { getInfoPostSwap, InfoPostSwap } from './getInfoPostSwap';
 import { AMMInfo } from '../../common/api/amm/types';
 import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
 
@@ -17,7 +17,7 @@ export const simulateSwap = async ({
   margin,
   fixedRateLimit,
   signer,
-}: SwapArgs) => {
+}: SwapArgs): Promise<InfoPostSwap> => {
   if (signer.provider === undefined) {
     throw new Error('Signer Provider Undefined');
   }
