@@ -1,4 +1,3 @@
-// todo: complete when deployed
 export const PERIPHERY_ADDRESS = (chainId: number): string => {
   switch (chainId) {
     case 1: // mainnet
@@ -15,3 +14,5 @@ export const PERIPHERY_ADDRESS = (chainId: number): string => {
       throw new Error(`Universal Router not deployed on chain ${chainId}`);
   }
 };
+
+export const MAX_POOL_CAP = 1000000;

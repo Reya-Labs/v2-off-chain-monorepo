@@ -8,3 +8,4 @@ export * from './services/editSwap';
 export * from './services/poolSwapInfo';
 export * from './services/poolLpInfo';
 export * from './services/token';
+export * from './utils/configuration';
