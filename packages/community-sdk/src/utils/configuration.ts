@@ -1,0 +1,3 @@
+const IPFS_LEAVES_CID = '';
+
+const ACCCESS_PASS_CONTRACT_ADDRESS = '';
