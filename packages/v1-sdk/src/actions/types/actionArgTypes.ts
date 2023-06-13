@@ -22,7 +22,6 @@ export type EditSwapArgs = {
 
 export type GetPoolSwapInfoArgs = {
   ammId: string;
-  isFixedTaker: boolean;
   provider: providers.Provider;
 };
 
@@ -56,7 +55,7 @@ export type RolloverAndSwapPeripheryParams = {
   newSwapPeripheryParams: SwapPeripheryParams;
 };
 
-// rolloverAndLp
+// rolloverWithLp
 
 export type RolloverAndLpArgs = {
   fixedLow: number;
@@ -93,6 +92,13 @@ export type LpArgs = {
   ammId: string;
   fixedLow: number;
   fixedHigh: number;
+  notional: number;
+  margin: number;
+  signer: Signer;
+};
+
+export type EditLpArgs = {
+  positionId: string;
   notional: number;
   margin: number;
   signer: Signer;

@@ -10,9 +10,9 @@ import {
 } from '../types/actionArgTypes';
 import { handleLpErrors } from '../lp/handleLpErrors';
 import { getPeripheryContract } from '../../common/contract-generators';
-import { getRolloverAndLpPeripheryParams } from './getRolloverAndLpPeripheryParams';
+import { getRolloverWithLpPeripheryParams } from './getRolloverWithLpPeripheryParams';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
-import { estimateRolloverAndLpGasUnits } from './estimateRolloverAndLpGasUnits';
+import { estimateRolloverWithLpGasUnits } from './estimateRolloverWithLpGasUnits';
 
 export const rolloverAndLp = async ({
   fixedLow,
@@ -61,7 +61,7 @@ export const rolloverAndLp = async ({
   }
 
   const rolloverAndLpPeripheryParams: RolloverAndLpPeripheryParams =
-    getRolloverAndLpPeripheryParams({
+    getRolloverWithLpPeripheryParams({
       addLiquidity: notional > 0,
       margin: marginDelta,
       notional,
@@ -77,7 +77,7 @@ export const rolloverAndLp = async ({
       maturedPositionTickUpper,
     });
 
-  const estimatedGasUnits: BigNumber = await estimateRolloverAndLpGasUnits(
+  const estimatedGasUnits: BigNumber = await estimateRolloverWithLpGasUnits(
     peripheryContract,
     rolloverAndLpPeripheryParams,
     rolloverAndLpPeripheryTempOverrides,

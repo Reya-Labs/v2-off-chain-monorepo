@@ -20,7 +20,7 @@ export type GetRolloverAndLpPeripheryParamsArgs = {
   maturedPositionTickUpper: number;
 };
 
-export const getRolloverAndLpPeripheryParams = ({
+export const getRolloverWithLpPeripheryParams = ({
   addLiquidity,
   margin,
   notional,
@@ -36,7 +36,6 @@ export const getRolloverAndLpPeripheryParams = ({
   maturedPositionTickUpper,
 }: GetRolloverAndLpPeripheryParamsArgs): RolloverAndLpPeripheryParams => {
   const newLpPeripheryParams: LpPeripheryParams = getLpPeripheryParams({
-    addLiquidity,
     margin,
     notional,
     fixedLow,

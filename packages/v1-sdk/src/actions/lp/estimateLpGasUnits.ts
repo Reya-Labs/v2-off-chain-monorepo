@@ -5,7 +5,7 @@ import { getReadableErrorMessage } from '../../common/errors/errorHandling';
 export const estimateLpGasUnits = async (
   peripheryContract: ethers.Contract,
   lpPeripheryParams: LpPeripheryParams,
-  lpPeripheryTempOverrides: { value?: BigNumber; gasLimit?: BigNumber },
+  lpPeripheryTempOverrides?: { value?: BigNumber; gasLimit?: BigNumber },
 ): Promise<BigNumber> => {
   const estimatedGas: BigNumber = await peripheryContract.estimateGas
     .mintOrBurn(

@@ -2,7 +2,7 @@ import { GetAllowanceArgs } from '../types/actionArgTypes';
 import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
 import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
 import { AMMInfo } from '../../common/api/amm/types';
-import { getERC20Allowance } from '../../common/token/getERC20Allowance';
+import { getERC20Allowance } from '../../common';
 
 export const getAllowanceToPeriphery = async ({
   ammId,
