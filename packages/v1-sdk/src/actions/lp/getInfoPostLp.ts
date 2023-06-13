@@ -31,15 +31,14 @@ export const getInfoPostLp = async ({
   lpPeripheryParams,
 }: GetInfoPostLpArgs): Promise<InfoPostLp> => {
   // todo: the periphery contract expected to have signer check
-  const marginRequirementPostLpResults: GetMarginRequirementPostLpResults = await getMarginRequirementPostLp(
-    {
+  const marginRequirementPostLpResults: GetMarginRequirementPostLpResults =
+    await getMarginRequirementPostLp({
       peripheryContract,
       marginEngineContract,
       lpPeripheryParams,
       underlyingTokenDecimals,
       walletAddress,
-    },
-  );
+    });
 
   // todo: test to number conversion does not overflow
   const lpGasUnits = (

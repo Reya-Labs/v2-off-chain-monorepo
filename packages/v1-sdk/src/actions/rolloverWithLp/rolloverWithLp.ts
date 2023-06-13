@@ -61,8 +61,8 @@ export const rolloverWithLp = async ({
     );
   }
 
-  const rolloverAndLpPeripheryParams: RolloverAndLpPeripheryParams = getRolloverWithLpPeripheryParams(
-    {
+  const rolloverAndLpPeripheryParams: RolloverAndLpPeripheryParams =
+    getRolloverWithLpPeripheryParams({
       addLiquidity,
       margin: marginDelta,
       notional,
@@ -76,8 +76,7 @@ export const rolloverWithLp = async ({
       maturedPositionSettlementBalance,
       maturedPositionTickLower,
       maturedPositionTickUpper,
-    },
-  );
+    });
 
   const estimatedGasUnits: BigNumber = await estimateRolloverWithLpGasUnits(
     peripheryContract,
@@ -85,9 +84,8 @@ export const rolloverWithLp = async ({
     rolloverAndLpPeripheryTempOverrides,
   );
 
-  rolloverAndLpPeripheryTempOverrides.gasLimit = getGasBuffer(
-    estimatedGasUnits,
-  );
+  rolloverAndLpPeripheryTempOverrides.gasLimit =
+    getGasBuffer(estimatedGasUnits);
 
   const rolloverAndLpTransaction: ContractTransaction = await peripheryContract
     .connect(signer)
