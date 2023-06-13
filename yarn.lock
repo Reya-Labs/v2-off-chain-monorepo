@@ -2876,7 +2876,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/big.js@npm:^6.1.3":
+"@types/big.js@npm:6.1.6":
   version: 6.1.6
   resolution: "@types/big.js@npm:6.1.6"
   checksum: 290936fc4e9ebd9883ead8e8278126f43783b3e57bf7736b12ce6d922c62515a83b8c62cd3ef557a043508109d403cb0bd89c7556b221c2c1057fd3a1d03e683
@@ -2918,7 +2918,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/crypto-js@npm:^4.1.1":
+"@types/crypto-js@npm:4.1.1":
   version: 4.1.1
   resolution: "@types/crypto-js@npm:4.1.1"
   checksum: ea3d6a67b69f88baeb6af96004395903d2367a41bd5cd86306da23a44dd96589749495da50974a9b01bb5163c500764c8a33706831eade036bddae016417e3ea
@@ -3022,7 +3022,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^29.2.4":
+"@types/jest@npm:29.5.2":
   version: 29.5.2
   resolution: "@types/jest@npm:29.5.2"
   dependencies:
@@ -3463,7 +3463,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@uniswap/v3-sdk@npm:^3.9.0":
+"@uniswap/v3-sdk@npm:3.9.0":
   version: 3.9.0
   resolution: "@uniswap/v3-sdk@npm:3.9.0"
   dependencies:
@@ -3561,16 +3561,16 @@ __metadata:
     "@sentry/browser": 7.25.0
     "@sentry/cli": 2.10.0
     "@sentry/tracing": 7.25.0
-    "@types/big.js": ^6.1.3
-    "@types/jest": ^29.2.4
+    "@types/big.js": 6.1.6
+    "@types/jest": 29.5.2
     big.js: ^6.1.1
-    decimal.js-light: ^2.5.1
+    decimal.js-light: 2.5.1
     ethers: 5.5.4
     evm-bn: ^1.1.1
     fraction.js: ^4.2.0
-    jsbi: ^4.2.0
-    keccak256: ^1.0.6
-    tiny-invariant: ^1.2.0
+    jsbi: 4.3.0
+    keccak256: 1.0.6
+    tiny-invariant: 1.3.1
     toformat: ^2.0.0
   languageName: unknown
   linkType: soft
@@ -3579,13 +3579,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@voltz-protocol/sdk-v2@workspace:packages/sdk"
   dependencies:
-    "@types/crypto-js": ^4.1.1
+    "@types/crypto-js": 4.1.1
     "@uniswap/sdk-core": 3.2.2
-    "@uniswap/v3-sdk": ^3.9.0
+    "@uniswap/v3-sdk": 3.9.0
     "@voltz-protocol/commons-v2": "workspace:^"
     "@voltz-protocol/sdk-v1-stateless": "workspace:^"
-    crypto-js: ^4.1.1
-    jsbi: ^3.1.4
+    crypto-js: 4.1.1
+    jsbi: 4.3.0
   languageName: unknown
   linkType: soft
 
@@ -5000,7 +5000,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"crypto-js@npm:^4.1.1":
+"crypto-js@npm:4.1.1":
   version: 4.1.1
   resolution: "crypto-js@npm:4.1.1"
   checksum: b3747c12ee3a7632fab3b3e171ea50f78b182545f0714f6d3e7e2858385f0f4101a15f2517e033802ce9d12ba50a391575ff4638c9de3dd9b2c4bc47768d5425
@@ -5125,7 +5125,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"decimal.js-light@npm:^2.5.0, decimal.js-light@npm:^2.5.1":
+"decimal.js-light@npm:2.5.1, decimal.js-light@npm:^2.5.0":
   version: 2.5.1
   resolution: "decimal.js-light@npm:2.5.1"
   checksum: f5a2c7eac1c4541c8ab8a5c8abea64fc1761cefc7794bd5f8afd57a8a78d1b51785e0c4e4f85f4895a043eaa90ddca1edc3981d1263eb6ddce60f32bf5fe66c9
@@ -8067,17 +8067,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jsbi@npm:4.3.0":
+  version: 4.3.0
+  resolution: "jsbi@npm:4.3.0"
+  checksum: 27c4f178eb7fd9d1756144066fdebc62f4a0176e877f55e646e8ce84075c13551bd575a316b9959ccdcca9d5dc05a81c9907cfa09f0cfeb43c9777797e36b0e9
+  languageName: node
+  linkType: hard
+
 "jsbi@npm:^3.1.4":
   version: 3.2.5
   resolution: "jsbi@npm:3.2.5"
   checksum: 642d1bb139ad1c1e96c4907eb159565e980a0d168487626b493d0d0b7b341da0e43001089d3b21703fe17b18a7a6c0f42c92026f71d54471ed0a0d1b3015ec0f
-  languageName: node
-  linkType: hard
-
-"jsbi@npm:^4.2.0":
-  version: 4.3.0
-  resolution: "jsbi@npm:4.3.0"
-  checksum: 27c4f178eb7fd9d1756144066fdebc62f4a0176e877f55e646e8ce84075c13551bd575a316b9959ccdcca9d5dc05a81c9907cfa09f0cfeb43c9777797e36b0e9
   languageName: node
   linkType: hard
 
@@ -8290,7 +8290,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"keccak256@npm:^1.0.6":
+"keccak256@npm:1.0.6":
   version: 1.0.6
   resolution: "keccak256@npm:1.0.6"
   dependencies:
@@ -11744,7 +11744,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tiny-invariant@npm:^1.1.0, tiny-invariant@npm:^1.2.0":
+"tiny-invariant@npm:1.3.1, tiny-invariant@npm:^1.1.0":
   version: 1.3.1
   resolution: "tiny-invariant@npm:1.3.1"
   checksum: 872dbd1ff20a21303a2fd20ce3a15602cfa7fcf9b228bd694a52e2938224313b5385a1078cb667ed7375d1612194feaca81c4ecbe93121ca1baebe344de4f84c
