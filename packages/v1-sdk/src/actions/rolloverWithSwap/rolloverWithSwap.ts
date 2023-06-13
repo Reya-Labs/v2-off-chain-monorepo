@@ -25,7 +25,6 @@ import { getSentryTracker } from '../../init';
 export const rolloverWithSwap = async ({
   maturedPositionId,
   ammId,
-  isFT,
   notional,
   margin,
   fixedRateLimit,
@@ -66,17 +65,18 @@ export const rolloverWithSwap = async ({
   }
   const tickSpacing: number = DEFAULT_TICK_SPACING;
 
-  const rolloverAndSwapPeripheryParams: RolloverAndSwapPeripheryParams =
-    getRolloverWithSwapPeripheryParams({
+  const rolloverAndSwapPeripheryParams: RolloverAndSwapPeripheryParams = getRolloverWithSwapPeripheryParams(
+    {
       margin: marginDelta,
-      isFT,
+      isFT: notional < 0,
       notional,
       marginEngineAddress: rolloverAmmInfo.marginEngineAddress,
       underlyingTokenDecimals: rolloverAmmInfo.underlyingTokenDecimals,
       fixedRateLimit,
       tickSpacing,
       maturedPosition: maturedPositionInfo,
-    });
+    },
+  );
 
   const estimatedGasUnits: BigNumber = await estimateRolloverWithSwapGasUnits(
     peripheryContract,
@@ -84,32 +84,31 @@ export const rolloverWithSwap = async ({
     rolloverWithSwapPeripheryTempOverrides,
   );
 
-  rolloverWithSwapPeripheryTempOverrides.gasLimit =
-    getGasBuffer(estimatedGasUnits);
+  rolloverWithSwapPeripheryTempOverrides.gasLimit = getGasBuffer(
+    estimatedGasUnits,
+  );
 
-  const rolloverWithSwapTransaction: ContractTransaction =
-    await peripheryContract
-      .rolloverWithSwap(
-        rolloverAndSwapPeripheryParams.maturedMarginEngineAddress,
-        rolloverAndSwapPeripheryParams.maturedPositionOwnerAddress,
-        rolloverAndSwapPeripheryParams.maturedPositionTickLower,
-        rolloverAndSwapPeripheryParams.maturedPositionTickUpper,
-        rolloverAndSwapPeripheryParams.newSwapPeripheryParams
-          .marginEngineAddress,
-        rolloverAndSwapPeripheryParams.newSwapPeripheryParams.isFT,
-        rolloverAndSwapPeripheryParams.newSwapPeripheryParams.notional,
-        rolloverAndSwapPeripheryParams.newSwapPeripheryParams.sqrtPriceLimitX96,
-        rolloverAndSwapPeripheryParams.newSwapPeripheryParams.tickLower,
-        rolloverAndSwapPeripheryParams.newSwapPeripheryParams.tickUpper,
-        rolloverAndSwapPeripheryParams.newSwapPeripheryParams.marginDelta,
-        rolloverWithSwapPeripheryTempOverrides,
-      )
-      .catch((error: any) => {
-        const sentryTracker = getSentryTracker();
-        sentryTracker.captureException(error);
-        sentryTracker.captureMessage('Transaction Confirmation Error');
-        throw new Error('Transaction Confirmation Error');
-      });
+  const rolloverWithSwapTransaction: ContractTransaction = await peripheryContract
+    .rolloverWithSwap(
+      rolloverAndSwapPeripheryParams.maturedMarginEngineAddress,
+      rolloverAndSwapPeripheryParams.maturedPositionOwnerAddress,
+      rolloverAndSwapPeripheryParams.maturedPositionTickLower,
+      rolloverAndSwapPeripheryParams.maturedPositionTickUpper,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.marginEngineAddress,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.isFT,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.notional,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.sqrtPriceLimitX96,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.tickLower,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.tickUpper,
+      rolloverAndSwapPeripheryParams.newSwapPeripheryParams.marginDelta,
+      rolloverWithSwapPeripheryTempOverrides,
+    )
+    .catch((error: any) => {
+      const sentryTracker = getSentryTracker();
+      sentryTracker.captureException(error);
+      sentryTracker.captureMessage('Transaction Confirmation Error');
+      throw new Error('Transaction Confirmation Error');
+    });
 
   try {
     const receipt = await rolloverWithSwapTransaction.wait();
