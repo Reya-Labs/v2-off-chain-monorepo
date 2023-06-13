@@ -40,7 +40,6 @@ export type SwapPeripheryParams = {
 export type RolloverAndSwapArgs = {
   maturedPositionId: string;
   ammId: string;
-  isFT: boolean;
   notional: number;
   margin: number;
   fixedRateLimit?: number;
