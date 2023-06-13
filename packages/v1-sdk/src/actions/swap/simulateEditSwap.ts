@@ -36,7 +36,7 @@ export const simulateEditSwap = async ({
 
   const swapPeripheryParams: SwapPeripheryParams = getSwapPeripheryParams({
     margin,
-    isFT: notional > 0,
+    isFT: notional < 0,
     notional,
     marginEngineAddress: positionInfo.ammMarginEngineAddress,
     underlyingTokenDecimals: positionInfo.ammUnderlyingTokenDecimals,
