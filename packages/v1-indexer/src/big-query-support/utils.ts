@@ -4,6 +4,7 @@ import {
   BigQueryTimestamp,
 } from '@google-cloud/bigquery';
 import { getEnvironment } from '@voltz-protocol/commons-v2';
+import { PROJECT_ID, getBigQuery } from '../global';
 
 export enum TableType {
   active_swaps,
@@ -13,12 +14,24 @@ export enum TableType {
   margin_updates,
 }
 
-// BigQuery project and dataset IDs
-export const PROJECT_ID = 'voltz-v2-infra';
-
 export const getProtocolV1DatasetName = (): string => {
   const tag = getEnvironment();
   return `${tag}_indexer_v1`;
+};
+
+export const createProtocolV1Dataset = async () => {
+  const bigQuery = getBigQuery();
+  const datasetName = getProtocolV1DatasetName();
+
+  const [datasets] = await bigQuery.getDatasets();
+  const dataset = datasets.find((d) => d.id === datasetName);
+
+  if (dataset) {
+    console.log(`Dataset ${datasetName} already exists.`);
+    return;
+  }
+
+  await bigQuery.createDataset(datasetName);
 };
 
 // Scale and precision of number in Big Query

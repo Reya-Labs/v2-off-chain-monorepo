@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.38.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.37.0...@voltz-protocol/api-v2@1.38.0) (2023-06-13)
+
+### Features
+
+- added separate dataset for v1 ([#61](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/61)) ([ede790f](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/ede790f2bca56148ee8764554b0d30a2ddf275a4))
+
 # [1.37.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.36.2...@voltz-protocol/api-v2@1.37.0) (2023-06-12)
 
 ### Features
