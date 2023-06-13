@@ -2,10 +2,12 @@ import { createPoolsTable } from './big-query-support/pools-table/createPoolsTab
 import { syncPools } from './pools/syncPools';
 import { indexInactiveTimeInMS } from './global';
 import { sleep } from '@voltz-protocol/commons-v2';
+import { createProtocolV1Dataset } from './big-query-support/utils';
 
 const chainIds = [1, 5, 42161, 421613, 43114, 43113];
 
 export const main = async () => {
+  await createProtocolV1Dataset();
   await createPoolsTable();
 
   while (true) {

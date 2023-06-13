@@ -1,8 +1,10 @@
 import { BigQuery } from '@google-cloud/bigquery';
 import { Redis } from 'ioredis';
 
-import { PROJECT_ID } from './big-query-support/utils';
 import { getRedisHost, getRedisPort } from '@voltz-protocol/commons-v2';
+
+// BigQuery project and dataset IDs
+export const PROJECT_ID = 'voltz-v2-infra';
 
 let bigQuery: BigQuery | null = null;
 let redisClient: Redis | null = null;

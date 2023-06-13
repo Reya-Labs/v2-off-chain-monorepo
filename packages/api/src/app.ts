@@ -3,7 +3,6 @@ import express from 'express';
 import rateLimit from 'express-rate-limit';
 import RedisStore from 'rate-limit-redis';
 import { getRedisClient, getTrustedProxies } from '@voltz-protocol/commons-v2';
-import { getPools } from './v2-queries/getPools/getPools';
 import { getPortfolioPositions } from './v2-queries/getPortfolioPositions/getPortfolioPositions';
 import { getAmm } from './v1-queries/common/getAMM';
 import { getPortfolioPositionDetails } from './v1-queries/get-position-details/getPortfolioPositionDetails';
@@ -19,6 +18,7 @@ import {
   getVoyages,
   getWalletVoyages,
 } from '@voltz-protocol/indexer-v1';
+import { getPools } from './v2-queries/getPools/getPools';
 
 export const app = express();
 
@@ -58,7 +58,9 @@ app.get('/ip', (req, res) => {
  * (e.g. 1.5 means 1.5%). This is not the instant APY. This can be null
  * if there aren't yet two recorder points in the Oracle
  */
-app.get('/pools', (req, res) => {
+app.get('/v1v2-pools/:chainIds', (req, res) => {
+  const chainIds = req.params.chainIds.split('&').map((s) => Number(s));
+
   getPools().then(
     (output) => {
       res.json(output);

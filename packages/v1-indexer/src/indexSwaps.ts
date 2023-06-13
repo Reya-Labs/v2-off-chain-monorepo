@@ -2,10 +2,12 @@ import { sleep } from '@voltz-protocol/commons-v2';
 import { createActiveSwapsTable } from './big-query-support/active-swaps-table/createActiveSwapsTable';
 import { syncSwaps } from './swaps/syncSwaps';
 import { indexInactiveTimeInMS } from './global';
+import { createProtocolV1Dataset } from './big-query-support/utils';
 
 const chainIds = [1, 42161, 43114];
 
 export const main = async () => {
+  await createProtocolV1Dataset();
   await createActiveSwapsTable();
 
   while (true) {
