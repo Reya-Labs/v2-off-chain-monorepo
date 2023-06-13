@@ -58,24 +58,13 @@ export type RolloverAndSwapPeripheryParams = {
 // rolloverWithLp
 
 export type RolloverAndLpArgs = {
+  maturedPositionId: string;
+  ammId: string;
   fixedLow: number;
   fixedHigh: number;
   notional: number;
   margin: number;
-  underlyingTokenAddress: string;
-  underlyingTokenDecimals: number;
-  tickSpacing: number;
-  chainId: number;
-  peripheryAddress: string;
-  marginEngineAddress: string;
-  provider: providers.Provider;
   signer: Signer;
-  isEth: boolean;
-  maturedMarginEngineAddress: string;
-  maturedPositionOwnerAddress: string;
-  maturedPositionSettlementBalance: number;
-  maturedPositionTickLower: number;
-  maturedPositionTickUpper: number;
 };
 
 export type RolloverAndLpPeripheryParams = {
