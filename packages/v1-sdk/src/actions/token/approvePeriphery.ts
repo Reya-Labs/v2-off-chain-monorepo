@@ -1,5 +1,5 @@
 import { ApprovePeripheryArgs } from '../types/actionArgTypes';
-import { getERC20TokenContract } from '../../common/contract-generators';
+import { getERC20TokenContract } from '../../common';
 import {
   MaxUint256Bn,
   PERIPHERY_ADDRESS_BY_CHAIN_ID,

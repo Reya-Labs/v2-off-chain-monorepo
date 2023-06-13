@@ -14,12 +14,7 @@ import { getRolloverWithLpPeripheryParams } from './getRolloverWithLpPeripheryPa
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
 import { estimateRolloverWithLpGasUnits } from './estimateRolloverWithLpGasUnits';
 
-<<<<<<< HEAD:packages/v1-sdk/src/actions/rolloverWithLp/rolloverWithLp.ts
-export const rolloverWithLp = async ({
-  addLiquidity,
-=======
 export const rolloverAndLp = async ({
->>>>>>> 041108f8534a1be201e5cc1c7269c62f942f151d:packages/v1-sdk/src/actions/rolloverAndLp/rolloverAndLp.ts
   fixedLow,
   fixedHigh,
   notional,
@@ -66,13 +61,8 @@ export const rolloverAndLp = async ({
   }
 
   const rolloverAndLpPeripheryParams: RolloverAndLpPeripheryParams =
-<<<<<<< HEAD:packages/v1-sdk/src/actions/rolloverWithLp/rolloverWithLp.ts
     getRolloverWithLpPeripheryParams({
-      addLiquidity,
-=======
-    getRolloverAndLpPeripheryParams({
       addLiquidity: notional > 0,
->>>>>>> 041108f8534a1be201e5cc1c7269c62f942f151d:packages/v1-sdk/src/actions/rolloverAndLp/rolloverAndLp.ts
       margin: marginDelta,
       notional,
       fixedLow,

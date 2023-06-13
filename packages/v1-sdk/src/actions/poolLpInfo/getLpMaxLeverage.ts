@@ -28,7 +28,6 @@ export const getLpMaxLeverage = async ({
   const tickSpacing = DEFAULT_TICK_SPACING;
 
   const lpPeripheryParams: LpPeripheryParams = getLpPeripheryParams({
-    addLiquidity: true,
     margin: 0,
     notional: 1,
     fixedLow,
