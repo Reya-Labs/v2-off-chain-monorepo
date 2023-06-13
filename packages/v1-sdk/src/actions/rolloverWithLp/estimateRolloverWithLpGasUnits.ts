@@ -1,5 +1,6 @@
 import { BigNumber, ethers } from 'ethers';
 import { RolloverAndLpPeripheryParams } from '../types/actionArgTypes';
+import { getReadableErrorMessage } from '../../common/errors/errorHandling';
 
 export const estimateRolloverWithLpGasUnits = async (
   peripheryContract: ethers.Contract,
@@ -10,12 +11,22 @@ export const estimateRolloverWithLpGasUnits = async (
   },
 ): Promise<BigNumber> => {
   const estimatedGas: BigNumber = await peripheryContract.estimateGas
-    .rolloverWithLp(
-      rolloverAndLpPeripheryParams,
+    .rolloverWithMint(
+      rolloverAndLpPeripheryParams.maturedMarginEngineAddress,
+      rolloverAndLpPeripheryParams.maturedPositionOwnerAddress,
+      rolloverAndLpPeripheryParams.maturedPositionTickLower,
+      rolloverAndLpPeripheryParams.maturedPositionTickUpper,
+      rolloverAndLpPeripheryParams.newLpPeripheryParams.marginEngineAddress,
+      rolloverAndLpPeripheryParams.newLpPeripheryParams.tickLower,
+      rolloverAndLpPeripheryParams.newLpPeripheryParams.tickUpper,
+      rolloverAndLpPeripheryParams.newLpPeripheryParams.notional,
+      rolloverAndLpPeripheryParams.newLpPeripheryParams.isMint,
+      rolloverAndLpPeripheryParams.newLpPeripheryParams.marginDelta,
       rolloverAndLpPeripheryTempOverrides,
     )
-    .catch((error) => {
-      throw new Error('Error estimating rollover and lp gas units.');
+    .catch((error: any) => {
+      const errorMessage = getReadableErrorMessage(error);
+      throw new Error(errorMessage);
     });
 
   return estimatedGas;

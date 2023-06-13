@@ -33,7 +33,7 @@ export const estimateRolloverWithSwapGasUnits = async (
       rolloverAndSwapPeripheryParams.newSwapPeripheryParams.marginDelta,
       rolloverAndSwapPeripheryTempOverrides,
     )
-    .catch((error) => {
+    .catch((error: any) => {
       const errorMessage = getReadableErrorMessage(error);
       throw new Error(errorMessage);
     });
