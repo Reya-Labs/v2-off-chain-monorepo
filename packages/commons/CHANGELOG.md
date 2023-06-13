@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.3.0...@voltz-protocol/commons-v2@1.4.0) (2023-06-13)
+
+### Features
+
+- enriched pool info ([#64](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/64)) ([483c9b0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/483c9b0319fa006e514068d8e31b15c6ace84d5c))
+
 # [1.3.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.2.2...@voltz-protocol/commons-v2@1.3.0) (2023-06-12)
 
 ### Bug Fixes
