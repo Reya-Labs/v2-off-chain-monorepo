@@ -61,7 +61,7 @@ app.get('/ip', (req, res) => {
 app.get('/v1v2-pools/:chainIds', (req, res) => {
   const chainIds = req.params.chainIds.split('&').map((s) => Number(s));
 
-  getPools().then(
+  getPools(chainIds).then(
     (output) => {
       res.json(output);
     },

@@ -1,7 +1,4 @@
 import { Event, Contract } from 'ethers';
-import { getCoreContract } from '../contract-generators/core';
-import { getDatedIrsInstrumentContract } from '../contract-generators/dated-irs-instrument';
-import { getDatedIrsVammContract } from '../contract-generators/dated-irs-vamm';
 import { parseCollateralUpdate } from '../event-parsers/parseCollateralUpdate';
 import { parseMarketFeeConfigured } from '../event-parsers/parseMarketFeeConfigured';
 import { parseMarketConfigured } from '../event-parsers/parseMarketConfigured';
@@ -18,6 +15,11 @@ import { parseProductRegistered } from '../event-parsers/parseProductRegistered'
 import { parseLiquidityChange } from '../event-parsers/parseLiquidityChange';
 import { parseMakerOrder } from '../event-parsers/parseMakerOrder';
 import { parseTakerOrder } from '../event-parsers/parseTakerOrder';
+import {
+  getCoreContract,
+  getDatedIrsInstrumentContract,
+  getDatedIrsVammContract,
+} from '@voltz-protocol/commons-v2';
 
 export const fetchEvents = async (
   chainId: number,
