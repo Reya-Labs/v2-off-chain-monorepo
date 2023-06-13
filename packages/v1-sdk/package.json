@@ -30,20 +30,20 @@
   "packageManager": "yarn@3.5.1",
   "devDependencies": {
     "@sentry/cli": "2.10.0",
-    "@types/big.js": "^6.1.3",
-    "@types/jest": "^29.2.4"
+    "@types/big.js": "6.1.6",
+    "@types/jest": "29.5.2"
   },
   "dependencies": {
     "@sentry/browser": "7.25.0",
     "@sentry/tracing": "7.25.0",
     "big.js": "^6.1.1",
-    "decimal.js-light": "^2.5.1",
+    "decimal.js-light": "2.5.1",
     "ethers": "5.5.4",
     "evm-bn": "^1.1.1",
     "fraction.js": "^4.2.0",
-    "jsbi": "^4.2.0",
-    "keccak256": "^1.0.6",
-    "tiny-invariant": "^1.2.0",
+    "jsbi": "4.3.0",
+    "keccak256": "1.0.6",
+    "tiny-invariant": "1.3.1",
     "toformat": "^2.0.0"
   }
 }
