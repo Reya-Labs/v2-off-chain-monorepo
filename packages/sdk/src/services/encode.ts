@@ -1,4 +1,4 @@
-import { abi } from '../../abis/ExecutionModule.json';
+import { abi } from '../abis/ExecutionModule.json';
 import { TickMath } from '@uniswap/v3-sdk';
 import { BigNumber, ethers } from 'ethers';
 import { closestTickAndFixedRate } from '../utils/math/tickHelpers';
