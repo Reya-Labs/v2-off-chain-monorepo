@@ -3,37 +3,26 @@ import {
   RolloverAndLpPeripheryParams,
 } from '../types/actionArgTypes';
 import { getLpPeripheryParams } from '../lp/getLpPeripheryParams';
+import { PositionInfo } from '../../common/api/position/types';
 
 export type GetRolloverAndLpPeripheryParamsArgs = {
-  addLiquidity: boolean;
   margin: number;
   notional: number;
   fixedLow: number;
   fixedHigh: number;
   marginEngineAddress: string;
-  underlyingTokenDecimals: number;
   tickSpacing: number;
-  maturedMarginEngineAddress: string;
-  maturedPositionOwnerAddress: string;
-  maturedPositionSettlementBalance: number;
-  maturedPositionTickLower: number;
-  maturedPositionTickUpper: number;
+  maturedPositionInfo: PositionInfo;
 };
 
 export const getRolloverWithLpPeripheryParams = ({
-  addLiquidity,
   margin,
   notional,
   fixedLow,
   fixedHigh,
   marginEngineAddress,
-  underlyingTokenDecimals,
   tickSpacing,
-  maturedMarginEngineAddress,
-  maturedPositionOwnerAddress,
-  maturedPositionSettlementBalance,
-  maturedPositionTickLower,
-  maturedPositionTickUpper,
+  maturedPositionInfo,
 }: GetRolloverAndLpPeripheryParamsArgs): RolloverAndLpPeripheryParams => {
   const newLpPeripheryParams: LpPeripheryParams = getLpPeripheryParams({
     margin,
@@ -41,15 +30,15 @@ export const getRolloverWithLpPeripheryParams = ({
     fixedLow,
     fixedHigh,
     marginEngineAddress,
-    underlyingTokenDecimals,
+    underlyingTokenDecimals: maturedPositionInfo.ammUnderlyingTokenDecimals,
     tickSpacing,
   });
 
   const rolloverAndLpPeripheryParams: RolloverAndLpPeripheryParams = {
-    maturedMarginEngineAddress: marginEngineAddress,
-    maturedPositionOwnerAddress: marginEngineAddress,
-    maturedPositionTickLower: maturedPositionTickLower,
-    maturedPositionTickUpper: maturedPositionTickUpper,
+    maturedMarginEngineAddress: maturedPositionInfo.ammMarginEngineAddress,
+    maturedPositionOwnerAddress: maturedPositionInfo.positionOwnerAddress,
+    maturedPositionTickLower: maturedPositionInfo.positionTickLower,
+    maturedPositionTickUpper: maturedPositionInfo.positionTickUpper,
     newLpPeripheryParams: newLpPeripheryParams,
   };
 

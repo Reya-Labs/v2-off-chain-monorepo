@@ -79,19 +79,13 @@ export const rolloverAndLp = async ({
 
   const rolloverAndLpPeripheryParams: RolloverAndLpPeripheryParams = getRolloverWithLpPeripheryParams(
     {
-      addLiquidity: notional > 0,
       margin: marginDelta,
       notional,
       fixedLow,
       fixedHigh,
       marginEngineAddress: ammInfo.marginEngineAddress,
-      underlyingTokenDecimals: ammInfo.underlyingTokenDecimals,
       tickSpacing,
-      maturedMarginEngineAddress: maturedPositionInfo.ammMarginEngineAddress,
-      maturedPositionOwnerAddress: maturedPositionInfo.positionOwnerAddress,
-      maturedPositionSettlementBalance,
-      maturedPositionTickLower: maturedPositionInfo.positionTickLower,
-      maturedPositionTickUpper: maturedPositionInfo.positionTickUpper,
+      maturedPositionInfo,
     },
   );
 
