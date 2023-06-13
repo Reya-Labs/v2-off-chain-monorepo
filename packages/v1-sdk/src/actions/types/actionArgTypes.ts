@@ -22,7 +22,6 @@ export type EditSwapArgs = {
 
 export type GetPoolSwapInfoArgs = {
   ammId: string;
-  isFixedTaker: boolean;
   provider: providers.Provider;
 };
 
