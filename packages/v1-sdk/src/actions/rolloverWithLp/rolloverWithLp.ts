@@ -25,6 +25,7 @@ import { AMMInfo } from '../../common/api/amm/types';
 import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
 import { getPositionInfo } from '../../common/api/position/getPositionInfo';
 import { PositionInfo } from '../../common/api/position/types';
+import { getSentryTracker } from '../../init';
 
 export const rolloverAndLp = async ({
   maturedPositionId,
@@ -100,16 +101,33 @@ export const rolloverAndLp = async ({
   );
 
   const rolloverAndLpTransaction: ContractTransaction = await peripheryContract
-    .connect(signer)
     .rolloverAndLp(
-      rolloverAndLpPeripheryParams,
+      rolloverAndLpPeripheryParams.maturedMarginEngineAddress,
+      rolloverAndLpPeripheryParams.maturedPositionOwnerAddress,
+      rolloverAndLpPeripheryParams.maturedPositionTickLower,
+      rolloverAndLpPeripheryParams.maturedPositionTickUpper,
+      rolloverAndLpPeripheryParams.newLpPeripheryParams.marginEngineAddress,
+      rolloverAndLpPeripheryParams.newLpPeripheryParams.tickLower,
+      rolloverAndLpPeripheryParams.newLpPeripheryParams.tickUpper,
+      rolloverAndLpPeripheryParams.newLpPeripheryParams.notional,
+      rolloverAndLpPeripheryParams.newLpPeripheryParams.isMint,
+      rolloverAndLpPeripheryParams.newLpPeripheryParams.marginDelta,
       rolloverAndLpPeripheryTempOverrides,
     )
-    .catch(() => {
-      throw new Error('RolloverAndLp Transaction Confirmation Error');
+    .catch((error: any) => {
+      const sentryTracker = getSentryTracker();
+      sentryTracker.captureException(error);
+      sentryTracker.captureMessage('Transaction Confirmation Error');
+      throw new Error('Transaction Confirmation Error');
     });
 
-  const receipt: ContractReceipt = await rolloverAndLpTransaction.wait();
-
-  return receipt;
+  try {
+    const receipt = await rolloverAndLpTransaction.wait();
+    return receipt;
+  } catch (error) {
+    const sentryTracker = getSentryTracker();
+    sentryTracker.captureException(error);
+    sentryTracker.captureMessage('Transaction Confirmation Error');
+    throw new Error('Transaction Confirmation Error');
+  }
 };
