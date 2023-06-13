@@ -42,9 +42,8 @@ export const rolloverAndLp = async ({
     fixedHigh,
   });
 
-  const decodedMaturedPosition: DecodedPosition = decodePositionId(
-    maturedPositionId,
-  );
+  const decodedMaturedPosition: DecodedPosition =
+    decodePositionId(maturedPositionId);
 
   const chainId = decodedMaturedPosition.chainId;
   const ammInfo: AMMInfo = await getAmmInfo(ammId, chainId);
@@ -78,8 +77,8 @@ export const rolloverAndLp = async ({
 
   const tickSpacing: number = DEFAULT_TICK_SPACING;
 
-  const rolloverAndLpPeripheryParams: RolloverAndLpPeripheryParams = getRolloverWithLpPeripheryParams(
-    {
+  const rolloverAndLpPeripheryParams: RolloverAndLpPeripheryParams =
+    getRolloverWithLpPeripheryParams({
       margin: marginDelta,
       notional,
       fixedLow,
@@ -87,8 +86,7 @@ export const rolloverAndLp = async ({
       marginEngineAddress: ammInfo.marginEngineAddress,
       tickSpacing,
       maturedPositionInfo,
-    },
-  );
+    });
 
   const estimatedGasUnits: BigNumber = await estimateRolloverWithLpGasUnits(
     peripheryContract,
@@ -96,9 +94,8 @@ export const rolloverAndLp = async ({
     rolloverAndLpPeripheryTempOverrides,
   );
 
-  rolloverAndLpPeripheryTempOverrides.gasLimit = getGasBuffer(
-    estimatedGasUnits,
-  );
+  rolloverAndLpPeripheryTempOverrides.gasLimit =
+    getGasBuffer(estimatedGasUnits);
 
   const rolloverAndLpTransaction: ContractTransaction = await peripheryContract
     .rolloverAndLp(
