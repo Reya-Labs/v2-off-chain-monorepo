@@ -13,26 +13,27 @@ import { getPeripheryContract } from '../../common/contract-generators';
 import { getRolloverWithLpPeripheryParams } from './getRolloverWithLpPeripheryParams';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
 import { estimateRolloverWithLpGasUnits } from './estimateRolloverWithLpGasUnits';
+import {
+  decodePositionId,
+  DecodedPosition,
+} from '../../common/api/position/decodePositionId';
+import {
+  DEFAULT_TICK_SPACING,
+  PERIPHERY_ADDRESS_BY_CHAIN_ID,
+} from '../../common/constants';
+import { AMMInfo } from '../../common/api/amm/types';
+import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
+import { getPositionInfo } from '../../common/api/position/getPositionInfo';
+import { PositionInfo } from '../../common/api/position/types';
 
 export const rolloverAndLp = async ({
+  maturedPositionId,
+  ammId,
   fixedLow,
   fixedHigh,
   notional,
   margin,
-  underlyingTokenAddress,
-  underlyingTokenDecimals,
-  tickSpacing,
-  chainId,
-  peripheryAddress,
-  marginEngineAddress,
-  provider,
   signer,
-  isEth,
-  maturedMarginEngineAddress,
-  maturedPositionOwnerAddress,
-  maturedPositionSettlementBalance,
-  maturedPositionTickLower,
-  maturedPositionTickUpper,
 }: RolloverAndLpArgs): Promise<ContractReceipt> => {
   handleLpErrors({
     notional,
@@ -40,42 +41,59 @@ export const rolloverAndLp = async ({
     fixedHigh,
   });
 
-  const peripheryContract: ethers.Contract = getPeripheryContract(
-    peripheryAddress,
-    provider,
+  const decodedMaturedPosition: DecodedPosition = decodePositionId(
+    maturedPositionId,
   );
 
-  peripheryContract.connect(signer);
+  const chainId = decodedMaturedPosition.chainId;
+  const ammInfo: AMMInfo = await getAmmInfo(ammId, chainId);
+  const maturedPositionInfo: PositionInfo = await getPositionInfo(
+    maturedPositionId,
+  );
+
+  const peripheryAddress = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
+
+  const peripheryContract: ethers.Contract = getPeripheryContract(
+    peripheryAddress,
+    signer,
+  );
 
   const rolloverAndLpPeripheryTempOverrides: {
     value?: BigNumber;
     gasLimit?: BigNumber;
   } = {};
 
+  // todo: make sure below logic is correct
+  const maturedPositionSettlementBalance: number =
+    maturedPositionInfo.margin + maturedPositionInfo.realizedPNLTotal;
+
   let marginDelta = margin;
-  if (isEth && maturedPositionSettlementBalance < margin) {
+  if (ammInfo.isEth && maturedPositionSettlementBalance < margin) {
     marginDelta = maturedPositionSettlementBalance;
     rolloverAndLpPeripheryTempOverrides.value = BigNumber.from(
       margin - maturedPositionSettlementBalance,
     );
   }
 
-  const rolloverAndLpPeripheryParams: RolloverAndLpPeripheryParams =
-    getRolloverWithLpPeripheryParams({
+  const tickSpacing: number = DEFAULT_TICK_SPACING;
+
+  const rolloverAndLpPeripheryParams: RolloverAndLpPeripheryParams = getRolloverWithLpPeripheryParams(
+    {
       addLiquidity: notional > 0,
       margin: marginDelta,
       notional,
       fixedLow,
       fixedHigh,
-      marginEngineAddress,
-      underlyingTokenDecimals,
+      marginEngineAddress: ammInfo.marginEngineAddress,
+      underlyingTokenDecimals: ammInfo.underlyingTokenDecimals,
       tickSpacing,
-      maturedMarginEngineAddress,
-      maturedPositionOwnerAddress,
+      maturedMarginEngineAddress: maturedPositionInfo.ammMarginEngineAddress,
+      maturedPositionOwnerAddress: maturedPositionInfo.positionOwnerAddress,
       maturedPositionSettlementBalance,
-      maturedPositionTickLower,
-      maturedPositionTickUpper,
-    });
+      maturedPositionTickLower: maturedPositionInfo.positionTickLower,
+      maturedPositionTickUpper: maturedPositionInfo.positionTickUpper,
+    },
+  );
 
   const estimatedGasUnits: BigNumber = await estimateRolloverWithLpGasUnits(
     peripheryContract,
@@ -83,8 +101,9 @@ export const rolloverAndLp = async ({
     rolloverAndLpPeripheryTempOverrides,
   );
 
-  rolloverAndLpPeripheryTempOverrides.gasLimit =
-    getGasBuffer(estimatedGasUnits);
+  rolloverAndLpPeripheryTempOverrides.gasLimit = getGasBuffer(
+    estimatedGasUnits,
+  );
 
   const rolloverAndLpTransaction: ContractTransaction = await peripheryContract
     .connect(signer)
