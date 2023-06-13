@@ -14,7 +14,7 @@ const queryFilter = jest.fn(async (eventType: ProtocolEventType) => {
   return [];
 });
 
-jest.mock('../../src/contract-generators/core.ts', () => ({
+jest.mock('@voltz-protocol/commons-v2/src/v2-smart-contracts/core.ts', () => ({
   getCoreContract: jest.fn(() => ({
     queryFilter,
     filters: {
@@ -42,37 +42,45 @@ jest.mock('../../src/contract-generators/core.ts', () => ({
   })),
 }));
 
-jest.mock('../../src/contract-generators/dated-irs-instrument.ts', () => ({
-  getDatedIrsInstrumentContract: jest.fn(() => ({
-    queryFilter,
-    filters: {
-      MarketConfigured: () =>
-        ProtocolEventType.market_configured as unknown as EventFilter,
+jest.mock(
+  '@voltz-protocol/commons-v2/src/v2-smart-contracts/dated-irs-instrument.ts',
+  () => ({
+    getDatedIrsInstrumentContract: jest.fn(() => ({
+      queryFilter,
+      filters: {
+        MarketConfigured: () =>
+          ProtocolEventType.market_configured as unknown as EventFilter,
 
-      ProductPositionUpdated: () =>
-        ProtocolEventType.product_position_updated as unknown as EventFilter,
+        ProductPositionUpdated: () =>
+          ProtocolEventType.product_position_updated as unknown as EventFilter,
 
-      RateOracleConfigured: () =>
-        ProtocolEventType.rate_oracle_configured as unknown as EventFilter,
-    },
-  })),
-}));
+        RateOracleConfigured: () =>
+          ProtocolEventType.rate_oracle_configured as unknown as EventFilter,
+      },
+    })),
+  }),
+);
 
-jest.mock('../../src/contract-generators/dated-irs-vamm.ts', () => ({
-  getDatedIrsVammContract: jest.fn(() => ({
-    queryFilter,
-    filters: {
-      LiquidityChange: () =>
-        ProtocolEventType.liquidity_change as unknown as EventFilter,
-      MakerOrder: () => ProtocolEventType.maker_order as unknown as EventFilter,
-      TakerOrder: () => ProtocolEventType.taker_order as unknown as EventFilter,
-      VammCreated: () =>
-        ProtocolEventType.vamm_created as unknown as EventFilter,
-      VammPriceChange: () =>
-        ProtocolEventType.vamm_price_change as unknown as EventFilter,
-    },
-  })),
-}));
+jest.mock(
+  '@voltz-protocol/commons-v2/src/v2-smart-contracts/dated-irs-vamm.ts',
+  () => ({
+    getDatedIrsVammContract: jest.fn(() => ({
+      queryFilter,
+      filters: {
+        LiquidityChange: () =>
+          ProtocolEventType.liquidity_change as unknown as EventFilter,
+        MakerOrder: () =>
+          ProtocolEventType.maker_order as unknown as EventFilter,
+        TakerOrder: () =>
+          ProtocolEventType.taker_order as unknown as EventFilter,
+        VammCreated: () =>
+          ProtocolEventType.vamm_created as unknown as EventFilter,
+        VammPriceChange: () =>
+          ProtocolEventType.vamm_price_change as unknown as EventFilter,
+      },
+    })),
+  }),
+);
 
 // Tests
 describe('Fetch event tests', () => {

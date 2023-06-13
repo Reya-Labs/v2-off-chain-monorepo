@@ -1,12 +1,14 @@
 import { ethers } from 'ethers';
 import { getAddress } from './addresses';
-import { SupportedChainId, getProvider } from '@voltz-protocol/commons-v2';
+import { SupportedChainId, getProvider } from '../provider';
 
-export const getCoreContract = (chainId: SupportedChainId): ethers.Contract => {
+export const getDatedIrsInstrumentContract = (
+  chainId: SupportedChainId,
+): ethers.Contract => {
   const abi = [``];
 
   const provider = getProvider(chainId);
-  const address = getAddress(chainId, 'core');
+  const address = getAddress(chainId, 'dated_irs_instrument');
 
   const contract = new ethers.Contract(address, abi, provider);
 

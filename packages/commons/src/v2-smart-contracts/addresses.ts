@@ -1,5 +1,5 @@
-import { ZERO_ADDRESS } from '@voltz-protocol/commons-v2';
-import { Address } from '@voltz-protocol/commons-v2';
+import { ZERO_ADDRESS } from '../constants';
+import { Address } from '../convertLowercase';
 
 type NetworkAddresses = { [name: string]: Address };
 

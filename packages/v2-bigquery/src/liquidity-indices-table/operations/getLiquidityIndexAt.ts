@@ -8,26 +8,90 @@ export async function getLiquidityIndexAt(
   rateOracle: Address,
   targetTimestamp: number,
 ): Promise<number | null> {
-  const closestIndices = await pullClosestIndices(
+  const [inLeft, inRight] = await pullClosestDatapoints(
     chainId,
     rateOracle,
     targetTimestamp,
   );
 
-  if (!closestIndices || closestIndices?.length != 2) {
-    if (
-      closestIndices?.length === 1 &&
-      closestIndices[0].blockTimestamp === targetTimestamp
-    ) {
-      return closestIndices[0].liquidityIndex;
+  // Check if there's right target
+  for (const datapoint of inLeft) {
+    if (datapoint.blockTimestamp === targetTimestamp) {
+      return datapoint.liquidityIndex;
     }
-    return null;
   }
 
-  const [before, after] = closestIndices.sort(
-    (a, b) => a.blockTimestamp - b.blockTimestamp,
-  );
+  // Check if there are enough datapoints to interpolate in the middle
+  if (inLeft.length >= 1 && inRight.length >= 1) {
+    return interpolate(inLeft[inLeft.length - 1], inRight[0], targetTimestamp);
+  }
 
+  if (inLeft.length >= 2) {
+    return interpolate(
+      inLeft[inLeft.length - 2],
+      inLeft[inLeft.length - 1],
+      targetTimestamp,
+    );
+  }
+
+  if (inRight.length >= 2) {
+    return interpolate(inRight[0], inRight[1], targetTimestamp);
+  }
+
+  return null;
+}
+
+// Get 2 data points before timestamp and 2 data points after timestamp
+const pullClosestDatapoints = async (
+  chainId: number,
+  rateOracle: Address,
+  targetTimestamp: number, // in seconds
+): Promise<[LiquidityIndexEntry[], LiquidityIndexEntry[]]> => {
+  const bigQuery = getBigQuery();
+
+  const idCondition = `chainId=${chainId} AND oracleAddress="${rateOracle}"`;
+
+  const sqlQuery = `
+    (
+      SELECT * FROM \`${tableName}\` WHERE ${idCondition} AND blockTimestamp<=${targetTimestamp}
+      ORDER BY blockTimestamp DESC
+      LIMIT 2
+    )
+    UNION ALL
+    (
+      SELECT * FROM \`${tableName}\` WHERE ${idCondition} AND blockTimestamp>${targetTimestamp}
+      ORDER BY blockTimestamp ASC
+      LIMIT 2
+    );
+  `;
+
+  const [rows] = await bigQuery.query({
+    query: sqlQuery,
+  });
+
+  if (!rows || rows.length === 0) {
+    return [[], []];
+  }
+
+  const allDatapoints = rows.map(mapRow);
+
+  const inLeft = allDatapoints
+    .filter((d) => d.blockTimestamp <= targetTimestamp)
+    .sort((a, b) => a.blockTimestamp - b.blockTimestamp);
+
+  const inRight = allDatapoints
+    .filter((d) => d.blockTimestamp > targetTimestamp)
+    .sort((a, b) => a.blockTimestamp - b.blockTimestamp);
+
+  return [inLeft, inRight];
+};
+
+// todo: check if scaling to wad is needed below
+const interpolate = (
+  before: LiquidityIndexEntry,
+  after: LiquidityIndexEntry,
+  targetTimestamp: number,
+): number => {
   const scaleWad = scale(18);
   const descaleWad = descale(18);
 
@@ -47,48 +111,4 @@ export async function getLiquidityIndexAt(
     .add(scaleWad(before.liquidityIndex));
 
   return descaleWad(targetIndex);
-}
-
-/**
- * @dev This query returns a single row if target timestamp is found in the table OR
- * if it's before the earliest observation of after the latest.
- * Otherwise, it returns two rows if the target timestamp <= max(timestamp) and
- * timestamp >= min(timestamp).
- */
-const pullClosestIndices = async (
-  chainId: number,
-  rateOracle: Address,
-  targetTimestamp: number,
-): Promise<LiquidityIndexEntry[] | null> => {
-  const bigQuery = getBigQuery();
-
-  const sqlQuery = `
-      WITH timestampBefore as (
-          SELECT min(${targetTimestamp} - blockTimestamp) AS before
-          FROM \`${tableName}\` 
-          WHERE blockTimestamp <= ${targetTimestamp} AND chainId=${chainId} AND oracleAddress="${rateOracle}"
-      ),
-
-      timestampAfter as (
-          SELECT min(blockTimestamp - ${targetTimestamp}) AS after
-          FROM \`${tableName}\` 
-          WHERE blockTimestamp >= ${targetTimestamp} AND chainId=${chainId} AND oracleAddress="${rateOracle}"
-      )
-      
-      SELECT DISTINCT blockTimestamp, blockNumber, chainId, oracleAddress, liquidityIndex
-      FROM \`${tableName}\`
-      WHERE chainId=${chainId} AND oracleAddress="${rateOracle}" AND
-          ( blockTimestamp = ${targetTimestamp} - (SELECT * FROM timestampBefore) OR
-          blockTimestamp = ${targetTimestamp} + (SELECT * FROM timestampAfter) )
-      `;
-
-  const [rows] = await bigQuery.query({
-    query: sqlQuery,
-  });
-
-  if (!rows || rows.length === 0) {
-    return null;
-  }
-
-  return rows.map(mapRow);
 };

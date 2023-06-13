@@ -2,8 +2,11 @@ import {
   pullRateOracleEntries,
   insertLiquidityIndex,
 } from '@voltz-protocol/bigquery-v2';
-import { getRateOracleContract } from '../contract-generators/rate-oracle';
-import { descale, getProvider } from '@voltz-protocol/commons-v2';
+import {
+  descale,
+  getProvider,
+  getRateOracleContract,
+} from '@voltz-protocol/commons-v2';
 
 export const fetchLiquidityIndices = async (): Promise<void> => {
   const oracles = await pullRateOracleEntries();

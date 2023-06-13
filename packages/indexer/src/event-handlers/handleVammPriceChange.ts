@@ -2,7 +2,7 @@ import {
   VammPriceChangeEvent,
   pullVammPriceChangeEvent,
   insertVammPriceChangeEvent,
-  getLatestVammTick,
+  getCurrentVammTick,
   pullLpPositionEntries,
   updatePositionEntry,
 } from '@voltz-protocol/bigquery-v2';
@@ -15,7 +15,7 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
     return;
   }
 
-  const latestTick = await getLatestVammTick(
+  const latestTick = await getCurrentVammTick(
     event.chainId,
     event.marketId,
     event.maturityTimestamp,

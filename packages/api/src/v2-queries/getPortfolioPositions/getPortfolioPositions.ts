@@ -2,6 +2,7 @@ import {
   getTokenDetails,
   tickToFixedRate,
   SupportedChainId,
+  getTokenPriceInUSD,
 } from '@voltz-protocol/commons-v2';
 
 import {
@@ -10,6 +11,7 @@ import {
   pullMarketEntry,
   pullAccountsByAddress,
 } from '@voltz-protocol/bigquery-v2';
+import { getPool } from '../getPools/getPool';
 
 export type PortfolioPositionAMM = {
   id: string;
@@ -84,9 +86,6 @@ export const getPortfolioPositions = async (
 
   const portfolio: PortfolioPosition[] = [];
 
-  // todo: add proper query for ETH price
-  const ethPriceUSD = 1500;
-
   for (const { chainId, accountId } of accounts) {
     const accountCollaterals = await pullAccountCollateral(chainId, accountId);
 
@@ -98,7 +97,7 @@ export const getPortfolioPositions = async (
       accountCollaterals[0];
 
     const { tokenName, tokenDecimals } = getTokenDetails(tokenAddress);
-    const tokenPriceUSD = tokenName === 'ETH' ? ethPriceUSD : 1;
+    const tokenPriceUSD = await getTokenPriceInUSD(tokenName);
 
     const positionEntries = await pullAccountPositionEntries(
       chainId,
@@ -117,24 +116,13 @@ export const getPortfolioPositions = async (
       tickLower,
       tickUpper,
     } of positionEntries) {
-      const market = await pullMarketEntry(chainId, marketId);
-      // todo: query getLatestFixedRate() on price change table
-      const poolFixedRate = 0.01;
+      const pool = await getPool(chainId, marketId, maturityTimestamp);
 
-      // todo: query getLatestVariableApy()
-      const poolVariableRate = 0.02;
+      const poolFixedRate = pool.currentFixedRate;
+      const poolVariableRate = pool.currentVariableRate;
 
       // todo: add fixed rate locked to position
       const fixedRateLocked = 0.05;
-
-      if (!market) {
-        throw new Error(`Failed to fetch market ${chainId} - ${marketId}`);
-      }
-
-      const { oracleAddress } = market;
-
-      // todo: move it to utility and subject to change
-      const poolId = `${chainId}_${marketId}_${maturityTimestamp}_v2`;
 
       const fixLow = tickToFixedRate(tickUpper);
       const fixHigh = tickToFixedRate(tickLower);
@@ -158,14 +146,14 @@ export const getPortfolioPositions = async (
 
       // Build response
       const amm: PortfolioPositionAMM = {
-        id: poolId,
+        id: pool.id,
         chainId,
 
         isBorrowing: true,
         market: 'Aave V2',
 
         rateOracle: {
-          address: oracleAddress,
+          address: pool.oracleAddress,
           protocolId: 1,
         },
 

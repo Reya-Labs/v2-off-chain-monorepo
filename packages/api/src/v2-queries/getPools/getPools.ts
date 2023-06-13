@@ -1,34 +1,23 @@
-import { SECONDS_IN_HOUR } from '@voltz-protocol/commons-v2';
-import { pullAllPoolsConfig, getApyFromTo } from '@voltz-protocol/bigquery-v2';
+import { pullVammsByChains } from '@voltz-protocol/bigquery-v2';
+import { V2PoolsResult } from './types';
+import { buildPool } from './buildPool';
+import { SupportedChainId } from '@voltz-protocol/commons-v2';
 
-export const getPools = async () => {
-  const pools = await pullAllPoolsConfig();
+export const getPools = async (
+  chainIds: SupportedChainId[],
+): Promise<V2PoolsResult> => {
+  const pools = await pullVammsByChains(chainIds);
 
-  const result: {
-    chainId: number;
-    marketId: string;
-    maturityTimestamp: number;
-    fixedRate: number | null;
-    latestApy: number | null;
-  }[] = [];
+  const promises = pools.map(buildPool);
+  const responses = await Promise.allSettled(promises);
 
-  for (const pool of pools) {
-    const currentTimestamp = Math.round(Date.now() / 1000);
-    // note leave 1h buffer -> can be configured depending on indexer frequency
-    const latestApy = await getApyFromTo(
-      pool.chainId,
-      pool.rateOracle,
-      currentTimestamp - 2 * SECONDS_IN_HOUR,
-      currentTimestamp - 1 * SECONDS_IN_HOUR,
-    );
-    result.push({
-      chainId: pool.chainId,
-      marketId: pool.marketId,
-      maturityTimestamp: pool.maturityTimestamp,
-      fixedRate: pool.lastFixedRate,
-      latestApy: latestApy,
-    });
-  }
+  const result = responses.map((r) => {
+    if (r.status === 'rejected') {
+      throw r.reason;
+    }
+
+    return r.value;
+  });
 
   return result;
 };
