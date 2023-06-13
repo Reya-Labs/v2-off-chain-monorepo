@@ -1,18 +1,20 @@
+import {
+  createProtocolV2Dataset,
+  createTable,
+  TableType,
+} from '@voltz-protocol/bigquery-v2';
 import { fetchLiquidityIndices } from '../../src/process/fetchLiquidityIndex';
-import { createTable } from '@voltz-protocol/commons-v2';
-import { TableType } from '@voltz-protocol/commons-v2';
-import { createProtocolV2Dataset } from '@voltz-protocol/commons-v2';
 
 jest.setTimeout(100_000);
 
 // Mock environment tag to testing and provider
-jest.mock('@voltz-protocol/commons-v2/src/utils/env-vars.ts', () => ({
-  ...jest.requireActual('@voltz-protocol/commons-v2/src/utils/env-vars.ts'),
+jest.mock('@voltz-protocol/commons-v2/src/env-vars.ts', () => ({
+  ...jest.requireActual('@voltz-protocol/commons-v2/src/env-vars.ts'),
   getEnvironment: jest.fn(() => 'TESTING'),
 }));
 
 jest.mock(
-  '@voltz-protocol/commons-v2/src/big-query/cross-queries/pullRateOracleEntries.ts',
+  '@voltz-protocol/bigquery-v2/src/cross-queries/pullRateOracleEntries.ts',
   () => ({
     pullRateOracleEntries: jest.fn(() => [
       {

@@ -13,8 +13,10 @@ import {
 import {
   CompleteSwapDetails,
   InfoPostSwap,
+  PoolConfig,
   SwapArgs,
   SwapPeripheryParameters,
+  SwapUserInputs,
 } from './types';
 import { getSwapPeripheryParams } from './getSwapPeripheryParams';
 import {
@@ -139,7 +141,7 @@ export async function estimateSwapGasUnits({
 
 // HELPERS
 
-async function createSwapParams({
+export async function createSwapParams({
   ammId,
   signer,
   notional,
@@ -269,7 +271,9 @@ export async function processInfoPostSwap(
   };
 }
 
-async function getSwapTxData(params: CompleteSwapDetails): Promise<{
+export async function getSwapTxData(
+  params: PoolConfig & SwapUserInputs,
+): Promise<{
   data: string;
   value: string;
   chainId: number;

@@ -1,4 +1,4 @@
-import { BaseEvent } from '@voltz-protocol/commons-v2';
+import { BaseEvent } from '@voltz-protocol/bigquery-v2';
 import { getPubSubClient } from './clients';
 
 export const pushEvents = async <T extends BaseEvent>(

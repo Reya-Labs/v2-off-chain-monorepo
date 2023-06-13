@@ -2,8 +2,7 @@ import { compareEvents } from '../utils/compareEvents';
 import {
   ProductPositionUpdatedEvent,
   ProtocolEventType,
-  ZERO_ADDRESS,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
 import { parseProductPositionUpdated } from '../../src/event-parsers/parseProductPositionUpdated';
 import { evmTestEvents } from '../utils/evmTestEvents';
 

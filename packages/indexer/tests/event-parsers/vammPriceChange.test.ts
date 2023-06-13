@@ -2,7 +2,7 @@ import { parseVammPriceChange } from '../../src/event-parsers/parseVammPriceChan
 import {
   ProtocolEventType,
   VammPriceChangeEvent,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
 import { compareEvents } from '../utils/compareEvents';
 import { evmTestEvents } from '../utils/evmTestEvents';
 

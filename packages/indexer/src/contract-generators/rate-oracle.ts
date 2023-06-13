@@ -1,5 +1,5 @@
+import { SupportedChainId, getProvider } from '@voltz-protocol/commons-v2';
 import { ethers } from 'ethers';
-import { SupportedChainId, getProvider } from '../services/provider';
 
 export const getRateOracleContract = (
   chainId: SupportedChainId,

@@ -1,4 +1,4 @@
-import { TakerOrderEvent } from '@voltz-protocol/commons-v2';
+import { TakerOrderEvent } from '@voltz-protocol/bigquery-v2';
 import { getSubClient, getSubscriptionId } from './clients';
 
 export const pullEvents = async (subscriptionName: string) => {

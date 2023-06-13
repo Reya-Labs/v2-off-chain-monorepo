@@ -9,7 +9,7 @@ import { parseProductPositionUpdated } from '../event-parsers/parseProductPositi
 import { parseRateOracleConfigured } from '../event-parsers/parseRateOracleConfigured';
 import { parseVammCreated } from '../event-parsers/parseVammCreated';
 import { parseVammPriceChange } from '../event-parsers/parseVammPriceChange';
-import { BaseEvent } from '@voltz-protocol/commons-v2';
+import { BaseEvent } from '@voltz-protocol/bigquery-v2';
 import { parseAccountCreated } from '../event-parsers/parseAccountCreated';
 import { parseAccountOwnerUpdate } from '../event-parsers/parseAccountOwnerUpdate';
 import { parseCollateralConfigured } from '../event-parsers/parseCollateralConfigured';

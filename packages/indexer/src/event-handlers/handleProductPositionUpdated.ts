@@ -5,7 +5,7 @@ import {
   pullPositionEntry,
   pullProductPositionUpdatedEvent,
   updatePositionEntry,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
 
 export const handleProductPositionUpdated = async (
   event: ProductPositionUpdatedEvent,

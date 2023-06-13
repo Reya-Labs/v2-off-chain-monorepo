@@ -1,7 +1,7 @@
 import { Event } from 'ethers';
 
 import { convertLowercaseString } from '@voltz-protocol/commons-v2';
-import { BaseEvent, ProtocolEventType } from '@voltz-protocol/commons-v2';
+import { BaseEvent, ProtocolEventType } from '@voltz-protocol/bigquery-v2';
 
 export const parseBaseEvent = (
   chainId: number,

@@ -2,7 +2,7 @@ import { compareEvents } from '../utils/compareEvents';
 import {
   ProtocolEventType,
   VammCreatedEvent,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
 import { parseVammCreated } from '../../src/event-parsers/parseVammCreated';
 import { evmTestEvents } from '../utils/evmTestEvents';
 

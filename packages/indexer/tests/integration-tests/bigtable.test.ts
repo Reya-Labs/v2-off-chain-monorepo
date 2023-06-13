@@ -1,4 +1,4 @@
-import { ProtocolEventType } from '@voltz-protocol/commons-v2';
+import { ProtocolEventType } from '@voltz-protocol/bigquery-v2';
 import { parseTakerOrder } from '../../src/event-parsers/parseTakerOrder';
 import { createTakerOrdersTable } from '../../src/services/big-table/taker-orders-table/createTakerOrdersTable';
 import { deleteTakerOrdersTable } from '../../src/services/big-table/taker-orders-table/deleteTakerOrdersTable';

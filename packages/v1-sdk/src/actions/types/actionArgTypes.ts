@@ -58,7 +58,6 @@ export type RolloverAndSwapPeripheryParams = {
 // rolloverWithLp
 
 export type RolloverAndLpArgs = {
-  addLiquidity: boolean;
   fixedLow: number;
   fixedHigh: number;
   notional: number;

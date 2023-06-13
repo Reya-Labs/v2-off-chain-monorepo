@@ -2,12 +2,12 @@ import { Event, BigNumber, ethers } from 'ethers';
 
 import { parseBaseEvent } from './utils/parseBaseEvent';
 import {
+  CollateralConfiguredEvent,
   ProtocolEventType,
-  convertLowercaseString,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
 import {
   getTokenDetails,
-  CollateralConfiguredEvent,
+  convertLowercaseString,
 } from '@voltz-protocol/commons-v2';
 
 export const parseCollateralConfigured = (

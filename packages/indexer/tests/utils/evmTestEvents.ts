@@ -1,5 +1,6 @@
 import { BigNumber, Event } from 'ethers';
-import { ProtocolEventType, ZERO_ADDRESS } from '@voltz-protocol/commons-v2';
+import { ProtocolEventType } from '@voltz-protocol/bigquery-v2';
+import { ZERO_ADDRESS } from '@voltz-protocol/commons-v2';
 
 export const defaultEvmEvent = {
   address: '0xe9A6569995F3D8EC971F1D314e0e832C38a735Cc',

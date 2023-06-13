@@ -1,6 +1,6 @@
 import { fetchEvents } from '../fetch-events/fetchEvents';
-import { getProvider } from '../services/provider';
 import { handleEvent } from '../event-handlers/handleEvent';
+import { getProvider } from '@voltz-protocol/commons-v2';
 
 export const sync = async (chainIds: number[]): Promise<void> => {
   for (const chainId of chainIds) {

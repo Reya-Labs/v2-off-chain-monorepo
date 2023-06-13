@@ -1,15 +1,8 @@
-import { authenticateImplicitWithAdc } from '@voltz-protocol/commons-v2';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
-
 import { app } from './app';
+import { getApiPort } from '@voltz-protocol/commons-v2';
 
 const main = async () => {
-  await authenticateImplicitWithAdc();
-
-  const PORT = process.env.PORT || 8080;
-  console.log('PORT:', PORT);
+  const PORT = getApiPort();
   app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
   });

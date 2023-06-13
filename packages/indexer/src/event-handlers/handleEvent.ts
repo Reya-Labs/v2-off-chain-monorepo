@@ -11,7 +11,7 @@ import {
   RateOracleConfiguredEvent,
   VammCreatedEvent,
   VammPriceChangeEvent,
-} from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/bigquery-v2';
 import { handleCollateralUpdate } from './handleCollateralUpdate';
 import { handleMarketConfigured } from './handleMarketConfigured';
 import { handleMarketFeeConfigured } from './handleMarketFeeConfigured';

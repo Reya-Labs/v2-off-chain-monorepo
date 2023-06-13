@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.2.2...@voltz-protocol/commons-v2@1.3.0) (2023-06-12)
+
+### Bug Fixes
+
+- import commons as js ([1d3abd6](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/1d3abd671dafc3cf7cf12e2793f6f4f08dbd4733))
+- sdkv2 -> dist ([66fec50](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/66fec50c0526b0315116ba9c09c857b858b8708c))
+
+### Features
+
+- bringing v1-indexer repo in monorepo ([#58](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/58)) ([64baf93](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/64baf93dade71692d463fc59150770302998ecea))
+
 ## [1.2.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.2.1...@voltz-protocol/commons-v2@1.2.2) (2023-06-12)
 
 **Note:** Version bump only for package @voltz-protocol/commons-v2
