@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.39.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.38.3...@voltz-protocol/sdk-v2@1.39.0) (2023-06-13)
+
+### Bug Fixes
+
+- rm unused utils & move abis ([3798598](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/3798598ef60a23ebc9ca20d3b2f0157f7add4d33))
+
+### Features
+
+- align dependencies v1 and v2 sdk ([5552268](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/55522684462543ad67a84f3047973a8190e4d309))
+- margin update flow & cap ([f2ec257](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/f2ec257da2918f29328911389780e7a589f5c70f))
+
 ## [1.38.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.38.2...@voltz-protocol/sdk-v2@1.38.3) (2023-06-13)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v2

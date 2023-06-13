@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.20.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.19.0...@voltz-protocol/sdk-v1-stateless@1.20.0) (2023-06-13)
+
+### Bug Fixes
+
+- isFT direction bug ([a90a2d5](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/a90a2d5c0837f7e1c394ce723c819b613723d24e))
+- linting ([b45fbec](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/b45fbecef29a9cfff9e2928dc7eb55b2f6665818))
+
+### Features
+
+- fix package versions ([a3990c7](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/a3990c7ec2a05947a1b731f9f30586d759ca86f9))
+- fix package versions sdk v1 ([b9fe6b5](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/b9fe6b555479c753cdb4b0b9e4685dbd15a74a79))
+- initial refactor of rollover with lp ([918b779](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/918b779521b49a99f4b1932a9d1493b80995c09d))
+- rollover and lp args type ([fe4b0e6](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/fe4b0e6e6ee9ffe2f280a8a3744711ebb9164b97))
+- rollover with lp ([24e041d](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/24e041d8230d0d6d4c9841ffe7922ae8945977ce))
+- simplified simulate rollover with swap ([5a630e4](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/5a630e44cbad4c62bed97bfa0def0fd61e486027))
+- simplify rollover and lp ([325ce03](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/325ce03aeb843ae7afc651f2b24d40c1065a0528))
+- simulate rollover with swap ([8a043b4](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/8a043b4fb46cd033600d376e30a706cbd2b7aa29))
+- update indicies ([8317c5a](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/8317c5a33e26be54bf716649b81f549b86894f14))
+
 # [1.19.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.18.1...@voltz-protocol/sdk-v1-stateless@1.19.0) (2023-06-13)
 
 ### Features
