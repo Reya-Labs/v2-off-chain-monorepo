@@ -6,7 +6,10 @@ export const getAccessPassContract = (
 ): ethers.Contract => {
   const abi: string[] = [
     `
-    function multiRedeem((address, uint96), bytes32[][], bytes32[]) public returns (uint256[])
+    function redeem(address, uint256, bytes32[], bytes32) public returns (uint256[])
+    `,
+    `
+    function balanceOf(address) public view returns (uint256)
     `,
   ];
 

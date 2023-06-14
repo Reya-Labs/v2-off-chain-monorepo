@@ -14,7 +14,7 @@ const getLeaf = (address: string, accountPassId: number): Buffer => {
 
 const getMerkleTree = (leaves: Array<LeafInfo>): MerkleTree => {
   const leafNodes = leaves.map((entry) => {
-    return getLeaf(entry.account, entry.accountPassId);
+    return getLeaf(entry.account, entry.numberOfAccessPasses);
   });
 
   const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true });
