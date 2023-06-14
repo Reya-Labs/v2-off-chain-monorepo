@@ -3,7 +3,7 @@ import { ContractReceipt } from 'ethers';
 import { ZERO_BN } from '../../utils/constants';
 import { InfoPostSwap } from '../swap';
 
-export async function rolloverAnd(
+export async function rolloverWithSwap(
   args: RolloverAndSwapArgs,
 ): Promise<ContractReceipt> {
   return Promise.resolve({
@@ -25,7 +25,7 @@ export async function rolloverAnd(
   });
 }
 
-export async function simulateRolloverWith(
+export async function simulateRolloverWithSwap(
   args: RolloverAndSwapArgs,
 ): Promise<InfoPostSwap> {
   return Promise.resolve({
