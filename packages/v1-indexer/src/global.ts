@@ -4,7 +4,7 @@ import { Redis } from 'ioredis';
 import { getRedisHost, getRedisPort } from '@voltz-protocol/commons-v2';
 
 // BigQuery project and dataset IDs
-export const PROJECT_ID = 'voltz-v2-infra';
+export const PROJECT_ID = 'risk-monitoring-361911';
 
 let bigQuery: BigQuery | null = null;
 let redisClient: Redis | null = null;
