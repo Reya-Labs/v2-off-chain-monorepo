@@ -7,7 +7,7 @@ import keccak256 from 'keccak256';
  *
  * @note checks if the user owns an admin pass on-chain
  */
-export async function verifyAdminPass(owner: Signer): Promise<boolean> {
+export async function verifyAdmitPass(owner: Signer): Promise<boolean> {
   const ownerAddress = await owner.getAddress();
   const accessPassContract: ethers.Contract = getAccessPassContract(
     ACCCESS_PASS_CONTRACT_ADDRESS,

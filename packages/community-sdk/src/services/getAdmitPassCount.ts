@@ -14,7 +14,9 @@ export async function getAdmitPassCount(ownerAddress: string): Promise<number> {
     metadataURI: string;
   }> = data.data.snapshot;
 
-  const ownerEntry = snaphots.find((entry) => entry.owner === ownerAddress);
+  const ownerEntry = snaphots.find(
+    (entry) => entry.owner.toLowerCase() === ownerAddress.toLowerCase(),
+  );
 
   return ownerEntry?.numberOfAccessPasses ?? 0;
 }
