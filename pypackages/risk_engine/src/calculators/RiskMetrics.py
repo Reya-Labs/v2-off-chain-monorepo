@@ -1,6 +1,7 @@
 import random
 
 import numpy as np
+from numpy import ndarray
 from arch.bootstrap import CircularBlockBootstrap, optimal_block_length
 from pandas import DataFrame
 
@@ -13,11 +14,12 @@ class RiskMetrics:
         self.df = df
 
     # We want insolvency > 1
-    def insolvency(self, actor):
+    def insolvency(self, actor: str) -> DataFrame:
+        # todo: better name for actor (is it wallet, accountId?)
         return self.df[f"{actor}_uPnL"] / self.df[f"{actor}_margin"]
 
     # We want liquidation > 0
-    def liquidation(self, actor):
+    def liquidation(self, actor: str) -> DataFrame:
         return (self.df[f"{actor}_margin"] - self.df[f"{actor}_liquidation_margin"]) / self.df[
             f"{actor}_liquidation_margin"
         ]
@@ -33,9 +35,10 @@ class RiskMetrics:
         significand = 0.9 * random.random() + 0.1
         return significand * 10 ** exp
 
-    def generate_replicates(self, N_replicates=100):
+    def generate_replicates(self, N_replicates=100) -> tuple[list[ndarray], list[ndarray]]:
         rs = np.random.RandomState(42)
 
+        # todo: this doesn't look right
         liquidations = self.liquidation.dropna(inplace=True)
         insolvencies = self.insolvency.dropna(inplace=True)
 
@@ -61,7 +64,7 @@ class RiskMetrics:
         singificance level, alpha)
     """
 
-    def lvar_and_ivar(self, alpha=95, l_rep=None, i_rep=None):
+    def lvar_and_ivar(self, alpha=95, l_rep=None, i_rep=None) -> tuple[float, float]:
         z_score = self.z_scores[alpha]
         if (l_rep is None) or (i_rep is None):
             l_rep, i_rep = self.generate_replicates()
