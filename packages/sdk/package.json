@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "yarn code-quality:check && rm -rf dist",
-    "build": "yarn prebuild && tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json",
     "start": "npx ts-node src/index.ts",
     "ts:check-types": "npx tsc --noEmit",
     "ts:circular-check": "npx dpdm --no-output --no-tree --no-warning --exit-code circular:1 -T ./src/index.ts",
