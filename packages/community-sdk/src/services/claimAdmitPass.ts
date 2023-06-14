@@ -26,13 +26,13 @@ export async function claimAdmitPass(owner: Signer): Promise<boolean> {
     );
     await accessPassContract.callStatic.redeem(
       ownerAddress,
-      numberOfAccessPasses,
+      numberOfAccessPasses.toString(),
       proof,
       root,
     );
     const tx = await accessPassContract.redeem(
       ownerAddress,
-      numberOfAccessPasses,
+      numberOfAccessPasses.toString(),
       proof,
       root,
     );
