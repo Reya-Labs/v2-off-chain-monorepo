@@ -28,6 +28,7 @@ def run():
 
                 datasets.update({entry.name.removesuffix(".csv"): df})
 
+    # todo: consider making this an input
     output_folder = "simulations/margin_requirements/outputs"
 
     # Create a directory to output all information about the simulations
