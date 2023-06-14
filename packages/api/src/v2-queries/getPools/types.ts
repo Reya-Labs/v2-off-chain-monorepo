@@ -2,6 +2,8 @@ export type V2Pool = {
   id: string;
   chainId: number;
   marketId: string;
+
+  creationTimestamp: number;
   maturityTimestamp: number;
 
   oracleAddress: string;

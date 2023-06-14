@@ -21,6 +21,7 @@ export const buildPool = async ({
   marketId,
   maturityTimestamp,
   rateOracle,
+  blockTimestamp,
 }: VammCreatedEvent): Promise<V2Pool> => {
   const market = await pullMarketEntry(chainId, marketId);
 
@@ -55,6 +56,8 @@ export const buildPool = async ({
     id,
     chainId,
     marketId,
+
+    creationTimestamp: blockTimestamp,
     maturityTimestamp,
 
     oracleAddress,
