@@ -231,14 +231,14 @@ class MarginRequirements:
             self.advance_to_next_observation()
 
         # Alice: Settle
-        alice_sc = self.collateral_module.get_account_collateral(account_id="alice")
+        alice_sc = self.collateral_module.get_account_collateral_balance(account_id="alice")
         self.market_irs.settle(maturity=self.pool_irs_maturity, account_id="alice")
-        alice_sc = self.collateral_module.get_account_collateral(account_id="alice") - alice_sc
+        alice_sc = self.collateral_module.get_account_collateral_balance(account_id="alice") - alice_sc
 
         # Bob: Settle
-        bob_sc = self.collateral_module.get_account_collateral(account_id="bob")
+        bob_sc = self.collateral_module.get_account_collateral_balance(account_id="bob")
         self.market_irs.settle(maturity=self.pool_irs_maturity, account_id="bob")
-        bob_sc = self.collateral_module.get_account_collateral(account_id="bob") - bob_sc
+        bob_sc = self.collateral_module.get_account_collateral_balance(account_id="bob") - bob_sc
 
         output["timestamp"] = timestamps
         output["date"] = [datetime.datetime.fromtimestamp(ts) for ts in timestamps]
