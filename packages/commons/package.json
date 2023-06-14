@@ -4,7 +4,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/types",
   "license": "MIT",
   "scripts": {
     "prebuild": "yarn code-quality:check && rm -rf dist",
