@@ -4,16 +4,17 @@ import os
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from accounts.AccountManager import AccountManager
-from block import Block
-from fees.FeeManager import FeeManager
-from margin_engine.CollateralEngine import CollateralEngine
-from margin_engine.LiquidationEngine import LiquidationEngine
-from markets.IRSMarket import IRSMarket
-from markets.MarketManager import MarketManager
-from oracle import Oracle
-from pools.IRSPool import IRSPool
-from price_oracle import PriceOracle
+
+from risk_engine.src.core.accountManager import AccountManager
+from risk_engine.src.evm.block import Block
+from risk_engine.src.core.feeManager import FeeManager
+from risk_engine.src.core.collateralModule import CollateralModule
+from risk_engine.src.core.liquidationModule import LiquidationModule
+from risk_engine.src.instruments.dated_irs.datedIRSMarket import DatedIRSMarket
+from risk_engine.src.instruments.dated_irs.marketManager import MarketManager
+from risk_engine.src.oracles.oracle import Oracle
+from risk_engine.src.exchanges.vamm.datedIRSVAMMExchange import DatedIRSVAMMExchange
+
 
 """
 This simulation has the following assumptions and series of actions:
@@ -79,8 +80,8 @@ class MarginRequirements:
         self.account_manager = AccountManager()
         self.fee_manager = FeeManager()
         self.price_oracle = PriceOracle()
-        self.collateral_engine = CollateralEngine()
-        self.liquidation_engine = LiquidationEngine()
+        self.collateral_engine = CollateralModule()
+        self.liquidation_engine = LiquidationModule()
         self.market_manager = MarketManager()
 
         # Set up the account manager
