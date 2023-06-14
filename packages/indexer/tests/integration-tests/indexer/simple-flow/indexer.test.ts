@@ -1,8 +1,4 @@
-import {
-  createProtocolV2Dataset,
-  TableType,
-  createTable,
-} from '@voltz-protocol/bigquery-v2';
+import { createProtocolV2Dataset } from '@voltz-protocol/bigquery-v2';
 import { sync } from '../../../../src/process/sync';
 import { chainId, events } from './scenario';
 

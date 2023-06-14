@@ -21,7 +21,15 @@ export const backfillRateOracle = async (
     i <= nowSeconds;
     i += frequencySeconds
   ) {
-    const blockNumber = await getBlockAtTimestamp(chainId, i);
-    await getAndPushLiquidityIndex(chainId, oracleAddress, blockNumber, i);
+    try {
+      const blockNumber = await getBlockAtTimestamp(chainId, i);
+      await getAndPushLiquidityIndex(chainId, oracleAddress, blockNumber, i);
+    } catch (error) {
+      console.log(
+        `[Backfilling ${chainId}-${oracleAddress}] Could not add datapoint at ${i}. (Reason: ${
+          (error as Error).message
+        })`,
+      );
+    }
   }
 };
