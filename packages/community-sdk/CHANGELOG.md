@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.7](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/community-sdk@1.1.6...@voltz-protocol/community-sdk@1.1.7) (2023-06-14)
+
+### Bug Fixes
+
+- contract with signer ([150bc5f](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/150bc5f4cd8eca6760fa14a750e5fd6d22af3bf3))
+
 ## [1.1.6](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/community-sdk@1.1.5...@voltz-protocol/community-sdk@1.1.6) (2023-06-14)
 
 ### Bug Fixes
