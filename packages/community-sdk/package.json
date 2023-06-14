@@ -1,6 +1,6 @@
 {
   "name": "@voltz-protocol/community-sdk",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "A TypeScript wrapper for the Voltz V2 community smart contracts",
   "publishConfig": {
     "access": "public"
