@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/indexer-v2@1.7.0...@voltz-protocol/indexer-v2@1.7.1) (2023-06-14)
+
+### Bug Fixes
+
+- remove prebuild from being called twice ([ec31db6](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/ec31db606b6a3b017b5eb16df701afdc93f62f17))
+
 # [1.7.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/indexer-v2@1.6.0...@voltz-protocol/indexer-v2@1.7.0) (2023-06-13)
 
 ### Features
