@@ -25,7 +25,7 @@ export async function rolloverWithLp(
   });
 }
 
-export async function simulateRolloverAndLp(
+export async function simulateRolloverWithLp(
   args: RolloverAndLpArgs,
 ): Promise<InfoPostLp> {
   return Promise.resolve({
