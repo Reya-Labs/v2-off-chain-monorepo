@@ -1,4 +1,4 @@
-export * from './services/redeem';
-export * from './services/getAdminPassCount';
-export * from './services/verifyAdminPass';
+export * from './services/claimAdmitPass';
+export * from './services/getAdmitPassCount';
+export * from './services/verifyAdmitPass';
 export { MultiRedeemArgs } from './types';
