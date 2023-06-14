@@ -14,5 +14,7 @@ export async function getEditSwapPeripheryParams(
     currentFixedRate: 3.45,
     positionMargin: 10,
     accountId: '12893883',
+    fixedRateLower: 1.5,
+    fixedRateUpper: 3.5,
   };
 }
