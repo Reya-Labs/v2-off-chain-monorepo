@@ -3550,6 +3550,7 @@ __metadata:
   dependencies:
     "@google-cloud/bigquery": 6.2.0
     ethers: 5.5.4
+    ioredis: 5.3.2
   languageName: unknown
   linkType: soft
 
