@@ -133,6 +133,8 @@ async function createEditLpParams({
     owner: signer,
     liquidityAmount: liquidityAmount,
     margin: scale(tokenDecimals)(margin),
+    fixedLow: lpInfo.fixedRateLower,
+    fixedHigh: lpInfo.fixedRateUpper,
   };
 
   return params;
