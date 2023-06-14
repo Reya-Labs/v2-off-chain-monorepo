@@ -16,7 +16,7 @@ export enum TableType {
 
 export const getProtocolV1DatasetName = (): string => {
   const tag = getEnvironment();
-  return `${tag}_indexer_v1`;
+  return `${tag}_protocol_dated_irs_v1`;
 };
 
 export const createProtocolV1Dataset = async () => {

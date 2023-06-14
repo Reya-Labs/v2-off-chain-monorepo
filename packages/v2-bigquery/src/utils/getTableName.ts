@@ -1,6 +1,6 @@
 import { PROJECT_ID } from '../constants';
 import { TableType } from '../types';
-import { getProtocolV2DatasetName } from './datasets';
+import { getProtocolV2DatasetName } from './getProtocolV2DatasetName';
 
 const tableNames: Record<TableType, string> = {
   [TableType.raw_account_created]: `Raw Account Created`,

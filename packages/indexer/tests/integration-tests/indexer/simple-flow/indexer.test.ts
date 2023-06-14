@@ -1,8 +1,4 @@
-import {
-  createProtocolV2Dataset,
-  TableType,
-  createTable,
-} from '@voltz-protocol/bigquery-v2';
+import { createProtocolV2Dataset } from '@voltz-protocol/bigquery-v2';
 import { sync } from '../../../../src/process/sync';
 import { chainId, events } from './scenario';
 
@@ -28,13 +24,7 @@ jest.mock('../../../../src/fetch-events/fetchEvents', () => ({
 // Tests
 describe.skip('Indexer integration test', () => {
   it('simple flow', async () => {
-    // Create dataset and create all tables
     await createProtocolV2Dataset();
-    await Promise.allSettled(
-      Object.keys(TableType).map((tableType) =>
-        createTable(tableType as TableType),
-      ),
-    );
 
     // Fire call
     await sync([chainId]);
