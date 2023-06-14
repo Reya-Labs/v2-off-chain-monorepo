@@ -102,8 +102,6 @@ export async function estimateEditLpGasUnits({
     signer,
     notional,
     margin,
-    fixedLow,
-    fixedHigh,
   });
 
   const { data, value, chainId } = await getLpTxData(params);
@@ -134,8 +132,6 @@ async function createEditLpParams({
     owner: signer,
     liquidityAmount: liquidityAmount,
     margin: scale(tokenDecimals)(margin),
-    fixedLow,
-    fixedHigh,
   };
 
   return params;
