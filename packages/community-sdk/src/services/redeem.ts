@@ -14,11 +14,7 @@ export async function claimAdmitPass(owner: Signer): Promise<{
 
   const ownerAddress = await owner.getAddress();
 
-  // parse through badges and create
-  // multiRedeem(LeafInfo[] memory leafInfos, bytes32[][] calldata proofs, bytes32[] memory merkleRoots)
-
   const claimedBadgeTypes: number[] = [];
-  // create merkle tree from subgraph derived leaves and get the root
   const { root, leaves, numberOfAccessPasses } = await getLeavesAndRootFromIpfs(
     ownerAddress,
   );
