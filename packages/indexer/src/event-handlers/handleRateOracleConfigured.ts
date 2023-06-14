@@ -5,8 +5,10 @@ import {
   updateMarketEntry,
   pullRateOracleConfiguredEvent,
   insertRateOracleConfiguredEvent,
+  pullLiquidityIndices,
 } from '@voltz-protocol/bigquery-v2';
 import { ZERO_ADDRESS, ZERO_ACCOUNT } from '@voltz-protocol/commons-v2';
+import { backfillRateOracle } from '../liquidity-indices/backfillRateOracle';
 
 export const handleRateOracleConfigured = async (
   event: RateOracleConfiguredEvent,
@@ -19,6 +21,16 @@ export const handleRateOracleConfigured = async (
   }
 
   await insertRateOracleConfiguredEvent(event);
+
+  // Backfill liquidity indices for the new rate oracle
+  const existingLiquidityIndices = await pullLiquidityIndices(
+    event.chainId,
+    event.oracleAddress,
+  );
+
+  if (existingLiquidityIndices.length === 0) {
+    await backfillRateOracle(event.chainId, event.oracleAddress);
+  }
 
   // Update market
   const existingMarket = await pullMarketEntry(event.chainId, event.marketId);

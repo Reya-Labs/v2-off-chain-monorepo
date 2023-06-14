@@ -50,7 +50,7 @@ export const getPositionPnL = async (
     currentLiquidityIndex = await getLiquidityIndex(chainId, amm.marginEngine);
   } else {
     const blockAtSettlement = await getBlockAtTimestamp(
-      provider,
+      chainId,
       maturityTimestamp,
     );
 
