@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 
 export const getAccessPassContract = (
   address: string,
-  providerOrSigner: ethers.providers.Provider | ethers.Signer,
+  signer: ethers.Signer,
 ): ethers.Contract => {
   const abi: string[] = [
     `
@@ -13,11 +13,7 @@ export const getAccessPassContract = (
     `,
   ];
 
-  const contract: ethers.Contract = new ethers.Contract(
-    address,
-    abi,
-    providerOrSigner,
-  );
+  const contract: ethers.Contract = new ethers.Contract(address, abi, signer);
 
   return contract;
 };
