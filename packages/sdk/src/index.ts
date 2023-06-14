@@ -1,6 +1,7 @@
 export * from './services/settle';
 export * from './services/swap';
 export * from './services/lp';
+export * from './services/updateMargin';
 export * from './services/rolloverAndLp';
 export * from './services/rolloverAndSwap';
 export * from './services/editLp';
