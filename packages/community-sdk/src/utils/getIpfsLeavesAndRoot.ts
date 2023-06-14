@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { LeafInfo, RootEntity } from '../types';
+import { IPFS_LEAVES_CID } from './configuration';
 import { getLeavesIpfsUri } from './helpers';
 
 export async function getLeavesAndRootFromIpfs(ownerAddress: string): Promise<{
@@ -15,8 +16,7 @@ export async function getLeavesAndRootFromIpfs(ownerAddress: string): Promise<{
 
   const snaphots: Array<{
     owner: string;
-    numberOfAccessPasses: number;
-    metadataURI: string;
+    badgesCount: number;
   }> = data.data.snapshot;
 
   const root: RootEntity = data.data.root;
@@ -24,11 +24,11 @@ export async function getLeavesAndRootFromIpfs(ownerAddress: string): Promise<{
   let numberOfAccessPasses = 0;
   const subgraphSnapshots: Array<LeafInfo> = snaphots.map((entry) => {
     if (entry.owner.toLowerCase() === ownerAddress.toLowerCase()) {
-      numberOfAccessPasses = entry.numberOfAccessPasses;
+      numberOfAccessPasses = entry.badgesCount;
     }
     return {
       account: entry.owner.toLowerCase(),
-      numberOfAccessPasses: entry.numberOfAccessPasses,
+      numberOfAccessPasses: entry.badgesCount,
     };
   });
 

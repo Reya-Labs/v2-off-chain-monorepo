@@ -2,6 +2,7 @@ import { ethers, Signer, BigNumber } from 'ethers';
 import { getAccessPassContract } from '../utils/getAccessPassContract';
 import { getLeavesAndRootFromIpfs } from '../utils/getIpfsLeavesAndRoot';
 import keccak256 from 'keccak256';
+import { ACCCESS_PASS_CONTRACT_ADDRESS } from '../utils/configuration';
 
 /**
  *

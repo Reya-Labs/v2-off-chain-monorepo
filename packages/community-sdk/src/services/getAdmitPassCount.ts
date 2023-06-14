@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { IPFS_LEAVES_CID } from '../utils/configuration';
 import { getLeavesIpfsUri } from '../utils/helpers';
 
 export async function getAdmitPassCount(ownerAddress: string): Promise<number> {

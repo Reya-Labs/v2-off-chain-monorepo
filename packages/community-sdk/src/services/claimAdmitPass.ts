@@ -2,6 +2,7 @@ import { getLeavesAndRootFromIpfs } from '../utils/getIpfsLeavesAndRoot';
 import { getProof } from '../utils/merkle-tree';
 import { ethers, Signer } from 'ethers';
 import { getAccessPassContract } from '../utils/getAccessPassContract';
+import { ACCCESS_PASS_CONTRACT_ADDRESS } from '../utils/configuration';
 
 export async function claimAdmitPass(owner: Signer): Promise<{
   claimedBadgeTypes: number[];
