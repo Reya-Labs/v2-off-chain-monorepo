@@ -1,3 +1,5 @@
+from risk_engine.src.evm.block import Block
+
 class Event(object):
     """
     Event is base class providing an interface for all subsequent
@@ -18,32 +20,42 @@ class MarketEvent(Event):
         """
         Initialises the MarketEvent.
         """
-        self.type = "MARKET"
+        self.type: str = "MARKET"
 
 
 class TradingEvent(Event):
 
     """
-    Handles the event of sending a specific tarding instruction
+    Handles the event of sending a specific trading instruction
     from a TradingStrategy object.
     This is received by a Portfolio object and acted upon.
     """
 
-    def __init__(self, token, direction, timestamp, block):
+    def __init__(self, marketId: str, direction: str, timestamp, block):
         """
         Initialises the TradingEvent.
         Parameters:
-        token - Underlying yield bearing pool, e.g. "Aave USDC"
+        marketId - Underlying yield bearing pool, e.g. "Aave USDC"
         timestamp - The timestamp at which the signal was generated
         block - correspond block to timestamp
         direction - 'LONG' or 'SHORT'.
         """
 
-        self.type = "TRADING"
-        self.token = token
-        self.timestamp = timestamp
-        self.block = block
-        self.direction = direction
+        '''
+        todo: consider aligning with on-chain taker orders signature
+        for context: dated irs taker event has the following arguments
+        uint128 accountId,
+        uint128 marketId,
+        uint32 maturityTimestamp,
+        int256 baseAmount,
+        uint160 priceLimit
+        '''
+
+        self.type: str = "TRADING"
+        self.marketId: str = marketId
+        self.timestamp = timestamp # todo: confirm type
+        self.block = block # todo: need to confirm if type is Block
+        self.direction: str = direction
 
 
 class OrderEvent(Event):
@@ -53,7 +65,7 @@ class OrderEvent(Event):
     notional and a direction.
     """
 
-    def __init__(self, token, direction, timestamp, block, notional, margin):
+    def __init__(self, token: str, direction: str, timestamp, block, notional: float, margin: float):
         """
         Initialises the order event which has
         a notional traded and its direction, LONG or SHORT
@@ -62,17 +74,17 @@ class OrderEvent(Event):
         timestamp - The timestamp at which the signal was generated
         block - Correspond block to timestamp
         direction - 'LONG' or 'SHORT'.
-        notional - Non-negative integer for notional amount (margin*leverage) traded
-        margin   - Non-negative integer for margin amount (i.e. collateral to support the IRS position)
+        notional - Non-negative float for notional amount (margin*leverage) traded
+        margin   - Non-negative float for margin amount (i.e. collateral to support the IRS position)
         """
 
         self.type = "ORDER"
         self.token = token
         self.timestamp = timestamp
         self.block = block
-        self.direction = direction
-        self.notional = notional
-        self.margin = margin
+        self.direction: str = direction
+        self.notional: float = notional
+        self.margin: float = margin
 
     def print_order(self):
         """
@@ -92,7 +104,7 @@ class FillEvent(Event):
     In addition, stores the fees of the trade collected by liquidity providers.
     """
 
-    def __init__(self, token, fee, timestamp, block, notional, margin, direction, slippage):
+    def __init__(self, token: str, fee: float, timestamp, block, notional: float, margin: float, direction: str, slippage: float):
         """
         Initialises the FillEvent object. Sets the token, slippage,
         fees, timestamp, notional & direction
@@ -111,8 +123,8 @@ class FillEvent(Event):
         self.token = token
         self.timestamp = timestamp
         self.block = block
-        self.direction = direction
-        self.notional = notional
-        self.margin = margin
-        self.fee = fee
-        self.slippage = slippage
+        self.direction: str = direction
+        self.notional: float = notional
+        self.margin: float = margin
+        self.fee: float = fee
+        self.slippage: float = slippage
