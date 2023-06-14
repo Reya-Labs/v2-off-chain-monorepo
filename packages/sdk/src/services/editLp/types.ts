@@ -25,6 +25,4 @@ export type EditLpArgs = {
   signer: Signer;
   notional: number;
   margin: number;
-  fixedLow: number;
-  fixedHigh: number;
 };

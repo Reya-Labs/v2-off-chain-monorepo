@@ -25,8 +25,6 @@ export async function editLp({
   signer,
   notional,
   margin,
-  fixedLow,
-  fixedHigh,
 }: EditLpArgs): Promise<ContractReceipt> {
   // fetch: send request to api
 
@@ -35,8 +33,6 @@ export async function editLp({
     signer,
     notional,
     margin,
-    fixedLow,
-    fixedHigh,
   });
 
   const { data, value, chainId } = await getLpTxData(params);
@@ -49,8 +45,6 @@ export async function simulateEditLp({
   signer,
   notional,
   margin,
-  fixedLow,
-  fixedHigh,
 }: EditLpArgs): Promise<InfoPostLp> {
   // fetch: send request to api
 
@@ -59,8 +53,6 @@ export async function simulateEditLp({
     signer,
     notional,
     margin,
-    fixedLow,
-    fixedHigh,
   });
 
   const { data, value, chainId } = await getLpTxData(params);
@@ -104,8 +96,6 @@ export async function estimateEditLpGasUnits({
   signer,
   notional,
   margin,
-  fixedLow,
-  fixedHigh,
 }: EditLpArgs): Promise<BigNumber> {
   const params = await createEditLpParams({
     positionId,
@@ -129,8 +119,6 @@ async function createEditLpParams({
   signer,
   notional,
   margin,
-  fixedLow,
-  fixedHigh,
 }: EditLpArgs): Promise<CompleteEditLpDetails> {
   const lpInfo = await getEditLpPeripheryParams(positionId);
 
@@ -153,7 +141,9 @@ async function createEditLpParams({
   return params;
 }
 
-export function decodeEditLpOutput(bytesData: any): {
+export function decodeEditLpOutput(
+  bytesData: any,
+): {
   fee: BigNumber;
   im: BigNumber;
 } {
@@ -170,7 +160,9 @@ export function decodeEditLpOutput(bytesData: any): {
   };
 }
 
-async function getLpTxData(params: CompleteEditLpDetails): Promise<{
+async function getLpTxData(
+  params: CompleteEditLpDetails,
+): Promise<{
   data: string;
   value: string;
   chainId: number;
