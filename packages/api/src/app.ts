@@ -50,14 +50,6 @@ app.get('/ip', (req, res) => {
   res.send(req.ip);
 });
 
-/**
- * @dev maturity timestamp is represented as a UNIX timestamp in second
- * @dev fixedRate is the VAMM rate (e.g. 1.5 means 1.5%). This can be null
- * if there was not yet a swap executed in the vamm.
- * @dev latestApy is the APY between the last two points recorded by the oracle
- * (e.g. 1.5 means 1.5%). This is not the instant APY. This can be null
- * if there aren't yet two recorder points in the Oracle
- */
 app.get('/v1v2-pools/:chainIds', (req, res) => {
   const chainIds = req.params.chainIds.split('&').map((s) => Number(s));
 

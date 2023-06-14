@@ -1,9 +1,11 @@
-import { ethers } from 'ethers';
+import { SupportedChainId, getProvider } from './provider';
 
 export async function getBlockAtTimestamp(
-  provider: ethers.providers.Provider,
+  chainId: SupportedChainId,
   timestamp: number,
 ) {
+  const provider = getProvider(chainId);
+
   let lo = 0;
   let hi = (await provider.getBlock('latest')).number;
   let answer = 0;
