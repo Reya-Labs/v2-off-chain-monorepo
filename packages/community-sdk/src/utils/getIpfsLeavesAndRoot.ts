@@ -23,11 +23,11 @@ export async function getLeavesAndRootFromIpfs(ownerAddress: string): Promise<{
 
   let numberOfAccessPasses = 0;
   const subgraphSnapshots: Array<LeafInfo> = snaphots.map((entry) => {
-    if (entry.owner === ownerAddress) {
+    if (entry.owner.toLowerCase() === ownerAddress.toLowerCase()) {
       numberOfAccessPasses = entry.numberOfAccessPasses;
     }
     return {
-      account: entry.owner,
+      account: entry.owner.toLowerCase(),
       numberOfAccessPasses: entry.numberOfAccessPasses,
     };
   });
