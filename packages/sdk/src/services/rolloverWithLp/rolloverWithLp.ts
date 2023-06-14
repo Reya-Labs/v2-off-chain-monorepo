@@ -3,7 +3,7 @@ import { ContractReceipt } from 'ethers';
 import { ZERO_BN } from '../../utils/constants';
 import { InfoPostLp } from '../lp';
 
-export async function rolloverAndLp(
+export async function rolloverWithLp(
   args: RolloverAndLpArgs,
 ): Promise<ContractReceipt> {
   return Promise.resolve({
