@@ -4,7 +4,7 @@ import { getTable } from '../utils/getTable';
 import { getBigQuery } from '../client';
 import { getTableName } from '../utils/getTableName';
 import { TableType } from '../types';
-import { getProtocolV2DatasetName } from '../utils/datasets';
+import { getProtocolV2DatasetName } from '../utils/getProtocolV2DatasetName';
 
 export const deleteTable = async (tableType: TableType): Promise<void> => {
   const bigQuery = getBigQuery();

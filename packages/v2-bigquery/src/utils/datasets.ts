@@ -1,12 +1,7 @@
-import { getEnvironment } from '@voltz-protocol/commons-v2';
 import { getBigQuery } from '../client';
 import { createTable } from '../create-tables/createTable';
 import { TableType } from '../types';
-
-export const getProtocolV2DatasetName = (): string => {
-  const tag = getEnvironment();
-  return `${tag}_protocol_dated_irs_v2`;
-};
+import { getProtocolV2DatasetName } from './getProtocolV2DatasetName';
 
 // Creates dataset and all tables
 export const createProtocolV2Dataset = async () => {
