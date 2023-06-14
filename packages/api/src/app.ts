@@ -2,7 +2,12 @@ import cors from 'cors';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 import RedisStore from 'rate-limit-redis';
-import { getRedisClient, getTrustedProxies } from '@voltz-protocol/commons-v2';
+import {
+  convertLowercaseString,
+  getRedisClient,
+  getTimestampInSeconds,
+  getTrustedProxies,
+} from '@voltz-protocol/commons-v2';
 import { getPortfolioPositions as getPortfolioPositionsV2 } from './v2-queries/getPortfolioPositions/getPortfolioPositions';
 import { getAmm } from './v1-queries/common/getAMM';
 import { getPortfolioPositionDetails } from './v1-queries/get-position-details/getPortfolioPositionDetails';
@@ -20,6 +25,7 @@ import {
 } from '@voltz-protocol/indexer-v1';
 import { getPools as getPoolsV2 } from './v2-queries/getPools/getPools';
 import { getPortfolioPositions as getPortfolioPositionsV1 } from './v1-queries/portfolio-positions/getPortfolioPositions';
+import { getApyFromTo, getLiquidityIndexAt } from '@voltz-protocol/bigquery-v2';
 
 export const app = express();
 
@@ -78,7 +84,66 @@ app.get('/v2-positions/:chainIds/:ownerAddress', (req, res) => {
   );
 });
 
-// V1-only support
+// V2 rate oracle queries
+
+app.get(
+  '/v2-liquidity-index/:chainId/:oracleAddress/:timestamp',
+  (req, res) => {
+    const chainId = Number(req.params.chainId);
+    const oracleAddress = convertLowercaseString(req.params.oracleAddress);
+    const timestamp = Number(req.params.timestamp);
+
+    getLiquidityIndexAt(chainId, oracleAddress, timestamp).then(
+      (output) => {
+        res.json(output);
+      },
+      (error) => {
+        console.log(
+          `API query failed with message ${(error as Error).message}`,
+        );
+      },
+    );
+  },
+);
+
+app.get(
+  '/v2-variable-apy-from-to/:chainId/:oracleAddress/:from/:to',
+  (req, res) => {
+    const chainId = Number(req.params.chainId);
+    const oracleAddress = convertLowercaseString(req.params.oracleAddress);
+    const from = Number(req.params.from);
+    const to = Number(req.params.to);
+
+    getApyFromTo(chainId, oracleAddress, from, to).then(
+      (output) => {
+        res.json(output);
+      },
+      (error) => {
+        console.log(
+          `API query failed with message ${(error as Error).message}`,
+        );
+      },
+    );
+  },
+);
+
+app.get('/v2-variable-apy-from/:chainId/:oracleAddress/:from', (req, res) => {
+  const chainId = Number(req.params.chainId);
+  const oracleAddress = convertLowercaseString(req.params.oracleAddress);
+  const from = Number(req.params.from);
+  const to = getTimestampInSeconds();
+
+  getApyFromTo(chainId, oracleAddress, from, to).then(
+    (output) => {
+      res.json(output);
+    },
+    (error) => {
+      console.log(`API query failed with message ${(error as Error).message}`);
+    },
+  );
+});
+
+// V1-only support [PRESERVE BELOW FOR BACKWARDS COMPATABILITY]
 
 app.get('/pool/:chainId/:vammAddress', (req, res) => {
   const chainId = Number(req.params.chainId);
