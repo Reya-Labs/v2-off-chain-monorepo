@@ -8,7 +8,6 @@ import {
 import {
   pullAccountCollateral,
   pullAccountPositionEntries,
-  pullMarketEntry,
   pullAccountsByAddress,
 } from '@voltz-protocol/bigquery-v2';
 import { getPool } from '../getPools/getPool';

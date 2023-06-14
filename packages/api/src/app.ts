@@ -3,7 +3,7 @@ import express from 'express';
 import rateLimit from 'express-rate-limit';
 import RedisStore from 'rate-limit-redis';
 import { getRedisClient, getTrustedProxies } from '@voltz-protocol/commons-v2';
-import { getPortfolioPositions } from './v2-queries/getPortfolioPositions/getPortfolioPositions';
+import { getPortfolioPositions as getPortfolioPositionsV2 } from './v2-queries/getPortfolioPositions/getPortfolioPositions';
 import { getAmm } from './v1-queries/common/getAMM';
 import { getPortfolioPositionDetails } from './v1-queries/get-position-details/getPortfolioPositionDetails';
 import { getPositionPnL } from './v1-queries/position-pnl/getPositionPnL';
@@ -18,7 +18,8 @@ import {
   getVoyages,
   getWalletVoyages,
 } from '@voltz-protocol/indexer-v1';
-import { getPools } from './v2-queries/getPools/getPools';
+import { getPools as getPoolsV2 } from './v2-queries/getPools/getPools';
+import { getPortfolioPositions as getPortfolioPositionsV1 } from './v1-queries/portfolio-positions/getPortfolioPositions';
 
 export const app = express();
 
@@ -50,10 +51,10 @@ app.get('/ip', (req, res) => {
   res.send(req.ip);
 });
 
-app.get('/v1v2-pools/:chainIds', (req, res) => {
+app.get('/v2-pools/:chainIds', (req, res) => {
   const chainIds = req.params.chainIds.split('&').map((s) => Number(s));
 
-  getPools(chainIds).then(
+  getPoolsV2(chainIds).then(
     (output) => {
       res.json(output);
     },
@@ -63,11 +64,11 @@ app.get('/v1v2-pools/:chainIds', (req, res) => {
   );
 });
 
-app.get('/positions/:chainIds/:ownerAddress', (req, res) => {
+app.get('/v2-positions/:chainIds/:ownerAddress', (req, res) => {
   const chainIds = req.params.chainIds.split('&').map((s) => Number(s));
   const ownerAddress = req.params.ownerAddress.toLowerCase();
 
-  getPortfolioPositions(chainIds, ownerAddress).then(
+  getPortfolioPositionsV2(chainIds, ownerAddress).then(
     (output) => {
       res.json(output);
     },
@@ -143,7 +144,7 @@ app.get('/portfolio-positions/:chainIds/:ownerAddress', (req, res) => {
   const chainIds = req.params.chainIds.split('&').map((s) => Number(s));
   const ownerAddress = req.params.ownerAddress;
 
-  getPortfolioPositions(chainIds, ownerAddress).then(
+  getPortfolioPositionsV1(chainIds, ownerAddress).then(
     (output) => {
       res.json(output);
     },
