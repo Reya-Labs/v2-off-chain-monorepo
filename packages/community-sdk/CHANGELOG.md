@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/community-sdk@1.1.3...@voltz-protocol/community-sdk@1.1.4) (2023-06-14)
+
+### Bug Fixes
+
+- interactions with ipfs ([843410a](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/843410a8872e15faa86d9edf0b331c70860e3071))
+
 ## [1.1.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/community-sdk@1.1.2...@voltz-protocol/community-sdk@1.1.3) (2023-06-14)
 
 ### Bug Fixes
