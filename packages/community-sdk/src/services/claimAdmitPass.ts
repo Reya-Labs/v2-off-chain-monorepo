@@ -20,10 +20,6 @@ export async function claimAdmitPass(owner: Signer): Promise<{
     ownerAddress,
   );
 
-  if (!root) {
-    throw new Error('Missing root');
-  }
-
   const proof = getProof(ownerAddress, numberOfAccessPasses, leaves);
 
   try {
