@@ -29,6 +29,7 @@ This simulation has the following assumptions and series of actions:
 
 
 class MarginRequirements:
+
     def setUp(
         self,
         collateral_token,
@@ -46,7 +47,7 @@ class MarginRequirements:
         gwap_lookback
     ):
         # Generate the modules
-        self.block = Block(relative_block_position=0)
+        self.block: Block = Block(relative_block_position=0)
 
         # Sanity check the indices
         if not len(timestamps) == len(indices):
@@ -79,9 +80,8 @@ class MarginRequirements:
 
         self.account_manager = AccountManager()
         self.fee_manager = FeeManager()
-        self.price_oracle = PriceOracle()
-        self.collateral_engine = CollateralModule()
-        self.liquidation_engine = LiquidationModule()
+        self.collateral_module = CollateralModule()
+        self.liquidation_module = LiquidationModule(im_multiplier=im_multiplier)
         self.market_manager = MarketManager()
 
         # Set up the account manager
@@ -98,40 +98,25 @@ class MarginRequirements:
             new_atomic_taker_fee=taker_fee,
         )
 
-        # Set up collateral engine
-        self.collateral_engine.set_account_manager(account_manager=self.account_manager)
-
-        self.collateral_engine.set_liquidation_engine(liquidation_engine=self.liquidation_engine)
-
-        self.collateral_engine.set_price_oracle(price_oracle=self.price_oracle)
-
-        # Set up liquidation engine
-        self.liquidation_engine.set_account_manager(account_manager=self.account_manager)
-
-        self.liquidation_engine.set_collateral_engine(collateral_engine=self.collateral_engine)
-
-        self.liquidation_engine.set_IM_multiplier(im_multiplier=im_multiplier)
-
         # Set up IRS market
-        self.market_irs = IRSMarket(
+        self.market_irs = DatedIRSMarket(
             block=self.block,
             market_id="market_irs",
             base_token=collateral_token,
             quote_token=collateral_token,
         )
 
-        self.market_irs.set_collateral_engine(collateral_engine=self.collateral_engine)
-        self.market_irs.set_liquidation_engine(liquidation_engine=self.liquidation_engine)
+        self.market_irs.set_collateral_module(collateral_module=self.collateral_module)
+        self.market_irs.set_liquidation_module(liquidation_module=self.liquidation_module)
         self.market_irs.set_oracle(oracle=self.oracle)
         self.market_irs.set_account_manager(account_manager=self.account_manager)
         self.market_irs.set_fee_manager(fee_manager=self.fee_manager)
-        self.market_irs.set_price_oracle(price_oracle=self.price_oracle)
 
         # Set up IRS pool
 
         self.pool_irs_maturity = self.block.timestamp + duration
 
-        self.pool_irs = IRSPool(
+        self.pool_irs = DatedIRSVAMMExchange(
             pool_id="pool_irs",
             block=self.block,
             min_tick=0,
@@ -161,7 +146,7 @@ class MarginRequirements:
         self.bob = self.account_manager.create_account(account_id="bob", base_token=collateral_token)
 
         # Set up risk mapping
-        self.liquidation_engine.set_risk_mapping(
+        self.liquidation_module.set_risk_mapping(
             risk_mapping={"market_irs": {self.pool_irs_maturity: risk_parameter}}
         )
 
@@ -190,7 +175,7 @@ class MarginRequirements:
 
         # Alice: Deposit margin
         alice_collateral = 1000
-        self.collateral_engine.deposit_collateral(account_id=self.alice.account_id, amount=alice_collateral)
+        self.collateral_module.deposit_collateral(account_id=self.alice.account_id, amount=alice_collateral)
 
         # Alice: Mint between [F-spread, F+spread] on IRS market
         lp_notional = 10000
@@ -206,7 +191,7 @@ class MarginRequirements:
 
         # Bob: Deposit margin
         bob_collateral = 1000
-        self.collateral_engine.deposit_collateral(account_id=self.bob.account_id, amount=bob_collateral)
+        self.collateral_module.deposit_collateral(account_id=self.bob.account_id, amount=bob_collateral)
 
         # Bob: Trade
         trade_notional = 1000 if self.is_trader_vt else -1000
@@ -228,8 +213,8 @@ class MarginRequirements:
         trader_uPnL = []
 
         while self.current_observation_index + 1 < len(self.observations):
-            alice_st, alice_lt = self.liquidation_engine.get_account_margin_requirements(account_id="alice")
-            bob_st, bob_lt = self.liquidation_engine.get_account_margin_requirements(account_id="bob")
+            alice_st, alice_lt = self.liquidation_module.get_account_margin_requirements(account_id="alice")
+            bob_st, bob_lt = self.liquidation_module.get_account_margin_requirements(account_id="bob")
 
             alice_uPnL = self.account_manager.get_account(account_id="alice").get_account_unrealized_pnl()
             bob_uPnL = self.account_manager.get_account(account_id="bob").get_account_unrealized_pnl()
@@ -246,14 +231,14 @@ class MarginRequirements:
             self.advance_to_next_observation()
 
         # Alice: Settle
-        alice_sc = self.collateral_engine.get_account_collateral(account_id="alice")
+        alice_sc = self.collateral_module.get_account_collateral(account_id="alice")
         self.market_irs.settle(maturity=self.pool_irs_maturity, account_id="alice")
-        alice_sc = self.collateral_engine.get_account_collateral(account_id="alice") - alice_sc
+        alice_sc = self.collateral_module.get_account_collateral(account_id="alice") - alice_sc
 
         # Bob: Settle
-        bob_sc = self.collateral_engine.get_account_collateral(account_id="bob")
+        bob_sc = self.collateral_module.get_account_collateral(account_id="bob")
         self.market_irs.settle(maturity=self.pool_irs_maturity, account_id="bob")
-        bob_sc = self.collateral_engine.get_account_collateral(account_id="bob") - bob_sc
+        bob_sc = self.collateral_module.get_account_collateral(account_id="bob") - bob_sc
 
         output["timestamp"] = timestamps
         output["date"] = [datetime.datetime.fromtimestamp(ts) for ts in timestamps]
