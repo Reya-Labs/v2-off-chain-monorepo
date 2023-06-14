@@ -140,9 +140,7 @@ async function createEditLpParams({
   return params;
 }
 
-export function decodeEditLpOutput(
-  bytesData: any,
-): {
+export function decodeEditLpOutput(bytesData: any): {
   fee: BigNumber;
   im: BigNumber;
 } {
@@ -159,9 +157,7 @@ export function decodeEditLpOutput(
   };
 }
 
-async function getLpTxData(
-  params: CompleteEditLpDetails,
-): Promise<{
+async function getLpTxData(params: CompleteEditLpDetails): Promise<{
   data: string;
   value: string;
   chainId: number;
