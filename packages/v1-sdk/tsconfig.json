@@ -8,8 +8,7 @@
       "scripts"
     ],
     "typeRoots" : ["../../node_modules/@types", "./types"],
-    "resolveJsonModule": true,
-    "outDir": "./build",
+    "outDir": "dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
