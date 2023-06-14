@@ -23,9 +23,5 @@
     // relative to your source root folder.
     "sourceRoot": "/",
     "resolveJsonModule": true,
-    "include": [
-      "src/**/*.ts",
-      "test/**/*.test.ts"
-    ]
   }
 }
