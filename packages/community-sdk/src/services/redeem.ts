@@ -1,13 +1,9 @@
-import { LeafInfo, MultiRedeemArgs, MultiRedeemData } from '../types';
 import { getLeavesAndRootFromIpfs } from '../utils/getIpfsLeavesAndRoot';
 import { getProof } from '../utils/merkle-tree';
-import { ethers } from 'ethers';
+import { ethers, Signer } from 'ethers';
 import { getAccessPassContract } from '../utils/getAccessPassContract';
 
-export async function redeemMultiple({
-  badges,
-  owner,
-}: MultiRedeemArgs): Promise<{
+export async function claimAdmitPass(owner: Signer): Promise<{
   claimedBadgeTypes: number[];
 }> {
   // wallet was not connected when the object was initialised
@@ -20,32 +16,18 @@ export async function redeemMultiple({
 
   // parse through badges and create
   // multiRedeem(LeafInfo[] memory leafInfos, bytes32[][] calldata proofs, bytes32[] memory merkleRoots)
-  const data: MultiRedeemData = {
-    leaves: [],
-    proofs: [],
-    roots: [],
-  };
 
   const claimedBadgeTypes: number[] = [];
-  for (const badge of badges) {
-    // create merkle tree from subgraph derived leaves and get the root
-    const { root, leaves } = await getLeavesAndRootFromIpfs();
+  // create merkle tree from subgraph derived leaves and get the root
+  const { root, leaves, numberOfAccessPasses } = await getLeavesAndRootFromIpfs(
+    ownerAddress,
+  );
 
-    if (!root) {
-      continue;
-    }
-    const leafInfo: LeafInfo = {
-      account: ownerAddress,
-      accountPassId: 1,
-    };
-
-    const proof = getProof(ownerAddress, parseInt(badge.badgeType), leaves);
-
-    data.leaves.push(leafInfo);
-    data.proofs.push(proof);
-    data.roots.push(root.merkleRoot);
-    claimedBadgeTypes.push(parseInt(badge.badgeType));
+  if (!root) {
+    throw new Error('Missing root');
   }
+
+  const proof = getProof(ownerAddress, numberOfAccessPasses, leaves);
 
   try {
     const accessPassContract: ethers.Contract = getAccessPassContract(
@@ -53,14 +35,16 @@ export async function redeemMultiple({
       owner,
     );
     await accessPassContract.callStatic.multiRedeem(
-      data.leaves,
-      data.proofs,
-      data.roots,
+      ownerAddress,
+      numberOfAccessPasses,
+      proof,
+      root,
     );
     const tx = await accessPassContract.multiRedeem(
-      data.leaves,
-      data.proofs,
-      data.roots,
+      ownerAddress,
+      numberOfAccessPasses,
+      proof,
+      root,
     );
     await tx.wait();
     return {

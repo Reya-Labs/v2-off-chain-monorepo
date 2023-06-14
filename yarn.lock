@@ -3557,6 +3557,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@voltz-protocol/community-sdk@workspace:packages/community-sdk"
   dependencies:
+    keccak256: 1.0.6
     merkletreejs: ^0.3.0
   languageName: unknown
   linkType: soft
@@ -4160,18 +4161,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
-"bignumber.js@npm:^9.0.0":
-=======
-"big.js@npm:^6.0.0, big.js@npm:^6.1.1":
-  version: 6.2.1
-  resolution: "big.js@npm:6.2.1"
-  checksum: 0b234a2fd56c52bed2798ed2020bcab6fef5e9523b99a05406ad071d1aed6ee97ada9fb8de9576092da74c68825c276e19015743b8d1baea269b60a5c666b0cd
-  languageName: node
-  linkType: hard
-
 "bignumber.js@npm:^9.0.0, bignumber.js@npm:^9.0.1":
->>>>>>> d35e576 (feat: community sdk base)
   version: 9.1.1
   resolution: "bignumber.js@npm:9.1.1"
   checksum: ad243b7e2f9120b112d670bb3d674128f0bd2ca1745b0a6c9df0433bd2c0252c43e6315d944c2ac07b4c639e7496b425e46842773cf89c6a2dcd4f31e5c4b11e
@@ -5154,21 +5144,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
 "crypto-js@npm:4.1.1":
-=======
+  version: 4.1.1
+  resolution: "crypto-js@npm:4.1.1"
+  checksum: b3747c12ee3a7632fab3b3e171ea50f78b182545f0714f6d3e7e2858385f0f4101a15f2517e033802ce9d12ba50a391575ff4638c9de3dd9b2c4bc47768d5425
+  languageName: node
+  linkType: hard
+
 "crypto-js@npm:^3.1.9-1":
   version: 3.3.0
   resolution: "crypto-js@npm:3.3.0"
   checksum: 193923143a4784b2f974366068d96fe8280168fd3fef2bfea9551a5c3e32096f5a8fa49ff4eeb5bd0b9716d325618d38cfbe6125e359a4ef488fbca93e600824
-  languageName: node
-  linkType: hard
-
-"crypto-js@npm:^4.1.1":
->>>>>>> d35e576 (feat: community sdk base)
-  version: 4.1.1
-  resolution: "crypto-js@npm:4.1.1"
-  checksum: b3747c12ee3a7632fab3b3e171ea50f78b182545f0714f6d3e7e2858385f0f4101a15f2517e033802ce9d12ba50a391575ff4638c9de3dd9b2c4bc47768d5425
   languageName: node
   linkType: hard
 

@@ -2,7 +2,7 @@ import { Signer, Bytes } from 'ethers';
 
 export type LeafInfo = {
   account: string;
-  accountPassId: number;
+  numberOfAccessPasses: number;
 };
 
 export type BadgeRecord = {
@@ -10,7 +10,6 @@ export type BadgeRecord = {
 };
 
 export type MultiRedeemArgs = {
-  badges: BadgeRecord[];
   owner: Signer;
 };
 
