@@ -1,11 +1,6 @@
 import random
 
 import numpy as np
-
-"""
-bashtage/arch: Release 4.18 (Version v4.18). Zenodo. https://doi.org/10.5281/zenodo.593254
-pip3 install arch --user
-"""
 from arch.bootstrap import CircularBlockBootstrap, optimal_block_length
 
 
