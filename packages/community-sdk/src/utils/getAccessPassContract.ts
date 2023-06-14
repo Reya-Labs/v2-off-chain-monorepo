@@ -11,6 +11,9 @@ export const getAccessPassContract = (
     `
     function balanceOf(address) public view returns (uint256)
     `,
+    `
+    function ownerOf(uint256) public view returns (address)
+    `,
   ];
 
   const contract: ethers.Contract = new ethers.Contract(address, abi, signer);
