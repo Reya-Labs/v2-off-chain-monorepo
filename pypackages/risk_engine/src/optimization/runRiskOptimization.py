@@ -1,26 +1,19 @@
 import json
 import os
-import sys
-
 import numpy as np
 import optuna
 import pandas as pd
-import RiskMetrics as rm
-from position_dict import position_dict  # Feed this a hashmap of relevant positions
-
-from constants import YEAR_IN_SECONDS
-
-sys.path.append("../")
+from risk_engine.src.calculators.RiskMetrics import RiskMetrics as rm
+from risk_engine.tests.mocks.mockPosition import mock_position
+from risk_engine.src.constants import YEAR_IN_SECONDS
 from simulations.margin_requirements.MarginRequirements import MarginRequirements
 
-"""
-    Configuration for running an IRS risk parameterisation
-"""
 
+# todo: turn these into an argument for generate pool function -> stateless
 MARKET = "irs_usdc"
 RUN_OPTUNA = True
 RUN_SIMPLER_OPTIMISATION = True
-positions = position_dict[MARKET]
+positions = mock_position[MARKET]
 
 
 def generate_pool(
