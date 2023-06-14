@@ -24,18 +24,12 @@ export async function claimAdmitPass(owner: Signer): Promise<boolean> {
       ACCCESS_PASS_CONTRACT_ADDRESS,
       owner,
     );
-    await accessPassContract.callStatic.redeem(
-      ownerAddress,
-      numberOfAccessPasses.toString(),
-      proof,
-      root,
-    );
-    const tx = await accessPassContract.redeem(
-      ownerAddress,
-      numberOfAccessPasses.toString(),
-      proof,
-      root,
-    );
+    await accessPassContract
+      .connect(owner)
+      .callStatic.redeem(ownerAddress, numberOfAccessPasses, proof, root);
+    const tx = await accessPassContract
+      .connect(owner)
+      .redeem(ownerAddress, numberOfAccessPasses, proof, root);
     await tx.wait();
     return true;
   } catch (error) {
