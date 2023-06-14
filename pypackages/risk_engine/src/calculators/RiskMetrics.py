@@ -2,10 +2,11 @@ import random
 
 import numpy as np
 from arch.bootstrap import CircularBlockBootstrap, optimal_block_length
+from pandas import DataFrame
 
 
 class RiskMetrics:
-    def __init__(self, df, z_scores=None):
+    def __init__(self, df: DataFrame, z_scores: dict[float][float] = None):
         if z_scores is None:
             z_scores = {95: 1.96, 99: 2.58}
         self.z_scores = z_scores
@@ -30,7 +31,7 @@ class RiskMetrics:
     def get_random():
         exp = random.randint(-5, -2)
         significand = 0.9 * random.random() + 0.1
-        return significand * 10**exp
+        return significand * 10 ** exp
 
     def generate_replicates(self, N_replicates=100):
         rs = np.random.RandomState(42)
