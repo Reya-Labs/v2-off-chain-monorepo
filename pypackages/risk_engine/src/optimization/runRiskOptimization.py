@@ -6,7 +6,7 @@ import pandas as pd
 from risk_engine.src.calculators.RiskMetrics import RiskMetrics as rm
 from risk_engine.tests.mocks.mockPosition import mock_position
 from risk_engine.src.constants import YEAR_IN_SECONDS
-from simulations.margin_requirements.MarginRequirements import MarginRequirements
+from risk_engine.src.simulations.margin_requirements.MarginRequirements import MarginRequirements
 
 
 # todo: turn these into an argument for generate pool function -> stateless
