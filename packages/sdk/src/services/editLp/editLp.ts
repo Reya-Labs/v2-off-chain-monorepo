@@ -19,6 +19,7 @@ import {
 import { getEditLpPeripheryParams } from './getEditLpPeripheryParams';
 import { InfoPostLp } from '../lp';
 import { encodeLp } from '../lp/encode';
+import { PositionInfo } from '../editSwap';
 
 export async function editLp({
   positionId,
@@ -118,13 +119,13 @@ async function createEditLpParams({
   notional,
   margin,
 }: EditLpArgs): Promise<CompleteEditLpDetails> {
-  const lpInfo = await getEditLpPeripheryParams(positionId);
+  const lpInfo: PositionInfo = await getEditLpPeripheryParams(positionId);
 
   const tokenDecimals = getTokenDetails(lpInfo.quoteTokenAddress).tokenDecimals;
   const liquidityAmount = notionalToLiquidityBN(
     scale(tokenDecimals)(notional),
-    tokenDecimals,
-    fixedLow,
+    lpInfo.fixedRateLower,
+    lpInfo.fixedRateUpper,
   );
 
   const params: CompleteEditLpDetails = {
