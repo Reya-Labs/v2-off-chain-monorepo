@@ -23,6 +23,9 @@ type EditSwapUserInputs = SwapUserInputs & {
 export type PositionInfo = PoolInfo & {
   positionMargin: number;
   accountId: string;
+  // todo: consider replacing with tickLower and tickUpper or just have both
+  fixedRateLower: number;
+  fixedRateUpper: number;
 };
 
 /**

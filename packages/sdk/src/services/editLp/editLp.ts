@@ -19,14 +19,13 @@ import {
 import { getEditLpPeripheryParams } from './getEditLpPeripheryParams';
 import { InfoPostLp } from '../lp';
 import { encodeLp } from '../lp/encode';
+import { PositionInfo } from '../editSwap';
 
 export async function editLp({
   positionId,
   signer,
   notional,
   margin,
-  fixedLow,
-  fixedHigh,
 }: EditLpArgs): Promise<ContractReceipt> {
   // fetch: send request to api
 
@@ -35,8 +34,6 @@ export async function editLp({
     signer,
     notional,
     margin,
-    fixedLow,
-    fixedHigh,
   });
 
   const { data, value, chainId } = await getLpTxData(params);
@@ -49,8 +46,6 @@ export async function simulateEditLp({
   signer,
   notional,
   margin,
-  fixedLow,
-  fixedHigh,
 }: EditLpArgs): Promise<InfoPostLp> {
   // fetch: send request to api
 
@@ -59,8 +54,6 @@ export async function simulateEditLp({
     signer,
     notional,
     margin,
-    fixedLow,
-    fixedHigh,
   });
 
   const { data, value, chainId } = await getLpTxData(params);
@@ -104,16 +97,12 @@ export async function estimateEditLpGasUnits({
   signer,
   notional,
   margin,
-  fixedLow,
-  fixedHigh,
 }: EditLpArgs): Promise<BigNumber> {
   const params = await createEditLpParams({
     positionId,
     signer,
     notional,
     margin,
-    fixedLow,
-    fixedHigh,
   });
 
   const { data, value, chainId } = await getLpTxData(params);
@@ -129,16 +118,14 @@ async function createEditLpParams({
   signer,
   notional,
   margin,
-  fixedLow,
-  fixedHigh,
 }: EditLpArgs): Promise<CompleteEditLpDetails> {
-  const lpInfo = await getEditLpPeripheryParams(positionId);
+  const lpInfo: PositionInfo = await getEditLpPeripheryParams(positionId);
 
   const tokenDecimals = getTokenDetails(lpInfo.quoteTokenAddress).tokenDecimals;
   const liquidityAmount = notionalToLiquidityBN(
     scale(tokenDecimals)(notional),
-    tokenDecimals,
-    fixedLow,
+    lpInfo.fixedRateLower,
+    lpInfo.fixedRateUpper,
   );
 
   const params: CompleteEditLpDetails = {
@@ -146,8 +133,8 @@ async function createEditLpParams({
     owner: signer,
     liquidityAmount: liquidityAmount,
     margin: scale(tokenDecimals)(margin),
-    fixedLow,
-    fixedHigh,
+    fixedLow: lpInfo.fixedRateLower,
+    fixedHigh: lpInfo.fixedRateUpper,
   };
 
   return params;

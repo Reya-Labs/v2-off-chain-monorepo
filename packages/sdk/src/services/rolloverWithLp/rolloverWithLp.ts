@@ -1,10 +1,10 @@
-import { RolloverAndSwapArgs } from './types';
+import { RolloverAndLpArgs } from './types';
 import { ContractReceipt } from 'ethers';
 import { ZERO_BN } from '../../utils/constants';
-import { InfoPostSwap } from '../swap';
+import { InfoPostLp } from '../lp';
 
-export async function rolloverAnd(
-  args: RolloverAndSwapArgs,
+export async function rolloverWithLp(
+  args: RolloverAndLpArgs,
 ): Promise<ContractReceipt> {
   return Promise.resolve({
     to: '',
@@ -25,19 +25,13 @@ export async function rolloverAnd(
   });
 }
 
-export async function simulateRolloverWith(
-  args: RolloverAndSwapArgs,
-): Promise<InfoPostSwap> {
+export async function simulateRolloverWithLp(
+  args: RolloverAndLpArgs,
+): Promise<InfoPostLp> {
   return Promise.resolve({
     marginRequirement: 0,
     maxMarginWithdrawable: 0,
-    availableNotional: 0,
     fee: 0,
-    slippage: 0,
-    averageFixedRate: 0,
-    fixedTokenDeltaBalance: 0,
-    variableTokenDeltaBalance: 0,
-    fixedTokenDeltaUnbalanced: 0,
     gasFee: {
       value: 0,
       token: 'ETH',

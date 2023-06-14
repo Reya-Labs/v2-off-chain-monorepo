@@ -8,11 +8,13 @@ export async function getEditLpPeripheryParams(
   return {
     productAddress: '0x0000000000000000000000000000000000000000',
     maturityTimestamp: 1675777000,
-    marketId: 'mockMarketID',
+    marketId: 'mockMarketIcD',
     quoteTokenAddress: '0x0000000000000000000000000000000000000000',
     currentLiquidityIndex: 1.000000000001283,
     currentFixedRate: 3.45,
     positionMargin: 10,
     accountId: '218829',
+    fixedRateLower: 1.5,
+    fixedRateUpper: 3.5,
   };
 }
