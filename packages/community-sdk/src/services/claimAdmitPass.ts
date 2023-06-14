@@ -4,9 +4,7 @@ import { ethers, Signer } from 'ethers';
 import { getAccessPassContract } from '../utils/getAccessPassContract';
 import { ACCCESS_PASS_CONTRACT_ADDRESS } from '../utils/configuration';
 
-export async function claimAdmitPass(owner: Signer): Promise<{
-  claimedBadgeTypes: number[];
-}> {
+export async function claimAdmitPass(owner: Signer): Promise<boolean> {
   // wallet was not connected when the object was initialised
   // therefore, it couldn't obtain the contract connection
   if (!owner.provider) {
@@ -15,7 +13,6 @@ export async function claimAdmitPass(owner: Signer): Promise<{
 
   const ownerAddress = await owner.getAddress();
 
-  const claimedBadgeTypes: number[] = [];
   const { root, leaves, numberOfAccessPasses } = await getLeavesAndRootFromIpfs(
     ownerAddress,
   );
@@ -27,22 +24,20 @@ export async function claimAdmitPass(owner: Signer): Promise<{
       ACCCESS_PASS_CONTRACT_ADDRESS,
       owner,
     );
-    await accessPassContract.callStatic.multiRedeem(
+    await accessPassContract.callStatic.redeem(
       ownerAddress,
       numberOfAccessPasses,
       proof,
       root,
     );
-    const tx = await accessPassContract.multiRedeem(
+    const tx = await accessPassContract.redeem(
       ownerAddress,
       numberOfAccessPasses,
       proof,
       root,
     );
     await tx.wait();
-    return {
-      claimedBadgeTypes,
-    };
+    return true;
   } catch (error) {
     console.warn('Unable to claim multiple badges');
     throw new Error('Unable to claim multiple badges');

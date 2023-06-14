@@ -6,7 +6,7 @@ import { LeafInfo } from '../types';
 const getLeaf = (address: string, accountPassId: number): Buffer => {
   return Buffer.from(
     ethers.utils
-      .solidityKeccak256(['address', 'uint96'], [address, accountPassId])
+      .solidityKeccak256(['address', 'uint256'], [address, accountPassId])
       .slice(2),
     'hex',
   );
