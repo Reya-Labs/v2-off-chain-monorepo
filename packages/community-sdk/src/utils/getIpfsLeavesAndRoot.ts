@@ -1,14 +1,15 @@
 import axios from 'axios';
-import { LeafInfo, RootEntity } from '../types';
+import { LeafInfo } from '../types';
 import { IPFS_LEAVES_CID } from './configuration';
 import { getLeavesIpfsUri } from './helpers';
+import { Bytes, ethers } from 'ethers';
 
 export async function getIpfsData(): Promise<{
   leaves: Array<{
     owner: string;
     badgesCount: number;
   }>;
-  root: string;
+  root: Bytes;
 }> {
   const data = await axios.get(getLeavesIpfsUri(IPFS_LEAVES_CID), {
     headers: {
@@ -21,14 +22,14 @@ export async function getIpfsData(): Promise<{
     badgesCount: number;
   }> = data.data.snapshot;
 
-  const root: string = data.data.root;
+  const root: Bytes = ethers.utils.arrayify(data.data.root);
 
   return { leaves: snaphots, root };
 }
 
 export async function getLeavesAndRootFromIpfs(ownerAddress: string): Promise<{
   leaves: Array<LeafInfo>;
-  root: string;
+  root: Bytes;
   numberOfAccessPasses: number;
 }> {
   const { leaves, root } = await getIpfsData();
