@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/community-sdk@1.1.1...@voltz-protocol/community-sdk@1.1.2) (2023-06-14)
+
+### Bug Fixes
+
+- amit typo & lower case ([bac1a62](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/bac1a6251d6ea8155ac041e54e2e9104698d815d))
+
 ## [1.1.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/community-sdk@1.1.0...@voltz-protocol/community-sdk@1.1.1) (2023-06-14)
 
 ### Bug Fixes
