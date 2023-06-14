@@ -61,6 +61,11 @@ def run():
 
         lp_spread = 0.01
 
+        maker_fee = 0.0
+        taker_fee = 0.0
+        # todo: rename the variable to tell if in lookback is in seconds, days, etc?
+        gwap_lookback = 3600
+
         # Write description of the scenario
         description_file = open("{0}/description.txt".format(simulation_folder), "w")
         description_file.write("This market is of duration {0} days.\n".format(duration / DAY_IN_SECONDS))
@@ -96,6 +101,9 @@ def run():
             is_trader_vt=True,
             timestamps=df["timestamp"].values,
             indices=df["liquidity_index"].values,
+            maker_fee=maker_fee,
+            taker_fee=taker_fee,
+            gwap_lookback=gwap_lookback
         )
 
         simulation.run(output_folder=simulation_folder)
