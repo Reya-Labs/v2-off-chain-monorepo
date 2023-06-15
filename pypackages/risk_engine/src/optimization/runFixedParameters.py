@@ -1,12 +1,16 @@
 import pandas as pd
 from risk_engine.src.optimization.generatePool import generate_pool
 import numpy as np
+# temp
+from risk_engine.tests.mocks.mockPositions import mock_positions
+
 
 # todo: layer in typings (esp for positions)
-def run_with_a_single_set_of_params(parser, positions):
+def run_with_a_single_set_of_params(parser):
 
     # todo: consider representing positions via parser by linging them to json or smth
 
+    # todo: add support for positions as argument
     parser.add_argument("-plm", "--p_lm", type=float, help="p_lm risk matrix factor", default=2.0)
     parser.add_argument("-gam", "--gamma", type=float, help="gamma factor for LP->IM conversion", default=1.5)
     parser.add_argument("-t", "--lambda_taker", type=float, help="Taker fee", default=0.01)
@@ -21,6 +25,7 @@ def run_with_a_single_set_of_params(parser, positions):
 
     parameters = parser.parse_args()
     parameters_dict = dict((k, v) for k, v in vars(parameters).items() if v is not None)
+    positions = mock_positions[parameters_dict['market_name']]
 
     # todo: simplify and expose in another function (duiplicate)
     oracles = [
@@ -47,3 +52,9 @@ def run_with_a_single_set_of_params(parser, positions):
     return np.mean(
         optimisations
     )
+
+
+if __name__ == "__main__":
+    from argparse import ArgumentParser
+    parser = ArgumentParser()
+    run_with_a_single_set_of_params(parser=parser)
