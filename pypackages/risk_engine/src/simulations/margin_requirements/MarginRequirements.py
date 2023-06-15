@@ -41,7 +41,7 @@ class MarginRequirements:
         lp_spread: float,
         is_trader_vt: bool,
         timestamps: list[int],
-        indices,
+        indices: list[float],
         maker_fee: float,
         taker_fee: float,
         gwap_lookback: float

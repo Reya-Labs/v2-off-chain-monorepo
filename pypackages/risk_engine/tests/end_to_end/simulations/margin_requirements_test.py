@@ -7,19 +7,6 @@ class MarginRequirementsTest(unittest.TestCase):
 
 
     def setUp(self):
-        # collateral_token,
-        # initial_fixed_rate,
-        # risk_parameter,
-        # im_multiplier,
-        # slippage_phi,
-        # slippage_beta,
-        # lp_spread,
-        # is_trader_vt,
-        # timestamps,
-        # indices,
-        # maker_fee,
-        # taker_fee,
-        # gwap_lookback
 
         self.margin_requirements_sim = MarginRequirements()
         self.margin_requirements_sim.setUp(
@@ -31,7 +18,11 @@ class MarginRequirementsTest(unittest.TestCase):
             slippage_beta=SLIPPAGE_BETA,
             lp_spread=LP_SPREAD,
             is_trader_vt=IS_TRADER_VT,
-            timestamps=[0, 1]
+            timestamps=[0, 1],
+            indices=[1.0, 1.00001],
+            maker_fee=MAKER_FEE,
+            taker_fee=TAKER_FEE,
+            gwap_lookback=GWAP_LOOKBACK
         )
 
     def full_run_test(self):
