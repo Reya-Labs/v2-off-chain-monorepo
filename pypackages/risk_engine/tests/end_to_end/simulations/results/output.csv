@@ -1,0 +1,2 @@
+timestamp,date,lp_liquidation_threshold,lp_safety_threshold,lp_uPnL,trader_liquidation_threshold,trader_safety_threshold,trader_uPnL,lp_settlement_cashflow,trader_settlement_cashflow
+1663220562,2022-09-15 06:42:42,8.21917808219178,12.328767123287669,-0.041095890410929314,1.643835616438356,2.4657534246575343,0.041095890410929314,4.140684931506826,-4.140684931506826

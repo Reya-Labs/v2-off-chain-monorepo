@@ -172,7 +172,10 @@ class MarginRequirements:
 
         self.current_observation_index += 1
 
-    def run(self, output_folder) -> pd.DataFrame:
+    def perform_actor_actions(self):
+
+        # todo: consider introducing a stateless execute_actions function that takes a list of actions
+        # such as deposit, provide liquidity, trade, etc
 
         # Alice: Deposit margin
         alice_collateral = 1000
@@ -203,6 +206,10 @@ class MarginRequirements:
             account_id="bob",
             base=trade_notional / self.oracle.latest(),
         )
+
+    def run(self, output_folder) -> pd.DataFrame:
+
+        self.perform_actor_actions()
 
         output: pd.DataFrame = pd.DataFrame()
         timestamps: list[int] = []
