@@ -37,4 +37,5 @@ class MarginRequirementsRunnerTest(unittest.TestCase):
         # 'lp_uPnL', 'trader_liquidation_threshold', 'trader_safety_threshold',
         # 'trader_uPnL', 'lp_settlement_cashflow', 'trader_settlement_cashflow']
         # 1663220562,2022-09-15 06:42:42,8.21918,12.32877,-0.04110,1.64384,2.46575,0.04110,4.14068,-4.14068
-        print('here')
+
+        # todo: write tests for individual calculations that feed into this flow and then get back here
