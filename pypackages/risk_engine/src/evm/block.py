@@ -2,9 +2,7 @@ from __future__ import (  # https://stackoverflow.com/questions/33533148/how-do-
     annotations,
 )
 
-FIRST_MAINNET_POS_BLOCK = 15537394
-FIRST_MAINNET_POS_BLOCK_TIMESTAMP = 1663220562
-POS_SECONDS_PER_BLOCK = 12
+from risk_engine.src.constants import FIRST_MAINNET_POS_BLOCK, POS_SECONDS_PER_BLOCK, FIRST_MAINNET_POS_BLOCK_TIMESTAMP
 
 
 class Block:

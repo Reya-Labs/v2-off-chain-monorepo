@@ -44,7 +44,8 @@ class MarginRequirements:
         indices: list[float],
         maker_fee: float,
         taker_fee: float,
-        gwap_lookback: float
+        gwap_lookback: float,
+        liquidator_reward: float
     ):
         # Generate the modules
         self.block: Block = Block(relative_block_position=0)
@@ -64,7 +65,7 @@ class MarginRequirements:
                     )
                 )
 
-        self.observations = []
+        self.observations: list[list[int | float]] = []
         for i in range(len(timestamps)):
             self.observations.append([timestamps[i], indices[i]])
 
@@ -81,7 +82,7 @@ class MarginRequirements:
         self.account_manager = AccountManager()
         self.fee_manager = FeeManager()
         self.collateral_module = CollateralModule()
-        self.liquidation_module = LiquidationModule(im_multiplier=im_multiplier)
+        self.liquidation_module = LiquidationModule(im_multiplier=im_multiplier, liquidator_reward_proportion_of_im_delta=liquidator_reward)
         self.market_manager = MarketManager()
 
         # Set up the account manager
@@ -213,8 +214,8 @@ class MarginRequirements:
         trader_uPnL: list[float] = []
 
         while self.current_observation_index + 1 < len(self.observations):
-            alice_st, alice_lt = self.liquidation_module.get_account_margin_requirements(account_id="alice")
-            bob_st, bob_lt = self.liquidation_module.get_account_margin_requirements(account_id="bob")
+            alice_st, alice_lt = self.liquidation_module.get_account_margin_requirements(account_id="alice", account_manager=self.account_manager)
+            bob_st, bob_lt = self.liquidation_module.get_account_margin_requirements(account_id="bob", account_manager=self.account_manager)
 
             alice_uPnL = self.account_manager.get_account(account_id="alice").get_account_unrealized_pnl()
             bob_uPnL = self.account_manager.get_account(account_id="bob").get_account_unrealized_pnl()
