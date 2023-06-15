@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 from risk_engine.src.constants import DAY_IN_SECONDS, YEAR_IN_SECONDS
-from risk_engine.src.simulations.margin_requirements.MarginRequirements import MarginRequirements
+from risk_engine.src.simulations.margin_requirements.marginRequirements import MarginRequirements
 
 
 def run():

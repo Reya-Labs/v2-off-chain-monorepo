@@ -1,4 +1,4 @@
-mock_position = {
+mock_positions = {
     "irs_usdc": {
         "market_id": "market_irs",
         "pool_id": "pool_irs_usdc",
