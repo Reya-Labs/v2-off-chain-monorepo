@@ -70,7 +70,7 @@ app.get('/v1v2-pools/:chainIds', (req, res) => {
   );
 });
 
-app.get('/v2-positions/:chainIds/:ownerAddress', (req, res) => {
+app.get('/v1v2-positions/:chainIds/:ownerAddress', (req, res) => {
   const chainIds = req.params.chainIds.split('&').map((s) => Number(s));
   const ownerAddress = req.params.ownerAddress.toLowerCase();
 
