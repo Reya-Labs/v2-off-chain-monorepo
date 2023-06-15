@@ -11,15 +11,15 @@ import {
   pullAccountsByAddress,
 } from '@voltz-protocol/bigquery-v2';
 import { getV2Pool } from '../get-pools/getV2Pool';
-import { PortfolioPositionV2 } from './types';
+import { V2PortfolioPosition } from './types';
 
 export const getV2PortfolioPositions = async (
   chainIds: SupportedChainId[],
   ownerAddress: string,
-): Promise<PortfolioPositionV2[]> => {
+): Promise<V2PortfolioPosition[]> => {
   const accounts = await pullAccountsByAddress(chainIds, ownerAddress);
 
-  const portfolio: PortfolioPositionV2[] = [];
+  const portfolio: V2PortfolioPosition[] = [];
 
   for (const { chainId, accountId } of accounts) {
     const accountCollaterals = await pullAccountCollateral(chainId, accountId);
@@ -86,7 +86,7 @@ export const getV2PortfolioPositions = async (
       const unrealizedPNL = 0;
 
       // Build response
-      const position: PortfolioPositionV2 = {
+      const position: V2PortfolioPosition = {
         id: positionId,
         ownerAddress,
         type:

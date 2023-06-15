@@ -1,7 +1,7 @@
 import { SupportedChainId } from '@voltz-protocol/commons-v2';
 import { V1Pool } from './types';
 import { pullExistingPoolRow } from '@voltz-protocol/indexer-v1';
-import { buildPool } from './buildPool';
+import { buildV1Pool } from './buildV1Pool';
 
 export const getV1Pool = async (
   chainId: SupportedChainId,
@@ -13,5 +13,5 @@ export const getV1Pool = async (
     return null;
   }
 
-  return buildPool(rawPool);
+  return buildV1Pool(rawPool);
 };

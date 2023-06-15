@@ -1,10 +1,10 @@
-import { PortfolioPositionV1 } from '../../v1-queries-new/get-portfolio-positions/types';
+import { V1PortfolioPosition } from '../../v1-queries/get-portfolio-positions/types';
 import { extendV1Pool } from '../get-pools/extendV1Pool';
-import { PortfolioPositionV1V2 } from './types';
+import { V1V2PortfolioPosition } from './types';
 
 export const extendV1Position = (
-  p: PortfolioPositionV1,
-): PortfolioPositionV1V2 => ({
+  p: V1PortfolioPosition,
+): V1V2PortfolioPosition => ({
   ...p,
   amm: extendV1Pool(p.amm),
 });

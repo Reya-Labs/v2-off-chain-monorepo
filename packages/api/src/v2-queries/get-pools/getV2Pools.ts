@@ -1,5 +1,5 @@
 import { pullVammsByChains } from '@voltz-protocol/bigquery-v2';
-import { buildPool } from './buildPool';
+import { buildV2Pool } from './buildV2Pool';
 import { SupportedChainId } from '@voltz-protocol/commons-v2';
 import { V2Pool } from './types';
 
@@ -8,7 +8,7 @@ export const getV2Pools = async (
 ): Promise<V2Pool[]> => {
   const pools = await pullVammsByChains(chainIds);
 
-  const promises = pools.map(buildPool);
+  const promises = pools.map(buildV2Pool);
   const responses = await Promise.allSettled(promises);
 
   const result = responses.map((r) => {

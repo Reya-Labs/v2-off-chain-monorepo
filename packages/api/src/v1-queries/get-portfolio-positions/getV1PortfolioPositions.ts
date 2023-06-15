@@ -3,7 +3,7 @@ import {
   Position as RawPosition,
 } from '@voltz-protocol/subgraph-data';
 
-import { PortfolioPositionV1 } from './types';
+import { V1PortfolioPosition } from './types';
 import {
   descale,
   tickToFixedRate,
@@ -24,7 +24,7 @@ import { getV1Pool } from '../get-pools/getV1Pool';
 export const getV1PortfolioPositions = async (
   chainIds: number[],
   ownerAddress: string,
-): Promise<PortfolioPositionV1[]> => {
+): Promise<V1PortfolioPosition[]> => {
   const now = Date.now().valueOf();
 
   const allPositions: (RawPosition & { chainId: number })[] = [];
@@ -45,7 +45,7 @@ export const getV1PortfolioPositions = async (
   }
 
   const responses = await Promise.allSettled(
-    allPositions.map(async (pos): Promise<PortfolioPositionV1> => {
+    allPositions.map(async (pos): Promise<V1PortfolioPosition> => {
       const chainId = pos.chainId;
       const vammAddress = pos.amm.id;
       const marginEngineAddress = pos.amm.marginEngineId;

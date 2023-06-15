@@ -1,6 +1,6 @@
 import { V2Pool } from '../get-pools/types';
 
-export type PortfolioPositionV2 = {
+export type V2PortfolioPosition = {
   id: string;
 
   ownerAddress: string;

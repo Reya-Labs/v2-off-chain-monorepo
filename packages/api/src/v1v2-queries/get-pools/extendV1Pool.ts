@@ -1,4 +1,4 @@
-import { V1Pool } from '../../v1-queries-new/get-pools/types';
+import { V1Pool } from '../../v1-queries/get-pools/types';
 import { V1V2Pool } from './types';
 
 export const extendV1Pool = (p: V1Pool): V1V2Pool => ({

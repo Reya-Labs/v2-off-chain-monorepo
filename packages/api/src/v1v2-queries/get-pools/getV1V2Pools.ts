@@ -1,7 +1,7 @@
 import { V1V2Pool } from './types';
 import { SupportedChainId } from '@voltz-protocol/commons-v2';
 import { getV2Pools } from '../../v2-queries/get-pools/getV2Pools';
-import { getV1Pools } from '../../v1-queries-new/get-pools/getV1Pools';
+import { getV1Pools } from '../../v1-queries/get-pools/getV1Pools';
 import { extendV1Pool } from './extendV1Pool';
 import { extendV2Pool } from './extendV2Pool';
 

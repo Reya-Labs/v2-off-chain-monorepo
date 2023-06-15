@@ -6,7 +6,9 @@ import {
 import { BigQueryPoolRow } from '@voltz-protocol/indexer-v1';
 import { V1Pool } from './types';
 
-export const buildPool = async (rawPool: BigQueryPoolRow): Promise<V1Pool> => {
+export const buildV1Pool = async (
+  rawPool: BigQueryPoolRow,
+): Promise<V1Pool> => {
   const tokenName = rawPool.tokenName;
   const tokenPriceUSD = await getTokenPriceInUSD(tokenName);
 
