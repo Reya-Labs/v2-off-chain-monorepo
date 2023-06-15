@@ -6,7 +6,7 @@ import { ACCCESS_PASS_CONTRACT_ADDRESS } from '../utils/configuration';
 
 export async function claimAdmitPass(owner: Signer): Promise<boolean> {
   // wallet was not connected when the object was initialised
-  // therefore, it couldn't obtain the contract connection
+  // therefore, it could not obtain the contract connection
   if (!owner.provider) {
     throw new Error('Wallet not connected');
   }
