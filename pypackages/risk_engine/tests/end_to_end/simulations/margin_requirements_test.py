@@ -2,6 +2,9 @@ import unittest
 
 from risk_engine.src.simulations.margin_requirements.MarginRequirements import MarginRequirements
 from risk_engine.tests.end_to_end.simulations.constants import COLLATERAL_TOKEN, INITIAL_FIXED_RATE, RISK_PARAMETER, IM_MULTIPLIER, SLIPPAGE_PHI, SLIPPAGE_BETA, LP_SPREAD, IS_TRADER_VT, MAKER_FEE, TAKER_FEE, GWAP_LOOKBACK
+from pandas import DataFrame
+
+OUTPUT_FOLDER = 'margin_requirements_test_results'
 
 class MarginRequirementsTest(unittest.TestCase):
 
@@ -27,4 +30,6 @@ class MarginRequirementsTest(unittest.TestCase):
 
     def full_run_test(self):
 
-        pass
+        output: DataFrame = self.margin_requirements_sim.run(output_folder=OUTPUT_FOLDER)
+
+        print("here")

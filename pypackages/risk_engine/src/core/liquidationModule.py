@@ -132,11 +132,11 @@ class LiquidationModule:
             annualized_worst_filled_up_and_down_notionals=worst_case_filled_orders
         )
 
-        liquidation_margin_requirement = max(
+        liquidation_margin_requirement: float = max(
             worst_case_cashflow_up_shock, worst_case_cashflow_down_shock
         )
 
-        initial_margin_requirement = (
+        initial_margin_requirement: float = (
             liquidation_margin_requirement * self._im_multiplier
         )
 

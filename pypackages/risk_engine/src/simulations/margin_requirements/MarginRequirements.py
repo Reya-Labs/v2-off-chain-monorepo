@@ -171,7 +171,7 @@ class MarginRequirements:
 
         self.current_observation_index += 1
 
-    def run(self, output_folder):
+    def run(self, output_folder) -> pd.DataFrame:
 
         # Alice: Deposit margin
         alice_collateral = 1000
@@ -203,14 +203,14 @@ class MarginRequirements:
             base=trade_notional / self.oracle.latest(),
         )
 
-        output = pd.DataFrame()
-        timestamps = []
-        lp_liquidation_threshold = []
-        lp_safety_threshold = []
-        lp_uPnL = []
-        trader_liquidation_threshold = []
-        trader_safety_threshold = []
-        trader_uPnL = []
+        output: pd.DataFrame = pd.DataFrame()
+        timestamps: list[int] = []
+        lp_liquidation_threshold: list[float] = []
+        lp_safety_threshold: list[float] = []
+        lp_uPnL: list[float] = []
+        trader_liquidation_threshold: list[float] = []
+        trader_safety_threshold: list[float] = []
+        trader_uPnL: list[float] = []
 
         while self.current_observation_index + 1 < len(self.observations):
             alice_st, alice_lt = self.liquidation_module.get_account_margin_requirements(account_id="alice")
@@ -272,4 +272,4 @@ class MarginRequirements:
         plt.savefig("{0}/trader_cashflows.png".format(output_folder))
         plt.cla()
 
-        return output # Return the time series dataframe
+        return output
