@@ -12,6 +12,7 @@ export async function claimAdmitPass(owner: Signer): Promise<boolean> {
   }
 
   const chainId = await owner.getChainId();
+  
   if (chainId !== 42161) {
     throw new Error('Minting only available on Arbitrum');
   }
