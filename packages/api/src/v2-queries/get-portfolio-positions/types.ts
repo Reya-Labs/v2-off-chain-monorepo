@@ -1,9 +1,7 @@
-import { SupportedChainId } from '@voltz-protocol/commons-v2';
 import { V2Pool } from '../get-pools/types';
 
 export type PortfolioPositionV2 = {
   id: string;
-  chainId: SupportedChainId;
 
   ownerAddress: string;
   type: 'LP' | 'Variable' | 'Fixed';

@@ -3,7 +3,7 @@ import { buildPool } from './buildPool';
 import { SupportedChainId } from '@voltz-protocol/commons-v2';
 import { V2Pool } from './types';
 
-export const getPools = async (
+export const getV2Pools = async (
   chainIds: SupportedChainId[],
 ): Promise<V2Pool[]> => {
   const pools = await pullVammsByChains(chainIds);

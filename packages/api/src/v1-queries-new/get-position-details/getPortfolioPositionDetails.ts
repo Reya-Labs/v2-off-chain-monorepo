@@ -10,7 +10,7 @@ import {
 } from '@voltz-protocol/indexer-v1';
 import { getPositionPnL } from '../position-pnl/getPositionPnL';
 import { getSubgraphURL } from '../subgraph/getSubgraphURL';
-import { getPool } from '../get-pools/getPool';
+import { getV1Pool } from '../get-pools/getV1Pool';
 
 const decodePositionId = (
   positionId: string,
@@ -35,6 +35,7 @@ type GetPortfolioPositionDetails = {
   positionId: string;
   includeHistory: boolean;
 };
+
 export const getPortfolioPositionDetails = async ({
   positionId,
   includeHistory,
@@ -81,7 +82,7 @@ export const getPortfolioPositionDetails = async ({
 
   const txs = synthetisizeHistory(position);
 
-  const amm = await getPool(chainId, vammAddress);
+  const amm = await getV1Pool(chainId, vammAddress);
   if (!amm) {
     throw new Error(
       `Could not find pool (in BigQuery) for ${chainId}-${vammAddress}`,

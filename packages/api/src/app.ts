@@ -8,7 +8,6 @@ import {
   getTimestampInSeconds,
   getTrustedProxies,
 } from '@voltz-protocol/commons-v2';
-import { getPortfolioPositions as getPortfolioPositionsV2 } from './v2-queries/get-portfolio-positions/getPortfolioPositions';
 import { getAmm } from './v1-queries/common/getAMM';
 import { getPortfolioPositionDetails } from './v1-queries/get-position-details/getPortfolioPositionDetails';
 import { getPositionPnL } from './v1-queries/position-pnl/getPositionPnL';
@@ -23,9 +22,10 @@ import {
   getVoyages,
   getWalletVoyages,
 } from '@voltz-protocol/indexer-v1';
-import { getPools as getPoolsV1V2 } from './v1v2-queries/get-pools/getPools';
 import { getPortfolioPositions as getPortfolioPositionsV1 } from './v1-queries/portfolio-positions/getPortfolioPositions';
 import { getApyFromTo, getLiquidityIndexAt } from '@voltz-protocol/bigquery-v2';
+import { getV1V2Pools } from './v1v2-queries/get-pools/getV1V2Pools';
+import { getV1V2PortfolioPositions } from './v1v2-queries/get-portfolio-positions/getPortfolioPositions';
 
 export const app = express();
 
@@ -60,7 +60,7 @@ app.get('/ip', (req, res) => {
 app.get('/v1v2-pools/:chainIds', (req, res) => {
   const chainIds = req.params.chainIds.split('&').map((s) => Number(s));
 
-  getPoolsV1V2(chainIds).then(
+  getV1V2Pools(chainIds).then(
     (output) => {
       res.json(output);
     },
@@ -74,7 +74,7 @@ app.get('/v2-positions/:chainIds/:ownerAddress', (req, res) => {
   const chainIds = req.params.chainIds.split('&').map((s) => Number(s));
   const ownerAddress = req.params.ownerAddress.toLowerCase();
 
-  getPortfolioPositionsV2(chainIds, ownerAddress).then(
+  getV1V2PortfolioPositions(chainIds, ownerAddress).then(
     (output) => {
       res.json(output);
     },

@@ -3,7 +3,7 @@ import { V1Pool } from './types';
 import { pullExistingPoolRow } from '@voltz-protocol/indexer-v1';
 import { buildPool } from './buildPool';
 
-export const getPool = async (
+export const getV1Pool = async (
   chainId: SupportedChainId,
   vammAddress: string,
 ): Promise<V1Pool | null> => {

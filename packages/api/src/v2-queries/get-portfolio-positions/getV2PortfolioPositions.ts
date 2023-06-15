@@ -10,10 +10,10 @@ import {
   pullAccountPositionEntries,
   pullAccountsByAddress,
 } from '@voltz-protocol/bigquery-v2';
-import { getPool } from '../get-pools/getPool';
+import { getV2Pool } from '../get-pools/getV2Pool';
 import { PortfolioPositionV2 } from './types';
 
-export const getPortfolioPositions = async (
+export const getV2PortfolioPositions = async (
   chainIds: SupportedChainId[],
   ownerAddress: string,
 ): Promise<PortfolioPositionV2[]> => {
@@ -51,7 +51,7 @@ export const getPortfolioPositions = async (
       tickLower,
       tickUpper,
     } of positionEntries) {
-      const pool = await getPool(chainId, marketId, maturityTimestamp);
+      const pool = await getV2Pool(chainId, marketId, maturityTimestamp);
 
       if (!pool) {
         throw new Error(
@@ -88,7 +88,6 @@ export const getPortfolioPositions = async (
       // Build response
       const position: PortfolioPositionV2 = {
         id: positionId,
-        chainId,
         ownerAddress,
         type:
           positionType === 'lp' ? 'LP' : baseBalance < 0 ? 'Fixed' : 'Variable',
