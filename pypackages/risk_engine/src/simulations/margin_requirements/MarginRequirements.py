@@ -32,19 +32,20 @@ class MarginRequirements:
 
     def setUp(
         self,
-        collateral_token,
-        initial_fixed_rate,
-        risk_parameter,
-        im_multiplier,
-        slippage_phi,
-        slippage_beta,
-        lp_spread,
-        is_trader_vt,
-        timestamps,
-        indices,
-        maker_fee,
-        taker_fee,
-        gwap_lookback
+        collateral_token: str,
+        initial_fixed_rate: float,
+        risk_parameter: float,
+        im_multiplier: float,
+        slippage_phi: float,
+        slippage_beta: float,
+        lp_spread: float,
+        is_trader_vt: bool,
+        timestamps: list[int],
+        indices: list[float],
+        maker_fee: float,
+        taker_fee: float,
+        gwap_lookback: float,
+        liquidator_reward: float
     ):
         # Generate the modules
         self.block: Block = Block(relative_block_position=0)
@@ -64,7 +65,7 @@ class MarginRequirements:
                     )
                 )
 
-        self.observations = []
+        self.observations: list[list[int | float]] = []
         for i in range(len(timestamps)):
             self.observations.append([timestamps[i], indices[i]])
 
@@ -81,7 +82,7 @@ class MarginRequirements:
         self.account_manager = AccountManager()
         self.fee_manager = FeeManager()
         self.collateral_module = CollateralModule()
-        self.liquidation_module = LiquidationModule(im_multiplier=im_multiplier)
+        self.liquidation_module = LiquidationModule(im_multiplier=im_multiplier, liquidator_reward_proportion_of_im_delta=liquidator_reward)
         self.market_manager = MarketManager()
 
         # Set up the account manager
@@ -171,11 +172,31 @@ class MarginRequirements:
 
         self.current_observation_index += 1
 
-    def run(self, output_folder):
+    def settle_actor_positions(self, actor_account_id: str, counterparty_account_id: str) -> tuple[float, float]:
+
+        # todo: consider generalizing this via the perform actions function
+
+        actor_collateral_balance_before_settlement = self.collateral_module.get_account_collateral_balance(account_id=actor_account_id)
+        self.market_irs.settle(maturity=self.pool_irs_maturity, account_id=actor_account_id)
+        actor_collateral_balance_after_settlement = self.collateral_module.get_account_collateral_balance(account_id=actor_account_id)
+        actor_settlement_cashflow = actor_collateral_balance_after_settlement - actor_collateral_balance_before_settlement
+
+        counterparty_collateral_balance_before_settlement = self.collateral_module.get_account_collateral_balance(account_id=counterparty_account_id)
+        self.market_irs.settle(maturity=self.pool_irs_maturity, account_id=counterparty_account_id)
+        counterparty_collateral_balance_after_settlement = self.collateral_module.get_account_collateral_balance(account_id=counterparty_account_id)
+        counterparty_settlement_cashflow =counterparty_collateral_balance_after_settlement - counterparty_collateral_balance_before_settlement
+
+        return actor_settlement_cashflow, counterparty_settlement_cashflow
+
+
+    def initiate_actor_positions(self, actor_account_id: str, counterparty_account_id: str):
+
+        # todo: consider introducing a stateless execute_actions function that takes a list of actions
+        # such as deposit, provide liquidity, trade, etc
 
         # Alice: Deposit margin
         alice_collateral = 1000
-        self.collateral_module.deposit_collateral(account_id=self.alice.account_id, amount=alice_collateral)
+        self.collateral_module.deposit_collateral(account_id=actor_account_id, amount=alice_collateral)
 
         # Alice: Mint between [F-spread, F+spread] on IRS market
         lp_notional = 10000
@@ -183,7 +204,7 @@ class MarginRequirements:
         self.market_irs.process_limit_order(
             pool_id="pool_irs",
             maturity=self.pool_irs_maturity,
-            account_id="alice",
+            account_id=actor_account_id,
             base=lp_notional / self.oracle.latest(),
             lower_price=self.initial_fixed_rate - self.lp_spread,
             upper_price=self.initial_fixed_rate + self.lp_spread,
@@ -191,7 +212,7 @@ class MarginRequirements:
 
         # Bob: Deposit margin
         bob_collateral = 1000
-        self.collateral_module.deposit_collateral(account_id=self.bob.account_id, amount=bob_collateral)
+        self.collateral_module.deposit_collateral(account_id=counterparty_account_id, amount=bob_collateral)
 
         # Bob: Trade
         trade_notional = 1000 if self.is_trader_vt else -1000
@@ -199,22 +220,24 @@ class MarginRequirements:
         self.market_irs.process_market_order(
             pool_id="pool_irs",
             maturity=self.pool_irs_maturity,
-            account_id="bob",
+            account_id=counterparty_account_id,
             base=trade_notional / self.oracle.latest(),
         )
 
-        output = pd.DataFrame()
-        timestamps = []
-        lp_liquidation_threshold = []
-        lp_safety_threshold = []
-        lp_uPnL = []
-        trader_liquidation_threshold = []
-        trader_safety_threshold = []
-        trader_uPnL = []
+    def run_event_loop(self) -> pd.DataFrame:
+
+        output: pd.DataFrame = pd.DataFrame()
+        timestamps: list[int] = []
+        lp_liquidation_threshold: list[float] = []
+        lp_safety_threshold: list[float] = []
+        lp_uPnL: list[float] = []
+        trader_liquidation_threshold: list[float] = []
+        trader_safety_threshold: list[float] = []
+        trader_uPnL: list[float] = []
 
         while self.current_observation_index + 1 < len(self.observations):
-            alice_st, alice_lt = self.liquidation_module.get_account_margin_requirements(account_id="alice")
-            bob_st, bob_lt = self.liquidation_module.get_account_margin_requirements(account_id="bob")
+            alice_st, alice_lt = self.liquidation_module.get_account_margin_requirements(account_id="alice", account_manager=self.account_manager)
+            bob_st, bob_lt = self.liquidation_module.get_account_margin_requirements(account_id="bob", account_manager=self.account_manager)
 
             alice_uPnL = self.account_manager.get_account(account_id="alice").get_account_unrealized_pnl()
             bob_uPnL = self.account_manager.get_account(account_id="bob").get_account_unrealized_pnl()
@@ -230,16 +253,6 @@ class MarginRequirements:
             # System: Advance 1 day
             self.advance_to_next_observation()
 
-        # Alice: Settle
-        alice_sc = self.collateral_module.get_account_collateral_balance(account_id="alice")
-        self.market_irs.settle(maturity=self.pool_irs_maturity, account_id="alice")
-        alice_sc = self.collateral_module.get_account_collateral_balance(account_id="alice") - alice_sc
-
-        # Bob: Settle
-        bob_sc = self.collateral_module.get_account_collateral_balance(account_id="bob")
-        self.market_irs.settle(maturity=self.pool_irs_maturity, account_id="bob")
-        bob_sc = self.collateral_module.get_account_collateral_balance(account_id="bob") - bob_sc
-
         output["timestamp"] = timestamps
         output["date"] = [datetime.datetime.fromtimestamp(ts) for ts in timestamps]
         output["lp_liquidation_threshold"] = lp_liquidation_threshold
@@ -248,13 +261,10 @@ class MarginRequirements:
         output["trader_liquidation_threshold"] = trader_liquidation_threshold
         output["trader_safety_threshold"] = trader_safety_threshold
         output["trader_uPnL"] = trader_uPnL
-        output["lp_settlement_cashflow"] = [alice_sc] * len(timestamps)
-        output["trader_settlement_cashflow"] = [bob_sc] * len(timestamps)
 
-        if not os.path.exists(output_folder):
-            os.mkdir(output_folder)
+        return output
 
-        output.to_csv("{0}/output.csv".format(output_folder), index=False)
+    def generate_output_plots(self, output: pd.DataFrame, output_folder: str):
 
         output.plot(x="date", y=["lp_liquidation_threshold", "lp_safety_threshold"])
         plt.savefig("{0}/lp_margin_requirements.png".format(output_folder))
@@ -272,4 +282,24 @@ class MarginRequirements:
         plt.savefig("{0}/trader_cashflows.png".format(output_folder))
         plt.cla()
 
-        return output # Return the time series dataframe
+
+    def run(self, output_folder) -> pd.DataFrame:
+
+        self.initiate_actor_positions(actor_account_id=self.bob.account_id, counterparty_account_id=self.alice.account_id)
+        output: pd.DataFrame = self.run_event_loop()
+        actor_settlement_cashflow, counterparty_settlement_cashflow = self.settle_actor_positions(
+            actor_account_id=self.bob.account_id,
+            counterparty_account_id=self.alice.account_id
+        )
+
+        output["lp_settlement_cashflow"] = [counterparty_settlement_cashflow] * len(list(output["timestamp"]))
+        output["trader_settlement_cashflow"] = [actor_settlement_cashflow] * len(list(output["timestamp"]))
+
+        if not os.path.exists(output_folder):
+            os.mkdir(output_folder)
+
+        output.to_csv("{0}/output.csv".format(output_folder), index=False)
+
+        self.generate_output_plots(output=output, output_folder=output_folder)
+
+        return output
