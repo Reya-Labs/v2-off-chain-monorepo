@@ -7,9 +7,10 @@ import os
 # todo: add typings
 def generate_pool(
     df, name, p_lm, gamma, lambda_taker, lambda_maker, spread, lookback, positions, market_name: str, min_leverage=20
-) -> float:  # Populate with risk parameters
+) -> float:
     mean_apy = df["apy"].mean()
     if spread >= mean_apy:
+        # todo: consider giving 0.001 more meaningful name and
         spread -= 0.001
     std_dev = df["apy"].std()
     duration = df["timestamp"].values[-1] - df["timestamp"].values[0]

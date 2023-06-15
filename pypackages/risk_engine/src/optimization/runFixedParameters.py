@@ -3,7 +3,7 @@ from risk_engine.src.optimization.generatePool import generate_pool
 import numpy as np
 
 # todo: layer in typings (esp for positions)
-def run_with_a_single_set_of_params(parser, positions, oracle_data_dir):
+def run_with_a_single_set_of_params(parser, positions, oracle_data_dir: str):
 
     parser.add_argument("-plm", "--p_lm", type=float, help="p_lm risk matrix factor", default=2.0)
     parser.add_argument("-gam", "--gamma", type=float, help="gamma factor for LP->IM conversion", default=1.5)
@@ -18,7 +18,7 @@ def run_with_a_single_set_of_params(parser, positions, oracle_data_dir):
     # todo: simplify and expose in another function (duiplicate)
     oracles = [
         pd.read_csv(oracle_data_dir + s + ".csv") for s in positions["simulation_set"]
-    ]  # Get the set of all simulations
+    ]
     optimisations = [
         generate_pool(
             oracles[i],
