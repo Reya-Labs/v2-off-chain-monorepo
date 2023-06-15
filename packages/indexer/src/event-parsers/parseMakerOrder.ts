@@ -23,7 +23,7 @@ export const parseMakerOrder = (
   const marketId = (event.args?.marketId as BigNumber).toString();
   const maturityTimestamp = event.args?.maturityTimestamp as number;
 
-  const quoteToken = getMarketQuoteToken(marketId);
+  const quoteToken = getMarketQuoteToken(chainId, marketId);
   const { tokenDescaler } = getTokenDetails(quoteToken);
 
   const tickLower = event.args?.tickLower as number;
