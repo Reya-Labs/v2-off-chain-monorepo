@@ -5,6 +5,9 @@ import {
   getTokenPriceInUSD,
   getAddress,
   SECONDS_IN_DAY,
+  getMarketProtocolId,
+  getProtocolName,
+  isBorrowingProtocol,
 } from '@voltz-protocol/commons-v2';
 import { getFixedRateData } from './getFixedRateData';
 import { getVariableRateData } from './getVariableRateData';
@@ -21,6 +24,8 @@ export const buildPool = async ({
   marketId,
   maturityTimestamp,
   rateOracle,
+  blockTimestamp,
+  tickSpacing,
 }: VammCreatedEvent): Promise<V2Pool> => {
   const market = await pullMarketEntry(chainId, marketId);
 
@@ -51,13 +56,21 @@ export const buildPool = async ({
   const { currentLiquidityIndex, currentVariableRate, variableRateChange } =
     await getVariableRateData(chainId, rateOracle, lookbackWindowSeconds);
 
+  const protocolId = getMarketProtocolId(marketId);
+  const marketName = getProtocolName(protocolId);
+  const isBorrowingMarket = isBorrowingProtocol(protocolId);
+
   return {
     id,
     chainId,
-    marketId,
-    maturityTimestamp,
 
-    oracleAddress,
+    marketId,
+
+    termStartTimestampInMS: blockTimestamp,
+    termEndTimestampInMS: maturityTimestamp,
+
+    market: marketName,
+    isBorrowing: isBorrowingMarket,
 
     currentFixedRate,
     fixedRateChange,
@@ -67,13 +80,28 @@ export const buildPool = async ({
     variableRateChange,
     rateChangeLookbackWindowMS: lookbackWindowSeconds * 1000,
 
-    tokenName: tokenDetails.tokenName,
-    tokenDecimals: tokenDetails.tokenDecimals,
-    tokenAddress: quoteToken,
-    tokenPriceUSD,
+    underlyingToken: {
+      address: quoteToken,
+      name: tokenDetails.tokenName.toLowerCase() as
+        | 'eth'
+        | 'usdc'
+        | 'usdt'
+        | 'dai',
+      tokenDecimals: tokenDetails.tokenDecimals,
+      priceUSD: tokenPriceUSD,
+    },
+
+    rateOracle: {
+      address: oracleAddress,
+      protocolId,
+    },
+
+    tickSpacing,
 
     coreAddress: getAddress(chainId, 'core'),
     productAddress: getAddress(chainId, 'dated_irs_instrument'),
     exchangeAddress: getAddress(chainId, 'dated_irs_vamm'),
+
+    isV2: true,
   };
 };

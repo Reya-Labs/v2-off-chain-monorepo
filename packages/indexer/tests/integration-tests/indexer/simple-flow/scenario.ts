@@ -8,6 +8,7 @@ import { parseProductPositionUpdated } from '../../../../src/event-parsers/parse
 import { parseCollateralUpdate } from '../../../../src/event-parsers/parseCollateralUpdate';
 import { parseMarketConfigured } from '../../../../src/event-parsers/parseMarketConfigured';
 import { ZERO_ADDRESS } from '@voltz-protocol/commons-v2';
+import { parseRateOracleConfigured } from '../../../../src/event-parsers/parseRateOracleConfigured';
 
 export const chainId = 1;
 
@@ -16,6 +17,7 @@ const blockHash = 'Block-Hash';
 
 const marketId = BigNumber.from('1111111111');
 const collateralType = '0xa0b86991c6218b36c1d19D4a2e9eb0ce3606eb48';
+const rateOracleAddress = '0xa6ba323693f9e9b591f79fbdb947C7330ca2d7ab';
 
 const owner = '0xF8F6B70a36f4398f0853a311dC6699Aba8333Cc1';
 const accountId = BigNumber.from('1000000000');
@@ -56,6 +58,21 @@ export const events: BaseEvent[] = [
     },
   } as unknown as Event),
 
+  // One market is created
+  parseRateOracleConfigured(chainId, {
+    address: ZERO_ADDRESS,
+    blockHash,
+    transactionHash,
+    blockNumber: 2,
+    transactionIndex: 10,
+    logIndex: 101,
+    args: {
+      blockTimestamp: 1682942400, // Mon May 01 2023 12:00:00 GMT+0000
+      marketId,
+      oracleAddress: rateOracleAddress,
+    },
+  } as unknown as Event),
+
   // One pool is launched with starting price 1%
   parseVammCreated(chainId, {
     address: ZERO_ADDRESS,
@@ -72,7 +89,7 @@ export const events: BaseEvent[] = [
         priceImpactPhi: BigNumber.from(0),
         priceImpactBeta: BigNumber.from(0),
         spread: BigNumber.from(0),
-        rateOracle: ZERO_ADDRESS,
+        rateOracle: rateOracleAddress,
       },
       config: {
         maxLiquidityPerTick: BigNumber.from(0),

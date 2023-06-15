@@ -4,11 +4,11 @@ import { parseBaseEvent } from './utils/parseBaseEvent';
 import {
   LiquidityChangeEvent,
   ProtocolEventType,
-  getMarketQuoteToken,
 } from '@voltz-protocol/bigquery-v2';
 import {
   getTokenDetails,
   convertLowercaseString,
+  getMarketQuoteToken,
 } from '@voltz-protocol/commons-v2';
 
 export const parseLiquidityChange = (
@@ -23,7 +23,7 @@ export const parseLiquidityChange = (
   const marketId = (event.args?.marketId as BigNumber).toString();
   const maturityTimestamp = event.args?.maturityTimestamp as number;
 
-  const quoteToken = getMarketQuoteToken(marketId);
+  const quoteToken = getMarketQuoteToken(chainId, marketId);
   const { tokenDescaler } = getTokenDetails(quoteToken);
 
   const tickLower = event.args?.tickLower as number;

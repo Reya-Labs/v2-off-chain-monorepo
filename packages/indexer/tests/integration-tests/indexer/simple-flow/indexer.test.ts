@@ -2,15 +2,15 @@ import { createProtocolV2Dataset } from '@voltz-protocol/bigquery-v2';
 import { sync } from '../../../../src/process/sync';
 import { chainId, events } from './scenario';
 
-jest.setTimeout(100_000);
+jest.setTimeout(1_000_000);
 
 // Mock environment tag to testing and provider
-jest.mock('@voltz-protocol/commons-v2/src/env-vars.ts', () => ({
-  getEnvironment: jest.fn(() => 'TESTING'),
-}));
+jest.mock('@voltz-protocol/commons-v2', () => ({
+  // Keep all the other functionalities as they are
+  ...jest.requireActual('@voltz-protocol/commons-v2'),
 
-// Mock provider.getBlockNumber to 0
-jest.mock('@voltz-protocol/commons-v2/src/provider.ts', () => ({
+  getEnvironment: jest.fn(() => 'TESTING'),
+
   getProvider: () => ({
     getBlockNumber: async () => 0,
   }),

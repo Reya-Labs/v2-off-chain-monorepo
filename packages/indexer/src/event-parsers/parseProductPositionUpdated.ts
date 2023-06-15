@@ -3,10 +3,12 @@ import { BigNumber, Event } from 'ethers';
 import {
   ProductPositionUpdatedEvent,
   ProtocolEventType,
-  getMarketQuoteToken,
 } from '@voltz-protocol/bigquery-v2';
 import { parseBaseEvent } from './utils/parseBaseEvent';
-import { getTokenDetails } from '@voltz-protocol/commons-v2';
+import {
+  getMarketQuoteToken,
+  getTokenDetails,
+} from '@voltz-protocol/commons-v2';
 
 export const parseProductPositionUpdated = (
   chainId: number,
@@ -20,7 +22,7 @@ export const parseProductPositionUpdated = (
   const marketId = (event.args?.marketId as BigNumber).toString();
   const maturityTimestamp = event.args?.maturityTimestamp as number;
 
-  const quoteToken = getMarketQuoteToken(marketId);
+  const quoteToken = getMarketQuoteToken(chainId, marketId);
   const { tokenDescaler } = getTokenDetails(quoteToken);
 
   const baseDelta = tokenDescaler(event.args?.baseDelta as BigNumber);

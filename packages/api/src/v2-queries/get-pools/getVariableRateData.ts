@@ -90,7 +90,7 @@ export const getVariableRateData = async (
     method,
   );
 
-  const variableRateChange = variableRateLWAgo - variableRateLWAgo;
+  const variableRateChange = currentVariableRate - variableRateLWAgo;
 
   return {
     currentLiquidityIndex: currentLiquidityIndex as number,

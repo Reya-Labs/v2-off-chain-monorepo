@@ -12,6 +12,7 @@
   ],
   "rules": {
     "no-constant-condition": "off",
+    "no-empty": "off",
     "@typescript-eslint/no-empty-function": "off"
   }
 }

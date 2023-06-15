@@ -9,7 +9,7 @@ export const pullLiquidityIndices = async (
 ): Promise<LiquidityIndexEntry[]> => {
   const bigQuery = getBigQuery();
 
-  const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE chain=${chainId} AND oracleAddress="${oracleAddress}"`;
+  const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE chainId=${chainId} AND oracleAddress="${oracleAddress}"`;
 
   const [rows] = await bigQuery.query({
     query: sqlQuery,
