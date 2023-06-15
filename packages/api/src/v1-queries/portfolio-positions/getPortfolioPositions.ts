@@ -7,7 +7,6 @@ import {
   Position as RawPosition,
 } from '@voltz-protocol/subgraph-data';
 
-import { getProtocolName, isBorrowingProtocol } from './getProtocolName';
 import { PortfolioPosition, PortfolioPositionAMM } from './types';
 import {
   getETHPriceInUSD,
@@ -15,6 +14,8 @@ import {
   tickToFixedRate,
   getProvider,
   SECONDS_IN_YEAR,
+  getProtocolName,
+  isBorrowingProtocol,
 } from '@voltz-protocol/commons-v2';
 import {
   getPositionInfo,

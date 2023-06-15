@@ -10,80 +10,16 @@ import {
   pullAccountPositionEntries,
   pullAccountsByAddress,
 } from '@voltz-protocol/bigquery-v2';
-import { getPool } from '../getPools/getPool';
-
-export type PortfolioPositionAMM = {
-  id: string;
-  chainId: number;
-
-  isBorrowing: boolean;
-  market:
-    | 'Aave V2'
-    | 'Aave V3'
-    | 'Compound'
-    | 'Lido'
-    | 'Rocket'
-    | 'GMX:GLP'
-    | 'SOFR';
-
-  rateOracle: {
-    address: string;
-    protocolId: number;
-  };
-
-  underlyingToken: {
-    address: string;
-    name: 'eth' | 'usdc' | 'usdt' | 'dai';
-    tokenDecimals: number;
-  };
-
-  termEndTimestampInMS: number;
-  termStartTimestampInMS: number;
-};
-
-type PortfolioPosition = {
-  id: string;
-  chainId: SupportedChainId;
-
-  ownerAddress: string;
-  type: 'LP' | 'Variable' | 'Fixed';
-  creationTimestampInMS: number;
-
-  tickLower: number;
-  tickUpper: number;
-
-  fixLow: number;
-  fixHigh: number;
-
-  tokenPriceUSD: number;
-  notionalProvided: number;
-  notionalTraded: number;
-  notional: number;
-  margin: number;
-
-  status: {
-    health: 'healthy' | 'danger' | 'warning';
-    variant: 'matured' | 'settled' | 'active';
-    currentFixed: number;
-    receiving: number;
-    paying: number;
-  };
-
-  unrealizedPNL: number;
-  realizedPNLFees: number;
-  realizedPNLCashflow: number;
-  realizedPNLTotal: number;
-
-  amm: PortfolioPositionAMM;
-};
+import { getPool } from '../get-pools/getPool';
+import { PortfolioPositionV2 } from './types';
 
 export const getPortfolioPositions = async (
   chainIds: SupportedChainId[],
   ownerAddress: string,
-): Promise<PortfolioPosition[]> => {
+): Promise<PortfolioPositionV2[]> => {
   const accounts = await pullAccountsByAddress(chainIds, ownerAddress);
 
-  const portfolio: PortfolioPosition[] = [];
+  const portfolio: PortfolioPositionV2[] = [];
 
   for (const { chainId, accountId } of accounts) {
     const accountCollaterals = await pullAccountCollateral(chainId, accountId);
@@ -95,7 +31,7 @@ export const getPortfolioPositions = async (
     const { collateralType: tokenAddress, balance: margin } =
       accountCollaterals[0];
 
-    const { tokenName, tokenDecimals } = getTokenDetails(tokenAddress);
+    const { tokenName } = getTokenDetails(tokenAddress);
     const tokenPriceUSD = await getTokenPriceInUSD(tokenName);
 
     const positionEntries = await pullAccountPositionEntries(
@@ -116,6 +52,12 @@ export const getPortfolioPositions = async (
       tickUpper,
     } of positionEntries) {
       const pool = await getPool(chainId, marketId, maturityTimestamp);
+
+      if (!pool) {
+        throw new Error(
+          `Pool ${chainId}-${marketId}-${maturityTimestamp} was not found.`,
+        );
+      }
 
       const poolFixedRate = pool.currentFixedRate;
       const poolVariableRate = pool.currentVariableRate;
@@ -144,29 +86,7 @@ export const getPortfolioPositions = async (
       const unrealizedPNL = 0;
 
       // Build response
-      const amm: PortfolioPositionAMM = {
-        id: pool.id,
-        chainId,
-
-        isBorrowing: true,
-        market: 'Aave V2',
-
-        rateOracle: {
-          address: pool.oracleAddress,
-          protocolId: 1,
-        },
-
-        underlyingToken: {
-          address: tokenAddress,
-          name: tokenName.toLowerCase() as 'eth' | 'usdc' | 'usdt' | 'dai',
-          tokenDecimals,
-        },
-
-        termStartTimestampInMS: 0, // todo: add creation timestamp to markets
-        termEndTimestampInMS: maturityTimestamp,
-      };
-
-      const position: PortfolioPosition = {
+      const position: PortfolioPositionV2 = {
         id: positionId,
         chainId,
         ownerAddress,
@@ -193,7 +113,7 @@ export const getPortfolioPositions = async (
         realizedPNLFees,
         realizedPNLCashflow,
         realizedPNLTotal: realizedPNLCashflow + realizedPNLFees,
-        amm,
+        amm: pool,
       };
 
       portfolio.push(position);

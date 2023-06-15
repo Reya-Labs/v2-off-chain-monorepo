@@ -1,21 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
 import {
   getPositions as getRawPositions,
   Position as RawPosition,
 } from '@voltz-protocol/subgraph-data';
 
-import { PortfolioPosition, PortfolioPositionAMM } from './types';
+import { PortfolioPosition } from './types';
 import {
   getETHPriceInUSD,
   descale,
   tickToFixedRate,
   getProvider,
   SECONDS_IN_YEAR,
-  getProtocolName,
-  isBorrowingProtocol,
 } from '@voltz-protocol/commons-v2';
 import {
   getPositionInfo,
@@ -26,14 +20,13 @@ import {
 import { generateMarginEngineContract } from '@voltz-protocol/indexer-v1/src/common/contract-services/generateMarginEngineContract';
 import { getPositionPnL } from '../position-pnl/getPositionPnL';
 import { getSubgraphURL } from '../subgraph/getSubgraphURL';
+import { getPool } from '../get-pools/getPool';
 
 export const getPortfolioPositions = async (
   chainIds: number[],
   ownerAddress: string,
 ): Promise<PortfolioPosition[]> => {
   const now = Date.now().valueOf();
-
-  const ethPriceUSD = await getETHPriceInUSD();
 
   const allPositions: (RawPosition & { chainId: number })[] = [];
   for (const chainId of chainIds) {
@@ -58,7 +51,6 @@ export const getPortfolioPositions = async (
       const vammAddress = pos.amm.id;
       const marginEngineAddress = pos.amm.marginEngineId;
       const tokenDecimals = pos.amm.tokenDecimals;
-      const tokenName = pos.amm.tokenName;
       const descaler = descale(tokenDecimals);
 
       const tickLower = pos.tickLower;
@@ -75,33 +67,13 @@ export const getPortfolioPositions = async (
           ? 'Variable'
           : 'Fixed';
 
-      const provider = getProvider(chainId);
-      const tokenPriceUSD = tokenName === 'ETH' ? ethPriceUSD : 1;
-
-      const amm: PortfolioPositionAMM = {
-        id: vammAddress,
-        chainId,
-
-        marginEngineAddress: pos.amm.marginEngineId,
-
-        isV2: false,
-        isBorrowing: isBorrowingProtocol(pos.amm.protocolId),
-        market: getProtocolName(pos.amm.protocolId),
-
-        rateOracle: {
-          address: pos.amm.rateOracleId,
-          protocolId: pos.amm.protocolId,
-        },
-
-        underlyingToken: {
-          address: pos.amm.tokenId,
-          name: tokenName.toLowerCase() as 'eth' | 'usdc' | 'usdt' | 'dai',
-          tokenDecimals,
-        },
-
-        termStartTimestampInMS: pos.amm.termStartTimestampInMS,
-        termEndTimestampInMS: pos.amm.termEndTimestampInMS,
-      };
+      const amm = await getPool(chainId, vammAddress);
+      if (!amm) {
+        throw new Error(
+          `Could not find pool (in BigQuery) for ${chainId}-${vammAddress}`,
+        );
+      }
+      const tokenPriceUSD = amm.underlyingToken.priceUSD;
 
       // Check if position is settled and return minimum data
       if (pos.isSettled) {
@@ -135,11 +107,6 @@ export const getPortfolioPositions = async (
           amm,
         };
       }
-
-      const marginEngine = generateMarginEngineContract(
-        marginEngineAddress,
-        provider,
-      );
 
       // Get fresh information about the position
       const {
@@ -216,6 +183,11 @@ export const getPortfolioPositions = async (
       }
 
       // Get information about position PnL
+
+      const marginEngine = generateMarginEngineContract(
+        marginEngineAddress,
+        getProvider(chainId),
+      );
 
       const [
         positionPnLResponse,

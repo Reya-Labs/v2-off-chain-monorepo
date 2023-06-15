@@ -7,13 +7,11 @@ export const getPool = async (
   chainId: SupportedChainId,
   marketId: string,
   maturityTimestamp: number,
-): Promise<V2Pool> => {
+): Promise<V2Pool | null> => {
   const pool = await pullVamm(chainId, marketId, maturityTimestamp);
 
   if (!pool) {
-    throw new Error(
-      `Pool ${chainId}-${marketId}-${maturityTimestamp} was not found.`,
-    );
+    return null;
   }
 
   return buildPool(pool);

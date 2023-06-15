@@ -1,11 +1,13 @@
-import { V1Pool } from '../get-pools/types';
+import { SupportedChainId } from '@voltz-protocol/commons-v2';
+import { V2Pool } from '../get-pools/types';
 
-export type PortfolioPosition = {
+export type PortfolioPositionV2 = {
   id: string;
-  type: 'LP' | 'Variable' | 'Fixed';
-  creationTimestampInMS: number;
+  chainId: SupportedChainId;
 
   ownerAddress: string;
+  type: 'LP' | 'Variable' | 'Fixed';
+  creationTimestampInMS: number;
 
   tickLower: number;
   tickUpper: number;
@@ -32,5 +34,5 @@ export type PortfolioPosition = {
   realizedPNLCashflow: number;
   realizedPNLTotal: number;
 
-  amm: V1Pool;
+  amm: V2Pool;
 };
