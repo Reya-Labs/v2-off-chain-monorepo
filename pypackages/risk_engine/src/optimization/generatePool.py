@@ -6,7 +6,7 @@ import os
 
 # todo: add typings
 def generate_pool(
-    df, name, p_lm, gamma, lambda_taker, lambda_maker, spread, lookback, positions, market_name: str, min_leverage=20
+    df, name, p_lm, gamma, lambda_taker, lambda_maker, spread, lookback, positions, liquidator_reward, market_name: str, min_leverage=20
 ) -> float:
     mean_apy = df["apy"].mean()
     if spread >= mean_apy:
@@ -34,6 +34,7 @@ def generate_pool(
         maker_fee=lambda_maker,
         taker_fee=lambda_taker,
         gwap_lookback=lookback,
+        liquidator_reward=liquidator_reward
     )
 
     """
@@ -48,8 +49,6 @@ def generate_pool(
     """
     2. Optimisation function implementation for Optuna
     """
-    # We need to evaluate the objective function here
-    # We use the lists defined above here
     average_leverage = 0.5 * (
         positions["maker_amount"] / output.iloc[0]["lp_liquidation_threshold"]
         + positions["taker_amount"] / output.iloc[0]["trader_liquidation_threshold"]
@@ -59,13 +58,12 @@ def generate_pool(
     )  # Normalise risk to collateral supplied
     regularisation = (
         10 if average_leverage < min_leverage else 0
-    )  # Add in a regularisation term to constrain the minimum leverage
+    )
 
-    # Finally we need to compute an insolvency VaR, IVaR
     risk_metrics = RiskMetrics(df=output)
     lvar, ivar = risk_metrics.lvar_and_ivar()
     ivar_reg = 10 if ivar < 0.95 else 0
 
     objective = average_leverage - average_risk - regularisation - ivar_reg
-    return objective  # Objective function
+    return objective
 
