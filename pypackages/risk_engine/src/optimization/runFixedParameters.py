@@ -3,7 +3,7 @@ from risk_engine.src.optimization.generatePool import generate_pool
 import numpy as np
 
 # todo: layer in typings (esp for positions)
-def run_with_a_single_set_of_params(parser, positions, oracle_data_dir: str):
+def run_with_a_single_set_of_params(parser, positions, oracle_data_dir: str, market_name: str):
 
     parser.add_argument("-plm", "--p_lm", type=float, help="p_lm risk matrix factor", default=2.0)
     parser.add_argument("-gam", "--gamma", type=float, help="gamma factor for LP->IM conversion", default=1.5)
@@ -21,8 +21,8 @@ def run_with_a_single_set_of_params(parser, positions, oracle_data_dir: str):
     ]
     optimisations = [
         generate_pool(
-            oracles[i],
-            positions["simulation_set"][i],
+            df=oracles[i],
+            name=positions["simulation_set"][i],
             p_lm=parameters_dict['p_lm'],
             gamma=parameters_dict['gamma'],
             lambda_taker=parameters_dict['lambda_taker'],
@@ -30,6 +30,8 @@ def run_with_a_single_set_of_params(parser, positions, oracle_data_dir: str):
             spread=parameters_dict['lambda_maker'],
             lookback=parameters_dict['lookback'],
             min_leverage=20,
+            market_name=market_name,
+            positions=positions
         )
         for i in range(len(oracles))
     ]
