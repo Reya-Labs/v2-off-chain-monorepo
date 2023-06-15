@@ -1,5 +1,7 @@
 class Oracle:
-    def __init__(self, block, initial_observations=[]):
+    def __init__(self, block, initial_observations=None):
+        if initial_observations is None:
+            initial_observations = []
         self.block = block
         self.observations = []
 
