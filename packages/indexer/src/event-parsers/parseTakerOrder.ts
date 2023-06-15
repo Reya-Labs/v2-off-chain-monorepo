@@ -3,11 +3,11 @@ import { Event, BigNumber } from 'ethers';
 import {
   ProtocolEventType,
   TakerOrderEvent,
-  getMarketQuoteToken,
 } from '@voltz-protocol/bigquery-v2';
 import {
   getTokenDetails,
   convertLowercaseString,
+  getMarketQuoteToken,
 } from '@voltz-protocol/commons-v2';
 import { parseBaseEvent } from './utils/parseBaseEvent';
 

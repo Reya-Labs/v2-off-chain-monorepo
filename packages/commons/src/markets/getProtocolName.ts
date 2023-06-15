@@ -50,7 +50,3 @@ export const getProtocolName = (
 
   throw new Error(`Unrecognized protocol ${protocolId}`);
 };
-
-export const isBorrowingProtocol = (protocolId: number) => {
-  return protocolId === 6 || protocolId === 5 || protocolId === 9;
-};

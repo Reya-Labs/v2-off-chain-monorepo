@@ -4,11 +4,11 @@ import { parseBaseEvent } from './utils/parseBaseEvent';
 import {
   MakerOrderEvent,
   ProtocolEventType,
-  getMarketQuoteToken,
 } from '@voltz-protocol/bigquery-v2';
 import {
   getTokenDetails,
   convertLowercaseString,
+  getMarketQuoteToken,
 } from '@voltz-protocol/commons-v2';
 
 export const parseMakerOrder = (
