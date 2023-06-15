@@ -32,19 +32,19 @@ class MarginRequirements:
 
     def setUp(
         self,
-        collateral_token,
-        initial_fixed_rate,
-        risk_parameter,
-        im_multiplier,
-        slippage_phi,
-        slippage_beta,
-        lp_spread,
-        is_trader_vt,
-        timestamps,
+        collateral_token: str,
+        initial_fixed_rate: float,
+        risk_parameter: float,
+        im_multiplier: float,
+        slippage_phi: float,
+        slippage_beta: float,
+        lp_spread: float,
+        is_trader_vt: bool,
+        timestamps: list[int],
         indices,
-        maker_fee,
-        taker_fee,
-        gwap_lookback
+        maker_fee: float,
+        taker_fee: float,
+        gwap_lookback: float
     ):
         # Generate the modules
         self.block: Block = Block(relative_block_position=0)
