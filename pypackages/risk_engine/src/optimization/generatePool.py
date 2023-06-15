@@ -1,10 +1,13 @@
+import numpy as np
+from risk_engine.src.simulations.margin_requirements import MarginRequirements
+from risk_engine.src.constants import YEAR_IN_SECONDS
+from risk_engine.src.calculators.RiskMetrics import RiskMetrics as rm
+import os
 
-
+# todo: add typings
 def generate_pool(
-    df, name, p_lm, gamma, lambda_taker, lambda_maker, spread, lookback, min_leverage=20
+    df, name, p_lm, gamma, lambda_taker, lambda_maker, spread, lookback, positions, min_leverage=20
 ) -> float:  # Populate with risk parameters
-    # df: need to pass the oracle to the end-to-end test in the correct way
-    print(df)
     mean_apy = df["apy"].mean()
     if spread >= mean_apy:
         spread -= 0.001
@@ -12,12 +15,7 @@ def generate_pool(
     duration = df["timestamp"].values[-1] - df["timestamp"].values[0]
     # Build the input of the simulation
     risk_parameter = std_dev * np.sqrt(YEAR_IN_SECONDS / duration) * p_lm
-
-    # Instantiate the IRS pool and simulation
     simulation = MarginRequirements()
-
-    print("TIMESTAMPS: ", df["timestamp"].values)
-    print("INDEX: ", df["liquidity_index"].values)
 
     # TODO: how can the fixed rate lookback window be added here i.e. where is the GWAP treated?
     # I think this needs to be added to the IRS market object
