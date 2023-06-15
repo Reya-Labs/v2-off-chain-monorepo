@@ -11,6 +11,11 @@ export async function claimAdmitPass(owner: Signer): Promise<boolean> {
     throw new Error('Wallet not connected');
   }
 
+  const chainId = await owner.getChainId();
+  if (chainId !== 42161) {
+    throw new Error('Minting only available on Arbitrum');
+  }
+
   const ownerAddress = await owner.getAddress();
 
   const { root, leaves, numberOfAccessPasses } = await getLeavesAndRootFromIpfs(
