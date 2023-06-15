@@ -264,6 +264,24 @@ class MarginRequirements:
 
         return output
 
+    def generate_output_plots(self, output: pd.DataFrame, output_folder: str):
+
+        output.plot(x="date", y=["lp_liquidation_threshold", "lp_safety_threshold"])
+        plt.savefig("{0}/lp_margin_requirements.png".format(output_folder))
+        plt.cla()
+
+        output.plot(x="date", y=["trader_liquidation_threshold", "trader_safety_threshold"])
+        plt.savefig("{0}/trader_margin_requirements.png".format(output_folder))
+        plt.cla()
+
+        output.plot(x="date", y=["lp_uPnL", "lp_settlement_cashflow"])
+        plt.savefig("{0}/lp_cashflows.png".format(output_folder))
+        plt.cla()
+
+        output.plot(x="date", y=["trader_uPnL", "trader_settlement_cashflow"])
+        plt.savefig("{0}/trader_cashflows.png".format(output_folder))
+        plt.cla()
+
 
     def run(self, output_folder) -> pd.DataFrame:
 
@@ -282,20 +300,6 @@ class MarginRequirements:
 
         output.to_csv("{0}/output.csv".format(output_folder), index=False)
 
-        output.plot(x="date", y=["lp_liquidation_threshold", "lp_safety_threshold"])
-        plt.savefig("{0}/lp_margin_requirements.png".format(output_folder))
-        plt.cla()
-
-        output.plot(x="date", y=["trader_liquidation_threshold", "trader_safety_threshold"])
-        plt.savefig("{0}/trader_margin_requirements.png".format(output_folder))
-        plt.cla()
-
-        output.plot(x="date", y=["lp_uPnL", "lp_settlement_cashflow"])
-        plt.savefig("{0}/lp_cashflows.png".format(output_folder))
-        plt.cla()
-
-        output.plot(x="date", y=["trader_uPnL", "trader_settlement_cashflow"])
-        plt.savefig("{0}/trader_cashflows.png".format(output_folder))
-        plt.cla()
+        self.generate_output_plots(output=output, output_folder=output_folder)
 
         return output
