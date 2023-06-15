@@ -1,6 +1,6 @@
 import unittest
 
-from risk_engine.src.calculators.RiskMetrics import RiskMetrics
+from risk_engine.src.calculators.riskMetrics import RiskMetrics
 
 
 class TestAccountManager(unittest.TestCase):

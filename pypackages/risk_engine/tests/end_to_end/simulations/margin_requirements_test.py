@@ -1,6 +1,6 @@
 import unittest
 
-from risk_engine.src.simulations.margin_requirements.MarginRequirements import MarginRequirements
+from risk_engine.src.simulations.margin_requirements.marginRequirements import MarginRequirements
 from risk_engine.tests.end_to_end.simulations.constants import COLLATERAL_TOKEN, INITIAL_FIXED_RATE, RISK_PARAMETER, IM_MULTIPLIER, SLIPPAGE_PHI, SLIPPAGE_BETA, LP_SPREAD, IS_TRADER_VT, MAKER_FEE, TAKER_FEE, GWAP_LOOKBACK, LIQUIDATOR_REWARD
 from pandas import DataFrame
 from risk_engine.src.constants import FIRST_MAINNET_POS_BLOCK_TIMESTAMP, MONTH_IN_SECONDS

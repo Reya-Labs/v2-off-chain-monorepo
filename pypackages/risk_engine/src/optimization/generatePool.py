@@ -1,12 +1,12 @@
 import numpy as np
-from risk_engine.src.simulations.margin_requirements import MarginRequirements
+from risk_engine.src.simulations.margin_requirements.marginRequirements import MarginRequirements
 from risk_engine.src.constants import YEAR_IN_SECONDS
-from risk_engine.src.calculators.RiskMetrics import RiskMetrics as rm
+from risk_engine.src.calculators.riskMetrics import RiskMetrics
 import os
 
 # todo: add typings
 def generate_pool(
-    df, name, p_lm, gamma, lambda_taker, lambda_maker, spread, lookback, positions, min_leverage=20
+    df, name, p_lm, gamma, lambda_taker, lambda_maker, spread, lookback, positions, market_name: str, min_leverage=20
 ) -> float:  # Populate with risk parameters
     mean_apy = df["apy"].mean()
     if spread >= mean_apy:
@@ -39,7 +39,7 @@ def generate_pool(
     1. Agent-based simulation of maker and taker positions in the
        IRS pool
     """
-    simulation_folder = f"./{MARKET}/{name}/optuna/"
+    simulation_folder = f"./{market_name}/{name}/optuna/"
     if not os.path.exists(simulation_folder):
         os.makedirs(simulation_folder)
     output = simulation.run(output_folder=simulation_folder)  # Add a return output to sim.run
@@ -61,7 +61,7 @@ def generate_pool(
     )  # Add in a regularisation term to constrain the minimum leverage
 
     # Finally we need to compute an insolvency VaR, IVaR
-    risk_metrics = rm.RiskMetrics(df=output)
+    risk_metrics = RiskMetrics(df=output)
     lvar, ivar = risk_metrics.lvar_and_ivar()
     ivar_reg = 10 if ivar < 0.95 else 0
 
