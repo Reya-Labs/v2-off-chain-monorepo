@@ -1,4 +1,4 @@
-import { V1Pool } from '../get-pools/types';
+import { PortfolioPositionAMM } from '../portfolio-positions/types';
 
 export type PortfolioPositionDetails = {
   id: string;
@@ -19,7 +19,7 @@ export type PortfolioPositionDetails = {
   realizedPNLTotal: number;
 
   history: HistoryTransaction[];
-  amm: V1Pool;
+  amm: PortfolioPositionAMM;
 
   tickLower: number;
   tickUpper: number;

@@ -19,7 +19,7 @@ const lookbackWindowSeconds = SECONDS_IN_DAY;
 // todo: use Promise.allSettled()
 // todo: pack more queries on SQL side
 
-export const buildPool = async ({
+export const buildV2Pool = async ({
   chainId,
   marketId,
   maturityTimestamp,

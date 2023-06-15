@@ -9,9 +9,9 @@ import { PositionPnL } from './types';
 import {
   getCurrentTick,
   getLiquidityIndex,
+  pullExistingPoolRow,
   pullExistingPositionRow,
 } from '@voltz-protocol/indexer-v1';
-import { getAmm } from '../../v1-queries/common/getAMM';
 
 export const getPositionPnL = async (
   chainId: number,
@@ -40,7 +40,12 @@ export const getPositionPnL = async (
     };
   }
 
-  const amm = await getAmm(chainId, vammAddress);
+  const amm = await pullExistingPoolRow(vammAddress, chainId);
+
+  if (!amm) {
+    throw new Error(`Couldn't fetch AMM with address ${vammAddress}.`);
+  }
+
   const maturityTimestamp = Math.floor(amm.termEndTimestampInMS / 1000);
   let currentTimestamp = (await provider.getBlock('latest')).timestamp;
 

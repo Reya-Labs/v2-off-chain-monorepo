@@ -1,7 +1,8 @@
 import { V1Pool } from '../get-pools/types';
 
-export type PortfolioPosition = {
+export type V1PortfolioPosition = {
   id: string;
+
   type: 'LP' | 'Variable' | 'Fixed';
   creationTimestampInMS: number;
 

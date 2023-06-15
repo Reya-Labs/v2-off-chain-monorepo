@@ -1,8 +1,15 @@
 import { getPositions as getRawPositions } from '@voltz-protocol/subgraph-data';
 
+import { PortfolioPositionAMM } from '../portfolio-positions/types';
 import { synthetisizeHistory } from './synthetisizeHistory';
 import { PortfolioPositionDetails } from './types';
-import { tickToFixedRate, SECONDS_IN_YEAR } from '@voltz-protocol/commons-v2';
+import {
+  tickToFixedRate,
+  getTokenPriceInUSD,
+  SECONDS_IN_YEAR,
+  getProtocolName,
+  isBorrowingProtocol,
+} from '@voltz-protocol/commons-v2';
 import {
   getPositionInfo,
   getVariableFactor,
@@ -10,7 +17,6 @@ import {
 } from '@voltz-protocol/indexer-v1';
 import { getPositionPnL } from '../position-pnl/getPositionPnL';
 import { getSubgraphURL } from '../subgraph/getSubgraphURL';
-import { getPool } from '../get-pools/getPool';
 
 const decodePositionId = (
   positionId: string,
@@ -44,9 +50,11 @@ export const getPortfolioPositionDetails = async ({
   const { chainId, vammAddress, ownerAddress, tickLower, tickUpper } =
     decodePositionId(positionId);
 
-  const subgraphURL = getSubgraphURL(chainId);
+  const fixLow = tickToFixedRate(tickUpper);
+  const fixHigh = tickToFixedRate(tickLower);
 
-  // Fetch positions from subgraph
+  const subgraphURL = getSubgraphURL(chainId);
+  // Get transaction history
   const positions = subgraphURL
     ? (
         await getRawPositions(
@@ -61,16 +69,11 @@ export const getPortfolioPositionDetails = async ({
       ).filter((p) => p.tickLower === tickLower && p.tickUpper === tickUpper)
     : [];
 
-  // Check the number of positions to be 1
   if (positions.length === 0 || positions.length >= 2) {
     throw new Error('No position');
   }
 
-  // Process the found position
   const position = positions[0];
-
-  const fixLow = tickToFixedRate(tickUpper);
-  const fixHigh = tickToFixedRate(tickLower);
 
   const positionType =
     position.positionType === 3
@@ -78,16 +81,33 @@ export const getPortfolioPositionDetails = async ({
       : position.positionType === 2
       ? 'Variable'
       : 'Fixed';
+  const tokenName = position.amm.tokenName;
 
   const txs = synthetisizeHistory(position);
 
-  const amm = await getPool(chainId, vammAddress);
-  if (!amm) {
-    throw new Error(
-      `Could not find pool (in BigQuery) for ${chainId}-${vammAddress}`,
-    );
-  }
-  const tokenPriceUSD = amm.underlyingToken.priceUSD;
+  const amm: PortfolioPositionAMM = {
+    id: vammAddress,
+    chainId,
+
+    marginEngineAddress: position.amm.marginEngineId,
+    isV2: false,
+    isBorrowing: isBorrowingProtocol(position.amm.protocolId),
+    market: getProtocolName(position.amm.protocolId),
+
+    rateOracle: {
+      address: position.amm.rateOracleId,
+      protocolId: position.amm.protocolId,
+    },
+
+    underlyingToken: {
+      address: position.amm.tokenId,
+      name: tokenName.toLowerCase() as 'eth' | 'usdc' | 'usdt' | 'dai',
+      tokenDecimals: position.amm.tokenDecimals,
+    },
+
+    termStartTimestampInMS: position.amm.termStartTimestampInMS,
+    termEndTimestampInMS: position.amm.termEndTimestampInMS,
+  };
 
   // Get fresh information about the position
   const {
@@ -107,6 +127,8 @@ export const getPortfolioPositionDetails = async ({
   );
 
   const notional = positionType === 'LP' ? notionalProvided : notionalTraded;
+
+  const tokenPriceUSD = await getTokenPriceInUSD(position.amm.tokenName);
 
   if (position.isSettled) {
     if (position.settlements.length === 0 || position.settlements.length >= 2) {
