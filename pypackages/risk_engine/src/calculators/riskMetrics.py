@@ -15,11 +15,11 @@ def get_random():
     significand = 0.9 * random.random() + 0.1
     return significand * 10 ** exp
 
-def insolvency(actor_unrealized_pnl: Series, actor_margin: Series) -> Series:
+def generate_insolvencies_series(actor_unrealized_pnl: Series, actor_margin: Series) -> Series:
     return actor_unrealized_pnl / actor_margin
 
 
-def liquidation(actor_margin: Series, actor_liquidation_margin: Series) -> Series:
+def generate_liquidations_series(actor_margin: Series, actor_liquidation_margin: Series) -> Series:
     # todo: check why is unrealized pnl not captured in here, surely it should affect liquidations?
     return (actor_margin - actor_liquidation_margin) / actor_liquidation_margin
 

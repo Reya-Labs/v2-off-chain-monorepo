@@ -1,5 +1,5 @@
 from risk_engine.src.constants import STANDARDIZED_TAKER_NOTIONAL, STANDARDIZED_MAKER_NOTIONAL
-from risk_engine.src.calculators.riskMetrics import RiskMetrics
+from risk_engine.src.calculators.riskMetrics import
 from pandas import Series
 
 MAX_OBJECTIVE_PENALTY = 10
