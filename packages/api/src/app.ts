@@ -26,6 +26,7 @@ import { getPortfolioPositions as getPortfolioPositionsV1 } from './old-v1-queri
 import { getApyFromTo, getLiquidityIndexAt } from '@voltz-protocol/bigquery-v2';
 import { getV1V2Pools } from './v1v2-queries/get-pools/getV1V2Pools';
 import { getV1V2PortfolioPositions } from './v1v2-queries/get-portfolio-positions/getPortfolioPositions';
+import { getV1V2Pool } from './v1v2-queries/get-pools/getV1V2Pool';
 
 export const app = express();
 
@@ -61,6 +62,19 @@ app.get('/v1v2-pools/:chainIds', (req, res) => {
   const chainIds = req.params.chainIds.split('&').map((s) => Number(s));
 
   getV1V2Pools(chainIds).then(
+    (output) => {
+      res.json(output);
+    },
+    (error) => {
+      console.log(`API query failed with message ${(error as Error).message}`);
+    },
+  );
+});
+
+app.get('/v1v2-pool/:id', (req, res) => {
+  const poolId = req.params.id;
+
+  getV1V2Pool(poolId).then(
     (output) => {
       res.json(output);
     },
