@@ -1,9 +1,10 @@
 import numpy as np
 from risk_engine.src.simulations.margin_requirements.marginRequirements import MarginRequirements
-from risk_engine.src.constants import YEAR_IN_SECONDS
+from risk_engine.src.constants import YEAR_IN_SECONDS, STANDARDIZED_TAKER_NOTIONAL,
 from risk_engine.src.calculators.riskMetrics import RiskMetrics
 import os
 from pandas import DataFrame
+
 
 # todo: add typings
 def generate_pool(
