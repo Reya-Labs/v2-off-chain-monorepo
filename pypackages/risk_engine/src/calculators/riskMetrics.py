@@ -53,17 +53,12 @@ class RiskMetrics:
         from the replicate distributions, for a given time-horizon and Z-score (based on
         singificance level, alpha)
     """
-
-    def calculate_lvar_and_ivar(self, liquidation_replicates: list[ndarray], insolvencies_replicates: list[ndarray], alpha=95,) -> tuple[float, float]:
+    def calculate_lvar_and_ivar(self, liquidations_replicates: list[ndarray], insolvencies_replicates: list[ndarray], alpha=95) -> tuple[float, float]:
         z_score = self.z_scores[alpha]
-        l_dist, i_dist = np.array([lr.mean() for lr in liquidation_replicates]), np.array(
-            [i.mean() for i in insolvencies_replicates]
-        )
-
-        l_mu, i_mu = l_dist.mean(), i_dist.mean()
-        l_sig, i_sig = l_dist.std(), i_dist.std()
-
-        l_var = -z_score * l_sig + l_mu
-        i_var = -z_score * i_sig + i_mu
-
-        return l_var, i_var
+        liquidations_distribution: ndarray = np.array([liquidation_replicate.mean() for liquidation_replicate in liquidations_replicates])
+        insolvencies_distribution: ndarray = np.array([insolvencies_replicate.mean() for insolvencies_replicate in insolvencies_replicates])
+        liquidations_mean, insolvencies_mean = liquidations_distribution.mean(), insolvencies_distribution.mean()
+        liquidations_standard_deviation, insolvencies_standard_deviation = liquidations_distribution.std(), insolvencies_distribution.std()
+        liquidations_var = -z_score * liquidations_standard_deviation + liquidations_mean
+        insolvencies_var = -z_score * insolvencies_standard_deviation + insolvencies_mean
+        return liquidations_var, insolvencies_var
