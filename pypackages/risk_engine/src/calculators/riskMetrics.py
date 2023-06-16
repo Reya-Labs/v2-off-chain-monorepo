@@ -11,10 +11,11 @@ class RiskMetrics:
             z_scores = {95: 1.96, 99: 2.58}
         self.z_scores = z_scores
 
-    def insolvency(self, actor_unrealized_pnl: Series, actor_margin: Series) -> DataFrame:
+    def insolvency(self, actor_unrealized_pnl: Series, actor_margin: Series) -> Series :
         return actor_unrealized_pnl / actor_margin
 
-    def liquidation(self, actor_margin: Series, actor_liquidation_margin: Series) -> DataFrame:
+    def liquidation(self, actor_margin: Series, actor_liquidation_margin: Series) -> Series:
+        # todo: check why is unrealized pnl not captured in here, surely it should affect liquidations?
         return (actor_margin - actor_liquidation_margin) / actor_liquidation_margin
 
     """
@@ -28,22 +29,19 @@ class RiskMetrics:
         significand = 0.9 * random.random() + 0.1
         return significand * 10 ** exp
 
-    def generate_replicates(self, N_replicates=100) -> tuple[list[ndarray], list[ndarray]]:
+    def generate_replicates(self, actor_margin: Series, actor_unrealized_pnl: Series, actor_liquidation_margin: Series, N_replicates=100) -> tuple[list[ndarray], list[ndarray]]:
         rs = np.random.RandomState(42)
 
-        # todo: this doesn't look right
-        liquidations = self.liquidation.dropna(inplace=True)
-        insolvencies = self.insolvency.dropna(inplace=True)
+        liquidations = self.liquidation(actor_margin=actor_margin, actor_liquidation_margin=actor_liquidation_margin).dropna()
+        insolvencies = self.insolvency(actor_unrealized_pnl=actor_unrealized_pnl, actor_margin=actor_margin)
 
-        liq = np.array([lq + self.get_random() for lq in liquidations])
-        ins = np.array([i + self.get_random() for i in insolvencies])
-        # Optimal block lengths
-        time_delta_l = optimal_block_length(liq)["circular"].values[0]
-        time_delta_i = optimal_block_length(ins)["circular"].values[0]
+        liquidations_array: np.ndarray = np.array([lq + self.get_random() for lq in liquidations])
+        insolvencies_array: np.ndarray = np.array([i + self.get_random() for i in insolvencies])
+        time_delta_liquidations = optimal_block_length(liquidations_array)["circular"].values[0]
+        time_delta_insolvencies = optimal_block_length(insolvencies_array)["circular"].values[0]
 
-        # Block bootstrapping
-        l_bs = CircularBlockBootstrap(block_size=int(time_delta_l) + 1, x=liq, random_state=rs)
-        i_bs = CircularBlockBootstrap(block_size=int(time_delta_i) + 1, x=ins, random_state=rs)
+        l_bs = CircularBlockBootstrap(block_size=int(time_delta_liquidations) + 1, x=liquidations_array, random_state=rs)
+        i_bs = CircularBlockBootstrap(block_size=int(time_delta_insolvencies) + 1, x=insolvencies_array, random_state=rs)
 
         l_rep = [data[1]["x"].flatten() for data in l_bs.bootstrap(N_replicates)]
         i_rep = [data[1]["x"].flatten() for data in i_bs.bootstrap(N_replicates)]
