@@ -1,7 +1,7 @@
 import json
 import optuna
 import os
-from objectiveFunction import objective
+from calculateObjectiveOptunaTrial import objective
 from optuna import Study
 from optuna.trial import FrozenTrial
 
