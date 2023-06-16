@@ -3,12 +3,12 @@ import numpy as np
 from numpy import ndarray
 from arch.bootstrap import CircularBlockBootstrap, optimal_block_length
 from pandas import Series
+from risk_engine.src.constants import Z_SCORES_DICT
+
 
 class RiskMetrics:
-    def __init__(self, z_scores: dict[float][float] = None):
-        if z_scores is None:
-            z_scores = {95: 1.96, 99: 2.58}
-        self.z_scores = z_scores
+    def __init__(self):
+        pass
 
     def insolvency(self, actor_unrealized_pnl: Series, actor_margin: Series) -> Series:
         return actor_unrealized_pnl / actor_margin
@@ -28,10 +28,12 @@ class RiskMetrics:
         significand = 0.9 * random.random() + 0.1
         return significand * 10 ** exp
 
-    def generate_replicates(self, actor_margin: Series, actor_unrealized_pnl: Series, actor_liquidation_margin: Series, N_replicates=100) -> tuple[list[ndarray], list[ndarray]]:
+    def generate_replicates(self, actor_margin: Series, actor_unrealized_pnl: Series, actor_liquidation_margin: Series,
+                            N_replicates=100) -> tuple[list[ndarray], list[ndarray]]:
         rs = np.random.RandomState(42)
 
-        liquidations = self.liquidation(actor_margin=actor_margin, actor_liquidation_margin=actor_liquidation_margin).dropna()
+        liquidations = self.liquidation(actor_margin=actor_margin,
+                                        actor_liquidation_margin=actor_liquidation_margin).dropna()
         insolvencies = self.insolvency(actor_unrealized_pnl=actor_unrealized_pnl, actor_margin=actor_margin)
 
         liquidations_array: ndarray = np.array([lq + self.get_random() for lq in liquidations])
@@ -39,11 +41,15 @@ class RiskMetrics:
         time_delta_liquidations: float = optimal_block_length(liquidations_array)["circular"].values[0]
         time_delta_insolvencies: float = optimal_block_length(insolvencies_array)["circular"].values[0]
 
-        liquidations_bootstrap: CircularBlockBootstrap = CircularBlockBootstrap(block_size=int(time_delta_liquidations) + 1, x=liquidations_array, random_state=rs)
-        insolvencies_bootstrap: CircularBlockBootstrap = CircularBlockBootstrap(block_size=int(time_delta_insolvencies) + 1, x=insolvencies_array, random_state=rs)
+        liquidations_bootstrap: CircularBlockBootstrap = CircularBlockBootstrap(
+            block_size=int(time_delta_liquidations) + 1, x=liquidations_array, random_state=rs)
+        insolvencies_bootstrap: CircularBlockBootstrap = CircularBlockBootstrap(
+            block_size=int(time_delta_insolvencies) + 1, x=insolvencies_array, random_state=rs)
 
-        liquidations_replicates: list[ndarray] = [data[1]["x"].flatten() for data in liquidations_bootstrap.bootstrap(N_replicates)]
-        insolvencies_replicates: list[ndarray] = [data[1]["x"].flatten() for data in insolvencies_bootstrap.bootstrap(N_replicates)]
+        liquidations_replicates: list[ndarray] = [data[1]["x"].flatten() for data in
+                                                  liquidations_bootstrap.bootstrap(N_replicates)]
+        insolvencies_replicates: list[ndarray] = [data[1]["x"].flatten() for data in
+                                                  insolvencies_bootstrap.bootstrap(N_replicates)]
 
         return liquidations_replicates, insolvencies_replicates
 
@@ -53,10 +59,14 @@ class RiskMetrics:
         from the replicate distributions, for a given time-horizon and Z-score (based on
         singificance level, alpha)
     """
-    def calculate_lvar_and_ivar(self, liquidations_replicates: list[ndarray], insolvencies_replicates: list[ndarray], alpha=95) -> tuple[float, float]:
-        z_score = self.z_scores[alpha]
-        liquidations_distribution: ndarray = np.array([liquidation_replicate.mean() for liquidation_replicate in liquidations_replicates])
-        insolvencies_distribution: ndarray = np.array([insolvencies_replicate.mean() for insolvencies_replicate in insolvencies_replicates])
+
+    def calculate_lvar_and_ivar(self, liquidations_replicates: list[ndarray], insolvencies_replicates: list[ndarray],
+                                alpha=95) -> tuple[float, float]:
+        z_score = Z_SCORES_DICT[alpha]
+        liquidations_distribution: ndarray = np.array(
+            [liquidation_replicate.mean() for liquidation_replicate in liquidations_replicates])
+        insolvencies_distribution: ndarray = np.array(
+            [insolvencies_replicate.mean() for insolvencies_replicate in insolvencies_replicates])
         liquidations_mean, insolvencies_mean = liquidations_distribution.mean(), insolvencies_distribution.mean()
         liquidations_standard_deviation, insolvencies_standard_deviation = liquidations_distribution.std(), insolvencies_distribution.std()
         liquidations_var = -z_score * liquidations_standard_deviation + liquidations_mean
