@@ -22,7 +22,7 @@ def objective_function(lp_liquidation_threshold: Series, trader_liquidation_thre
     )
 
     risk_metrics = RiskMetrics()
-    lvar, ivar = risk_metrics.lvar_and_ivar()
+    lvar, ivar = risk_metrics.
     ivar_reg = MAX_OBJECTIVE_PENALTY if ivar < ACCEPTABLE_IVAR_THRESHOLD else 0
 
     objective = average_leverage - average_risk - regularisation - ivar_reg
