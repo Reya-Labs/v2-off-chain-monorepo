@@ -1,7 +1,6 @@
 import numpy as np
 from risk_engine.src.simulations.margin_requirements.marginRequirements import MarginRequirements
-from risk_engine.src.constants import YEAR_IN_SECONDS, STANDARDIZED_TAKER_NOTIONAL, STANDARDIZED_MAKER_NOTIONAL
-from risk_engine.src.calculators.riskMetrics import RiskMetrics
+from risk_engine.src.constants import YEAR_IN_SECONDS
 import os
 from pandas import DataFrame
 
@@ -63,21 +62,6 @@ def calculate_objective(
     """
     2. Optimisation function implementation for Optuna
     """
-    average_leverage = 0.5 * (
-        STANDARDIZED_MAKER_NOTIONAL / output.iloc[0]["lp_liquidation_threshold"]
-        + STANDARDIZED_TAKER_NOTIONAL / output.iloc[0]["trader_liquidation_threshold"]
-    )
-    average_risk = 0.5 * (
-        output["lp_uPnL"].std() + output["trader_uPnL"].std()
-    )  # Normalise risk to collateral supplied
-    regularisation = (
-        10 if average_leverage < min_leverage else 0
-    )
 
-    risk_metrics = RiskMetrics(df=output)
-    lvar, ivar = risk_metrics.lvar_and_ivar()
-    ivar_reg = 10 if ivar < 0.95 else 0
-
-    objective = average_leverage - average_risk - regularisation - ivar_reg
     return objective
 
