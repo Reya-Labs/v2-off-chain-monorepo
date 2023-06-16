@@ -1,5 +1,5 @@
 import pandas as pd
-from risk_engine.src.optimization.generatePool import generate_pool
+from risk_engine.src.optimization.calculateObjective import generate_pool
 import numpy as np
 # temp
 from risk_engine.tests.mocks.mockPositions import mock_positions

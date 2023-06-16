@@ -6,10 +6,10 @@ import os
 from pandas import DataFrame
 
 
-# todo: add typings
-def generate_pool(
-        df: DataFrame,
-        name: str,
+# todo: add typings + consider introducing interfaces to better manage/pack the arguments
+def calculate_objective(
+        rate_oracle_df: DataFrame,
+        simulator_name: str,
         p_lm: float,
         gamma: float,
         lambda_taker: float,
@@ -23,13 +23,13 @@ def generate_pool(
         slippage_phi: float,
         slippage_beta: float,
 ) -> float:
-    mean_apy = df["apy"].mean()
+    mean_apy = rate_oracle_df["apy"].mean()
     if spread >= mean_apy:
         # todo: consider giving 0.001 more meaningful name and
         spread -= 0.001
-    std_dev = df["apy"].std()
-    duration = df["timestamp"].values[-1] - df["timestamp"].values[0]
-    # Build the input of the simulation
+    std_dev = rate_oracle_df["apy"].std()
+    duration = rate_oracle_df["timestamp"].values[-1] - rate_oracle_df["timestamp"].values[0]
+    # todo: pull this function into its own method to make conversio between risk param and p_lm more explicit or drop p_lm
     risk_parameter = std_dev * np.sqrt(YEAR_IN_SECONDS / duration) * p_lm
     simulation = MarginRequirements()
 
@@ -43,8 +43,8 @@ def generate_pool(
         slippage_beta=slippage_beta,
         lp_spread=spread,
         is_trader_vt=True,
-        timestamps=df["timestamp"].values,
-        indices=df["liquidity_index"].values,
+        timestamps=rate_oracle_df["timestamp"].values,
+        indices=rate_oracle_df["liquidity_index"].values,
         maker_fee=lambda_maker,
         taker_fee=lambda_taker,
         gwap_lookback=lookback,
@@ -55,7 +55,7 @@ def generate_pool(
     1. Agent-based simulation of maker and taker positions in the
        IRS pool
     """
-    simulation_folder = f"./{market_name}/{name}/optuna/"
+    simulation_folder = f"./{market_name}/{simulator_name}/optuna/"
     if not os.path.exists(simulation_folder):
         os.makedirs(simulation_folder)
     output = simulation.run(output_folder=simulation_folder)  # Add a return output to sim.run
