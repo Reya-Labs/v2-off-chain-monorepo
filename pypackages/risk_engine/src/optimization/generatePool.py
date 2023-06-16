@@ -1,6 +1,6 @@
 import numpy as np
 from risk_engine.src.simulations.margin_requirements.marginRequirements import MarginRequirements
-from risk_engine.src.constants import YEAR_IN_SECONDS, STANDARDIZED_TAKER_NOTIONAL,
+from risk_engine.src.constants import YEAR_IN_SECONDS, STANDARDIZED_TAKER_NOTIONAL, STANDARDIZED_MAKER_NOTIONAL
 from risk_engine.src.calculators.riskMetrics import RiskMetrics
 import os
 from pandas import DataFrame
@@ -64,8 +64,8 @@ def generate_pool(
     2. Optimisation function implementation for Optuna
     """
     average_leverage = 0.5 * (
-        positions["maker_amount"] / output.iloc[0]["lp_liquidation_threshold"]
-        + positions["taker_amount"] / output.iloc[0]["trader_liquidation_threshold"]
+        STANDARDIZED_MAKER_NOTIONAL / output.iloc[0]["lp_liquidation_threshold"]
+        + STANDARDIZED_TAKER_NOTIONAL / output.iloc[0]["trader_liquidation_threshold"]
     )
     average_risk = 0.5 * (
         output["lp_uPnL"].std() + output["trader_uPnL"].std()
