@@ -3,26 +3,19 @@ import random
 import numpy as np
 from numpy import ndarray
 from arch.bootstrap import CircularBlockBootstrap, optimal_block_length
-from pandas import DataFrame
-
+from pandas import DataFrame, Series
 
 class RiskMetrics:
-    def __init__(self, df: DataFrame, z_scores: dict[float][float] = None):
+    def __init__(self, z_scores: dict[float][float] = None):
         if z_scores is None:
             z_scores = {95: 1.96, 99: 2.58}
         self.z_scores = z_scores
-        self.df = df
 
-    # We want insolvency > 1
-    def insolvency(self, actor: str) -> DataFrame:
-        # todo: better name for actor (is it wallet, accountId?)
-        return self.df[f"{actor}_uPnL"] / self.df[f"{actor}_margin"]
+    def insolvency(self, actor_unrealized_pnl: Series, actor_margin: Series) -> DataFrame:
+        return actor_unrealized_pnl / actor_margin
 
-    # We want liquidation > 0
-    def liquidation(self, actor: str) -> DataFrame:
-        return (self.df[f"{actor}_margin"] - self.df[f"{actor}_liquidation_margin"]) / self.df[
-            f"{actor}_liquidation_margin"
-        ]
+    def liquidation(self, actor_margin: Series, actor_liquidation_margin: Series) -> DataFrame:
+        return (actor_margin - actor_liquidation_margin) / actor_liquidation_margin
 
     """
         Generate very small random numbers to decorate the liquidation and insolvency series with
