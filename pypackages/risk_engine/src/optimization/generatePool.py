@@ -3,10 +3,24 @@ from risk_engine.src.simulations.margin_requirements.marginRequirements import M
 from risk_engine.src.constants import YEAR_IN_SECONDS
 from risk_engine.src.calculators.riskMetrics import RiskMetrics
 import os
+from pandas import DataFrame
 
 # todo: add typings
 def generate_pool(
-    df, name, p_lm, gamma, lambda_taker, lambda_maker, spread, lookback, positions, liquidator_reward, market_name: str, min_leverage=20
+        df: DataFrame,
+        name: str,
+        p_lm: float,
+        gamma: float,
+        lambda_taker: float,
+        lambda_maker: float,
+        spread: float,
+        lookback: float,
+        liquidator_reward: float,
+        market_name: str,
+        min_leverage: float,
+        collateral_token_name: str,
+        slippage_phi: float,
+        slippage_beta: float,
 ) -> float:
     mean_apy = df["apy"].mean()
     if spread >= mean_apy:
@@ -19,14 +33,13 @@ def generate_pool(
     simulation = MarginRequirements()
 
     # TODO: how can the fixed rate lookback window be added here i.e. where is the GWAP treated?
-    # I think this needs to be added to the IRS market object
     simulation.setUp(
-        collateral_token=positions["base_token"],
+        collateral_token=collateral_token_name,
         initial_fixed_rate=mean_apy,
         risk_parameter=risk_parameter,
         im_multiplier=gamma,
-        slippage_phi=positions["phi"],
-        slippage_beta=positions["beta"],
+        slippage_phi=slippage_phi,
+        slippage_beta=slippage_beta,
         lp_spread=spread,
         is_trader_vt=True,
         timestamps=df["timestamp"].values,
