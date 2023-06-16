@@ -27,10 +27,29 @@ def objective_function(lp_liquidation_threshold: Series, trader_liquidation_thre
     insolvencies_lp: Series = generate_insolvencies_series(actor_unrealized_pnl=lp_unrealized_pnl, actor_margin=lp_margin)
     liquidations_lp: Series = generate_liquidations_series(actor_margin=lp_margin, actor_liquidation_margin=lp_liquidation_threshold)
 
-    # todo: stopped here
+    liquidations_replicates_trader, insolvencies_replicates_trader = generate_replicates(
+        liquidations=liquidations_traders, insolvencies=insolvencies_trader
+    )
 
-    # lvar, ivar = risk_metrics.
-    ivar_reg = MAX_OBJECTIVE_PENALTY if ivar < ACCEPTABLE_IVAR_THRESHOLD else 0
+    liquidations_replicates_lp, insolvencies_replicates_lp = generate_replicates(
+        liquidations=liquidations_lp, insolvencies=insolvencies_lp
+    )
+
+    liquidations_var_trader, insolvencies_var_trader = calculate_lvar_and_ivar(
+        liquidations_replicates=liquidations_replicates_trader,
+        insolvencies_replicates=insolvencies_replicates_trader
+    )
+
+    liquidations_var_lp, insolvencies_var_lp = calculate_lvar_and_ivar(
+        liquidations_replicates=liquidations_replicates_lp,
+        insolvencies_replicates=insolvencies_replicates_lp
+    )
+
+    # todo: double check this averaging logic, check if we need to include the liquidations var in the objective
+    average_liquidations_var = liquidations_var_trader * 0.5 + liquidations_var_lp * 0.5
+    average_insolvencies_var = insolvencies_var_trader * 0.5 + insolvencies_var_lp * 0.5
+
+    ivar_reg = MAX_OBJECTIVE_PENALTY if average_insolvencies_var < ACCEPTABLE_IVAR_THRESHOLD else 0
 
     objective = average_leverage - average_risk - regularisation - ivar_reg
 
