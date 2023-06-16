@@ -35,18 +35,18 @@ class RiskMetrics:
         liquidations = self.liquidation(actor_margin=actor_margin, actor_liquidation_margin=actor_liquidation_margin).dropna()
         insolvencies = self.insolvency(actor_unrealized_pnl=actor_unrealized_pnl, actor_margin=actor_margin)
 
-        liquidations_array: np.ndarray = np.array([lq + self.get_random() for lq in liquidations])
-        insolvencies_array: np.ndarray = np.array([i + self.get_random() for i in insolvencies])
-        time_delta_liquidations = optimal_block_length(liquidations_array)["circular"].values[0]
-        time_delta_insolvencies = optimal_block_length(insolvencies_array)["circular"].values[0]
+        liquidations_array: ndarray = np.array([lq + self.get_random() for lq in liquidations])
+        insolvencies_array: ndarray = np.array([i + self.get_random() for i in insolvencies])
+        time_delta_liquidations: float = optimal_block_length(liquidations_array)["circular"].values[0]
+        time_delta_insolvencies: float = optimal_block_length(insolvencies_array)["circular"].values[0]
 
-        l_bs = CircularBlockBootstrap(block_size=int(time_delta_liquidations) + 1, x=liquidations_array, random_state=rs)
-        i_bs = CircularBlockBootstrap(block_size=int(time_delta_insolvencies) + 1, x=insolvencies_array, random_state=rs)
+        liquidations_bootstrap: CircularBlockBootstrap = CircularBlockBootstrap(block_size=int(time_delta_liquidations) + 1, x=liquidations_array, random_state=rs)
+        insolvencies_bootstrap: CircularBlockBootstrap = CircularBlockBootstrap(block_size=int(time_delta_insolvencies) + 1, x=insolvencies_array, random_state=rs)
 
-        l_rep = [data[1]["x"].flatten() for data in l_bs.bootstrap(N_replicates)]
-        i_rep = [data[1]["x"].flatten() for data in i_bs.bootstrap(N_replicates)]
+        liquidations_replicates: list[ndarray] = [data[1]["x"].flatten() for data in liquidations_bootstrap.bootstrap(N_replicates)]
+        insolvencies_replicates: list[ndarray] = [data[1]["x"].flatten() for data in insolvencies_bootstrap.bootstrap(N_replicates)]
 
-        return l_rep, i_rep
+        return liquidations_replicates, insolvencies_replicates
 
     """
         Calculate the LVaR and IVaR according to the Gaussianity assumption for the
