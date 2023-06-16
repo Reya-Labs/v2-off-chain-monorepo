@@ -1,9 +1,8 @@
 import random
-
 import numpy as np
 from numpy import ndarray
 from arch.bootstrap import CircularBlockBootstrap, optimal_block_length
-from pandas import DataFrame, Series
+from pandas import Series
 
 class RiskMetrics:
     def __init__(self, z_scores: dict[float][float] = None):
@@ -11,7 +10,7 @@ class RiskMetrics:
             z_scores = {95: 1.96, 99: 2.58}
         self.z_scores = z_scores
 
-    def insolvency(self, actor_unrealized_pnl: Series, actor_margin: Series) -> Series :
+    def insolvency(self, actor_unrealized_pnl: Series, actor_margin: Series) -> Series:
         return actor_unrealized_pnl / actor_margin
 
     def liquidation(self, actor_margin: Series, actor_liquidation_margin: Series) -> Series:
@@ -55,13 +54,11 @@ class RiskMetrics:
         singificance level, alpha)
     """
 
-    def lvar_and_ivar(self, alpha=95, l_rep=None, i_rep=None) -> tuple[float, float]:
+    def calculate_lvar_and_ivar(self, liquidation_replicates: list[ndarray], insolvencies_replicates: list[ndarray], alpha=95,) -> tuple[float, float]:
         z_score = self.z_scores[alpha]
-        if (l_rep is None) or (i_rep is None):
-            l_rep, i_rep = self.generate_replicates()
-        l_dist, i_dist = np.array([lr.mean() for lr in l_rep]), np.array(
-            [i.mean() for i in i_rep]
-        )  # CLT => Gaussian
+        l_dist, i_dist = np.array([lr.mean() for lr in liquidation_replicates]), np.array(
+            [i.mean() for i in insolvencies_replicates]
+        )
 
         l_mu, i_mu = l_dist.mean(), i_dist.mean()
         l_sig, i_sig = l_dist.std(), i_dist.std()
