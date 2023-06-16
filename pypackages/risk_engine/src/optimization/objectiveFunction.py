@@ -2,25 +2,28 @@ from risk_engine.src.constants import STANDARDIZED_TAKER_NOTIONAL, STANDARDIZED_
 from risk_engine.src.calculators.riskMetrics import RiskMetrics
 from pandas import Series
 
+MAX_OBJECTIVE_PENALTY = 10
+ACCEPTABLE_IVAR_THRESHOLD = 0.95
+LEVERAGE_OBJECTIVE_WEIGHT = 0.5
 
 def objective_function(lp_liquidation_threshold: Series, trader_liquidation_threshold: Series,
                        lp_unrealized_pnl: Series, trader_unrealized_pnl: Series,
-                       minimum_acceptable_leverage: float) -> float:
+                       acceptable_leverage_threshold: float) -> float:
 
-    average_leverage = 0.5 * (
+    average_leverage = LEVERAGE_OBJECTIVE_WEIGHT * (
             STANDARDIZED_MAKER_NOTIONAL / lp_liquidation_threshold.iloc[0]
             + STANDARDIZED_TAKER_NOTIONAL / trader_liquidation_threshold.iloc[0]
     )
-    average_risk = 0.5 * (
+    average_risk = (1 - LEVERAGE_OBJECTIVE_WEIGHT) * (
             lp_unrealized_pnl.std() + trader_unrealized_pnl.std()
     )
     regularisation = (
-        10 if average_leverage < minimum_acceptable_leverage else 0
+        MAX_OBJECTIVE_PENALTY if average_leverage < acceptable_leverage_threshold else 0
     )
 
-    risk_metrics = RiskMetrics(df=output)
+    risk_metrics = RiskMetrics()
     lvar, ivar = risk_metrics.lvar_and_ivar()
-    ivar_reg = 10 if ivar < 0.95 else 0
+    ivar_reg = MAX_OBJECTIVE_PENALTY if ivar < ACCEPTABLE_IVAR_THRESHOLD else 0
 
     objective = average_leverage - average_risk - regularisation - ivar_reg
 
