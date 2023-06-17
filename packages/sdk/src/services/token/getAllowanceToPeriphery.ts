@@ -15,7 +15,7 @@ export const getAllowanceToPeriphery = async ({
   const poolInfo = await getPoolInfo(ammId);
   const walletAddress: string = await signer.getAddress();
 
-  if (poolInfo.isEth) {
+  if (poolInfo.quoteToken.isEth) {
     return Number.MAX_SAFE_INTEGER;
   }
 
@@ -23,8 +23,8 @@ export const getAllowanceToPeriphery = async ({
 
   const descaledCappedAllowance = getERC20Allowance({
     walletAddress,
-    tokenAddress: poolInfo.quoteTokenAddress,
-    tokenDecimals: poolInfo.quoteTokenDecimals,
+    tokenAddress: poolInfo.quoteToken.address,
+    tokenDecimals: poolInfo.quoteToken.decimals,
     spenderAddress: peripheryAddress,
     provider: signer.provider,
   });

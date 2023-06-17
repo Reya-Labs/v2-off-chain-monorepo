@@ -4,14 +4,12 @@ import { providers } from 'ethers';
 export type GetAvailableNotionalArgs = {
   isFT: boolean;
   chainId: number;
-  tokenDecimals: number;
   params: CompleteSwapDetails;
 };
 
 export type GetMaxLeverageArgs = {
   isFT: boolean;
   chainId: number;
-  tokenDecimals: number;
   params: PoolConfig & SwapUserInputs;
 };
 

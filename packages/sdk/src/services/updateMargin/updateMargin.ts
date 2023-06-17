@@ -3,7 +3,7 @@ import { estimateGas, executeTransaction } from '../executeTransaction';
 import { encodeUpdateMargin } from './encode';
 import { UpdateMarginArgs, UpdateMarginParams } from './types';
 import { getUpdateMarginPeripheryParams } from './getUpdateMarginPeripheryParams';
-import { getTokenDetails, scale } from '@voltz-protocol/commons-v2';
+import { scale } from '@voltz-protocol/commons-v2';
 
 export async function updateMargin({
   positionId,
@@ -13,13 +13,10 @@ export async function updateMargin({
   const partialOrder = await getUpdateMarginPeripheryParams(positionId);
 
   const chainId = await signer.getChainId();
-  const tokenDecimals = getTokenDetails(
-    partialOrder.quoteTokenAddress,
-  ).tokenDecimals;
 
   const order: UpdateMarginParams = {
     ...partialOrder,
-    margin: scale(tokenDecimals)(margin),
+    margin: scale(partialOrder.quoteTokenDecimals)(margin),
     owner: signer,
   };
 
@@ -36,13 +33,10 @@ export async function estimateUpdateMarginGasUnits({
   const partialOrder = await getUpdateMarginPeripheryParams(positionId);
 
   const chainId = await signer.getChainId();
-  const tokenDecimals = getTokenDetails(
-    partialOrder.quoteTokenAddress,
-  ).tokenDecimals;
 
   const order: UpdateMarginParams = {
     ...partialOrder,
-    margin: scale(tokenDecimals)(margin),
+    margin: scale(partialOrder.quoteTokenDecimals)(margin),
     owner: signer,
   };
 

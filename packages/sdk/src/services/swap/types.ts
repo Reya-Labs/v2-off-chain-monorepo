@@ -16,6 +16,7 @@ export type PoolConfig = {
   marketId: string;
   quoteTokenAddress: string;
   quoteTokenDecimals: number;
+  isETH: boolean;
 };
 
 /**

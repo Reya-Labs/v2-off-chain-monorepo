@@ -11,7 +11,7 @@ import {
   EditSwapPeripheryParameters,
 } from './types';
 import { getEditSwapPeripheryParams } from './getEditSwapPeripheryParams';
-import { getTokenDetails, scale } from '@voltz-protocol/commons-v2';
+import { scale } from '@voltz-protocol/commons-v2';
 import {
   baseAmountToNotionalBN,
   notionalToBaseAmount,
@@ -114,12 +114,9 @@ async function createEditSwapParams({
 }: EditSwapArgs): Promise<CompleteEditSwapDetails> {
   const swapInfo = await getEditSwapPeripheryParams(positionId);
 
-  const tokenDecimals = getTokenDetails(
-    swapInfo.quoteTokenAddress,
-  ).tokenDecimals;
   const baseAmount = notionalToBaseAmount(
     notional,
-    tokenDecimals,
+    swapInfo.quoteTokenDecimals,
     swapInfo.currentLiquidityIndex,
   );
 
@@ -132,7 +129,7 @@ async function createEditSwapParams({
     ...swapInfo,
     owner: signer,
     baseAmount: baseAmount,
-    margin: scale(tokenDecimals)(margin),
+    margin: scale(swapInfo.quoteTokenDecimals)(margin),
     fixedRateLimit: fixedRateLimitRaw,
   };
 

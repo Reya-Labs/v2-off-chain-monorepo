@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers';
 import { simulateTx } from '../executeTransaction';
 import { createLpParams, decodeLpOutput, getLpTxData } from '../lp';
-import { descale, getTokenDetails, scale } from '@voltz-protocol/commons-v2';
+import { descale, scale } from '@voltz-protocol/commons-v2';
 import {
   GetLpMaxLeverageArgs,
   GetPoolLpInfoArgs,
@@ -44,8 +44,6 @@ async function getLpMaxLeverage({
     fixedHigh,
   });
 
-  const tokenDecimals = getTokenDetails(params.quoteTokenAddress).tokenDecimals;
-
   const { data, value, chainId } = await getLpTxData(params);
   const bytesOutput = (await simulateTx(mockSigner, data, value, chainId))
     .bytesOutput;
@@ -54,11 +52,11 @@ async function getLpMaxLeverage({
 
   if (im.gt(0)) {
     // should always happen, since we connect with dummy account
-    const maxLeverage: BigNumber = BigNumber.from(scale(tokenDecimals)(1))
-      .mul(BigNumber.from(10).pow(tokenDecimals))
+    const maxLeverage: BigNumber = BigNumber.from(scale(params.quoteTokenDecimals)(1))
+      .mul(BigNumber.from(10).pow(params.quoteTokenDecimals))
       .div(im);
 
-    return Math.floor(descale(tokenDecimals)(maxLeverage));
+    return Math.floor(descale(params.quoteTokenDecimals)(maxLeverage));
   }
 
   return 0;

@@ -31,6 +31,7 @@ export async function encodeSwap(
   const ethAmount = encodeDeposit(
     accountId,
     trade.quoteTokenAddress,
+    trade.isETH,
     trade.fixedRateLimit,
     multiAction,
   );

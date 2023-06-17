@@ -31,6 +31,7 @@ export async function encodeLp(
   const ethAmount = encodeDeposit(
     accountId,
     trade.quoteTokenAddress,
+    trade.isETH,
     trade.margin,
     multiAction,
   );
