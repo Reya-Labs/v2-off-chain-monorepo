@@ -12,6 +12,7 @@ export async function getEditSwapPeripheryParams(
     marketId: positionApiInfo.pool.marketId,
     quoteTokenAddress: positionApiInfo.pool.quoteToken.address,
     quoteTokenDecimals: positionApiInfo.pool.quoteToken.decimals,
+    isETH: positionApiInfo.pool.quoteToken.isEth,
     currentLiquidityIndex: positionApiInfo.pool.currentLiquidityIndex,
     currentFixedRate: positionApiInfo.pool.currentFixedRate,
     positionMargin: positionApiInfo.margin,

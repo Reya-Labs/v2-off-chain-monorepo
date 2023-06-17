@@ -8,7 +8,6 @@ import { GetMaxLeverageArgs } from './types';
 export const getMaxLeverage = async ({
   isFT,
   chainId,
-  tokenDecimals,
   params,
 }: GetMaxLeverageArgs): Promise<number> => {
   const { data, value } = await getSwapTxData({
@@ -23,11 +22,11 @@ export const getMaxLeverage = async ({
 
   if (im.gt(0)) {
     // should always happen, since we connect with dummy account
-    const maxLeverage: BigNumber = BigNumber.from(scale(tokenDecimals)(1))
-      .mul(BigNumber.from(10).pow(tokenDecimals))
+    const maxLeverage: BigNumber = BigNumber.from(scale(params.quoteTokenDecimals)(1))
+      .mul(BigNumber.from(10).pow(params.quoteTokenDecimals))
       .div(im);
 
-    return Math.floor(descale(tokenDecimals)(maxLeverage));
+    return Math.floor(descale(params.quoteTokenDecimals)(maxLeverage));
   }
 
   return 0;

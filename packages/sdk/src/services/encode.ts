@@ -4,7 +4,6 @@ import { BigNumber, ethers } from 'ethers';
 import { closestTickAndFixedRate } from '../utils/math/tickHelpers';
 import { CommandType, getCommand } from '../utils/routerCommands';
 import { MethodParameters, MultiAction } from '../utils/types';
-import { getTokenDetails } from '@voltz-protocol/commons-v2';
 import { MINUS_ONE_BN, ZERO_BN } from '../utils/constants';
 
 ////////////////////  ENCODE SINGLE  ////////////////////
@@ -148,14 +147,13 @@ export const encodeRouterCall = (
 export const encodeDeposit = (
   accountId: string,
   quoteTokenAddress: string,
+  isETH: boolean,
   marginAmount: BigNumber,
   multiAction: MultiAction,
 ): BigNumber => {
   let ethAmount = ZERO_BN;
 
   if (marginAmount.gt(ZERO_BN)) {
-    // scale amount
-    const isETH = getTokenDetails(quoteTokenAddress).tokenName === 'ETH';
     // deposit
     if (isETH) {
       encodeSingleWrapETH(marginAmount, multiAction);

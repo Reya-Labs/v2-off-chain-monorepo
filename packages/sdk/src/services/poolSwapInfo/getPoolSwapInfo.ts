@@ -1,6 +1,5 @@
 import { createSwapParams } from '../swap';
 import { GetPoolSwapInfoArgs, GetPoolSwapInfoResults } from './types';
-import { getTokenDetails } from '@voltz-protocol/commons-v2';
 import { getPoolSwapInfoOneSide } from './getPoolSwapInfoOneSide';
 import { getDummyWallet } from '../../utils/getDummyWallet';
 
@@ -19,8 +18,6 @@ export const getPoolSwapInfo = async ({
     fixedRateLimit: 0,
   });
 
-  const tokenDecimals = getTokenDetails(params.quoteTokenAddress).tokenDecimals;
-
   try {
     const {
       availableNotional: availableNotionalFixedTaker,
@@ -28,8 +25,7 @@ export const getPoolSwapInfo = async ({
     } = await getPoolSwapInfoOneSide({
       isFT: true,
       params,
-      chainId,
-      tokenDecimals,
+      chainId
     });
 
     const {
@@ -38,8 +34,7 @@ export const getPoolSwapInfo = async ({
     } = await getPoolSwapInfoOneSide({
       isFT: false,
       params,
-      chainId,
-      tokenDecimals,
+      chainId
     });
 
     const result: GetPoolSwapInfoResults = {

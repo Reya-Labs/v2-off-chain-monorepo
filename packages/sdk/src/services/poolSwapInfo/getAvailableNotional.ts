@@ -9,7 +9,6 @@ import { GetAvailableNotionalArgs } from './types';
 export const getAvailableNotional = async ({
   isFT,
   chainId,
-  tokenDecimals,
   params,
 }: GetAvailableNotionalArgs): Promise<number> => {
   const { calldata: data, value } = await encodeSwap({
@@ -28,5 +27,5 @@ export const getAvailableNotional = async ({
     params.currentLiquidityIndex,
   );
 
-  return descale(tokenDecimals)(availableNotionalRaw.abs());
+  return descale(params.quoteTokenDecimals)(availableNotionalRaw.abs());
 };

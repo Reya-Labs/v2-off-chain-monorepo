@@ -13,6 +13,7 @@ export async function getSwapPeripheryParams(
     marketId: poolApiInfo.marketId,
     quoteTokenAddress: poolApiInfo.quoteToken.address,
     quoteTokenDecimals: poolApiInfo.quoteToken.decimals,
+    isETH: poolApiInfo.quoteToken.isEth,
     currentLiquidityIndex: poolApiInfo.currentLiquidityIndex, // e.g. 1.0001
     currentFixedRate: poolApiInfo.currentFixedRate, // e.g. 3.5 = 3.5%
   };

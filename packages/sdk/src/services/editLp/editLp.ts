@@ -8,7 +8,7 @@ import {
   getNativeGasToken,
   convertGasUnitsToNativeTokenUnits,
 } from '@voltz-protocol/sdk-v1-stateless';
-import { getTokenDetails, scale, descale } from '@voltz-protocol/commons-v2';
+import { scale, descale } from '@voltz-protocol/commons-v2';
 import { notionalToLiquidityBN } from '../../utils/helpers';
 import { defaultAbiCoder } from 'ethers/lib/utils';
 import {
@@ -80,13 +80,11 @@ export async function simulateEditLp({
     token: await getNativeGasToken(provider),
   };
 
-  const tokenDecimals = getTokenDetails(params.quoteTokenAddress).tokenDecimals;
-
   const result = {
     gasFee: gasFee,
-    fee: descale(tokenDecimals)(fee),
-    marginRequirement: descale(tokenDecimals)(im),
-    maxMarginWithdrawable: params.positionMargin - descale(tokenDecimals)(im),
+    fee: descale(params.quoteTokenDecimals)(fee),
+    marginRequirement: descale(params.quoteTokenDecimals)(im),
+    maxMarginWithdrawable: params.positionMargin - descale(params.quoteTokenDecimals)(im),
   };
 
   return result;
@@ -121,9 +119,8 @@ async function createEditLpParams({
 }: EditLpArgs): Promise<CompleteEditLpDetails> {
   const lpInfo: PositionInfo = await getEditLpPeripheryParams(positionId);
 
-  const tokenDecimals = getTokenDetails(lpInfo.quoteTokenAddress).tokenDecimals;
   const liquidityAmount = notionalToLiquidityBN(
-    scale(tokenDecimals)(notional),
+    scale(lpInfo.quoteTokenDecimals)(notional),
     lpInfo.fixedRateLower,
     lpInfo.fixedRateUpper,
   );
@@ -132,7 +129,7 @@ async function createEditLpParams({
     ...lpInfo,
     owner: signer,
     liquidityAmount: liquidityAmount,
-    margin: scale(tokenDecimals)(margin),
+    margin: scale(lpInfo.quoteTokenDecimals)(margin),
     fixedLow: lpInfo.fixedRateLower,
     fixedHigh: lpInfo.fixedRateUpper,
   };

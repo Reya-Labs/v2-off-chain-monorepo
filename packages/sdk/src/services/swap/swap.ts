@@ -20,7 +20,6 @@ import {
 } from './types';
 import { getSwapPeripheryParams } from './getSwapPeripheryParams';
 import {
-  getTokenDetails,
   scale,
   descale,
   SECONDS_IN_YEAR,
@@ -150,12 +149,9 @@ export async function createSwapParams({
 }: SwapArgs): Promise<CompleteSwapDetails> {
   const swapInfo = await getSwapPeripheryParams(ammId);
 
-  const tokenDecimals = getTokenDetails(
-    swapInfo.quoteTokenAddress,
-  ).tokenDecimals;
   const baseAmount = notionalToBaseAmount(
     notional,
-    tokenDecimals,
+    swapInfo.quoteTokenDecimals,
     swapInfo.currentLiquidityIndex,
   );
 
@@ -168,7 +164,7 @@ export async function createSwapParams({
     ...swapInfo,
     owner: signer,
     baseAmount: baseAmount,
-    margin: scale(tokenDecimals)(margin),
+    margin: scale(swapInfo.quoteTokenDecimals)(margin),
     fixedRateLimit: fixedRateLimitRaw,
   };
 
@@ -229,15 +225,14 @@ export async function processInfoPostSwap(
   };
 
   // MARGIN & FEE
-  const tokenDecimals = getTokenDetails(params.quoteTokenAddress).tokenDecimals;
-  const marginRequirement = descale(tokenDecimals)(im);
-  const descaledFee = descale(tokenDecimals)(fee);
+  const marginRequirement = descale(params.quoteTokenDecimals)(im);
+  const descaledFee = descale(params.quoteTokenDecimals)(fee);
 
   const maxMarginWithdrawable =
     positionMargin === undefined ? 0 : positionMargin - marginRequirement;
 
   // available notional
-  const availableNotional = descale(tokenDecimals)(availableNotionalRaw);
+  const availableNotional = descale(params.quoteTokenDecimals)(availableNotionalRaw);
 
   // SLIPPAGE
   const fixedRateDelta = tickToFixedRate(currentTick) - params.currentFixedRate;
@@ -264,9 +259,9 @@ export async function processInfoPostSwap(
     fee: descaledFee,
     slippage: slippage,
     averageFixedRate: Math.abs(averageFixedRate),
-    fixedTokenDeltaBalance: descale(tokenDecimals)(executedQuoteAmount),
-    variableTokenDeltaBalance: descale(tokenDecimals)(executedBaseAmount),
-    fixedTokenDeltaUnbalanced: -descale(tokenDecimals)(executedBaseAmount), // how do we interpret unbalanced?
+    fixedTokenDeltaBalance: descale(params.quoteTokenDecimals)(executedQuoteAmount),
+    variableTokenDeltaBalance: descale(params.quoteTokenDecimals)(executedBaseAmount),
+    fixedTokenDeltaUnbalanced: -descale(params.quoteTokenDecimals)(executedBaseAmount), // how do we interpret unbalanced?
     gasFee: gasFee,
   };
 }

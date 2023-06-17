@@ -8,7 +8,7 @@ import {
   getNativeGasToken,
   convertGasUnitsToNativeTokenUnits,
 } from '@voltz-protocol/sdk-v1-stateless';
-import { getTokenDetails, scale, descale } from '@voltz-protocol/commons-v2';
+import { scale, descale } from '@voltz-protocol/commons-v2';
 import { notionalToLiquidityBN } from '../../utils/helpers';
 import { defaultAbiCoder } from 'ethers/lib/utils';
 import {
@@ -87,12 +87,10 @@ export async function simulateLp({
     token: await getNativeGasToken(provider),
   };
 
-  const tokenDecimals = getTokenDetails(params.quoteTokenAddress).tokenDecimals;
-
   const result = {
     gasFee: gasFee,
-    fee: descale(tokenDecimals)(fee),
-    marginRequirement: descale(tokenDecimals)(im),
+    fee: descale(params.quoteTokenDecimals)(fee),
+    marginRequirement: descale(params.quoteTokenDecimals)(im),
     maxMarginWithdrawable: 0,
   };
 
@@ -134,10 +132,9 @@ export async function createLpParams({
 }: LpArgs): Promise<CompleteLpDetails> {
   const lpInfo = await getLpPeripheryParams(ammId);
 
-  const tokenDecimals = getTokenDetails(lpInfo.quoteTokenAddress).tokenDecimals;
   const liquidityAmount = notionalToLiquidityBN(
-    scale(tokenDecimals)(notional),
-    tokenDecimals,
+    scale(lpInfo.quoteTokenDecimals)(notional),
+    lpInfo.quoteTokenDecimals,
     fixedLow,
   );
 
@@ -145,7 +142,7 @@ export async function createLpParams({
     ...lpInfo,
     owner: signer,
     liquidityAmount: liquidityAmount,
-    margin: scale(tokenDecimals)(margin),
+    margin: scale(lpInfo.quoteTokenDecimals)(margin),
     fixedLow,
     fixedHigh,
   };
