@@ -3,6 +3,7 @@ from risk_engine.src.simulations.margin_requirements.marginRequirements import M
 from risk_engine.src.constants import YEAR_IN_SECONDS
 import os
 from pandas import DataFrame
+from risk_engine.src.optimization.objectiveFunction import objective_function
 
 
 # todo: add typings + consider introducing interfaces to better manage/pack the arguments
@@ -17,18 +18,16 @@ def calculate_objective(
         lookback: float,
         liquidator_reward: float,
         market_name: str,
-        min_leverage: float,
+        acceptable_leverage_threshold: float,
         collateral_token_name: str,
         slippage_phi: float,
         slippage_beta: float,
 ) -> float:
     mean_apy = rate_oracle_df["apy"].mean()
     if spread >= mean_apy:
-        # todo: consider giving 0.001 more meaningful name and
         spread -= 0.001
     std_dev = rate_oracle_df["apy"].std()
     duration = rate_oracle_df["timestamp"].values[-1] - rate_oracle_df["timestamp"].values[0]
-    # todo: pull this function into its own method to make conversio between risk param and p_lm more explicit or drop p_lm
     risk_parameter = std_dev * np.sqrt(YEAR_IN_SECONDS / duration) * p_lm
     simulation = MarginRequirements()
 
@@ -50,18 +49,20 @@ def calculate_objective(
         liquidator_reward=liquidator_reward
     )
 
-    """
-    1. Agent-based simulation of maker and taker positions in the
-       IRS pool
-    """
     simulation_folder = f"./{market_name}/{simulator_name}/optuna/"
     if not os.path.exists(simulation_folder):
         os.makedirs(simulation_folder)
-    output = simulation.run(output_folder=simulation_folder)  # Add a return output to sim.run
+    output = simulation.run(output_folder=simulation_folder)
 
-    """
-    2. Optimisation function implementation for Optuna
-    """
+    objective = objective_function(
+        lp_liquidation_threshold=output["lp_liquidation_threshold"],
+        trader_liquidation_threshold=output["trader_liquidation_threshold"],
+        lp_unrealized_pnl=output["lp_uPnL"],
+        trader_unrealized_pnl=output["trader_uPnL"],
+        trader_margin=output["trader_margin"],
+        lp_margin=output["lp_margin"],
+        acceptable_leverage_threshold=acceptable_leverage_threshold
+    )
 
     return objective
 

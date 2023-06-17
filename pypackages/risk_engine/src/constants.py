@@ -28,3 +28,18 @@ DEFAULT_IM_MULTIPLIER = 1.5
 DEFAULT_SLIPPAGE_PHI = 0.01
 DEFAULT_SLIPPAGE_BETA = 0.02
 DEFAULT_GAMMA = 0.01
+
+
+## simulations
+
+SIMULATION_SET = [
+    "apy_OracleSimulator",
+    "apy_scaled_0.05_OracleSimulator",
+    "apy_scaled_0.1_OracleSimulator",
+    "apy_scaled_0.15_OracleSimulator",
+    "apy_scaled_0.2_OracleSimulator",
+    "apy_scaled_0.5_OracleSimulator",
+    # "apy_scaled_0.75_OracleSimulator",
+    # "apy_scaled_1_OracleSimulator",
+    # "apy_shock_OracleSimulator",
+]
