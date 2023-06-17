@@ -1,5 +1,6 @@
-import { BigNumber, Signer } from 'ethers';
-import { PoolConfig, PoolInfo, SwapUserInputs } from '../swap';
+import { Signer } from 'ethers';
+import { PoolConfig, PositionInfo } from '../../gateway/types';
+import { SwapUserInputs } from '../swap';
 
 /**
  * @dev Full list of swap details
@@ -15,17 +16,6 @@ export type EditSwapPeripheryParameters = Required<
 
 type EditSwapUserInputs = SwapUserInputs & {
   accountId: string;
-};
-
-/**
- * @dev Position information retreived from API
- */
-export type PositionInfo = PoolInfo & {
-  positionMargin: number;
-  accountId: string;
-  // todo: consider replacing with tickLower and tickUpper or just have both
-  fixedRateLower: number;
-  fixedRateUpper: number;
 };
 
 /**

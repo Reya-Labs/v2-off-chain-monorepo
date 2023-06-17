@@ -1,24 +1,26 @@
-import { BigNumber, ContractReceipt, Signer } from 'ethers';
+import { BigNumber, ContractReceipt } from 'ethers';
 import { estimateGas, executeTransaction } from '../executeTransaction';
 import { encodeSettlement } from './encode';
-import { getSettlePeripheryParams } from './getSettlePeripheryParams';
 import {
   getNativeGasToken,
   convertGasUnitsToNativeTokenUnits,
 } from '@voltz-protocol/sdk-v1-stateless';
 import { SettleArgs, SettleParameters, SettleSimulationResults } from './types';
+import { getPositionInfo } from '../../gateway/getPositionInfo';
+import { scale } from '@voltz-protocol/commons-v2';
 
 export async function settle({
   positionId,
   signer,
 }: SettleArgs): Promise<ContractReceipt> {
   // fetch: send request to api
-  const partialOrder = await getSettlePeripheryParams(positionId);
+  const partialOrder = await getPositionInfo(positionId);
 
   const chainId = await signer.getChainId();
 
   const order: SettleParameters = {
     ...partialOrder,
+    margin: scale(partialOrder.quoteTokenDecimals)(partialOrder.positionMargin),
     owner: signer,
   };
 
@@ -56,12 +58,13 @@ export async function estimateSettleGasUnits({
   positionId,
   signer,
 }: SettleArgs): Promise<BigNumber> {
-  const partialOrder = await getSettlePeripheryParams(positionId);
+  const partialOrder = await getPositionInfo(positionId);
 
   const chainId = await signer.getChainId();
 
   const order: SettleParameters = {
     ...partialOrder,
+    margin: scale(partialOrder.quoteTokenDecimals)(partialOrder.positionMargin),
     owner: signer,
   };
 

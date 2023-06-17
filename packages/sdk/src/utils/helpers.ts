@@ -1,7 +1,7 @@
 import { scale } from '@voltz-protocol/commons-v2';
 import md5 from 'crypto-js/md5';
 import { BigNumber } from 'ethers';
-import { RAY, WAD } from './constants';
+import { RAY } from './constants';
 import { Q96 } from './math/constants';
 import { fixedRateToPrice } from './math/tickHelpers';
 

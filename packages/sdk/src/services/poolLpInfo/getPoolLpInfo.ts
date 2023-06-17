@@ -52,7 +52,9 @@ async function getLpMaxLeverage({
 
   if (im.gt(0)) {
     // should always happen, since we connect with dummy account
-    const maxLeverage: BigNumber = BigNumber.from(scale(params.quoteTokenDecimals)(1))
+    const maxLeverage: BigNumber = BigNumber.from(
+      scale(params.quoteTokenDecimals)(1),
+    )
       .mul(BigNumber.from(10).pow(params.quoteTokenDecimals))
       .div(im);
 

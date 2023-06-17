@@ -16,10 +16,10 @@ import {
   EditLpArgs,
   EditLpPeripheryParameters,
 } from './types';
-import { getEditLpPeripheryParams } from './getEditLpPeripheryParams';
 import { InfoPostLp } from '../lp';
 import { encodeLp } from '../lp/encode';
-import { PositionInfo } from '../editSwap';
+import { getPositionInfo } from '../../gateway/getPositionInfo';
+import { PositionInfo } from '../../gateway/types';
 
 export async function editLp({
   positionId,
@@ -84,7 +84,8 @@ export async function simulateEditLp({
     gasFee: gasFee,
     fee: descale(params.quoteTokenDecimals)(fee),
     marginRequirement: descale(params.quoteTokenDecimals)(im),
-    maxMarginWithdrawable: params.positionMargin - descale(params.quoteTokenDecimals)(im),
+    maxMarginWithdrawable:
+      params.positionMargin - descale(params.quoteTokenDecimals)(im),
   };
 
   return result;
@@ -117,7 +118,7 @@ async function createEditLpParams({
   notional,
   margin,
 }: EditLpArgs): Promise<CompleteEditLpDetails> {
-  const lpInfo: PositionInfo = await getEditLpPeripheryParams(positionId);
+  const lpInfo: PositionInfo = await getPositionInfo(positionId);
 
   const liquidityAmount = notionalToLiquidityBN(
     scale(lpInfo.quoteTokenDecimals)(notional),

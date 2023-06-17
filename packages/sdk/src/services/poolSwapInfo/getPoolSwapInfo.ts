@@ -25,7 +25,7 @@ export const getPoolSwapInfo = async ({
     } = await getPoolSwapInfoOneSide({
       isFT: true,
       params,
-      chainId
+      chainId,
     });
 
     const {
@@ -34,7 +34,7 @@ export const getPoolSwapInfo = async ({
     } = await getPoolSwapInfoOneSide({
       isFT: false,
       params,
-      chainId
+      chainId,
     });
 
     const result: GetPoolSwapInfoResults = {

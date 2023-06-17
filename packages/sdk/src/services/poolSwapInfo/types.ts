@@ -1,5 +1,6 @@
-import { CompleteSwapDetails, PoolConfig, SwapUserInputs } from '../swap';
+import { CompleteSwapDetails, SwapUserInputs } from '../swap';
 import { providers } from 'ethers';
+import { PoolConfig } from '../../gateway/types';
 
 export type GetAvailableNotionalArgs = {
   isFT: boolean;
