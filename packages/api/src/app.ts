@@ -27,6 +27,8 @@ import { getApyFromTo, getLiquidityIndexAt } from '@voltz-protocol/bigquery-v2';
 import { getV1V2Pools } from './v1v2-queries/get-pools/getV1V2Pools';
 import { getV1V2PortfolioPositions } from './v1v2-queries/get-portfolio-positions/getPortfolioPositions';
 import { getV1V2Pool } from './v1v2-queries/get-pools/getV1V2Pool';
+import { getV1V2FixedRates } from './v1v2-queries/get-fixed-rates/getV1V2FixedRates';
+import { getV1V2VariableRates } from './v1v2-queries/get-fixed-rates/getV1V2VariableRates';
 
 export const app = express();
 
@@ -97,6 +99,46 @@ app.get('/v1v2-positions/:chainIds/:ownerAddress', (req, res) => {
     },
   );
 });
+
+app.get(
+  '/v1v2-fixed-rates/:poolId/:startTimestamp/:endTimestamp',
+  (req, res) => {
+    const poolId = req.params.poolId;
+    const startTimestamp = Number(req.params.startTimestamp);
+    const endTimestamp = Number(req.params.endTimestamp);
+
+    getV1V2FixedRates(poolId, startTimestamp, endTimestamp).then(
+      (output) => {
+        res.json(output);
+      },
+      (error) => {
+        console.log(
+          `API query failed with message ${(error as Error).message}`,
+        );
+      },
+    );
+  },
+);
+
+app.get(
+  '/v1v2-variable-rates/:poolId/:startTimestamp/:endTimestamp',
+  (req, res) => {
+    const poolId = req.params.poolId;
+    const startTimestamp = Number(req.params.startTimestamp);
+    const endTimestamp = Number(req.params.endTimestamp);
+
+    getV1V2VariableRates(poolId, startTimestamp, endTimestamp).then(
+      (output) => {
+        res.json(output);
+      },
+      (error) => {
+        console.log(
+          `API query failed with message ${(error as Error).message}`,
+        );
+      },
+    );
+  },
+);
 
 // V2 rate oracle queries
 

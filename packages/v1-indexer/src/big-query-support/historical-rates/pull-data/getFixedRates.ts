@@ -12,7 +12,7 @@ export const getFixedRates = async (
   vammAddress: string,
   startTimestamp: number,
   endTimestamp: number,
-): Promise<BigQueryHistoricalRateRow[] | null> => {
+): Promise<BigQueryHistoricalRateRow[]> => {
   const bigQuery = getBigQuery();
 
   const fixedRatesQuery = `
@@ -29,7 +29,7 @@ export const getFixedRates = async (
   const [rows] = await bigQuery.query(options);
 
   if (!rows) {
-    return null;
+    return [];
   }
 
   return rows.map(mapToBigQueryHistoricalRateRow);
