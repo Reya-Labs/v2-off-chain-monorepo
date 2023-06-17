@@ -32,16 +32,8 @@ DEFAULT_GAMMA = 0.01
 
 ## simulations
 
-SIMULATION_SET = [
-    "apy_OracleSimulator",
-    "apy_scaled_0.05_OracleSimulator",
-    "apy_scaled_0.1_OracleSimulator",
-    "apy_scaled_0.15_OracleSimulator",
-    "apy_scaled_0.2_OracleSimulator",
-    "apy_scaled_0.5_OracleSimulator",
-    # "apy_scaled_0.75_OracleSimulator",
-    # "apy_scaled_1_OracleSimulator",
-    # "apy_shock_OracleSimulator",
+MOCK_SIMULATION_SET = [
+    "mock_ausdc_borrow_rate"
 ]
 
 DEFAULT_ACCEPTABLE_LEVERAGE_THRESHOLD = 30
