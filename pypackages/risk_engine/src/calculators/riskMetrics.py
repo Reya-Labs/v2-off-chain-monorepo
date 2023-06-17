@@ -1,81 +1,66 @@
 import random
-
 import numpy as np
 from numpy import ndarray
 from arch.bootstrap import CircularBlockBootstrap, optimal_block_length
-from pandas import DataFrame
+from pandas import Series
+from risk_engine.src.constants import Z_SCORES_DICT
 
 
-class RiskMetrics:
-    def __init__(self, df: DataFrame, z_scores: dict[float][float] = None):
-        if z_scores is None:
-            z_scores = {95: 1.96, 99: 2.58}
-        self.z_scores = z_scores
-        self.df = df
-
-    # We want insolvency > 1
-    def insolvency(self, actor: str) -> DataFrame:
-        # todo: better name for actor (is it wallet, accountId?)
-        return self.df[f"{actor}_uPnL"] / self.df[f"{actor}_margin"]
-
-    # We want liquidation > 0
-    def liquidation(self, actor: str) -> DataFrame:
-        return (self.df[f"{actor}_margin"] - self.df[f"{actor}_liquidation_margin"]) / self.df[
-            f"{actor}_liquidation_margin"
-        ]
-
+def get_random():
     """
         Generate very small random numbers to decorate the liquidation and insolvency series with
-        (necessary to avoid NaNs in the replicater generation)
+        (necessary to avoid NaNs in the replicate generation)
     """
+    exp = random.randint(-5, -2)
+    significand = 0.9 * random.random() + 0.1
+    return significand * 10 ** exp
 
-    @staticmethod
-    def get_random():
-        exp = random.randint(-5, -2)
-        significand = 0.9 * random.random() + 0.1
-        return significand * 10 ** exp
+def generate_insolvencies_series(actor_unrealized_pnl: Series, actor_margin: Series) -> Series:
+    return actor_unrealized_pnl / actor_margin
 
-    def generate_replicates(self, N_replicates=100) -> tuple[list[ndarray], list[ndarray]]:
-        rs = np.random.RandomState(42)
 
-        # todo: this doesn't look right
-        liquidations = self.liquidation.dropna(inplace=True)
-        insolvencies = self.insolvency.dropna(inplace=True)
+def generate_liquidations_series(actor_margin: Series, actor_liquidation_margin: Series) -> Series:
+    # todo: check why is unrealized pnl not captured in here, surely it should affect liquidations?
+    return (actor_margin - actor_liquidation_margin) / actor_liquidation_margin
 
-        liq = np.array([lq + self.get_random() for lq in liquidations])
-        ins = np.array([i + self.get_random() for i in insolvencies])
-        # Optimal block lengths
-        time_delta_l = optimal_block_length(liq)["circular"].values[0]
-        time_delta_i = optimal_block_length(ins)["circular"].values[0]
+def generate_replicates(liquidations: Series, insolvencies: Series,
+                        N_replicates=100) -> tuple[list[ndarray], list[ndarray]]:
 
-        # Block bootstrapping
-        l_bs = CircularBlockBootstrap(block_size=int(time_delta_l) + 1, x=liq, random_state=rs)
-        i_bs = CircularBlockBootstrap(block_size=int(time_delta_i) + 1, x=ins, random_state=rs)
 
-        l_rep = [data[1]["x"].flatten() for data in l_bs.bootstrap(N_replicates)]
-        i_rep = [data[1]["x"].flatten() for data in i_bs.bootstrap(N_replicates)]
+    rs = np.random.RandomState(42)
 
-        return l_rep, i_rep
+    liquidations_array: ndarray = np.array([lq + get_random() for lq in liquidations])
+    insolvencies_array: ndarray = np.array([i + get_random() for i in insolvencies])
+    time_delta_liquidations: float = optimal_block_length(liquidations_array)["circular"].values[0]
+    time_delta_insolvencies: float = optimal_block_length(insolvencies_array)["circular"].values[0]
 
-    """
-        Calculate the LVaR and IVaR according to the Gaussianity assumption for the
-        underlying liquidation and insolvency distributions. Generates means and stds
-        from the replicate distributions, for a given time-horizon and Z-score (based on
-        singificance level, alpha)
-    """
+    liquidations_bootstrap: CircularBlockBootstrap = CircularBlockBootstrap(
+        block_size=int(time_delta_liquidations) + 1, x=liquidations_array, random_state=rs)
+    insolvencies_bootstrap: CircularBlockBootstrap = CircularBlockBootstrap(
+        block_size=int(time_delta_insolvencies) + 1, x=insolvencies_array, random_state=rs)
 
-    def lvar_and_ivar(self, alpha=95, l_rep=None, i_rep=None) -> tuple[float, float]:
-        z_score = self.z_scores[alpha]
-        if (l_rep is None) or (i_rep is None):
-            l_rep, i_rep = self.generate_replicates()
-        l_dist, i_dist = np.array([lr.mean() for lr in l_rep]), np.array(
-            [i.mean() for i in i_rep]
-        )  # CLT => Gaussian
+    liquidations_replicates: list[ndarray] = [data[1]["x"].flatten() for data in
+                                              liquidations_bootstrap.bootstrap(N_replicates)]
+    insolvencies_replicates: list[ndarray] = [data[1]["x"].flatten() for data in
+                                              insolvencies_bootstrap.bootstrap(N_replicates)]
 
-        l_mu, i_mu = l_dist.mean(), i_dist.mean()
-        l_sig, i_sig = l_dist.std(), i_dist.std()
+    return liquidations_replicates, insolvencies_replicates
 
-        l_var = -z_score * l_sig + l_mu
-        i_var = -z_score * i_sig + i_mu
-
-        return l_var, i_var
+"""
+    Calculate the LVaR and IVaR according to the Gaussianity assumption for the
+    underlying liquidation and insolvency distributions. Generates means and stds
+    from the replicate distributions, for a given time-horizon and Z-score (based on
+    singificance level, alpha)
+"""
+def calculate_lvar_and_ivar(liquidations_replicates: list[ndarray], insolvencies_replicates: list[ndarray],
+                            alpha=95) -> tuple[float, float]:
+    z_score = Z_SCORES_DICT[alpha]
+    liquidations_distribution: ndarray = np.array(
+        [liquidation_replicate.mean() for liquidation_replicate in liquidations_replicates])
+    insolvencies_distribution: ndarray = np.array(
+        [insolvencies_replicate.mean() for insolvencies_replicate in insolvencies_replicates])
+    liquidations_mean, insolvencies_mean = liquidations_distribution.mean(), insolvencies_distribution.mean()
+    liquidations_standard_deviation, insolvencies_standard_deviation = liquidations_distribution.std(), insolvencies_distribution.std()
+    liquidations_var = -z_score * liquidations_standard_deviation + liquidations_mean
+    insolvencies_var = -z_score * insolvencies_standard_deviation + insolvencies_mean
+    return liquidations_var, insolvencies_var
