@@ -6,7 +6,8 @@ from risk_engine.src.optimization.optunaObjective import optuna_objective
 import json
 
 
-def run_parameter_optimization(parser):
+
+def add_parser_arguments(parser):
     parser.add_argument(
         "-n_trials", "--n_trials", type=float, help="Number of optimization trials", default=2
     )
@@ -24,6 +25,11 @@ def run_parameter_optimization(parser):
                         default=0.005)
 
     parameters = parser.parse_args()
+
+    return parameters
+
+def run_parameter_optimization(parameters):
+
     study: Study = optuna.create_study(
         direction="maximize",
         sampler=optuna.samplers.TPESampler(),
@@ -50,4 +56,5 @@ def run_parameter_optimization(parser):
 if __name__ == "__main__":
     from argparse import ArgumentParser
     parser = ArgumentParser()
-    run_parameter_optimization(parser=parser)
+    parameters = add_parser_arguments(parser)
+    run_parameter_optimization(parameters=parameters)
