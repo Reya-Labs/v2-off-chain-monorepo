@@ -1,6 +1,5 @@
 import random
 from dataclasses import dataclass
-from math import ceil
 from typing import Optional
 
 import numpy as np
@@ -11,9 +10,8 @@ from arch.bootstrap import (
     StationaryBootstrap,
     optimal_block_length,
 )
-from globals import , oracle_hash
 
-from risk_engine.src.constants import YEAR_IN_SECONDS
+from risk_engine.src.constants import YEAR_IN_SECONDS, DAY_IN_SECONDS
 
 
 @dataclass
@@ -42,12 +40,12 @@ class OracleSimulator:
         self.data_name = self.market_name
         self.maturity = maturity
 
-    def get_oracle_data(self) -> pd.DataFrame:
+    def get_oracle_data(self, oracle_map: dict) -> pd.DataFrame:
         oracle = None
-        if self.market_name not in oracle_hash.keys():
+        if self.market_name not in oracle_map.keys():
             raise Exception("Oracle data cannot be found. Please check market name.")
 
-        oracle_call = oracle_hash[self.market_name]
+        oracle_call = oracle_map[self.market_name]
         if oracle_call.split(".")[-1] == "csv":
             oracle = pd.read_csv(oracle_call)
         else:
@@ -59,8 +57,7 @@ class OracleSimulator:
         oracle.rename(columns={market: self.market_name}, inplace=True)
 
         if self.maturity is not None:
-            SECONDS_IN_DAY = ceil(SECONDS_IN_YEAR / 365)
-            pool_start = oracle.iloc[-1]["timestamp"] - self.maturity * SECONDS_IN_DAY
+            pool_start = oracle.iloc[-1]["timestamp"] - self.maturity * DAY_IN_SECONDS
             oracle = oracle.loc[oracle["timestamp"] > pool_start]
         return oracle
 
@@ -70,32 +67,8 @@ class OracleSimulator:
         if sampling_interval is not None:
             oracle = oracle[sampling_interval[0] : sampling_interval[1]]
         return oracle[self.data_name].std() * np.sqrt(
-            SECONDS_IN_YEAR / (oracle.iloc[-1]["timestamp"] - oracle.iloc[0]["timestamp"])
+            YEAR_IN_SECONDS / (oracle.iloc[-1]["timestamp"] - oracle.iloc[0]["timestamp"])
         )
-
-    # For when we need to convert the liquidity index in a rate oracle to real rate, for the
-    # purposes of bootstrapping.
-    def index_to_rate(self, oracle: pd.DataFrame, lookback: int) -> pd.DataFrame:
-        # Convert rate to an integer
-        floating_rni = []
-        oracle = oracle[
-            oracle[self.market_name] != "-1"
-        ]  # Edge case where a-1 is recorded as a liquidity index
-        for rni in oracle[self.market_name]:
-            float_rni = rni if isinstance(rni, float) else rni[:-27] + "." + rni[-27:]
-            floating_rni.append(float(float_rni))
-        oracle[self.market_name] = np.array(floating_rni)
-        self.data_name = "apy"  # Update the data name to include the rate
-        apys = []
-        for i in range(len(oracle)):
-            window = i - lookback if lookback < i else 0
-            variable_factor = oracle.iloc[i][self.market_name] / oracle.iloc[window][self.market_name] - 1
-            compounding_periods = SECONDS_IN_YEAR / (
-                oracle.iloc[i]["timestamp"] - oracle.iloc[window]["timestamp"]
-            )
-            apys.append(((1 + variable_factor) ** compounding_periods) - 1)
-        oracle[self.data_name] = apys
-        return oracle
 
     @staticmethod
     def cumprod(lst: np.array) -> np.array:
