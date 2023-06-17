@@ -43,3 +43,5 @@ SIMULATION_SET = [
     # "apy_scaled_1_OracleSimulator",
     # "apy_shock_OracleSimulator",
 ]
+
+DEFAULT_ACCEPTABLE_LEVERAGE_THRESHOLD = 30
