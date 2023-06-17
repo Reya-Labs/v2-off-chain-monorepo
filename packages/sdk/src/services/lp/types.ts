@@ -1,5 +1,5 @@
 import { BigNumber, Signer } from 'ethers';
-import { PoolConfig, PoolInfo } from '../swap';
+import { PoolConfig, PoolInfo } from '../../gateway/types';
 
 /**
  * @dev Full list of swap details

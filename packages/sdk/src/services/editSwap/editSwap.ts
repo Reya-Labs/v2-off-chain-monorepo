@@ -10,7 +10,6 @@ import {
   EditSwapArgs,
   EditSwapPeripheryParameters,
 } from './types';
-import { getEditSwapPeripheryParams } from './getEditSwapPeripheryParams';
 import { scale } from '@voltz-protocol/commons-v2';
 import {
   baseAmountToNotionalBN,
@@ -19,6 +18,7 @@ import {
 import { VERY_BIG_NUMBER, ZERO_BN } from '../../utils/constants';
 import { fixedRateToPrice } from '../../utils/math/tickHelpers';
 import { decodeSwapOutput, InfoPostSwap, processInfoPostSwap } from '../swap';
+import { getPositionInfo } from '../../gateway/getPositionInfo';
 
 export async function editSwap({
   positionId,
@@ -112,7 +112,7 @@ async function createEditSwapParams({
   margin,
   fixedRateLimit,
 }: EditSwapArgs): Promise<CompleteEditSwapDetails> {
-  const swapInfo = await getEditSwapPeripheryParams(positionId);
+  const swapInfo = await getPositionInfo(positionId);
 
   const baseAmount = notionalToBaseAmount(
     notional,

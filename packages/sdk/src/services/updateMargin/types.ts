@@ -12,7 +12,7 @@ export type UpdateMarginInfo = {
   marketId: string;
   quoteTokenAddress: string;
   quoteTokenDecimals: number;
-  isETH: boolean,
+  isETH: boolean;
   accountId: string;
   positionMargin: BigNumber;
 };

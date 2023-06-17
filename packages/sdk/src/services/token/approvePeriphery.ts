@@ -15,7 +15,7 @@ export const approvePeriphery = async ({
   const poolInfo = await getPoolInfo(ammId);
 
   const tokenContract = getERC20TokenContract(
-    poolInfo.quoteToken.address,
+    poolInfo.quoteTokenAddress,
     signer,
   );
 
@@ -30,7 +30,7 @@ export const approvePeriphery = async ({
   } catch (error) {
     console.warn(
       `Could not increase periphery allowance (${
-        poolInfo.quoteToken.address
+        poolInfo.quoteTokenAddress
       }, ${MaxUint256Bn.toString()})`,
     );
     throw new Error(

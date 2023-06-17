@@ -17,8 +17,8 @@ import {
   LpArgs,
   LpPeripheryParameters,
 } from './types';
-import { getLpPeripheryParams } from './getLpPeripheryParams';
 import { encodeLp } from './encode';
+import { getPoolInfo } from '../../gateway/getPoolInfo';
 
 export async function lp({
   ammId,
@@ -130,7 +130,7 @@ export async function createLpParams({
   fixedLow,
   fixedHigh,
 }: LpArgs): Promise<CompleteLpDetails> {
-  const lpInfo = await getLpPeripheryParams(ammId);
+  const lpInfo = await getPoolInfo(ammId);
 
   const liquidityAmount = notionalToLiquidityBN(
     scale(lpInfo.quoteTokenDecimals)(notional),

@@ -15,18 +15,17 @@ export const getBalance = async ({
 
   const walletAddress = await signer.getAddress();
   const provider = signer.provider;
-  const chainId: number = await signer.getChainId();
   const poolInfo = await getPoolInfo(ammId);
 
   let currentBalance: number;
-  if (poolInfo.quoteToken.isEth) {
+  if (poolInfo.isETH) {
     currentBalance = await getEthBalance({ walletAddress, provider });
   } else {
     currentBalance = await getERC20Balance({
       walletAddress,
       provider,
-      tokenAddress: poolInfo.quoteToken.address,
-      tokenDecimals: poolInfo.quoteToken.decimals,
+      tokenAddress: poolInfo.quoteTokenAddress,
+      tokenDecimals: poolInfo.quoteTokenDecimals,
     });
   }
 

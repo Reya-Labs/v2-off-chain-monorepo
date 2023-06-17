@@ -1,7 +1,6 @@
 import { Signer } from 'ethers';
-import { PositionInfo } from '../editSwap';
+import { PoolConfig, PositionInfo } from '../../gateway/types';
 import { LpUserInputs } from '../lp';
-import { PoolConfig } from '../swap';
 
 /**
  * @dev Full list of swap details

@@ -13,17 +13,11 @@ import {
 import {
   CompleteSwapDetails,
   InfoPostSwap,
-  PoolConfig,
   SwapArgs,
   SwapPeripheryParameters,
   SwapUserInputs,
 } from './types';
-import { getSwapPeripheryParams } from './getSwapPeripheryParams';
-import {
-  scale,
-  descale,
-  SECONDS_IN_YEAR,
-} from '@voltz-protocol/commons-v2';
+import { scale, descale, SECONDS_IN_YEAR } from '@voltz-protocol/commons-v2';
 import {
   baseAmountToNotionalBN,
   notionalToBaseAmount,
@@ -34,6 +28,8 @@ import {
   tickToFixedRate,
 } from '../../utils/math/tickHelpers';
 import { defaultAbiCoder } from 'ethers/lib/utils';
+import { getPoolInfo } from '../../gateway/getPoolInfo';
+import { PoolConfig } from '../../gateway/types';
 
 export async function swap({
   ammId,
@@ -147,12 +143,12 @@ export async function createSwapParams({
   margin,
   fixedRateLimit,
 }: SwapArgs): Promise<CompleteSwapDetails> {
-  const swapInfo = await getSwapPeripheryParams(ammId);
+  const poolInfo = await getPoolInfo(ammId);
 
   const baseAmount = notionalToBaseAmount(
     notional,
-    swapInfo.quoteTokenDecimals,
-    swapInfo.currentLiquidityIndex,
+    poolInfo.quoteTokenDecimals,
+    poolInfo.currentLiquidityIndex,
   );
 
   let fixedRateLimitRaw = ZERO_BN;
@@ -161,10 +157,10 @@ export async function createSwapParams({
   }
 
   const params: CompleteSwapDetails = {
-    ...swapInfo,
+    ...poolInfo,
     owner: signer,
     baseAmount: baseAmount,
-    margin: scale(swapInfo.quoteTokenDecimals)(margin),
+    margin: scale(poolInfo.quoteTokenDecimals)(margin),
     fixedRateLimit: fixedRateLimitRaw,
   };
 
@@ -232,7 +228,9 @@ export async function processInfoPostSwap(
     positionMargin === undefined ? 0 : positionMargin - marginRequirement;
 
   // available notional
-  const availableNotional = descale(params.quoteTokenDecimals)(availableNotionalRaw);
+  const availableNotional = descale(params.quoteTokenDecimals)(
+    availableNotionalRaw,
+  );
 
   // SLIPPAGE
   const fixedRateDelta = tickToFixedRate(currentTick) - params.currentFixedRate;
@@ -259,9 +257,15 @@ export async function processInfoPostSwap(
     fee: descaledFee,
     slippage: slippage,
     averageFixedRate: Math.abs(averageFixedRate),
-    fixedTokenDeltaBalance: descale(params.quoteTokenDecimals)(executedQuoteAmount),
-    variableTokenDeltaBalance: descale(params.quoteTokenDecimals)(executedBaseAmount),
-    fixedTokenDeltaUnbalanced: -descale(params.quoteTokenDecimals)(executedBaseAmount), // how do we interpret unbalanced?
+    fixedTokenDeltaBalance: descale(params.quoteTokenDecimals)(
+      executedQuoteAmount,
+    ),
+    variableTokenDeltaBalance: descale(params.quoteTokenDecimals)(
+      executedBaseAmount,
+    ),
+    fixedTokenDeltaUnbalanced: -descale(params.quoteTokenDecimals)(
+      executedBaseAmount,
+    ), // how do we interpret unbalanced?
     gasFee: gasFee,
   };
 }
