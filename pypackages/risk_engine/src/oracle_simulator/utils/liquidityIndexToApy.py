@@ -12,8 +12,8 @@ def apy(previous, current, dt):
     apy = (1 + rate) ** periods_per_year - 1  # annualize rate
     return apy
 
-def liquidity_index_series_to_apy_series(self, liquidity_index: pd.Series, timestamps: pd.Series, lookback: int) -> pd.Series:
-    # First, scale the liquidity index
+def liquidity_index_series_to_apy_series(liquidity_index: pd.Series, timestamps: pd.Series, lookback_in_seconds: int) -> pd.Series:
+
     liquidity_index_scaled: pd.Series = liquidity_index.astype(float) / 10 ** 27
 
     # Then, compute differences in timestamps
@@ -26,6 +26,6 @@ def liquidity_index_series_to_apy_series(self, liquidity_index: pd.Series, times
     })
 
     # Use the rolling window function to calculate APY for each window
-    apy_series = df.rolling(window=lookback, min_periods=1).apply(lambda window: apy(window['liquidity_index'].iloc[0], window['liquidity_index'].iloc[-1], window['timestamp_diff'].sum()), raw=True)
+    apy_series = df.rolling(window=lookback_in_seconds, min_periods=1).apply(lambda window: apy(window['liquidity_index'].iloc[0], window['liquidity_index'].iloc[-1], window['timestamp_diff'].sum()), raw=True)
 
     return apy_series
