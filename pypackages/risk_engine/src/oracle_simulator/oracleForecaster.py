@@ -1,12 +1,12 @@
 import numpy as np
 
-"""
-Kalman filter implemenatation for performing forecasting on oracle time
-series.
-"""
 
+# todo: add references to math + better variable naming
 
 class OracleForecaster:
+    """
+    Kalman filter implementation for performing oracle time series forecasting
+    """
     def __init__(self, X: np.array, covariance_matrix: np.array):
 
         self.delta = 1e-7
@@ -49,5 +49,5 @@ class OracleForecaster:
 
         self.theta += Kt @ et  # State update
         self.R = self.R - Kt @ F.dot(self.R)  # State covariance update
-
-        self.yhat = yhat  # Update the forecast
+        # update the forecast
+        self.yhat = yhat

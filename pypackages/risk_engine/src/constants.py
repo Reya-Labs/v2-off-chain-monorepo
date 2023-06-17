@@ -37,3 +37,17 @@ MOCK_SIMULATION_SET = [
 ]
 
 DEFAULT_ACCEPTABLE_LEVERAGE_THRESHOLD = 30
+
+
+## oracle simulator
+
+# A hashmap or oracle names based
+# on the instrument and market, and the
+# associated call required to access that oracle
+# data e.g. could be an API call, or we might
+# need to directly access a Chainlink oracle.
+
+# This is to be confirmed
+MOCK_ORACLE_MAP = {
+    "dated_irs_ausdc_borrow_liquidity_index": "mock_ausdc_borrow_rate.csv",
+}

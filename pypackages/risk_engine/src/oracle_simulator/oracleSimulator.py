@@ -4,14 +4,16 @@ from math import ceil
 from typing import Optional
 
 import numpy as np
-import OracleForecaster as of
+from risk_engine.src.oracle_simulator.oracleForecaster import OracleForecaster
 import pandas as pd
 from arch.bootstrap import (
     CircularBlockBootstrap,
     StationaryBootstrap,
     optimal_block_length,
 )
-from globals import SECONDS_IN_YEAR, oracle_hash
+from globals import , oracle_hash
+
+from risk_engine.src.constants import YEAR_IN_SECONDS
 
 
 @dataclass
@@ -189,7 +191,7 @@ class OracleSimulator:
 
     def forecast_oracle(self, oracle: pd.DataFrame, iterations: int = 10, lookback: int = 50) -> list[float]:
         covariance = np.array(oracle[self.data_name].std())
-        model = of.OracleForecaster(covariance_matrix=covariance, X=oracle)
+        model = OracleForecaster(covariance_matrix=covariance, X=oracle)
 
         y_pred = []
         X_train, y_train = oracle[self.data_name].shift(-1).values, oracle[self.data_name].values
