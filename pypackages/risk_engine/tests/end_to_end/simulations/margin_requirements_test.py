@@ -1,7 +1,7 @@
 import unittest
 
 from risk_engine.src.simulations.margin_requirements.marginRequirements import MarginRequirements
-from risk_engine.src.constants import COLLATERAL_TOKEN_NAME, INITIAL_FIXED_RATE, RISK_PARAMETER, IM_MULTIPLIER, SLIPPAGE_PHI, SLIPPAGE_BETA, LP_SPREAD, MAKER_FEE, TAKER_FEE, GWAP_LOOKBACK, LIQUIDATOR_REWARD
+from risk_engine.src.constants import COLLATERAL_TOKEN_NAME, INITIAL_FIXED_RATE, DEFAULT_RISK_PARAMETER, DEFAULT_IM_MULTIPLIER, DEFAULT_SLIPPAGE_PHI, DEFAULT_SLIPPAGE_BETA, LP_SPREAD, MAKER_FEE, TAKER_FEE, DEFAULT_GWAP_LOOKBACK, LIQUIDATOR_REWARD
 from pandas import DataFrame
 from risk_engine.src.constants import FIRST_MAINNET_POS_BLOCK_TIMESTAMP, MONTH_IN_SECONDS
 
@@ -17,17 +17,17 @@ class MarginRequirementsRunnerTest(unittest.TestCase):
         self.margin_requirements_sim.setUp(
             collateral_token=COLLATERAL_TOKEN_NAME,
             initial_fixed_rate=INITIAL_FIXED_RATE,
-            risk_parameter=RISK_PARAMETER,
-            im_multiplier=IM_MULTIPLIER,
-            slippage_phi=SLIPPAGE_PHI,
-            slippage_beta=SLIPPAGE_BETA,
+            risk_parameter=DEFAULT_RISK_PARAMETER,
+            im_multiplier=DEFAULT_IM_MULTIPLIER,
+            slippage_phi=DEFAULT_SLIPPAGE_PHI,
+            slippage_beta=DEFAULT_SLIPPAGE_BETA,
             lp_spread=LP_SPREAD,
             is_trader_vt=IS_TRADER_VT,
             timestamps=[FIRST_MAINNET_POS_BLOCK_TIMESTAMP, FIRST_MAINNET_POS_BLOCK_TIMESTAMP + MONTH_IN_SECONDS],
             indices=LIQUIDITY_INDICIES,
             maker_fee=MAKER_FEE,
             taker_fee=TAKER_FEE,
-            gwap_lookback=GWAP_LOOKBACK,
+            gwap_lookback=DEFAULT_GWAP_LOOKBACK,
             liquidator_reward=LIQUIDATOR_REWARD
         )
 
