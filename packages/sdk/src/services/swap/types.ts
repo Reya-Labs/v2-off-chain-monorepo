@@ -15,6 +15,7 @@ export type PoolConfig = {
   maturityTimestamp: number;
   marketId: string;
   quoteTokenAddress: string;
+  quoteTokenDecimals: number;
 };
 
 /**
