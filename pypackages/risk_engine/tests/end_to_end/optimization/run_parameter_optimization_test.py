@@ -26,7 +26,7 @@ class RunParameterOptimizationTest(unittest.TestCase):
             "liquidator_reward": LIQUIDATOR_REWARD
         }
 
-        parameters = SimpleNamespace(**parameters_dict)
+        parameters: SimpleNamespace = SimpleNamespace(**parameters_dict)
 
         run_parameter_optimization(parameters=parameters)
 

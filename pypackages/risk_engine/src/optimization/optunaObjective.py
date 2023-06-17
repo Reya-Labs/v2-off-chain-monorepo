@@ -13,9 +13,7 @@ def optuna_objective(parameters, trial: Trial) -> ndarray:
     gamma_trial = trial.suggest_float("gamma", 1.1, 5, log=True)
     lookback_trial = trial.suggest_int("lookback", 3, 15, log=True)
 
-    rate_oracle_dfs: list[pd.DataFrame] = [
-        pd.read_csv(parameters.oracle_data_dir + s + ".csv") for s in SIMULATION_SET
-    ]
+    rate_oracle_dfs: list[pd.DataFrame] = [pd.read_csv(parameters.oracle_data_dir + s + ".csv") for s in SIMULATION_SET]
     optimisations = [
         calculate_objective(
             rate_oracle_df=rate_oracle_dfs[i],
