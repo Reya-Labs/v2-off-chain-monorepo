@@ -1,8 +1,11 @@
 import unittest
 from risk_engine.src.optimization.runParameterOptimization import run_parameter_optimization
 from risk_engine.src.constants import MARKET_NAME, COLLATERAL_TOKEN_NAME, LIQUIDATOR_REWARD
+from types import SimpleNamespace
 
 ORACLE_DATA_DIR = ''
+
+
 
 class RunParameterOptimizationTest(unittest.TestCase):
 
@@ -12,7 +15,7 @@ class RunParameterOptimizationTest(unittest.TestCase):
 
     def test_run_parameter_optimization(self):
 
-        parameters = {
+        parameters_dict: dict = {
             "n_trials": 2,
             "lambda_taker": 0.00,
             "lambda_maker": 0.00,
@@ -22,6 +25,8 @@ class RunParameterOptimizationTest(unittest.TestCase):
             "collateral_token_name": COLLATERAL_TOKEN_NAME,
             "liquidator_reward": LIQUIDATOR_REWARD
         }
+
+        parameters = SimpleNamespace(**parameters_dict)
 
         run_parameter_optimization(parameters=parameters)
 
