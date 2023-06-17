@@ -21,7 +21,7 @@ export function encodeSettlement(trade: SettleParameters): MethodParameters {
   encodeSingleWithdraw(
     trade.accountId,
     trade.quoteTokenAddress,
-    trade.marginAmount,
+    trade.margin,
     multiAction,
   );
 

@@ -15,7 +15,7 @@ export const getPoolLpInfo = async ({
   fixedLow,
   provider,
 }: GetPoolLpInfoArgs): Promise<GetPoolLpInfoResults> => {
-  const mockSigner = getDummyWallet();
+  const mockSigner = getDummyWallet(); // todo: this is going to fail, give provider
 
   const maxLeverage = await getLpMaxLeverage({
     ammId,

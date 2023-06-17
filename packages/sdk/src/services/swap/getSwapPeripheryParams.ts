@@ -1,16 +1,19 @@
 /// Gets required information from API and maps it to required action input
 
+import { getPoolInfo } from '../../gateway/getPoolInfo';
 import { PoolInfo } from './types';
 
 export async function getSwapPeripheryParams(
   poolId: string,
 ): Promise<PoolInfo> {
+  const poolApiInfo = await getPoolInfo(poolId);
   return {
-    productAddress: '0x0000000000000000000000000000000000000000',
-    maturityTimestamp: 1675777000,
-    marketId: 'mockMarketID',
-    quoteTokenAddress: '0x0000000000000000000000000000000000000000',
-    currentLiquidityIndex: 1.000000000001283,
-    currentFixedRate: 3.45,
+    productAddress: poolApiInfo.productAddress,
+    maturityTimestamp: poolApiInfo.maturityTimestamp,
+    marketId: poolApiInfo.marketId,
+    quoteTokenAddress: poolApiInfo.quoteToken.address,
+    quoteTokenDecimals: poolApiInfo.quoteToken.decimals,
+    currentLiquidityIndex: poolApiInfo.currentLiquidityIndex, // e.g. 1.0001
+    currentFixedRate: poolApiInfo.currentFixedRate, // e.g. 3.5 = 3.5%
   };
 }

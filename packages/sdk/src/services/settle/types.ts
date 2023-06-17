@@ -14,7 +14,7 @@ export type SettleParameters = {
   marketId: string;
   quoteTokenAddress: string;
   accountId: string;
-  marginAmount: BigNumber;
+  margin: BigNumber;
 };
 
 export type SettleInfo = {
@@ -23,7 +23,7 @@ export type SettleInfo = {
   marketId: string;
   quoteTokenAddress: string;
   accountId: string;
-  marginAmount: BigNumber;
+  margin: BigNumber;
 };
 
 export type SettleArgs = {
