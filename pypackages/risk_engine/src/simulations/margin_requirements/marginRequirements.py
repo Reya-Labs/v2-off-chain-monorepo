@@ -69,7 +69,7 @@ class MarginRequirements:
         for i in range(len(timestamps)):
             self.observations.append([timestamps[i], indices[i]])
 
-        duration = self.observations[-1][0] - self.observations[0][0]
+        self.pool_irs_maturity = self.observations[-1][0]
 
         # Build the infrastructure
         self.oracle = Oracle(block=self.block, initial_observations=[])
@@ -112,10 +112,6 @@ class MarginRequirements:
         self.market_irs.set_oracle(oracle=self.oracle)
         self.market_irs.set_account_manager(account_manager=self.account_manager)
         self.market_irs.set_fee_manager(fee_manager=self.fee_manager)
-
-        # Set up IRS pool
-
-        self.pool_irs_maturity = self.block.timestamp + duration
 
         self.pool_irs = DatedIRSVAMMExchange(
             pool_id="pool_irs",

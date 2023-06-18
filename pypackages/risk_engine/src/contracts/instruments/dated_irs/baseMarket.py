@@ -333,10 +333,6 @@ class BaseMarket:
     def set_fee_manager(self, fee_manager):
         self._fee_manager = fee_manager
 
-    #
-    # def set_price_oracle(self, price_oracle):
-    #     self._price_oracle = price_oracle
-
     def set_default_pool_id(self, default_pool_id):
         self._default_pool_id = default_pool_id
 
