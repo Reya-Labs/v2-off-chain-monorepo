@@ -1,19 +1,7 @@
 import pandas as pd
 import numpy as np
-from risk_engine.src.constants import YEAR_IN_SECONDS
-from risk_engine.src.oracle_simulator.utils.resampleLiquidityIndex import resample_liquidity_index
 
-def apy(previous, current, dt):
-    """
-    Function to calculate APY given previous and current liquidity index values,
-    and the time difference in seconds.
-    """
-    rate = (current / previous) - 1  # rate of return
-    periods_per_year = YEAR_IN_SECONDS / dt  # seconds per year
-    apy = (1 + rate) ** periods_per_year - 1  # annualize rate
-    return apy
-
-def liquidity_index_to_apy_series(liquidity_index_df: pd.DataFrame, lookback_in_days: int) -> pd.Series:
+def daily_liquidity_index_to_apy_series(liquidity_index_df: pd.DataFrame, lookback_in_days: int) -> pd.Series:
     '''
     Shape of expected input, note liquidity index is resampled to be daily and descaled
                              liquidityIndex

@@ -1,5 +1,5 @@
 import unittest
-from risk_engine.src.oracle_simulator.utils.liquidityIndexToApy import liquidity_index_to_apy_series
+from risk_engine.src.oracle_simulator.utils.dailyLiquidityIndexToApySeries import liquidity_index_to_apy_series
 from risk_engine.src.oracle_simulator.utils.resampleLiquidityIndex import resample_liquidity_index
 import pandas as pd
 from risk_engine.src.constants import DEFAULT_APY_LOOKBACK_IN_DAYS
