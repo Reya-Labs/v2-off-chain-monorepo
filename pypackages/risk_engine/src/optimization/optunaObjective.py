@@ -5,6 +5,8 @@ import numpy as np
 from numpy import ndarray
 from optuna import Trial
 import optuna
+from risk_engine.src.oracle_simulator.resampleLiquidityIndex import resample_liquidity_index
+from risk_engine.src.oracle_simulator.dailyLiquidityIndexToApySeries import daily_liquidity_index_to_apy_series
 
 
 def optuna_objective(parameters, trial: Trial) -> ndarray:
@@ -14,9 +16,14 @@ def optuna_objective(parameters, trial: Trial) -> ndarray:
     lookback_trial = trial.suggest_int("lookback", 3, 15, log=True)
 
     rate_oracle_dfs: list[pd.DataFrame] = [pd.read_csv(parameters.oracle_data_dir + s + ".csv") for s in parameters.simulation_set]
+    rate_oracle_dfs_resampled: list[pd.DataFrame] = [resample_liquidity_index(liquidity_index_df=df) for df in rate_oracle_dfs]
+    apy_series_list: list[pd.Series] = [daily_liquidity_index_to_apy_series(liquidity_index_df=df, lookback_in_days=1) for df in rate_oracle_dfs_resampled]
+
     optimisations = [
         calculate_objective(
-            rate_oracle_df=rate_oracle_dfs[i],
+            apy=apy_series_list[i],
+            timestamps=rate_oracle_dfs[i].loc[:, "timestamp"],
+            liquidity_indicies=rate_oracle_dfs[i].loc[:, "liquidityIndex"],
             simulator_name=parameters.simulation_set,
             p_lm=p_lm_trial,
             gamma=gamma_trial,
