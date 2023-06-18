@@ -1,8 +1,5 @@
-import numpy as np
 import pandas as pd
-
 from risk_engine.src.simulations.margin_requirements.marginRequirements import MarginRequirements
-from risk_engine.src.constants import YEAR_IN_SECONDS
 import os
 from pandas import Series
 from risk_engine.src.optimization.market.objectiveFunction import objective_function
@@ -15,6 +12,7 @@ def calculate_objective(
         timestamps: Series,
         liquidity_indicies: Series,
         simulator_name: str,
+        acceptable_leverage_threshold: float,
         protocol_risk_configuration: ProtocolRiskConfiguration,
         market_risk_configuration: MarketRiskConfiguration,
         liquidation_configuration: LiquidationConfiguration,
@@ -25,25 +23,20 @@ def calculate_objective(
     mean_apy_as_initial_fixed_rate_proxy = apy.mean()
     simulation = MarginRequirements()
 
-    # TODO: how can the fixed rate lookback window be added here i.e. where is the GWAP treated?
     simulation.setUp(
-        collateral_token=collateral_token_name,
+        protocol_risk_configuration=protocol_risk_configuration,
+        market_risk_configuration=market_risk_configuration,
+        liquidation_configuration=liquidation_configuration,
+        market_fee_configuration=market_fee_configuration,
+        dated_irs_market_configuration=dated_irs_market_configuration,
+        vamm_configuration=vamm_configuration,
         initial_fixed_rate=mean_apy_as_initial_fixed_rate_proxy,
-        risk_parameter=risk_parameter,
-        im_multiplier=gamma,
-        slippage_phi=slippage_phi,
-        slippage_beta=slippage_beta,
-        lp_spread=spread,
         is_trader_vt=True,
         timestamps=timestamps.values,
         indices=liquidity_indicies.values,
-        maker_fee=lambda_maker,
-        taker_fee=lambda_taker,
-        gwap_lookback=lookback,
-        liquidator_reward=liquidator_reward
     )
 
-    simulation_folder = f"./{market_name}/{simulator_name}/optuna/"
+    simulation_folder = f"./{dated_irs_market_configuration.market_name}/{simulator_name}/optuna/"
     if not os.path.exists(simulation_folder):
         os.makedirs(simulation_folder)
 
