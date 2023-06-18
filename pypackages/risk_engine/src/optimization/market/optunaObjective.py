@@ -19,6 +19,9 @@ def optuna_objective(market_parameter_optimization_config: MarketParameterOptimi
     rate_oracle_dfs_resampled: list[pd.DataFrame] = [resample_liquidity_index(liquidity_index_df=df) for df in rate_oracle_dfs]
     apy_series_list: list[pd.Series] = [daily_liquidity_index_to_apy_series(liquidity_index_df=df, lookback_in_days=1) for df in rate_oracle_dfs_resampled]
 
+    # risk_parameter: float
+    # twapLookbackWindowInDays: float
+
     market_risk_configuration: MarketRiskConfiguration = MarketRiskConfiguration(
         risk_parameter=risk_parameter_trial,
         twap_lookback_in_days=twap_lookback_in_days_trial

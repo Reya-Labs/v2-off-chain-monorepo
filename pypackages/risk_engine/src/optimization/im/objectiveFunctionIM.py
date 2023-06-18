@@ -6,7 +6,7 @@ MAX_OBJECTIVE_PENALTY = 10
 ACCEPTABLE_IVAR_THRESHOLD = 0.95
 LEVERAGE_OBJECTIVE_WEIGHT = 0.5
 
-def objective_function(lp_liquidation_threshold: Series, trader_liquidation_threshold: Series,
+def objective_function_im(lp_liquidation_threshold: Series, trader_liquidation_threshold: Series,
                        lp_unrealized_pnl: Series, trader_unrealized_pnl: Series,
                        lp_margin: Series, trader_margin: Series,
                        acceptable_leverage_threshold: float) -> float:
