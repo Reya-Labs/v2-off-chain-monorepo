@@ -130,24 +130,25 @@ class MarginRequirements:
 
         self.market_irs.register_pool(pool=self.pool_irs)
 
-        self.market_irs.set_slippage_phi(slippage_phi=slippage_phi)
-        self.market_irs.set_slippage_beta(slippage_beta=slippage_beta)
+        self.market_irs.set_slippage_phi(slippage_phi=vamm_configuration.slippage_model_parameters.slippage_phi)
+        self.market_irs.set_slippage_beta(slippage_beta=vamm_configuration.slippage_model_parameters.slippage_beta)
 
         # Set up market manager
         self.market_manager.register_market(market=self.market_irs)
 
         # Set up account
-        self.alice = self.account_manager.create_account(account_id="alice", base_token=collateral_token)
+        self.alice = self.account_manager.create_account(account_id="alice", base_token=dated_irs_market_configuration.quote_token)
 
-        self.bob = self.account_manager.create_account(account_id="bob", base_token=collateral_token)
+        self.bob = self.account_manager.create_account(account_id="bob", base_token=dated_irs_market_configuration.quote_token)
 
         # Set up risk mapping
+        # todo: hmm, why is the risk parameter setting per maturity, needs to be investigated
         self.liquidation_module.set_risk_mapping(
-            risk_mapping={"market_irs": {self.pool_irs_maturity: risk_parameter}}
+            risk_mapping={"market_irs": {self.pool_irs_maturity: market_risk_configuration.risk_parameter}}
         )
 
         # Store the simulation metrics
-        self.lp_spread = lp_spread
+        self.lp_spread = vamm_configuration.lp_spread
         self.is_trader_vt = is_trader_vt
 
     def advance_to_next_observation(self):
