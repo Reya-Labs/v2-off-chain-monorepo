@@ -78,20 +78,20 @@ def run_parameter_optimization(market_parameter_optimization_config: MarketParam
         pruner=optuna.pruners.SuccessiveHalvingPruner(),
     )
 
-    objective = lambda trial: optuna_objective(trial=trial, parameters=parameters)
+    objective = lambda trial: optuna_objective(trial=trial, market_parameter_optimization_config=market_parameter_optimization_config)
 
     study.optimize(objective, n_trials=market_parameter_optimization_config.number_of_optuna_trials)
 
-    out_dir = f"./{parameters.market_name}/optuna_final/"
+    out_dir = f"./{market_parameter_optimization_config.dated_irs_market_configuration.market_name}/optuna_final/"
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
 
     optimal_trial: FrozenTrial = study.best_trial
 
     fig = optuna.visualization.plot_optimization_history(study)
-    fig.write_image(out_dir + f"optuna_history_{parameters.market_name}.png")
+    fig.write_image(out_dir + f"optuna_history_{market_parameter_optimization_config.dated_irs_market_configuration.market_name}.png")
 
-    with open(out_dir + f"optimised_parameters_{parameters.market_name}.json", "w") as fp:
+    with open(out_dir + f"optimised_parameters_{market_parameter_optimization_config.dated_irs_market_configuration.market_name}.json", "w") as fp:
         json.dump(optimal_trial.params, fp, indent=4)
 
 
