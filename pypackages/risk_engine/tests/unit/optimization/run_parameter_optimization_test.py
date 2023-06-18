@@ -1,6 +1,6 @@
 import unittest
 from risk_engine.src.optimization.runParameterOptimization import run_parameter_optimization
-from risk_engine.src.constants import MARKET_NAME, COLLATERAL_TOKEN_NAME, LIQUIDATOR_REWARD, MOCK_SIMULATION_SET, DEFAULT_SLIPPAGE_PHI, DEFAULT_SLIPPAGE_BETA
+from risk_engine.src.constants import MARKET_NAME, COLLATERAL_TOKEN_NAME, LIQUIDATOR_REWARD, MOCK_SIMULATION_SET, DEFAULT_SLIPPAGE_PHI, DEFAULT_SLIPPAGE_BETA, DEFAULT_ACCEPTABLE_LEVERAGE_THRESHOLD
 from types import SimpleNamespace
 
 ORACLE_DATA_DIR = '../../mocks/data/'
@@ -24,7 +24,8 @@ class RunParameterOptimizationTest(unittest.TestCase):
             "liquidator_reward": LIQUIDATOR_REWARD,
             "simulation_set": MOCK_SIMULATION_SET,
             "slippage_phi": DEFAULT_SLIPPAGE_PHI,
-            "slippage_beta": DEFAULT_SLIPPAGE_BETA
+            "slippage_beta": DEFAULT_SLIPPAGE_BETA,
+            "acceptable_leverage_threshold": DEFAULT_ACCEPTABLE_LEVERAGE_THRESHOLD
         }
 
         parameters: SimpleNamespace = SimpleNamespace(**parameters_dict)

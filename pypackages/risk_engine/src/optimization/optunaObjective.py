@@ -33,7 +33,7 @@ def optuna_objective(parameters, trial: Trial) -> ndarray:
             lookback=lookback_trial,
             market_name=parameters.market_name,
             liquidator_reward=parameters.liquidator_reward,
-            acceptable_leverage_threshold=DEFAULT_ACCEPTABLE_LEVERAGE_THRESHOLD,
+            acceptable_leverage_threshold=parameters.acceptable_leverage_threshold,
             collateral_token_name=parameters.collateral_token_name,
             slippage_phi=parameters.slippage_phi,
             slippage_beta=parameters.slippage_beta
