@@ -58,6 +58,7 @@ def add_parser_arguments(parser) -> MarketParameterOptimizationConfiguration:
     )
 
     market_parameter_optimization_config: MarketParameterOptimizationConfiguration = MarketParameterOptimizationConfiguration(
+        rate_oracle_data_dir=parameters.rate_oracle_data_dir,
         number_of_optuna_trials=parameters.n_trials,
         min_acceptable_leverage=parameters.min_acceptable_leverage,
         liquidation_configuration=liquidation_configuration,
@@ -69,7 +70,7 @@ def add_parser_arguments(parser) -> MarketParameterOptimizationConfiguration:
 
     return market_parameter_optimization_config
 
-def run_parameter_optimization(parameters):
+def run_parameter_optimization(market_parameter_optimization_config: MarketParameterOptimizationConfiguration):
 
     study: Study = optuna.create_study(
         direction="maximize",
@@ -79,7 +80,7 @@ def run_parameter_optimization(parameters):
 
     objective = lambda trial: optuna_objective(trial=trial, parameters=parameters)
 
-    study.optimize(objective, n_trials=parameters.n_trials)
+    study.optimize(objective, n_trials=market_parameter_optimization_config.number_of_optuna_trials)
 
     out_dir = f"./{parameters.market_name}/optuna_final/"
     if not os.path.exists(out_dir):
@@ -97,5 +98,5 @@ def run_parameter_optimization(parameters):
 if __name__ == "__main__":
     from argparse import ArgumentParser
     parser = ArgumentParser()
-    parameters = add_parser_arguments(parser)
-    run_parameter_optimization(parameters=parameters)
+    market_parameter_optimization_config: MarketParameterOptimizationConfiguration = add_parser_arguments(parser)
+    run_parameter_optimization(market_parameter_optimization_config=market_parameter_optimization_config)
