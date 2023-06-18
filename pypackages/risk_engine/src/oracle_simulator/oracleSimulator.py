@@ -61,35 +61,13 @@ class OracleSimulator:
             oracle = oracle.loc[oracle["timestamp"] > pool_start]
         return oracle
 
-    def get_oracle_volatility(
-        self, oracle: pd.DataFrame, sampling_interval: Optional[list[int]] = None
-    ) -> float:
-        if sampling_interval is not None:
-            oracle = oracle[sampling_interval[0] : sampling_interval[1]]
-        return oracle[self.data_name].std() * np.sqrt(
-            YEAR_IN_SECONDS / (oracle.iloc[-1]["timestamp"] - oracle.iloc[0]["timestamp"])
-        )
 
-    @staticmethod
-    def cumprod(lst: np.array) -> np.array:
-        results = []
-        cur = 1
-        for n in lst:
-            cur *= n
-            results.append(cur)
-        return results
 
     def rate_to_index(self, oracle: pd.DataFrame, name: str) -> pd.DataFrame:
         if name not in oracle.columns:
             raise Exception("Error -- no rate column to calculated index from. Please investigate.")
         oracle.loc[:, "liquidity_index"] = self.cumprod(1 + oracle.loc[:, name] / 365)
         return oracle
-
-    @staticmethod
-    def get_random() -> float:
-        exp = random.randint(-5, -2)
-        significand = 0.9 * random.random() + 0.1
-        return significand * 10**exp
 
     def perform_block_bootstap(
         self, oracle: pd.DataFrame, n_replicates: int = 100, circular: bool = False
@@ -141,26 +119,6 @@ class OracleSimulator:
         ]
         return oracle
 
-    # Simplistic model for introducing a market shock
-    # Introduce a shock of magnitude +/- M at random time t
-    # along the series, and apply linear interpolatiom from that point to the
-    # neighbouring points in the time series
-    def add_market_shock(
-        self, oracle: pd.DataFrame, shock_values: list[float], interpolations: int = 2
-    ) -> pd.DataFrame:
-        dates = [
-            random.randint(len(shock_values), len(oracle) - len(shock_values))
-            for i in range(len(shock_values))
-        ]
-        oracle[self.data_name+"_shock"] = oracle[self.data_name] # Add in the separate shocked dataframe column
-        for i, d in enumerate(dates):
-            # Let's interpolate by first adding NaN values
-            for diff in [i for i in range(-interpolations, interpolations + 1) if i != 0]:
-                oracle[self.data_name+"_shock"].replace([oracle.iloc[d + diff][self.data_name+"_shock"]], np.nan, inplace=True)
-            oracle[self.data_name+"_shock"].replace([oracle.iloc[d][self.data_name+"_shock"]], shock_values[i], inplace=True)
-        # Now we linearly interpolate around the NaN values
-        oracle.interpolate(method="linear", limit_direction="forward", inplace=True)
-        return oracle
 
     def forecast_oracle(self, oracle: pd.DataFrame, iterations: int = 10, lookback: int = 50) -> list[float]:
         covariance = np.array(oracle[self.data_name].std())
