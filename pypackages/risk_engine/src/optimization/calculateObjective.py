@@ -2,13 +2,15 @@ import numpy as np
 from risk_engine.src.simulations.margin_requirements.marginRequirements import MarginRequirements
 from risk_engine.src.constants import YEAR_IN_SECONDS
 import os
-from pandas import DataFrame
+from pandas import Series
 from risk_engine.src.optimization.objectiveFunction import objective_function
 
 
 # todo: add typings + consider introducing interfaces to better manage/pack the arguments
 def calculate_objective(
-        rate_oracle_df: DataFrame,
+        apy: Series,
+        timestamps: Series,
+        liquidity_indicies: Series,
         simulator_name: str,
         p_lm: float,
         gamma: float,
@@ -23,11 +25,11 @@ def calculate_objective(
         slippage_phi: float,
         slippage_beta: float,
 ) -> float:
-    mean_apy = rate_oracle_df["apy"].mean()
+    mean_apy = apy.mean()
     if spread >= mean_apy:
         spread -= 0.001
-    std_dev = rate_oracle_df["apy"].std()
-    duration = rate_oracle_df["timestamp"].values[-1] - rate_oracle_df["timestamp"].values[0]
+    std_dev = apy.std()
+    duration = timestamps.values[-1] - timestamps.values[0]
     risk_parameter = std_dev * np.sqrt(YEAR_IN_SECONDS / duration) * p_lm
     simulation = MarginRequirements()
 
@@ -41,8 +43,8 @@ def calculate_objective(
         slippage_beta=slippage_beta,
         lp_spread=spread,
         is_trader_vt=True,
-        timestamps=rate_oracle_df["timestamp"].values,
-        indices=rate_oracle_df["liquidity_index"].values,
+        timestamps=timestamps.values,
+        indices=liquidity_indicies.values,
         maker_fee=lambda_maker,
         taker_fee=lambda_taker,
         gwap_lookback=lookback,
