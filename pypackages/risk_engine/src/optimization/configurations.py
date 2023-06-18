@@ -23,10 +23,23 @@ class MarketFeeConfiguration:
 
 @dataclass
 class DatedIRSMarketConfiguration:
-
+    market_name: str
     quote_token: str
 
 @dataclass
 class VAMMConfiguration:
     lp_spread: float
     slippage_model_parameters: SlippageModelParameters
+
+@dataclass
+class MarketParameterOptimizationConfiguration:
+
+    number_of_optuna_trials: int
+    min_acceptable_leverage: float
+
+
+@dataclass
+class IMOptimizationConfiguration:
+
+    number_of_optuna_trials: int
+    min_acceptable_leverage: float
