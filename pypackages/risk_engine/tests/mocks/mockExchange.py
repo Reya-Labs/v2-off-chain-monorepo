@@ -1,6 +1,6 @@
 from unittest.mock import Mock
 
-from risk_engine.src.exchanges.vamm.baseVAMMExchange import BaseVAMMExchange
+from risk_engine.src.contracts.exchanges.vamm.baseVAMMExchange import BaseVAMMExchange
 
 
 class MockExchange(BaseVAMMExchange):

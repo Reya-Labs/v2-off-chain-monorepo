@@ -1,6 +1,6 @@
 from unittest.mock import Mock
 
-from risk_engine.src.core.account import Account
+from risk_engine.src.contracts.core import Account
 
 
 class MockAccount(Account):

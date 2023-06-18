@@ -1,6 +1,6 @@
 from unittest import mock
 
-from risk_engine.src.oracles.oracle import Oracle
+from risk_engine.src.contracts.oracles import Oracle
 
 
 class MockOracle(Oracle):

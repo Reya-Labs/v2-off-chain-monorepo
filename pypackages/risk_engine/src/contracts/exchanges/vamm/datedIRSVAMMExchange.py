@@ -1,5 +1,5 @@
 from risk_engine.src.constants import YEAR_IN_SECONDS
-from risk_engine.src.exchanges.vamm.baseVAMMExchange import BaseVAMMExchange
+from risk_engine.src.contracts.exchanges.vamm.baseVAMMExchange import BaseVAMMExchange
 
 
 class DatedIRSVAMMExchange(BaseVAMMExchange):

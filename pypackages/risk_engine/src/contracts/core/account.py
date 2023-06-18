@@ -1,6 +1,6 @@
 from typing import List
 
-from risk_engine.src.instruments.dated_irs.baseMarket import BaseMarket
+from risk_engine.src.contracts.instruments.dated_irs.baseMarket import BaseMarket
 
 
 class Account:

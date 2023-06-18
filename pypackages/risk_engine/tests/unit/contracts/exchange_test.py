@@ -3,7 +3,7 @@ from unittest import mock
 
 from risk_engine.src.constants import MONTH_IN_SECONDS
 from risk_engine.src.evm.block import Block
-from risk_engine.src.exchanges.vamm.baseVAMMExchange import BaseVAMMExchange
+from risk_engine.src.contracts.exchanges.vamm.baseVAMMExchange import BaseVAMMExchange
 
 
 class MockPool(BaseVAMMExchange):

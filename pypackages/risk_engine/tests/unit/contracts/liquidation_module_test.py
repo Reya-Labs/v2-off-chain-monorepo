@@ -2,7 +2,7 @@ import unittest
 from unittest import mock
 
 from risk_engine.src.constants import MONTH_IN_SECONDS
-from risk_engine.src.core.liquidationModule import LiquidationModule
+from risk_engine.src.contracts.core.liquidationModule import LiquidationModule
 from risk_engine.src.evm.block import Block
 from risk_engine.tests.mocks.mockAccount import MockAccount
 from risk_engine.tests.mocks.mockAccountManager import MockAccountManager
