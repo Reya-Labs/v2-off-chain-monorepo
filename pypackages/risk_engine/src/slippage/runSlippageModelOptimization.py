@@ -21,13 +21,13 @@ def run_slippage_model_optimization(
     log(slippage) = log(phi) + beta * log(notional)
     '''
 
-    log_slippage: np.ndarray = np.log(slippage)
-    log_notional: np.ndarray = np.log(notional)
+    log_slippage: np.ndarray = np.log(slippage.values)
+    log_notional: np.ndarray = np.log(notional.values)
 
-    linear_model = LinearRegression().fit(log_notional, log_slippage)
-    estimated_beta = linear_model.coef_
-    estimated_phi_log = linear_model.intercept_
-    estimated_phi = math.exp(estimated_phi_log)
+    linear_model = LinearRegression().fit(log_notional.reshape(-1, 1), log_slippage)
+    estimated_beta: float = linear_model.coef_[0]
+    estimated_phi_log: float = linear_model.intercept_
+    estimated_phi: float = math.exp(estimated_phi_log)
 
     estimated_slippage_model_parameters: SlippageModelParameters = SlippageModelParameters(
         slippage_phi=estimated_phi,
