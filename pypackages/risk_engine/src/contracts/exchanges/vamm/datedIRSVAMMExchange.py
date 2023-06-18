@@ -12,7 +12,7 @@ class DatedIRSVAMMExchange(BaseVAMMExchange):
         tick_spacing,
         term_end_in_seconds,
         oracle,
-        gwap_lookback=0,
+        gwap_lookback_in_seconds=0,
     ):
         self.oracle = oracle
 
@@ -23,7 +23,7 @@ class DatedIRSVAMMExchange(BaseVAMMExchange):
             max_tick=max_tick,
             tick_spacing=tick_spacing,
             term_end_in_seconds=term_end_in_seconds,
-            gwap_lookback=gwap_lookback,
+            gwap_lookback_in_seconds=gwap_lookback_in_seconds,
         )
 
     def _track_variable_tokens(self, base):

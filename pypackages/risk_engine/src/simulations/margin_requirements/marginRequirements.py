@@ -14,6 +14,8 @@ from risk_engine.src.contracts.instruments.dated_irs.datedIRSMarket import Dated
 from risk_engine.src.contracts.instruments.dated_irs.marketManager import MarketManager
 from risk_engine.src.contracts.oracles.oracle import Oracle
 from risk_engine.src.contracts.exchanges.vamm.datedIRSVAMMExchange import DatedIRSVAMMExchange
+from risk_engine.src.optimization.configurations import ProtocolRiskConfiguration, MarketRiskConfiguration, LiquidationConfiguration, MarketFeeConfiguration, DatedIRSMarketConfiguration, VAMMConfiguration
+from risk_engine.src.constants import DAY_IN_SECONDS
 
 
 """
@@ -32,20 +34,16 @@ class MarginRequirements:
 
     def setUp(
         self,
-        collateral_token: str,
         initial_fixed_rate: float,
-        risk_parameter: float,
-        im_multiplier: float,
-        slippage_phi: float,
-        slippage_beta: float,
-        lp_spread: float,
         is_trader_vt: bool,
         timestamps: list[int],
         indices: list[float],
-        maker_fee: float,
-        taker_fee: float,
-        gwap_lookback: float,
-        liquidator_reward: float
+        protocol_risk_configuration: ProtocolRiskConfiguration,
+        market_risk_configuration: MarketRiskConfiguration,
+        liquidation_configuration: LiquidationConfiguration,
+        market_fee_configuration: MarketFeeConfiguration,
+        dated_irs_market_configuration: DatedIRSMarketConfiguration,
+        vamm_configuration: VAMMConfiguration
     ):
         # Generate the modules
         self.block: Block = Block(relative_block_position=0)
@@ -54,8 +52,8 @@ class MarginRequirements:
         if not len(timestamps) == len(indices):
             raise Exception("margin requirements: timestamps and indices do not have same length")
 
-        if not (collateral_token == "ETH" or collateral_token == "USDC"):
-            raise Exception("margin requirements: token {0} is not supported yet".format(collateral_token))
+        if not (dated_irs_market_configuration.quote_token == "ETH" or dated_irs_market_configuration.quote_token == "USDC"):
+            raise Exception("margin requirements: token {0} is not supported yet".format(dated_irs_market_configuration.quote_token))
 
         for i in range(1, len(timestamps)):
             if timestamps[i - 1] > timestamps[i]:
@@ -83,7 +81,7 @@ class MarginRequirements:
         self.account_manager = AccountManager()
         self.fee_manager = FeeManager()
         self.collateral_module = CollateralModule()
-        self.liquidation_module = LiquidationModule(im_multiplier=im_multiplier, liquidator_reward_proportion_of_im_delta=liquidator_reward)
+        self.liquidation_module = LiquidationModule(im_multiplier=protocol_risk_configuration.im_multiplier, liquidator_reward_proportion_of_im_delta=liquidation_configuration.liquidator_reward_parameter)
         self.market_manager = MarketManager()
 
         # Set up the account manager
@@ -95,17 +93,17 @@ class MarginRequirements:
         self.fee_manager.set_atomic_maker_taker_fees(
             market_id="market_irs",
             # 0% maker fees
-            new_atomic_maker_fee=maker_fee,
+            new_atomic_maker_fee=market_fee_configuration.maker_fee_parameter,
             # 0% taker fees
-            new_atomic_taker_fee=taker_fee,
+            new_atomic_taker_fee=market_fee_configuration.taker_fee_parameter,
         )
 
         # Set up IRS market
         self.market_irs = DatedIRSMarket(
             block=self.block,
             market_id="market_irs",
-            base_token=collateral_token,
-            quote_token=collateral_token,
+            base_token=dated_irs_market_configuration.quote_token, # temp
+            quote_token=dated_irs_market_configuration.quote_token,
         )
 
         self.market_irs.set_collateral_module(collateral_module=self.collateral_module)
@@ -122,7 +120,7 @@ class MarginRequirements:
             tick_spacing=10,
             term_end_in_seconds=self.pool_irs_maturity,
             oracle=self.oracle,
-            gwap_lookback=gwap_lookback
+            gwap_lookback_in_seconds=market_risk_configuration.twapLookbackWindowInDays * DAY_IN_SECONDS
         )
 
         initial_tick = self.pool_irs.tick_at_price(initial_fixed_rate)

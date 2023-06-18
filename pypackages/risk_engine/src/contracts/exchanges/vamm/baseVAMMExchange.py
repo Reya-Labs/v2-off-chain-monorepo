@@ -12,13 +12,13 @@ class BaseVAMMExchange(VAMM):
         max_tick,
         tick_spacing,
         term_end_in_seconds,
-        gwap_lookback=0,
+        gwap_lookback_in_seconds=0,
     ):
         # pool id
         self.pool_id = pool_id
 
         # gwap lookback window in seconds
-        self.gwap_lookback = gwap_lookback
+        self.gwap_lookback_in_seconds = gwap_lookback_in_seconds
 
         # duration of vamm
         self.term_end_in_seconds = term_end_in_seconds

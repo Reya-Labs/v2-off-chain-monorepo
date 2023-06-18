@@ -6,6 +6,7 @@ from risk_engine.src.constants import YEAR_IN_SECONDS
 import os
 from pandas import Series
 from risk_engine.src.optimization.market.objectiveFunction import objective_function
+from risk_engine.src.optimization.configurations import ProtocolRiskConfiguration, MarketRiskConfiguration, LiquidationConfiguration, MarketFeeConfiguration, DatedIRSMarketConfiguration, VAMMConfiguration
 
 
 # todo: add typings + consider introducing interfaces to better manage/pack the arguments
@@ -14,31 +15,20 @@ def calculate_objective(
         timestamps: Series,
         liquidity_indicies: Series,
         simulator_name: str,
-        p_lm: float,
-        gamma: float,
-        lambda_taker: float,
-        lambda_maker: float,
-        spread: float,
-        lookback: float,
-        liquidator_reward: float,
-        market_name: str,
-        acceptable_leverage_threshold: float,
-        collateral_token_name: str,
-        slippage_phi: float,
-        slippage_beta: float,
+        protocol_risk_configuration: ProtocolRiskConfiguration,
+        market_risk_configuration: MarketRiskConfiguration,
+        liquidation_configuration: LiquidationConfiguration,
+        market_fee_configuration: MarketFeeConfiguration,
+        dated_irs_market_configuration: DatedIRSMarketConfiguration,
+        vamm_configuration: VAMMConfiguration
 ) -> float:
-    mean_apy = apy.mean()
-    if spread >= mean_apy:
-        spread -= 0.001
-    std_dev = apy.std()
-    duration = timestamps.values[-1] - timestamps.values[0]
-    risk_parameter = std_dev * np.sqrt(YEAR_IN_SECONDS / duration) * p_lm
+    mean_apy_as_initial_fixed_rate_proxy = apy.mean()
     simulation = MarginRequirements()
 
     # TODO: how can the fixed rate lookback window be added here i.e. where is the GWAP treated?
     simulation.setUp(
         collateral_token=collateral_token_name,
-        initial_fixed_rate=mean_apy,
+        initial_fixed_rate=mean_apy_as_initial_fixed_rate_proxy,
         risk_parameter=risk_parameter,
         im_multiplier=gamma,
         slippage_phi=slippage_phi,
