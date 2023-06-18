@@ -1,15 +1,15 @@
 import unittest
 
 from risk_engine.src.constants import DAY_IN_SECONDS, MONTH_IN_SECONDS
-from risk_engine.src.contracts.core import AccountManager
+from risk_engine.src.contracts.core.accountManager import AccountManager
 from risk_engine.src.contracts.core.collateralModule import CollateralModule
 from risk_engine.src.contracts.core.feeManager import FeeManager
 from risk_engine.src.contracts.core.liquidationModule import LiquidationModule
 from risk_engine.src.evm.block import Block
 from risk_engine.src.contracts.exchanges.vamm.datedIRSVAMMExchange import DatedIRSVAMMExchange
 from risk_engine.src.contracts.instruments.dated_irs.datedIRSMarket import DatedIRSMarket
-from risk_engine.src.contracts.instruments.dated_irs import MarketManager
-from risk_engine.src.contracts.oracles import Oracle
+from risk_engine.src.contracts.instruments.dated_irs.marketManager import MarketManager
+from risk_engine.src.contracts.oracles.oracle import Oracle
 from risk_engine.tests.end_to_end.helpers import get_rate_given_apy
 
 """
