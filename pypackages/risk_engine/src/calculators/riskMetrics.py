@@ -23,6 +23,8 @@ def generate_liquidations_series(actor_margin: Series, actor_liquidation_margin:
     # todo: check why is unrealized pnl not captured in here, surely it should affect liquidations?
     return (actor_margin - actor_liquidation_margin) / actor_liquidation_margin
 
+
+# todo: generalize this function to only work on top of a single series generic time series that need to be replicated
 def generate_replicates(liquidations: Series, insolvencies: Series,
                         N_replicates=100) -> tuple[list[ndarray], list[ndarray]]:
 

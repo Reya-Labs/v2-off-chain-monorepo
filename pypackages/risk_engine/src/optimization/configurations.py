@@ -8,7 +8,7 @@ class ProtocolRiskConfiguration:
 @dataclass
 class MarketRiskConfiguration:
     risk_parameter: float
-    twapLookbackWindowInDays: float
+    twap_lookback_in_days: float
 
 @dataclass
 class LiquidationConfiguration:

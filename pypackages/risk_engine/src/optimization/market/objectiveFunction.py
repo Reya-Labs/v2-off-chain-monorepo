@@ -46,7 +46,6 @@ def objective_function(lp_liquidation_threshold: Series, trader_liquidation_thre
     )
 
     # todo: double check this averaging logic, check if we need to include the liquidations var in the objective
-    average_liquidations_var = liquidations_var_trader * 0.5 + liquidations_var_lp * 0.5
     average_insolvencies_var = insolvencies_var_trader * 0.5 + insolvencies_var_lp * 0.5
 
     ivar_reg = MAX_OBJECTIVE_PENALTY if average_insolvencies_var < ACCEPTABLE_IVAR_THRESHOLD else 0
