@@ -3,10 +3,11 @@ from optuna import Study
 import os
 from optuna.trial import FrozenTrial
 from risk_engine.src.optimization.optunaObjective import optuna_objective
-from risk_engine.src.optimization.configurations import RiskConfiguration, MarketFeeConfiguration, DatedIRSMarketConfiguration, VAMMConfiguration, MarketParameterOptimizationConfiguration
+from risk_engine.src.optimization.configurations import MarketParameterOptimizationConfiguration, LiquidationConfiguration, ProtocolRiskConfiguration, MarketFeeConfiguration, DatedIRSMarketConfiguration, VAMMConfiguration
+from risk_engine.src.slippage.slippageModelParameters import SlippageModelParameters
 import json
 
-def add_parser_arguments(parser):
+def add_parser_arguments(parser) -> MarketParameterOptimizationConfiguration:
 
     # rate oracle data directory
     parser.add_argument("-rate_oracle_data_dir", "--rate_oracle_data_dir", type=str, help="Rate Oracle CSV Data Directory")
@@ -38,17 +39,35 @@ def add_parser_arguments(parser):
     parser.add_argument(
         "-n_trials", "--n_trials", type=float, help="Number of optimization trials", default=2
     )
-    parser.add_argument("-acceptable_leverage_threshold", "--acceptable_leverage_threshold", type=float,
-                        help="Acceptable Leverage Threshold", default=20.0)
+    parser.add_argument("-min_acceptable_leverage", "--min_acceptable_leverage", type=float,
+                        help="Minimum Acceptable Leverage Threshold", default=20.0)
 
 
     parameters = parser.parse_args()
 
-    risk_configuration: RiskConfiguration = RiskConfiguration(
-
+    liquidation_configuration = LiquidationConfiguration(liquidator_reward_parameter=parameters.liquidatorReward)
+    protocol_risk_configuration = ProtocolRiskConfiguration(im_multiplier=parameters.im_multiplier)
+    market_fee_configuration = MarketFeeConfiguration(maker_fee_parameter=parameters.lambda_maker, taker_fee_parameter=parameters.lambda_taker)
+    dated_irs_market_configuration = DatedIRSMarketConfiguration(market_name=parameters.market_name, quote_token=parameters.collateral_token_name)
+    vamm_configuration = VAMMConfiguration(
+        lp_spread=parameters.spread,
+        slippage_model_parameters=SlippageModelParameters(
+            slippage_phi=parameters.slippage_phi,
+            slippage_beta=parameters.slippage_beta
+        )
     )
 
-    return parameters
+    market_parameter_optimization_config: MarketParameterOptimizationConfiguration = MarketParameterOptimizationConfiguration(
+        number_of_optuna_trials=parameters.n_trials,
+        min_acceptable_leverage=parameters.min_acceptable_leverage,
+        liquidation_configuration=liquidation_configuration,
+        protocol_risk_configuration=protocol_risk_configuration,
+        market_fee_configuration=market_fee_configuration,
+        dated_irs_market_configuration=dated_irs_market_configuration,
+        vamm_configuration=vamm_configuration
+    )
+
+    return market_parameter_optimization_config
 
 def run_parameter_optimization(parameters):
 

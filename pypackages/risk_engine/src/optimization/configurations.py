@@ -33,7 +33,7 @@ class VAMMConfiguration:
 
 @dataclass
 class MarketParameterOptimizationConfiguration:
-
+    rate_oracle_data_dir: str
     number_of_optuna_trials: int
     min_acceptable_leverage: float
     liquidation_configuration: LiquidationConfiguration
@@ -44,6 +44,7 @@ class MarketParameterOptimizationConfiguration:
 
 @dataclass
 class IMOptimizationConfiguration:
+    rate_oracle_data_dir: str
     number_of_optuna_trials: int
     min_acceptable_leverage: float
     liquidation_configuration: LiquidationConfiguration
