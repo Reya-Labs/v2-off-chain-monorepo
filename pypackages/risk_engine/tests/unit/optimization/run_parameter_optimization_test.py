@@ -1,5 +1,5 @@
 import unittest
-from risk_engine.src.optimization.runMarketParameterOptimization import run_parameter_optimization
+from risk_engine.src.optimization.market.runMarketParameterOptimization import run_parameter_optimization
 from risk_engine.src.constants import MARKET_NAME, COLLATERAL_TOKEN_NAME, LIQUIDATOR_REWARD, MOCK_SIMULATION_SET, DEFAULT_SLIPPAGE_PHI, DEFAULT_SLIPPAGE_BETA, DEFAULT_ACCEPTABLE_LEVERAGE_THRESHOLD
 from types import SimpleNamespace
 

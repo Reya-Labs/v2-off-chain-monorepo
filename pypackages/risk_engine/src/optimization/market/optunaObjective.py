@@ -1,5 +1,5 @@
 import pandas as pd
-from risk_engine.src.optimization.calculateObjective import calculate_objective
+from risk_engine.src.optimization.market.calculateObjective import calculate_objective
 import numpy as np
 from numpy import ndarray
 from optuna import Trial

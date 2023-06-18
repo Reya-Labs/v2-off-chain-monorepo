@@ -2,7 +2,7 @@ import optuna
 from optuna import Study
 import os
 from optuna.trial import FrozenTrial
-from risk_engine.src.optimization.optunaObjective import optuna_objective
+from risk_engine.src.optimization.market.optunaObjective import optuna_objective
 from risk_engine.src.optimization.configurations import MarketParameterOptimizationConfiguration, LiquidationConfiguration, ProtocolRiskConfiguration, MarketFeeConfiguration, DatedIRSMarketConfiguration, VAMMConfiguration
 from risk_engine.src.slippage.slippageModelParameters import SlippageModelParameters
 import json

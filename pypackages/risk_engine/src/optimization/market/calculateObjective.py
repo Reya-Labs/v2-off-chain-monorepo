@@ -5,7 +5,7 @@ from risk_engine.src.simulations.margin_requirements.marginRequirements import M
 from risk_engine.src.constants import YEAR_IN_SECONDS
 import os
 from pandas import Series
-from risk_engine.src.optimization.objectiveFunction import objective_function
+from risk_engine.src.optimization.market.objectiveFunction import objective_function
 
 
 # todo: add typings + consider introducing interfaces to better manage/pack the arguments
