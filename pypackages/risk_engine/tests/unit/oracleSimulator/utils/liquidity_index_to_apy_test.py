@@ -1,9 +1,7 @@
 import unittest
-from risk_engine.src.oracle_simulator.utils.dailyLiquidityIndexToApySeries import liquidity_index_to_apy_series
+from risk_engine.src.oracle_simulator.utils.dailyLiquidityIndexToApySeries import daily_liquidity_index_to_apy_series
 from risk_engine.src.oracle_simulator.utils.resampleLiquidityIndex import resample_liquidity_index
 import pandas as pd
-from risk_engine.src.constants import DEFAULT_APY_LOOKBACK_IN_DAYS
-from pandas import Series
 
 class TestLiquidityIndexToAPY(unittest.TestCase):
 
@@ -13,9 +11,11 @@ class TestLiquidityIndexToAPY(unittest.TestCase):
 
     def test_liquidity_index_to_apy(self):
 
-        liquidity_index_df_interpolated = resample_liquidity_index(liquidity_index_df=self.liquidity_index_df, resampling_frequency='1D')
+        daily_liquidity_index_df_interpolated = resample_liquidity_index(liquidity_index_df=self.liquidity_index_df, resampling_frequency='1D')
 
-        liquidity_index_to_apy_series(
-            liquidity_index_df=liquidity_index_df_interpolated,
+        apy_series = daily_liquidity_index_to_apy_series(
+            liquidity_index_df=daily_liquidity_index_df_interpolated,
             lookback_in_days=1
         )
+
+        self.assertAlmostEqual(apy_series.loc['2023-02-17 03:11:49'], 0.010201055942560266)
