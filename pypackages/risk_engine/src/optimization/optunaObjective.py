@@ -1,5 +1,5 @@
 import pandas as pd
-from risk_engine.src.constants import SIMULATION_SET, DEFAULT_ACCEPTABLE_LEVERAGE_THRESHOLD
+from risk_engine.src.constants import MOCK_SIMULATION_SET, DEFAULT_ACCEPTABLE_LEVERAGE_THRESHOLD
 from risk_engine.src.optimization.calculateObjective import calculate_objective
 import numpy as np
 from numpy import ndarray
@@ -13,13 +13,11 @@ def optuna_objective(parameters, trial: Trial) -> ndarray:
     gamma_trial = trial.suggest_float("gamma", 1.1, 5, log=True)
     lookback_trial = trial.suggest_int("lookback", 3, 15, log=True)
 
-    rate_oracle_dfs: list[pd.DataFrame] = [
-        pd.read_csv(parameters.oracle_data_dir + s + ".csv") for s in SIMULATION_SET
-    ]
+    rate_oracle_dfs: list[pd.DataFrame] = [pd.read_csv(parameters.oracle_data_dir + s + ".csv") for s in parameters.simulation_set]
     optimisations = [
         calculate_objective(
             rate_oracle_df=rate_oracle_dfs[i],
-            simulator_name=SIMULATION_SET[i],
+            simulator_name=parameters.simulation_set,
             p_lm=p_lm_trial,
             gamma=gamma_trial,
             lambda_taker=parameters.lambda_taker,

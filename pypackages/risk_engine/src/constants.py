@@ -5,7 +5,7 @@ FIRST_MAINNET_POS_BLOCK = 15537394
 FIRST_MAINNET_POS_BLOCK_TIMESTAMP = 1663220562
 POS_SECONDS_PER_BLOCK = 12
 
-Z_SCORES_DICT: dict[float][float] = {95: 1.96, 99: 2.58}
+Z_SCORES_DICT: dict = {95: 1.96, 99: 2.58}
 
 # defaults
 MARKET_NAME = 'dated_irs_ausdc_borrow'
@@ -32,16 +32,24 @@ DEFAULT_GAMMA = 0.01
 
 ## simulations
 
-SIMULATION_SET = [
-    "apy_OracleSimulator",
-    "apy_scaled_0.05_OracleSimulator",
-    "apy_scaled_0.1_OracleSimulator",
-    "apy_scaled_0.15_OracleSimulator",
-    "apy_scaled_0.2_OracleSimulator",
-    "apy_scaled_0.5_OracleSimulator",
-    # "apy_scaled_0.75_OracleSimulator",
-    # "apy_scaled_1_OracleSimulator",
-    # "apy_shock_OracleSimulator",
+MOCK_SIMULATION_SET = [
+    "mock_ausdc_borrow_rate"
 ]
 
 DEFAULT_ACCEPTABLE_LEVERAGE_THRESHOLD = 30
+
+
+## oracle simulator
+
+# A hashmap or oracle names based
+# on the instrument and market, and the
+# associated call required to access that oracle
+# data e.g. could be an API call, or we might
+# need to directly access a Chainlink oracle.
+
+# This is to be confirmed
+MOCK_ORACLE_MAP = {
+    "dated_irs_ausdc_borrow_liquidity_index": "mock_ausdc_borrow_rate.csv",
+}
+
+DEFAULT_APY_LOOKBACK_IN_DAYS = 1
