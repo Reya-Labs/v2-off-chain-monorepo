@@ -1,5 +1,5 @@
 import pandas as pd
-from risk_engine.src.oracle_simulator.utils.helpers import cumprod
+from risk_engine.src.oracle_simulator.helpers import cumprod
 
 def daily_apy_series_to_liquidity_index_series(apy: pd.Series):
 
