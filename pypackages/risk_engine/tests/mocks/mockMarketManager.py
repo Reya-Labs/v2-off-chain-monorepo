@@ -1,6 +1,6 @@
 from unittest import mock
 
-from risk_engine.src.instruments.dated_irs.marketManager import MarketManager
+from risk_engine.src.contracts.instruments.dated_irs import MarketManager
 
 
 class MockMarketManager(MarketManager):

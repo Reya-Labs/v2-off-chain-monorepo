@@ -5,15 +5,15 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-from risk_engine.src.core.accountManager import AccountManager
+from risk_engine.src.contracts.core import AccountManager
 from risk_engine.src.evm.block import Block
-from risk_engine.src.core.feeManager import FeeManager
-from risk_engine.src.core.collateralModule import CollateralModule
-from risk_engine.src.core.liquidationModule import LiquidationModule
-from risk_engine.src.instruments.dated_irs.datedIRSMarket import DatedIRSMarket
-from risk_engine.src.instruments.dated_irs.marketManager import MarketManager
-from risk_engine.src.oracles.oracle import Oracle
-from risk_engine.src.exchanges.vamm.datedIRSVAMMExchange import DatedIRSVAMMExchange
+from risk_engine.src.contracts.core.feeManager import FeeManager
+from risk_engine.src.contracts.core.collateralModule import CollateralModule
+from risk_engine.src.contracts.core.liquidationModule import LiquidationModule
+from risk_engine.src.contracts.instruments.dated_irs.datedIRSMarket import DatedIRSMarket
+from risk_engine.src.contracts.instruments.dated_irs import MarketManager
+from risk_engine.src.contracts.oracles import Oracle
+from risk_engine.src.contracts.exchanges.vamm.datedIRSVAMMExchange import DatedIRSVAMMExchange
 
 
 """

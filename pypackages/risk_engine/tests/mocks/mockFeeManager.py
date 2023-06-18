@@ -1,6 +1,6 @@
 from unittest.mock import Mock
 
-from risk_engine.src.core.feeManager import FeeManager
+from risk_engine.src.contracts.core.feeManager import FeeManager
 
 
 class MockFeeManager(FeeManager):

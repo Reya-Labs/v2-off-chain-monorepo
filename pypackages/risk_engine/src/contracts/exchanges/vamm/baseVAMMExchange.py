@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from risk_engine.src.exchanges.vamm.vamm import VAMM
+from risk_engine.src.contracts.exchanges.vamm.vamm import VAMM
 
 
 class BaseVAMMExchange(VAMM):

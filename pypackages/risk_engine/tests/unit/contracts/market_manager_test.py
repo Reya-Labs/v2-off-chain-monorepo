@@ -1,6 +1,6 @@
 import unittest
 
-from risk_engine.src.instruments.dated_irs.marketManager import MarketManager
+from risk_engine.src.contracts.instruments.dated_irs import MarketManager
 from risk_engine.tests.mocks.mockMarket import MockMarket
 
 

@@ -1,6 +1,6 @@
 import unittest
 
-from risk_engine.src.core.accountManager import AccountManager
+from risk_engine.src.contracts.core import AccountManager
 from risk_engine.tests.mocks.mockMarketManager import MockMarketManager
 
 

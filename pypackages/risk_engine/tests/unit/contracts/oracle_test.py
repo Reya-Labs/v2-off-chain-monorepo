@@ -5,7 +5,7 @@ from risk_engine.src.evm.block import (
     POS_SECONDS_PER_BLOCK,
     Block,
 )
-from risk_engine.src.oracles.oracle import Oracle
+from risk_engine.src.contracts.oracles import Oracle
 
 
 class TestAccountManager(unittest.TestCase):
