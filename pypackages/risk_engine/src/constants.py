@@ -52,4 +52,4 @@ MOCK_ORACLE_MAP = {
     "dated_irs_ausdc_borrow_liquidity_index": "mock_ausdc_borrow_rate.csv",
 }
 
-DEFAULT_APY_LOOKBACK_IN_SECONDS = 24 * 60 * 60
+DEFAULT_APY_LOOKBACK_IN_DAYS = 1

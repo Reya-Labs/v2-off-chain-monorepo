@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from risk_engine.src.constants import YEAR_IN_SECONDS
+from risk_engine.src.oracle_simulator.utils.resampleLiquidityIndex import resample_liquidity_index
 
 def apy(previous, current, dt):
     """
@@ -12,20 +13,18 @@ def apy(previous, current, dt):
     apy = (1 + rate) ** periods_per_year - 1  # annualize rate
     return apy
 
-def liquidity_index_series_to_apy_series(liquidity_index: pd.Series, timestamps: pd.Series, lookback_in_seconds: int) -> pd.Series:
+def liquidity_index_to_apy_series(liquidity_index_df: pd.DataFrame, lookback_in_days: int) -> pd.Series:
+    '''
+    Shape of expected input, note liquidity index is resampled to be daily and descaled
+                             liquidityIndex
+    2023-02-16 03:11:49        1.009907
+    2023-02-17 03:11:49        1.009935
+    '''
 
-    liquidity_index_scaled: pd.Series = liquidity_index.astype(float) / 10 ** 27
 
-    # Then, compute differences in timestamps
-    timestamp_diffs = timestamps.diff()
+    liquidity_index_df.loc[:, 'liquidityIndexLagged'] = liquidity_index_df.loc[:, 'liquidityIndex'].shift(lookback_in_days, fill_value=np.nan)
+    liquidity_index_df.loc[:, 'return'] = liquidity_index_df.loc[:, "liquidityIndex"].div(liquidity_index_df.loc[:, "liquidityIndexLagged"]) - 1
 
-    # Create a new DataFrame to hold liquidity index and timestamp differences
-    df = pd.DataFrame({
-        'liquidity_index': liquidity_index_scaled,
-        'timestamp_diff': timestamp_diffs
-    })
+    apy = ((1+liquidity_index_df.loc[:, 'return']) ** 365) - 1
 
-    # Use the rolling window function to calculate APY for each window
-    apy_series = df.rolling(window=lookback_in_seconds, min_periods=1).apply(lambda window: apy(window['liquidity_index'].iloc[0], window['liquidity_index'].iloc[-1], window['timestamp_diff'].sum()), raw=True)
-
-    return apy_series
+    return apy
