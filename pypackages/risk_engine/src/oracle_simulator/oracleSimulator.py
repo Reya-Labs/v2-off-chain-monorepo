@@ -11,7 +11,7 @@ from arch.bootstrap import (
     optimal_block_length,
 )
 
-from risk_engine.src.constants import YEAR_IN_SECONDS, DAY_IN_SECONDS
+from risk_engine.src.constants import DAY_IN_SECONDS
 
 
 @dataclass
@@ -39,35 +39,6 @@ class OracleSimulator:
         self.market_vol_parameters = market_vol_parameters
         self.data_name = self.market_name
         self.maturity = maturity
-
-    def get_oracle_data(self, oracle_map: dict) -> pd.DataFrame:
-        oracle = None
-        if self.market_name not in oracle_map.keys():
-            raise Exception("Oracle data cannot be found. Please check market name.")
-
-        oracle_call = oracle_map[self.market_name]
-        if oracle_call.split(".")[-1] == "csv":
-            oracle = pd.read_csv(oracle_call)
-        else:
-            raise Exception("CSV format not correctly provided. Please investigated.")
-        if oracle is None:
-            raise Exception("Oracle data not correctly called. Please investigate.")
-        # Oracle column naming conventions
-        market = "liquidityIndex" if "liquidityIndex" in oracle.columns else "price"
-        oracle.rename(columns={market: self.market_name}, inplace=True)
-
-        if self.maturity is not None:
-            pool_start = oracle.iloc[-1]["timestamp"] - self.maturity * DAY_IN_SECONDS
-            oracle = oracle.loc[oracle["timestamp"] > pool_start]
-        return oracle
-
-
-
-    def rate_to_index(self, oracle: pd.DataFrame, name: str) -> pd.DataFrame:
-        if name not in oracle.columns:
-            raise Exception("Error -- no rate column to calculated index from. Please investigate.")
-        oracle.loc[:, "liquidity_index"] = self.cumprod(1 + oracle.loc[:, name] / 365)
-        return oracle
 
     def perform_block_bootstap(
         self, oracle: pd.DataFrame, n_replicates: int = 100, circular: bool = False

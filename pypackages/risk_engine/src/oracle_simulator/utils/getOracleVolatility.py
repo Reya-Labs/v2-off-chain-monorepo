@@ -2,7 +2,7 @@ import numpy as np
 from pandas import Series
 from risk_engine.src.constants import YEAR_IN_SECONDS
 
-def get_apy_volatility(
+def get_oracle_volatility(
         apy: Series, timestamps: Series
 ) -> float:
     return apy.std() * np.sqrt(
