@@ -228,13 +228,17 @@ class MarginRequirements:
         lp_liquidation_threshold: list[float] = []
         lp_safety_threshold: list[float] = []
         lp_uPnL: list[float] = []
+        lp_margin: list[float] = []
         trader_liquidation_threshold: list[float] = []
         trader_safety_threshold: list[float] = []
         trader_uPnL: list[float] = []
+        trader_margin: list[float] = []
 
         while self.current_observation_index + 1 < len(self.observations):
             alice_st, alice_lt = self.liquidation_module.get_account_margin_requirements(account_id="alice", account_manager=self.account_manager)
             bob_st, bob_lt = self.liquidation_module.get_account_margin_requirements(account_id="bob", account_manager=self.account_manager)
+            alice_collateral_balance = self.collateral_module.get_account_collateral_balance(account_id="alice")
+            bob_collateral_balance = self.collateral_module.get_account_collateral_balance(account_id='bob')
 
             alice_uPnL = self.account_manager.get_account(account_id="alice").get_account_unrealized_pnl()
             bob_uPnL = self.account_manager.get_account(account_id="bob").get_account_unrealized_pnl()
@@ -243,9 +247,11 @@ class MarginRequirements:
             lp_liquidation_threshold.append(alice_lt)
             lp_safety_threshold.append(alice_st)
             lp_uPnL.append(alice_uPnL)
+            lp_margin.append(alice_collateral_balance)
             trader_liquidation_threshold.append(bob_lt)
             trader_safety_threshold.append(bob_st)
             trader_uPnL.append(bob_uPnL)
+            trader_margin.append(bob_collateral_balance)
 
             # System: Advance 1 day
             self.advance_to_next_observation()
@@ -255,9 +261,11 @@ class MarginRequirements:
         output["lp_liquidation_threshold"] = lp_liquidation_threshold
         output["lp_safety_threshold"] = lp_safety_threshold
         output["lp_uPnL"] = lp_uPnL
+        output["lp_margin"] = lp_margin
         output["trader_liquidation_threshold"] = trader_liquidation_threshold
         output["trader_safety_threshold"] = trader_safety_threshold
         output["trader_uPnL"] = trader_uPnL
+        output["trader_margin"] = trader_margin
 
         return output
 
