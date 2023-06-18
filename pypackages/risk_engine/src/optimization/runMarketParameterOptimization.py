@@ -5,8 +5,6 @@ from optuna.trial import FrozenTrial
 from risk_engine.src.optimization.optunaObjective import optuna_objective
 import json
 
-
-
 def add_parser_arguments(parser):
     parser.add_argument(
         "-n_trials", "--n_trials", type=float, help="Number of optimization trials", default=2
@@ -28,6 +26,8 @@ def add_parser_arguments(parser):
                         default=0.005)
 
     parameters = parser.parse_args()
+
+    # package parameters
 
     return parameters
 
