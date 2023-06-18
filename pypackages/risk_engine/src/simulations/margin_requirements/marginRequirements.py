@@ -69,7 +69,8 @@ class MarginRequirements:
         for i in range(len(timestamps)):
             self.observations.append([timestamps[i], indices[i]])
 
-        self.pool_irs_maturity = self.observations[-1][0]
+        # using the penultimate row as the maturity
+        self.pool_irs_maturity = self.observations[-2][0]
 
         # Build the infrastructure
         self.oracle = Oracle(block=self.block, initial_observations=[])
