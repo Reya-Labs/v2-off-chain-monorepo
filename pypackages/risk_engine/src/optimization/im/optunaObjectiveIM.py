@@ -10,7 +10,7 @@ from risk_engine.src.optimization.configurations import IMOptimizationConfigurat
 
 def optuna_objective_im(im_parameter_optimization_config: IMOptimizationConfiguration, trial: Trial) -> ndarray:
     optuna.logging.set_verbosity(optuna.logging.DEBUG)
-    im_multiplier_trial = trial.suggest_float("risk_parameter", 1.1, 1.5, log=True)
+    im_multiplier_trial = trial.suggest_float("im_multiplier", 1.1, 1.5, log=True)
 
     # todo: dynamically produce rescaled version of dataset
     rate_oracle_dfs: list[pd.DataFrame] = [pd.read_csv(im_parameter_optimization_config.rate_oracle_data_dir + im_parameter_optimization_config.dated_irs_market_configuration.market_name + ".csv")]

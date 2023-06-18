@@ -6,7 +6,7 @@ from risk_engine.src.optimization.im.objectiveFunctionIM import objective_functi
 from risk_engine.src.optimization.configurations import ProtocolRiskConfiguration, MarketRiskConfiguration, LiquidationConfiguration, MarketFeeConfiguration, DatedIRSMarketConfiguration, VAMMConfiguration
 
 
-def calculate_objective(
+def calculate_objective_im(
         apy: Series,
         timestamps: Series,
         liquidity_indicies: Series,
@@ -42,7 +42,7 @@ def calculate_objective(
     # todo: is there a way to define a pandas schema as a typing
     output: pd.DataFrame = simulation.run(output_folder=simulation_folder)
 
-    objective = objective_function(
+    objective = objective_function_im(
         lp_liquidation_threshold=output["lp_liquidation_threshold"],
         trader_liquidation_threshold=output["trader_liquidation_threshold"],
         lp_unrealized_pnl=output["lp_uPnL"],
