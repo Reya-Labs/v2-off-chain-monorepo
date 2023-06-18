@@ -1,5 +1,4 @@
 import pandas as pd
-from risk_engine.src.constants import DEFAULT_ACCEPTABLE_LEVERAGE_THRESHOLD
 from risk_engine.src.optimization.calculateObjective import calculate_objective
 import numpy as np
 from numpy import ndarray
