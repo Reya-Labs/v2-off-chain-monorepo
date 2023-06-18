@@ -3,31 +3,50 @@ from optuna import Study
 import os
 from optuna.trial import FrozenTrial
 from risk_engine.src.optimization.optunaObjective import optuna_objective
+from risk_engine.src.optimization.configurations import RiskConfiguration, MarketFeeConfiguration, DatedIRSMarketConfiguration, VAMMConfiguration, MarketParameterOptimizationConfiguration
 import json
 
 def add_parser_arguments(parser):
-    parser.add_argument(
-        "-n_trials", "--n_trials", type=float, help="Number of optimization trials", default=2
-    )
-    parser.add_argument("-slippage_beta", "--slippage_beta", type=float, help="Slippage Beta", default=0.01)
-    parser.add_argument("-slippage_phi", "--slippage_phi", type=float, help="Slippage Phi", default=0.01)
-    parser.add_argument("-acceptable_leverage_threshold", "--acceptable_leverage_threshold", type=float, help="Acceptable Leverage Threshold", default=20.0)
+
+    # rate oracle data directory
+    parser.add_argument("-rate_oracle_data_dir", "--rate_oracle_data_dir", type=str, help="Rate Oracle CSV Data Directory")
+
+    # risk parameters
+    parser.add_argument("-liquidator_reward", "--liquidator_reward", type=float, help="Liquidator Reward Parameter",
+                        default=0.03)
+    parser.add_argument("-im_multiplier", "--im_multiplier", type=float, help="Initial Margin Multiplier",
+                        default=1.5)
+
+    # market fee configuration
     parser.add_argument("-lambda_taker", "--lambda_taker", type=float, help="Taker fee", default=0.01)
     parser.add_argument("-lambda_maker", "--lambda_maker", type=float, help="Maker fee", default=0.005)
-    parser.add_argument("-spread", "--spread", type=float, help="LP spread", default=0.01)
-    parser.add_argument("-oracle_data_dir", "--oracle_data_dir", type=str, help="Rate Oracle CSV Data Directory")
+
+    # dated irs market configuration
     parser.add_argument(
-        "-market_name", "--market_name", type=str, help="Name of market", default="irs_usdc"
+        "-market_name", "--market_name", type=str, help="Name of market", default="dated_irs_ausdc_borrow"
     )
     parser.add_argument(
         "-collateral_token_name", "--collateral_token_name", type=str, help="Collateral Token Nam", default="USDC"
     )
-    parser.add_argument("-liquidator_reward", "--liquidator_reward", type=float, help="Liquidator Reward Parameter",
-                        default=0.005)
+
+    # vamm configuration
+    parser.add_argument("-slippage_beta", "--slippage_beta", type=float, help="Slippage Beta", default=0.01)
+    parser.add_argument("-slippage_phi", "--slippage_phi", type=float, help="Slippage Phi", default=0.01)
+    parser.add_argument("-spread", "--spread", type=float, help="LP spread", default=0.01)
+
+    # market parameter optimization configuration
+    parser.add_argument(
+        "-n_trials", "--n_trials", type=float, help="Number of optimization trials", default=2
+    )
+    parser.add_argument("-acceptable_leverage_threshold", "--acceptable_leverage_threshold", type=float,
+                        help="Acceptable Leverage Threshold", default=20.0)
+
 
     parameters = parser.parse_args()
 
-    # package parameters
+    risk_configuration: RiskConfiguration = RiskConfiguration(
+
+    )
 
     return parameters
 

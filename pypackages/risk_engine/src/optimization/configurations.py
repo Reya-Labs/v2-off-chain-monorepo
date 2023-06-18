@@ -3,16 +3,16 @@ from risk_engine.src.slippage.slippageModelParameters import SlippageModelParame
 
 @dataclass
 class ProtocolRiskConfiguration:
-
     im_multiplier: float
-    liquidator_reward_parameter: float
 
 @dataclass
 class MarketRiskConfiguration:
-
     risk_parameter: float
-    # todo: consider lowering granularity to seconds/hours
     twapLookbackWindowInDays: float
+
+@dataclass
+class LiquidationConfiguration:
+    liquidator_reward_parameter: float
 
 @dataclass
 class MarketFeeConfiguration:
@@ -36,10 +36,18 @@ class MarketParameterOptimizationConfiguration:
 
     number_of_optuna_trials: int
     min_acceptable_leverage: float
-
+    liquidation_configuration: LiquidationConfiguration
+    protocol_risk_configuration: ProtocolRiskConfiguration
+    market_fee_configuration: MarketFeeConfiguration
+    dated_irs_market_configuration: DatedIRSMarketConfiguration
+    vamm_configuration: VAMMConfiguration
 
 @dataclass
 class IMOptimizationConfiguration:
-
     number_of_optuna_trials: int
     min_acceptable_leverage: float
+    liquidation_configuration: LiquidationConfiguration
+    market_risk_configuration: MarketRiskConfiguration
+    market_fee_configuration: MarketFeeConfiguration
+    dated_irs_market_configuration: DatedIRSMarketConfiguration
+    vamm_configuration: VAMMConfiguration
