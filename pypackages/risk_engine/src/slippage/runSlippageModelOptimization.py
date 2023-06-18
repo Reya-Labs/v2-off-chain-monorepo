@@ -2,6 +2,7 @@ from risk_engine.src.slippage.slippageModelParameters import SlippageModelParame
 from pandas import Series
 from sklearn.linear_model import LinearRegression
 import math
+import numpy as np
 
 def run_slippage_model_optimization(
     slippage: Series,
@@ -20,8 +21,8 @@ def run_slippage_model_optimization(
     log(slippage) = log(phi) + beta * log(notional)
     '''
 
-    log_slippage = slippage.log()
-    log_notional = notional.log()
+    log_slippage: np.ndarray = np.log(slippage)
+    log_notional: np.ndarray = np.log(notional)
 
     linear_model = LinearRegression().fit(log_notional, log_slippage)
     estimated_beta = linear_model.coef_
