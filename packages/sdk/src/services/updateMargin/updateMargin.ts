@@ -2,8 +2,8 @@ import { BigNumber, ContractReceipt } from 'ethers';
 import { estimateGas, executeTransaction } from '../executeTransaction';
 import { encodeUpdateMargin } from './encode';
 import { UpdateMarginArgs, UpdateMarginParams } from './types';
-import { scale } from '@voltz-protocol/commons-v2';
 import { getPositionInfo } from '../../gateway/getPositionInfo';
+import { scale } from '../../utils/helpers';
 
 export async function updateMargin({
   positionId,
@@ -15,7 +15,7 @@ export async function updateMargin({
   const chainId = await signer.getChainId();
 
   if (partialOrder.chainId !== chainId) {
-    throw new Error("Chain id mismatch between pool and signer");
+    throw new Error('Chain id mismatch between pool and signer');
   }
 
   const order: UpdateMarginParams = {
@@ -41,7 +41,7 @@ export async function estimateUpdateMarginGasUnits({
 
   const chainId = await signer.getChainId();
   if (partialOrder.chainId !== chainId) {
-    throw new Error("Chain id mismatch between pool and signer");
+    throw new Error('Chain id mismatch between pool and signer');
   }
 
   const order: UpdateMarginParams = {

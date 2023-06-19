@@ -51,21 +51,24 @@ export const encodeSingleMakerOrder = (
   liquidityDelta: BigNumber,
   multiAction: MultiAction,
 ) => {
-  const { closestUsableTick: tickUpper } =
+  const { closestUsableTick: tickFromLower } =
     closestTickAndFixedRate(fixedRateLower);
-  const sqrtPriceLowerX96 = TickMath.getSqrtRatioAtTick(tickUpper).toString();
 
-  const { closestUsableTick: tickLower } =
+  const { closestUsableTick: tickFromUpper } =
     closestTickAndFixedRate(fixedRateUpper);
-  const sqrtPriceUpperX96 = TickMath.getSqrtRatioAtTick(tickLower).toString();
+
+  const { tickLower, tickUpper } =
+    tickFromLower < tickFromUpper
+      ? { tickLower: tickFromLower, tickUpper: tickFromUpper }
+      : { tickLower: tickFromUpper, tickUpper: tickFromLower };
 
   multiAction.newAction(
     getCommand(CommandType.V2_VAMM_EXCHANGE_LP, [
       accountId,
       marketId,
       maturityTimestamp,
-      sqrtPriceLowerX96,
-      sqrtPriceUpperX96,
+      tickLower,
+      tickUpper,
       liquidityDelta,
     ]),
   );

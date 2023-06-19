@@ -9,6 +9,7 @@ import {
 import { BigNumber, Bytes, ethers } from 'ethers';
 import { Deferrable } from 'ethers/lib/utils';
 import { MockProvider } from './MockProvider';
+import { ZERO_BN } from '../../src/utils/constants';
 
 export class MockSigner extends Signer {
   readonly provider?: Provider;
@@ -65,7 +66,8 @@ export class MockSigner extends Signer {
   async estimateGas(
     transaction: Deferrable<TransactionRequest>,
   ): Promise<BigNumber> {
-    return Promise.resolve(BigNumber.from(10));
+    const providerEstimate = await this.provider?.estimateGas(transaction);
+    return providerEstimate ?? ZERO_BN;
   }
 
   public setFunctionOutputData(output: string) {

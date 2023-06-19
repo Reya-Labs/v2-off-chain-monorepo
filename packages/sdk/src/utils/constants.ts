@@ -7,3 +7,5 @@ export const WAD = BigNumber.from(10).pow(18);
 export const RAY = BigNumber.from(10).pow(27);
 
 export const VERY_BIG_NUMBER = WAD.mul(WAD);
+
+export const SECONDS_IN_YEAR = 60 * 60 * 24 * 365;

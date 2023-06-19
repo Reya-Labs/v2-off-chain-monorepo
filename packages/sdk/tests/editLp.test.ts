@@ -1,21 +1,19 @@
 import { before, describe, it } from 'mocha';
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { encodeSwap } from '../src/services/swap/encode';
-import * as encode from '../src/services/swap/encode';
+import { encodeLp } from '../src/services/lp/encode';
+import { simulateEditLp, editLp } from '../src/services/editLp/editLp';
+import * as encode from '../src/services/lp/encode';
 import * as getPositionInfoFile from '../src/gateway/getPositionInfo';
-import * as constants from '../src/utils/constants';
 import { MockSigner } from './utils/MockSigner';
 import { BigNumber } from 'ethers';
-import {
-  SwapPeripheryParameters,
-  SwapUserInputs,
-} from '../src/services/swap/types';
-import { defaultAbiCoder } from 'ethers/lib/utils';
+import { EditLpPeripheryParameters } from '../src/services/editLp/types';
 import { PoolConfig, PoolInfo, PositionInfo } from '../src/gateway/types';
-import { simulateEditSwap, editSwap } from '../src/services/editSwap/editSwap';
+import { defaultAbiCoder } from 'ethers/lib/utils';
+import { LpUserInputs } from '../src/services/lp';
+import { SECONDS_IN_YEAR } from '../src/utils/constants';
 
-describe('edit swap', async () => {
+describe('edit makers', async () => {
   let mockSigner: MockSigner;
   let poolConfig: PoolConfig;
 
@@ -23,8 +21,7 @@ describe('edit swap', async () => {
     mockSigner = new MockSigner(1); // the args will be overwritten by stub above
     poolConfig = {
       productAddress: '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9',
-      maturityTimestamp:
-        Math.round(Date.now() / 1000) + constants.SECONDS_IN_YEAR,
+      maturityTimestamp: Math.round(Date.now() / 1000) + SECONDS_IN_YEAR,
       marketId: '1898738',
       quoteTokenAddress: '0x2f3a40a3db8a7e3d09b0adfefbce4f6f81927557',
       quoteTokenDecimals: 6,
@@ -33,11 +30,17 @@ describe('edit swap', async () => {
     };
   });
 
-  it('edit swap test', async () => {
-    const swapUserInputs: SwapUserInputs = {
+  it('edit lp test', async () => {
+    const ammId = '1234';
+    const positionId = '1_1738838';
+    const accountId = '1738838';
+
+    const lpUserInputs: LpUserInputs = {
       owner: mockSigner,
-      baseAmount: BigNumber.from(9990009990),
+      liquidityAmount: BigNumber.from(44191932505),
       margin: BigNumber.from(10000000),
+      fixedLow: 1,
+      fixedHigh: 1.5, // closest rate = 1.053776
     };
 
     const poolInfo: PoolInfo = {
@@ -49,33 +52,32 @@ describe('edit swap', async () => {
     const positionInfo: PositionInfo = {
       ...poolInfo,
       positionMargin: 30,
-      accountId: '19083',
-      fixedRateLower: 0,
-      fixedRateUpper: 0,
+      accountId: accountId,
+      fixedRateLower: 1,
+      fixedRateUpper: 1.5,
     };
 
-    const swapPeripheryParams: SwapPeripheryParameters = {
+    const lpPeripheryParams: EditLpPeripheryParameters = {
       ...positionInfo,
-      ...swapUserInputs,
-      fixedRateLimit: constants.ZERO_BN,
+      ...lpUserInputs,
     };
 
-    const expectedResult = await encodeSwap(swapPeripheryParams);
+    const expectedResult = await encodeLp(lpPeripheryParams);
 
     const getPositionInfoMock = sinon.mock(getPositionInfoFile);
     getPositionInfoMock
       .expects('getPositionInfo')
-      .withArgs('1_19083')
+      .withArgs(positionId)
       .returns(positionInfo);
 
     const encodeMock = sinon.mock(encode);
     encodeMock
-      .expects('encodeSwap')
-      .withArgs(swapPeripheryParams)
+      .expects('encodeLp')
+      .withArgs(lpPeripheryParams)
       .returns(expectedResult);
 
-    await editSwap({
-      positionId: '1_19083',
+    await editLp({
+      positionId: positionId,
       signer: mockSigner,
       notional: 10000,
       margin: 10,
@@ -87,14 +89,17 @@ describe('edit swap', async () => {
     getPositionInfoMock.restore();
   });
 
-  it('infoPostEditSwap test', async () => {
-    const accountId = '19083';
-    const positionId = '1_19083';
+  it('infoPostEditLp test', async () => {
+    const ammId = '1234';
+    const positionId = '1_1738838';
+    const accountId = '1738838';
 
-    const swapUserInputs: SwapUserInputs = {
+    const lpUserInputs: LpUserInputs = {
       owner: mockSigner,
-      baseAmount: BigNumber.from(9990009990),
+      liquidityAmount: BigNumber.from(44191932505),
       margin: BigNumber.from(10000000),
+      fixedLow: 1,
+      fixedHigh: 1.5, // closest rate = 1.053776
     };
 
     const poolInfo: PoolInfo = {
@@ -105,19 +110,18 @@ describe('edit swap', async () => {
 
     const positionInfo: PositionInfo = {
       ...poolInfo,
-      positionMargin: 50,
+      positionMargin: 30,
       accountId: accountId,
-      fixedRateLower: 0,
-      fixedRateUpper: 0,
+      fixedRateLower: 1,
+      fixedRateUpper: 1.5,
     };
 
-    const swapPeripheryParams = {
+    const lpPeripheryParams: EditLpPeripheryParameters = {
       ...positionInfo,
-      ...swapUserInputs,
-      fixedRateLimit: constants.ZERO_BN,
+      ...lpUserInputs,
     };
 
-    const expectedResult = await encodeSwap(swapPeripheryParams);
+    const expectedResult = await encodeLp(lpPeripheryParams);
 
     const getPositionInfoMock = sinon.mock(getPositionInfoFile);
     getPositionInfoMock
@@ -127,28 +131,20 @@ describe('edit swap', async () => {
 
     const encodeMock = sinon.mock(encode);
     encodeMock
-      .expects('encodeSwap')
-      .withArgs(swapPeripheryParams)
-      .onFirstCall()
-      .returns(expectedResult);
-    encodeMock
-      .expects('encodeSwap')
-      .withArgs({
-        ...swapPeripheryParams,
-        baseAmount: constants.VERY_BIG_NUMBER,
-      })
+      .expects('encodeLp')
+      .withArgs(lpPeripheryParams)
       .onFirstCall()
       .returns(expectedResult);
 
-    const encodedSwapOutput = defaultAbiCoder.encode(
-      ['int256', 'int256', 'uint256', 'uint256', 'int24'],
-      ['500000000', '-500000000', '20000000', '30000000', 660],
+    const encodedLpOutput = defaultAbiCoder.encode(
+      ['uint256', 'uint256'],
+      ['20', '3000000'],
     );
-    const array: string[] = [encodedSwapOutput];
+    const array: string[] = [encodedLpOutput];
     const simulationOutput = defaultAbiCoder.encode([`bytes[]`], [array]);
     mockSigner.setFunctionOutputData(simulationOutput);
 
-    const result = await simulateEditSwap({
+    const result = await simulateEditLp({
       positionId: positionId,
       signer: mockSigner,
       notional: 10000,
@@ -160,14 +156,8 @@ describe('edit swap', async () => {
     encodeMock.restore();
     getPositionInfoMock.restore();
 
-    assert.equal(result.marginRequirement, 30);
-    assert.equal(result.maxMarginWithdrawable, 20);
-    assert.equal(result.availableNotional, 500.5);
-    assert.equal(result.fee, 20);
-    assert.equal(result.slippage.toFixed(3), '0.074');
-    assert.equal(result.averageFixedRate.toFixed(3), '199.900');
-    assert.equal(result.fixedTokenDeltaBalance, -500);
-    assert.equal(result.variableTokenDeltaBalance, 500);
-    assert.equal(result.fixedTokenDeltaUnbalanced, -500);
+    assert.equal(result.marginRequirement, 3);
+    assert.equal(result.maxMarginWithdrawable, 27);
+    assert.equal(result.fee, 0.00002);
   });
 });

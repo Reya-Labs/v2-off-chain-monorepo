@@ -27,6 +27,6 @@ export class MockProvider extends BaseProvider {
   }
 
   getGasPrice(): Promise<BigNumber> {
-    return Promise.resolve(BigNumber.from(1000));
+    return Promise.resolve(BigNumber.from(2).mul(BigNumber.from(10).pow(14))); // 0.0002
   }
 }

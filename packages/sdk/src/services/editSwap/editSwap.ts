@@ -10,10 +10,10 @@ import {
   EditSwapArgs,
   EditSwapPeripheryParameters,
 } from './types';
-import { scale } from '@voltz-protocol/commons-v2';
 import {
   baseAmountToNotionalBN,
   notionalToBaseAmount,
+  scale,
 } from '../../utils/helpers';
 import { VERY_BIG_NUMBER, ZERO_BN } from '../../utils/constants';
 import { fixedRateToPrice } from '../../utils/math/tickHelpers';
@@ -165,7 +165,7 @@ async function getEditSwapTxData(params: CompleteEditSwapDetails): Promise<{
   const chainId = await params.owner.getChainId();
 
   if (params.chainId !== chainId) {
-    throw new Error("Chain id mismatch between pool and signer");
+    throw new Error('Chain id mismatch between pool and signer');
   }
 
   const swapPeripheryParams: EditSwapPeripheryParameters = {

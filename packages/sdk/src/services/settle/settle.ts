@@ -7,7 +7,7 @@ import {
 } from '@voltz-protocol/sdk-v1-stateless';
 import { SettleArgs, SettleParameters, SettleSimulationResults } from './types';
 import { getPositionInfo } from '../../gateway/getPositionInfo';
-import { scale } from '@voltz-protocol/commons-v2';
+import { scale } from '../../utils/helpers';
 
 export async function settle({
   positionId,
@@ -19,7 +19,7 @@ export async function settle({
   const chainId = await signer.getChainId();
 
   if (partialOrder.chainId !== chainId) {
-    throw new Error("Chain id mismatch between pool and signer");
+    throw new Error('Chain id mismatch between pool and signer');
   }
 
   const order: SettleParameters = {
@@ -67,7 +67,7 @@ export async function estimateSettleGasUnits({
   const chainId = await signer.getChainId();
 
   if (partialOrder.chainId !== chainId) {
-    throw new Error("Chain id mismatch between pool and signer");
+    throw new Error('Chain id mismatch between pool and signer');
   }
 
   const order: SettleParameters = {

@@ -8,8 +8,7 @@ import {
   getNativeGasToken,
   convertGasUnitsToNativeTokenUnits,
 } from '@voltz-protocol/sdk-v1-stateless';
-import { scale, descale } from '@voltz-protocol/commons-v2';
-import { notionalToLiquidityBN } from '../../utils/helpers';
+import { descale, scale, notionalToLiquidityBN } from '../../utils/helpers';
 import { defaultAbiCoder } from 'ethers/lib/utils';
 import {
   CompleteEditLpDetails,
@@ -163,7 +162,7 @@ async function getLpTxData(params: CompleteEditLpDetails): Promise<{
   const chainId = await params.owner.getChainId();
 
   if (params.chainId !== chainId) {
-    throw new Error("Chain id mismatch between pool and signer");
+    throw new Error('Chain id mismatch between pool and signer');
   }
 
   const swapPeripheryParams: EditLpPeripheryParameters = params;

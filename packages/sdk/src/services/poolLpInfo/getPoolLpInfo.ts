@@ -1,13 +1,13 @@
 import { BigNumber } from 'ethers';
 import { simulateTx } from '../executeTransaction';
 import { createLpParams, decodeLpOutput, getLpTxData } from '../lp';
-import { descale, scale } from '@voltz-protocol/commons-v2';
 import {
   GetLpMaxLeverageArgs,
   GetPoolLpInfoArgs,
   GetPoolLpInfoResults,
 } from './types';
 import { getDummyWallet } from '../../utils/getDummyWallet';
+import { descale, scale } from '../../utils/helpers';
 
 export const getPoolLpInfo = async ({
   ammId,

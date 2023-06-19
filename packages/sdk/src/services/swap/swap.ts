@@ -17,12 +17,18 @@ import {
   SwapPeripheryParameters,
   SwapUserInputs,
 } from './types';
-import { scale, descale, SECONDS_IN_YEAR } from '@voltz-protocol/commons-v2';
 import {
   baseAmountToNotionalBN,
+  descale,
   notionalToBaseAmount,
+  scale,
 } from '../../utils/helpers';
-import { VERY_BIG_NUMBER, WAD, ZERO_BN } from '../../utils/constants';
+import {
+  SECONDS_IN_YEAR,
+  VERY_BIG_NUMBER,
+  WAD,
+  ZERO_BN,
+} from '../../utils/constants';
 import {
   fixedRateToPrice,
   tickToFixedRate,
@@ -280,7 +286,7 @@ export async function getSwapTxData(
   const chainId = await params.owner.getChainId();
 
   if (params.chainId !== chainId) {
-    throw new Error("Chain id mismatch between pool and signer");
+    throw new Error('Chain id mismatch between pool and signer');
   }
 
   const swapPeripheryParams: SwapPeripheryParameters = {

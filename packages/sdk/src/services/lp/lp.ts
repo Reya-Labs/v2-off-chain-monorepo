@@ -8,8 +8,7 @@ import {
   getNativeGasToken,
   convertGasUnitsToNativeTokenUnits,
 } from '@voltz-protocol/sdk-v1-stateless';
-import { scale, descale } from '@voltz-protocol/commons-v2';
-import { notionalToLiquidityBN } from '../../utils/helpers';
+import { notionalToLiquidityBN, scale, descale } from '../../utils/helpers';
 import { defaultAbiCoder } from 'ethers/lib/utils';
 import {
   CompleteLpDetails,
@@ -134,8 +133,8 @@ export async function createLpParams({
 
   const liquidityAmount = notionalToLiquidityBN(
     scale(lpInfo.quoteTokenDecimals)(notional),
-    lpInfo.quoteTokenDecimals,
     fixedLow,
+    fixedHigh,
   );
 
   const params: CompleteLpDetails = {
@@ -175,7 +174,7 @@ export async function getLpTxData(params: CompleteLpDetails): Promise<{
   const chainId = await params.owner.getChainId();
 
   if (params.chainId !== chainId) {
-    throw new Error("Chain id mismatch between pool and signer");
+    throw new Error('Chain id mismatch between pool and signer');
   }
 
   const swapPeripheryParams: LpPeripheryParameters = params;
