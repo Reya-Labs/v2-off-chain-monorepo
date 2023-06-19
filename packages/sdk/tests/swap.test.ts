@@ -55,7 +55,10 @@ describe('takers', async () => {
     const expectedResult = await encodeSwap(swapPeripheryParams);
 
     const getPoolInfoMock = sinon.mock(getPoolInfoFile);
-    getPoolInfoMock.expects('getPoolInfo').withArgs('1234').returns(poolInfo);
+    getPoolInfoMock
+      .expects('getPoolInfo')
+      .withArgs('1234', 1)
+      .returns(poolInfo);
 
     const encodeMock = sinon.mock(encode);
     encodeMock
@@ -98,7 +101,10 @@ describe('takers', async () => {
     const expectedResult = await encodeSwap(swapPeripheryParams);
 
     const getPoolInfoMock = sinon.mock(getPoolInfoFile);
-    getPoolInfoMock.expects('getPoolInfo').withArgs('1234').returns(poolInfo);
+    getPoolInfoMock
+      .expects('getPoolInfo')
+      .withArgs('1234', 1)
+      .returns(poolInfo);
 
     const encodeMock = sinon.mock(encode);
     encodeMock

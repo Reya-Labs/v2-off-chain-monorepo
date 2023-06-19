@@ -12,7 +12,7 @@ export const getAllowanceToPeriphery = async ({
   }
 
   const chainId = await signer.getChainId();
-  const poolInfo = await getPoolInfo(ammId);
+  const poolInfo = await getPoolInfo(ammId, await signer.getChainId());
 
   if (poolInfo.chainId !== chainId) {
     throw new Error('Chain id mismatch between pool and signer');
