@@ -15,9 +15,9 @@ export const getAllowanceToPeriphery = async ({
   const poolInfo = await getPoolInfo(ammId);
 
   if (poolInfo.chainId !== chainId) {
-    throw new Error("Chain id mismatch between pool and signer");
+    throw new Error('Chain id mismatch between pool and signer');
   }
-  
+
   const walletAddress: string = await signer.getAddress();
 
   if (poolInfo.isETH) {

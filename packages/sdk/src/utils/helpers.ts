@@ -1,8 +1,6 @@
-import { scale } from '@voltz-protocol/commons-v2';
 import md5 from 'crypto-js/md5';
-import { BigNumber } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { RAY } from './constants';
-import { Q96 } from './math/constants';
 import { fixedRateToPrice } from './math/tickHelpers';
 
 type CreateAccountParams = {
@@ -65,5 +63,25 @@ export function notionalToLiquidityBN(
     fixedRateToPrice(fixedRateUpper),
   );
 
-  return notionalAmount.mul(BigNumber.from(Q96)).div(sqrtPriceDelta.abs());
+  return notionalAmount
+    .mul(BigNumber.from(2).pow(96))
+    .div(sqrtPriceDelta.abs());
 }
+
+export const descale = (tokenDecimals: number) => {
+  const f = (value: ethers.BigNumber) => {
+    return Number(ethers.utils.formatUnits(value.toString(), tokenDecimals));
+  };
+
+  return f;
+};
+
+export const scale = (tokenDecimals: number) => {
+  const f = (value: number) => {
+    return ethers.BigNumber.from(
+      ethers.utils.parseUnits(value.toString(), tokenDecimals),
+    );
+  };
+
+  return f;
+};

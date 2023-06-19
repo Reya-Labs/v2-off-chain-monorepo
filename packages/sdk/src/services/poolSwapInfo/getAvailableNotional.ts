@@ -1,9 +1,8 @@
 import { decodeSwapOutput } from '../swap';
 import { MINUS_ONE_BN, VERY_BIG_NUMBER, ZERO_BN } from '../../utils/constants';
 import { simulateTx } from '../executeTransaction';
-import { baseAmountToNotionalBN } from '../../utils/helpers';
+import { baseAmountToNotionalBN, descale } from '../../utils/helpers';
 import { encodeSwap } from '../swap/encode';
-import { descale } from '@voltz-protocol/commons-v2';
 import { GetAvailableNotionalArgs } from './types';
 
 export const getAvailableNotional = async ({

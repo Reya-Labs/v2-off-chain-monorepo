@@ -1,9 +1,9 @@
 import { BigNumber } from 'ethers';
 import { decodeSwapOutput, getSwapTxData } from '../swap';
 import { simulateTx } from '../executeTransaction';
-import { descale, scale } from '@voltz-protocol/commons-v2';
 import { MINUS_ONE_BN, ONE_BN, ZERO_BN } from '../../utils/constants';
 import { GetMaxLeverageArgs } from './types';
+import { descale, scale } from '../../utils/helpers';
 
 export const getMaxLeverage = async ({
   isFT,

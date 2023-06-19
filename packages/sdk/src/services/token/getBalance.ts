@@ -19,7 +19,7 @@ export const getBalance = async ({
 
   const chainId = await signer.getChainId();
   if (poolInfo.chainId !== chainId) {
-    throw new Error("Chain id mismatch between pool and signer");
+    throw new Error('Chain id mismatch between pool and signer');
   }
 
   let currentBalance: number;

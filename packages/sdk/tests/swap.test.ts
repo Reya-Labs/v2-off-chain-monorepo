@@ -13,7 +13,6 @@ import {
   SwapUserInputs,
 } from '../src/services/swap/types';
 import { defaultAbiCoder } from 'ethers/lib/utils';
-import { SECONDS_IN_YEAR } from '@voltz-protocol/commons-v2';
 import { PoolConfig, PoolInfo } from '../src/gateway/types';
 
 describe('takers', async () => {
@@ -24,12 +23,13 @@ describe('takers', async () => {
     mockSigner = new MockSigner(1); // the args will be overwritten by stub above
     poolConfig = {
       productAddress: '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9',
-      maturityTimestamp: Math.round(Date.now() / 1000) + SECONDS_IN_YEAR,
+      maturityTimestamp:
+        Math.round(Date.now() / 1000) + constants.SECONDS_IN_YEAR,
       marketId: '1898738',
       quoteTokenAddress: '0x2f3a40a3db8a7e3d09b0adfefbce4f6f81927557',
       quoteTokenDecimals: 6,
       isETH: false,
-      chainId: 1
+      chainId: 1,
     };
   });
 
@@ -55,10 +55,7 @@ describe('takers', async () => {
     const expectedResult = await encodeSwap(swapPeripheryParams);
 
     const getPoolInfoMock = sinon.mock(getPoolInfoFile);
-    getPoolInfoMock
-      .expects('getPoolInfo')
-      .withArgs('1234')
-      .returns(poolInfo);
+    getPoolInfoMock.expects('getPoolInfo').withArgs('1234').returns(poolInfo);
 
     const encodeMock = sinon.mock(encode);
     encodeMock
@@ -101,10 +98,7 @@ describe('takers', async () => {
     const expectedResult = await encodeSwap(swapPeripheryParams);
 
     const getPoolInfoMock = sinon.mock(getPoolInfoFile);
-    getPoolInfoMock
-      .expects('getPoolInfo')
-      .withArgs('1234')
-      .returns(poolInfo);
+    getPoolInfoMock.expects('getPoolInfo').withArgs('1234').returns(poolInfo);
 
     const encodeMock = sinon.mock(encode);
     encodeMock

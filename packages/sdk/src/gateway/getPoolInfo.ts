@@ -18,6 +18,6 @@ export function mapToPoolInfo(pool: any): PoolInfo {
     isETH: pool.underlyingToken.priceUSD > 1,
     currentLiquidityIndex: pool.currentLiquidityIndex, // e.g. 1.0001
     currentFixedRate: pool.currentFixedRate * 100, // e.g. 3.5 = 3.5%
-    chainId: pool.chainId
+    chainId: pool.chainId,
   };
 }
