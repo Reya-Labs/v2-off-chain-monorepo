@@ -9,7 +9,7 @@ jest.mock('@voltz-protocol/commons-v2', () => ({
   // Keep all the other functionalities as they are
   ...jest.requireActual('@voltz-protocol/commons-v2'),
 
-  getEnvironment: jest.fn(() => 'TESTING'),
+  getEnvironmentV2: jest.fn(() => 'UT'),
 
   getProvider: () => ({
     getBlockNumber: async () => 0,

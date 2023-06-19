@@ -12,7 +12,7 @@ const mapToRateOracleEntry = (row: any): RateOracleEntry => row;
 
 export const pullRateOracleEntries = async (): Promise<RateOracleEntry[]> => {
   const bigQuery = getBigQuery();
-  const tableName = getTableFullName(TableType.markets);
+  const tableName = getTableFullName(TableType.raw_rate_oracle_configured);
 
   const sqlQuery = `SELECT DISTINCT chainId, oracleAddress FROM \`${tableName}\``;
 

@@ -8,7 +8,7 @@ import { getAndPushLiquidityIndex } from './getAndPushLiquidityIndex';
 
 // configuration
 const frequencySeconds = SECONDS_IN_DAY;
-const lookbackWindowSeconds = 30 * SECONDS_IN_DAY;
+const lookbackWindowSeconds = 3 * SECONDS_IN_DAY;
 
 export const backfillRateOracle = async (
   chainId: number,

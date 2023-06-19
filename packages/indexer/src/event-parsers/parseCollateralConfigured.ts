@@ -18,14 +18,14 @@ export const parseCollateralConfigured = (
   const type = ProtocolEventType.collateral_configured;
 
   // 2. Parse particular args
-  const depositingEnabled = event.args?.depositingEnabled as boolean;
-  const tokenAddress = event.args?.tokenAddress as string;
+  const depositingEnabled = event.args?.config.depositingEnabled as boolean;
+  const tokenAddress = event.args?.config.tokenAddress as string;
   const { tokenDescaler, tokenDecimals } = getTokenDetails(tokenAddress);
   const liquidationBooster = tokenDescaler(
-    event.args?.liquidationBooster as BigNumber,
+    event.args?.config.liquidationBooster as BigNumber,
   );
   const cap = ethers.utils.formatUnits(
-    (event.args?.cap as BigNumber).toString(),
+    (event.args?.config.cap as BigNumber).toString(),
     tokenDecimals,
   );
 

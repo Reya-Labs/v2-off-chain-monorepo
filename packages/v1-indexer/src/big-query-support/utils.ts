@@ -3,7 +3,7 @@ import {
   BigQueryInt,
   BigQueryTimestamp,
 } from '@google-cloud/bigquery';
-import { getEnvironment } from '@voltz-protocol/commons-v2';
+import { getEnvironmentV1 } from '@voltz-protocol/commons-v2';
 import { PROJECT_ID, getBigQuery } from '../global';
 
 export enum TableType {
@@ -15,7 +15,7 @@ export enum TableType {
 }
 
 export const getProtocolV1DatasetName = (): string => {
-  const tag = getEnvironment();
+  const tag = getEnvironmentV1();
   return `${tag}_protocol_dated_irs_v1`;
 };
 
