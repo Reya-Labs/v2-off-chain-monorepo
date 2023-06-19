@@ -163,6 +163,11 @@ async function getEditSwapTxData(params: CompleteEditSwapDetails): Promise<{
   chainId: number;
 }> {
   const chainId = await params.owner.getChainId();
+
+  if (params.chainId !== chainId) {
+    throw new Error("Chain id mismatch between pool and signer");
+  }
+
   const swapPeripheryParams: EditSwapPeripheryParameters = {
     ...params,
     fixedRateLimit:

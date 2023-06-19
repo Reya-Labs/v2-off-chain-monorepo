@@ -7,8 +7,8 @@ export class MockProvider extends BaseProvider {
   // Network
   public getNetwork(): Promise<Network> {
     return Promise.resolve({
-      name: 'test',
-      chainId: 5,
+      name: this._network.name,
+      chainId: this._network.chainId,
     });
   }
 

@@ -248,7 +248,7 @@ export async function processInfoPostSwap(
   const averageFixedRateInWad = availableNotionalRaw.eq(ZERO_BN)
     ? ZERO_BN
     : fixedRateTillMaturityInWad.mul(WAD).div(yearsTillMaturityinWad);
-  const averageFixedRate = descale(18)(averageFixedRateInWad);
+  const averageFixedRate = descale(18)(averageFixedRateInWad) * 100;
 
   return {
     marginRequirement: marginRequirement,
@@ -278,6 +278,11 @@ export async function getSwapTxData(
   chainId: number;
 }> {
   const chainId = await params.owner.getChainId();
+
+  if (params.chainId !== chainId) {
+    throw new Error("Chain id mismatch between pool and signer");
+  }
+
   const swapPeripheryParams: SwapPeripheryParameters = {
     ...params,
     fixedRateLimit:

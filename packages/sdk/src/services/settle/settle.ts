@@ -18,6 +18,10 @@ export async function settle({
 
   const chainId = await signer.getChainId();
 
+  if (partialOrder.chainId !== chainId) {
+    throw new Error("Chain id mismatch between pool and signer");
+  }
+
   const order: SettleParameters = {
     ...partialOrder,
     margin: scale(partialOrder.quoteTokenDecimals)(partialOrder.positionMargin),
@@ -61,6 +65,10 @@ export async function estimateSettleGasUnits({
   const partialOrder = await getPositionInfo(positionId);
 
   const chainId = await signer.getChainId();
+
+  if (partialOrder.chainId !== chainId) {
+    throw new Error("Chain id mismatch between pool and signer");
+  }
 
   const order: SettleParameters = {
     ...partialOrder,

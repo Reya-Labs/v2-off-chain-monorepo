@@ -24,7 +24,7 @@ function approx(a: string, b: string, range: number) {
 describe('helpers', async () => {
   it('account id creation - correct format', async () => {
     const trade: TakerTrade = {
-      owner: new MockSigner(),
+      owner: new MockSigner(1),
       productAddress: '0x0',
       maturityTimestamp: 1903,
       marketId: '0',
@@ -61,7 +61,7 @@ describe('helpers', async () => {
 
   it('account id creation - collision', async () => {
     const trade: TakerTrade = {
-      owner: new MockSigner(),
+      owner: new MockSigner(1),
       productAddress: '0x0',
       maturityTimestamp: 1903,
       marketId: '0',

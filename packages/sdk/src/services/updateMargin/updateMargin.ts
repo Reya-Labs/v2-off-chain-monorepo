@@ -14,6 +14,10 @@ export async function updateMargin({
 
   const chainId = await signer.getChainId();
 
+  if (partialOrder.chainId !== chainId) {
+    throw new Error("Chain id mismatch between pool and signer");
+  }
+
   const order: UpdateMarginParams = {
     ...partialOrder,
     positionMargin: scale(partialOrder.quoteTokenDecimals)(
@@ -36,6 +40,9 @@ export async function estimateUpdateMarginGasUnits({
   const partialOrder = await getPositionInfo(positionId);
 
   const chainId = await signer.getChainId();
+  if (partialOrder.chainId !== chainId) {
+    throw new Error("Chain id mismatch between pool and signer");
+  }
 
   const order: UpdateMarginParams = {
     ...partialOrder,
