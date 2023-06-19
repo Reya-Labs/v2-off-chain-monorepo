@@ -49,9 +49,9 @@ export class MockSigner extends Signer {
 
   ///////////////////
   // Sub-classes MUST call super
-  constructor() {
+  constructor(chainId: number) {
     super();
-    this.provider = new MockProvider({ chainId: 0, name: 'test' });
+    this.provider = new MockProvider({ chainId: chainId, name: 'test' });
   }
 
   ///////////////////

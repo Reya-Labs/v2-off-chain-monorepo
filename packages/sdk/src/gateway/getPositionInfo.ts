@@ -14,6 +14,7 @@ export async function getPositionInfo(
 export function mapToPositionInfo(position: any): PositionInfo {
   const poolInfo = mapToPoolInfo(position.amm);
   return {
+    chainId: poolInfo.chainId,
     productAddress: poolInfo.productAddress,
     maturityTimestamp: poolInfo.maturityTimestamp,
     marketId: poolInfo.marketId,

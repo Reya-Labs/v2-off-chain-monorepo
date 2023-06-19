@@ -5,6 +5,7 @@ export type PoolConfig = {
   quoteTokenAddress: string;
   quoteTokenDecimals: number;
   isETH: boolean;
+  chainId: number;
 };
 
 /**

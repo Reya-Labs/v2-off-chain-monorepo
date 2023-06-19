@@ -2,9 +2,8 @@ import { before, describe, it } from 'mocha';
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { encodeSwap } from '../src/services/swap/encode';
-import { simulateSwap, swap } from '../src/services/swap/swap';
 import * as encode from '../src/services/swap/encode';
-import * as getPoolInfoFile from '../src/gateway/getPoolInfo';
+import * as getPositionInfoFile from '../src/gateway/getPositionInfo';
 import * as constants from '../src/utils/constants';
 import { MockSigner } from './utils/MockSigner';
 import { BigNumber } from 'ethers';
@@ -14,9 +13,10 @@ import {
 } from '../src/services/swap/types';
 import { defaultAbiCoder } from 'ethers/lib/utils';
 import { SECONDS_IN_YEAR } from '@voltz-protocol/commons-v2';
-import { PoolConfig, PoolInfo } from '../src/gateway/types';
+import { PoolConfig, PoolInfo, PositionInfo } from '../src/gateway/types';
+import { simulateEditSwap, editSwap } from '../src/services/editSwap/editSwap';
 
-describe('takers', async () => {
+describe('edit sap', async () => {
   let mockSigner: MockSigner;
   let poolConfig: PoolConfig;
 
@@ -33,32 +33,40 @@ describe('takers', async () => {
     };
   });
 
-  it('swap test', async () => {
+  it('edit swap test', async () => {
     const swapUserInputs: SwapUserInputs = {
       owner: mockSigner,
-      baseAmount: BigNumber.from(9900990099),
+      baseAmount: BigNumber.from(9990009990),
       margin: BigNumber.from(10000000),
     };
 
-    const poolInfo: PoolInfo = {
-      ...poolConfig,
-      currentFixedRate: 1.01,
-      currentLiquidityIndex: 1.01,
-    };
+    const poolInfo : PoolInfo = {
+        ...poolConfig,
+        currentFixedRate: 1.01,
+        currentLiquidityIndex: 1.001,
+      };
+  
+    const positionInfo : PositionInfo = {
+        ...poolInfo,
+        positionMargin: 30,
+        accountId: "19083",
+        fixedRateLower: 0,
+        fixedRateUpper: 0,
+    }
 
     const swapPeripheryParams: SwapPeripheryParameters = {
-      ...poolInfo,
+      ...positionInfo,
       ...swapUserInputs,
       fixedRateLimit: constants.ZERO_BN,
     };
 
     const expectedResult = await encodeSwap(swapPeripheryParams);
 
-    const getPoolInfoMock = sinon.mock(getPoolInfoFile);
-    getPoolInfoMock
-      .expects('getPoolInfo')
-      .withArgs('1234')
-      .returns(poolInfo);
+    const getPositionInfoMock = sinon.mock(getPositionInfoFile);
+    getPositionInfoMock
+      .expects('getPositionInfo')
+      .withArgs('1_19083')
+      .returns(positionInfo);
 
     const encodeMock = sinon.mock(encode);
     encodeMock
@@ -66,45 +74,56 @@ describe('takers', async () => {
       .withArgs(swapPeripheryParams)
       .returns(expectedResult);
 
-    await swap({
-      ammId: '1234',
+    await editSwap({
+      positionId: '1_19083',
       signer: mockSigner,
       notional: 10000,
       margin: 10,
     });
 
     encodeMock.verify();
-    getPoolInfoMock.verify();
+    getPositionInfoMock.verify();
     encodeMock.restore();
-    getPoolInfoMock.restore();
+    getPositionInfoMock.restore();
   });
 
-  it('infoPostSwap test', async () => {
+  it('infoPostEditSwap test', async () => {
+    const accountId = "19083";
+    const positionId = "1_19083";
+
     const swapUserInputs: SwapUserInputs = {
       owner: mockSigner,
-      baseAmount: BigNumber.from(9900990099),
+      baseAmount: BigNumber.from(9990009990),
       margin: BigNumber.from(10000000),
     };
 
     const poolInfo: PoolInfo = {
       ...poolConfig,
       currentFixedRate: 1.01,
-      currentLiquidityIndex: 1.01,
+      currentLiquidityIndex: 1.001,
     };
 
-    const swapPeripheryParams: SwapPeripheryParameters = {
-      ...poolInfo,
+    const positionInfo : PositionInfo = {
+        ...poolInfo,
+        positionMargin: 50,
+        accountId: accountId,
+        fixedRateLower: 0,
+        fixedRateUpper: 0,
+    }
+
+    const swapPeripheryParams = {
+      ...positionInfo,
       ...swapUserInputs,
       fixedRateLimit: constants.ZERO_BN,
     };
 
     const expectedResult = await encodeSwap(swapPeripheryParams);
 
-    const getPoolInfoMock = sinon.mock(getPoolInfoFile);
-    getPoolInfoMock
-      .expects('getPoolInfo')
-      .withArgs('1234')
-      .returns(poolInfo);
+    const getPositionInfoMock = sinon.mock(getPositionInfoFile);
+    getPositionInfoMock
+      .expects('getPositionInfo')
+      .withArgs(positionId)
+      .returns(positionInfo);
 
     const encodeMock = sinon.mock(encode);
     encodeMock
@@ -123,32 +142,32 @@ describe('takers', async () => {
 
     const encodedSwapOutput = defaultAbiCoder.encode(
       ['int256', 'int256', 'uint256', 'uint256', 'int24'],
-      ['500', '-500', '20', '30', 660],
+      ['500000000', '-500000000', '20000000', '30000000', 660],
     );
     const array: string[] = [encodedSwapOutput];
     const simulationOutput = defaultAbiCoder.encode([`bytes[]`], [array]);
     mockSigner.setFunctionOutputData(simulationOutput);
 
-    const result = await simulateSwap({
-      ammId: '1234',
+    const result = await simulateEditSwap({
+      positionId: positionId,
       signer: mockSigner,
       notional: 10000,
       margin: 10,
     });
 
     encodeMock.verify();
-    getPoolInfoMock.verify();
+    getPositionInfoMock.verify();
     encodeMock.restore();
-    getPoolInfoMock.restore();
+    getPositionInfoMock.restore();
 
-    assert.equal(result.marginRequirement, 0.00003);
-    assert.equal(result.maxMarginWithdrawable, 0);
-    assert.equal(result.availableNotional, 0.000505);
-    assert.equal(result.fee, 0.00002);
+    assert.equal(result.marginRequirement, 30);
+    assert.equal(result.maxMarginWithdrawable, 20);
+    assert.equal(result.availableNotional, 500.5);
+    assert.equal(result.fee, 20);
     assert.equal(result.slippage.toFixed(3), '0.074');
-    assert.equal(result.averageFixedRate.toFixed(3), '199.010');
-    assert.equal(result.fixedTokenDeltaBalance, -0.0005);
-    assert.equal(result.variableTokenDeltaBalance, 0.0005);
-    assert.equal(result.fixedTokenDeltaUnbalanced, -0.0005);
+    assert.equal(result.averageFixedRate.toFixed(3), '199.900');
+    assert.equal(result.fixedTokenDeltaBalance, -500);
+    assert.equal(result.variableTokenDeltaBalance, 500);
+    assert.equal(result.fixedTokenDeltaUnbalanced, -500);
   });
 });

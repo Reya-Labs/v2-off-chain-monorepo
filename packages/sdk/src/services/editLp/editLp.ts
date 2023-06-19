@@ -161,6 +161,11 @@ async function getLpTxData(params: CompleteEditLpDetails): Promise<{
   chainId: number;
 }> {
   const chainId = await params.owner.getChainId();
+
+  if (params.chainId !== chainId) {
+    throw new Error("Chain id mismatch between pool and signer");
+  }
+
   const swapPeripheryParams: EditLpPeripheryParameters = params;
 
   const { calldata: data, value } = await encodeLp(

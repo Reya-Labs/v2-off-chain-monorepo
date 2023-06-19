@@ -17,6 +17,11 @@ export const getBalance = async ({
   const provider = signer.provider;
   const poolInfo = await getPoolInfo(ammId);
 
+  const chainId = await signer.getChainId();
+  if (poolInfo.chainId !== chainId) {
+    throw new Error("Chain id mismatch between pool and signer");
+  }
+
   let currentBalance: number;
   if (poolInfo.isETH) {
     currentBalance = await getEthBalance({ walletAddress, provider });
