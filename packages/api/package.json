@@ -1,6 +1,6 @@
 {
   "name": "@voltz-protocol/api-v2",
-  "version": "1.39.6",
+  "version": "1.39.7",
   "publishConfig": {
     "access": "public"
   },
