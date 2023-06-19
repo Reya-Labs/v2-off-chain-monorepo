@@ -10,8 +10,12 @@ export const getRedisPort = (): number => {
   return Number(process.env.REDISPORT) || 6379;
 };
 
-export const getEnvironment = (): string => {
-  return (process.env.ENV || 'staging').toUpperCase();
+export const getEnvironmentV1 = (): string => {
+  return (process.env.ENV_V1 || 'staging').toUpperCase();
+};
+
+export const getEnvironmentV2 = (): string => {
+  return (process.env.ENV_V2 || 'staging').toUpperCase();
 };
 
 export const getAlchemyApiKey = (): string => {

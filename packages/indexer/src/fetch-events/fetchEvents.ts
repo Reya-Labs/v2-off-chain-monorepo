@@ -13,8 +13,6 @@ import { parseCollateralConfigured } from '../event-parsers/parseCollateralConfi
 import { parseLiquidation } from '../event-parsers/parseLiquidation';
 import { parseProductRegistered } from '../event-parsers/parseProductRegistered';
 import { parseLiquidityChange } from '../event-parsers/parseLiquidityChange';
-import { parseMakerOrder } from '../event-parsers/parseMakerOrder';
-import { parseTakerOrder } from '../event-parsers/parseTakerOrder';
 import {
   getCoreContract,
   getDatedIrsInstrumentContract,
@@ -34,8 +32,8 @@ export const fetchEvents = async (
     const eventFilter = contract.filters[eventName]();
 
     const events = await contract.queryFilter(eventFilter, fromBlock, toBlock);
-    const parsedEvents = events.map((e) => parser(chainId, e));
 
+    const parsedEvents = events.map((e) => parser(chainId, e));
     return parsedEvents;
   };
 
@@ -103,18 +101,6 @@ export const fetchEvents = async (
       datedIrsExchangeContract,
       'LiquidityChange',
       parseLiquidityChange,
-    ),
-
-    fetchSpecificEvents(
-      datedIrsExchangeContract,
-      'MakerOrder',
-      parseMakerOrder,
-    ),
-
-    fetchSpecificEvents(
-      datedIrsExchangeContract,
-      'TakerOrder',
-      parseTakerOrder,
     ),
 
     fetchSpecificEvents(

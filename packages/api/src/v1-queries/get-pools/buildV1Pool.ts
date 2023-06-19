@@ -5,6 +5,7 @@ import {
 } from '@voltz-protocol/commons-v2';
 import { BigQueryPoolRow } from '@voltz-protocol/indexer-v1';
 import { V1Pool } from './types';
+import { encodeV1PoolId } from './v1PoolId';
 
 export const buildV1Pool = async (
   rawPool: BigQueryPoolRow,
@@ -12,8 +13,13 @@ export const buildV1Pool = async (
   const tokenName = rawPool.tokenName;
   const tokenPriceUSD = await getTokenPriceInUSD(tokenName);
 
+  const id = encodeV1PoolId({
+    chainId: rawPool.chainId,
+    vammAddress: rawPool.vamm,
+  });
+
   const pool: V1Pool = {
-    id: rawPool.vamm,
+    id,
     chainId: rawPool.chainId,
 
     vamm: rawPool.vamm,

@@ -1,4 +1,8 @@
 // todo: to be extended
 export const getMarketProtocolId = (marketId: string): number => {
-  return 1;
+  if (marketId === '1') {
+    return 7;
+  }
+
+  return 7;
 };

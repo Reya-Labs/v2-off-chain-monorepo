@@ -5,8 +5,9 @@ export const getRateOracleContract = (
   chainId: SupportedChainId,
   address: string,
 ): ethers.Contract => {
-  const abi = [
-    'function getCurrentRateInRay() external view returns (uint256)',
+  const abi: string[] = [
+    `function getCurrentRateInRay() external view returns (uint256)`,
+    'function getCurrentIndex() external view returns (uint256)',
   ];
 
   const provider = getProvider(chainId);

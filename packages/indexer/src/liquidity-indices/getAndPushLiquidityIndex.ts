@@ -13,11 +13,11 @@ export const getAndPushLiquidityIndex = async (
 ): Promise<void> => {
   const oracleContract = getRateOracleContract(chainId, oracleAddress);
 
-  const liquidityIndexE27 = await oracleContract.getCurrentRateInRay({
+  const liquidityIndexE18 = await oracleContract.getCurrentIndex({
     blockTag: blockNumber,
   });
 
-  const liquidityIndex = descale(27)(liquidityIndexE27);
+  const liquidityIndex = descale(18)(liquidityIndexE18);
 
   await insertLiquidityIndex({
     chainId,

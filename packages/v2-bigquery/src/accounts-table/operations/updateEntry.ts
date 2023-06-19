@@ -11,7 +11,7 @@ export const updateAccountEntry = async (
 
   const updates: string[] = [];
   if (!isUndefined(update.owner)) {
-    updates.push(`owner=${update.owner}`);
+    updates.push(`owner="${update.owner}"`);
   }
 
   if (updates.length === 0) {

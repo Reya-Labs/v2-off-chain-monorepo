@@ -12,7 +12,7 @@ export const getVariableRates = async (
   rateOracleAddress: string,
   startTimestamp: number,
   endTimestamp: number,
-): Promise<BigQueryHistoricalRateRow[] | null> => {
+): Promise<BigQueryHistoricalRateRow[]> => {
   const bigQuery = getBigQuery();
 
   const variableRatesQuery = `
@@ -29,7 +29,7 @@ export const getVariableRates = async (
   const [rows] = await bigQuery.query(options);
 
   if (!rows) {
-    return null;
+    return [];
   }
 
   return rows.map(mapToBigQueryHistoricalRateRow);
