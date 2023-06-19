@@ -3619,7 +3619,6 @@ __metadata:
     "@types/crypto-js": 4.1.1
     "@uniswap/sdk-core": 3.2.2
     "@uniswap/v3-sdk": 3.9.0
-    "@voltz-protocol/commons-v2": "workspace:^"
     "@voltz-protocol/sdk-v1-stateless": "workspace:^"
     crypto-js: 4.1.1
     jsbi: 4.3.0
