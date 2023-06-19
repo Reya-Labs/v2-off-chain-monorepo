@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.40.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.39.6...@voltz-protocol/sdk-v2@1.40.0) (2023-06-19)
+
+### Bug Fixes
+
+- api connection ([d329daf](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/d329daf7ef938681e0581bcc3d602f1f9da2907c))
+- chain id check & tests ([70689d2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/70689d2e2bbf0107cdc4ef9042e0b8f4d7104e07))
+- refactor getting api info ([79e4125](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/79e412578d1bec5e5156d28c654c0e67696fe57e))
+- token decimals & isETH ([cc6f2f0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/cc6f2f0ca6293b8fdb2ba46610c3c12112924f9e))
+
+### Features
+
+- api integration ([bc72637](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/bc7263756f8b39cfb6737eae046709042933b04d))
+- lp & settle tests ([394d3ea](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/394d3ea54c23cb930b147746be254fe573c2130e))
+
 ## [1.39.6](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.39.5...@voltz-protocol/sdk-v2@1.39.6) (2023-06-19)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v2
