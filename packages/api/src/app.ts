@@ -29,6 +29,8 @@ import { getV1V2PortfolioPositions } from './v1v2-queries/get-portfolio-position
 import { getV1V2Pool } from './v1v2-queries/get-pools/getV1V2Pool';
 import { getV1V2FixedRates } from './v1v2-queries/get-fixed-rates/getV1V2FixedRates';
 import { getV1V2VariableRates } from './v1v2-queries/get-fixed-rates/getV1V2VariableRates';
+import { getV2Pools } from './v2-queries/get-pools/getV2Pools';
+import { getV2PortfolioPositions } from './v2-queries/get-portfolio-positions/getV2PortfolioPositions';
 
 export const app = express();
 
@@ -139,6 +141,35 @@ app.get(
     );
   },
 );
+
+// V2 only
+
+app.get('/v2-pools/:chainIds', (req, res) => {
+  const chainIds = req.params.chainIds.split('&').map((s) => Number(s));
+
+  getV2Pools(chainIds).then(
+    (output) => {
+      res.json(output);
+    },
+    (error) => {
+      console.log(`API query failed with message ${(error as Error).message}`);
+    },
+  );
+});
+
+app.get('/v2-positions/:chainIds/:ownerAddress', (req, res) => {
+  const chainIds = req.params.chainIds.split('&').map((s) => Number(s));
+  const ownerAddress = req.params.ownerAddress.toLowerCase();
+
+  getV2PortfolioPositions(chainIds, ownerAddress).then(
+    (output) => {
+      res.json(output);
+    },
+    (error) => {
+      console.log(`API query failed with message ${(error as Error).message}`);
+    },
+  );
+});
 
 // V2 rate oracle queries
 
