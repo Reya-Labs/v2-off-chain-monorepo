@@ -15,7 +15,7 @@ export const getBalance = async ({
 
   const walletAddress = await signer.getAddress();
   const provider = signer.provider;
-  const poolInfo = await getPoolInfo(ammId);
+  const poolInfo = await getPoolInfo(ammId, await signer.getChainId());
 
   const chainId = await signer.getChainId();
   if (poolInfo.chainId !== chainId) {

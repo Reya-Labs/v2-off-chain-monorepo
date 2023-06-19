@@ -149,7 +149,7 @@ export async function createSwapParams({
   margin,
   fixedRateLimit,
 }: SwapArgs): Promise<CompleteSwapDetails> {
-  const poolInfo = await getPoolInfo(ammId);
+  const poolInfo = await getPoolInfo(ammId, await signer.getChainId());
 
   const baseAmount = notionalToBaseAmount(
     notional,

@@ -10,9 +10,13 @@ export async function updateMargin({
   margin,
   signer,
 }: UpdateMarginArgs): Promise<ContractReceipt> {
-  const partialOrder = await getPositionInfo(positionId);
-
   const chainId = await signer.getChainId();
+
+  const partialOrder = await getPositionInfo(
+    positionId,
+    chainId,
+    await signer.getAddress(),
+  );
 
   if (partialOrder.chainId !== chainId) {
     throw new Error('Chain id mismatch between pool and signer');
@@ -37,9 +41,14 @@ export async function estimateUpdateMarginGasUnits({
   margin,
   signer,
 }: UpdateMarginArgs): Promise<BigNumber> {
-  const partialOrder = await getPositionInfo(positionId);
-
   const chainId = await signer.getChainId();
+
+  const partialOrder = await getPositionInfo(
+    positionId,
+    chainId,
+    await signer.getAddress(),
+  );
+
   if (partialOrder.chainId !== chainId) {
     throw new Error('Chain id mismatch between pool and signer');
   }

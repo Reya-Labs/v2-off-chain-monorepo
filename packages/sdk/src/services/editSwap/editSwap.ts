@@ -112,7 +112,11 @@ async function createEditSwapParams({
   margin,
   fixedRateLimit,
 }: EditSwapArgs): Promise<CompleteEditSwapDetails> {
-  const swapInfo = await getPositionInfo(positionId);
+  const swapInfo = await getPositionInfo(
+    positionId,
+    await signer.getChainId(),
+    await signer.getAddress(),
+  );
 
   const baseAmount = notionalToBaseAmount(
     notional,

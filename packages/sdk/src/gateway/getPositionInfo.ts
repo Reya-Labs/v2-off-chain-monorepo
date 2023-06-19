@@ -3,12 +3,18 @@ import { mapToPoolInfo } from './getPoolInfo';
 import { PositionInfo } from './types';
 
 export async function getPositionInfo(
-  psoitionId: string,
+  positionId: string,
+  chainId: number,
+  ownerAddress: string,
 ): Promise<PositionInfo> {
-  const endpoint = `v2-position/${psoitionId}`;
+  const endpoint = `v2-positions/${chainId}/${ownerAddress}`;
   const response = await fetch(`${API_URL}${endpoint}`);
 
-  return mapToPositionInfo(response);
+  const position = ((await response.json()) as any[]).find(
+    (p) => p.id === positionId,
+  );
+
+  return mapToPositionInfo(position);
 }
 
 export function mapToPositionInfo(position: any): PositionInfo {

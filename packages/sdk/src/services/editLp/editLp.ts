@@ -117,7 +117,11 @@ async function createEditLpParams({
   notional,
   margin,
 }: EditLpArgs): Promise<CompleteEditLpDetails> {
-  const lpInfo: PositionInfo = await getPositionInfo(positionId);
+  const lpInfo: PositionInfo = await getPositionInfo(
+    positionId,
+    await signer.getChainId(),
+    await signer.getAddress(),
+  );
 
   const liquidityAmount = notionalToLiquidityBN(
     scale(lpInfo.quoteTokenDecimals)(notional),

@@ -129,7 +129,7 @@ export async function createLpParams({
   fixedLow,
   fixedHigh,
 }: LpArgs): Promise<CompleteLpDetails> {
-  const lpInfo = await getPoolInfo(ammId);
+  const lpInfo = await getPoolInfo(ammId, await signer.getChainId());
 
   const liquidityAmount = notionalToLiquidityBN(
     scale(lpInfo.quoteTokenDecimals)(notional),

@@ -67,7 +67,7 @@ describe('edit makers', async () => {
     const getPositionInfoMock = sinon.mock(getPositionInfoFile);
     getPositionInfoMock
       .expects('getPositionInfo')
-      .withArgs(positionId)
+      .withArgs(positionId, 1, await mockSigner.getAddress())
       .returns(positionInfo);
 
     const encodeMock = sinon.mock(encode);
@@ -126,7 +126,7 @@ describe('edit makers', async () => {
     const getPositionInfoMock = sinon.mock(getPositionInfoFile);
     getPositionInfoMock
       .expects('getPositionInfo')
-      .withArgs(positionId)
+      .withArgs(positionId, 1, await mockSigner.getAddress())
       .returns(positionInfo);
 
     const encodeMock = sinon.mock(encode);

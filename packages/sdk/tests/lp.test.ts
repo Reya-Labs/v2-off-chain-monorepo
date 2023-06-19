@@ -54,7 +54,7 @@ describe('makers', async () => {
     const expectedResult = await encodeLp(lpPeripheryParams);
 
     const getPoolInfoMock = sinon.mock(getPoolInfoFile);
-    getPoolInfoMock.expects('getPoolInfo').withArgs(ammId).returns(poolInfo);
+    getPoolInfoMock.expects('getPoolInfo').withArgs(ammId, 1).returns(poolInfo);
 
     const encodeMock = sinon.mock(encode);
     encodeMock
@@ -102,7 +102,7 @@ describe('makers', async () => {
     const expectedResult = await encodeLp(lpPeripheryParams);
 
     const getPoolInfoMock = sinon.mock(getPoolInfoFile);
-    getPoolInfoMock.expects('getPoolInfo').withArgs(ammId).returns(poolInfo);
+    getPoolInfoMock.expects('getPoolInfo').withArgs(ammId, 1).returns(poolInfo);
 
     const encodeMock = sinon.mock(encode);
     encodeMock

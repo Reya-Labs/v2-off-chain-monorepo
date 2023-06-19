@@ -57,7 +57,7 @@ describe('settle', async () => {
     const getPositionInfoMock = sinon.mock(getPositionInfoFile);
     getPositionInfoMock
       .expects('getPositionInfo')
-      .withArgs('1_19083')
+      .withArgs('1_19083', 1, await mockSigner.getAddress())
       .returns(positionInfo);
 
     const encodeMock = sinon.mock(encode);
@@ -105,7 +105,7 @@ describe('settle', async () => {
     const getPositionInfoMock = sinon.mock(getPositionInfoFile);
     getPositionInfoMock
       .expects('getPositionInfo')
-      .withArgs('1_19083')
+      .withArgs('1_19083', 1, await mockSigner.getAddress())
       .returns(positionInfo);
 
     const encodeMock = sinon.mock(encode);
