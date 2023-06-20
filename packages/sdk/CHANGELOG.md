@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.40.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.40.0...@voltz-protocol/sdk-v2@1.40.1) (2023-06-20)
+
+### Bug Fixes
+
+- simulation failing default ([93a9d12](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/93a9d12a80165d1445e197dc70ed1a3465fc2eaf))
+
 # [1.40.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.39.6...@voltz-protocol/sdk-v2@1.40.0) (2023-06-19)
 
 ### Bug Fixes
