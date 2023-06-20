@@ -1,10 +1,9 @@
 import { getPoolInfo } from '../../gateway/getPoolInfo';
 import { ApprovePeripheryArgs } from './types';
-import MaxUint256Bn, {
-  getERC20TokenContract,
-} from '@voltz-protocol/sdk-v1-stateless';
+import { getERC20TokenContract } from '@voltz-protocol/sdk-v1-stateless';
 import { PERIPHERY_ADDRESS } from '../../utils/configuration';
 import { getGasBuffer } from '../../utils/txHelpers';
+import { BigNumber } from 'ethers';
 
 export const approvePeriphery = async ({
   ammId,
@@ -25,17 +24,21 @@ export const approvePeriphery = async ({
 
   const peripheryAddress = PERIPHERY_ADDRESS(chainId);
 
+  const maxUint256Bn = BigNumber.from(
+    '115792089237316195423570985008687907853269984665640564039457584007913129639935',
+  );
+
   let estimatedGas;
   try {
     estimatedGas = await tokenContract.estimateGas.approve(
       peripheryAddress,
-      MaxUint256Bn,
+      maxUint256Bn,
     );
   } catch (error) {
     console.warn(
       `Could not increase periphery allowance (${
         poolInfo.quoteTokenAddress
-      }, ${MaxUint256Bn.toString()})`,
+      }, ${maxUint256Bn.toString()})`,
     );
     throw new Error(
       `Unable to approve. If your existing allowance is non-zero but lower than needed, some tokens like USDT require you to call approve("${peripheryAddress}", 0) before you can increase the allowance.`,
