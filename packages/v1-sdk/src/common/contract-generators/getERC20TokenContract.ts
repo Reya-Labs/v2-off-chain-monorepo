@@ -8,6 +8,15 @@ export const getERC20TokenContract = (
     `
     function approve(address, uint256) external returns (bool)
     `,
+    `
+    function balanceOf(address) external view returns (uint256)
+    `,
+    `
+    function allowance(address,address) external view returns (uint256)
+    `,
+    `
+    function approve(address,uint256) external returns (bool)
+    `,
   ];
 
   const contract: ethers.Contract = new ethers.Contract(

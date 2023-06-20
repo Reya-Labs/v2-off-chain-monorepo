@@ -166,12 +166,12 @@ export function decodeLpOutput(bytesData: any): {
   fee: BigNumber;
   im: BigNumber;
 } {
-  // (int256 executedBaseAmount, int256 executedQuoteAmount, uint256 fee, uint256 im, int24 currentTick)
-  if (!bytesData[0]) {
+  // (uint256 fee, uint256 im)
+  if (!bytesData[3]) {
     throw new Error('unable to decode Swap output');
   }
 
-  const result = defaultAbiCoder.decode(['uint256', 'uint256'], bytesData[0]);
+  const result = defaultAbiCoder.decode(['uint256', 'uint256'], bytesData[3]);
 
   return {
     fee: result[0],

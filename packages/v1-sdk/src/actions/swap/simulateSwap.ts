@@ -3,10 +3,9 @@ import {
   DEFAULT_TICK_SPACING,
   PERIPHERY_ADDRESS_BY_CHAIN_ID,
 } from '../../common/constants';
-import { BigNumber, ethers, providers, utils } from 'ethers';
+import { BigNumber, ethers, utils } from 'ethers';
 import { getPeripheryContract } from '../../common/contract-generators';
 import { getSwapPeripheryParams } from './getSwapPeripheryParams';
-import getDummyWallet from '../../common/wallet/getDummyWallet';
 import { getInfoPostSwap, InfoPostSwap } from './getInfoPostSwap';
 import { AMMInfo } from '../../common/api/amm/types';
 import { getAmmInfo } from '../../common/api/amm/getAmmInfo';

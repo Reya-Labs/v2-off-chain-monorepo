@@ -14,7 +14,6 @@ export const getPoolLpInfo = async ({
   fixedLow,
   signer,
 }: GetPoolLpInfoArgs): Promise<GetPoolLpInfoResults> => {
-
   try {
     const maxLeverage = await getLpMaxLeverage({
       ammId,
@@ -43,7 +42,7 @@ async function getLpMaxLeverage({
     ammId,
     signer,
     notional: 1,
-    margin: 0,
+    margin: 1,
     fixedLow,
     fixedHigh,
   });
