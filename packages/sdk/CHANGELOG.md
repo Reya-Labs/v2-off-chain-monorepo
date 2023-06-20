@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.40.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.40.1...@voltz-protocol/sdk-v2@1.40.2) (2023-06-20)
+
+### Bug Fixes
+
+- lint ([4ab7806](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/4ab780661e6786fb8c3e69eff2f73d3c012738ac))
+- LP pool info ([9b70061](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/9b700615999021f1af153ec0a81d6183cc33ebce))
+- temp rm v2 tests ([bb8ffbd](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/bb8ffbdcee3caf4d35519c6cdcc19625620f688b))
+- token & pool info ([0b6ebc8](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/0b6ebc86a0d0fd9bacb5412c59774d8fd030263a))
+
 ## [1.40.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.40.0...@voltz-protocol/sdk-v2@1.40.1) (2023-06-20)
 
 ### Bug Fixes
