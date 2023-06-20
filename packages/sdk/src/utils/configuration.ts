@@ -7,7 +7,7 @@ export const PERIPHERY_ADDRESS = (chainId: number): string => {
     case 42161: // arbitrum
       return '';
     case 421613: // arbitrum goerli
-      return '';
+      return '0x7917ADcd534c78f6901fc8A07d3834b9b47EAf26';
     case 0: // local testing
       return '';
     default:

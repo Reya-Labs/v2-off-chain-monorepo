@@ -45,7 +45,7 @@ const ABI_DEFINITION: { [key in CommandType]: string[] } = {
 
   // Token Actions and Checks
   [CommandType.WRAP_ETH]: ['uint256'],
-  [CommandType.TRANSFER_FROM]: ['address', 'address', 'uint160'],
+  [CommandType.TRANSFER_FROM]: ['address', 'uint160'],
 };
 
 export type RouterCommand = {

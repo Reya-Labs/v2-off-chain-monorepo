@@ -91,7 +91,7 @@ function tickToPrice(tick: number) {
 
   const ratioX192 = JSBI.multiply(sqrtRatioX96, sqrtRatioX96);
 
-  return new Fraction(Q192, ratioX192);
+  return new Fraction(Q192.toString(), ratioX192.toString());
 }
 
 function fractionFromNumber(value: number | string) {
