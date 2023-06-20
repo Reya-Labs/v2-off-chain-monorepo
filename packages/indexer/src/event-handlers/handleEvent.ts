@@ -29,86 +29,76 @@ export const handleEvent = async (e: BaseEvent) => {
 
   switch (e.type) {
     // core
-    case ProtocolEventType.account_created: {
+    case ProtocolEventType.AccountCreated: {
       await handleAccountCreated(e as AccountCreatedEvent);
       break;
     }
 
-    case ProtocolEventType.account_owner_update: {
+    case ProtocolEventType.AccountOwnerUpdate: {
       await handleAccountOwnerUpdate(e as AccountOwnerUpdateEvent);
       break;
     }
 
-    case ProtocolEventType.collateral_configured: {
+    case ProtocolEventType.CollateralConfigured: {
       // todo: add handler
       break;
     }
 
-    case ProtocolEventType.collateral_update: {
+    case ProtocolEventType.CollateralUpdate: {
       await handleCollateralUpdate(e as CollateralUpdateEvent);
       break;
     }
 
-    case ProtocolEventType.liquidation: {
+    case ProtocolEventType.Liquidation: {
       // todo: add handler
       break;
     }
 
-    case ProtocolEventType.market_fee_configured: {
+    case ProtocolEventType.MarketFeeConfigured: {
       await handleMarketFeeConfigured(e as MarketFeeConfiguredEvent);
       break;
     }
 
-    case ProtocolEventType.product_registered: {
+    case ProtocolEventType.ProductRegistered: {
       // todo: add handler
       break;
     }
 
     // product
-    case ProtocolEventType.market_configured: {
+    case ProtocolEventType.MarketConfigured: {
       await handleMarketConfigured(e as MarketConfiguredEvent);
       break;
     }
 
-    case ProtocolEventType.product_position_updated: {
+    case ProtocolEventType.ProductPositionUpdated: {
       await handleProductPositionUpdated(e as ProductPositionUpdatedEvent);
       break;
     }
 
-    case ProtocolEventType.rate_oracle_configured: {
+    case ProtocolEventType.RateOracleConfigured: {
       await handleRateOracleConfigured(e as RateOracleConfiguredEvent);
       break;
     }
 
     // exchange
-    case ProtocolEventType.liquidity_change: {
+    case ProtocolEventType.LiquidityChange: {
       await handleLiquidityChange(e as LiquidityChangeEvent);
       break;
     }
 
-    case ProtocolEventType.maker_order: {
-      // todo: add handler
-      break;
-    }
-
-    case ProtocolEventType.taker_order: {
-      // todo: add handler
-      break;
-    }
-
-    case ProtocolEventType.vamm_created: {
+    case ProtocolEventType.VammCreated: {
       await handleVammCreated(e as VammCreatedEvent);
       break;
     }
 
-    case ProtocolEventType.vamm_price_change: {
+    case ProtocolEventType.VammPriceChange: {
       await handleVammPriceChange(e as VammPriceChangeEvent);
       break;
     }
 
     default: {
       // todo: review below
-      //e.type satisfies never;
+      // e.type satisfies never;
       throw new Error(`Unhandled event type ${e.type}`);
     }
   }

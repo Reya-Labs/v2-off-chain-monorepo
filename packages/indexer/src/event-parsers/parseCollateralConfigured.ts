@@ -15,7 +15,7 @@ export const parseCollateralConfigured = (
   event: Event,
 ): CollateralConfiguredEvent => {
   // 1. Type of event
-  const type = ProtocolEventType.collateral_configured;
+  const type = ProtocolEventType.CollateralConfigured;
 
   // 2. Parse particular args
   const depositingEnabled = event.args?.config.depositingEnabled as boolean;

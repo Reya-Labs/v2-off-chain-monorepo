@@ -12,7 +12,7 @@ export const parseMarketFeeConfigured = (
   event: Event,
 ): MarketFeeConfiguredEvent => {
   // 1. Type of event
-  const type = ProtocolEventType.market_fee_configured;
+  const type = ProtocolEventType.MarketFeeConfigured;
 
   // 2. Parse particular args
   const productId = event.args?.config.productId as string;

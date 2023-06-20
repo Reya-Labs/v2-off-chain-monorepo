@@ -9,11 +9,11 @@ import { evmTestEvents } from '../utils/evmTestEvents';
 describe('taker order parser', () => {
   test('usual event', () => {
     const chainId = 1;
-    const type = ProtocolEventType.collateral_update;
+    const type = ProtocolEventType.CollateralUpdate;
     const evmEvent = evmTestEvents[type];
 
     const event: CollateralUpdateEvent = {
-      id: '1$collateral_update$Block-Hash$0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A$100',
+      id: '1$CollateralUpdate$Block-Hash$0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A$100',
       type,
 
       chainId,

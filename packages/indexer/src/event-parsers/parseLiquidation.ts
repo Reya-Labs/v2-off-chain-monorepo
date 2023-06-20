@@ -15,7 +15,7 @@ export const parseLiquidation = (
   event: Event,
 ): LiquidationEvent => {
   // 1. Type of event
-  const type = ProtocolEventType.liquidation;
+  const type = ProtocolEventType.Liquidation;
 
   // 2. Parse particular args
   const liquidatedAccountId = (

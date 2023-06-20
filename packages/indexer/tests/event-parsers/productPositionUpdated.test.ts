@@ -9,11 +9,11 @@ import { evmTestEvents } from '../utils/evmTestEvents';
 describe('product position updated', () => {
   test('usual event', () => {
     const chainId = 1;
-    const type = ProtocolEventType.product_position_updated;
+    const type = ProtocolEventType.ProductPositionUpdated;
     const evmEvent = evmTestEvents[type];
 
     const event: ProductPositionUpdatedEvent = {
-      id: '1$product_position_updated$Block-Hash$0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A$100',
+      id: '1$ProductPositionUpdated$Block-Hash$0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A$100',
       type,
 
       chainId,

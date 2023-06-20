@@ -16,7 +16,7 @@ export const parseLiquidityChange = (
   event: Event,
 ): LiquidityChangeEvent => {
   // 1. Type of event
-  const type = ProtocolEventType.liquidity_change;
+  const type = ProtocolEventType.LiquidityChange;
 
   // 2. Parse particular args
   const accountId = (event.args?.accountId as BigNumber).toString();
