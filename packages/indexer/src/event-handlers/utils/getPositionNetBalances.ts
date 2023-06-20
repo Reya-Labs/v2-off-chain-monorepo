@@ -1,4 +1,3 @@
-import { PositionEntry } from '@voltz-protocol/bigquery-v2';
 import { SECONDS_IN_YEAR } from '@voltz-protocol/commons-v2';
 
 type Balances = {
@@ -22,8 +21,12 @@ export const getPositionNetBalances = ({
   baseDelta: number;
   quoteDelta: number;
   tradeLiquidityIndex: number;
-  existingPosition: PositionEntry | null;
+  existingPosition: Balances | null;
 }): Balances => {
+  if (baseDelta === 0 || tradeLiquidityIndex === 0) {
+    throw new Error(`Couldn't get net balances of empty trade`);
+  }
+
   const timeDelta = (maturityTimestamp - tradeTimestamp) / SECONDS_IN_YEAR;
 
   const notionalDelta = baseDelta * tradeLiquidityIndex;

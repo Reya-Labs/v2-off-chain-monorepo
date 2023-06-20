@@ -31,6 +31,11 @@ export const handleProductPositionUpdated = async (
     quoteDelta,
   } = event;
 
+  if (baseDelta === 0) {
+    console.log(`Change of 0 base skipped...`);
+    return;
+  }
+
   const positionIdData = {
     chainId,
     accountId,

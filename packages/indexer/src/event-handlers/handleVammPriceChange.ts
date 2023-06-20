@@ -78,6 +78,11 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
       },
     });
 
+    if (baseDelta === 0) {
+      console.log(`Change of 0 base skipped...`);
+      return;
+    }
+
     const netBalances = getPositionNetBalances({
       tradeTimestamp: blockTimestamp,
       maturityTimestamp: maturityTimestamp,
