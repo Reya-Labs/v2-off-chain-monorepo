@@ -133,14 +133,28 @@ export const encodeSingleDepositETH = (
   );
 };
 
+export const encodeTransferFrom = (
+  quoteTokenAddress: string,
+  marginAmount: BigNumber,
+  multiAction: MultiAction,
+) => {
+  multiAction.newAction(
+    getCommand(CommandType.TRANSFER_FROM, [quoteTokenAddress, marginAmount]),
+  );
+};
+
 // encodes commands & inpus into calldata based on Router Interface
 // consideres tx value (ETH)
 export const encodeRouterCall = (
   multiAction: MultiAction,
   nativeCurrencyValue: BigNumber,
 ): MethodParameters => {
-  const functionSignature = 'execute(bytes,bytes[],uint256)';
-  const parameters = [multiAction.commands, multiAction.inputs, Math.round(Date.now() / 100) + 86400];
+  const functionSignature = 'execute';
+  const parameters = [
+    multiAction.commands,
+    multiAction.inputs,
+    Math.round(Date.now() / 1000) + 86400,
+  ];
   const INTERFACE = new ethers.utils.Interface(abi);
   const calldata = INTERFACE.encodeFunctionData(functionSignature, parameters);
   return { calldata: calldata, value: nativeCurrencyValue.toHexString() };
@@ -162,6 +176,7 @@ export const encodeDeposit = (
       encodeSingleDepositETH(accountId, quoteTokenAddress, multiAction);
       ethAmount = marginAmount;
     } else {
+      encodeTransferFrom(quoteTokenAddress, marginAmount, multiAction);
       encodeSingleDepositERC20(
         accountId,
         quoteTokenAddress,
