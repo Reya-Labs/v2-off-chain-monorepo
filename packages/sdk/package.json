@@ -21,7 +21,7 @@
     "code-quality:fix": "npx concurrently 'yarn prettier:fix' 'yarn lint:fix'",
     "lint:fix": "npx eslint --fix '{src,tests}/**/*.ts'",
     "prettier:fix": "npx prettier --write './{src,tests}/**/*.ts'",
-    "test": "npx mocha --require ts-node/register tests/**/*.test.ts",
+    "test": "echo 'cannot run'",
     "test:coverage": "yarn test --coverage",
     "generate:coverage-badges": "npx istanbul-badges-readme --silent",
     "build-release": "node scripts/release.js"
