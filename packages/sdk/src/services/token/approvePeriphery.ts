@@ -46,7 +46,7 @@ export const approvePeriphery = async ({
   }
 
   const approvalTransaction = await tokenContract
-    .approve(peripheryAddress, MaxUint256Bn, {
+    .approve(peripheryAddress, maxUint256Bn, {
       gasLimit: getGasBuffer(estimatedGas),
     })
     .catch((error: any) => {
