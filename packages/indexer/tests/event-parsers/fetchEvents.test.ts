@@ -19,25 +19,25 @@ jest.mock('@voltz-protocol/commons-v2/src/v2-smart-contracts/core.ts', () => ({
     queryFilter,
     filters: {
       AccountCreated: () =>
-        ProtocolEventType.account_created as unknown as EventFilter,
+        ProtocolEventType.AccountCreated as unknown as EventFilter,
 
       AccountOwnerUpdate: () =>
-        ProtocolEventType.account_owner_update as unknown as EventFilter,
+        ProtocolEventType.AccountOwnerUpdate as unknown as EventFilter,
 
       CollateralConfigured: () =>
-        ProtocolEventType.collateral_configured as unknown as EventFilter,
+        ProtocolEventType.CollateralConfigured as unknown as EventFilter,
 
       CollateralUpdate: () =>
-        ProtocolEventType.collateral_update as unknown as EventFilter,
+        ProtocolEventType.CollateralUpdate as unknown as EventFilter,
 
       Liquidation: () =>
-        ProtocolEventType.liquidation as unknown as EventFilter,
+        ProtocolEventType.Liquidation as unknown as EventFilter,
 
       MarketFeeConfigured: () =>
-        ProtocolEventType.market_fee_configured as unknown as EventFilter,
+        ProtocolEventType.MarketFeeConfigured as unknown as EventFilter,
 
       ProductRegistered: () =>
-        ProtocolEventType.product_registered as unknown as EventFilter,
+        ProtocolEventType.ProductRegistered as unknown as EventFilter,
     },
   })),
 }));
@@ -49,13 +49,13 @@ jest.mock(
       queryFilter,
       filters: {
         MarketConfigured: () =>
-          ProtocolEventType.market_configured as unknown as EventFilter,
+          ProtocolEventType.MarketConfigured as unknown as EventFilter,
 
         ProductPositionUpdated: () =>
-          ProtocolEventType.product_position_updated as unknown as EventFilter,
+          ProtocolEventType.ProductPositionUpdated as unknown as EventFilter,
 
         RateOracleConfigured: () =>
-          ProtocolEventType.rate_oracle_configured as unknown as EventFilter,
+          ProtocolEventType.RateOracleConfigured as unknown as EventFilter,
       },
     })),
   }),
@@ -68,15 +68,11 @@ jest.mock(
       queryFilter,
       filters: {
         LiquidityChange: () =>
-          ProtocolEventType.liquidity_change as unknown as EventFilter,
-        MakerOrder: () =>
-          ProtocolEventType.maker_order as unknown as EventFilter,
-        TakerOrder: () =>
-          ProtocolEventType.taker_order as unknown as EventFilter,
+          ProtocolEventType.LiquidityChange as unknown as EventFilter,
         VammCreated: () =>
-          ProtocolEventType.vamm_created as unknown as EventFilter,
+          ProtocolEventType.VammCreated as unknown as EventFilter,
         VammPriceChange: () =>
-          ProtocolEventType.vamm_price_change as unknown as EventFilter,
+          ProtocolEventType.VammPriceChange as unknown as EventFilter,
       },
     })),
   }),

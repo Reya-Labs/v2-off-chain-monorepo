@@ -12,7 +12,7 @@ export const parseRateOracleConfigured = (
   event: Event,
 ): RateOracleConfiguredEvent => {
   // 1. Type of event
-  const type = ProtocolEventType.rate_oracle_configured;
+  const type = ProtocolEventType.RateOracleConfigured;
 
   // 2. Parse particular args
   const marketId = event.args?.marketId as string;

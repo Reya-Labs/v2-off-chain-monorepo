@@ -15,7 +15,7 @@ export const parseProductPositionUpdated = (
   event: Event,
 ): ProductPositionUpdatedEvent => {
   // 1. Type of event
-  const type = ProtocolEventType.product_position_updated;
+  const type = ProtocolEventType.ProductPositionUpdated;
 
   // 2. Parse particular args
   const accountId = (event.args?.accountId as BigNumber).toString();

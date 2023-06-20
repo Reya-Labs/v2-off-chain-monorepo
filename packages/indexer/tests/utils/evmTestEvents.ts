@@ -12,7 +12,7 @@ export const defaultEvmEvent = {
   logIndex: 100,
 };
 
-export const blockTimestampDefault = 1683092975; // May 03 2023 05:49:35 GMT+0000
+export const blockTimestampDefault = BigNumber.from(1683092975); // May 03 2023 05:49:35 GMT+0000
 export const accountIdDefault = BigNumber.from('1000000000');
 export const productIdDefault = BigNumber.from('1');
 export const tokenDefault = '0xa0b86991c6218b36c1d19D4a2e9eb0ce3606eB48';
@@ -21,13 +21,13 @@ export const maturityTimestampDefault = 1685534400; // May 31 2023 12:00:00 GMT+
 
 // todo: add event mocks for null events
 export const evmTestEvents: Record<ProtocolEventType, Event> = {
-  [ProtocolEventType.account_created]: null as unknown as Event,
+  [ProtocolEventType.AccountCreated]: null as unknown as Event,
 
-  [ProtocolEventType.account_owner_update]: null as unknown as Event,
+  [ProtocolEventType.AccountOwnerUpdate]: null as unknown as Event,
 
-  [ProtocolEventType.collateral_configured]: null as unknown as Event,
+  [ProtocolEventType.CollateralConfigured]: null as unknown as Event,
 
-  [ProtocolEventType.collateral_update]: {
+  [ProtocolEventType.CollateralUpdate]: {
     ...defaultEvmEvent,
     args: {
       blockTimestamp: blockTimestampDefault,
@@ -37,9 +37,9 @@ export const evmTestEvents: Record<ProtocolEventType, Event> = {
     },
   } as unknown as Event,
 
-  [ProtocolEventType.liquidation]: null as unknown as Event,
+  [ProtocolEventType.Liquidation]: null as unknown as Event,
 
-  [ProtocolEventType.market_fee_configured]: {
+  [ProtocolEventType.MarketFeeConfigured]: {
     ...defaultEvmEvent,
     args: {
       blockTimestamp: blockTimestampDefault,
@@ -53,9 +53,9 @@ export const evmTestEvents: Record<ProtocolEventType, Event> = {
     },
   } as unknown as Event,
 
-  [ProtocolEventType.product_registered]: null as unknown as Event,
+  [ProtocolEventType.ProductRegistered]: null as unknown as Event,
 
-  [ProtocolEventType.market_configured]: {
+  [ProtocolEventType.MarketConfigured]: {
     ...defaultEvmEvent,
     args: {
       blockTimestamp: blockTimestampDefault,
@@ -66,7 +66,7 @@ export const evmTestEvents: Record<ProtocolEventType, Event> = {
     },
   } as unknown as Event,
 
-  [ProtocolEventType.product_position_updated]: {
+  [ProtocolEventType.ProductPositionUpdated]: {
     ...defaultEvmEvent,
     args: {
       blockTimestamp: blockTimestampDefault,
@@ -78,7 +78,7 @@ export const evmTestEvents: Record<ProtocolEventType, Event> = {
     },
   } as unknown as Event,
 
-  [ProtocolEventType.rate_oracle_configured]: {
+  [ProtocolEventType.RateOracleConfigured]: {
     ...defaultEvmEvent,
     args: {
       blockTimestamp: blockTimestampDefault,
@@ -87,27 +87,12 @@ export const evmTestEvents: Record<ProtocolEventType, Event> = {
     },
   } as unknown as Event,
 
-  [ProtocolEventType.liquidity_change]: null as unknown as Event,
+  [ProtocolEventType.LiquidityChange]: null as unknown as Event,
 
-  [ProtocolEventType.maker_order]: null as unknown as Event,
-
-  [ProtocolEventType.taker_order]: {
+  [ProtocolEventType.VammCreated]: {
     ...defaultEvmEvent,
     args: {
       blockTimestamp: blockTimestampDefault,
-      accountId: accountIdDefault,
-      marketId: marketIdDefault,
-      maturityTimestamp: maturityTimestampDefault,
-      executedBaseAmount: BigNumber.from(100000000),
-      executedQuoteAmount: BigNumber.from(-550000000),
-      annualizedBaseAmount: BigNumber.from(7500000),
-    },
-  } as unknown as Event,
-
-  [ProtocolEventType.vamm_created]: {
-    ...defaultEvmEvent,
-    args: {
-      blockTimestamp: 1683092975, // May 03 2023 05:49:35 GMT+0000
       marketId: BigNumber.from('168236'),
       tick: 1200,
       mutableConfig: {
@@ -124,10 +109,10 @@ export const evmTestEvents: Record<ProtocolEventType, Event> = {
     },
   } as unknown as Event,
 
-  [ProtocolEventType.vamm_price_change]: {
+  [ProtocolEventType.VammPriceChange]: {
     ...defaultEvmEvent,
     args: {
-      blockTimestamp: 1683092975, // May 03 2023 05:49:35 GMT+0000
+      blockTimestamp: blockTimestampDefault,
       marketId: BigNumber.from('168236'),
       maturityTimestamp: 1687919400,
       tick: 6060,

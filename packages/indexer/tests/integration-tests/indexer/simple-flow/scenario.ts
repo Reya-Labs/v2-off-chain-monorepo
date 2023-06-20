@@ -35,7 +35,7 @@ export const events: BaseEvent[] = [
     transactionIndex: 10,
     logIndex: 100,
     args: {
-      blockTimestamp: 1682942400, // Mon May 01 2023 12:00:00 GMT+0000
+      blockTimestamp: BigNumber.from(1682942400), // Mon May 01 2023 12:00:00 GMT+0000
       accountId,
       owner,
     },
@@ -50,7 +50,7 @@ export const events: BaseEvent[] = [
     transactionIndex: 10,
     logIndex: 100,
     args: {
-      blockTimestamp: 1682942400, // Mon May 01 2023 12:00:00 GMT+0000
+      blockTimestamp: BigNumber.from(1682942400), // Mon May 01 2023 12:00:00 GMT+0000
       config: {
         marketId,
         quoteToken: collateralType,
@@ -67,7 +67,7 @@ export const events: BaseEvent[] = [
     transactionIndex: 10,
     logIndex: 101,
     args: {
-      blockTimestamp: 1682942400, // Mon May 01 2023 12:00:00 GMT+0000
+      blockTimestamp: BigNumber.from(1682942400), // Mon May 01 2023 12:00:00 GMT+0000
       marketId,
       oracleAddress: rateOracleAddress,
     },
@@ -82,7 +82,7 @@ export const events: BaseEvent[] = [
     transactionIndex: 10,
     logIndex: 100,
     args: {
-      blockTimestamp: 1682942400, // Mon May 01 2023 12:00:00 GMT+0000
+      blockTimestamp: BigNumber.from(1682942400), // Mon May 01 2023 12:00:00 GMT+0000
       marketId,
       tick: 0,
       mutableConfig: {
@@ -108,7 +108,7 @@ export const events: BaseEvent[] = [
     transactionIndex: 10,
     logIndex: 100,
     args: {
-      blockTimestamp: 1682942400, // Mon May 01 2023 12:00:00 GMT+0000
+      blockTimestamp: BigNumber.from(1682942400), // Mon May 01 2023 12:00:00 GMT+0000
       accountId,
       collateralType,
       tokenAmount: BigNumber.from(10000000),
@@ -124,7 +124,7 @@ export const events: BaseEvent[] = [
     transactionIndex: 10,
     logIndex: 101,
     args: {
-      blockTimestamp: 1682942400, // Mon May 01 2023 12:00:00 GMT+0000
+      blockTimestamp: BigNumber.from(1682942400), // Mon May 01 2023 12:00:00 GMT+0000
       accountId,
       marketId,
       maturityTimestamp,
@@ -143,7 +143,7 @@ export const events: BaseEvent[] = [
     transactionIndex: 10,
     logIndex: 100,
     args: {
-      blockTimestamp: 1685620800, // Thu Jun 01 2023 12:00:00 GMT+0000
+      blockTimestamp: BigNumber.from(1685620800), // Thu Jun 01 2023 12:00:00 GMT+0000
       marketId,
       maturityTimestamp,
       tick: -2220,
@@ -159,7 +159,7 @@ export const events: BaseEvent[] = [
     transactionIndex: 10,
     logIndex: 101,
     args: {
-      blockTimestamp: 1685620800, // Thu Jun 01 2023 12:00:00 GMT+0000
+      blockTimestamp: BigNumber.from(1685620800), // Thu Jun 01 2023 12:00:00 GMT+0000
       accountId,
       marketId,
       maturityTimestamp,

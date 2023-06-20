@@ -41,6 +41,7 @@ export const getV2PortfolioPositions = async (
 
     for (const {
       id: positionId,
+      accountId,
       marketId,
       maturityTimestamp,
       type: positionType,
@@ -50,6 +51,7 @@ export const getV2PortfolioPositions = async (
       paidFees,
       tickLower,
       tickUpper,
+      creationTimestamp,
     } of positionEntries) {
       const pool = await getV2Pool(chainId, marketId, maturityTimestamp);
 
@@ -88,10 +90,11 @@ export const getV2PortfolioPositions = async (
       // Build response
       const position: V2PortfolioPosition = {
         id: positionId,
+        accountId,
         ownerAddress,
         type:
           positionType === 'lp' ? 'LP' : baseBalance < 0 ? 'Fixed' : 'Variable',
-        creationTimestampInMS: 0, // todo: add creation timestamp to positions
+        creationTimestampInMS: creationTimestamp * 1000,
         tickLower,
         tickUpper,
         fixLow,

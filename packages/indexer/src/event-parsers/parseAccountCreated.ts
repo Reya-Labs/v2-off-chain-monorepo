@@ -13,7 +13,7 @@ export const parseAccountCreated = (
   event: Event,
 ): AccountCreatedEvent => {
   // 1. Type of event
-  const type = ProtocolEventType.account_created;
+  const type = ProtocolEventType.AccountCreated;
 
   // 2. Parse particular args
   const accountId = (event.args?.accountId as BigNumber).toString();

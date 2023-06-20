@@ -1,7 +1,9 @@
 import {
   ProductPositionUpdatedEvent,
+  getLiquidityIndexAt,
   insertPositionEntry,
   insertProductPositionUpdatedEvent,
+  pullMarketEntry,
   pullPositionEntry,
   pullProductPositionUpdatedEvent,
   updatePositionEntry,
@@ -27,9 +29,26 @@ export const handleProductPositionUpdated = async (
   };
 
   const existingPosition = await pullPositionEntry(positionIdData);
+  const market = await pullMarketEntry(event.chainId, event.marketId);
 
-  // todo: to be fetched from liquidity index table
-  const liquidityIndex = 1;
+  if (!market) {
+    throw new Error(
+      `Couldn't find market for ${event.chainId}-${event.marketId}`,
+    );
+  }
+
+  const liquidityIndex = await getLiquidityIndexAt(
+    market.chainId,
+    market.oracleAddress,
+    event.blockTimestamp,
+  );
+
+  if (!liquidityIndex) {
+    throw new Error(
+      `Couldn't find liquidity index at ${event.blockTimestamp} for ${market.chainId}-${market.oracleAddress}`,
+    );
+  }
+
   const notionalDelta = event.baseDelta * liquidityIndex;
 
   if (existingPosition) {
@@ -48,6 +67,7 @@ export const handleProductPositionUpdated = async (
       paidFees: 0,
       tickLower: 0,
       tickUpper: 0,
+      creationTimestamp: event.blockTimestamp,
     });
   }
 };

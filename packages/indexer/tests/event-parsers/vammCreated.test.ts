@@ -9,11 +9,11 @@ import { evmTestEvents } from '../utils/evmTestEvents';
 describe('vamm created parser', () => {
   test('usual event', () => {
     const chainId = 1;
-    const type = ProtocolEventType.vamm_created;
+    const type = ProtocolEventType.VammCreated;
     const evmEvent = evmTestEvents[type];
 
     const event: VammCreatedEvent = {
-      id: '1$vamm_created$Block-Hash$0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A$100',
+      id: '1$VammCreated$Block-Hash$0x2ef67d6f04295106894d762e66c6fd39ba36c02d43dac503df0bc7272803f40A$100',
       type,
 
       chainId,

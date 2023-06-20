@@ -6,5 +6,6 @@ export const extendV1Position = (
   p: V1PortfolioPosition,
 ): V1V2PortfolioPosition => ({
   ...p,
+  accountId: '',
   amm: extendV1Pool(p.amm),
 });

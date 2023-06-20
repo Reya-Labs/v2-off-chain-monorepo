@@ -1,4 +1,4 @@
-import { Event } from 'ethers';
+import { BigNumber, Event } from 'ethers';
 
 import { convertLowercaseString } from '@voltz-protocol/commons-v2';
 import { BaseEvent, ProtocolEventType } from '@voltz-protocol/bigquery-v2';
@@ -8,7 +8,7 @@ export const parseBaseEvent = (
   event: Event,
   type: ProtocolEventType,
 ): BaseEvent => {
-  const blockTimestamp = event.args?.blockTimestamp as number;
+  const blockTimestamp = (event.args?.blockTimestamp as BigNumber).toNumber();
 
   const id = `${chainId}$${type}$${event.blockHash}$${event.transactionHash}$${event.logIndex}`;
 

@@ -14,7 +14,7 @@ export const parseVammCreated = (
   const wadDescaler = descale(18);
 
   // 1. Type of event
-  const type = ProtocolEventType.vamm_created;
+  const type = ProtocolEventType.VammCreated;
 
   // 2. Parse particular args
   const marketId = (event.args?.marketId as BigNumber).toString();

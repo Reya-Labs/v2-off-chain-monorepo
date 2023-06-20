@@ -15,7 +15,7 @@ export const parseCollateralUpdate = (
   event: Event,
 ): CollateralUpdateEvent => {
   // 1. Type of event
-  const type = ProtocolEventType.collateral_update;
+  const type = ProtocolEventType.CollateralUpdate;
 
   // 2. Parse particular args
   const accountId = (event.args?.accountId as BigNumber).toString();

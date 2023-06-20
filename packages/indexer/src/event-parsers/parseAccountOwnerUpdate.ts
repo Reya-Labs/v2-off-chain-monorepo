@@ -12,7 +12,7 @@ export const parseAccountOwnerUpdate = (
   event: Event,
 ): AccountOwnerUpdateEvent => {
   // 1. Type of event
-  const type = ProtocolEventType.account_owner_update;
+  const type = ProtocolEventType.AccountOwnerUpdate;
 
   // 2. Parse particular args
   const accountId = (event.args?.accountId as BigNumber).toString();

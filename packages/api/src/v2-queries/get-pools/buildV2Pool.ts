@@ -66,8 +66,8 @@ export const buildV2Pool = async ({
 
     marketId,
 
-    termStartTimestampInMS: blockTimestamp,
-    termEndTimestampInMS: maturityTimestamp,
+    termStartTimestampInMS: blockTimestamp * 1000,
+    termEndTimestampInMS: maturityTimestamp * 1000,
 
     market: marketName,
     isBorrowing: isBorrowingMarket,

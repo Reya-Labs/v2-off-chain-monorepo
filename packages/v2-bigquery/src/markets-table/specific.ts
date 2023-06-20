@@ -7,7 +7,7 @@ export type MarketEntry = {
   chainId: number;
   marketId: string;
   quoteToken: Address;
-  oracleAddress: string;
+  oracleAddress: Address;
   feeCollectorAccountId: string;
   atomicMakerFee: number;
   atomicTakerFee: number;
