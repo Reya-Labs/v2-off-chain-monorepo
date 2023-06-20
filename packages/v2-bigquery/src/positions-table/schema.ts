@@ -10,7 +10,7 @@ export const positionsTableSchema: TableField[] = [
   { name: 'maturityTimestamp', type: 'INTEGER', mode: 'REQUIRED' },
 
   {
-    name: 'baseBalance',
+    name: 'base',
     type: 'BIGNUMERIC',
     mode: 'REQUIRED',
     precision: PRECISION.toString(),
@@ -18,7 +18,7 @@ export const positionsTableSchema: TableField[] = [
   },
 
   {
-    name: 'quoteBalance',
+    name: 'timeDependentQuote',
     type: 'BIGNUMERIC',
     mode: 'REQUIRED',
     precision: PRECISION.toString(),
@@ -26,7 +26,7 @@ export const positionsTableSchema: TableField[] = [
   },
 
   {
-    name: 'notionalBalance',
+    name: 'freeQuote',
     type: 'BIGNUMERIC',
     mode: 'REQUIRED',
     precision: PRECISION.toString(),
@@ -34,7 +34,23 @@ export const positionsTableSchema: TableField[] = [
   },
 
   {
-    name: 'liquidityBalance',
+    name: 'notional',
+    type: 'BIGNUMERIC',
+    mode: 'REQUIRED',
+    precision: PRECISION.toString(),
+    scale: SCALE.toString(),
+  },
+
+  {
+    name: 'lockedFixedRate',
+    type: 'BIGNUMERIC',
+    mode: 'REQUIRED',
+    precision: PRECISION.toString(),
+    scale: SCALE.toString(),
+  },
+
+  {
+    name: 'liquidity',
     type: 'BIGNUMERIC',
     mode: 'REQUIRED',
     precision: PRECISION.toString(),

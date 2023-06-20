@@ -5,8 +5,11 @@ import {
   getCurrentVammTick,
   pullLpPositionEntries,
   updatePositionEntry,
+  pullMarketEntry,
+  getLiquidityIndexAt,
 } from '@voltz-protocol/bigquery-v2';
 import { isNull, computePassiveDeltas } from '@voltz-protocol/commons-v2';
+import { getPositionNetBalances } from './utils/getPositionNetBalances';
 
 export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
   const existingEvent = await pullVammPriceChangeEvent(event.id);
@@ -15,33 +18,59 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
     return;
   }
 
+  const {
+    chainId,
+    marketId,
+    maturityTimestamp,
+    blockTimestamp,
+    tick: currentTick,
+  } = event;
+
   const latestTick = await getCurrentVammTick(
-    event.chainId,
-    event.marketId,
-    event.maturityTimestamp,
+    chainId,
+    marketId,
+    maturityTimestamp,
   );
 
   if (isNull(latestTick)) {
     throw new Error(
-      `Latest tick not found for ${event.chainId} - ${event.marketId} - ${event.maturityTimestamp}`,
+      `Latest tick not found for ${chainId} - ${marketId} - ${maturityTimestamp}`,
     );
   }
 
   await insertVammPriceChangeEvent(event);
 
+  const market = await pullMarketEntry(chainId, marketId);
+
+  if (!market) {
+    throw new Error(`Couldn't find market for ${chainId}-${marketId}`);
+  }
+
+  const liquidityIndex = await getLiquidityIndexAt(
+    chainId,
+    market.oracleAddress,
+    blockTimestamp,
+  );
+
+  if (!liquidityIndex) {
+    throw new Error(
+      `Couldn't find liquidity index at ${blockTimestamp} for ${chainId}-${market.oracleAddress}`,
+    );
+  }
+
   // todo: improve this naive approach
   const lpPositions = await pullLpPositionEntries(
-    event.chainId,
-    event.marketId,
-    event.maturityTimestamp,
+    chainId,
+    marketId,
+    maturityTimestamp,
   );
 
   for (const lp of lpPositions) {
     const { baseDelta, quoteDelta } = computePassiveDeltas({
-      liquidity: lp.liquidityBalance,
+      liquidity: lp.liquidity,
       tickMove: {
         from: latestTick as number,
-        to: event.tick,
+        to: currentTick,
       },
       tickRange: {
         lower: lp.tickLower,
@@ -49,14 +78,20 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
       },
     });
 
-    // todo: to be fetched from liquidity index table
-    const liquidityIndex = 1;
-    const notionalDelta = baseDelta * liquidityIndex;
+    if (baseDelta === 0) {
+      console.log(`Change of 0 base skipped...`);
+      return;
+    }
 
-    await updatePositionEntry(lp, {
-      baseBalance: lp.baseBalance + baseDelta,
-      quoteBalance: lp.quoteBalance + quoteDelta,
-      notionalBalance: lp.notionalBalance + notionalDelta,
+    const netBalances = getPositionNetBalances({
+      tradeTimestamp: blockTimestamp,
+      maturityTimestamp: maturityTimestamp,
+      baseDelta,
+      quoteDelta,
+      tradeLiquidityIndex: liquidityIndex,
+      existingPosition: lp,
     });
+
+    await updatePositionEntry(lp, netBalances);
   }
 };
