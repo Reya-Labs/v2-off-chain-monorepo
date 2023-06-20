@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.40.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.40.2...@voltz-protocol/sdk-v2@1.40.3) (2023-06-20)
+
+### Bug Fixes
+
+- build ([f2703e0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/f2703e042d1473363a5fc8f338ce01ca2149bcad))
+- do not import max BN ([a2c3027](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/a2c3027e44a34bba764dc589ed7394c3acc5658b))
+
 ## [1.40.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.40.1...@voltz-protocol/sdk-v2@1.40.2) (2023-06-20)
 
 ### Bug Fixes
