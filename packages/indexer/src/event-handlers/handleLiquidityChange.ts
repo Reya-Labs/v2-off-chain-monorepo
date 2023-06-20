@@ -30,16 +30,17 @@ export const handleLiquidityChange = async (event: LiquidityChangeEvent) => {
 
   if (existingPosition) {
     await updatePositionEntry(positionIdData, {
-      liquidityBalance:
-        existingPosition.liquidityBalance + event.liquidityDelta,
+      liquidity: existingPosition.liquidity + event.liquidityDelta,
     });
   } else {
     await insertPositionEntry({
       ...positionIdData,
-      baseBalance: 0,
-      quoteBalance: 0,
-      notionalBalance: 0,
-      liquidityBalance: event.liquidityDelta,
+      base: 0,
+      timeDependentQuote: 0,
+      freeQuote: 0,
+      notional: 0,
+      lockedFixedRate: 0,
+      liquidity: 0,
       paidFees: 0,
       creationTimestamp: event.blockTimestamp,
     });

@@ -13,20 +13,28 @@ export const updatePositionEntry = async (
   const id = encodePositionId(idData);
 
   const updates: string[] = [];
-  if (!isUndefined(update.baseBalance)) {
-    updates.push(`baseBalance=${update.baseBalance}`);
+  if (!isUndefined(update.base)) {
+    updates.push(`base=${update.base}`);
   }
 
-  if (!isUndefined(update.quoteBalance)) {
-    updates.push(`quoteBalance=${update.quoteBalance}`);
+  if (!isUndefined(update.timeDependentQuote)) {
+    updates.push(`timeDependentQuote=${update.timeDependentQuote}`);
   }
 
-  if (!isUndefined(update.notionalBalance)) {
-    updates.push(`notionalBalance=${update.notionalBalance}`);
+  if (!isUndefined(update.freeQuote)) {
+    updates.push(`freeQuote=${update.freeQuote}`);
   }
 
-  if (!isUndefined(update.liquidityBalance)) {
-    updates.push(`liquidityBalance=${update.liquidityBalance}`);
+  if (!isUndefined(update.notional)) {
+    updates.push(`notional=${update.notional}`);
+  }
+
+  if (!isUndefined(update.lockedFixedRate)) {
+    updates.push(`lockedFixedRate=${update.lockedFixedRate}`);
+  }
+
+  if (!isUndefined(update.liquidity)) {
+    updates.push(`liquidity=${update.liquidity}`);
   }
 
   if (!isUndefined(update.paidFees)) {

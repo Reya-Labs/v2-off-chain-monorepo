@@ -45,9 +45,8 @@ export const getV2PortfolioPositions = async (
       marketId,
       maturityTimestamp,
       type: positionType,
-      baseBalance,
-      notionalBalance,
-      quoteBalance,
+      base,
+      notional: notionalTraded,
       paidFees,
       tickLower,
       tickUpper,
@@ -72,7 +71,6 @@ export const getV2PortfolioPositions = async (
 
       // notional balance
       const notionalProvided = 0;
-      const notionalTraded = notionalBalance;
       const notional =
         positionType === 'lp' ? notionalProvided : notionalTraded;
 
@@ -93,7 +91,7 @@ export const getV2PortfolioPositions = async (
         accountId,
         ownerAddress,
         type:
-          positionType === 'lp' ? 'LP' : baseBalance < 0 ? 'Fixed' : 'Variable',
+          positionType === 'lp' ? 'LP' : notional < 0 ? 'Fixed' : 'Variable',
         creationTimestampInMS: creationTimestamp * 1000,
         tickLower,
         tickUpper,
@@ -101,15 +99,15 @@ export const getV2PortfolioPositions = async (
         fixHigh,
         tokenPriceUSD,
         notionalProvided,
-        notionalTraded: notionalBalance,
+        notionalTraded,
         notional,
         margin,
         status: {
           health,
           variant,
           currentFixed: poolFixedRate,
-          receiving: baseBalance < 0 ? fixedRateLocked : poolVariableRate,
-          paying: baseBalance < 0 ? poolVariableRate : fixedRateLocked,
+          receiving: notional < 0 ? fixedRateLocked : poolVariableRate,
+          paying: notional < 0 ? poolVariableRate : fixedRateLocked,
         },
         unrealizedPNL,
         realizedPNLFees,

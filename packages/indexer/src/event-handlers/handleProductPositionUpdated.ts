@@ -8,6 +8,7 @@ import {
   pullProductPositionUpdatedEvent,
   updatePositionEntry,
 } from '@voltz-protocol/bigquery-v2';
+import { getPositionNetBalances } from './utils/getPositionNetBalances';
 
 export const handleProductPositionUpdated = async (
   event: ProductPositionUpdatedEvent,
@@ -20,54 +21,63 @@ export const handleProductPositionUpdated = async (
 
   await insertProductPositionUpdatedEvent(event);
 
+  const {
+    chainId,
+    accountId,
+    marketId,
+    maturityTimestamp,
+    blockTimestamp,
+    baseDelta,
+    quoteDelta,
+  } = event;
+
   const positionIdData = {
-    chainId: event.chainId,
-    accountId: event.accountId,
-    marketId: event.marketId,
-    maturityTimestamp: event.maturityTimestamp,
+    chainId,
+    accountId,
+    marketId,
+    maturityTimestamp: maturityTimestamp,
     type: 'trader' as 'trader' | 'lp',
   };
 
   const existingPosition = await pullPositionEntry(positionIdData);
-  const market = await pullMarketEntry(event.chainId, event.marketId);
+  const market = await pullMarketEntry(chainId, marketId);
 
   if (!market) {
-    throw new Error(
-      `Couldn't find market for ${event.chainId}-${event.marketId}`,
-    );
+    throw new Error(`Couldn't find market for ${chainId}-${marketId}`);
   }
 
   const liquidityIndex = await getLiquidityIndexAt(
-    market.chainId,
+    chainId,
     market.oracleAddress,
-    event.blockTimestamp,
+    blockTimestamp,
   );
 
   if (!liquidityIndex) {
     throw new Error(
-      `Couldn't find liquidity index at ${event.blockTimestamp} for ${market.chainId}-${market.oracleAddress}`,
+      `Couldn't find liquidity index at ${blockTimestamp} for ${chainId}-${market.oracleAddress}`,
     );
   }
 
-  const notionalDelta = event.baseDelta * liquidityIndex;
+  const netBalances = getPositionNetBalances({
+    tradeTimestamp: blockTimestamp,
+    maturityTimestamp,
+    baseDelta,
+    quoteDelta,
+    tradeLiquidityIndex: liquidityIndex,
+    existingPosition,
+  });
 
   if (existingPosition) {
-    await updatePositionEntry(positionIdData, {
-      baseBalance: existingPosition.baseBalance + event.baseDelta,
-      quoteBalance: existingPosition.quoteBalance + event.quoteDelta,
-      notionalBalance: existingPosition.notionalBalance + notionalDelta,
-    });
+    await updatePositionEntry(positionIdData, netBalances);
   } else {
     await insertPositionEntry({
       ...positionIdData,
-      baseBalance: event.baseDelta,
-      quoteBalance: event.quoteDelta,
-      notionalBalance: notionalDelta,
-      liquidityBalance: 0,
+      ...netBalances,
+      liquidity: 0,
       paidFees: 0,
       tickLower: 0,
       tickUpper: 0,
-      creationTimestamp: event.blockTimestamp,
+      creationTimestamp: blockTimestamp,
     });
   }
 };

@@ -8,10 +8,12 @@ export type PositionEntry = {
   accountId: string; // big number
   marketId: string; // big number
   maturityTimestamp: number;
-  baseBalance: number;
-  quoteBalance: number;
-  notionalBalance: number; // for PnL
-  liquidityBalance: number;
+  base: number;
+  timeDependentQuote: number;
+  freeQuote: number;
+  notional: number;
+  lockedFixedRate: number;
+  liquidity: number;
   paidFees: number;
   type: 'trader' | 'lp';
   tickLower: number;
@@ -20,10 +22,12 @@ export type PositionEntry = {
 };
 
 export type PositionEntryUpdate = {
-  baseBalance?: number;
-  quoteBalance?: number;
-  notionalBalance?: number; // for PnL
-  liquidityBalance?: number;
+  base?: number;
+  timeDependentQuote?: number;
+  freeQuote?: number;
+  notional?: number;
+  lockedFixedRate?: number;
+  liquidity?: number;
   paidFees?: number;
 };
 
@@ -37,11 +41,14 @@ export const mapRow = (row: any): PositionEntry => ({
   marketId: row.marketId,
   maturityTimestamp: row.maturityTimestamp,
 
-  baseBalance: bqNumericToNumber(row.baseBalance),
-  quoteBalance: bqNumericToNumber(row.quoteBalance),
-  notionalBalance: bqNumericToNumber(row.notionalBalance),
-  liquidityBalance: bqNumericToNumber(row.liquidityBalance),
+  liquidity: bqNumericToNumber(row.liquidityBalance),
   paidFees: bqNumericToNumber(row.paidFees),
+
+  base: bqNumericToNumber(row.base),
+  timeDependentQuote: bqNumericToNumber(row.timeDependentQuote),
+  freeQuote: bqNumericToNumber(row.freeQuote),
+  notional: bqNumericToNumber(row.notional),
+  lockedFixedRate: bqNumericToNumber(row.lockedFixedRate),
 
   type: row.type,
   tickLower: row.tickLower,
