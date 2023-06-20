@@ -3,6 +3,7 @@ import {
   estimateGas,
   executeTransaction,
   simulateTx,
+  Transaction,
 } from '../executeTransaction';
 import {
   getNativeGasToken,
@@ -63,12 +64,24 @@ export async function simulateLp({
   });
 
   const { data, value, chainId } = await getLpTxData(params);
-  const { txData, bytesOutput } = await simulateTx(
-    signer,
-    data,
-    value,
-    chainId,
-  );
+
+  let txData: Transaction & { gasLimit: BigNumber };
+  let bytesOutput: any;
+  try {
+    const res = await simulateTx(signer, data, value, chainId);
+    txData = res.txData;
+    bytesOutput = res.bytesOutput;
+  } catch (e) {
+    return {
+      gasFee: {
+        value: -1,
+        token: 'ETH',
+      },
+      fee: -1,
+      marginRequirement: -1,
+      maxMarginWithdrawable: -1,
+    };
+  }
 
   const { fee, im } = decodeLpOutput(bytesOutput);
 

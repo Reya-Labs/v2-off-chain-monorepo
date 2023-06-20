@@ -15,18 +15,24 @@ export const getPoolLpInfo = async ({
   fixedLow,
   provider,
 }: GetPoolLpInfoArgs): Promise<GetPoolLpInfoResults> => {
-  const mockSigner = getDummyWallet(); // todo: this is going to fail, give provider
+  const mockSigner = getDummyWallet().connect(provider);
 
-  const maxLeverage = await getLpMaxLeverage({
-    ammId,
-    fixedLow,
-    fixedHigh,
-    mockSigner: mockSigner,
-  });
+  try {
+    const maxLeverage = await getLpMaxLeverage({
+      ammId,
+      fixedLow,
+      fixedHigh,
+      mockSigner: mockSigner,
+    });
 
-  return {
-    maxLeverage,
-  };
+    return {
+      maxLeverage,
+    };
+  } catch (e) {
+    return {
+      maxLeverage: -1,
+    };
+  }
 };
 
 async function getLpMaxLeverage({

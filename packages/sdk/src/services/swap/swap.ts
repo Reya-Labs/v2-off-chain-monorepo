@@ -77,12 +77,30 @@ export async function simulateSwap({
   });
 
   const { data, value, chainId } = await getSwapTxData(params);
-  const { txData, bytesOutput } = await simulateTx(
-    signer,
-    data,
-    value,
-    chainId,
-  );
+
+  let txData: Transaction & { gasLimit: BigNumber };
+  let bytesOutput: any;
+  try {
+    const res = await simulateTx(signer, data, value, chainId);
+    txData = res.txData;
+    bytesOutput = res.bytesOutput;
+  } catch (e) {
+    return {
+      marginRequirement: -1,
+      maxMarginWithdrawable: -1,
+      availableNotional: -1,
+      fee: -1,
+      slippage: -1,
+      averageFixedRate: -1,
+      fixedTokenDeltaBalance: -1,
+      variableTokenDeltaBalance: -1,
+      fixedTokenDeltaUnbalanced: -1,
+      gasFee: {
+        value: -1,
+        token: 'ETH',
+      },
+    };
+  }
 
   const { executedBaseAmount, executedQuoteAmount, fee, im, currentTick } =
     decodeSwapOutput(bytesOutput);
