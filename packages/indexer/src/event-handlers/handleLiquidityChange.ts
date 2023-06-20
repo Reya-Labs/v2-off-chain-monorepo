@@ -41,6 +41,7 @@ export const handleLiquidityChange = async (event: LiquidityChangeEvent) => {
       notionalBalance: 0,
       liquidityBalance: event.liquidityDelta,
       paidFees: 0,
+      creationTimestamp: event.blockTimestamp,
     });
   }
 };

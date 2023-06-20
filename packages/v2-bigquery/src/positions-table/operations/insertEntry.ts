@@ -23,7 +23,8 @@ export const insertPositionEntry = async (
     ${entry.paidFees},
     "${entry.type}",
     ${entry.tickLower},
-    ${entry.tickUpper}
+    ${entry.tickUpper},
+    ${entry.creationTimestamp}
   `;
 
   // build and fire sql query

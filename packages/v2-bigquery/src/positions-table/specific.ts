@@ -16,6 +16,7 @@ export type PositionEntry = {
   type: 'trader' | 'lp';
   tickLower: number;
   tickUpper: number;
+  creationTimestamp: number;
 };
 
 export type PositionEntryUpdate = {
@@ -45,4 +46,5 @@ export const mapRow = (row: any): PositionEntry => ({
   type: row.type,
   tickLower: row.tickLower,
   tickUpper: row.tickUpper,
+  creationTimestamp: row.creationTimestamp,
 });

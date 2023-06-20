@@ -52,4 +52,6 @@ export const positionsTableSchema: TableField[] = [
   { name: 'type', type: 'STRING', mode: 'REQUIRED' },
   { name: 'tickLower', type: 'INTEGER', mode: 'REQUIRED' },
   { name: 'tickUpper', type: 'INTEGER', mode: 'REQUIRED' },
+
+  { name: 'creationTimestamp', type: 'INTEGER', mode: 'REQUIRED' },
 ];
