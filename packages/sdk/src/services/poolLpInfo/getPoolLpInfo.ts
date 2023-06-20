@@ -6,23 +6,21 @@ import {
   GetPoolLpInfoArgs,
   GetPoolLpInfoResults,
 } from './types';
-import { getDummyWallet } from '../../utils/getDummyWallet';
 import { descale, scale } from '../../utils/helpers';
 
 export const getPoolLpInfo = async ({
   ammId,
   fixedHigh,
   fixedLow,
-  provider,
+  signer,
 }: GetPoolLpInfoArgs): Promise<GetPoolLpInfoResults> => {
-  const mockSigner = getDummyWallet().connect(provider);
 
   try {
     const maxLeverage = await getLpMaxLeverage({
       ammId,
       fixedLow,
       fixedHigh,
-      mockSigner: mockSigner,
+      signer,
     });
 
     return {
@@ -39,11 +37,11 @@ async function getLpMaxLeverage({
   ammId,
   fixedLow,
   fixedHigh,
-  mockSigner,
+  signer,
 }: GetLpMaxLeverageArgs): Promise<number> {
   const params = await createLpParams({
     ammId,
-    signer: mockSigner,
+    signer,
     notional: 1,
     margin: 0,
     fixedLow,
@@ -51,7 +49,7 @@ async function getLpMaxLeverage({
   });
 
   const { data, value, chainId } = await getLpTxData(params);
-  const bytesOutput = (await simulateTx(mockSigner, data, value, chainId))
+  const bytesOutput = (await simulateTx(signer, data, value, chainId))
     .bytesOutput;
 
   const im = decodeLpOutput(bytesOutput).im;

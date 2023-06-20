@@ -23,7 +23,8 @@
     "prettier:fix": "npx prettier --write './{src,tests}/**/*.ts'",
     "test": "npx mocha --require ts-node/register tests/**/*.test.ts",
     "test:coverage": "yarn test --coverage",
-    "generate:coverage-badges": "npx istanbul-badges-readme --silent"
+    "generate:coverage-badges": "npx istanbul-badges-readme --silent",
+    "build-release": "node scripts/release.js"
   },
   "packageManager": "yarn@3.5.1",
   "dependencies": {
@@ -32,6 +33,6 @@
     "@uniswap/v3-sdk": "3.9.0",
     "@voltz-protocol/sdk-v1-stateless": "workspace:^",
     "crypto-js": "4.1.1",
-    "jsbi": "4.3.0"
+    "jsbi": "3.1.4"
   }
 }

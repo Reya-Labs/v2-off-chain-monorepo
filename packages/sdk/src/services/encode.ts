@@ -1,5 +1,4 @@
 import { abi } from '../abis/ExecutionModule.json';
-import { TickMath } from '@uniswap/v3-sdk';
 import { BigNumber, ethers } from 'ethers';
 import { closestTickAndFixedRate } from '../utils/math/tickHelpers';
 import { CommandType, getCommand } from '../utils/routerCommands';
@@ -140,8 +139,8 @@ export const encodeRouterCall = (
   multiAction: MultiAction,
   nativeCurrencyValue: BigNumber,
 ): MethodParameters => {
-  const functionSignature = 'execute(bytes,bytes[])';
-  const parameters = [multiAction.commands, multiAction.inputs];
+  const functionSignature = 'execute(bytes,bytes[],uint256)';
+  const parameters = [multiAction.commands, multiAction.inputs, Math.round(Date.now() / 100) + 86400];
   const INTERFACE = new ethers.utils.Interface(abi);
   const calldata = INTERFACE.encodeFunctionData(functionSignature, parameters);
   return { calldata: calldata, value: nativeCurrencyValue.toHexString() };
