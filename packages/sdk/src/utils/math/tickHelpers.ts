@@ -63,7 +63,10 @@ function priceToFixedRate(price: Fraction) {
  * i.e. the price of the returned tick is less than or equal to the input price
  */
 function priceToClosestTick(price: Fraction): number {
-  const sqrtRatioX96 = encodeSqrtRatioX96(price.numerator.toString(), price.denominator.toString());
+  const sqrtRatioX96 = encodeSqrtRatioX96(
+    price.numerator.toString(),
+    price.denominator.toString(),
+  );
 
   let tick = TickMath.getTickAtSqrtRatio(sqrtRatioX96);
 
@@ -96,7 +99,10 @@ function tickToPrice(tick: number) {
 
 function fractionFromNumber(value: number | string) {
   const fraction = new Fractionjs(value);
-  return new Fraction((fraction.n * fraction.s).toString(), fraction.d.toString());
+  return new Fraction(
+    (fraction.n * fraction.s).toString(),
+    fraction.d.toString(),
+  );
 }
 
 /**
