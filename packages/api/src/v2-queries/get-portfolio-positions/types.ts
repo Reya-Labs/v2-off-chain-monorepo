@@ -3,6 +3,7 @@ import { V2Pool } from '../get-pools/types';
 export type V2PortfolioPosition = {
   id: string;
 
+  accountId: string;
   ownerAddress: string;
   type: 'LP' | 'Variable' | 'Fixed';
   creationTimestampInMS: number;

@@ -2,7 +2,6 @@ import {
   AccountCreatedEvent,
   pullAccountCreatedEvent,
   insertAccountCreatedEvent,
-  insertAccountEntry,
 } from '@voltz-protocol/bigquery-v2';
 
 export const handleAccountCreated = async (event: AccountCreatedEvent) => {
@@ -13,6 +12,4 @@ export const handleAccountCreated = async (event: AccountCreatedEvent) => {
   }
 
   await insertAccountCreatedEvent(event);
-
-  await insertAccountEntry(event);
 };

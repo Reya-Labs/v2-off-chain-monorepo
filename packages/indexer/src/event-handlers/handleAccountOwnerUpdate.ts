@@ -4,6 +4,7 @@ import {
   insertAccountOwnerUpdateEvent,
   pullAccountEntry,
   updateAccountEntry,
+  insertAccountEntry,
 } from '@voltz-protocol/bigquery-v2';
 
 export const handleAccountOwnerUpdate = async (
@@ -23,12 +24,14 @@ export const handleAccountOwnerUpdate = async (
   );
 
   if (!existingAccount) {
-    throw new Error(
-      `Failed to index AccountOwnerUpdate event for non-existing account ${event.accountId}`,
-    );
+    await insertAccountEntry({
+      chainId: event.chainId,
+      accountId: event.accountId,
+      owner: event.newOwner,
+    });
+  } else {
+    await updateAccountEntry(event.chainId, event.accountId, {
+      owner: event.newOwner,
+    });
   }
-
-  await updateAccountEntry(event.chainId, event.accountId, {
-    owner: event.newOwner,
-  });
 };

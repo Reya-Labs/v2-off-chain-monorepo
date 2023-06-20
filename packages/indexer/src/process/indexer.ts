@@ -8,18 +8,16 @@ export const main = async () => {
   await createProtocolV2Dataset();
 
   while (true) {
-    try {
-      await getAndPushAllLiquidityIndices();
-      await sync(CHAIN_IDS);
-    } catch (error) {
-      console.log(
-        `[Protocol indexer]: Loop has failed with message: ${
-          (error as Error).message
-        }.  It will retry...`,
-      );
-    }
+    const start = Date.now().valueOf();
 
-    await sleep(INDEXING_BUFFER);
+    await getAndPushAllLiquidityIndices();
+    await sync(CHAIN_IDS);
+
+    // Aim for some minimum buffer between runs such that RPC endpoint is not over-used
+    const timeInLoop = Date.now().valueOf() - start;
+    if (timeInLoop < INDEXING_BUFFER) {
+      await sleep(INDEXING_BUFFER - timeInLoop);
+    }
   }
 };
 
@@ -29,8 +27,6 @@ main()
   })
   .catch((error) => {
     console.log(
-      `[Protocol indexer]: Error encountered. ${
-        (error as unknown as Error).message
-      }`,
+      `[Protocol indexer]: Error encountered. ${(error as Error).message}`,
     );
   });
