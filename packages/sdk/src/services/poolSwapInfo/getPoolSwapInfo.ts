@@ -1,16 +1,18 @@
 import { createSwapParams } from '../swap';
 import { GetPoolSwapInfoArgs, GetPoolSwapInfoResults } from './types';
 import { getPoolSwapInfoOneSide } from './getPoolSwapInfoOneSide';
+import { getDummyWallet } from '../../utils/getDummyWallet';
 
 export const getPoolSwapInfo = async ({
   ammId,
-  signer,
+  provider,
 }: GetPoolSwapInfoArgs): Promise<GetPoolSwapInfoResults> => {
-  const chainId = await signer.getChainId();
+  const chainId = (await provider.getNetwork()).chainId;
 
+  const dummyWallet = await getDummyWallet().connect(provider);
   const params = await createSwapParams({
     ammId,
-    signer,
+    signer: dummyWallet,
     notional: 0,
     margin: 0,
     fixedRateLimit: 0,

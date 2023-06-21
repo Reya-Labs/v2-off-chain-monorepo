@@ -1,4 +1,4 @@
-import { Signer } from 'ethers';
+import { Signer, providers } from 'ethers';
 
 export type GetPoolLpInfoResults = {
   maxLeverage: number;
@@ -15,5 +15,5 @@ export type GetPoolLpInfoArgs = {
   ammId: string;
   fixedHigh: number;
   fixedLow: number;
-  signer: Signer;
+  provider: providers.Provider;
 };

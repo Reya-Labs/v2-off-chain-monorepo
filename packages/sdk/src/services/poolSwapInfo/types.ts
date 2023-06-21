@@ -1,5 +1,5 @@
 import { CompleteSwapDetails, SwapUserInputs } from '../swap';
-import { Signer } from 'ethers';
+import { providers } from 'ethers';
 import { PoolConfig } from '../../gateway/types';
 
 export type GetAvailableNotionalArgs = {
@@ -23,7 +23,7 @@ export type GetPoolSwapInfoResults = {
 
 export type GetPoolSwapInfoArgs = {
   ammId: string;
-  signer: Signer;
+  provider: providers.Provider;
 };
 
 export type GetPoolSwapInfoOneSideArgs = GetAvailableNotionalArgs;
