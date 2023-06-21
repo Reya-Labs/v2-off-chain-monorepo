@@ -66,6 +66,18 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
   );
 
   for (const lp of lpPositions) {
+    console.log(`args:`, {
+      liquidity: lp.liquidity,
+      tickMove: {
+        from: latestTick as number,
+        to: currentTick,
+      },
+      tickRange: {
+        lower: lp.tickLower,
+        upper: lp.tickUpper,
+      },
+    });
+
     const { baseDelta, quoteDelta } = computePassiveDeltas({
       liquidity: lp.liquidity,
       tickMove: {

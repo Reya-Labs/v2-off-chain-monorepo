@@ -95,7 +95,8 @@ const getNetBalances = ({
       currentPosition.base + incomingTrade.base <= 0)
   ) {
     const projectedTimeDependentQuote =
-      currentPosition.notional * currentPosition.lockedFixedRate;
+      (-incomingTrade.base / currentPosition.base) *
+      currentPosition.timeDependentQuote;
 
     const lockedCashflow =
       ((projectedTimeDependentQuote + incomingTrade.timeDependentQuote) *
