@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.4.5...@voltz-protocol/commons-v2@1.5.0) (2023-06-21)
+
+### Features
+
+- UTs for rPnL ([#100](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/100)) ([cc7d730](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/cc7d7309522e2455a87dbc0f7d8787d4f84be787))
+
 ## [1.4.5](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.4.4...@voltz-protocol/commons-v2@1.4.5) (2023-06-19)
 
 **Note:** Version bump only for package @voltz-protocol/commons-v2
