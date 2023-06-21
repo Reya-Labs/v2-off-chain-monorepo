@@ -1,9 +1,11 @@
 import { BigNumber } from 'ethers';
-import { decodeSwapOutput, getSwapTxData } from '../swap';
-import { simulateTx } from '../executeTransaction';
+import { getSwapTxData } from '../swap';
+import { simulateTx, simulateTxExpectError } from '../executeTransaction';
 import { MINUS_ONE_BN, ONE_BN, ZERO_BN } from '../../utils/constants';
 import { GetMaxLeverageArgs } from './types';
 import { descale, scale } from '../../utils/helpers';
+import { decodeImFromError } from '../../utils/errors/errorHandling';
+import { decodeSwap } from '../../utils/decodeOutput';
 
 export const getMaxLeverage = async ({
   isFT,
@@ -15,10 +17,17 @@ export const getMaxLeverage = async ({
     baseAmount: isFT ? ONE_BN : MINUS_ONE_BN,
     margin: ZERO_BN,
   });
-  const bytesOutput = (await simulateTx(params.owner, data, value, chainId))
-    .bytesOutput;
 
-  const im = decodeSwapOutput(bytesOutput).im;
+  const { bytesOutput, isError } = await simulateTxExpectError(
+    params.owner,
+    data,
+    value,
+    chainId,
+  );
+
+  const im = isError
+    ? decodeImFromError(bytesOutput).marginRequirement
+    : decodeSwap(bytesOutput, true, false, false, true).im;
 
   if (im.gt(0)) {
     // should always happen, since we connect with dummy account

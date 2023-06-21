@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers';
-import { simulateTx } from '../executeTransaction';
-import { createLpParams, decodeLpOutput, getLpTxData } from '../lp';
+import { simulateTxExpectError } from '../executeTransaction';
+import { createLpParams, getLpTxData } from '../lp';
 import {
   GetLpMaxLeverageArgs,
   GetPoolLpInfoArgs,
@@ -8,6 +8,8 @@ import {
 } from './types';
 import { descale, scale } from '../../utils/helpers';
 import { getDummyWallet } from '../../utils/getDummyWallet';
+import { decodeImFromError } from '../../utils/errors/errorHandling';
+import { decodeLp } from '../../utils/decodeOutput';
 
 export const getPoolLpInfo = async ({
   ammId,
@@ -44,16 +46,22 @@ async function getLpMaxLeverage({
     ammId,
     signer,
     notional: 1,
-    margin: 1,
+    margin: 0,
     fixedLow,
     fixedHigh,
   });
 
   const { data, value, chainId } = await getLpTxData(params);
-  const bytesOutput = (await simulateTx(signer, data, value, chainId))
-    .bytesOutput;
+  const { bytesOutput, isError } = await simulateTxExpectError(
+    signer,
+    data,
+    value,
+    chainId,
+  );
 
-  const im = decodeLpOutput(bytesOutput).im;
+  const im = isError
+    ? decodeImFromError(bytesOutput).marginRequirement
+    : decodeLp(bytesOutput, true, false, false, true).im;
 
   if (im.gt(0)) {
     // should always happen, since we connect with dummy account

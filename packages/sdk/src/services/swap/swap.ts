@@ -2,7 +2,7 @@ import { BigNumber, ContractReceipt } from 'ethers';
 import {
   estimateGas,
   executeTransaction,
-  simulateTx,
+  simulateTxExpectError,
   Transaction,
 } from '../executeTransaction';
 import { encodeSwap } from './encode';
@@ -17,15 +17,10 @@ import {
   SwapPeripheryParameters,
   SwapUserInputs,
 } from './types';
+import { descale, notionalToBaseAmount, scale } from '../../utils/helpers';
 import {
-  baseAmountToNotionalBN,
-  descale,
-  notionalToBaseAmount,
-  scale,
-} from '../../utils/helpers';
-import {
+  MINUS_ONE_BN,
   SECONDS_IN_YEAR,
-  VERY_BIG_NUMBER,
   WAD,
   ZERO_BN,
 } from '../../utils/constants';
@@ -33,9 +28,17 @@ import {
   fixedRateToPrice,
   tickToFixedRate,
 } from '../../utils/math/tickHelpers';
-import { defaultAbiCoder } from 'ethers/lib/utils';
 import { getPoolInfo } from '../../gateway/getPoolInfo';
 import { PoolConfig } from '../../gateway/types';
+import { decodeSwap } from '../../utils/decodeOutput';
+import { decodeImFromError } from '../../utils/errors/errorHandling';
+import { getAvailableNotional } from '../poolSwapInfo/getAvailableNotional';
+import {
+  DEFAULT_EXECUTED_BASE,
+  DEFAULT_EXECUTED_QUOTE,
+  DEFAULT_FEE,
+  DEFAULT_TICK,
+} from '../../utils/errors/constants';
 
 export async function swap({
   ammId,
@@ -80,48 +83,32 @@ export async function simulateSwap({
 
   let txData: Transaction & { gasLimit: BigNumber };
   let bytesOutput: any;
+  let isError = false;
   try {
-    const res = await simulateTx(signer, data, value, chainId);
+    const res = await simulateTxExpectError(signer, data, value, chainId);
     txData = res.txData;
     bytesOutput = res.bytesOutput;
+    isError = res.isError;
   } catch (e) {
-    return {
-      marginRequirement: -1,
-      maxMarginWithdrawable: -1,
-      availableNotional: -1,
-      fee: -1,
-      slippage: -1,
-      averageFixedRate: -1,
-      fixedTokenDeltaBalance: -1,
-      variableTokenDeltaBalance: -1,
-      fixedTokenDeltaUnbalanced: -1,
-      gasFee: {
-        value: -1,
-        token: 'ETH',
-      },
-    };
+    throw new Error('Failed to simulate swap');
   }
 
   const { executedBaseAmount, executedQuoteAmount, fee, im, currentTick } =
-    decodeSwapOutput(bytesOutput);
+    isError
+      ? {
+          executedBaseAmount: DEFAULT_EXECUTED_BASE,
+          executedQuoteAmount: DEFAULT_EXECUTED_QUOTE,
+          fee: DEFAULT_FEE,
+          currentTick: DEFAULT_TICK,
+          im: decodeImFromError(bytesOutput).marginRequirement,
+        }
+      : decodeSwap(bytesOutput, true, false, true, notional > 0);
 
-  let availableNotionalRaw = ZERO_BN;
-  {
-    const { calldata: data, value } = await encodeSwap({
-      ...params,
-      fixedRateLimit:
-        params.fixedRateLimit !== undefined ? params.fixedRateLimit : ZERO_BN,
-      baseAmount: VERY_BIG_NUMBER,
-    });
-    const bytesOutput = (await simulateTx(signer, data, value, chainId))
-      .bytesOutput;
-
-    const executedBaseAmount = decodeSwapOutput(bytesOutput).executedBaseAmount;
-    availableNotionalRaw = baseAmountToNotionalBN(
-      executedBaseAmount,
-      params.currentLiquidityIndex,
-    );
-  }
+  const availableNotional = await getAvailableNotional({
+    isFT: notional > 0,
+    chainId,
+    params,
+  });
 
   const result = await processInfoPostSwap(
     executedBaseAmount,
@@ -129,7 +116,7 @@ export async function simulateSwap({
     fee,
     im,
     currentTick,
-    availableNotionalRaw,
+    scale(params.quoteTokenDecimals)(availableNotional),
     txData,
     params,
   );
@@ -191,32 +178,6 @@ export async function createSwapParams({
   return params;
 }
 
-export function decodeSwapOutput(bytesData: any): {
-  executedBaseAmount: BigNumber;
-  executedQuoteAmount: BigNumber;
-  fee: BigNumber;
-  im: BigNumber;
-  currentTick: number;
-} {
-  // (int256 executedBaseAmount, int256 executedQuoteAmount, uint256 fee, uint256 im, int24 currentTick)
-  if (!bytesData[0]) {
-    throw new Error('unable to decode Swap output');
-  }
-
-  const result = defaultAbiCoder.decode(
-    ['int256', 'int256', 'uint256', 'uint256', 'int24'],
-    bytesData[0],
-  );
-
-  return {
-    executedBaseAmount: result[0],
-    executedQuoteAmount: result[1],
-    fee: result[2],
-    im: result[3],
-    currentTick: result[4],
-  };
-}
-
 export async function processInfoPostSwap(
   executedBaseAmount: BigNumber,
   executedQuoteAmount: BigNumber,
@@ -246,7 +207,8 @@ export async function processInfoPostSwap(
 
   // MARGIN & FEE
   const marginRequirement = descale(params.quoteTokenDecimals)(im);
-  const descaledFee = descale(params.quoteTokenDecimals)(fee);
+  const descaledFee =
+    fee === DEFAULT_FEE ? -1 : descale(params.quoteTokenDecimals)(fee);
 
   const maxMarginWithdrawable =
     positionMargin === undefined ? 0 : positionMargin - marginRequirement;
@@ -257,22 +219,28 @@ export async function processInfoPostSwap(
   );
 
   // SLIPPAGE
-  const fixedRateDelta = tickToFixedRate(currentTick) - params.currentFixedRate;
-  const slippage = Math.abs(fixedRateDelta);
+  const slippage = Math.abs(
+    currentTick === DEFAULT_TICK
+      ? -1
+      : tickToFixedRate(currentTick) - params.currentFixedRate,
+  );
 
   // AVG FIXED RATE
   // ft = -base * index * ( 1 + avgFR*timetillMaturity/year) = -notional * ( 1 + avgFR*timetillMaturity/year)
-  const yearsTillMaturityinWad = BigNumber.from(SECONDS_IN_YEAR)
-    .mul(WAD)
-    .div(Math.round(Date.now() / 1000) - params.maturityTimestamp);
-  const fixedRateTillMaturityInWad = executedQuoteAmount
-    .mul(WAD)
-    .div(availableNotionalRaw)
-    .sub(WAD);
-  const averageFixedRateInWad = availableNotionalRaw.eq(ZERO_BN)
-    ? ZERO_BN
-    : fixedRateTillMaturityInWad.mul(WAD).div(yearsTillMaturityinWad);
-  const averageFixedRate = descale(18)(averageFixedRateInWad) * 100;
+  let averageFixedRate = 0;
+  if (executedQuoteAmount != null) {
+    const yearsTillMaturityinWad = BigNumber.from(SECONDS_IN_YEAR)
+      .mul(WAD)
+      .div(Math.round(Date.now() / 1000) - params.maturityTimestamp);
+    const fixedRateTillMaturityInWad = executedQuoteAmount
+      .mul(WAD)
+      .div(availableNotionalRaw)
+      .sub(WAD);
+    const averageFixedRateInWad = availableNotionalRaw.eq(ZERO_BN)
+      ? ZERO_BN
+      : fixedRateTillMaturityInWad.mul(WAD).div(yearsTillMaturityinWad);
+    averageFixedRate = descale(18)(averageFixedRateInWad) * 100;
+  }
 
   return {
     marginRequirement: marginRequirement,

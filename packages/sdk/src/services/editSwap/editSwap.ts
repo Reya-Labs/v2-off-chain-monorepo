@@ -17,8 +17,9 @@ import {
 } from '../../utils/helpers';
 import { VERY_BIG_NUMBER, ZERO_BN } from '../../utils/constants';
 import { fixedRateToPrice } from '../../utils/math/tickHelpers';
-import { decodeSwapOutput, InfoPostSwap, processInfoPostSwap } from '../swap';
+import { InfoPostSwap, processInfoPostSwap } from '../swap';
 import { getPositionInfo } from '../../gateway/getPositionInfo';
+import { decodeSwap } from '../../utils/decodeOutput';
 
 export async function editSwap({
   positionId,
@@ -68,7 +69,7 @@ export async function simulateEditSwap({
   );
 
   const { executedBaseAmount, executedQuoteAmount, fee, im, currentTick } =
-    decodeSwapOutput(bytesOutput);
+    decodeSwap(bytesOutput, false, margin < 0, margin > 0, notional > 0);
 
   // SIMULATE WITH MAX NOTIONAL
 
@@ -81,7 +82,13 @@ export async function simulateEditSwap({
     const bytesOutput = (await simulateTx(signer, data, value, chainId))
       .bytesOutput;
 
-    const executedBaseAmount = decodeSwapOutput(bytesOutput).executedBaseAmount;
+    const executedBaseAmount = decodeSwap(
+      bytesOutput,
+      false,
+      margin < 0,
+      margin > 0,
+      true,
+    ).executedBaseAmount;
     availableNotionalRaw = baseAmountToNotionalBN(
       executedBaseAmount,
       params.currentLiquidityIndex,

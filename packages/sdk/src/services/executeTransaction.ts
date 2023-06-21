@@ -2,6 +2,7 @@ import { BigNumber, ContractReceipt, Signer } from 'ethers';
 import { PERIPHERY_ADDRESS } from '../utils/configuration';
 import { getGasBuffer } from '../utils/txHelpers';
 import { defaultAbiCoder } from 'ethers/lib/utils';
+import { estimateAnyTradeGasUnits } from '../utils/estimateSwapGasUnits';
 
 export type Transaction = {
   from: string;
@@ -68,6 +69,61 @@ export async function simulateTx(
   return {
     txData: txData,
     bytesOutput: bytesOutput[0],
+  };
+}
+
+export async function simulateTxExpectError(
+  signer: Signer,
+  data: string,
+  value: string,
+  chainId: number,
+): Promise<{
+  txData: Transaction & { gasLimit: BigNumber };
+  bytesOutput: any;
+  isError: boolean;
+}> {
+  const accountAddress = await signer.getAddress();
+
+  const tx = {
+    from: accountAddress,
+    to: PERIPHERY_ADDRESS(chainId),
+    data,
+    ...(value && value !== '0' ? { value: value } : {}),
+  };
+
+  const gasUnits = estimateAnyTradeGasUnits(chainId);
+
+  const txData = {
+    ...tx,
+    gasLimit: getGasBuffer(BigNumber.from(gasUnits)),
+  };
+
+  let isError = false;
+  let res: any;
+  try {
+    await signer.call(txData).then(
+      (result) => {
+        if (result === undefined) {
+          throw new Error('Failed to get transaction output');
+        }
+        res = defaultAbiCoder.decode(['bytes[]'], result);
+      },
+      (error) => {
+        isError = true;
+        res = error;
+      },
+    );
+  } catch (error) {
+    // sentry error & thorw
+    console.warn(error);
+    const errorMessage = ''; //getReadableErrorMessage(error);
+    throw new Error(errorMessage);
+  }
+
+  return {
+    txData: txData,
+    bytesOutput: isError ? res : res[0],
+    isError: isError,
   };
 }
 

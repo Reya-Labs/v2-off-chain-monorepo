@@ -48,10 +48,10 @@ export const getPoolSwapInfo = async ({
   } catch (error) {
     console.warn('Failed to get Pool Swap Info');
     return {
-      availableNotionalFixedTaker: 0,
-      availableNotionalVariableTaker: 0,
-      maxLeverageFixedTaker: 0,
-      maxLeverageVariableTaker: 0,
+      availableNotionalFixedTaker: -1,
+      availableNotionalVariableTaker: -1,
+      maxLeverageFixedTaker: 1,
+      maxLeverageVariableTaker: 1,
     };
   }
 };
