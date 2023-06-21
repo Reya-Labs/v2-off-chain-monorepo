@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.41.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.40.4...@voltz-protocol/sdk-v2@1.41.0) (2023-06-21)
+
+### Features
+
+- add more testing stories ([9b63a99](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/9b63a99253af4def79eb79eaa2b49b6d3f41a71f))
+- add storybook configuration ([cb2562e](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/cb2562e965385ba62a7581b50dbea5606bb3f1b1))
+
 ## [1.40.4](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.40.3...@voltz-protocol/sdk-v2@1.40.4) (2023-06-21)
 
 ### Bug Fixes
