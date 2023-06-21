@@ -7,19 +7,21 @@ import {
   GetPoolLpInfoResults,
 } from './types';
 import { descale, scale } from '../../utils/helpers';
+import { getDummyWallet } from '../../utils/getDummyWallet';
 
 export const getPoolLpInfo = async ({
   ammId,
   fixedHigh,
   fixedLow,
-  signer,
+  provider,
 }: GetPoolLpInfoArgs): Promise<GetPoolLpInfoResults> => {
+  const dummyWallet = await getDummyWallet().connect(provider);
   try {
     const maxLeverage = await getLpMaxLeverage({
       ammId,
       fixedLow,
       fixedHigh,
-      signer,
+      signer: dummyWallet,
     });
 
     return {
