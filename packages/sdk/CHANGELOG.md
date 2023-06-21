@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.40.4](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.40.3...@voltz-protocol/sdk-v2@1.40.4) (2023-06-21)
+
+### Bug Fixes
+
+- revert provider getPoolInfo ([9646d0c](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/9646d0cd583b96d73dc53e4a553f3f123f182de6))
+
 ## [1.40.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.40.2...@voltz-protocol/sdk-v2@1.40.3) (2023-06-20)
 
 ### Bug Fixes
