@@ -1,6 +1,6 @@
 import { Signer } from 'ethers';
 
-export type RolloverAndSwapArgs = {
+export type RolloverWithSwapArgs = {
   maturedPositionId: string;
   ammId: string;
   notional: number;

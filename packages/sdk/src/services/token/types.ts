@@ -5,7 +5,7 @@ export type ApprovePeripheryArgs = {
   signer: Signer;
 };
 
-export type GetAllowanceArgs = {
+export type GetAllowanceToPeripheryArgs = {
   ammId: string;
   signer: Signer;
 };

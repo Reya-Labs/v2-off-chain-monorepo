@@ -1,10 +1,10 @@
-import { RolloverAndLpArgs } from './types';
+import { RolloverWithLpArgs } from './types';
 import { ContractReceipt } from 'ethers';
 import { ZERO_BN } from '../../utils/constants';
 import { InfoPostLp } from '../lp';
 
 export async function rolloverWithLp(
-  args: RolloverAndLpArgs,
+  args: RolloverWithLpArgs,
 ): Promise<ContractReceipt> {
   return Promise.resolve({
     to: '',
@@ -26,7 +26,7 @@ export async function rolloverWithLp(
 }
 
 export async function simulateRolloverWithLp(
-  args: RolloverAndLpArgs,
+  args: RolloverWithLpArgs,
 ): Promise<InfoPostLp> {
   return Promise.resolve({
     marginRequirement: 0,

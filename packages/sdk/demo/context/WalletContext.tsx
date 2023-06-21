@@ -11,6 +11,7 @@ export const WalletContextProvider = ({ children }) => {
   const [error, setError] = React.useState('');
   const [account, setAccount] = React.useState('');
   const [signer, setSigner] = React.useState(null);
+  const [provider, setProvider] = React.useState(null);
   const connect = async () => {
     if (account) {
       return;
@@ -19,19 +20,21 @@ export const WalletContextProvider = ({ children }) => {
     const externalProvider = await detectEthereumProvider();
     if (externalProvider) {
       try {
-        const provider = new ethers.providers.Web3Provider(
+        const newProvider = new ethers.providers.Web3Provider(
           externalProvider as ethers.providers.ExternalProvider,
         );
-        await provider.send('eth_requestAccounts', []);
-        const newSigner = provider.getSigner();
+        await newProvider.send('eth_requestAccounts', []);
+        const newSigner = newProvider.getSigner();
         const walletAddress = await newSigner.getAddress();
         setAccount(walletAddress);
+        setProvider(newProvider);
         setSigner(newSigner);
         setLoading(false);
       } catch (err) {
         setError((err as Error)?.message || JSON.stringify(err));
         setLoading(false);
         setSigner(null);
+        setProvider(null);
         setAccount('');
         return undefined;
       }
@@ -39,6 +42,7 @@ export const WalletContextProvider = ({ children }) => {
       setError('Metamask not installed');
       setLoading(false);
       setSigner(null);
+      setProvider(null);
       setAccount('');
     }
   };
@@ -51,6 +55,7 @@ export const WalletContextProvider = ({ children }) => {
     account,
     signer,
     isLoggedIn: Boolean(account),
+    provider,
   };
 
   return (

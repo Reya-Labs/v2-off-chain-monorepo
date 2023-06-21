@@ -1,17 +1,22 @@
 import { Button, Typography } from 'brokoli-ui';
 import * as React from 'react';
 
-import { ButtonBox, PageContentBox, ContentBox } from './EditLp.styled';
-import { WalletButton } from '../../components/WalletButton';
-import { WalletContext } from '../../context/WalletContext';
-import { editLp, EditLpArgs } from '../../../src';
-import { TestState } from '../../components/TestState';
+import {
+  ButtonBox,
+  PageContentBox,
+  ContentBox,
+} from './getAllowanceToPeriphery.styled';
+import { WalletButton } from '../../../components/WalletButton';
+import { WalletContext } from '../../../context/WalletContext';
+import {
+  getAllowanceToPeriphery,
+  GetAllowanceToPeripheryArgs,
+} from '../../../../src';
+import { TestState } from '../../../components/TestState';
 
-export const EditLpTest: React.FunctionComponent<{
-  positionId: string;
-  notional: EditLpArgs['notional'];
-  margin: EditLpArgs['margin'];
-}> = ({ positionId, margin, notional }) => {
+export const GetAllowanceToPeripheryTest: React.FunctionComponent<{
+  ammId: GetAllowanceToPeripheryArgs['ammId'];
+}> = ({ ammId }) => {
   const { isLoggedIn, signer } = React.useContext(WalletContext);
   const [isTesting, setIsTesting] = React.useState(false);
   const [testError, setTestError] = React.useState('');
@@ -23,11 +28,9 @@ export const EditLpTest: React.FunctionComponent<{
     }
     setIsTesting(true);
     try {
-      const result = await editLp({
-        positionId,
+      const result = await getAllowanceToPeriphery({
+        ammId,
         signer,
-        notional,
-        margin,
       });
       setTestResult(JSON.stringify(result));
     } catch (error) {
@@ -37,7 +40,7 @@ export const EditLpTest: React.FunctionComponent<{
     }
   };
   return (
-    <ContentBox data-testid="Pausability">
+    <ContentBox>
       <WalletButton />
       {isLoggedIn ? (
         <PageContentBox>
@@ -45,7 +48,7 @@ export const EditLpTest: React.FunctionComponent<{
             colorToken="lavenderWeb"
             typographyToken="primaryHeader1Black"
           >
-            services/editLp
+            services/getAllowanceToPeriphery
           </Typography>
           <TestState
             loading={isTesting}
