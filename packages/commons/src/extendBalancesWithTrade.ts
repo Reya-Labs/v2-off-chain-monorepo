@@ -34,8 +34,8 @@ export const extendBalancesWithTrade = ({
 
   const timeDependentQuoteDelta = -notionalDelta * fixedRate;
   const freeQuoteDelta =
-    quoteDelta -
-    (timeDependentQuoteDelta * maturityTimestamp) / SECONDS_IN_YEAR;
+    -notionalDelta +
+    (notionalDelta * fixedRate * tradeTimestamp) / SECONDS_IN_YEAR;
 
   const netBalances = getNetBalances({
     currentPosition: {
@@ -72,6 +72,12 @@ const getNetBalances = ({
     (currentPosition.base >= 0 && incomingTrade.base >= 0) ||
     (currentPosition.base <= 0 && incomingTrade.base <= 0)
   ) {
+    console.log(
+      currentPosition.notional,
+      currentPosition.lockedFixedRate,
+      incomingTrade.notional,
+      incomingTrade.lockedFixedRate,
+    );
     const lockedFixedRate =
       (currentPosition.notional * currentPosition.lockedFixedRate +
         incomingTrade.notional * incomingTrade.lockedFixedRate) /

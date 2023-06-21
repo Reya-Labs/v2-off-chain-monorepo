@@ -1,5 +1,5 @@
 import { SECONDS_IN_YEAR } from '../src/constants';
-import { getPositionNetBalances } from '../src/extendBalancesWithTrade';
+import { extendBalancesWithTrade } from '../src/extendBalancesWithTrade';
 
 const PRECISION = 6;
 
@@ -9,15 +9,15 @@ describe('getPositionNetBalances', () => {
     tradeTimestamp: 0,
     maturityTimestamp: SECONDS_IN_YEAR,
     baseDelta: 100,
-    quoteDelta: -115.5,
+    quoteDelta: -660,
     tradeLiquidityIndex: 1.1,
     existingPosition: null,
   };
 
   it('one trade', async () => {
-    // Trade 1. Base = 100, LiquidityIndex = 1.1, FixedRate = 0.05 (at T=0)
+    // Trade 1. Base = 100, LiquidityIndex = 1.1, FixedRate = 5% (at T=0)
 
-    const netBalances = getPositionNetBalances({
+    const netBalances = extendBalancesWithTrade({
       ...trade1,
       existingPosition: null,
     });
@@ -45,13 +45,13 @@ describe('getPositionNetBalances', () => {
       tradeTimestamp: SECONDS_IN_YEAR / 2,
       maturityTimestamp: SECONDS_IN_YEAR,
       baseDelta: 80,
-      quoteDelta: -126,
+      quoteDelta: -720,
       tradeLiquidityIndex: 1.5,
     };
 
-    const netBalances = getPositionNetBalances({
+    const netBalances = extendBalancesWithTrade({
       ...trade2,
-      existingPosition: getPositionNetBalances({
+      existingPosition: extendBalancesWithTrade({
         ...trade1,
         existingPosition: null,
       }),
@@ -83,13 +83,13 @@ describe('getPositionNetBalances', () => {
       tradeTimestamp: SECONDS_IN_YEAR / 2,
       maturityTimestamp: SECONDS_IN_YEAR,
       baseDelta: -80,
-      quoteDelta: 126,
+      quoteDelta: 720,
       tradeLiquidityIndex: 1.5,
     };
 
-    const netBalances = getPositionNetBalances({
+    const netBalances = extendBalancesWithTrade({
       ...trade2,
-      existingPosition: getPositionNetBalances({
+      existingPosition: extendBalancesWithTrade({
         ...trade1,
         existingPosition: null,
       }),
@@ -118,13 +118,13 @@ describe('getPositionNetBalances', () => {
       tradeTimestamp: SECONDS_IN_YEAR / 2,
       maturityTimestamp: SECONDS_IN_YEAR,
       baseDelta: -160,
-      quoteDelta: 252,
+      quoteDelta: 1440,
       tradeLiquidityIndex: 1.5,
     };
 
-    const netBalances = getPositionNetBalances({
+    const netBalances = extendBalancesWithTrade({
       ...trade2,
-      existingPosition: getPositionNetBalances({
+      existingPosition: extendBalancesWithTrade({
         ...trade1,
         existingPosition: null,
       }),
