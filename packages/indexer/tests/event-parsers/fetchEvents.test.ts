@@ -72,7 +72,7 @@ jest.mock(
         VammCreated: () =>
           ProtocolEventType.VammCreated as unknown as EventFilter,
         VammPriceChange: () =>
-          ProtocolEventType.VammPriceChange as unknown as EventFilter,
+          ProtocolEventType.VAMMPriceChange as unknown as EventFilter,
       },
     })),
   }),
