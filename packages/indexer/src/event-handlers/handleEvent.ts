@@ -91,7 +91,7 @@ export const handleEvent = async (e: BaseEvent) => {
       break;
     }
 
-    case ProtocolEventType.VammPriceChange: {
+    case ProtocolEventType.VAMMPriceChange: {
       await handleVammPriceChange(e as VammPriceChangeEvent);
       break;
     }

@@ -9,7 +9,7 @@ import {
   updatePositionEntry,
 } from '@voltz-protocol/bigquery-v2';
 
-import { getPositionNetBalances } from '@voltz-protocol/commons-v2';
+import { extendBalancesWithTrade } from '@voltz-protocol/commons-v2';
 
 export const handleProductPositionUpdated = async (
   event: ProductPositionUpdatedEvent,
@@ -64,7 +64,7 @@ export const handleProductPositionUpdated = async (
     );
   }
 
-  const netBalances = getPositionNetBalances({
+  const netBalances = extendBalancesWithTrade({
     tradeTimestamp: blockTimestamp,
     maturityTimestamp,
     baseDelta,

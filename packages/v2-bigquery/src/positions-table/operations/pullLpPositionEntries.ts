@@ -9,7 +9,7 @@ export const pullLpPositionEntries = async (
 ): Promise<PositionEntry[]> => {
   const bigQuery = getBigQuery();
 
-  const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE chainId=${chainId} AND marketId="${marketId}" AND maturityTimestamp=${maturityTimestamp} AND liquidityBalance>0`;
+  const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE chainId=${chainId} AND marketId="${marketId}" AND maturityTimestamp=${maturityTimestamp} AND liquidity>0`;
 
   const [rows] = await bigQuery.query({
     query: sqlQuery,

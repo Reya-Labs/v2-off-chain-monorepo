@@ -76,10 +76,11 @@ export const parseEvent = (
         case 'VammCreated': {
           return parseVammCreated(chainId, event);
         }
-        case 'VammPriceChange': {
+        case 'VAMMPriceChange': {
           return parseVammPriceChange(chainId, event);
         }
         default: {
+          console.log(`Unmapped event ${event.event} from VAMM.`);
           return null;
         }
       }

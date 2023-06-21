@@ -1,7 +1,7 @@
 import { assert } from './assert';
 import { computeRealizedPnL } from './computeRealizedPnL';
 import { SECONDS_IN_YEAR } from './constants';
-import { getPositionNetBalances } from './extendBalancesWithTrade';
+import { extendBalancesWithTrade } from './extendBalancesWithTrade';
 import { getTimestampInSeconds } from './getTimestampInSeconds';
 
 export const computeUnrealizedPnL = ({
@@ -27,7 +27,7 @@ export const computeUnrealizedPnL = ({
     currentLiquidityIndex *
     (1 + (currentFixedRate * (maturityTimestamp - now)) / SECONDS_IN_YEAR);
 
-  const unwindBalances = getPositionNetBalances({
+  const unwindBalances = extendBalancesWithTrade({
     tradeLiquidityIndex: currentLiquidityIndex,
     maturityTimestamp,
     baseDelta: unwindBase,

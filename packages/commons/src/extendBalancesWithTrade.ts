@@ -8,7 +8,7 @@ type Balances = {
   lockedFixedRate: number;
 };
 
-export const getPositionNetBalances = ({
+export const extendBalancesWithTrade = ({
   tradeTimestamp,
   maturityTimestamp,
   baseDelta,
@@ -30,7 +30,7 @@ export const getPositionNetBalances = ({
   const timeDelta = (maturityTimestamp - tradeTimestamp) / SECONDS_IN_YEAR;
 
   const notionalDelta = baseDelta * tradeLiquidityIndex;
-  const fixedRate = (-quoteDelta / notionalDelta - 1) / timeDelta;
+  const fixedRate = (-quoteDelta / notionalDelta - 1) / timeDelta / 100;
 
   const timeDependentQuoteDelta = -notionalDelta * fixedRate;
   const freeQuoteDelta =
