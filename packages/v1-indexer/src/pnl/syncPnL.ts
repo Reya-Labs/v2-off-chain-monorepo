@@ -1,3 +1,4 @@
+import { getBlockAtTimestamp } from '@voltz-protocol/commons-v2';
 import { pullAllPositions } from '../big-query-support/positions-table/pull-data/pullAllPositions';
 import { updatePositions } from '../big-query-support/positions-table/push-data/updatePositions';
 import { getVammEvents } from '../common/contract-services/getVammEvents';
@@ -7,18 +8,16 @@ import {
   VAMMPriceChangeEventInfo,
 } from '../common/event-parsers/types';
 import { getActiveAmms } from '../common/getAmms';
-import { getProvider } from '../common/provider/getProvider';
-import {
-  getInformationPerVAMM,
-  setRedis,
-} from '../common/services/redisService';
+import { getInformationPerVAMM } from '../common/services/redisService';
 import { processMintOrBurnEvent } from './processEvents/processMintOrBurnEvent';
 import { processSwapEvent } from './processEvents/processSwapEvent';
 import { processVAMMPriceChangeEvent } from './processEvents/processVAMMPriceChangeEvent';
 
-export const syncPnL = async (chainIds: number[]): Promise<void> => {
+export const syncPnL = async (
+  chainIds: number[],
+  targetTimestamp: number,
+): Promise<void> => {
   const lastProcessedTicks: { [poolId: string]: number } = {};
-  const lastProcessedBlocks: { [processId: string]: number } = {};
 
   const currentPositions = await pullAllPositions();
 
@@ -30,26 +29,15 @@ export const syncPnL = async (chainIds: number[]): Promise<void> => {
       continue;
     }
 
-    const provider = getProvider(chainId);
-    const currentBlock = await provider.getBlockNumber();
+    const fromBlock = 0;
+    const toBlock = await getBlockAtTimestamp(chainId, targetTimestamp);
 
-    console.log(`[PnL, ${chainId}]: Processing up to block ${currentBlock}...`);
+    console.log(`[PnL, ${chainId}]: Processing up to block ${toBlock}...`);
 
     const chainPromises = amms.map(async (amm) => {
-      const { value: latestBlock, id: processId } = await getInformationPerVAMM(
-        'last_block_pnl',
-        chainId,
-        amm.vamm,
-      );
-
-      const fromBlock = latestBlock + 1;
-      const toBlock = currentBlock;
-
       if (fromBlock >= toBlock) {
         return;
       }
-
-      lastProcessedBlocks[processId] = toBlock;
 
       const events = await getVammEvents(
         amm,
@@ -121,20 +109,5 @@ export const syncPnL = async (chainIds: number[]): Promise<void> => {
   // Push update to BigQuery
   if (currentPositions.length > 0) {
     await updatePositions('[PnL]', currentPositions);
-  }
-
-  // Update Redis
-
-  if (Object.entries(lastProcessedBlocks).length > 0) {
-    console.log('[PnL]: Caching to Redis...');
-    for (const [processId, lastProcessedBlock] of Object.entries(
-      lastProcessedBlocks,
-    )) {
-      await setRedis(processId, lastProcessedBlock);
-    }
-
-    for (const [poolId, tick] of Object.entries(lastProcessedTicks)) {
-      await setRedis(poolId, tick);
-    }
   }
 };

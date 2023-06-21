@@ -1,28 +1,16 @@
 import { createPositionsTable } from './big-query-support/positions-table/createPositionsTable';
 import { syncPnL } from './pnl/syncPnL';
-import { indexInactiveTimeInMS } from './global';
-import { sleep } from '@voltz-protocol/commons-v2';
 import { createProtocolV1Dataset } from './big-query-support/utils';
 
-const chainIds = [1, 42161, 43114];
+const chainIds = [42161];
 
 export const main = async () => {
   await createProtocolV1Dataset();
   await createPositionsTable();
 
-  while (true) {
-    try {
-      await syncPnL(chainIds);
-    } catch (error) {
-      console.log(
-        `[PnL]: Loop has failed with message: ${
-          (error as Error).message
-        }.  It will retry...`,
-      );
-    }
+  const targetTimestamp = 1687208400;
 
-    await sleep(indexInactiveTimeInMS);
-  }
+  await syncPnL(chainIds, targetTimestamp);
 };
 
 main()

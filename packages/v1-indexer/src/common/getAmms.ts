@@ -5,7 +5,10 @@ import { BigQueryPoolRow } from '../big-query-support/types';
 export const getAmms = async (chainId: number): Promise<BigQueryPoolRow[]> => {
   const amms = await pullAllChainPools([chainId]);
 
-  return amms;
+  return amms.filter(
+    (amm) =>
+      amm.vamm.toLowerCase() === '0x22393f23f16925d282aeca0a8464dccaf10ee480',
+  );
 };
 
 export const getRecentAmms = async (
