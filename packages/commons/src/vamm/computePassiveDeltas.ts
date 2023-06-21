@@ -53,7 +53,7 @@ export const computePassiveDeltas = ({
   );
 
   return {
-    baseDelta: -absBaseDelta,
-    quoteDelta: absQuoteDelta,
+    baseDelta: absBaseDelta,
+    quoteDelta: -absQuoteDelta,
   };
 };

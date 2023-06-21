@@ -44,7 +44,7 @@ export const parseEvent = (
           return parseProductRegistered(chainId, event);
         }
         default: {
-          console.log(`Unmapped event ${event.event}.`);
+          console.log(`Unmapped event ${event.event} from Core.`);
           return null;
         }
       }
@@ -62,7 +62,7 @@ export const parseEvent = (
           return parseRateOracleConfigured(chainId, event);
         }
         default: {
-          console.log(`Unmapped event ${event.event}.`);
+          console.log(`Unmapped event ${event.event} from Instrument.`);
           return null;
         }
       }
@@ -76,11 +76,11 @@ export const parseEvent = (
         case 'VammCreated': {
           return parseVammCreated(chainId, event);
         }
-        case 'VammPriceChange': {
+        case 'VAMMPriceChange': {
           return parseVammPriceChange(chainId, event);
         }
         default: {
-          console.log(`Unmapped event ${event.event}.`);
+          console.log(`Unmapped event ${event.event} from VAMM.`);
           return null;
         }
       }

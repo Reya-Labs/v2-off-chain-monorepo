@@ -1,4 +1,4 @@
-import { SECONDS_IN_YEAR } from '@voltz-protocol/commons-v2';
+import { SECONDS_IN_YEAR } from './constants';
 
 type Balances = {
   base: number;
@@ -8,7 +8,7 @@ type Balances = {
   lockedFixedRate: number;
 };
 
-export const getPositionNetBalances = ({
+export const extendBalancesWithTrade = ({
   tradeTimestamp,
   maturityTimestamp,
   baseDelta,
@@ -30,12 +30,12 @@ export const getPositionNetBalances = ({
   const timeDelta = (maturityTimestamp - tradeTimestamp) / SECONDS_IN_YEAR;
 
   const notionalDelta = baseDelta * tradeLiquidityIndex;
-  const fixedRate = (-quoteDelta / notionalDelta - 1) / timeDelta;
+  const fixedRate = (-quoteDelta / notionalDelta - 1) / timeDelta / 100;
 
   const timeDependentQuoteDelta = -notionalDelta * fixedRate;
   const freeQuoteDelta =
-    quoteDelta -
-    (timeDependentQuoteDelta * maturityTimestamp) / SECONDS_IN_YEAR;
+    -notionalDelta +
+    (notionalDelta * fixedRate * tradeTimestamp) / SECONDS_IN_YEAR;
 
   const netBalances = getNetBalances({
     currentPosition: {
@@ -72,6 +72,12 @@ const getNetBalances = ({
     (currentPosition.base >= 0 && incomingTrade.base >= 0) ||
     (currentPosition.base <= 0 && incomingTrade.base <= 0)
   ) {
+    console.log(
+      currentPosition.notional,
+      currentPosition.lockedFixedRate,
+      incomingTrade.notional,
+      incomingTrade.lockedFixedRate,
+    );
     const lockedFixedRate =
       (currentPosition.notional * currentPosition.lockedFixedRate +
         incomingTrade.notional * incomingTrade.lockedFixedRate) /
@@ -95,7 +101,8 @@ const getNetBalances = ({
       currentPosition.base + incomingTrade.base <= 0)
   ) {
     const projectedTimeDependentQuote =
-      currentPosition.notional * currentPosition.lockedFixedRate;
+      (-incomingTrade.base / currentPosition.base) *
+      currentPosition.timeDependentQuote;
 
     const lockedCashflow =
       ((projectedTimeDependentQuote + incomingTrade.timeDependentQuote) *

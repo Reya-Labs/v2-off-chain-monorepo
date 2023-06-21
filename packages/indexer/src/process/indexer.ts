@@ -1,4 +1,7 @@
-import { createProtocolV2Dataset } from '@voltz-protocol/bigquery-v2';
+import {
+  createProtocolV2Dataset,
+  deleteProtocolV2Dataset,
+} from '@voltz-protocol/bigquery-v2';
 import { CHAIN_IDS, INDEXING_BUFFER } from './constants';
 import { sync } from './sync';
 import { sleep } from '@voltz-protocol/commons-v2';
@@ -29,4 +32,9 @@ main()
     console.log(
       `[Protocol indexer]: Error encountered. ${(error as Error).message}`,
     );
+    deleteProtocolV2Dataset().then(() => {
+      console.log(
+        '[Protocol indexer]: Successfully deleted dataset due to error.',
+      );
+    });
   });

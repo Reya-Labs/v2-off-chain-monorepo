@@ -11,7 +11,7 @@ export const parseVammPriceChange = (
   event: Event,
 ): VammPriceChangeEvent => {
   // 1. Type of event
-  const type = ProtocolEventType.VammPriceChange;
+  const type = ProtocolEventType.VAMMPriceChange;
 
   // 2. Parse particular args
   const marketId = (event.args?.marketId as BigNumber).toString();

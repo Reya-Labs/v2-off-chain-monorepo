@@ -3,9 +3,14 @@ import {
   tickToFixedRate,
   SupportedChainId,
   getTokenPriceInUSD,
+  getTimestampInSeconds,
+  convertLowercaseString,
+  computeRealizedPnL,
+  computeUnrealizedPnL,
 } from '@voltz-protocol/commons-v2';
 
 import {
+  getLiquidityIndexAt,
   pullAccountCollateral,
   pullAccountPositionEntries,
   pullAccountsByAddress,
@@ -39,19 +44,24 @@ export const getV2PortfolioPositions = async (
       accountId,
     );
 
-    for (const {
-      id: positionId,
-      accountId,
-      marketId,
-      maturityTimestamp,
-      type: positionType,
-      base,
-      notional: notionalTraded,
-      paidFees,
-      tickLower,
-      tickUpper,
-      creationTimestamp,
-    } of positionEntries) {
+    for (const position of positionEntries) {
+      const {
+        id: positionId,
+        accountId,
+        marketId,
+        maturityTimestamp,
+        type: positionType,
+        base,
+        freeQuote,
+        timeDependentQuote,
+        lockedFixedRate,
+        notional: notionalTraded,
+        paidFees,
+        tickLower,
+        tickUpper,
+        creationTimestamp,
+      } = position;
+
       const pool = await getV2Pool(chainId, marketId, maturityTimestamp);
 
       if (!pool) {
@@ -63,8 +73,7 @@ export const getV2PortfolioPositions = async (
       const poolFixedRate = pool.currentFixedRate;
       const poolVariableRate = pool.currentVariableRate;
 
-      // todo: add fixed rate locked to position
-      const fixedRateLocked = 0.05;
+      const fixedRateLocked = lockedFixedRate;
 
       const fixLow = tickToFixedRate(tickUpper);
       const fixHigh = tickToFixedRate(tickLower);
@@ -80,13 +89,42 @@ export const getV2PortfolioPositions = async (
       // variant
       const variant = 'active';
 
+      // current liquidity index
+      const now = getTimestampInSeconds();
+      const liquidityIndex = await getLiquidityIndexAt(
+        chainId,
+        convertLowercaseString(pool.rateOracle.address),
+        now,
+      );
+
+      if (!liquidityIndex) {
+        throw new Error(
+          `Couldn't fetch current liquidity index for ${chainId} - ${pool.rateOracle.address}`,
+        );
+      }
+
       // PnL
       const realizedPNLFees = -paidFees;
-      const realizedPNLCashflow = 0;
-      const unrealizedPNL = 0;
+
+      const realizedPNLCashflow = computeRealizedPnL({
+        base,
+        timeDependentQuote,
+        freeQuote,
+        queryTimestamp: now,
+        liquidityIndexAtQuery: liquidityIndex,
+      });
+
+      const unrealizedPNL = computeUnrealizedPnL({
+        base,
+        timeDependentQuote,
+        freeQuote,
+        currentLiquidityIndex: liquidityIndex,
+        currentFixedRate: poolFixedRate,
+        maturityTimestamp,
+      });
 
       // Build response
-      const position: V2PortfolioPosition = {
+      const response: V2PortfolioPosition = {
         id: positionId,
         accountId,
         ownerAddress,
@@ -116,7 +154,7 @@ export const getV2PortfolioPositions = async (
         amm: pool,
       };
 
-      portfolio.push(position);
+      portfolio.push(response);
     }
   }
 

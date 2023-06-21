@@ -15,7 +15,7 @@ export enum ProtocolEventType {
 
   LiquidityChange = 'LiquidityChange', // exchange
   VammCreated = 'VammCreated', // exchange
-  VammPriceChange = 'VammPriceChange', // exchange
+  VAMMPriceChange = 'VAMMPriceChange', // exchange
 }
 
 export type BaseEvent = {

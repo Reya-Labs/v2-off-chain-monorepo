@@ -109,7 +109,7 @@ export const evmTestEvents: Record<ProtocolEventType, Event> = {
     },
   } as unknown as Event,
 
-  [ProtocolEventType.VammPriceChange]: {
+  [ProtocolEventType.VAMMPriceChange]: {
     ...defaultEvmEvent,
     args: {
       blockTimestamp: blockTimestampDefault,

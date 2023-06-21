@@ -41,7 +41,7 @@ export const mapRow = (row: any): PositionEntry => ({
   marketId: row.marketId,
   maturityTimestamp: row.maturityTimestamp,
 
-  liquidity: bqNumericToNumber(row.liquidityBalance),
+  liquidity: bqNumericToNumber(row.liquidity),
   paidFees: bqNumericToNumber(row.paidFees),
 
   base: bqNumericToNumber(row.base),

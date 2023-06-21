@@ -8,8 +8,12 @@ import {
   pullMarketEntry,
   getLiquidityIndexAt,
 } from '@voltz-protocol/bigquery-v2';
-import { isNull, computePassiveDeltas } from '@voltz-protocol/commons-v2';
-import { getPositionNetBalances } from './utils/getPositionNetBalances';
+import {
+  isNull,
+  extendBalancesWithTrade,
+  computePassiveDeltas,
+  SECONDS_IN_YEAR,
+} from '@voltz-protocol/commons-v2';
 
 export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
   const existingEvent = await pullVammPriceChangeEvent(event.id);
@@ -66,7 +70,19 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
   );
 
   for (const lp of lpPositions) {
-    const { baseDelta, quoteDelta } = computePassiveDeltas({
+    console.log(`args:`, {
+      liquidity: lp.liquidity,
+      tickMove: {
+        from: latestTick as number,
+        to: currentTick,
+      },
+      tickRange: {
+        lower: lp.tickLower,
+        upper: lp.tickUpper,
+      },
+    });
+
+    const { baseDelta, quoteDelta: tracker } = computePassiveDeltas({
       liquidity: lp.liquidity,
       tickMove: {
         from: latestTick as number,
@@ -83,7 +99,15 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
       return;
     }
 
-    const netBalances = getPositionNetBalances({
+    const avgFixedRate = Math.abs(tracker / baseDelta);
+    const quoteDelta =
+      -baseDelta *
+      liquidityIndex *
+      (1 +
+        (avgFixedRate * (maturityTimestamp - blockTimestamp)) /
+          SECONDS_IN_YEAR);
+
+    const netBalances = extendBalancesWithTrade({
       tradeTimestamp: blockTimestamp,
       maturityTimestamp: maturityTimestamp,
       baseDelta,
