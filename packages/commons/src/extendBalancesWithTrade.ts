@@ -1,4 +1,4 @@
-import { SECONDS_IN_YEAR } from '@voltz-protocol/commons-v2';
+import { SECONDS_IN_YEAR } from './constants';
 
 type Balances = {
   base: number;

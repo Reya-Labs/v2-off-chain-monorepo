@@ -1,5 +1,5 @@
-import { SECONDS_IN_YEAR } from '@voltz-protocol/commons-v2';
-import { getPositionNetBalances } from '../src/event-handlers/utils/getPositionNetBalances';
+import { SECONDS_IN_YEAR } from '../src/constants';
+import { getPositionNetBalances } from '../src/extendBalancesWithTrade';
 
 const PRECISION = 6;
 
