@@ -13,6 +13,7 @@ import { parseRateOracleConfigured } from './parseRateOracleConfigured';
 import { parseLiquidityChange } from './parseLiquidityChange';
 import { parseVammCreated } from './parseVammCreated';
 import { parseVammPriceChange } from './parseVammPriceChange';
+import { log } from '../logging/log';
 
 export const parseEvent = (
   contract: 'core' | 'dated_irs_instrument' | 'dated_irs_vamm',
@@ -44,7 +45,7 @@ export const parseEvent = (
           return parseProductRegistered(chainId, event);
         }
         default: {
-          console.log(`Unmapped event ${event.event} from Core.`);
+          log(`Unmapped event ${event.event} from Core.`);
           return null;
         }
       }
@@ -62,7 +63,7 @@ export const parseEvent = (
           return parseRateOracleConfigured(chainId, event);
         }
         default: {
-          console.log(`Unmapped event ${event.event} from Instrument.`);
+          log(`Unmapped event ${event.event} from Instrument.`);
           return null;
         }
       }
@@ -80,7 +81,7 @@ export const parseEvent = (
           return parseVammPriceChange(chainId, event);
         }
         default: {
-          console.log(`Unmapped event ${event.event} from VAMM.`);
+          log(`Unmapped event ${event.event} from VAMM.`);
           return null;
         }
       }

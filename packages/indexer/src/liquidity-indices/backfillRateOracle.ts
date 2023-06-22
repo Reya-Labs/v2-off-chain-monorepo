@@ -5,6 +5,7 @@ import {
   getTimestampInSeconds,
 } from '@voltz-protocol/commons-v2';
 import { getAndPushLiquidityIndex } from './getAndPushLiquidityIndex';
+import { log } from '../logging/log';
 
 // configuration
 const frequencySeconds = SECONDS_IN_DAY;
@@ -25,7 +26,7 @@ export const backfillRateOracle = async (
       const blockNumber = await getBlockAtTimestamp(chainId, i);
       await getAndPushLiquidityIndex(chainId, oracleAddress, blockNumber, i);
     } catch (error) {
-      console.log(
+      log(
         `[Backfilling ${chainId}-${oracleAddress}] Could not add datapoint at ${i}. (Reason: ${
           (error as Error).message
         })`,
