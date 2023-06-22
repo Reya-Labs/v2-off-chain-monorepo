@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.10.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/indexer-v2@1.9.0...@voltz-protocol/indexer-v2@1.10.0) (2023-06-22)
+
+### Features
+
+- changed indexing buffer period to 1 min ([235e661](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/235e661e9fa522573b3efee0e41a296823cec57e))
+
 # [1.9.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/indexer-v2@1.8.1...@voltz-protocol/indexer-v2@1.9.0) (2023-06-22)
 
 ### Features
