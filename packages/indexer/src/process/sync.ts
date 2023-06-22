@@ -2,6 +2,7 @@ import { fetchEvents } from '../fetch-events/fetchEvents';
 import { handleEvent } from '../event-handlers/handleEvent';
 import { getProvider } from '@voltz-protocol/commons-v2';
 import { getNextIndexingBlock, setRedis } from '../services/redis';
+import { log } from '../logging/log';
 
 export const sync = async (chainIds: number[]): Promise<void> => {
   for (const chainId of chainIds) {
@@ -11,7 +12,7 @@ export const sync = async (chainIds: number[]): Promise<void> => {
     const provider = getProvider(chainId);
     const currentBlock = await provider.getBlockNumber();
 
-    console.log(
+    log(
       `[Protocol indexer, ${chainId}]: Processing between blocks [${nextIndexingBlock}, ${currentBlock}]...`,
     );
 

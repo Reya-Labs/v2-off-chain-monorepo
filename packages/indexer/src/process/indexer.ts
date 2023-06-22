@@ -1,15 +1,18 @@
-import {
-  createProtocolV2Dataset,
-  deleteProtocolV2Dataset,
-} from '@voltz-protocol/bigquery-v2';
+import { createProtocolV2Dataset } from '@voltz-protocol/bigquery-v2';
 import { CHAIN_IDS, INDEXING_BUFFER } from './constants';
 import { sync } from './sync';
 import { sleep } from '@voltz-protocol/commons-v2';
 import { getAndPushAllLiquidityIndices } from '../liquidity-indices/getAndPushAllLiquidityIndices';
+import { createLoggingPlace } from '../logging/createLoggingPlace';
+import { log } from '../logging/log';
 
 export const main = async () => {
   await createProtocolV2Dataset();
+  createLoggingPlace();
 
+  log('');
+  log('Process is executed again...');
+  log('');
   while (true) {
     const start = Date.now().valueOf();
 
@@ -21,20 +24,15 @@ export const main = async () => {
     if (timeInLoop < INDEXING_BUFFER) {
       await sleep(INDEXING_BUFFER - timeInLoop);
     }
+
+    log('');
   }
 };
 
 main()
   .then(() => {
-    console.log('[Protocol indexer]: Execution completed.');
+    log('[Protocol indexer]: Execution completed.');
   })
   .catch((error) => {
-    console.log(
-      `[Protocol indexer]: Error encountered. ${(error as Error).message}`,
-    );
-    deleteProtocolV2Dataset().then(() => {
-      console.log(
-        '[Protocol indexer]: Successfully deleted dataset due to error.',
-      );
-    });
+    log(`[Protocol indexer]: Error encountered. ${(error as Error).message}`);
   });

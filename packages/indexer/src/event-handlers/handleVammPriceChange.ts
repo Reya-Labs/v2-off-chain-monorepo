@@ -14,6 +14,7 @@ import {
   computePassiveDeltas,
   SECONDS_IN_YEAR,
 } from '@voltz-protocol/commons-v2';
+import { log } from '../logging/log';
 
 export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
   const existingEvent = await pullVammPriceChangeEvent(event.id);
@@ -83,7 +84,7 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
     });
 
     if (baseDelta === 0) {
-      console.log(`Change of 0 base skipped...`);
+      log(`Change of 0 base skipped...`);
       return;
     }
 

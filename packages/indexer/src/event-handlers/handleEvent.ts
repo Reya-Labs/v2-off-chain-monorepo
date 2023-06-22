@@ -22,9 +22,10 @@ import { handleVammPriceChange } from './handleVammPriceChange';
 import { handleAccountCreated } from './handleAccountCreated';
 import { handleAccountOwnerUpdate } from './handleAccountOwnerUpdate';
 import { handleLiquidityChange } from './handleLiquidityChange';
+import { log } from '../logging/log';
 
 export const handleEvent = async (e: BaseEvent) => {
-  console.log(`Handling ${e.type}...`);
+  log(`Handling ${e.type}...`);
   const start = Date.now().valueOf();
 
   switch (e.type) {
@@ -104,5 +105,5 @@ export const handleEvent = async (e: BaseEvent) => {
   }
 
   const duration = Math.round((Date.now().valueOf() - start) / 1000);
-  console.log(`Handled ${e.type} in ${duration} s.`);
+  log(`Handled ${e.type} in ${duration} s.`);
 };

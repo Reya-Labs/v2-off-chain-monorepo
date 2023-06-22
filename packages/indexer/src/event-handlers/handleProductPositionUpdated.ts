@@ -10,6 +10,7 @@ import {
 } from '@voltz-protocol/bigquery-v2';
 
 import { extendBalancesWithTrade } from '@voltz-protocol/commons-v2';
+import { log } from '../logging/log';
 
 export const handleProductPositionUpdated = async (
   event: ProductPositionUpdatedEvent,
@@ -33,7 +34,7 @@ export const handleProductPositionUpdated = async (
   } = event;
 
   if (baseDelta === 0) {
-    console.log(`Change of 0 base skipped...`);
+    log(`Change of 0 base skipped...`);
     return;
   }
 
