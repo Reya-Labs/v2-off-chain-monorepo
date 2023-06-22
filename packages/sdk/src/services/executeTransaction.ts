@@ -140,7 +140,6 @@ export async function executeTransaction(
   value: string,
   chainId: number,
 ): Promise<ContractReceipt> {
-  console.log('data:', data);
   const txData = await estimateGas(signer, data, value, chainId);
   try {
     const txResponse = await signer.sendTransaction(txData);

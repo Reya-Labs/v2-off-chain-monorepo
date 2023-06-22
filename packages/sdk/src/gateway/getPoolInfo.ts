@@ -8,7 +8,6 @@ export async function getPoolInfo(ammId: string): Promise<PoolInfo> {
   const response = await fetch(`${API_URL}${endpoint}`);
 
   const pool = (await response.json()) as V1V2Pool;
-  console.log('pool:', pool);
   return mapToPoolInfo(pool);
 }
 

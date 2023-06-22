@@ -1,5 +1,3 @@
-/* eslint-disable */
-// todo: reenable eslint and fix errors
 import { BigNumber, ethers, utils } from 'ethers';
 import { abi as ProtocolABI } from './Protocol.json';
 import {
@@ -65,7 +63,6 @@ const getErrorData = (error: any): string => {
 
 const getErrorSignature = (error: any): string => {
   const reason = getErrorData(error);
-  console.log('reason:', reason);
 
   try {
     if (reason.startsWith('0x08c379a0')) {
@@ -75,7 +72,6 @@ const getErrorSignature = (error: any): string => {
     const decodedError = iface.parseError(reason);
     const errSig = decodedError.signature.split('(')[0];
 
-    console.log('error:', errSig, decodedError.args);
     return errSig;
   } catch {
     console.error(`Failing to get error signature. ${error}`);
@@ -110,6 +106,7 @@ const getReadableErrorMessageWithoutSentry = (error: any): string => {
     return errorJson[errSig as keyof typeof errorJson];
   } catch (_) {}
 
+  console.log(`Unmapped error: ${errSig} with args: ${error.args}`);
   return CRITICAL_ERROR_MESSAGE;
 };
 

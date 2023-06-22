@@ -32,7 +32,6 @@ export async function lp({
 }: LpArgs): Promise<ContractReceipt> {
   // fetch: send request to api
 
-  console.log('a');
   const params = await createLpParams({
     ammId,
     signer,
@@ -42,11 +41,8 @@ export async function lp({
     fixedHigh,
   });
 
-  console.log('b');
   const { data, value, chainId } = await getLpTxData(params);
-  console.log('c');
   const result = await executeTransaction(signer, data, value, chainId);
-  console.log('d');
   return result;
 }
 
@@ -152,9 +148,7 @@ export async function createLpParams({
   fixedLow,
   fixedHigh,
 }: LpArgs): Promise<CompleteLpDetails> {
-  console.log('creating lp params...:');
   const lpInfo = await getPoolInfo(ammId);
-  console.log('lp info:', lpInfo);
 
   const liquidityAmount = notionalToLiquidityBN(
     scale(lpInfo.quoteTokenDecimals)(notional),
