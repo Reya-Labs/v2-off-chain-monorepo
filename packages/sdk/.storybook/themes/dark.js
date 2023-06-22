@@ -31,6 +31,6 @@ export default create({
   inputTextColor: colors.lavenderWeb,
   inputBorderRadius: 4,
 
-  brandTitle: 'admin',
+  brandTitle: 'V2 sdk demo',
   brandTarget: '_self',
 });
