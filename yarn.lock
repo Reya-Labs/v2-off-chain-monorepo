@@ -7410,7 +7410,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@voltz-protocol/api-v2@workspace:packages/api":
+"@voltz-protocol/api-v2@workspace:^, @voltz-protocol/api-v2@workspace:packages/api":
   version: 0.0.0-use.local
   resolution: "@voltz-protocol/api-v2@workspace:packages/api"
   dependencies:
@@ -7550,6 +7550,7 @@ __metadata:
     "@types/react-dom": 17.0.18
     "@uniswap/sdk-core": 3.2.2
     "@uniswap/v3-sdk": 3.9.0
+    "@voltz-protocol/api-v2": "workspace:^"
     "@voltz-protocol/sdk-v1-stateless": "workspace:^"
     brokoli-ui: 1.44.0
     crypto-js: 4.1.1

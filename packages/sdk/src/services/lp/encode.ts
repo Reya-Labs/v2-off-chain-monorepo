@@ -22,7 +22,9 @@ export async function encodeLp(
       productAddress: trade.productAddress,
       marketId: trade.marketId,
       maturityTimestamp: trade.maturityTimestamp,
-      isLp: false,
+      isLp: true,
+      priceLower: trade.fixedLow,
+      priceUpper: trade.fixedHigh,
     });
     encodeSingleCreateAccount(accountId, multiAction);
   }

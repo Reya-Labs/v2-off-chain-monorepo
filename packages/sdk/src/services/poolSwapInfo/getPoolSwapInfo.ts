@@ -9,7 +9,7 @@ export const getPoolSwapInfo = async ({
 }: GetPoolSwapInfoArgs): Promise<GetPoolSwapInfoResults> => {
   const chainId = (await provider.getNetwork()).chainId;
 
-  const dummyWallet = await getDummyWallet().connect(provider);
+  const dummyWallet = getDummyWallet().connect(provider);
   const params = await createSwapParams({
     ammId,
     signer: dummyWallet,
@@ -48,10 +48,10 @@ export const getPoolSwapInfo = async ({
   } catch (error) {
     console.warn('Failed to get Pool Swap Info');
     return {
-      availableNotionalFixedTaker: 0,
-      availableNotionalVariableTaker: 0,
-      maxLeverageFixedTaker: 0,
-      maxLeverageVariableTaker: 0,
+      availableNotionalFixedTaker: -1,
+      availableNotionalVariableTaker: -1,
+      maxLeverageFixedTaker: 1,
+      maxLeverageVariableTaker: 1,
     };
   }
 };

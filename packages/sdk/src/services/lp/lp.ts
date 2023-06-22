@@ -2,7 +2,7 @@ import { BigNumber, ContractReceipt } from 'ethers';
 import {
   estimateGas,
   executeTransaction,
-  simulateTx,
+  simulateTxExpectError,
   Transaction,
 } from '../executeTransaction';
 import {
@@ -10,7 +10,6 @@ import {
   convertGasUnitsToNativeTokenUnits,
 } from '@voltz-protocol/sdk-v1-stateless';
 import { notionalToLiquidityBN, scale, descale } from '../../utils/helpers';
-import { defaultAbiCoder } from 'ethers/lib/utils';
 import {
   CompleteLpDetails,
   InfoPostLp,
@@ -19,6 +18,9 @@ import {
 } from './types';
 import { encodeLp } from './encode';
 import { getPoolInfo } from '../../gateway/getPoolInfo';
+import { decodeLp } from '../../utils/decodeOutput';
+import { decodeImFromError } from '../../utils/errors/errorHandling';
+import { DEFAULT_FEE } from '../../utils/errors/constants';
 
 export async function lp({
   ammId,
@@ -67,10 +69,12 @@ export async function simulateLp({
 
   let txData: Transaction & { gasLimit: BigNumber };
   let bytesOutput: any;
+  let isError = false;
   try {
-    const res = await simulateTx(signer, data, value, chainId);
+    const res = await simulateTxExpectError(signer, data, value, chainId);
     txData = res.txData;
     bytesOutput = res.bytesOutput;
+    isError = res.isError;
   } catch (e) {
     return {
       gasFee: {
@@ -83,7 +87,9 @@ export async function simulateLp({
     };
   }
 
-  const { fee, im } = decodeLpOutput(bytesOutput);
+  const { fee, im } = isError
+    ? { im: decodeImFromError(bytesOutput).marginRequirement, fee: DEFAULT_FEE }
+    : decodeLp(bytesOutput, true, margin > 0, false, true);
 
   const provider = params.owner.provider;
   if (!provider) {
@@ -142,7 +148,7 @@ export async function createLpParams({
   fixedLow,
   fixedHigh,
 }: LpArgs): Promise<CompleteLpDetails> {
-  const lpInfo = await getPoolInfo(ammId, await signer.getChainId());
+  const lpInfo = await getPoolInfo(ammId);
 
   const liquidityAmount = notionalToLiquidityBN(
     scale(lpInfo.quoteTokenDecimals)(notional),
@@ -162,23 +168,6 @@ export async function createLpParams({
   return params;
 }
 
-export function decodeLpOutput(bytesData: any): {
-  fee: BigNumber;
-  im: BigNumber;
-} {
-  // (uint256 fee, uint256 im)
-  if (!bytesData[3]) {
-    throw new Error('unable to decode Swap output');
-  }
-
-  const result = defaultAbiCoder.decode(['uint256', 'uint256'], bytesData[3]);
-
-  return {
-    fee: result[0],
-    im: result[1],
-  };
-}
-
 export async function getLpTxData(params: CompleteLpDetails): Promise<{
   data: string;
   value: string;
@@ -190,9 +179,9 @@ export async function getLpTxData(params: CompleteLpDetails): Promise<{
     throw new Error('Chain id mismatch between pool and signer');
   }
 
-  const swapPeripheryParams: LpPeripheryParameters = params;
+  const peripheryParams: LpPeripheryParameters = params;
 
-  const { calldata: data, value } = await encodeLp(swapPeripheryParams);
+  const { calldata: data, value } = await encodeLp(peripheryParams);
 
   return {
     data,

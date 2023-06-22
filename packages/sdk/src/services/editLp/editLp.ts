@@ -9,7 +9,6 @@ import {
   convertGasUnitsToNativeTokenUnits,
 } from '@voltz-protocol/sdk-v1-stateless';
 import { descale, scale, notionalToLiquidityBN } from '../../utils/helpers';
-import { defaultAbiCoder } from 'ethers/lib/utils';
 import {
   CompleteEditLpDetails,
   EditLpArgs,
@@ -19,6 +18,7 @@ import { InfoPostLp } from '../lp';
 import { encodeLp } from '../lp/encode';
 import { getPositionInfo } from '../../gateway/getPositionInfo';
 import { PositionInfo } from '../../gateway/types';
+import { decodeLp } from '../../utils/decodeOutput';
 
 export async function editLp({
   positionId,
@@ -63,7 +63,13 @@ export async function simulateEditLp({
     chainId,
   );
 
-  const { fee, im } = decodeEditLpOutput(bytesOutput);
+  const { fee, im } = decodeLp(
+    bytesOutput,
+    false,
+    margin > 0,
+    margin < 0,
+    notional > 0,
+  );
 
   const provider = params.owner.provider;
   if (!provider) {
@@ -117,11 +123,7 @@ async function createEditLpParams({
   notional,
   margin,
 }: EditLpArgs): Promise<CompleteEditLpDetails> {
-  const lpInfo: PositionInfo = await getPositionInfo(
-    positionId,
-    await signer.getChainId(),
-    await signer.getAddress(),
-  );
+  const lpInfo: PositionInfo = await getPositionInfo(positionId);
 
   const liquidityAmount = notionalToLiquidityBN(
     scale(lpInfo.quoteTokenDecimals)(notional),
@@ -139,23 +141,6 @@ async function createEditLpParams({
   };
 
   return params;
-}
-
-export function decodeEditLpOutput(bytesData: any): {
-  fee: BigNumber;
-  im: BigNumber;
-} {
-  // (int256 executedBaseAmount, int256 executedQuoteAmount, uint256 fee, uint256 im, int24 currentTick)
-  if (!bytesData[0]) {
-    throw new Error('unable to decode Swap output');
-  }
-
-  const result = defaultAbiCoder.decode(['uint256', 'uint256'], bytesData[0]);
-
-  return {
-    fee: result[0],
-    im: result[1],
-  };
 }
 
 async function getLpTxData(params: CompleteEditLpDetails): Promise<{

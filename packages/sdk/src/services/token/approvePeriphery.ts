@@ -11,7 +11,7 @@ export const approvePeriphery = async ({
 }: ApprovePeripheryArgs): Promise<void> => {
   const chainId = await signer.getChainId();
 
-  const poolInfo = await getPoolInfo(ammId, await signer.getChainId());
+  const poolInfo = await getPoolInfo(ammId);
 
   if (poolInfo.chainId !== chainId) {
     throw new Error('Chain id mismatch between pool and signer');
