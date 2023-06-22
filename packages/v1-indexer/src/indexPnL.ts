@@ -8,7 +8,7 @@ export const main = async () => {
   await createProtocolV1Dataset();
   await createPositionsTable();
 
-  const targetTimestamp = 1687208400;
+  const targetTimestamp = 1687294800;
 
   await syncPnL(chainIds, targetTimestamp);
 };
