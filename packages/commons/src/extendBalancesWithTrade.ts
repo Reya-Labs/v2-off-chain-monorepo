@@ -72,12 +72,6 @@ const getNetBalances = ({
     (currentPosition.base >= 0 && incomingTrade.base >= 0) ||
     (currentPosition.base <= 0 && incomingTrade.base <= 0)
   ) {
-    console.log(
-      currentPosition.notional,
-      currentPosition.lockedFixedRate,
-      incomingTrade.notional,
-      incomingTrade.lockedFixedRate,
-    );
     const lockedFixedRate =
       (currentPosition.notional * currentPosition.lockedFixedRate +
         incomingTrade.notional * incomingTrade.lockedFixedRate) /

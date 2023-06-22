@@ -8,10 +8,10 @@ import {
   getMarketProtocolId,
   getProtocolName,
   isBorrowingProtocol,
+  encodeV2PoolId,
 } from '@voltz-protocol/commons-v2';
 import { getFixedRateData } from './getFixedRateData';
 import { getVariableRateData } from './getVariableRateData';
-import { encodeV2PoolId } from './v2PoolId';
 
 // configuration
 const lookbackWindowSeconds = SECONDS_IN_DAY;

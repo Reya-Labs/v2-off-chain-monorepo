@@ -1,5 +1,5 @@
+import { encodeV2PositionId } from '@voltz-protocol/commons-v2';
 import { getBigQuery } from '../../client';
-import { encodePositionId } from '../positionId';
 import { tableName } from '../specific';
 import { PositionEntry } from '../specific';
 
@@ -8,7 +8,7 @@ export const insertPositionEntry = async (
 ): Promise<void> => {
   const bigQuery = getBigQuery();
 
-  const id = encodePositionId(entry);
+  const id = encodeV2PositionId(entry);
 
   const row = `
     "${id}",

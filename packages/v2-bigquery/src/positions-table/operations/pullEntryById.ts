@@ -1,17 +1,12 @@
-import {
-  encodeV2PositionId,
-  V2PositionIdData,
-} from '@voltz-protocol/commons-v2';
 import { getBigQuery } from '../../client';
 import { mapRow, PositionEntry } from '../specific';
 import { tableName } from '../specific';
 
-export const pullPositionEntry = async (
-  idData: V2PositionIdData,
+export const pullPositionEntryById = async (
+  id: string,
 ): Promise<PositionEntry | null> => {
   const bigQuery = getBigQuery();
 
-  const id = encodeV2PositionId(idData);
   const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE id="${id}"`;
 
   const [rows] = await bigQuery.query({

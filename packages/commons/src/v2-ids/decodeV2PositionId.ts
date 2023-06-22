@@ -1,35 +1,6 @@
-export type PositionIdData = {
-  chainId: number;
-  accountId: string;
-  marketId: string;
-  maturityTimestamp: number;
-  type: 'trader' | 'lp';
+import { V2PositionIdData } from './types';
 
-  tickLower?: number;
-  tickUpper?: number;
-};
-
-export const encodePositionId = ({
-  chainId,
-  accountId,
-  marketId,
-  maturityTimestamp,
-  type,
-
-  tickLower,
-  tickUpper,
-}: PositionIdData): string => {
-  switch (type) {
-    case 'trader': {
-      return `${chainId}_${accountId}_${marketId}_${maturityTimestamp}_trader_v2`;
-    }
-    case 'lp': {
-      return `${chainId}_${accountId}_${marketId}_${maturityTimestamp}_lp_${tickLower}_${tickUpper}_v2`;
-    }
-  }
-};
-
-export const decodePositionId = (positionId: string): PositionIdData => {
+export const decodeV2PositionId = (positionId: string): V2PositionIdData => {
   const parts = positionId.split('_');
 
   if (parts.length < 5) {

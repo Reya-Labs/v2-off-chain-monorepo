@@ -1,17 +1,14 @@
 import {
   SECONDS_IN_YEAR,
   getBlockAtTimestamp,
-  getProvider,
   getTimeInYearsBetweenTimestamps,
-  tickToFixedRate,
+  getTimestampInSeconds,
 } from '@voltz-protocol/commons-v2';
-import { PositionPnL } from './types';
 import {
-  getCurrentTick,
   getLiquidityIndex,
   pullExistingPositionRow,
 } from '@voltz-protocol/indexer-v1';
-import { getAmm } from '../../old-v1-queries/common/getAMM';
+import { PositionPnL } from '../../old-v1-queries/position-pnl/types';
 
 export const getPositionPnL = async (
   chainId: number,
@@ -19,9 +16,11 @@ export const getPositionPnL = async (
   ownerAddress: string,
   tickLower: number,
   tickUpper: number,
+  marginEngineAddress: string,
+  maturityTimestampMS: number,
+  currentFixedRate: number,
 ): Promise<PositionPnL> => {
-  const provider = getProvider(chainId);
-
+  const maturityTimestamp = Math.floor(maturityTimestampMS / 1000);
   const existingPosition = await pullExistingPositionRow(
     chainId,
     vammAddress,
@@ -40,14 +39,14 @@ export const getPositionPnL = async (
     };
   }
 
-  const amm = await getAmm(chainId, vammAddress);
-  const maturityTimestamp = Math.floor(amm.termEndTimestampInMS / 1000);
-  let currentTimestamp = (await provider.getBlock('latest')).timestamp;
-
+  let currentTimestamp = getTimestampInSeconds();
   let currentLiquidityIndex = 1;
 
   if (maturityTimestamp >= currentTimestamp) {
-    currentLiquidityIndex = await getLiquidityIndex(chainId, amm.marginEngine);
+    currentLiquidityIndex = await getLiquidityIndex(
+      chainId,
+      marginEngineAddress,
+    );
   } else {
     const blockAtSettlement = await getBlockAtTimestamp(
       chainId,
@@ -56,7 +55,7 @@ export const getPositionPnL = async (
 
     currentLiquidityIndex = await getLiquidityIndex(
       chainId,
-      amm.marginEngine,
+      marginEngineAddress,
       blockAtSettlement,
     );
 
@@ -70,9 +69,6 @@ export const getPositionPnL = async (
     existingPosition.cashflowFreeTerm;
 
   // unrealized PnL
-  const currentTick = await getCurrentTick(chainId, vammAddress);
-  const currentFixedRate = tickToFixedRate(currentTick);
-
   const timeInYears = getTimeInYearsBetweenTimestamps(
     currentTimestamp,
     maturityTimestamp,

@@ -1,7 +1,6 @@
+import { decodeV1PoolId, decodeV2PoolId } from '@voltz-protocol/commons-v2';
 import { getV1Pool } from '../../v1-queries/get-pools/getV1Pool';
-import { decodeV1PoolId } from '../../v1-queries/get-pools/v1PoolId';
 import { getV2Pool } from '../../v2-queries/get-pools/getV2Pool';
-import { decodeV2PoolId } from '../../v2-queries/get-pools/v2PoolId';
 import { extendV1Pool } from './extendV1Pool';
 import { extendV2Pool } from './extendV2Pool';
 import { V1V2Pool } from './types';
