@@ -24,6 +24,12 @@ const getErrorData = (error: any): string => {
   } catch (_) {}
 
   try {
+    if (typeof error.error.data.data === 'string') {
+      return error.error.data.data;
+    }
+  } catch (_) {}
+
+  try {
     if (typeof error.data.data.data === 'string') {
       return error.data.data.data;
     }
@@ -59,6 +65,7 @@ const getErrorData = (error: any): string => {
 
 const getErrorSignature = (error: any): string => {
   const reason = getErrorData(error);
+  console.log('reason:', reason);
 
   try {
     if (reason.startsWith('0x08c379a0')) {
@@ -67,6 +74,8 @@ const getErrorSignature = (error: any): string => {
 
     const decodedError = iface.parseError(reason);
     const errSig = decodedError.signature.split('(')[0];
+
+    console.log('error:', errSig, decodedError.args);
     return errSig;
   } catch {
     console.error(`Failing to get error signature. ${error}`);

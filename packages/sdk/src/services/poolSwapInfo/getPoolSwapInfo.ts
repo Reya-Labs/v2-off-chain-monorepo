@@ -9,7 +9,7 @@ export const getPoolSwapInfo = async ({
 }: GetPoolSwapInfoArgs): Promise<GetPoolSwapInfoResults> => {
   const chainId = (await provider.getNetwork()).chainId;
 
-  const dummyWallet = await getDummyWallet().connect(provider);
+  const dummyWallet = getDummyWallet().connect(provider);
   const params = await createSwapParams({
     ammId,
     signer: dummyWallet,

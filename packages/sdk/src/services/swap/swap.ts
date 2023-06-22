@@ -18,12 +18,7 @@ import {
   SwapUserInputs,
 } from './types';
 import { descale, notionalToBaseAmount, scale } from '../../utils/helpers';
-import {
-  MINUS_ONE_BN,
-  SECONDS_IN_YEAR,
-  WAD,
-  ZERO_BN,
-} from '../../utils/constants';
+import { SECONDS_IN_YEAR, WAD, ZERO_BN } from '../../utils/constants';
 import {
   fixedRateToPrice,
   tickToFixedRate,
@@ -154,7 +149,7 @@ export async function createSwapParams({
   margin,
   fixedRateLimit,
 }: SwapArgs): Promise<CompleteSwapDetails> {
-  const poolInfo = await getPoolInfo(ammId, await signer.getChainId());
+  const poolInfo = await getPoolInfo(ammId);
 
   const baseAmount = notionalToBaseAmount(
     notional,

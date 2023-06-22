@@ -3,6 +3,7 @@ import { PERIPHERY_ADDRESS } from '../utils/configuration';
 import { getGasBuffer } from '../utils/txHelpers';
 import { defaultAbiCoder } from 'ethers/lib/utils';
 import { estimateAnyTradeGasUnits } from '../utils/estimateSwapGasUnits';
+import { getReadableErrorMessage } from '../utils/errors/errorHandling';
 
 export type Transaction = {
   from: string;
@@ -34,7 +35,7 @@ export async function estimateGas(
   } catch (error) {
     // sentry error & thorw
     console.warn(error);
-    const errorMessage = ''; //getReadableErrorMessage(error);
+    const errorMessage = getReadableErrorMessage(error);
     throw new Error(errorMessage);
   }
 
@@ -139,6 +140,7 @@ export async function executeTransaction(
   value: string,
   chainId: number,
 ): Promise<ContractReceipt> {
+  console.log('data:', data);
   const txData = await estimateGas(signer, data, value, chainId);
   try {
     const txResponse = await signer.sendTransaction(txData);

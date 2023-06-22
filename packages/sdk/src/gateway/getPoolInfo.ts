@@ -1,15 +1,12 @@
 import { API_URL } from './constants';
 import { PoolInfo } from './types';
 
-export async function getPoolInfo(
-  ammId: string,
-  chainId: number,
-): Promise<PoolInfo> {
-  const endpoint = `/v2-pools/${chainId}`;
+export async function getPoolInfo(ammId: string): Promise<PoolInfo> {
+  const endpoint = `/v1v2-pool/${ammId}`;
   const response = await fetch(`${API_URL}${endpoint}`);
 
-  const pool = ((await response.json()) as any[]).find((p) => p.id === ammId);
-
+  const pool = await response.json();
+  console.log('pool:', pool);
   return mapToPoolInfo(pool);
 }
 
