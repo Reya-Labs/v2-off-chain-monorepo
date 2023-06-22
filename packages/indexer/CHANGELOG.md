@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/indexer-v2@1.8.1...@voltz-protocol/indexer-v2@1.9.0) (2023-06-22)
+
+### Features
+
+- added proper logging ([#105](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/105)) ([8e2becd](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/8e2becd09156553cc999862e4689283ad935686d))
+
 ## [1.8.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/indexer-v2@1.8.0...@voltz-protocol/indexer-v2@1.8.1) (2023-06-22)
 
 **Note:** Version bump only for package @voltz-protocol/indexer-v2
