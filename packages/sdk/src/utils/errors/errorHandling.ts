@@ -2,7 +2,10 @@
 // todo: reenable eslint and fix errors
 import { BigNumber, ethers, utils } from 'ethers';
 import { abi as ProtocolABI } from './Protocol.json';
-import { CRITICAL_ERROR_MESSAGE } from './constants';
+import {
+  CRITICAL_ERROR_MESSAGE,
+  DEFAULT_MARGIN_REQUIREMENT,
+} from './constants';
 import * as errorJson from './errorMapping.json';
 
 const iface = new ethers.utils.Interface(ProtocolABI);
@@ -119,6 +122,28 @@ export const decodeImFromError = (error: any): RawInfoPostMint => {
     return {
       marginRequirement: decodingResult.im,
     };
+  }
+
+  return {
+    marginRequirement: DEFAULT_MARGIN_REQUIREMENT,
+  };
+};
+
+export const decodeAnyErrorError = (error: any): any => {
+  // Iterate through the event signatures in the ABI
+  for (const abiError of ProtocolABI) {
+    if (abiError.type === 'error') {
+      // Attempt to decode the error response using the event signature
+      try {
+        if (!abiError.name) continue;
+        const eventSignature = iface.getEvent(abiError.name);
+        const decodedError = iface.decodeErrorResult(eventSignature, error);
+        return decodedError;
+      } catch (e) {
+        // Failed to decode with this event signature, continue to the next one
+        console.log('Decoding failed with signature:', abiError.name);
+      }
+    }
   }
 
   throw new Error(getReadableErrorMessage(error));

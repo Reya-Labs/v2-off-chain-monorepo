@@ -1,4 +1,4 @@
-import { BigNumber, ContractReceipt, Signer } from 'ethers';
+import { BigNumber, ContractReceipt, Signer, ethers } from 'ethers';
 import { PERIPHERY_ADDRESS } from '../utils/configuration';
 import { getGasBuffer } from '../utils/txHelpers';
 import { defaultAbiCoder } from 'ethers/lib/utils';
@@ -99,30 +99,36 @@ export async function simulateTxExpectError(
   };
 
   let isError = false;
-  let res: any;
+  let resultOrError: any;
   try {
     await signer.call(txData).then(
       (result) => {
         if (result === undefined) {
           throw new Error('Failed to get transaction output');
         }
-        res = defaultAbiCoder.decode(['bytes[]'], result);
+        const abiFragment = [
+          'function execute(bytes, bytes[], uint256) external returns (bytes[])',
+        ];
+        const abiInterface = new ethers.utils.Interface(abiFragment);
+        const decodedResponse = abiInterface.decodeFunctionResult(
+          'execute',
+          result,
+        );
+        resultOrError = decodedResponse;
       },
       (error) => {
         isError = true;
-        res = error;
+        resultOrError = error;
       },
     );
   } catch (error) {
-    // sentry error & thorw
-    console.warn(error);
     const errorMessage = ''; //getReadableErrorMessage(error);
     throw new Error(errorMessage);
   }
 
   return {
     txData: txData,
-    bytesOutput: isError ? res : res[0],
+    bytesOutput: isError ? resultOrError : resultOrError[0],
     isError: isError,
   };
 }
@@ -139,9 +145,7 @@ export async function executeTransaction(
     const txReceipt = await txResponse.wait();
     return txReceipt;
   } catch (error) {
-    // sentry error & thorw
     console.warn(error);
     throw new Error('Transaction Execution Error');
-    //getReadableErrorMessage(error);
   }
 }
