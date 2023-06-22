@@ -1,4 +1,5 @@
 import { getBigQuery } from '../../client';
+import { bqNumericToNumber } from '../../utils/converters';
 import { tableName } from '../specific';
 
 export type PullAccountCollateralResponse = {
@@ -22,7 +23,12 @@ export const pullAccountCollateral = async (
     return [];
   }
 
-  rows.sort((a, b) => b.balance - a.balance);
+  const entries = rows.map((r) => ({
+    balance: bqNumericToNumber(r.balance),
+    collateralType: r.collateralAmount as string,
+  }));
 
-  return rows;
+  entries.sort((a, b) => b.balance - a.balance);
+
+  return entries;
 };

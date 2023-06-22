@@ -48,11 +48,7 @@ export const buildV2PortfolioPosition = async ({
     throw new Error(`Couldn't find position`);
   }
 
-  const { collateralType: tokenAddress, balance: margin } =
-    accountCollaterals[0];
-
-  const { tokenName } = getTokenDetails(tokenAddress);
-  const tokenPriceUSD = await getTokenPriceInUSD(tokenName);
+  const { balance: margin } = accountCollaterals[0];
 
   const pool = await getV2Pool(chainId, marketId, maturityTimestamp);
 
