@@ -31,6 +31,7 @@ import { getV1V2FixedRates } from './v1v2-queries/get-fixed-rates/getV1V2FixedRa
 import { getV1V2VariableRates } from './v1v2-queries/get-fixed-rates/getV1V2VariableRates';
 import { getV2Pools } from './v2-queries/get-pools/getV2Pools';
 import { getV2PortfolioPositions } from './v2-queries/get-portfolio-positions/getV2PortfolioPositions';
+import { getV1V2PortfolioPositionDetails } from './v1v2-queries/get-portfolio-positions/getPortfolioPositionDetails';
 
 export const app = express();
 
@@ -93,6 +94,27 @@ app.get('/v1v2-positions/:chainIds/:ownerAddress', (req, res) => {
   const ownerAddress = req.params.ownerAddress.toLowerCase();
 
   getV1V2PortfolioPositions(chainIds, ownerAddress).then(
+    (output) => {
+      res.json(output);
+    },
+    (error) => {
+      console.log(`API query failed with message ${(error as Error).message}`);
+    },
+  );
+});
+
+app.get('/v1v2-position/:positionId', (req, res) => {
+  const positionId = req.params.positionId;
+  const includeHistory = Boolean(
+    req.query.includeHistory &&
+      typeof req.query.includeHistory === 'string' &&
+      req.query.includeHistory.toLowerCase() === 'true',
+  );
+
+  getV1V2PortfolioPositionDetails({
+    positionId,
+    includeHistory,
+  }).then(
     (output) => {
       res.json(output);
     },

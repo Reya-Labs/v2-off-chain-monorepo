@@ -1,5 +1,7 @@
 export * from './get-token-price';
 export * from './markets';
+export * from './v1-ids';
+export * from './v2-ids';
 export * from './v2-smart-contracts';
 export * from './vamm';
 export * from './assert';

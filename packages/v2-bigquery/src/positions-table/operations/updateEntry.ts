@@ -1,16 +1,19 @@
-import { isUndefined } from '@voltz-protocol/commons-v2';
+import {
+  V2PositionIdData,
+  encodeV2PositionId,
+  isUndefined,
+} from '@voltz-protocol/commons-v2';
 import { getBigQuery } from '../../client';
-import { PositionIdData, encodePositionId } from '../positionId';
 import { tableName } from '../specific';
 import { PositionEntryUpdate } from '../specific';
 
 export const updatePositionEntry = async (
-  idData: PositionIdData,
+  idData: V2PositionIdData,
   update: PositionEntryUpdate,
 ): Promise<void> => {
   const bigQuery = getBigQuery();
 
-  const id = encodePositionId(idData);
+  const id = encodeV2PositionId(idData);
 
   const updates: string[] = [];
   if (!isUndefined(update.base)) {

@@ -2,10 +2,10 @@ import {
   getTokenPriceInUSD,
   isBorrowingProtocol,
   getProtocolName,
+  encodeV1PoolId,
 } from '@voltz-protocol/commons-v2';
 import { BigQueryPoolRow } from '@voltz-protocol/indexer-v1';
 import { V1Pool } from './types';
-import { encodeV1PoolId } from './v1PoolId';
 
 export const buildV1Pool = async (
   rawPool: BigQueryPoolRow,

@@ -1,22 +1,12 @@
-import {
-  getTokenDetails,
-  tickToFixedRate,
-  SupportedChainId,
-  getTokenPriceInUSD,
-  getTimestampInSeconds,
-  convertLowercaseString,
-  computeRealizedPnL,
-  computeUnrealizedPnL,
-} from '@voltz-protocol/commons-v2';
+import { SupportedChainId } from '@voltz-protocol/commons-v2';
 
 import {
-  getLiquidityIndexAt,
-  pullAccountCollateral,
+  PositionEntry,
   pullAccountPositionEntries,
   pullAccountsByAddress,
 } from '@voltz-protocol/bigquery-v2';
-import { getV2Pool } from '../get-pools/getV2Pool';
 import { V2PortfolioPosition } from './types';
+import { buildV2PortfolioPosition } from './buildV2PortfolioPosition';
 
 export const getV2PortfolioPositions = async (
   chainIds: SupportedChainId[],
@@ -24,139 +14,28 @@ export const getV2PortfolioPositions = async (
 ): Promise<V2PortfolioPosition[]> => {
   const accounts = await pullAccountsByAddress(chainIds, ownerAddress);
 
-  const portfolio: V2PortfolioPosition[] = [];
+  const allPositionEntries: PositionEntry[] = [];
 
   for (const { chainId, accountId } of accounts) {
-    const accountCollaterals = await pullAccountCollateral(chainId, accountId);
-
-    if (accountCollaterals.length === 0) {
-      continue;
-    }
-
-    const { collateralType: tokenAddress, balance: margin } =
-      accountCollaterals[0];
-
-    const { tokenName } = getTokenDetails(tokenAddress);
-    const tokenPriceUSD = await getTokenPriceInUSD(tokenName);
-
     const positionEntries = await pullAccountPositionEntries(
       chainId,
       accountId,
     );
 
-    for (const position of positionEntries) {
-      const {
-        id: positionId,
-        accountId,
-        marketId,
-        maturityTimestamp,
-        type: positionType,
-        base,
-        freeQuote,
-        timeDependentQuote,
-        lockedFixedRate,
-        notional: notionalTraded,
-        paidFees,
-        tickLower,
-        tickUpper,
-        creationTimestamp,
-      } = position;
-
-      const pool = await getV2Pool(chainId, marketId, maturityTimestamp);
-
-      if (!pool) {
-        throw new Error(
-          `Pool ${chainId}-${marketId}-${maturityTimestamp} was not found.`,
-        );
-      }
-
-      const poolFixedRate = pool.currentFixedRate;
-      const poolVariableRate = pool.currentVariableRate;
-
-      const fixedRateLocked = lockedFixedRate;
-
-      const fixLow = tickToFixedRate(tickUpper);
-      const fixHigh = tickToFixedRate(tickLower);
-
-      // notional balance
-      const notionalProvided = 0;
-      const notional =
-        positionType === 'lp' ? notionalProvided : notionalTraded;
-
-      // health factor
-      const health = 'healthy';
-
-      // variant
-      const variant = 'active';
-
-      // current liquidity index
-      const now = getTimestampInSeconds();
-      const liquidityIndex = await getLiquidityIndexAt(
-        chainId,
-        convertLowercaseString(pool.rateOracle.address),
-        now,
-      );
-
-      if (!liquidityIndex) {
-        throw new Error(
-          `Couldn't fetch current liquidity index for ${chainId} - ${pool.rateOracle.address}`,
-        );
-      }
-
-      // PnL
-      const realizedPNLFees = -paidFees;
-
-      const realizedPNLCashflow = computeRealizedPnL({
-        base,
-        timeDependentQuote,
-        freeQuote,
-        queryTimestamp: now,
-        liquidityIndexAtQuery: liquidityIndex,
-      });
-
-      const unrealizedPNL = computeUnrealizedPnL({
-        base,
-        timeDependentQuote,
-        freeQuote,
-        currentLiquidityIndex: liquidityIndex,
-        currentFixedRate: poolFixedRate,
-        maturityTimestamp,
-      });
-
-      // Build response
-      const response: V2PortfolioPosition = {
-        id: positionId,
-        accountId,
-        ownerAddress,
-        type:
-          positionType === 'lp' ? 'LP' : notional < 0 ? 'Fixed' : 'Variable',
-        creationTimestampInMS: creationTimestamp * 1000,
-        tickLower,
-        tickUpper,
-        fixLow,
-        fixHigh,
-        tokenPriceUSD,
-        notionalProvided,
-        notionalTraded,
-        notional,
-        margin,
-        status: {
-          health,
-          variant,
-          currentFixed: poolFixedRate,
-          receiving: notional < 0 ? fixedRateLocked : poolVariableRate,
-          paying: notional < 0 ? poolVariableRate : fixedRateLocked,
-        },
-        unrealizedPNL,
-        realizedPNLFees,
-        realizedPNLCashflow,
-        realizedPNLTotal: realizedPNLCashflow + realizedPNLFees,
-        amm: pool,
-      };
-
-      portfolio.push(response);
-    }
+    allPositionEntries.push(...positionEntries);
   }
+
+  const responses = await Promise.allSettled(
+    allPositionEntries.map(buildV2PortfolioPosition),
+  );
+
+  const portfolio = responses.map((r) => {
+    if (r.status === 'rejected') {
+      throw r.reason;
+    }
+
+    return r.value;
+  });
 
   return portfolio;
 };
