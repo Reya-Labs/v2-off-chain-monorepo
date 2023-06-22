@@ -37,7 +37,7 @@ export type SwapPeripheryParams = {
 
 // rolloverWithSwap
 
-export type RolloverAndSwapArgs = {
+export type RolloverWithSwapArgs = {
   maturedPositionId: string;
   ammId: string;
   notional: number;
@@ -46,7 +46,7 @@ export type RolloverAndSwapArgs = {
   signer: Signer;
 };
 
-export type RolloverAndSwapPeripheryParams = {
+export type RolloverWithSwapPeripheryParams = {
   maturedMarginEngineAddress: string;
   maturedPositionOwnerAddress: string;
   maturedPositionTickLower: BigNumberish;
@@ -56,7 +56,7 @@ export type RolloverAndSwapPeripheryParams = {
 
 // rolloverWithLp
 
-export type RolloverAndLpArgs = {
+export type RolloverWithLpArgs = {
   maturedPositionId: string;
   ammId: string;
   fixedLow: number;
@@ -66,7 +66,7 @@ export type RolloverAndLpArgs = {
   signer: Signer;
 };
 
-export type RolloverAndLpPeripheryParams = {
+export type RolloverWithLpPeripheryParams = {
   maturedMarginEngineAddress: string;
   maturedPositionOwnerAddress: string;
   maturedPositionTickLower: BigNumberish;
@@ -145,7 +145,7 @@ export type ApprovePeripheryArgs = {
   signer: Signer;
 };
 
-export type GetAllowanceArgs = {
+export type GetAllowanceToPeripheryArgs = {
   ammId: string;
   signer: Signer;
 };

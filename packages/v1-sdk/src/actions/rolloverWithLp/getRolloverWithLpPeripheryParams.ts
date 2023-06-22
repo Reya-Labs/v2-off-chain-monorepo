@@ -1,6 +1,6 @@
 import {
   LpPeripheryParams,
-  RolloverAndLpPeripheryParams,
+  RolloverWithLpPeripheryParams,
 } from '../types/actionArgTypes';
 import { getLpPeripheryParams } from '../lp/getLpPeripheryParams';
 import { PositionInfo } from '../../common/api/position/types';
@@ -23,7 +23,7 @@ export const getRolloverWithLpPeripheryParams = ({
   marginEngineAddress,
   tickSpacing,
   maturedPositionInfo,
-}: GetRolloverAndLpPeripheryParamsArgs): RolloverAndLpPeripheryParams => {
+}: GetRolloverAndLpPeripheryParamsArgs): RolloverWithLpPeripheryParams => {
   const newLpPeripheryParams: LpPeripheryParams = getLpPeripheryParams({
     margin,
     notional,
@@ -34,7 +34,7 @@ export const getRolloverWithLpPeripheryParams = ({
     tickSpacing,
   });
 
-  const rolloverAndLpPeripheryParams: RolloverAndLpPeripheryParams = {
+  const rolloverAndLpPeripheryParams: RolloverWithLpPeripheryParams = {
     maturedMarginEngineAddress: maturedPositionInfo.ammMarginEngineAddress,
     maturedPositionOwnerAddress: maturedPositionInfo.positionOwnerAddress,
     maturedPositionTickLower: maturedPositionInfo.positionTickLower,

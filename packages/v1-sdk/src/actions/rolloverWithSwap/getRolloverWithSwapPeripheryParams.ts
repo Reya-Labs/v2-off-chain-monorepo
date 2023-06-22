@@ -1,6 +1,6 @@
 import {
-  RolloverAndSwapArgs,
-  RolloverAndSwapPeripheryParams,
+  RolloverWithSwapArgs,
+  RolloverWithSwapPeripheryParams,
   SwapPeripheryParams,
 } from '../types/actionArgTypes';
 import { BigNumberish } from 'ethers';
@@ -31,7 +31,7 @@ export const getRolloverWithSwapPeripheryParams = ({
   fixedRateLimit,
   tickSpacing,
   maturedPosition,
-}: GetRolloverAndSwapPeripheryParamsArgs): RolloverAndSwapPeripheryParams => {
+}: GetRolloverAndSwapPeripheryParamsArgs): RolloverWithSwapPeripheryParams => {
   const newSwapPeripheryParams: SwapPeripheryParams = getSwapPeripheryParams({
     margin,
     isFT,
@@ -42,7 +42,7 @@ export const getRolloverWithSwapPeripheryParams = ({
     tickSpacing,
   });
 
-  const rolloverAndSwapPeripheryParams: RolloverAndSwapPeripheryParams = {
+  const rolloverAndSwapPeripheryParams: RolloverWithSwapPeripheryParams = {
     maturedMarginEngineAddress: maturedPosition.ammMarginEngineAddress,
     maturedPositionOwnerAddress: maturedPosition.positionOwnerAddress,
     maturedPositionTickLower: maturedPosition.positionTickLower,
