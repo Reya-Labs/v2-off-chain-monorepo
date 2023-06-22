@@ -1,5 +1,5 @@
 import { simulateSwap } from '../swap';
-import { RolloverAndSwapArgs } from '../types';
+import { RolloverWithSwapArgs } from '../types';
 import { InfoPostSwap } from '../swap/getInfoPostSwap';
 
 export const simulateRolloverWithSwap = async ({
@@ -8,7 +8,7 @@ export const simulateRolloverWithSwap = async ({
   notional,
   margin,
   signer,
-}: RolloverAndSwapArgs): Promise<InfoPostSwap> => {
+}: RolloverWithSwapArgs): Promise<InfoPostSwap> => {
   // todo: replcae with infopostrolloverwithswap based impl
   return simulateSwap({
     ammId,

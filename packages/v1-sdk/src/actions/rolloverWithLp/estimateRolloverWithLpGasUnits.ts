@@ -1,10 +1,10 @@
 import { BigNumber, ethers } from 'ethers';
-import { RolloverAndLpPeripheryParams } from '../types/actionArgTypes';
+import { RolloverWithLpPeripheryParams } from '../types/actionArgTypes';
 import { getReadableErrorMessage } from '../../common/errors/errorHandling';
 
 export const estimateRolloverWithLpGasUnits = async (
   peripheryContract: ethers.Contract,
-  rolloverAndLpPeripheryParams: RolloverAndLpPeripheryParams,
+  rolloverAndLpPeripheryParams: RolloverWithLpPeripheryParams,
   rolloverAndLpPeripheryTempOverrides: {
     value?: BigNumber;
     gasLimit?: BigNumber;

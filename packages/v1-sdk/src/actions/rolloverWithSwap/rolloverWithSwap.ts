@@ -5,8 +5,8 @@ import {
   ethers,
 } from 'ethers';
 import {
-  RolloverAndSwapArgs,
-  RolloverAndSwapPeripheryParams,
+  RolloverWithSwapArgs,
+  RolloverWithSwapPeripheryParams,
 } from '../types/actionArgTypes';
 import { getPeripheryContract } from '../../common/contract-generators';
 import { getRolloverWithSwapPeripheryParams } from './getRolloverWithSwapPeripheryParams';
@@ -29,7 +29,7 @@ export const rolloverWithSwap = async ({
   margin,
   fixedRateLimit,
   signer,
-}: RolloverAndSwapArgs): Promise<ContractReceipt> => {
+}: RolloverWithSwapArgs): Promise<ContractReceipt> => {
   const maturedPositionInfo: PositionInfo = await getPositionInfo(
     maturedPositionId,
   );
@@ -65,7 +65,7 @@ export const rolloverWithSwap = async ({
   }
   const tickSpacing: number = DEFAULT_TICK_SPACING;
 
-  const rolloverAndSwapPeripheryParams: RolloverAndSwapPeripheryParams =
+  const rolloverAndSwapPeripheryParams: RolloverWithSwapPeripheryParams =
     getRolloverWithSwapPeripheryParams({
       margin: marginDelta,
       isFT: notional < 0,

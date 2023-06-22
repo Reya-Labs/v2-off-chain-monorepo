@@ -1,4 +1,4 @@
-import { GetAllowanceArgs } from '../types/actionArgTypes';
+import { GetAllowanceToPeripheryArgs } from '../types/actionArgTypes';
 import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
 import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
 import { AMMInfo } from '../../common/api/amm/types';
@@ -7,7 +7,7 @@ import { getERC20Allowance } from '../../common';
 export const getAllowanceToPeriphery = async ({
   ammId,
   signer,
-}: GetAllowanceArgs): Promise<number> => {
+}: GetAllowanceToPeripheryArgs): Promise<number> => {
   if (signer.provider === undefined) {
     throw new Error('Signer must have a provider');
   }

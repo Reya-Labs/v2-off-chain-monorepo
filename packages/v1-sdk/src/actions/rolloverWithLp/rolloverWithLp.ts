@@ -5,8 +5,8 @@ import {
   ethers,
 } from 'ethers';
 import {
-  RolloverAndLpArgs,
-  RolloverAndLpPeripheryParams,
+  RolloverWithLpArgs,
+  RolloverWithLpPeripheryParams,
 } from '../types/actionArgTypes';
 import { handleLpErrors } from '../lp/handleLpErrors';
 import { getPeripheryContract } from '../../common/contract-generators';
@@ -27,7 +27,7 @@ import { getPositionInfo } from '../../common/api/position/getPositionInfo';
 import { PositionInfo } from '../../common/api/position/types';
 import { getSentryTracker } from '../../init';
 
-export const rolloverAndLp = async ({
+export const rolloverWithLp = async ({
   maturedPositionId,
   ammId,
   fixedLow,
@@ -35,7 +35,7 @@ export const rolloverAndLp = async ({
   notional,
   margin,
   signer,
-}: RolloverAndLpArgs): Promise<ContractReceipt> => {
+}: RolloverWithLpArgs): Promise<ContractReceipt> => {
   handleLpErrors({
     notional,
     fixedLow,
@@ -77,7 +77,7 @@ export const rolloverAndLp = async ({
 
   const tickSpacing: number = DEFAULT_TICK_SPACING;
 
-  const rolloverAndLpPeripheryParams: RolloverAndLpPeripheryParams =
+  const rolloverAndLpPeripheryParams: RolloverWithLpPeripheryParams =
     getRolloverWithLpPeripheryParams({
       margin: marginDelta,
       notional,
