@@ -38,7 +38,7 @@ export const buildV2PortfolioPosition = async ({
     throw new Error(`Couldn't fetch account for ${chainId}-${accountId}`);
   }
 
-  const ownerAddress = account?.owner;
+  const ownerAddress = account.owner;
 
   const accountCollaterals = await pullAccountCollateral(chainId, accountId);
 
