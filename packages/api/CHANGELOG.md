@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.41.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.40.3...@voltz-protocol/api-v2@1.41.0) (2023-06-23)
+
+### Features
+
+- endpoints for pool positions ([#107](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/107)) ([0f99c7b](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/0f99c7b3fe4b2359daad25d6a7da471e2fc784c3))
+
 ## [1.40.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.40.2...@voltz-protocol/api-v2@1.40.3) (2023-06-23)
 
 **Note:** Version bump only for package @voltz-protocol/api-v2
