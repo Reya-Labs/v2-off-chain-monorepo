@@ -32,6 +32,7 @@ import { getV1V2VariableRates } from './v1v2-queries/get-fixed-rates/getV1V2Vari
 import { getV2Pools } from './v2-queries/get-pools/getV2Pools';
 import { getV2PortfolioPositions } from './v2-queries/get-portfolio-positions/getV2PortfolioPositions';
 import { getV1V2PortfolioPositionDetails } from './v1v2-queries/get-portfolio-positions/getPortfolioPositionDetails';
+import { getV1V2PortfolioPositionsByPool } from './v1v2-queries/get-portfolio-positions/getPortfolioPositionsByPool';
 
 export const app = express();
 
@@ -115,6 +116,34 @@ app.get('/v1v2-position/:positionId', (req, res) => {
     positionId,
     includeHistory,
   }).then(
+    (output) => {
+      res.json(output);
+    },
+    (error) => {
+      console.log(`API query failed with message ${(error as Error).message}`);
+    },
+  );
+});
+
+app.get('/v1v2-trader-positions-by-pool/:poolId/:ownerAddress', (req, res) => {
+  const poolId = req.params.poolId.toLowerCase();
+  const ownerAddress = req.params.ownerAddress.toLowerCase();
+
+  getV1V2PortfolioPositionsByPool(poolId, ownerAddress, 'trader').then(
+    (output) => {
+      res.json(output);
+    },
+    (error) => {
+      console.log(`API query failed with message ${(error as Error).message}`);
+    },
+  );
+});
+
+app.get('/v1v2-lp-positions-by-pool/:poolId/:ownerAddress', (req, res) => {
+  const poolId = req.params.poolId.toLowerCase();
+  const ownerAddress = req.params.ownerAddress.toLowerCase();
+
+  getV1V2PortfolioPositionsByPool(poolId, ownerAddress, 'lp').then(
     (output) => {
       res.json(output);
     },
