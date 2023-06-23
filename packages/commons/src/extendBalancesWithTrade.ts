@@ -23,8 +23,16 @@ export const extendBalancesWithTrade = ({
   tradeLiquidityIndex: number;
   existingPosition: Balances | null;
 }): Balances => {
-  if (baseDelta === 0 || tradeLiquidityIndex === 0) {
-    throw new Error(`Couldn't get net balances of empty trade`);
+  const currentPosition: Balances = {
+    base: existingPosition?.base || 0,
+    timeDependentQuote: existingPosition?.timeDependentQuote || 0,
+    freeQuote: existingPosition?.freeQuote || 0,
+    notional: existingPosition?.notional || 0,
+    lockedFixedRate: existingPosition?.lockedFixedRate || 0,
+  };
+
+  if (baseDelta === 0) {
+    return currentPosition;
   }
 
   const timeDelta = (maturityTimestamp - tradeTimestamp) / SECONDS_IN_YEAR;
@@ -38,13 +46,7 @@ export const extendBalancesWithTrade = ({
     (notionalDelta * fixedRate * tradeTimestamp) / SECONDS_IN_YEAR;
 
   const netBalances = getNetBalances({
-    currentPosition: {
-      base: existingPosition?.base || 0,
-      timeDependentQuote: existingPosition?.timeDependentQuote || 0,
-      freeQuote: existingPosition?.freeQuote || 0,
-      notional: existingPosition?.notional || 0,
-      lockedFixedRate: existingPosition?.lockedFixedRate || 0,
-    },
+    currentPosition,
     incomingTrade: {
       base: baseDelta,
       timeDependentQuote: timeDependentQuoteDelta,

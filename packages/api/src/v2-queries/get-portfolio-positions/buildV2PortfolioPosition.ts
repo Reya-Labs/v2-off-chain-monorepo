@@ -1,7 +1,5 @@
 import {
-  getTokenDetails,
   tickToFixedRate,
-  getTokenPriceInUSD,
   getTimestampInSeconds,
   convertLowercaseString,
   computeRealizedPnL,
