@@ -81,6 +81,7 @@ const getErrorSignature = (error: any): string => {
 
 const getReadableErrorMessageWithoutSentry = (error: any): string => {
   const errSig = getErrorSignature(error);
+  console.log(`Error signature: "${errSig}".`);
 
   if (errSig === 'Error') {
     const reason = getErrorData(error);
@@ -96,6 +97,8 @@ const getReadableErrorMessageWithoutSentry = (error: any): string => {
 
       if (Object.keys(errorJson).some((e) => e === rawErrorMessage)) {
         return errorJson[rawErrorMessage as keyof typeof errorJson];
+      } else {
+        console.log(`Raw error message: "${rawErrorMessage}".`);
       }
     } catch (_) {}
 

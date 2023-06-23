@@ -185,9 +185,6 @@ export const encodeDeposit = (
       );
     }
   } else if (marginAmount.lt(ZERO_BN)) {
-    if (accountId === undefined) {
-      throw new Error('Withdraw: missing accountId');
-    }
     // withdraw
     encodeSingleWithdraw(
       accountId,

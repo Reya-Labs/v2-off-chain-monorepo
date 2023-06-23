@@ -51,5 +51,7 @@ export async function encodeLp(
     );
   }
 
-  return encodeRouterCall(multiAction, ethAmount);
+  const call = encodeRouterCall(multiAction, ethAmount);
+
+  return call;
 }

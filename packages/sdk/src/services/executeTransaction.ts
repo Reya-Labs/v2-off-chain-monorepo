@@ -63,7 +63,7 @@ export async function simulateTx(
   } catch (error) {
     // sentry error & thorw
     console.warn(error);
-    const errorMessage = ''; //getReadableErrorMessage(error);
+    const errorMessage = getReadableErrorMessage(error);
     throw new Error(errorMessage);
   }
 
@@ -123,7 +123,7 @@ export async function simulateTxExpectError(
       },
     );
   } catch (error) {
-    const errorMessage = ''; //getReadableErrorMessage(error);
+    const errorMessage = getReadableErrorMessage(error);
     throw new Error(errorMessage);
   }
 

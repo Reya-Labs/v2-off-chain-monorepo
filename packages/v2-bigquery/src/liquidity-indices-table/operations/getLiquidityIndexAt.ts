@@ -91,7 +91,7 @@ const interpolate = (
   before: LiquidityIndexEntry,
   after: LiquidityIndexEntry,
   targetTimestamp: number,
-): number => {
+): number | null => {
   const scaleWad = scale(18);
   const descaleWad = descale(18);
 
@@ -110,5 +110,12 @@ const interpolate = (
     .div(fromToTimeDelta)
     .add(scaleWad(before.liquidityIndex));
 
-  return descaleWad(targetIndex);
+  const rate = descaleWad(targetIndex);
+
+  if (rate < 1) {
+    console.log(`Interpolated rate is less than 1 (at ${targetTimestamp}).`);
+    return null;
+  }
+
+  return rate;
 };
