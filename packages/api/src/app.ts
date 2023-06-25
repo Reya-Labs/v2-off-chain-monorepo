@@ -4,7 +4,6 @@ import rateLimit from 'express-rate-limit';
 import RedisStore from 'rate-limit-redis';
 import {
   convertLowercaseString,
-  getRedisClient,
   getTimestampInSeconds,
   getTrustedProxies,
 } from '@voltz-protocol/commons-v2';
@@ -33,6 +32,7 @@ import { getV2Pools } from './v2-queries/get-pools/getV2Pools';
 import { getV2PortfolioPositions } from './v2-queries/get-portfolio-positions/getV2PortfolioPositions';
 import { getV1V2PortfolioPositionDetails } from './v1v2-queries/get-portfolio-positions/getPortfolioPositionDetails';
 import { getV1V2PortfolioPositionsByPool } from './v1v2-queries/get-portfolio-positions/getPortfolioPositionsByPool';
+import { getRedisClient } from './services/redis';
 
 export const app = express();
 
