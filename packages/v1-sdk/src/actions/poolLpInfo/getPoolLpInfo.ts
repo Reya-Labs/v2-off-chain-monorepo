@@ -16,7 +16,7 @@ export const getPoolLpInfo = async ({
 }: GetPoolLpInfoArgs): Promise<GetPoolLpInfoResults> => {
   const chainId = (await provider.getNetwork()).chainId;
   const peripheryAddress = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
-  const ammInfo: AMMInfo = await getAmmInfo(ammId, chainId);
+  const ammInfo: AMMInfo = await getAmmInfo(ammId);
 
   const maxLeverage = await getLpMaxLeverage({
     fixedLow,

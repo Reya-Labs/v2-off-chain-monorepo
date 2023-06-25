@@ -20,7 +20,7 @@ export const simulateLp = async ({
   signer,
 }: LpArgs): Promise<InfoPostLp> => {
   const chainId: number = await signer.getChainId();
-  const ammInfo: AMMInfo = await getAmmInfo(ammId, chainId);
+  const ammInfo: AMMInfo = await getAmmInfo(ammId);
   const tickSpacing: number = DEFAULT_TICK_SPACING;
   const walletAddress: string = await signer.getAddress();
 

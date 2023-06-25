@@ -1,28 +1,22 @@
-import { getServiceUrl } from '../urls';
-import { RawAMM, AMMInfo } from './types';
+import { V1V2Pool } from '@voltz-protocol/api-v2';
+import { API_URL } from '../urls';
+import { AMMInfo } from './types';
 import axios from 'axios';
-import { SupportedChainId } from '../../types';
 
-export const getAmmInfo = async (
-  ammId: string,
-  chainId: SupportedChainId,
-): Promise<AMMInfo> => {
-  // todo: refactor once api is adjusted to bake chain id into the ammId
+export const getAmmInfo = async (ammId: string): Promise<AMMInfo> => {
+  const url = `${API_URL}/v1v2-position/${ammId}`;
 
-  const baseUrl = getServiceUrl('pool');
-  const url = `${baseUrl}/${chainId}/${ammId.toLowerCase()}`;
-
-  const res = await axios.get<RawAMM>(url, {
+  const res = await axios.get<V1V2Pool>(url, {
     withCredentials: false,
   });
 
-  const rawAMM: RawAMM = res.data;
+  const rawAMM = res.data;
 
   const ammInfo: AMMInfo = {
-    isEth: rawAMM.tokenName === 'ETH',
-    marginEngineAddress: rawAMM.marginEngine,
-    underlyingTokenDecimals: rawAMM.tokenDecimals,
-    underlyingTokenAddress: rawAMM.tokenId, // todo: make sure this is the case
+    isEth: rawAMM.underlyingToken.name === 'eth',
+    marginEngineAddress: rawAMM.marginEngineAddress,
+    underlyingTokenDecimals: rawAMM.underlyingToken.tokenDecimals,
+    underlyingTokenAddress: rawAMM.underlyingToken.address,
   };
 
   return ammInfo;

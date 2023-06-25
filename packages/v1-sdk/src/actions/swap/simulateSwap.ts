@@ -22,9 +22,7 @@ export const simulateSwap = async ({
   }
   const chainId: number = await signer.getChainId();
 
-  const ammInfo: AMMInfo = await getAmmInfo(ammId, chainId);
-
-  const signerAddress: string = await signer.getAddress();
+  const ammInfo: AMMInfo = await getAmmInfo(ammId);
 
   const tickSpacing: number = DEFAULT_TICK_SPACING;
 

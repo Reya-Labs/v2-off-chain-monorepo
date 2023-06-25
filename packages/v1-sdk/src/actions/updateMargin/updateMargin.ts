@@ -1,5 +1,4 @@
 import {
-  SettlePeripheryParams,
   UpdateMarginArgs,
   UpdateMarginPeripheryParams,
 } from '../types/actionArgTypes';
@@ -10,16 +9,15 @@ import {
   ethers,
 } from 'ethers';
 import { getPeripheryContract } from '../../common/contract-generators';
-import { estimateSettleGasUnits } from '../settle/estimateSettleGasUnits';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
 import { estimateUpdateMarginGasUnits } from './estimateUpdateMarginGasUnits';
 import { PositionInfo } from '../../common/api/position/types';
 import { getPositionInfo } from '../../common/api/position/getPositionInfo';
-import { decodePositionId } from '../../common/api/position/decodePositionId';
 import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
 import { scale } from '../../common/math/scale';
 import { getReadableErrorMessage } from '../../common/errors/errorHandling';
 import { getSentryTracker } from '../../init';
+import { decodeV1PositionId } from '@voltz-protocol/commons-v2';
 
 export const updateMargin = async ({
   positionId,
@@ -28,7 +26,7 @@ export const updateMargin = async ({
 }: UpdateMarginArgs): Promise<ContractReceipt> => {
   const positionInfo: PositionInfo = await getPositionInfo(positionId);
 
-  const { chainId } = decodePositionId(positionId);
+  const { chainId } = decodeV1PositionId(positionId);
 
   const peripheryAddress = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
 

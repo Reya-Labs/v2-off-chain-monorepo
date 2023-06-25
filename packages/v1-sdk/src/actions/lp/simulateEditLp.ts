@@ -1,8 +1,3 @@
-import {
-  DecodedPosition,
-  decodePositionId,
-} from '../../common/api/position/decodePositionId';
-
 import { EditLpArgs, LpPeripheryParams } from '../types';
 import { getInfoPostLp, InfoPostLp } from './getInfoPostLp';
 import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
@@ -11,6 +6,7 @@ import { getPeripheryContract } from '../../common/contract-generators';
 import { getMarginEngineContract } from '../../common/contract-generators';
 import { PositionInfo } from '../../common/api/position/types';
 import { getPositionInfo } from '../../common/api/position/getPositionInfo';
+import { decodeV1PositionId } from '@voltz-protocol/commons-v2';
 
 export const simulateEditLp = async ({
   positionId,
@@ -19,7 +15,7 @@ export const simulateEditLp = async ({
   signer,
 }: EditLpArgs): Promise<InfoPostLp> => {
   const chainId: number = await signer.getChainId();
-  const decodedPosition: DecodedPosition = decodePositionId(positionId);
+  const decodedPosition = decodeV1PositionId(positionId);
   const positionInfo: PositionInfo = await getPositionInfo(positionId);
   const walletAddress: string = await signer.getAddress();
 

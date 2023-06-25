@@ -16,7 +16,7 @@ export const approvePeriphery = async ({
 }: ApprovePeripheryArgs): Promise<void> => {
   const chainId = await signer.getChainId();
 
-  const ammInfo: AMMInfo = await getAmmInfo(ammId, chainId);
+  const ammInfo: AMMInfo = await getAmmInfo(ammId);
 
   const tokenContract = getERC20TokenContract(
     ammInfo.underlyingTokenAddress,

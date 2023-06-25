@@ -1,10 +1,6 @@
 import { EditLpArgs, LpPeripheryParams } from '../types';
 import { BigNumber, ContractReceipt, ethers, utils } from 'ethers';
 import {
-  decodePositionId,
-  DecodedPosition,
-} from '../../common/api/position/decodePositionId';
-import {
   NUMBER_OF_DECIMALS_ETHER,
   PERIPHERY_ADDRESS_BY_CHAIN_ID,
 } from '../../common/constants';
@@ -15,6 +11,7 @@ import { getReadableErrorMessage } from '../../common/errors/errorHandling';
 import { estimateLpGasUnits } from './estimateLpGasUnits';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
 import { getSentryTracker } from '../../init';
+import { decodeV1PositionId } from '@voltz-protocol/commons-v2';
 
 export const editLp = async ({
   positionId,
@@ -22,7 +19,7 @@ export const editLp = async ({
   margin,
   signer,
 }: EditLpArgs): Promise<ContractReceipt> => {
-  const decodedPosition: DecodedPosition = decodePositionId(positionId);
+  const decodedPosition = decodeV1PositionId(positionId);
   const positionInfo: PositionInfo = await getPositionInfo(positionId);
   const peripheryAddress =
     PERIPHERY_ADDRESS_BY_CHAIN_ID[decodedPosition.chainId];
