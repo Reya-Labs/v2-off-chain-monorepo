@@ -14,8 +14,7 @@ export const getBalance = async ({
 
   const walletAddress = await signer.getAddress();
   const provider = signer.provider;
-  const chainId: number = await signer.getChainId();
-  const ammInfo: AMMInfo = await getAmmInfo(ammId, chainId);
+  const ammInfo: AMMInfo = await getAmmInfo(ammId);
 
   let currentBalance: number;
   if (ammInfo.isEth) {

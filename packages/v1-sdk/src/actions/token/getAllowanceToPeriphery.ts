@@ -13,7 +13,7 @@ export const getAllowanceToPeriphery = async ({
   }
 
   const chainId = await signer.getChainId();
-  const ammInfo: AMMInfo = await getAmmInfo(ammId, chainId);
+  const ammInfo: AMMInfo = await getAmmInfo(ammId);
   const walletAddress: string = await signer.getAddress();
 
   if (ammInfo.isEth) {

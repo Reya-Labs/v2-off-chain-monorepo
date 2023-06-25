@@ -20,7 +20,7 @@ export const getPoolSwapInfo = async ({
 
   const peripheryAddress = PERIPHERY_ADDRESS_BY_CHAIN_ID[chainId];
 
-  const ammInfo: AMMInfo = await getAmmInfo(ammId, chainId);
+  const ammInfo: AMMInfo = await getAmmInfo(ammId);
 
   try {
     const {

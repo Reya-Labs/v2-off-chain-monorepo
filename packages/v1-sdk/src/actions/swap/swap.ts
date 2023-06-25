@@ -26,7 +26,7 @@ export const swap = async ({
 
   const chainId: number = await signer.getChainId();
 
-  const ammInfo: AMMInfo = await getAmmInfo(ammId, chainId);
+  const ammInfo: AMMInfo = await getAmmInfo(ammId);
 
   const tickSpacing: number = DEFAULT_TICK_SPACING;
 

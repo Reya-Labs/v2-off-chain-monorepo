@@ -14,10 +14,6 @@ import { getRolloverWithLpPeripheryParams } from './getRolloverWithLpPeripheryPa
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
 import { estimateRolloverWithLpGasUnits } from './estimateRolloverWithLpGasUnits';
 import {
-  decodePositionId,
-  DecodedPosition,
-} from '../../common/api/position/decodePositionId';
-import {
   DEFAULT_TICK_SPACING,
   PERIPHERY_ADDRESS_BY_CHAIN_ID,
 } from '../../common/constants';
@@ -26,6 +22,7 @@ import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
 import { getPositionInfo } from '../../common/api/position/getPositionInfo';
 import { PositionInfo } from '../../common/api/position/types';
 import { getSentryTracker } from '../../init';
+import { decodeV1PositionId } from '@voltz-protocol/commons-v2';
 
 export const rolloverWithLp = async ({
   maturedPositionId,
@@ -42,11 +39,10 @@ export const rolloverWithLp = async ({
     fixedHigh,
   });
 
-  const decodedMaturedPosition: DecodedPosition =
-    decodePositionId(maturedPositionId);
+  const decodedMaturedPosition = decodeV1PositionId(maturedPositionId);
 
   const chainId = decodedMaturedPosition.chainId;
-  const ammInfo: AMMInfo = await getAmmInfo(ammId, chainId);
+  const ammInfo: AMMInfo = await getAmmInfo(ammId);
   const maturedPositionInfo: PositionInfo = await getPositionInfo(
     maturedPositionId,
   );

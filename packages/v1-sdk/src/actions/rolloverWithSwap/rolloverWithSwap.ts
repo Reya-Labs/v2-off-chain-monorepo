@@ -34,10 +34,7 @@ export const rolloverWithSwap = async ({
     maturedPositionId,
   );
 
-  const rolloverAmmInfo: AMMInfo = await getAmmInfo(
-    ammId,
-    maturedPositionInfo.chainId,
-  );
+  const rolloverAmmInfo: AMMInfo = await getAmmInfo(ammId);
 
   const peripheryAddress =
     PERIPHERY_ADDRESS_BY_CHAIN_ID[maturedPositionInfo.chainId];
