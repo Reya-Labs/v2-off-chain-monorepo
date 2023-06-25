@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.42.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.41.0...@voltz-protocol/api-v2@1.42.0) (2023-06-25)
+
+### Features
+
+- remove redis from commons ([#109](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/109)) ([0f6298a](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/0f6298a808dcd3ce69d10cac4260c518b9bf3ca3))
+
 # [1.41.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.40.3...@voltz-protocol/api-v2@1.41.0) (2023-06-23)
 
 ### Features
