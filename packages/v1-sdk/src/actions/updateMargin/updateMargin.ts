@@ -17,7 +17,7 @@ import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
 import { scale } from '../../common/math/scale';
 import { getReadableErrorMessage } from '../../common/errors/errorHandling';
 import { getSentryTracker } from '../../init';
-import { decodeV1PositionId } from '@voltz-protocol/commons-v2/dist/types';
+import { decodeV1PositionId } from '@voltz-protocol/commons-v2';
 
 export const updateMargin = async ({
   positionId,

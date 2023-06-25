@@ -6,7 +6,7 @@ import { getPeripheryContract } from '../../common/contract-generators';
 import { getMarginEngineContract } from '../../common/contract-generators';
 import { PositionInfo } from '../../common/api/position/types';
 import { getPositionInfo } from '../../common/api/position/getPositionInfo';
-import { decodeV1PositionId } from '@voltz-protocol/commons-v2/dist/types';
+import { decodeV1PositionId } from '@voltz-protocol/commons-v2';
 
 export const simulateEditLp = async ({
   positionId,
