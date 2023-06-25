@@ -7510,6 +7510,8 @@ __metadata:
     "@types/jest": 29.5.2
     "@types/react": 17.0.53
     "@types/react-dom": 17.0.18
+    "@voltz-protocol/api-v2": "workspace:^"
+    "@voltz-protocol/commons-v2": "workspace:^"
     big.js: 6.2.1
     brokoli-ui: 1.44.0
     decimal.js-light: 2.5.1
