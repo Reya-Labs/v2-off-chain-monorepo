@@ -7423,6 +7423,7 @@ __metadata:
     ethers: 5.5.4
     express: ^4.18.2
     express-rate-limit: ^6.7.0
+    ioredis: 5.3.2
     rate-limit-redis: ^3.0.2
   languageName: unknown
   linkType: soft
@@ -7441,9 +7442,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@voltz-protocol/commons-v2@workspace:packages/commons"
   dependencies:
-    "@google-cloud/bigquery": 6.2.0
     ethers: 5.5.4
-    ioredis: 5.3.2
   languageName: unknown
   linkType: soft
 

@@ -1,18 +1,4 @@
-import { Redis } from 'ioredis';
-import { getRedisHost, getRedisPort } from './env-vars';
-
-let redisClient: Redis | null = null;
-
-export const getRedisClient = (): Redis => {
-  if (redisClient) {
-    return redisClient;
-  }
-
-  redisClient = new Redis(getRedisPort(), getRedisHost());
-  return redisClient;
-};
-
-export const getTrustedProxies = () => {
+export const getTrustedProxies = (): string[] => {
   let trustedProxies: string[] = [];
 
   trustedProxies = [

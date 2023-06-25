@@ -23,9 +23,7 @@
     "generate:coverage-badges": "npx istanbul-badges-readme --silent"
   },
   "dependencies": {
-    "@google-cloud/bigquery": "6.2.0",
-    "ethers": "5.5.4",
-    "ioredis": "5.3.2"
+    "ethers": "5.5.4"
   },
   "packageManager": "yarn@3.5.1"
 }
