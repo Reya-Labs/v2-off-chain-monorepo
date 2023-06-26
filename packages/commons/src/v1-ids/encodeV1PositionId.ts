@@ -7,5 +7,5 @@ export const encodeV1PositionId = ({
   tickLower,
   tickUpper,
 }: V1PositionIdData): string => {
-  return `${chainId}_${vammAddress.toLowerCase()}_${ownerAddress.toLowerCase()}_${tickLower}_${tickUpper}`;
+  return `${chainId}_${vammAddress.toLowerCase()}_${ownerAddress.toLowerCase()}_${tickLower}_${tickUpper}_v1`;
 };
