@@ -114,7 +114,7 @@ export const getV1PortfolioPositionDetails = async ({
   return {
     ...response,
 
-    canEdit: false,
+    canEdit: true,
     canSettle: false,
     rolloverPoolId: null,
 
