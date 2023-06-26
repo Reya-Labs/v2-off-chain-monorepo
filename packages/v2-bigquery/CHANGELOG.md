@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/bigquery-v2@1.5.3...@voltz-protocol/bigquery-v2@1.6.0) (2023-06-26)
+
+### Features
+
+- deps restructure ([#111](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/111)) ([ceb48ae](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/ceb48ae498fac7abe94d4c09eaae8cd6179198ac))
+
 ## [1.5.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/bigquery-v2@1.5.2...@voltz-protocol/bigquery-v2@1.5.3) (2023-06-25)
 
 **Note:** Version bump only for package @voltz-protocol/bigquery-v2
