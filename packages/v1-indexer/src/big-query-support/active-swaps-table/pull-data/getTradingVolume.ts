@@ -3,6 +3,7 @@ import { BigQueryInt } from '@google-cloud/bigquery';
 import { getBigQuery } from '../../../global';
 import { TableType, bqNumericToNumber, getTableFullID } from '../../utils';
 import { getTotalAmountInUSD } from '@voltz-protocol/commons-v2';
+import { getCoingeckoApiKey } from '../../../common/envVars';
 
 /**
  Get trading volume over last 30 days on given chain
@@ -39,7 +40,10 @@ export const getChainTradingVolume = async (
     }),
   );
 
-  const volume30DayInDollars = await getTotalAmountInUSD(parsedRows);
+  const volume30DayInDollars = await getTotalAmountInUSD(
+    parsedRows,
+    getCoingeckoApiKey(),
+  );
 
   return volume30DayInDollars;
 };

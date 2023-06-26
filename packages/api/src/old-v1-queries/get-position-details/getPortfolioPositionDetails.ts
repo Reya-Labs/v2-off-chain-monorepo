@@ -17,6 +17,7 @@ import {
 } from '@voltz-protocol/indexer-v1';
 import { getPositionPnL } from '../position-pnl/getPositionPnL';
 import { getSubgraphURL } from '../subgraph/getSubgraphURL';
+import { getCoingeckoApiKey } from '../../services/envVars';
 
 const decodePositionId = (
   positionId: string,
@@ -128,7 +129,10 @@ export const getPortfolioPositionDetails = async ({
 
   const notional = positionType === 'LP' ? notionalProvided : notionalTraded;
 
-  const tokenPriceUSD = await getTokenPriceInUSD(position.amm.tokenName);
+  const tokenPriceUSD = await getTokenPriceInUSD(
+    position.amm.tokenName,
+    getCoingeckoApiKey(),
+  );
 
   if (position.isSettled) {
     if (position.settlements.length === 0 || position.settlements.length >= 2) {

@@ -1,11 +1,9 @@
-import { SupportedChainId, getProvider } from './provider';
+import { providers } from 'ethers';
 
 export async function getBlockAtTimestamp(
-  chainId: SupportedChainId,
+  provider: providers.JsonRpcProvider,
   timestamp: number,
 ) {
-  const provider = getProvider(chainId);
-
   let lo = 0;
   let hi = (await provider.getBlock('latest')).number;
   let answer = 0;

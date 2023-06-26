@@ -7,15 +7,20 @@ import {
   isNull,
 } from '@voltz-protocol/commons-v2';
 import { parseEvent } from '../event-parsers/parseEvent';
+import { getProvider } from '../services/getProvider';
 
 export const fetchEvents = async (
   chainId: number,
   fromBlock: number,
   toBlock: number,
 ): Promise<BaseEvent[]> => {
-  const coreContract = getCoreContract(chainId);
-  const datedIrsInstrumentContract = getDatedIrsInstrumentContract(chainId);
-  const datedIrsExchangeContract = getDatedIrsVammContract(chainId);
+  const provider = getProvider(chainId);
+  const coreContract = getCoreContract(chainId, provider);
+  const datedIrsInstrumentContract = getDatedIrsInstrumentContract(
+    chainId,
+    provider,
+  );
+  const datedIrsExchangeContract = getDatedIrsVammContract(chainId, provider);
 
   const allPromises = [
     coreContract.queryFilter('*' as EventFilter, fromBlock, toBlock),

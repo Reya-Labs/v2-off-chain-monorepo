@@ -1,7 +1,6 @@
 import {
   SECONDS_IN_YEAR,
   getBlockAtTimestamp,
-  getProvider,
   getTimeInYearsBetweenTimestamps,
   tickToFixedRate,
 } from '@voltz-protocol/commons-v2';
@@ -12,6 +11,7 @@ import {
   pullExistingPoolRow,
   pullExistingPositionRow,
 } from '@voltz-protocol/indexer-v1';
+import { getProvider } from '../../services/getProvider';
 
 export const getPositionPnL = async (
   chainId: number,
@@ -55,7 +55,7 @@ export const getPositionPnL = async (
     currentLiquidityIndex = await getLiquidityIndex(chainId, amm.marginEngine);
   } else {
     const blockAtSettlement = await getBlockAtTimestamp(
-      chainId,
+      getProvider(chainId),
       maturityTimestamp,
     );
 

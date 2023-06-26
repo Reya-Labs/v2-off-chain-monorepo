@@ -10,7 +10,6 @@ export * from './computeRealizedPnL';
 export * from './computeUnrealizedPnL';
 export * from './constants';
 export * from './convertLowercase';
-export * from './env-vars';
 export * from './getApy';
 export * from './getBlockAtTimestamp';
 export * from './extendBalancesWithTrade';

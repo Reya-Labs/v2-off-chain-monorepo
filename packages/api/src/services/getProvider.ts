@@ -1,5 +1,5 @@
 import { providers } from 'ethers';
-import { getAlchemyApiKey, getInfuraApiKey } from '../envVars';
+import { getAlchemyApiKey, getInfuraApiKey } from './envVars';
 import {
   SupportedChainId,
   providerApiKeyToURL,

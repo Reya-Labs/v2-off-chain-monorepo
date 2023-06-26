@@ -1,7 +1,6 @@
 import { BigQuery } from '@google-cloud/bigquery';
 import { Redis } from 'ioredis';
-
-import { getRedisHost, getRedisPort } from '@voltz-protocol/commons-v2';
+import { getRedisPort, getRedisHost } from './common/envVars';
 
 // BigQuery project and dataset IDs
 export const PROJECT_ID = 'risk-monitoring-361911';

@@ -3,8 +3,8 @@ import {
   BigQueryInt,
   BigQueryTimestamp,
 } from '@google-cloud/bigquery';
-import { getEnvironmentV1 } from '@voltz-protocol/commons-v2';
 import { PROJECT_ID, getBigQuery } from '../global';
+import { getEnvironmentV1 } from '../common/envVars';
 
 export enum TableType {
   active_swaps,

@@ -1,17 +1,17 @@
 import axios from 'axios';
-import { getCoingeckoApiKey } from '../env-vars';
 import { CacheObject } from '../cache';
 
 const ethPriceInUSD = new CacheObject<number>(60_000);
 
-export const getETHPriceInUSD = async (): Promise<number> => {
+export const getETHPriceInUSD = async (
+  coingeckoApiKey: string,
+): Promise<number> => {
   if (ethPriceInUSD.isCacheValid()) {
     return ethPriceInUSD.read();
   }
 
   try {
-    const apiKey = getCoingeckoApiKey();
-    const url = `https://pro-api.coingecko.com/api/v3/simple/price?x_cg_pro_api_key=${apiKey}&ids=ethereum&vs_currencies=usd`;
+    const url = `https://pro-api.coingecko.com/api/v3/simple/price?x_cg_pro_api_key=${coingeckoApiKey}&ids=ethereum&vs_currencies=usd`;
 
     const data = await axios.get(url);
 

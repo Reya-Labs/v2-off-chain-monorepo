@@ -1,8 +1,11 @@
-import { ethers } from 'ethers';
+import { Contract, providers } from 'ethers';
 import { getAddress } from './addresses';
-import { SupportedChainId, getProvider } from '../provider';
+import { SupportedChainId } from '../provider';
 
-export const getCoreContract = (chainId: SupportedChainId): ethers.Contract => {
+export const getCoreContract = (
+  chainId: SupportedChainId,
+  provider: providers.JsonRpcProvider,
+): Contract => {
   const abi = [
     `event AccountCreated(uint128 indexed accountId, address indexed owner, uint256 blockTimestamp)`,
     `event AccountOwnerUpdate(uint128 indexed accountId, address indexed newOwner, uint256 blockTimestamp)`,
@@ -21,10 +24,9 @@ export const getCoreContract = (chainId: SupportedChainId): ethers.Contract => {
     `event LiquidatorBoosterUpdate(uint128 indexed accountId, address indexed collateralType, int256 tokenAmount, uint256 blockTimestamp)`,
   ];
 
-  const provider = getProvider(chainId);
   const address = getAddress(chainId, 'core');
 
-  const contract = new ethers.Contract(address, abi, provider);
+  const contract = new Contract(address, abi, provider);
 
   return contract;
 };

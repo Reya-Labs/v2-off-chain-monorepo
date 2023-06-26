@@ -3,6 +3,7 @@ import { BigQueryInt } from '@google-cloud/bigquery';
 import { getBigQuery } from '../../../global';
 import { TableType, bqNumericToNumber, getTableFullID } from '../../utils';
 import { getTotalAmountInUSD } from '@voltz-protocol/commons-v2';
+import { getCoingeckoApiKey } from '../../../common/envVars';
 
 /**
  Get chain total liquidity
@@ -39,7 +40,10 @@ export const getChainTotalLiquidity = async (
     }),
   );
 
-  const totalLiquidityInDollars = await getTotalAmountInUSD(parsedRows);
+  const totalLiquidityInDollars = await getTotalAmountInUSD(
+    parsedRows,
+    getCoingeckoApiKey(),
+  );
 
   return totalLiquidityInDollars;
 };

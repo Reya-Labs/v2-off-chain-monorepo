@@ -1,5 +1,5 @@
 import { app } from './app';
-import { getApiPort } from '@voltz-protocol/commons-v2';
+import { getApiPort } from './services/envVars';
 
 const main = async () => {
   const PORT = getApiPort();
