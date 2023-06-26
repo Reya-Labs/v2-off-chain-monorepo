@@ -5,8 +5,8 @@ import {
   encodeV1PoolId,
 } from '@voltz-protocol/commons-v2';
 import { BigQueryPoolRow } from '@voltz-protocol/indexer-v1';
-import { V1Pool } from './types';
 import { getCoingeckoApiKey } from '../../services/envVars';
+import { V1Pool } from '@voltz-protocol/api-v2-types';
 
 export const buildV1Pool = async (
   rawPool: BigQueryPoolRow,

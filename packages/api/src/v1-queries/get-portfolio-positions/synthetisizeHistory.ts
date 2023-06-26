@@ -1,10 +1,10 @@
+import { HistoryTransaction } from '@voltz-protocol/api-v2-types';
 import { Position } from '@voltz-protocol/subgraph-data';
-import { V1HistoryTransaction } from './types';
 
 export const synthetisizeHistory = (
   position: Position,
-): V1HistoryTransaction[] => {
-  const txs: V1HistoryTransaction[] = [];
+): HistoryTransaction[] => {
+  const txs: HistoryTransaction[] = [];
 
   position.swaps.forEach((item) => {
     const fixedRate =

@@ -1,6 +1,6 @@
 import { pullPositionEntryById } from '@voltz-protocol/bigquery-v2';
-import { V2PortfolioPositionDetails } from './types';
 import { buildV2PortfolioPosition } from './buildV2PortfolioPosition';
+import { V2PortfolioPositionDetails } from '@voltz-protocol/api-v2-types';
 
 export const getV2PortfolioPositionDetails = async ({
   positionId,

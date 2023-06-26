@@ -1,5 +1,4 @@
 import { VammCreatedEvent, pullMarketEntry } from '@voltz-protocol/bigquery-v2';
-import { V2Pool } from './types';
 import {
   getTokenDetails,
   getTokenPriceInUSD,
@@ -13,6 +12,7 @@ import {
 import { getFixedRateData } from './getFixedRateData';
 import { getVariableRateData } from './getVariableRateData';
 import { getCoingeckoApiKey } from '../../services/envVars';
+import { V2Pool } from '@voltz-protocol/api-v2-types';
 
 // configuration
 const lookbackWindowSeconds = SECONDS_IN_DAY;

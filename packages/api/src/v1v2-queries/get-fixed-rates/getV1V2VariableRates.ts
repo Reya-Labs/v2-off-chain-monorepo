@@ -1,6 +1,6 @@
 import { getVariableRates } from '@voltz-protocol/indexer-v1';
 import { getV1V2Pool } from '../get-pools/getV1V2Pool';
-import { HistoricalRate } from './types';
+import { HistoricalRate } from '@voltz-protocol/api-v2-types';
 
 export const getV1V2VariableRates = async (
   poolId: string,

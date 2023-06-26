@@ -4,8 +4,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "dist/index.js",
-  "types": "dist/types",
   "license": "MIT",
   "scripts": {
     "prebuild": "yarn code-quality:check && rm -rf dist",
@@ -25,6 +23,7 @@
   },
   "packageManager": "yarn@3.5.1",
   "dependencies": {
+    "@voltz-protocol/api-v2-types": "workspace:^",
     "@voltz-protocol/commons-v2": "workspace:^",
     "@voltz-protocol/indexer-v1": "workspace:^",
     "@voltz-protocol/subgraph-data": "^1.18.1",

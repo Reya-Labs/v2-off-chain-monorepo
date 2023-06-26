@@ -1,7 +1,7 @@
 import { PositionInfo } from './types';
 import axios from 'axios';
 import { API_URL } from '../urls';
-import { V1V2PortfolioPositionDetails } from '@voltz-protocol/api-v2';
+import { V1V2PortfolioPositionDetails } from '@voltz-protocol/api-v2-types';
 
 export const getPositionInfo = async (
   positionId: string,

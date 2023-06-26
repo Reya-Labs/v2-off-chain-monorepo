@@ -1,6 +1,6 @@
-import { V1Pool } from '../get-pools/types';
+import { BasePool } from './BasePool';
 
-export type V1PortfolioPosition = {
+export type BasePortfolioPosition = {
   id: string;
 
   type: 'LP' | 'Variable' | 'Fixed';
@@ -30,29 +30,5 @@ export type V1PortfolioPosition = {
   paying: number;
 
   poolCurrentFixedRate: number;
-  pool: V1Pool;
-};
-
-export type V1HistoryTransaction = {
-  type:
-    | 'swap'
-    | 'mint'
-    | 'burn'
-    | 'margin-update'
-    | 'liquidation'
-    | 'settlement'
-    | 'maturity';
-  creationTimestampInMS: number;
-  notional: number;
-  paidFees: number;
-  fixedRate: number;
-  marginDelta: number;
-};
-
-export type V1PortfolioPositionDetails = V1PortfolioPosition & {
-  canEdit: boolean;
-  canSettle: boolean;
-  rolloverPoolId: null | string;
-
-  history: V1HistoryTransaction[];
+  pool: BasePool;
 };

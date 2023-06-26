@@ -1,4 +1,4 @@
-import { V1V2Pool } from '@voltz-protocol/api-v2';
+import { V1V2Pool } from '@voltz-protocol/api-v2-types';
 import { API_URL } from '../urls';
 import { AMMInfo } from './types';
 import axios from 'axios';

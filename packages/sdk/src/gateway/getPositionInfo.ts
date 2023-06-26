@@ -1,8 +1,7 @@
+import { V1V2PortfolioPositionDetails } from '@voltz-protocol/api-v2-types';
 import { API_URL } from './constants';
 import { mapToPoolInfo } from './getPoolInfo';
 import { PositionInfo } from './types';
-
-import { V1V2PortfolioPositionDetails } from '@voltz-protocol/api-v2';
 
 export async function getPositionInfo(
   positionId: string,

@@ -1,0 +1,23 @@
+{
+  "name": "@voltz-protocol/api-v2-types",
+  "version": "1.43.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/index.js",
+  "types": "dist/types",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "yarn code-quality:check && rm -rf dist",
+    "build": "tsc -p tsconfig.build.json",
+    "ts:check-types": "npx tsc --noEmit",
+    "ts:circular-check": "dpdm --no-output --no-tree --no-warning --exit-code circular:1 -T ./src/index.ts",
+    "ts:check": "yarn ts:check-types && yarn ts:circular-check",
+    "lint:check": "eslint '{src,tests}/**/*.ts'",
+    "prettier:check": "npx prettier --check './{src,tests}/**/*.ts'",
+    "code-quality:check": "npx concurrently 'yarn ts:check' 'yarn prettier:check' 'yarn lint:check --quiet'",
+    "lint:fix": "npx eslint --fix '{src,tests}/**/*.ts'",
+    "prettier:fix": "npx prettier --write './{src,tests}/**/*.ts'"
+  },
+  "packageManager": "yarn@3.5.1"
+}

@@ -15,7 +15,3 @@ main()
   .catch((error) => {
     console.log(`Error encountered. ${(error as unknown as Error).message}`);
   });
-
-export * from './v1v2-queries/get-pools/types';
-export * from './v1v2-queries/get-portfolio-positions/types';
-export * from './v1v2-queries/get-fixed-rates/types';

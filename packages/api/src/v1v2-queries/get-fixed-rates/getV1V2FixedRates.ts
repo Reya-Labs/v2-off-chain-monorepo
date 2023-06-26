@@ -1,6 +1,6 @@
 import { getFixedRates as getFixedRatesV1 } from '@voltz-protocol/indexer-v1';
-import { HistoricalRate } from './types';
 import { decodeV1PoolId, decodeV2PoolId } from '@voltz-protocol/commons-v2';
+import { HistoricalRate } from '@voltz-protocol/api-v2-types';
 
 export const getV1V2FixedRates = async (
   poolId: string,

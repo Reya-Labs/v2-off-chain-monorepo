@@ -61,7 +61,7 @@
   "dependencies": {
     "@sentry/browser": "7.25.0",
     "@sentry/tracing": "7.25.0",
-    "@voltz-protocol/api-v2": "workspace:^",
+    "@voltz-protocol/api-v2-types": "workspace:^",
     "@voltz-protocol/commons-v2": "workspace:^",
     "big.js": "6.2.1",
     "decimal.js-light": "2.5.1",

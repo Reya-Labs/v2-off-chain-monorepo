@@ -1,9 +1,10 @@
 import {
   V1PortfolioPosition,
+  V1V2PortfolioPosition,
   V1PortfolioPositionDetails,
-} from '../../v1-queries/get-portfolio-positions/types';
+  V1V2PortfolioPositionDetails,
+} from '@voltz-protocol/api-v2-types';
 import { extendV1Pool } from '../get-pools/extendV1Pool';
-import { V1V2PortfolioPosition, V1V2PortfolioPositionDetails } from './types';
 
 export const extendV1Position = (
   p: V1PortfolioPosition,

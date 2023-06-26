@@ -1,8 +1,10 @@
-export type V2Pool = {
+export type BasePool = {
   id: string;
   chainId: number;
 
-  marketId: string;
+  tickSpacing: number;
+  termStartTimestampInMS: number;
+  termEndTimestampInMS: number;
 
   isBorrowing: boolean;
   market:
@@ -25,22 +27,6 @@ export type V2Pool = {
     tokenDecimals: number;
     priceUSD: number;
   };
-
-  tickSpacing: number;
-  termStartTimestampInMS: number;
-  termEndTimestampInMS: number;
-
-  currentFixedRate: number;
-  fixedRateChange: number;
-
-  currentLiquidityIndex: number;
-  currentVariableRate: number;
-  variableRateChange: number;
-  rateChangeLookbackWindowMS: number;
-
-  coreAddress: string;
-  productAddress: string;
-  exchangeAddress: string;
 
   // Indicates if Voltz protocol V2 is used for the pool
   isV2: boolean;
