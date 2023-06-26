@@ -9,6 +9,7 @@ import {
   pullExistingPositionRow,
 } from '@voltz-protocol/indexer-v1';
 import { PositionPnL } from '../../old-v1-queries/position-pnl/types';
+import { getProvider } from '../../services/getProvider';
 
 export const getPositionPnL = async (
   chainId: number,
@@ -49,7 +50,7 @@ export const getPositionPnL = async (
     );
   } else {
     const blockAtSettlement = await getBlockAtTimestamp(
-      chainId,
+      getProvider(chainId),
       maturityTimestamp,
     );
 

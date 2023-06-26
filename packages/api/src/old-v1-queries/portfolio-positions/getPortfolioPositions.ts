@@ -12,7 +12,6 @@ import {
   getETHPriceInUSD,
   descale,
   tickToFixedRate,
-  getProvider,
   SECONDS_IN_YEAR,
   getProtocolName,
   isBorrowingProtocol,
@@ -26,6 +25,8 @@ import {
 import { generateMarginEngineContract } from '@voltz-protocol/indexer-v1/src/common/contract-services/generateMarginEngineContract';
 import { getPositionPnL } from '../position-pnl/getPositionPnL';
 import { getSubgraphURL } from '../subgraph/getSubgraphURL';
+import { getProvider } from '../../services/getProvider';
+import { getCoingeckoApiKey } from '../../services/envVars';
 
 export const getPortfolioPositions = async (
   chainIds: number[],
@@ -33,7 +34,7 @@ export const getPortfolioPositions = async (
 ): Promise<PortfolioPosition[]> => {
   const now = Date.now().valueOf();
 
-  const ethPriceUSD = await getETHPriceInUSD();
+  const ethPriceUSD = await getETHPriceInUSD(getCoingeckoApiKey());
 
   const allPositions: (RawPosition & { chainId: number })[] = [];
   for (const chainId of chainIds) {

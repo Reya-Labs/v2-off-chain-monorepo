@@ -1,10 +1,11 @@
-import { ethers } from 'ethers';
+import { Contract, providers } from 'ethers';
 import { getAddress } from './addresses';
-import { SupportedChainId, getProvider } from '../provider';
+import { SupportedChainId } from '../provider';
 
 export const getDatedIrsInstrumentContract = (
   chainId: SupportedChainId,
-): ethers.Contract => {
+  provider: providers.JsonRpcProvider,
+): Contract => {
   const abi = [
     `event MarketConfigured((uint128 marketId, address quoteToken) config, uint256 blockTimestamp)`,
     `event ProductConfigured((uint128 productId, address coreProxy, address poolAddress) config, uint256 blockTimestamp)`,
@@ -15,10 +16,9 @@ export const getDatedIrsInstrumentContract = (
     `event RateOracleCacheUpdated(uint128 indexed marketId, address oracleAddress, uint32 timestamp, uint256 rate, uint256 blockTimestamp)`,
   ];
 
-  const provider = getProvider(chainId);
   const address = getAddress(chainId, 'dated_irs_instrument');
 
-  const contract = new ethers.Contract(address, abi, provider);
+  const contract = new Contract(address, abi, provider);
 
   return contract;
 };

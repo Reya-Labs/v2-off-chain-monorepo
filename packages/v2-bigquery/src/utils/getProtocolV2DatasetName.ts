@@ -1,4 +1,4 @@
-import { getEnvironmentV2 } from '@voltz-protocol/commons-v2';
+import { getEnvironmentV2 } from './envVars';
 
 export const getProtocolV2DatasetName = (): string => {
   const tag = getEnvironmentV2();

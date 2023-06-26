@@ -1,6 +1,3 @@
-import { ethers } from 'ethers';
-import { getAlchemyApiKey, getInfuraApiKey } from './env-vars';
-
 export enum SupportedChainId {
   mainnet = 1,
   goerli = 5,
@@ -10,7 +7,7 @@ export enum SupportedChainId {
   avalancheFuji = 43113,
 }
 
-const providerApiKeyToURL = (
+export const providerApiKeyToURL = (
   chainId: SupportedChainId,
   alchemyApiKey: string,
   infuraApiKey: string,
@@ -35,15 +32,4 @@ const providerApiKeyToURL = (
       return `https://avalanche-fuji.infura.io/v3/${infuraApiKey}`;
     }
   }
-};
-
-export const getProvider = (
-  chainId: SupportedChainId,
-): ethers.providers.JsonRpcProvider => {
-  const providerURL = providerApiKeyToURL(
-    chainId,
-    getAlchemyApiKey(),
-    getInfuraApiKey(),
-  );
-  return new ethers.providers.JsonRpcProvider(providerURL);
 };

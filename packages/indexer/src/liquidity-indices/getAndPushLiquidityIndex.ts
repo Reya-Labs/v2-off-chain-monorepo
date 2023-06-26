@@ -4,6 +4,7 @@ import {
   descale,
   getRateOracleContract,
 } from '@voltz-protocol/commons-v2';
+import { getProvider } from '../services/getProvider';
 
 export const getAndPushLiquidityIndex = async (
   chainId: number,
@@ -11,7 +12,8 @@ export const getAndPushLiquidityIndex = async (
   blockNumber: number,
   blockTimestamp: number,
 ): Promise<void> => {
-  const oracleContract = getRateOracleContract(chainId, oracleAddress);
+  const provider = getProvider(chainId);
+  const oracleContract = getRateOracleContract(provider, oracleAddress);
 
   const liquidityIndexE18 = await oracleContract.getCurrentIndex({
     blockTag: blockNumber,

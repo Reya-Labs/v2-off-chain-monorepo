@@ -6,12 +6,16 @@ import {
 } from '@voltz-protocol/commons-v2';
 import { BigQueryPoolRow } from '@voltz-protocol/indexer-v1';
 import { V1Pool } from './types';
+import { getCoingeckoApiKey } from '../../services/envVars';
 
 export const buildV1Pool = async (
   rawPool: BigQueryPoolRow,
 ): Promise<V1Pool> => {
   const tokenName = rawPool.tokenName;
-  const tokenPriceUSD = await getTokenPriceInUSD(tokenName);
+  const tokenPriceUSD = await getTokenPriceInUSD(
+    tokenName,
+    getCoingeckoApiKey(),
+  );
 
   const id = encodeV1PoolId({
     chainId: rawPool.chainId,

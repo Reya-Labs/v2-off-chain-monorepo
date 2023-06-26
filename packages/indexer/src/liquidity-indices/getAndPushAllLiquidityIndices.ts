@@ -1,6 +1,7 @@
 import { pullRateOracleEntries } from '@voltz-protocol/bigquery-v2';
-import { SupportedChainId, getProvider } from '@voltz-protocol/commons-v2';
+import { SupportedChainId } from '@voltz-protocol/commons-v2';
 import { getAndPushLiquidityIndex } from './getAndPushLiquidityIndex';
+import { getProvider } from '../services/getProvider';
 
 export const getAndPushAllLiquidityIndices = async (): Promise<void> => {
   const oracles = await pullRateOracleEntries();

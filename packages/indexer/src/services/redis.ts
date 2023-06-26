@@ -1,9 +1,5 @@
-import {
-  getRedisPort,
-  getRedisHost,
-  getEnvironmentV2,
-} from '@voltz-protocol/commons-v2';
 import { Redis } from 'ioredis';
+import { getRedisPort, getRedisHost, getEnvironmentV2 } from './envVars';
 
 let redisClient: Redis | null = null;
 export const getRedisClient = (): Redis => {

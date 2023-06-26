@@ -1,4 +1,3 @@
-import { getEnvironmentV1 } from '@voltz-protocol/commons-v2';
 import { getActiveSwapsMaxEventBlock } from '../../big-query-support/active-swaps-table/pull-data/getActiveSwapsMaxEventBlock';
 import { getMarginUpdatesMaxEventBlock } from '../../big-query-support/margin-updates-table/pull-data/getMarginUpdatesMaxEventBlock';
 import { getMintsAndBurnsMaxEventBlock } from '../../big-query-support/mints-and-burns-table/pull-data/getMintsAndBurnsMaxEventBlock';
@@ -6,6 +5,7 @@ import { getPoolsMaxEventBlock } from '../../big-query-support/pools-table/pull-
 import { getPositionsMaxEventBlock } from '../../big-query-support/positions-table/pull-data/getPositionsMaxEventBlock';
 import { getRedisClient } from '../../global';
 import { getCurrentTick } from '../contract-services/getCurrentTick';
+import { getEnvironmentV1 } from '../envVars';
 
 export const getInformationPerVAMM = async (
   information:

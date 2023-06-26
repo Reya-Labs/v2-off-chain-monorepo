@@ -2,6 +2,7 @@ import { getETHPriceInUSD } from './getETHPriceInUSD';
 
 export const getTokenPriceInUSD = async (
   caseSensitiveTokenName: string,
+  coingeckoApiKey: string,
 ): Promise<number> => {
   const tokenName = caseSensitiveTokenName.toUpperCase();
 
@@ -13,7 +14,7 @@ export const getTokenPriceInUSD = async (
       return 1;
     }
     case 'ETH': {
-      return getETHPriceInUSD();
+      return getETHPriceInUSD(coingeckoApiKey);
     }
     default: {
       return 0;

@@ -6,7 +6,6 @@ import {
   tickToFixedRate,
   encodeV1PositionId,
   SECONDS_IN_YEAR,
-  getProvider,
 } from '@voltz-protocol/commons-v2';
 import {
   getPositionInfo,
@@ -16,6 +15,7 @@ import {
 } from '@voltz-protocol/indexer-v1';
 import { generateMarginEngineContract } from '@voltz-protocol/indexer-v1/src/common/contract-services/generateMarginEngineContract';
 import { getPositionPnL } from './getPositionPnL';
+import { getProvider } from '../../services/getProvider';
 
 export const buildV1PortfolioPosition = async (
   chainId: number,

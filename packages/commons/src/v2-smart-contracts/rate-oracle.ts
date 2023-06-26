@@ -1,17 +1,15 @@
-import { ethers } from 'ethers';
-import { SupportedChainId, getProvider } from '../provider';
+import { Contract, providers } from 'ethers';
 
 export const getRateOracleContract = (
-  chainId: SupportedChainId,
+  provider: providers.JsonRpcProvider,
   address: string,
-): ethers.Contract => {
+): Contract => {
   const abi: string[] = [
     `function getCurrentRateInRay() external view returns (uint256)`,
     'function getCurrentIndex() external view returns (uint256)',
   ];
 
-  const provider = getProvider(chainId);
-  const contract = new ethers.Contract(address, abi, provider);
+  const contract = new Contract(address, abi, provider);
 
   return contract;
 };
