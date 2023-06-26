@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.44.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.44.1...@voltz-protocol/api-v2@1.44.2) (2023-06-26)
+
+### Bug Fixes
+
+- bug in canEdit position ([be6656d](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/be6656d83e5cea34d9943864527571309e23e32a))
+
 ## [1.44.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.44.0...@voltz-protocol/api-v2@1.44.1) (2023-06-26)
 
 **Note:** Version bump only for package @voltz-protocol/api-v2
