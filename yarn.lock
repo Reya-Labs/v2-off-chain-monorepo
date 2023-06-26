@@ -7410,12 +7410,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@voltz-protocol/api-v2@workspace:^, @voltz-protocol/api-v2@workspace:packages/api":
+"@voltz-protocol/api-v2-types@workspace:^, @voltz-protocol/api-v2-types@workspace:packages/api-types":
+  version: 0.0.0-use.local
+  resolution: "@voltz-protocol/api-v2-types@workspace:packages/api-types"
+  languageName: unknown
+  linkType: soft
+
+"@voltz-protocol/api-v2@workspace:packages/api":
   version: 0.0.0-use.local
   resolution: "@voltz-protocol/api-v2@workspace:packages/api"
   dependencies:
     "@types/cors": 2.8.13
     "@types/express": 4.17.17
+    "@voltz-protocol/api-v2-types": "workspace:^"
     "@voltz-protocol/commons-v2": "workspace:^"
     "@voltz-protocol/indexer-v1": "workspace:^"
     "@voltz-protocol/subgraph-data": ^1.18.1
@@ -7509,7 +7516,7 @@ __metadata:
     "@types/jest": 29.5.2
     "@types/react": 17.0.53
     "@types/react-dom": 17.0.18
-    "@voltz-protocol/api-v2": "workspace:^"
+    "@voltz-protocol/api-v2-types": "workspace:^"
     "@voltz-protocol/commons-v2": "workspace:^"
     big.js: 6.2.1
     brokoli-ui: 1.44.0
@@ -7551,7 +7558,7 @@ __metadata:
     "@types/react-dom": 17.0.18
     "@uniswap/sdk-core": 3.2.2
     "@uniswap/v3-sdk": 3.9.0
-    "@voltz-protocol/api-v2": "workspace:^"
+    "@voltz-protocol/api-v2-types": "workspace:^"
     "@voltz-protocol/sdk-v1-stateless": "workspace:^"
     brokoli-ui: 1.44.0
     crypto-js: 4.1.1

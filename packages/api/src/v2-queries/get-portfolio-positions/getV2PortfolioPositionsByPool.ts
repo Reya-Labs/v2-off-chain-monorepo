@@ -6,7 +6,7 @@ import {
   pullAccountsByAddress,
 } from '@voltz-protocol/bigquery-v2';
 import { getV2PortfolioPositionDetails } from './getV2PortfolioPositionDetails';
-import { V2PortfolioPositionDetails } from './types';
+import { V2PortfolioPositionDetails } from '@voltz-protocol/api-v2-types';
 
 export const getV2PortfolioPositionsByPool = async (
   poolId: string,

@@ -5,8 +5,8 @@ import {
   pullAccountPositionEntries,
   pullAccountsByAddress,
 } from '@voltz-protocol/bigquery-v2';
-import { V2PortfolioPosition } from './types';
 import { buildV2PortfolioPosition } from './buildV2PortfolioPosition';
+import { V2PortfolioPosition } from '@voltz-protocol/api-v2-types';
 
 export const getV2PortfolioPositions = async (
   chainIds: SupportedChainId[],

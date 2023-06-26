@@ -1,7 +1,6 @@
 import { API_URL } from './constants';
 import { PoolInfo } from './types';
-
-import { V1V2Pool } from '@voltz-protocol/api-v2';
+import { V1V2Pool } from '@voltz-protocol/api-v2-types';
 
 export async function getPoolInfo(ammId: string): Promise<PoolInfo> {
   const endpoint = `/v1v2-pool/${ammId}`;

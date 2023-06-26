@@ -1,8 +1,8 @@
+import { V1V2PortfolioPositionDetails } from '@voltz-protocol/api-v2-types';
 import { getV1PortfolioPositionDetails } from '../../v1-queries/get-portfolio-positions/getV1PortfolioPositionDetails';
 import { getV2PortfolioPositionDetails } from '../../v2-queries/get-portfolio-positions/getV2PortfolioPositionDetails';
 import { extendV1PositionDetails } from './extendV1Position';
 import { extendV2PositionDetails } from './extendV2Position';
-import { V1V2PortfolioPositionDetails } from './types';
 
 export const getV1V2PortfolioPositionDetails = async ({
   positionId,

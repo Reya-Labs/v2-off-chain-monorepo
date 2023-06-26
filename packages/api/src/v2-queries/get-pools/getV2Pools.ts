@@ -1,7 +1,7 @@
 import { pullVammsByChains } from '@voltz-protocol/bigquery-v2';
 import { buildV2Pool } from './buildV2Pool';
 import { SupportedChainId } from '@voltz-protocol/commons-v2';
-import { V2Pool } from './types';
+import { V2Pool } from '@voltz-protocol/api-v2-types';
 
 export const getV2Pools = async (
   chainIds: SupportedChainId[],

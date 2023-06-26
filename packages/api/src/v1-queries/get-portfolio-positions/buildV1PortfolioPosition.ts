@@ -1,5 +1,4 @@
 import { Position as RawPosition } from '@voltz-protocol/subgraph-data';
-import { V1PortfolioPosition } from './types';
 import { getV1Pool } from '../get-pools/getV1Pool';
 import {
   descale,
@@ -16,6 +15,7 @@ import {
 import { generateMarginEngineContract } from '@voltz-protocol/indexer-v1/src/common/contract-services/generateMarginEngineContract';
 import { getPositionPnL } from './getPositionPnL';
 import { getProvider } from '../../services/getProvider';
+import { V1PortfolioPosition } from '@voltz-protocol/api-v2-types';
 
 export const buildV1PortfolioPosition = async (
   chainId: number,

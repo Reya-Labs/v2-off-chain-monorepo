@@ -3,7 +3,7 @@ import { decodeV1PoolId, encodeV1PositionId } from '@voltz-protocol/commons-v2';
 import { getPositions as getRawPositions } from '@voltz-protocol/subgraph-data';
 import { getSubgraphURL } from '../../old-v1-queries/subgraph/getSubgraphURL';
 import { getV1PortfolioPositionDetails } from './getV1PortfolioPositionDetails';
-import { V1PortfolioPositionDetails } from './types';
+import { V1PortfolioPositionDetails } from '@voltz-protocol/api-v2-types';
 
 export const getV1PortfolioPositionsByPool = async (
   poolId: string,

@@ -3,9 +3,9 @@ import {
   Position as RawPosition,
 } from '@voltz-protocol/subgraph-data';
 
-import { V1PortfolioPosition } from './types';
 import { getSubgraphURL } from '../subgraph/getSubgraphURL';
 import { buildV1PortfolioPosition } from './buildV1PortfolioPosition';
+import { V1PortfolioPosition } from '@voltz-protocol/api-v2-types';
 
 export const getV1PortfolioPositions = async (
   chainIds: number[],
