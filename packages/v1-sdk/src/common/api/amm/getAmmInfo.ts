@@ -4,7 +4,7 @@ import { AMMInfo } from './types';
 import axios from 'axios';
 
 export const getAmmInfo = async (ammId: string): Promise<AMMInfo> => {
-  const url = `${API_URL}/v1v2-position/${ammId}`;
+  const url = `${API_URL}/v1v2-pool/${ammId}`;
 
   const res = await axios.get<V1V2Pool>(url, {
     withCredentials: false,
