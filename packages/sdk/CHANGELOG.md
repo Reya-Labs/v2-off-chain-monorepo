@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.43.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.42.7...@voltz-protocol/sdk-v2@1.43.0) (2023-06-26)
+
+### Features
+
+- add simulation stories ([9acc1de](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/9acc1defedb15eb9a0bae3c059eca2065fd067b8))
+
 ## [1.42.7](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.42.6...@voltz-protocol/sdk-v2@1.42.7) (2023-06-26)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v2
