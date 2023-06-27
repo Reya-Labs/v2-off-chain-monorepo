@@ -35,11 +35,12 @@ export async function encodeLp(
     trade.quoteTokenAddress,
     trade.isETH,
     trade.margin,
+    trade.liquidatorBooster,
     multiAction,
   );
 
   if (trade.liquidityAmount) {
-    // swap
+    // lp
     encodeSingleMakerOrder(
       accountId,
       trade.marketId,

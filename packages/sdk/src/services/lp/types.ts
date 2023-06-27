@@ -15,6 +15,7 @@ export type LpUserInputs = {
   owner: Signer;
   liquidityAmount: BigNumber;
   margin: BigNumber;
+  liquidatorBooster: BigNumber;
   fixedHigh: number;
   fixedLow: number;
 };

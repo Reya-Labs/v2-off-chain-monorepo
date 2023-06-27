@@ -136,6 +136,8 @@ async function createEditLpParams({
     owner: signer,
     liquidityAmount: liquidityAmount,
     margin: scale(lpInfo.quoteTokenDecimals)(margin),
+    // todo: liquidator booster hard-coded
+    liquidatorBooster: scale(lpInfo.quoteTokenDecimals)(0),
     fixedLow: lpInfo.fixedRateLower,
     fixedHigh: lpInfo.fixedRateUpper,
   };

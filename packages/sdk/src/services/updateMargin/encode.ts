@@ -13,6 +13,7 @@ export function encodeUpdateMargin(
     trade.quoteTokenAddress,
     trade.isETH,
     trade.margin,
+    trade.liquidatorBooster,
     multiAction,
   );
 
