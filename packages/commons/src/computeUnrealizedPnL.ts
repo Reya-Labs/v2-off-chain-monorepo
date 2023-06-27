@@ -2,37 +2,38 @@ import { assert } from './assert';
 import { computeRealizedPnL } from './computeRealizedPnL';
 import { SECONDS_IN_YEAR } from './constants';
 import { extendBalancesWithTrade } from './extendBalancesWithTrade';
-import { getTimestampInSeconds } from './getTimestampInSeconds';
 
 export const computeUnrealizedPnL = ({
   base,
   timeDependentQuote,
   freeQuote,
-  currentLiquidityIndex,
-  currentFixedRate,
+  queryTimestamp,
+  queryLiquidityIndex,
+  queryFixedRate,
   maturityTimestamp,
 }: {
   base: number;
   timeDependentQuote: number;
   freeQuote: number;
-  currentLiquidityIndex: number;
-  currentFixedRate: number;
+  queryTimestamp: number;
+  queryLiquidityIndex: number;
+  queryFixedRate: number;
   maturityTimestamp: number;
 }) => {
-  const now = getTimestampInSeconds();
-
   const unwindBase = -base;
   const unwindQuoteDelta =
     -unwindBase *
-    currentLiquidityIndex *
-    (1 + (currentFixedRate * (maturityTimestamp - now)) / SECONDS_IN_YEAR);
+    queryLiquidityIndex *
+    (1 +
+      (queryFixedRate * (maturityTimestamp - queryTimestamp)) /
+        SECONDS_IN_YEAR);
 
   const unwindBalances = extendBalancesWithTrade({
-    tradeLiquidityIndex: currentLiquidityIndex,
+    tradeLiquidityIndex: queryLiquidityIndex,
     maturityTimestamp,
     baseDelta: unwindBase,
     quoteDelta: unwindQuoteDelta,
-    tradeTimestamp: now,
+    tradeTimestamp: queryTimestamp,
     existingPosition: {
       base,
       timeDependentQuote,

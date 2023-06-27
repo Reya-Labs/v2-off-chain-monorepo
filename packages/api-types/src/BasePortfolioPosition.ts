@@ -18,14 +18,21 @@ export type BasePortfolioPosition = {
   notionalProvided: number;
   notionalTraded: number;
   notional: number;
+
   margin: number;
+  maxWithdrawableMargin: number;
 
   unrealizedPNL: number;
   realizedPNLFees: number;
   realizedPNLCashflow: number;
   realizedPNLTotal: number;
 
+  settlementCashflow: number;
+
+  liquidationThreshold: number;
+  safetyThreshold: number;
   health: 'healthy' | 'danger' | 'warning';
+
   receiving: number;
   paying: number;
 

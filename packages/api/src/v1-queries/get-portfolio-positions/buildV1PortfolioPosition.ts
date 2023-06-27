@@ -72,6 +72,9 @@ export const buildV1PortfolioPosition = async (
       notionalTraded: 0,
       notional: 0,
       margin: 0,
+      maxWithdrawableMargin: 0,
+      liquidationThreshold: 0,
+      safetyThreshold: 0,
       health: 'healthy',
       variant: 'settled',
       receiving: 0,
@@ -79,6 +82,7 @@ export const buildV1PortfolioPosition = async (
       unrealizedPNL: 0,
       realizedPNLFees: 0,
       realizedPNLCashflow: 0,
+      settlementCashflow: 0,
 
       realizedPNLTotal: 0,
 
@@ -147,6 +151,9 @@ export const buildV1PortfolioPosition = async (
       notionalTraded,
       notional,
       margin,
+      maxWithdrawableMargin: 0,
+      liquidationThreshold: 0,
+      safetyThreshold: 0,
       health: 'healthy',
       variant: 'matured',
       receiving: 0,
@@ -154,6 +161,7 @@ export const buildV1PortfolioPosition = async (
       unrealizedPNL: 0,
       realizedPNLFees: accumulatedFees,
       realizedPNLCashflow,
+      settlementCashflow: realizedPNLCashflow,
 
       realizedPNLTotal: accumulatedFees + realizedPNLCashflow,
 
@@ -222,13 +230,15 @@ export const buildV1PortfolioPosition = async (
   const { latestRate: variableRate } = latestVariableRateResponse.value;
 
   let health: 'healthy' | 'danger' | 'warning' = 'healthy';
+  let liquidationThreshold = 0;
+  let safetyThreshold = 0;
 
   if (
     liquidationThresholdResponse.status === 'fulfilled' &&
     safetyThresholdResponse.status === 'fulfilled'
   ) {
-    const liquidationThreshold = descaler(liquidationThresholdResponse.value);
-    const safetyThreshold = descaler(safetyThresholdResponse.value);
+    liquidationThreshold = descaler(liquidationThresholdResponse.value);
+    safetyThreshold = descaler(safetyThresholdResponse.value);
 
     if (margin + accumulatedFees < liquidationThreshold) {
       health = 'danger';
@@ -263,6 +273,10 @@ export const buildV1PortfolioPosition = async (
     notionalTraded,
     notional,
     margin: margin - paidFees,
+    liquidationThreshold,
+    safetyThreshold,
+    settlementCashflow: 0,
+    maxWithdrawableMargin: Math.max(0, margin - paidFees - safetyThreshold),
     health,
     variant: 'active',
     receiving,
