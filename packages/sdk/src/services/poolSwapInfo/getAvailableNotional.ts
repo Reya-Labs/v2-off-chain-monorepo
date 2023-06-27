@@ -5,5 +5,5 @@ export const getAvailableNotional = async ({
   chainId,
   params,
 }: GetAvailableNotionalArgs): Promise<number> => {
-  return Promise.resolve(-1);
+  return Promise.resolve(1000000000);
 };

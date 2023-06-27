@@ -15,7 +15,6 @@ export const getPoolSwapInfo = async ({
     signer: dummyWallet,
     notional: 0,
     margin: 0,
-    fixedRateLimit: 0,
   });
 
   try {
@@ -48,8 +47,8 @@ export const getPoolSwapInfo = async ({
   } catch (error) {
     console.warn('Failed to get Pool Swap Info');
     return {
-      availableNotionalFixedTaker: -1,
-      availableNotionalVariableTaker: -1,
+      availableNotionalFixedTaker: 1000000000,
+      availableNotionalVariableTaker: 1000000000,
       maxLeverageFixedTaker: 1,
       maxLeverageVariableTaker: 1,
     };

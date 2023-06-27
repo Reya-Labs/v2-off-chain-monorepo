@@ -17,7 +17,7 @@ export const getPoolLpInfo = async ({
   fixedLow,
   provider,
 }: GetPoolLpInfoArgs): Promise<GetPoolLpInfoResults> => {
-  const dummyWallet = await getDummyWallet().connect(provider);
+  const dummyWallet = getDummyWallet().connect(provider);
   try {
     const maxLeverage = await getLpMaxLeverage({
       ammId,
@@ -31,7 +31,7 @@ export const getPoolLpInfo = async ({
     };
   } catch (e) {
     return {
-      maxLeverage: -1,
+      maxLeverage: 1,
     };
   }
 };
