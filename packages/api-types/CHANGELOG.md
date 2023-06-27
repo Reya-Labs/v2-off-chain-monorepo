@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.45.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2-types@1.44.0...@voltz-protocol/api-v2-types@1.45.0) (2023-06-27)
+
+### Features
+
+- liquidation thresholds to api ([#114](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/114)) ([9bd5f74](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/9bd5f746c3d8158018fcbc0bfbb199e0391f1e60))
+
 # 1.44.0 (2023-06-26)
 
 ### Features
