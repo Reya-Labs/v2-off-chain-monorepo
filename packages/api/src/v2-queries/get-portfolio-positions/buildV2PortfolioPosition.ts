@@ -64,22 +64,32 @@ export const buildV2PortfolioPosition = async ({
   const fixLow = tickToFixedRate(tickUpper);
   const fixHigh = tickToFixedRate(tickLower);
 
-  // notional balance
+  // todo: notional balance
   const notionalProvided = 0;
   const notional = positionType === 'lp' ? notionalProvided : notionalTraded;
 
-  // health factor
+  // todo: liquidation and safety threshold
+  const liquidationThreshold = 0;
+  const safetyThreshold = 0;
+
+  // todo: max margin withdrawable
+  const maxWithdrawableMargin = margin - liquidationThreshold;
+
+  // todo: health factor
   const health = 'healthy';
 
-  // variant
+  // todo: variant
   const variant = 'active';
 
-  // current liquidity index
-  const now = getTimestampInSeconds();
+  // query liquidity index
+  const queryTimestamp = getTimestampInSeconds(
+    Math.min(pool.termEndTimestampInMS, Date.now().valueOf()),
+  );
+
   const liquidityIndex = await getLiquidityIndexAt(
     chainId,
     convertLowercaseString(pool.rateOracle.address),
-    now,
+    queryTimestamp,
   );
 
   if (!liquidityIndex) {
@@ -95,7 +105,7 @@ export const buildV2PortfolioPosition = async ({
     base,
     timeDependentQuote,
     freeQuote,
-    queryTimestamp: now,
+    queryTimestamp,
     liquidityIndexAtQuery: liquidityIndex,
   });
 
@@ -103,8 +113,9 @@ export const buildV2PortfolioPosition = async ({
     base,
     timeDependentQuote,
     freeQuote,
-    currentLiquidityIndex: liquidityIndex,
-    currentFixedRate: poolFixedRate,
+    queryTimestamp,
+    queryLiquidityIndex: liquidityIndex,
+    queryFixedRate: poolFixedRate,
     maturityTimestamp,
   });
 
@@ -123,6 +134,9 @@ export const buildV2PortfolioPosition = async ({
     notionalTraded,
     notional,
     margin,
+    maxWithdrawableMargin,
+    liquidationThreshold,
+    safetyThreshold,
     health,
     variant,
     receiving: notional < 0 ? fixedRateLocked : poolVariableRate,
@@ -130,6 +144,7 @@ export const buildV2PortfolioPosition = async ({
     unrealizedPNL,
     realizedPNLFees,
     realizedPNLCashflow,
+    settlementCashflow: realizedPNLCashflow,
     realizedPNLTotal: realizedPNLCashflow + realizedPNLFees,
     poolCurrentFixedRate: poolFixedRate,
     pool,
