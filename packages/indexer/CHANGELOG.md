@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.12.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/indexer-v2@1.11.2...@voltz-protocol/indexer-v2@1.12.0) (2023-06-28)
+
+### Features
+
+- add silent log for prettier ([fc45c58](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/fc45c58b01680517db9b12e9509d48c4730b3146))
+
 ## [1.11.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/indexer-v2@1.11.1...@voltz-protocol/indexer-v2@1.11.2) (2023-06-27)
 
 **Note:** Version bump only for package @voltz-protocol/indexer-v2

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/community-sdk@1.2.0...@voltz-protocol/community-sdk@1.3.0) (2023-06-28)
+
+### Features
+
+- add silent log for prettier ([fc45c58](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/fc45c58b01680517db9b12e9509d48c4730b3146))
+
 # [1.2.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/community-sdk@1.1.9...@voltz-protocol/community-sdk@1.2.0) (2023-06-15)
 
 ### Bug Fixes

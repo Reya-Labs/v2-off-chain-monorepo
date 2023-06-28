@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.24.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.24.2...@voltz-protocol/sdk-v1-stateless@1.24.3) (2023-06-28)
+
+### Bug Fixes
+
+- eslint ([ac61223](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/ac61223b4e641ebaba1594280dfed57b796658e3))
+
 ## [1.24.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.24.1...@voltz-protocol/sdk-v1-stateless@1.24.2) (2023-06-27)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
