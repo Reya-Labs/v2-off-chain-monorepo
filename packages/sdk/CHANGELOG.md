@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.46.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.45.3...@voltz-protocol/sdk-v2@1.46.0) (2023-06-28)
+
+### Features
+
+- feat: fixed liquidator booster issue ([#117](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/117)) ([28fa09e](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/28fa09e50683e226bd50e77f99cd1645173df08d))
+
 ## [1.45.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.45.2...@voltz-protocol/sdk-v2@1.45.3) (2023-06-28)
 
 ### Bug Fixes
