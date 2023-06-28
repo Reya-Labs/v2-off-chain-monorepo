@@ -13,6 +13,7 @@ import {
   GetAllowanceToPeripheryArgs,
 } from '../../../../src';
 import { TestState } from '../../../components/TestState';
+import { TestPage } from '../../../components/TestPage/TestPage';
 
 export const GetAllowanceToPeripheryTest: React.FunctionComponent<{
   ammId: GetAllowanceToPeripheryArgs['ammId'];
@@ -43,24 +44,13 @@ export const GetAllowanceToPeripheryTest: React.FunctionComponent<{
     <ContentBox>
       <WalletButton />
       {isLoggedIn ? (
-        <PageContentBox>
-          <Typography
-            colorToken="lavenderWeb"
-            typographyToken="primaryHeader1Black"
-          >
-            services/getAllowanceToPeriphery
-          </Typography>
-          <TestState
-            loading={isTesting}
-            error={testError}
-            result={testResult}
-          />
-          <ButtonBox>
-            <Button variant="primary" onClick={test}>
-              Test
-            </Button>
-          </ButtonBox>
-        </PageContentBox>
+        <TestPage
+          title="services/getAllowanceToPeriphery"
+          loading={isTesting}
+          error={testError}
+          result={testResult}
+          onTestClick={test}
+        />
       ) : null}
     </ContentBox>
   );

@@ -1,11 +1,12 @@
 import { Button, Typography } from 'brokoli-ui';
 import * as React from 'react';
 
-import { ButtonBox, PageContentBox, ContentBox } from './getBalance.styled';
+import { ContentBox } from './getBalance.styled';
 import { WalletButton } from '../../../components/WalletButton';
 import { WalletContext } from '../../../context/WalletContext';
 import { getBalance, GetBalanceArgs } from '../../../../src';
 import { TestState } from '../../../components/TestState';
+import { TestPage } from '../../../components/TestPage/TestPage';
 
 export const GetBalanceTest: React.FunctionComponent<{
   ammId: GetBalanceArgs['ammId'];
@@ -36,24 +37,13 @@ export const GetBalanceTest: React.FunctionComponent<{
     <ContentBox>
       <WalletButton />
       {isLoggedIn ? (
-        <PageContentBox>
-          <Typography
-            colorToken="lavenderWeb"
-            typographyToken="primaryHeader1Black"
-          >
-            services/getBalance
-          </Typography>
-          <TestState
-            loading={isTesting}
-            error={testError}
-            result={testResult}
-          />
-          <ButtonBox>
-            <Button variant="primary" onClick={test}>
-              Test
-            </Button>
-          </ButtonBox>
-        </PageContentBox>
+        <TestPage
+          title="services/getBalance"
+          loading={isTesting}
+          error={testError}
+          result={testResult}
+          onTestClick={test}
+        />
       ) : null}
     </ContentBox>
   );

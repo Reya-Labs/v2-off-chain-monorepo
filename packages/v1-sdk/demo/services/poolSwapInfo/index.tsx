@@ -10,6 +10,7 @@ import { WalletButton } from '../../components/WalletButton';
 import { WalletContext } from '../../context/WalletContext';
 import { getPoolSwapInfo, GetPoolSwapInfoArgs } from '../../../src';
 import { TestState } from '../../components/TestState';
+import { TestPage } from '../../components/TestPage/TestPage';
 
 export const GetPoolSwapInfoTest: React.FunctionComponent<{
   ammId: GetPoolSwapInfoArgs['ammId'];
@@ -40,24 +41,13 @@ export const GetPoolSwapInfoTest: React.FunctionComponent<{
     <ContentBox>
       <WalletButton />
       {isLoggedIn ? (
-        <PageContentBox>
-          <Typography
-            colorToken="lavenderWeb"
-            typographyToken="primaryHeader1Black"
-          >
-            services/getPoolSwapInfo
-          </Typography>
-          <TestState
-            loading={isTesting}
-            error={testError}
-            result={testResult}
-          />
-          <ButtonBox>
-            <Button variant="primary" onClick={test}>
-              Test
-            </Button>
-          </ButtonBox>
-        </PageContentBox>
+        <TestPage
+          title="services/getPoolSwapInfo"
+          loading={isTesting}
+          error={testError}
+          result={testResult}
+          onTestClick={test}
+        />
       ) : null}
     </ContentBox>
   );
