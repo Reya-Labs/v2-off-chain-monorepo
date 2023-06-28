@@ -12,7 +12,7 @@
 5 error JSONError: Unexpected token "}" (0x7D) in JSON at position 878 while parsing near "...tests}/**/*.ts'\",\n  },\n  \"packageManager..." in packages/api-types/package.json
 5 error
 5 error [0m [90m 19 |[39m     [32m"lint:fix"[39m[33m:[39m [32m"npx eslint --fix '{src,tests}/**/*.ts'"[39m[33m,[39m[0m
-5 error [0m [90m 20 |[39m     [32m"prettier:fix"[39m[33m:[39m [32m"npx prettier --write './{src,tests}/**/*.ts'"[39m[33m,[39m[0m
+5 error [0m [90m 20 |[39m     [32m"prettier:fix"[39m[33m:[39m [32m"npx prettier --loglevel silent --write './{src,tests}/**/*.ts'"[39m[33m,[39m[0m
 5 error [0m[31m[1m>[22m[39m[90m 21 |[39m   }[33m,[39m[0m
 5 error [0m [90m    |[39m   [31m[1m^[22m[39m[0m
 5 error [0m [90m 22 |[39m   [32m"packageManager"[39m[33m:[39m [32m"yarn@3.5.1"[39m[0m
