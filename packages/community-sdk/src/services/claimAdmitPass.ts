@@ -2,7 +2,7 @@ import { getLeavesAndRootFromIpfs } from '../utils/getIpfsLeavesAndRoot';
 import { getProof } from '../utils/merkle-tree';
 import { ethers, Signer } from 'ethers';
 import { getAccessPassContract } from '../utils/getAccessPassContract';
-import { ACCCESS_PASS_CONTRACT_ADDRESS } from '../utils/configuration';
+import { getNftAccessPassAddress } from '../utils/configuration';
 
 export async function claimAdmitPass(owner: Signer): Promise<boolean> {
   // wallet was not connected when the object was initialised
@@ -12,10 +12,7 @@ export async function claimAdmitPass(owner: Signer): Promise<boolean> {
   }
 
   const chainId = await owner.getChainId();
-
-  if (chainId !== 42161) {
-    throw new Error('Minting only available on Arbitrum');
-  }
+  const nftAccessPassAddress = getNftAccessPassAddress(chainId);
 
   const ownerAddress = await owner.getAddress();
 
@@ -27,7 +24,7 @@ export async function claimAdmitPass(owner: Signer): Promise<boolean> {
 
   try {
     const accessPassContract: ethers.Contract = getAccessPassContract(
-      ACCCESS_PASS_CONTRACT_ADDRESS,
+      nftAccessPassAddress,
       owner,
     );
     await accessPassContract
