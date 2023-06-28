@@ -3,7 +3,10 @@ import { ContractReceipt } from 'ethers';
 import { ZERO_BN } from '../../utils/constants';
 import { InfoPostSwap } from '../swap';
 
-export async function rolloverWithSwap(): Promise<ContractReceipt> {
+export async function rolloverWithSwap(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  args: RolloverWithSwapArgs,
+): Promise<ContractReceipt> {
   return Promise.resolve({
     to: '',
     from: '',
@@ -27,7 +30,7 @@ export async function simulateRolloverWithSwap(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   args: RolloverWithSwapArgs,
 ): Promise<InfoPostSwap> {
-  return Promise.resolve({
+  return {
     marginRequirement: 0,
     maxMarginWithdrawable: 0,
     availableNotional: 0,
@@ -41,5 +44,5 @@ export async function simulateRolloverWithSwap(
       value: 0,
       token: 'ETH',
     },
-  });
+  };
 }
