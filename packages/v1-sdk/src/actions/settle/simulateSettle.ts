@@ -1,11 +1,13 @@
-import { SettleArgs, SettlePeripheryParams } from '../types/actionArgTypes';
-import { BigNumber, ContractReceipt, ethers, providers } from 'ethers';
+import { SettleArgs, SettlePeripheryParams } from '../types';
+import { BigNumber, ethers, providers } from 'ethers';
 import { SettleSimulationResults } from './types';
 import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
 import { getPeripheryContract } from '../../common/contract-generators';
 import { estimateSettleGasUnits } from './estimateSettleGasUnits';
-import { getNativeGasToken } from '../../common/gas/getNativeGasToken';
-import { convertGasUnitsToNativeTokenUnits } from '../../common/gas/convertGasUnitsToNativeTokenUnits';
+import {
+  convertGasUnitsToNativeTokenUnits,
+  getNativeGasToken,
+} from '../../common';
 import { PositionInfo } from '../../common/api/position/types';
 import { getPositionInfo } from '../../common/api/position/getPositionInfo';
 
@@ -41,11 +43,6 @@ export const simulateSettle = async ({
     tickLower: positionInfo.positionTickLower,
     tickUpper: positionInfo.positionTickUpper,
   };
-
-  const settlePeripheryTempOverrides: {
-    value?: BigNumber;
-    gasLimit?: BigNumber;
-  } = {};
 
   const estimatedGasUnits: BigNumber = await estimateSettleGasUnits(
     peripheryContract,

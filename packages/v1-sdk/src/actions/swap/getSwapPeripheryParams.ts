@@ -1,8 +1,6 @@
-import { SwapArgs, SwapPeripheryParams } from '../types/actionArgTypes';
-import { BigNumberish } from 'ethers';
+import { SwapPeripheryParams } from '../types';
 import { getDefaultSqrtPriceLimit } from '../../common/math/getDefaultSqrtPriceLimits';
 import { getSqrtPriceLimitFromFixedRateLimit } from '../../common/math/getSqrtPriceLimitFromFixedRate';
-import { getClosestTickAndFixedRate } from '../../common/math/getClosestTickAndFixedRate';
 import { scale } from '../../common/math/scale';
 import { TRADER_TICK_LOWER, TRADER_TICK_UPPER } from '../../common/constants';
 

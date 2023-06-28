@@ -1,5 +1,5 @@
-import { ethers, BigNumber, BigNumberish } from 'ethers';
-import { RolloverWithSwapPeripheryParams } from '../types/actionArgTypes';
+import { BigNumber, ethers } from 'ethers';
+import { RolloverWithSwapPeripheryParams } from '../types';
 import { getReadableErrorMessage } from '../../common/errors/errorHandling';
 
 export const estimateRolloverWithSwapGasUnits = async (

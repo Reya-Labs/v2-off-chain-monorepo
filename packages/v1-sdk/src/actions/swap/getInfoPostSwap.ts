@@ -3,12 +3,13 @@ import { SwapPeripheryParams } from '../types/actionArgTypes';
 import { exponentialBackoff } from '../../common/retry';
 import { decodeInfoPostSwap } from '../../common/errors/errorHandling';
 import { descale } from '../../common/math/descale';
-import { estimateSwapGasUnits } from './estimateSwapGasUnits';
 import { SupportedChainId } from '../../common/types';
 import { roughEstimateSwapGasUnits } from './roughEstimateSwapGasUnits';
-import { convertGasUnitsToNativeTokenUnits } from '../../common/gas/convertGasUnitsToNativeTokenUnits';
+import {
+  convertGasUnitsToNativeTokenUnits,
+  getNativeGasToken,
+} from '../../common';
 import { tickToFixedRate } from '../../common/math/priceTickConversions';
-import { getNativeGasToken } from '../../common/gas/getNativeGasToken';
 import { getMarginEngineContract } from '../../common/contract-generators';
 
 export type GetInfoPostSwapArgs = {
