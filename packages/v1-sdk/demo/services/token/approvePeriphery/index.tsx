@@ -10,6 +10,7 @@ import { WalletButton } from '../../../components/WalletButton';
 import { WalletContext } from '../../../context/WalletContext';
 import { approvePeriphery, ApprovePeripheryArgs } from '../../../../src';
 import { TestState } from '../../../components/TestState';
+import { TestPage } from '../../../components/TestPage/TestPage';
 
 export const ApprovePeripheryTest: React.FunctionComponent<{
   ammId: ApprovePeripheryArgs['ammId'];
@@ -40,24 +41,13 @@ export const ApprovePeripheryTest: React.FunctionComponent<{
     <ContentBox>
       <WalletButton />
       {isLoggedIn ? (
-        <PageContentBox>
-          <Typography
-            colorToken="lavenderWeb"
-            typographyToken="primaryHeader1Black"
-          >
-            services/approvePeriphery
-          </Typography>
-          <TestState
-            loading={isTesting}
-            error={testError}
-            result={testResult}
-          />
-          <ButtonBox>
-            <Button variant="primary" onClick={test}>
-              Test
-            </Button>
-          </ButtonBox>
-        </PageContentBox>
+        <TestPage
+          title="services/approvePeriphery"
+          loading={isTesting}
+          error={testError}
+          result={testResult}
+          onTestClick={test}
+        />
       ) : null}
     </ContentBox>
   );

@@ -1,11 +1,12 @@
 import { Button, Typography } from 'brokoli-ui';
 import * as React from 'react';
 
-import { ButtonBox, PageContentBox, ContentBox } from './settle.styled';
+import { ContentBox } from './settle.styled';
 import { WalletButton } from '../../components/WalletButton';
 import { WalletContext } from '../../context/WalletContext';
 import { settle, SettleArgs } from '../../../src';
 import { TestState } from '../../components/TestState';
+import { TestPage } from '../../components/TestPage/TestPage';
 
 export const SettleTest: React.FunctionComponent<{
   positionId: SettleArgs['ammId'];
@@ -36,24 +37,13 @@ export const SettleTest: React.FunctionComponent<{
     <ContentBox>
       <WalletButton />
       {isLoggedIn ? (
-        <PageContentBox>
-          <Typography
-            colorToken="lavenderWeb"
-            typographyToken="primaryHeader1Black"
-          >
-            services/settle
-          </Typography>
-          <TestState
-            loading={isTesting}
-            error={testError}
-            result={testResult}
-          />
-          <ButtonBox>
-            <Button variant="primary" onClick={test}>
-              Test
-            </Button>
-          </ButtonBox>
-        </PageContentBox>
+        <TestPage
+          title="services/settle"
+          loading={isTesting}
+          error={testError}
+          result={testResult}
+          onTestClick={test}
+        />
       ) : null}
     </ContentBox>
   );

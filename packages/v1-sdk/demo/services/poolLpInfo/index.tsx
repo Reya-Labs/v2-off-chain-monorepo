@@ -1,11 +1,12 @@
 import { Button, Typography } from 'brokoli-ui';
 import * as React from 'react';
 
-import { ButtonBox, PageContentBox, ContentBox } from './getPoolLpInfo.styled';
+import { ContentBox } from './getPoolLpInfo.styled';
 import { WalletButton } from '../../components/WalletButton';
 import { WalletContext } from '../../context/WalletContext';
 import { getPoolLpInfo, GetPoolLpInfoArgs } from '../../../src';
 import { TestState } from '../../components/TestState';
+import { TestPage } from '../../components/TestPage/TestPage';
 
 export const GetPoolLpInfoTest: React.FunctionComponent<{
   ammId: GetPoolLpInfoArgs['ammId'];
@@ -40,24 +41,13 @@ export const GetPoolLpInfoTest: React.FunctionComponent<{
     <ContentBox>
       <WalletButton />
       {isLoggedIn ? (
-        <PageContentBox>
-          <Typography
-            colorToken="lavenderWeb"
-            typographyToken="primaryHeader1Black"
-          >
-            services/getPoolLpInfo
-          </Typography>
-          <TestState
-            loading={isTesting}
-            error={testError}
-            result={testResult}
-          />
-          <ButtonBox>
-            <Button variant="primary" onClick={test}>
-              Test
-            </Button>
-          </ButtonBox>
-        </PageContentBox>
+        <TestPage
+          title="services/getPoolLpInfo"
+          loading={isTesting}
+          error={testError}
+          result={testResult}
+          onTestClick={test}
+        />
       ) : null}
     </ContentBox>
   );
