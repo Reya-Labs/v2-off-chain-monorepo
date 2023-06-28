@@ -1,9 +1,9 @@
 import { before, describe, it } from 'mocha';
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { encodeLp } from '../src/services/lp/encode';
-import { simulateEditLp, editLp } from '../src/services/editLp/editLp';
 import * as encode from '../src/services/lp/encode';
+import { encodeLp } from '../src/services/lp/encode';
+import { editLp, simulateEditLp } from '../src/services/editLp/editLp';
 import * as getPositionInfoFile from '../src/gateway/getPositionInfo';
 import { MockSigner } from './utils/MockSigner';
 import { BigNumber } from 'ethers';
@@ -31,7 +31,6 @@ describe('edit makers', async () => {
   });
 
   it('edit lp test', async () => {
-    const ammId = '1234';
     const positionId = '1_1738838';
     const accountId = '1738838';
 
@@ -90,7 +89,6 @@ describe('edit makers', async () => {
   });
 
   it('infoPostEditLp test', async () => {
-    const ammId = '1234';
     const positionId = '1_1738838';
     const accountId = '1738838';
 

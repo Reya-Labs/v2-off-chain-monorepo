@@ -51,6 +51,7 @@ export const approvePeriphery = async ({
     })
     .catch((error: any) => {
       console.warn('Transaction Confirmation Error');
+      console.error(error);
       throw new Error('Transaction Confirmation Error');
     });
 

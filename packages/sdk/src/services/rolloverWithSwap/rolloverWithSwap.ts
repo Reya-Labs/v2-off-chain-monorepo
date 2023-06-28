@@ -3,9 +3,7 @@ import { ContractReceipt } from 'ethers';
 import { ZERO_BN } from '../../utils/constants';
 import { InfoPostSwap } from '../swap';
 
-export async function rolloverWithSwap(
-  args: RolloverWithSwapArgs,
-): Promise<ContractReceipt> {
+export async function rolloverWithSwap(): Promise<ContractReceipt> {
   return Promise.resolve({
     to: '',
     from: '',
@@ -26,6 +24,7 @@ export async function rolloverWithSwap(
 }
 
 export async function simulateRolloverWithSwap(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   args: RolloverWithSwapArgs,
 ): Promise<InfoPostSwap> {
   return Promise.resolve({

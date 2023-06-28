@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers';
 import { getSwapTxData } from '../swap';
-import { simulateTx, simulateTxExpectError } from '../executeTransaction';
+import { simulateTxExpectError } from '../executeTransaction';
 import { MINUS_ONE_BN, ONE_BN, ZERO_BN } from '../../utils/constants';
 import { GetMaxLeverageArgs } from './types';
 import { descale, scale } from '../../utils/helpers';
