@@ -1,11 +1,12 @@
 import { Button, Typography } from 'brokoli-ui';
 import * as React from 'react';
 
-import { ButtonBox, PageContentBox, ContentBox } from './updateMargin.styled';
+import { ContentBox } from './updateMargin.styled';
 import { WalletButton } from '../../components/WalletButton';
 import { WalletContext } from '../../context/WalletContext';
 import { updateMargin, UpdateMarginArgs } from '../../../src';
 import { TestState } from '../../components/TestState';
+import { TestPage } from '../../components/TestPage/TestPage';
 
 export const UpdateMarginTest: React.FunctionComponent<{
   positionId: UpdateMarginArgs['ammId'];
@@ -38,24 +39,13 @@ export const UpdateMarginTest: React.FunctionComponent<{
     <ContentBox>
       <WalletButton />
       {isLoggedIn ? (
-        <PageContentBox>
-          <Typography
-            colorToken="lavenderWeb"
-            typographyToken="primaryHeader1Black"
-          >
-            services/updateMargin
-          </Typography>
-          <TestState
-            loading={isTesting}
-            error={testError}
-            result={testResult}
-          />
-          <ButtonBox>
-            <Button variant="primary" onClick={test}>
-              Test
-            </Button>
-          </ButtonBox>
-        </PageContentBox>
+        <TestPage
+          title="services/updateMargin"
+          loading={isTesting}
+          error={testError}
+          result={testResult}
+          onTestClick={test}
+        />
       ) : null}
     </ContentBox>
   );

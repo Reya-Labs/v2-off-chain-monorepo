@@ -4,6 +4,7 @@ import { ZERO_BN } from '../../utils/constants';
 import { InfoPostLp } from '../lp';
 
 export async function rolloverWithLp(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   args: RolloverWithLpArgs,
 ): Promise<ContractReceipt> {
   return Promise.resolve({
@@ -26,9 +27,10 @@ export async function rolloverWithLp(
 }
 
 export async function simulateRolloverWithLp(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   args: RolloverWithLpArgs,
 ): Promise<InfoPostLp> {
-  return Promise.resolve({
+  return {
     marginRequirement: 0,
     maxMarginWithdrawable: 0,
     fee: 0,
@@ -36,5 +38,5 @@ export async function simulateRolloverWithLp(
       value: 0,
       token: 'ETH',
     },
-  });
+  };
 }

@@ -1,11 +1,12 @@
 import { Button, Typography } from 'brokoli-ui';
 import * as React from 'react';
 
-import { ButtonBox, PageContentBox, ContentBox } from './simulateEditLp.styled';
+import { ContentBox } from './simulateEditLp.styled';
 import { WalletButton } from '../../components/WalletButton';
 import { WalletContext } from '../../context/WalletContext';
 import { simulateEditLp, EditLpArgs } from '../../../src';
 import { TestState } from '../../components/TestState';
+import { TestPage } from '../../components/TestPage/TestPage';
 
 export const SimulateEditLpTest: React.FunctionComponent<{
   positionId: EditLpArgs['positionId'];
@@ -40,24 +41,13 @@ export const SimulateEditLpTest: React.FunctionComponent<{
     <ContentBox>
       <WalletButton />
       {isLoggedIn ? (
-        <PageContentBox>
-          <Typography
-            colorToken="lavenderWeb"
-            typographyToken="primaryHeader1Black"
-          >
-            services/simulateEditLp
-          </Typography>
-          <TestState
-            loading={isTesting}
-            error={testError}
-            result={testResult}
-          />
-          <ButtonBox>
-            <Button variant="primary" onClick={test}>
-              Test
-            </Button>
-          </ButtonBox>
-        </PageContentBox>
+        <TestPage
+          title="services/simulateEditLp"
+          loading={isTesting}
+          error={testError}
+          result={testResult}
+          onTestClick={test}
+        />
       ) : null}
     </ContentBox>
   );

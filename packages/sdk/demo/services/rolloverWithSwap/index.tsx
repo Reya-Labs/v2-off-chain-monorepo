@@ -10,6 +10,7 @@ import { WalletButton } from '../../components/WalletButton';
 import { WalletContext } from '../../context/WalletContext';
 import { rolloverWithSwap, RolloverWithSwapArgs } from '../../../src';
 import { TestState } from '../../components/TestState';
+import { TestPage } from '../../components/TestPage/TestPage';
 
 export const RolloverWithSwapTest: React.FunctionComponent<{
   ammId: RolloverWithSwapArgs['ammId'];
@@ -46,24 +47,13 @@ export const RolloverWithSwapTest: React.FunctionComponent<{
     <ContentBox>
       <WalletButton />
       {isLoggedIn ? (
-        <PageContentBox>
-          <Typography
-            colorToken="lavenderWeb"
-            typographyToken="primaryHeader1Black"
-          >
-            services/rolloverWithSwap
-          </Typography>
-          <TestState
-            loading={isTesting}
-            error={testError}
-            result={testResult}
-          />
-          <ButtonBox>
-            <Button variant="primary" onClick={test}>
-              Test
-            </Button>
-          </ButtonBox>
-        </PageContentBox>
+        <TestPage
+          title="services/rolloverWithSwap"
+          loading={isTesting}
+          error={testError}
+          result={testResult}
+          onTestClick={test}
+        />
       ) : null}
     </ContentBox>
   );

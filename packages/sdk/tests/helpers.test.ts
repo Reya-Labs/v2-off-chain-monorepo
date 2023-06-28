@@ -4,22 +4,11 @@ import { MockSigner } from './utils/MockSigner';
 import { assert, expect } from 'chai';
 import { BigNumber } from 'ethers';
 import {
-  createCommand,
   CommandType,
+  createCommand,
   getCommand,
 } from '../src/utils/routerCommands';
 import { defaultAbiCoder } from 'ethers/lib/utils';
-
-function approx(a: string, b: string, range: number) {
-  const bnB = BigNumber.from(b);
-  const bnA = BigNumber.from(a);
-  assert.isTrue(
-    bnB
-      .sub(bnA)
-      .abs()
-      .lt(bnA.div(1 / range)),
-  );
-}
 
 describe('helpers', async () => {
   it('account id creation - correct format', async () => {

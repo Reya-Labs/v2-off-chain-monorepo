@@ -1,7 +1,5 @@
-import { Network, BaseProvider } from '@ethersproject/providers';
-import { TransactionRequest, BlockTag } from '@ethersproject/abstract-provider';
+import { BaseProvider, Network } from '@ethersproject/providers';
 import { BigNumber } from 'ethers';
-import { Deferrable } from 'ethers/lib/utils';
 
 export class MockProvider extends BaseProvider {
   // Network
@@ -15,14 +13,11 @@ export class MockProvider extends BaseProvider {
   // Account
   //abstract getBalance(addressOrName: string | Promise<string>, blockTag?: BlockTag | Promise<BlockTag>): Promise<BigNumber>;
 
-  call(
-    transaction: Deferrable<TransactionRequest>,
-    blockTag?: BlockTag | Promise<BlockTag>,
-  ): Promise<string> {
+  call(): Promise<string> {
     return Promise.resolve('');
   }
 
-  estimateGas(transaction: Deferrable<TransactionRequest>): Promise<BigNumber> {
+  estimateGas(): Promise<BigNumber> {
     return Promise.resolve(BigNumber.from(1000));
   }
 
