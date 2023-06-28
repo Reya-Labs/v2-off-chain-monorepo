@@ -167,6 +167,8 @@ export async function createSwapParams({
     owner: signer,
     baseAmount: baseAmount,
     margin: scale(poolInfo.quoteTokenDecimals)(margin),
+    // todo: liquidator booster hard-coded
+    liquidatorBooster: scale(poolInfo.quoteTokenDecimals)(1),
     fixedRateLimit: fixedRateLimitRaw,
   };
 

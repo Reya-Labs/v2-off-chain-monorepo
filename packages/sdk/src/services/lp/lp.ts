@@ -161,6 +161,8 @@ export async function createLpParams({
     owner: signer,
     liquidityAmount: liquidityAmount,
     margin: scale(lpInfo.quoteTokenDecimals)(margin),
+    // todo: liquidator booster hard-coded
+    liquidatorBooster: scale(lpInfo.quoteTokenDecimals)(1),
     fixedLow,
     fixedHigh,
   };

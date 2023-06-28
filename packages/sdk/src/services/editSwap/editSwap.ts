@@ -137,6 +137,8 @@ async function createEditSwapParams({
     owner: signer,
     baseAmount: baseAmount,
     margin: scale(swapInfo.quoteTokenDecimals)(margin),
+    // todo: liquidator booster hard-coded
+    liquidatorBooster: scale(swapInfo.quoteTokenDecimals)(0),
     fixedRateLimit: fixedRateLimitRaw,
   };
 

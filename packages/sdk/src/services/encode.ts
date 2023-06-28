@@ -165,6 +165,7 @@ export const encodeDeposit = (
   quoteTokenAddress: string,
   isETH: boolean,
   marginAmount: BigNumber,
+  liquidatorBooster: BigNumber,
   multiAction: MultiAction,
 ): BigNumber => {
   let ethAmount = ZERO_BN;
@@ -176,7 +177,11 @@ export const encodeDeposit = (
       encodeSingleDepositETH(accountId, quoteTokenAddress, multiAction);
       ethAmount = marginAmount;
     } else {
-      encodeTransferFrom(quoteTokenAddress, marginAmount, multiAction);
+      encodeTransferFrom(
+        quoteTokenAddress,
+        marginAmount.add(liquidatorBooster),
+        multiAction,
+      );
       encodeSingleDepositERC20(
         accountId,
         quoteTokenAddress,

@@ -33,6 +33,7 @@ export async function encodeSwap(
     trade.quoteTokenAddress,
     trade.isETH,
     trade.fixedRateLimit,
+    trade.liquidatorBooster,
     multiAction,
   );
 

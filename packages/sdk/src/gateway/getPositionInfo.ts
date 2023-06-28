@@ -30,7 +30,7 @@ export function mapToPositionInfo(
     currentFixedRate: poolInfo.currentFixedRate,
     positionMargin: position.margin,
     accountId: position.accountId,
-    fixedRateLower: position.type === 'LP' ? position.fixLow : 0,
-    fixedRateUpper: position.type === 'LP' ? position.fixHigh : 0,
+    fixedRateLower: position.type === 'LP' ? position.fixLow * 100 : 0,
+    fixedRateUpper: position.type === 'LP' ? position.fixHigh * 100 : 0,
   };
 }

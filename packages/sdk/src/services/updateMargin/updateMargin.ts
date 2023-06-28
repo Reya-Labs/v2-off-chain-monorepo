@@ -24,6 +24,8 @@ export async function updateMargin({
       partialOrder.positionMargin,
     ),
     margin: scale(partialOrder.quoteTokenDecimals)(margin),
+    // todo: liquidator booster hard-coded
+    liquidatorBooster: scale(partialOrder.quoteTokenDecimals)(0),
     owner: signer,
   };
 
@@ -51,6 +53,8 @@ export async function estimateUpdateMarginGasUnits({
       partialOrder.positionMargin,
     ),
     margin: scale(partialOrder.quoteTokenDecimals)(margin),
+    // todo: liquidator booster hard-coded
+    liquidatorBooster: scale(partialOrder.quoteTokenDecimals)(0),
     owner: signer,
   };
 

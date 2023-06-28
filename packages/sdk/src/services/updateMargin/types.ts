@@ -20,4 +20,5 @@ export type UpdateMarginInfo = {
 export type UpdateMarginParams = UpdateMarginInfo & {
   owner: Signer;
   margin: BigNumber;
+  liquidatorBooster: BigNumber;
 };

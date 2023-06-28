@@ -15,6 +15,7 @@ export type SwapUserInputs = {
   owner: Signer;
   baseAmount: BigNumber;
   margin: BigNumber;
+  liquidatorBooster: BigNumber;
   fixedRateLimit?: BigNumber;
 };
 
