@@ -1,10 +1,16 @@
-import { getBigQuery } from '../../client';
-import { ProductPositionUpdatedEvent, tableName } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { UpdateBatch } from '../../types';
+import { ProductPositionUpdatedEvent } from '../specific';
 
-export const insertProductPositionUpdatedEvent = async (
+export const insertProductPositionUpdatedEvent = (
+  environmentV2Tag: string,
   event: ProductPositionUpdatedEvent,
-): Promise<void> => {
-  const bigQuery = getBigQuery();
+): UpdateBatch => {
+  const tableName = getTableFullName(
+    environmentV2Tag,
+    TableType.raw_product_position_updated,
+  );
 
   const row = `
     "${event.id}",
@@ -24,14 +30,6 @@ export const insertProductPositionUpdatedEvent = async (
     ${event.quoteDelta}
   `;
 
-  // build and fire sql query
   const sqlTransactionQuery = `INSERT INTO \`${tableName}\` VALUES (${row});`;
-
-  const options = {
-    query: sqlTransactionQuery,
-    timeoutMs: 100000,
-    useLegacySql: false,
-  };
-
-  await bigQuery.query(options);
+  return [sqlTransactionQuery];
 };

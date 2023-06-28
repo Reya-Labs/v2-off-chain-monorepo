@@ -14,6 +14,7 @@ import {
 } from '@voltz-protocol/bigquery-v2';
 import { getV2Pool } from '../get-pools/getV2Pool';
 import { V2PortfolioPosition } from '@voltz-protocol/api-v2-types';
+import { getEnvironmentV2 } from '../../services/envVars';
 
 export const buildV2PortfolioPosition = async ({
   chainId,
@@ -32,7 +33,11 @@ export const buildV2PortfolioPosition = async ({
   tickUpper,
   creationTimestamp,
 }: PositionEntry): Promise<V2PortfolioPosition> => {
-  const account = await pullAccountEntry(chainId, accountId);
+  const account = await pullAccountEntry(
+    getEnvironmentV2(),
+    chainId,
+    accountId,
+  );
 
   if (!account) {
     throw new Error(`Couldn't fetch account for ${chainId}-${accountId}`);
@@ -40,7 +45,11 @@ export const buildV2PortfolioPosition = async ({
 
   const ownerAddress = account.owner;
 
-  const accountCollaterals = await pullAccountCollateral(chainId, accountId);
+  const accountCollaterals = await pullAccountCollateral(
+    getEnvironmentV2(),
+    chainId,
+    accountId,
+  );
 
   if (accountCollaterals.length === 0) {
     throw new Error(`Couldn't find position`);
@@ -87,6 +96,7 @@ export const buildV2PortfolioPosition = async ({
   );
 
   const liquidityIndex = await getLiquidityIndexAt(
+    getEnvironmentV2(),
     chainId,
     convertLowercaseString(pool.rateOracle.address),
     queryTimestamp,

@@ -5,9 +5,10 @@ import { sleep } from '@voltz-protocol/commons-v2';
 import { getAndPushAllLiquidityIndices } from '../liquidity-indices/getAndPushAllLiquidityIndices';
 import { createLoggingPlace } from '../logging/createLoggingPlace';
 import { log } from '../logging/log';
+import { getEnvironmentV2 } from '../services/envVars';
 
 export const main = async () => {
-  await createProtocolV2Dataset();
+  await createProtocolV2Dataset(getEnvironmentV2());
   createLoggingPlace();
 
   log('');

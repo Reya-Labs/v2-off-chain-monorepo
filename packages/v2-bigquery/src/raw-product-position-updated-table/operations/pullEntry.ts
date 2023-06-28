@@ -1,10 +1,18 @@
 import { getBigQuery } from '../../client';
-import { ProductPositionUpdatedEvent, mapRow, tableName } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { ProductPositionUpdatedEvent, mapRow } from '../specific';
 
 export const pullProductPositionUpdatedEvent = async (
+  environmentV2Tag: string,
   id: string,
 ): Promise<ProductPositionUpdatedEvent | null> => {
   const bigQuery = getBigQuery();
+
+  const tableName = getTableFullName(
+    environmentV2Tag,
+    TableType.raw_product_position_updated,
+  );
 
   const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE id="${id}"`;
 

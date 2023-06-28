@@ -4,10 +4,14 @@ import { getTableFullName } from '../../utils/getTableName';
 import { TableType } from '../../types';
 
 export const pullAccountOwnerUpdateEvent = async (
+  environmentV2Tag: string,
   id: string,
 ): Promise<AccountOwnerUpdateEvent | null> => {
   const bigQuery = getBigQuery();
-  const tableName = getTableFullName(TableType.raw_account_owner_updates);
+  const tableName = getTableFullName(
+    environmentV2Tag,
+    TableType.raw_account_owner_updates,
+  );
 
   const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE id="${id}"`;
 

@@ -11,7 +11,7 @@ import {
 } from '@voltz-protocol/commons-v2';
 import { getFixedRateData } from './getFixedRateData';
 import { getVariableRateData } from './getVariableRateData';
-import { getCoingeckoApiKey } from '../../services/envVars';
+import { getCoingeckoApiKey, getEnvironmentV2 } from '../../services/envVars';
 import { V2Pool } from '@voltz-protocol/api-v2-types';
 
 // configuration
@@ -28,7 +28,7 @@ export const buildV2Pool = async ({
   blockTimestamp,
   tickSpacing,
 }: VammCreatedEvent): Promise<V2Pool> => {
-  const market = await pullMarketEntry(chainId, marketId);
+  const market = await pullMarketEntry(getEnvironmentV2(), chainId, marketId);
 
   if (!market) {
     throw new Error(

@@ -1,6 +1,7 @@
 import { pullPositionEntryById } from '@voltz-protocol/bigquery-v2';
 import { buildV2PortfolioPosition } from './buildV2PortfolioPosition';
 import { V2PortfolioPositionDetails } from '@voltz-protocol/api-v2-types';
+import { getEnvironmentV2 } from '../../services/envVars';
 
 export const getV2PortfolioPositionDetails = async ({
   positionId,
@@ -8,7 +9,10 @@ export const getV2PortfolioPositionDetails = async ({
   positionId: string;
   includeHistory: boolean;
 }): Promise<V2PortfolioPositionDetails> => {
-  const positionEntry = await pullPositionEntryById(positionId);
+  const positionEntry = await pullPositionEntryById(
+    getEnvironmentV2(),
+    positionId,
+  );
 
   if (!positionEntry) {
     throw new Error(`Couldn't find v2 position with id ${positionId}`);

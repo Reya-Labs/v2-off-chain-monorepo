@@ -33,6 +33,7 @@ import { getV2PortfolioPositions } from './v2-queries/get-portfolio-positions/ge
 import { getV1V2PortfolioPositionDetails } from './v1v2-queries/get-portfolio-positions/getPortfolioPositionDetails';
 import { getV1V2PortfolioPositionsByPool } from './v1v2-queries/get-portfolio-positions/getPortfolioPositionsByPool';
 import { getRedisClient } from './services/redis';
+import { getEnvironmentV2 } from './services/envVars';
 
 export const app = express();
 
@@ -231,7 +232,12 @@ app.get(
     const oracleAddress = convertLowercaseString(req.params.oracleAddress);
     const timestamp = Number(req.params.timestamp);
 
-    getLiquidityIndexAt(chainId, oracleAddress, timestamp).then(
+    getLiquidityIndexAt(
+      getEnvironmentV2(),
+      chainId,
+      oracleAddress,
+      timestamp,
+    ).then(
       (output) => {
         res.json(output);
       },
@@ -252,7 +258,7 @@ app.get(
     const from = Number(req.params.from);
     const to = Number(req.params.to);
 
-    getApyFromTo(chainId, oracleAddress, from, to).then(
+    getApyFromTo(getEnvironmentV2(), chainId, oracleAddress, from, to).then(
       (output) => {
         res.json(output);
       },
@@ -271,7 +277,7 @@ app.get('/v2-variable-apy-from/:chainId/:oracleAddress/:from', (req, res) => {
   const from = Number(req.params.from);
   const to = getTimestampInSeconds();
 
-  getApyFromTo(chainId, oracleAddress, from, to).then(
+  getApyFromTo(getEnvironmentV2(), chainId, oracleAddress, from, to).then(
     (output) => {
       res.json(output);
     },

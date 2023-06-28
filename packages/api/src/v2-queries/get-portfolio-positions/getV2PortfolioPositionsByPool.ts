@@ -7,6 +7,7 @@ import {
 } from '@voltz-protocol/bigquery-v2';
 import { getV2PortfolioPositionDetails } from './getV2PortfolioPositionDetails';
 import { V2PortfolioPositionDetails } from '@voltz-protocol/api-v2-types';
+import { getEnvironmentV2 } from '../../services/envVars';
 
 export const getV2PortfolioPositionsByPool = async (
   poolId: string,
@@ -15,12 +16,17 @@ export const getV2PortfolioPositionsByPool = async (
 ): Promise<V2PortfolioPositionDetails[]> => {
   const { chainId, marketId, maturityTimestamp } = decodeV2PoolId(poolId);
 
-  const accounts = await pullAccountsByAddress([chainId], ownerAddress);
+  const accounts = await pullAccountsByAddress(
+    getEnvironmentV2(),
+    [chainId],
+    ownerAddress,
+  );
 
   const allPositionEntries: PositionEntry[] = [];
 
   for (const { chainId, accountId } of accounts) {
     const positionEntries = await pullAccountPositionEntries(
+      getEnvironmentV2(),
       chainId,
       accountId,
     );

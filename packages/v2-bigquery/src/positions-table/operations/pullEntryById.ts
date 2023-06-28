@@ -1,11 +1,14 @@
 import { getBigQuery } from '../../client';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
 import { mapRow, PositionEntry } from '../specific';
-import { tableName } from '../specific';
 
 export const pullPositionEntryById = async (
+  environmentV2Tag: string,
   id: string,
 ): Promise<PositionEntry | null> => {
   const bigQuery = getBigQuery();
+  const tableName = getTableFullName(environmentV2Tag, TableType.positions);
 
   const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE id="${id}"`;
 

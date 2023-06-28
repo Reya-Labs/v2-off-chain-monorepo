@@ -1,10 +1,18 @@
 import { getBigQuery } from '../../client';
-import { LiquidityChangeEvent, mapRow, tableName } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { LiquidityChangeEvent, mapRow } from '../specific';
 
 export const pullLiquidityChangeEvent = async (
+  environmentV2Tag: string,
   id: string,
 ): Promise<LiquidityChangeEvent | null> => {
   const bigQuery = getBigQuery();
+
+  const tableName = getTableFullName(
+    environmentV2Tag,
+    TableType.raw_liquidity_change,
+  );
 
   const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE id="${id}"`;
 

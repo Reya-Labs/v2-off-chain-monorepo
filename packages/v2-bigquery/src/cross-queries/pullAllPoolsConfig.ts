@@ -22,11 +22,23 @@ const mapToPoolEntry = (row: any): PoolEntry => {
   return { ...row, lastFixedRate: 1.0001 ** -row.lastTick };
 };
 
-export const pullAllPoolsConfig = async (): Promise<PoolEntry[]> => {
+export const pullAllPoolsConfig = async (
+  environmentV2Tag: string,
+): Promise<PoolEntry[]> => {
   const bigQuery = getBigQuery();
-  const marketsTableName = getTableFullName(TableType.markets);
-  const vammTableName = getTableFullName(TableType.raw_vamm_created);
+
+  const marketsTableName = getTableFullName(
+    environmentV2Tag,
+    TableType.markets,
+  );
+
+  const vammTableName = getTableFullName(
+    environmentV2Tag,
+    TableType.raw_vamm_created,
+  );
+
   const vammPriceChangeTableName = getTableFullName(
+    environmentV2Tag,
     TableType.raw_vamm_price_change,
   );
 

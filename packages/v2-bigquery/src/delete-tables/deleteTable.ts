@@ -6,11 +6,17 @@ import { getTableName } from '../utils/getTableName';
 import { TableType } from '../types';
 import { getProtocolV2DatasetName } from '../utils/getProtocolV2DatasetName';
 
-export const deleteTable = async (tableType: TableType): Promise<void> => {
+export const deleteTable = async (
+  environmentV2Tag: string,
+  tableType: TableType,
+): Promise<void> => {
   const bigQuery = getBigQuery();
   const tableName = getTableName(tableType);
 
-  const existingTable: Table | null = await getTable(tableName);
+  const existingTable: Table | null = await getTable(
+    environmentV2Tag,
+    tableName,
+  );
 
   if (!existingTable) {
     console.log(`${tableName} does not exist`);
@@ -18,7 +24,7 @@ export const deleteTable = async (tableType: TableType): Promise<void> => {
   }
 
   // Delete table in the dataset
-  const datasetName = getProtocolV2DatasetName();
+  const datasetName = getProtocolV2DatasetName(environmentV2Tag);
   await bigQuery.dataset(datasetName).table(tableName).delete();
 
   console.log(`Table ${existingTable.id || ''} deleted.`);

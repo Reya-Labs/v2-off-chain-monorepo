@@ -10,12 +10,30 @@ export const getRedisPort = (): number => {
   return Number(process.env.REDISPORT) || 6379;
 };
 
+export const getApiPort = (): number => {
+  const port = process.env.PORT;
+
+  return Number(port || '8080');
+};
+
 export const getEnvironmentV1 = (): string => {
-  return (process.env.ENV_V1 || 'staging').toUpperCase();
+  const key = process.env.ENV_V1;
+
+  if (key) {
+    return key;
+  }
+
+  throw new Error(`Unspecified v1 Environment Tag.`);
 };
 
 export const getEnvironmentV2 = (): string => {
-  return (process.env.ENV_V2 || 'staging').toUpperCase();
+  const key = process.env.ENV_V2;
+
+  if (key) {
+    return key;
+  }
+
+  throw new Error(`Unspecified v2 Environment Tag.`);
 };
 
 export const getAlchemyApiKey = (): string => {
@@ -46,10 +64,4 @@ export const getCoingeckoApiKey = (): string => {
   }
 
   throw new Error(`Unspecified Coingecko API key.`);
-};
-
-export const getApiPort = (): number => {
-  const port = process.env.PORT;
-
-  return Number(port || '8080');
 };

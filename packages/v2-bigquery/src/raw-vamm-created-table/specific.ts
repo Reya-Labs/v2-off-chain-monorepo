@@ -1,8 +1,6 @@
 import { Address } from '@voltz-protocol/commons-v2';
 import { BaseEvent } from '../common-table-support/baseEvent';
 import { mapBaseRow } from '../common-table-support/mapBaseRow';
-import { TableType } from '../types';
-import { getTableFullName } from '../utils/getTableName';
 
 export type VammCreatedEvent = BaseEvent & {
   marketId: string; // big number
@@ -19,8 +17,6 @@ export type VammCreatedEvent = BaseEvent & {
   tickSpacing: number;
   maturityTimestamp: number;
 };
-
-export const tableName = getTableFullName(TableType.raw_vamm_created);
 
 export const mapRow = (row: any): VammCreatedEvent => ({
   ...mapBaseRow(row),

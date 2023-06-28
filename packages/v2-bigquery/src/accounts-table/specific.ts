@@ -1,6 +1,3 @@
-import { TableType } from '../types';
-import { getTableFullName } from '../utils/getTableName';
-
 export type AccountEntry = {
   chainId: number;
   accountId: string;
@@ -10,8 +7,6 @@ export type AccountEntry = {
 export type AccountEntryUpdate = {
   owner: string;
 };
-
-export const tableName = getTableFullName(TableType.accounts);
 
 export const mapRow = (row: any): AccountEntry => ({
   chainId: row.chainId,

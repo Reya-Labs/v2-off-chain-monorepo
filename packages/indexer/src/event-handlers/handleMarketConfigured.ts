@@ -5,35 +5,50 @@ import {
   updateMarketEntry,
   pullMarketConfiguredEvent,
   insertMarketConfiguredEvent,
+  sendUpdateBatches,
 } from '@voltz-protocol/bigquery-v2';
 import { ZERO_ACCOUNT, ZERO_ADDRESS } from '@voltz-protocol/commons-v2';
+import { getEnvironmentV2 } from '../services/envVars';
 
 export const handleMarketConfigured = async (event: MarketConfiguredEvent) => {
+  const environmentTag = getEnvironmentV2();
+
   // Check if the event has been processed
-  const existingEvent = await pullMarketConfiguredEvent(event.id);
+  const existingEvent = await pullMarketConfiguredEvent(
+    environmentTag,
+    event.id,
+  );
 
   if (existingEvent) {
     return;
   }
 
-  await insertMarketConfiguredEvent(event);
+  {
+    const updateBatch = insertMarketConfiguredEvent(environmentTag, event);
+    await sendUpdateBatches([updateBatch]);
+  }
 
   // Update market
-  const existingMarket = await pullMarketEntry(event.chainId, event.marketId);
+  const existingMarket = await pullMarketEntry(
+    environmentTag,
+    event.chainId,
+    event.marketId,
+  );
+  {
+    const updateBatch = existingMarket
+      ? updateMarketEntry(environmentTag, event.chainId, event.marketId, {
+          quoteToken: event.quoteToken,
+        })
+      : insertMarketEntry(environmentTag, {
+          chainId: event.chainId,
+          marketId: event.marketId,
+          quoteToken: event.quoteToken,
+          oracleAddress: ZERO_ADDRESS,
+          feeCollectorAccountId: ZERO_ACCOUNT,
+          atomicMakerFee: 0,
+          atomicTakerFee: 0,
+        });
 
-  if (existingMarket) {
-    await updateMarketEntry(event.chainId, event.marketId, {
-      quoteToken: event.quoteToken,
-    });
-  } else {
-    await insertMarketEntry({
-      chainId: event.chainId,
-      marketId: event.marketId,
-      quoteToken: event.quoteToken,
-      oracleAddress: ZERO_ADDRESS,
-      feeCollectorAccountId: ZERO_ACCOUNT,
-      atomicMakerFee: 0,
-      atomicTakerFee: 0,
-    });
+    await sendUpdateBatches([updateBatch]);
   }
 };

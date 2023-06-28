@@ -1,10 +1,18 @@
 import { getBigQuery } from '../../client';
-import { RateOracleConfiguredEvent, tableName, mapRow } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { RateOracleConfiguredEvent, mapRow } from '../specific';
 
 export const pullRateOracleConfiguredEvent = async (
+  environmentV2Tag: string,
   id: string,
 ): Promise<RateOracleConfiguredEvent | null> => {
   const bigQuery = getBigQuery();
+
+  const tableName = getTableFullName(
+    environmentV2Tag,
+    TableType.raw_rate_oracle_configured,
+  );
 
   const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE id="${id}"`;
 

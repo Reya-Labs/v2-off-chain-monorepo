@@ -3,15 +3,17 @@ import {
   encodeV2PositionId,
   isUndefined,
 } from '@voltz-protocol/commons-v2';
-import { getBigQuery } from '../../client';
-import { tableName } from '../specific';
 import { PositionEntryUpdate } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { UpdateBatch } from '../../types';
 
-export const updatePositionEntry = async (
+export const updatePositionEntry = (
+  environmentV2Tag: string,
   idData: V2PositionIdData,
   update: PositionEntryUpdate,
-): Promise<void> => {
-  const bigQuery = getBigQuery();
+): UpdateBatch => {
+  const tableName = getTableFullName(environmentV2Tag, TableType.positions);
 
   const id = encodeV2PositionId(idData);
 
@@ -45,7 +47,7 @@ export const updatePositionEntry = async (
   }
 
   if (updates.length === 0) {
-    return;
+    return [];
   }
 
   const sqlTransactionQuery = `
@@ -54,11 +56,5 @@ export const updatePositionEntry = async (
       WHERE id="${id}";
   `;
 
-  const options = {
-    query: sqlTransactionQuery,
-    timeoutMs: 100000,
-    useLegacySql: false,
-  };
-
-  await bigQuery.query(options);
+  return [sqlTransactionQuery];
 };

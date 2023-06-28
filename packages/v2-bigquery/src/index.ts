@@ -19,3 +19,4 @@ export * from './raw-account-owner-updates-table';
 export * from './accounts-table';
 export * from './raw-liquidity-changes-table';
 export * from './common-table-support';
+export * from './utils/sendUpdateBatches';

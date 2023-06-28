@@ -4,9 +4,9 @@ import { TableType } from '../types';
 import { getProtocolV2DatasetName } from './getProtocolV2DatasetName';
 
 // Creates dataset and all tables
-export const createProtocolV2Dataset = async () => {
+export const createProtocolV2Dataset = async (environmentV2Tag: string) => {
   const bigQuery = getBigQuery();
-  const datasetName = getProtocolV2DatasetName();
+  const datasetName = getProtocolV2DatasetName(environmentV2Tag);
 
   const [datasets] = await bigQuery.getDatasets();
   const dataset = datasets.find((d) => d.id === datasetName);
@@ -18,14 +18,14 @@ export const createProtocolV2Dataset = async () => {
   // Create tables
   await Promise.allSettled(
     Object.keys(TableType).map((tableType) =>
-      createTable(tableType as TableType),
+      createTable(environmentV2Tag, tableType as TableType),
     ),
   );
 };
 
-export const deleteProtocolV2Dataset = async () => {
+export const deleteProtocolV2Dataset = async (environmentV2Tag: string) => {
   const bigQuery = getBigQuery();
-  const datasetName = getProtocolV2DatasetName();
+  const datasetName = getProtocolV2DatasetName(environmentV2Tag);
 
   const [datasets] = await bigQuery.getDatasets();
   const dataset = datasets.find((d) => d.id === datasetName);

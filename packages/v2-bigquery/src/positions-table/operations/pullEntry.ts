@@ -4,12 +4,16 @@ import {
 } from '@voltz-protocol/commons-v2';
 import { getBigQuery } from '../../client';
 import { mapRow, PositionEntry } from '../specific';
-import { tableName } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
 
 export const pullPositionEntry = async (
+  environmentV2Tag: string,
   idData: V2PositionIdData,
 ): Promise<PositionEntry | null> => {
   const bigQuery = getBigQuery();
+
+  const tableName = getTableFullName(environmentV2Tag, TableType.positions);
 
   const id = encodeV2PositionId(idData);
   const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE id="${id}"`;

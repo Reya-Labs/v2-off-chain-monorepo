@@ -25,7 +25,10 @@ export const getTableName = (tableType: TableType): string => {
 };
 
 // Returns the full ID of BigQuery tables
-export const getTableFullName = (tableType: TableType): string => {
-  const datasetName = getProtocolV2DatasetName();
+export const getTableFullName = (
+  environmentV2Tag: string,
+  tableType: TableType,
+): string => {
+  const datasetName = getProtocolV2DatasetName(environmentV2Tag);
   return `${PROJECT_ID}.${datasetName}.${getTableName(tableType)}`;
 };

@@ -14,3 +14,5 @@ export enum TableType {
   positions = 'positions',
   accounts = 'accounts',
 }
+
+export type UpdateBatch = string[];

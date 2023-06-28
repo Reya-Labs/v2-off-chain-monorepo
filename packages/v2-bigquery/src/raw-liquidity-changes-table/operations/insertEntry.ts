@@ -1,10 +1,16 @@
-import { getBigQuery } from '../../client';
-import { LiquidityChangeEvent, tableName } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { UpdateBatch } from '../../types';
+import { LiquidityChangeEvent } from '../specific';
 
-export const insertLiquidityChangeEvent = async (
+export const insertLiquidityChangeEvent = (
+  environmentV2Tag: string,
   event: LiquidityChangeEvent,
-): Promise<void> => {
-  const bigQuery = getBigQuery();
+): UpdateBatch => {
+  const tableName = getTableFullName(
+    environmentV2Tag,
+    TableType.raw_liquidity_change,
+  );
 
   const row = `
     "${event.id}",
@@ -28,12 +34,5 @@ export const insertLiquidityChangeEvent = async (
 
   // build and fire sql query
   const sqlTransactionQuery = `INSERT INTO \`${tableName}\` VALUES (${row});`;
-
-  const options = {
-    query: sqlTransactionQuery,
-    timeoutMs: 100000,
-    useLegacySql: false,
-  };
-
-  await bigQuery.query(options);
+  return [sqlTransactionQuery];
 };

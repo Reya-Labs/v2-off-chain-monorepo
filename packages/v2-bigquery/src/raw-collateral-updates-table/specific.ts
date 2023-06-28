@@ -1,9 +1,7 @@
 import { Address } from '@voltz-protocol/commons-v2';
 import { BaseEvent } from '../common-table-support/baseEvent';
 import { mapBaseRow } from '../common-table-support/mapBaseRow';
-import { TableType } from '../types';
 import { bqNumericToNumber } from '../utils/converters';
-import { getTableFullName } from '../utils/getTableName';
 
 export type CollateralUpdateEvent = BaseEvent & {
   accountId: string; // big number
@@ -11,8 +9,6 @@ export type CollateralUpdateEvent = BaseEvent & {
   collateralAmount: number;
   liquidatorBoosterAmount: number;
 };
-
-export const tableName = getTableFullName(TableType.raw_collateral_updates);
 
 export const mapRow = (row: any): CollateralUpdateEvent => ({
   ...mapBaseRow(row),

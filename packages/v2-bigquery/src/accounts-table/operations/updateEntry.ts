@@ -1,13 +1,16 @@
 import { isUndefined } from '@voltz-protocol/commons-v2';
-import { getBigQuery } from '../../client';
-import { AccountEntryUpdate, tableName } from '../specific';
+import { AccountEntryUpdate } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { UpdateBatch } from '../../types';
 
-export const updateAccountEntry = async (
+export const updateAccountEntry = (
+  environmentV2Tag: string,
   chainId: number,
   accountId: string,
   update: AccountEntryUpdate,
-): Promise<void> => {
-  const bigQuery = getBigQuery();
+): UpdateBatch => {
+  const tableName = getTableFullName(environmentV2Tag, TableType.accounts);
 
   const updates: string[] = [];
   if (!isUndefined(update.owner)) {
@@ -15,20 +18,13 @@ export const updateAccountEntry = async (
   }
 
   if (updates.length === 0) {
-    return;
+    return [];
   }
 
-  const sqlTransactionQuery = `
-    UPDATE \`${tableName}\`
-      SET ${updates.join(',')}
-      WHERE chainId=${chainId} AND accountId="${accountId}";
+  const sqlTransactionQuery = `UPDATE \`${tableName}\` SET ${updates.join(
+    ',',
+  )} WHERE chainId=${chainId} AND accountId="${accountId}";
   `;
 
-  const options = {
-    query: sqlTransactionQuery,
-    timeoutMs: 100000,
-    useLegacySql: false,
-  };
-
-  await bigQuery.query(options);
+  return [sqlTransactionQuery];
 };

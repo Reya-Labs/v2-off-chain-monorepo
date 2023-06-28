@@ -1,10 +1,18 @@
 import { getBigQuery } from '../../client';
-import { MarketConfiguredEvent, mapRow, tableName } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { MarketConfiguredEvent, mapRow } from '../specific';
 
 export const pullMarketConfiguredEvent = async (
+  environmentV2Tag: string,
   id: string,
 ): Promise<MarketConfiguredEvent | null> => {
   const bigQuery = getBigQuery();
+
+  const tableName = getTableFullName(
+    environmentV2Tag,
+    TableType.raw_market_configured,
+  );
 
   const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE id="${id}"`;
 

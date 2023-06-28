@@ -1,6 +1,4 @@
 import { bqNumericToNumber } from '../utils/converters';
-import { TableType } from '../types';
-import { getTableFullName } from '../utils/getTableName';
 import { Address } from '@voltz-protocol/commons-v2';
 
 export type MarketEntry = {
@@ -20,8 +18,6 @@ export type MarketEntryUpdate = {
   atomicMakerFee?: number;
   atomicTakerFee?: number;
 };
-
-export const tableName = getTableFullName(TableType.markets);
 
 export const mapToMarketEntry = (row: any): MarketEntry => ({
   chainId: row.chainId,

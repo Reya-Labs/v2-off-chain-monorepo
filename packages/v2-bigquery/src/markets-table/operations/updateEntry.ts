@@ -1,13 +1,16 @@
 import { isUndefined } from '@voltz-protocol/commons-v2';
-import { getBigQuery } from '../../client';
-import { MarketEntryUpdate, tableName } from '../specific';
+import { MarketEntryUpdate } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { UpdateBatch } from '../../types';
 
-export const updateMarketEntry = async (
+export const updateMarketEntry = (
+  environmentV2Tag: string,
   chainId: number,
   marketId: string,
   update: MarketEntryUpdate,
-): Promise<void> => {
-  const bigQuery = getBigQuery();
+): UpdateBatch => {
+  const tableName = getTableFullName(environmentV2Tag, TableType.markets);
 
   const updates: string[] = [];
   if (!isUndefined(update.quoteToken)) {
@@ -31,7 +34,7 @@ export const updateMarketEntry = async (
   }
 
   if (updates.length === 0) {
-    return;
+    return [];
   }
 
   const sqlTransactionQuery = `
@@ -40,11 +43,5 @@ export const updateMarketEntry = async (
       WHERE chainId=${chainId} AND marketId="${marketId}";
   `;
 
-  const options = {
-    query: sqlTransactionQuery,
-    timeoutMs: 100000,
-    useLegacySql: false,
-  };
-
-  await bigQuery.query(options);
+  return [sqlTransactionQuery];
 };

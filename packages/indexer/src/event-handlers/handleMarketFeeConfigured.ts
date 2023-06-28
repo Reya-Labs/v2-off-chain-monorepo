@@ -5,39 +5,55 @@ import {
   updateMarketEntry,
   pullMarketFeeConfiguredEvent,
   insertMarketFeeConfiguredEvent,
+  sendUpdateBatches,
 } from '@voltz-protocol/bigquery-v2';
 import { ZERO_ADDRESS } from '@voltz-protocol/commons-v2';
+import { getEnvironmentV2 } from '../services/envVars';
 
 export const handleMarketFeeConfigured = async (
   event: MarketFeeConfiguredEvent,
 ) => {
+  const environmentTag = getEnvironmentV2();
+
   // Check if the event has been processed
-  const existingEvent = await pullMarketFeeConfiguredEvent(event.id);
+  const existingEvent = await pullMarketFeeConfiguredEvent(
+    environmentTag,
+    event.id,
+  );
 
   if (existingEvent) {
     return;
   }
 
-  await insertMarketFeeConfiguredEvent(event);
+  {
+    const updateBatch = insertMarketFeeConfiguredEvent(environmentTag, event);
+    await sendUpdateBatches([updateBatch]);
+  }
 
   // Update market
-  const existingMarket = await pullMarketEntry(event.chainId, event.marketId);
+  const existingMarket = await pullMarketEntry(
+    environmentTag,
+    event.chainId,
+    event.marketId,
+  );
 
-  if (existingMarket) {
-    await updateMarketEntry(event.chainId, event.marketId, {
-      feeCollectorAccountId: event.feeCollectorAccountId,
-      atomicMakerFee: event.atomicMakerFee,
-      atomicTakerFee: event.atomicTakerFee,
-    });
-  } else {
-    await insertMarketEntry({
-      chainId: event.chainId,
-      marketId: event.marketId,
-      quoteToken: ZERO_ADDRESS,
-      oracleAddress: ZERO_ADDRESS,
-      feeCollectorAccountId: event.feeCollectorAccountId,
-      atomicMakerFee: event.atomicMakerFee,
-      atomicTakerFee: event.atomicTakerFee,
-    });
+  {
+    const updateBatch = existingMarket
+      ? updateMarketEntry(environmentTag, event.chainId, event.marketId, {
+          feeCollectorAccountId: event.feeCollectorAccountId,
+          atomicMakerFee: event.atomicMakerFee,
+          atomicTakerFee: event.atomicTakerFee,
+        })
+      : insertMarketEntry(environmentTag, {
+          chainId: event.chainId,
+          marketId: event.marketId,
+          quoteToken: ZERO_ADDRESS,
+          oracleAddress: ZERO_ADDRESS,
+          feeCollectorAccountId: event.feeCollectorAccountId,
+          atomicMakerFee: event.atomicMakerFee,
+          atomicTakerFee: event.atomicTakerFee,
+        });
+
+    await sendUpdateBatches([updateBatch]);
   }
 };

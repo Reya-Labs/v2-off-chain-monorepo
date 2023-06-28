@@ -11,7 +11,13 @@ export const getRedisPort = (): number => {
 };
 
 export const getEnvironmentV2 = (): string => {
-  return (process.env.ENV_V2 || 'staging').toUpperCase();
+  const key = process.env.ENV_V2;
+
+  if (key) {
+    return key;
+  }
+
+  throw new Error(`Unspecified v2 Environment Tag.`);
 };
 
 export const getAlchemyApiKey = (): string => {
