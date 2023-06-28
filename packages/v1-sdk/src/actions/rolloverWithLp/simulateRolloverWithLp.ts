@@ -3,7 +3,6 @@ import { InfoPostLp } from '../lp/getInfoPostLp';
 import { simulateLp } from '../lp';
 
 export const simulateRolloverWithLp = async ({
-  maturedPositionId,
   ammId,
   fixedLow,
   fixedHigh,

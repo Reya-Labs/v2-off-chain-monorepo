@@ -13,6 +13,7 @@ export const getV1V2FixedRates = async (
   }
 
   if (poolId.endsWith('v2')) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { chainId, marketId, maturityTimestamp } = decodeV2PoolId(poolId);
 
     // todo: to be implemented

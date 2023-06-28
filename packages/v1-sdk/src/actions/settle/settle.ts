@@ -1,10 +1,8 @@
 import {
-  ContractReceipt,
-  ethers,
   BigNumber,
-  utils,
+  ContractReceipt,
   ContractTransaction,
-  providers,
+  ethers,
 } from 'ethers';
 import { SettleArgs, SettlePeripheryParams } from '../types/actionArgTypes';
 import { getPeripheryContract } from '../../common/contract-generators';

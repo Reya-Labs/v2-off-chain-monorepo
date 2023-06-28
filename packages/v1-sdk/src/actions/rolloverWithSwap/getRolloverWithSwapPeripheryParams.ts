@@ -1,13 +1,4 @@
-import {
-  RolloverWithSwapArgs,
-  RolloverWithSwapPeripheryParams,
-  SwapPeripheryParams,
-} from '../types/actionArgTypes';
-import { BigNumberish } from 'ethers';
-import { getDefaultSqrtPriceLimit } from '../../common/math/getDefaultSqrtPriceLimits';
-import { getSqrtPriceLimitFromFixedRateLimit } from '../../common/math/getSqrtPriceLimitFromFixedRate';
-import { getClosestTickAndFixedRate } from '../../common/math/getClosestTickAndFixedRate';
-import { scale } from '../../common/math/scale';
+import { RolloverWithSwapPeripheryParams, SwapPeripheryParams } from '../types';
 import { getSwapPeripheryParams } from '../swap/getSwapPeripheryParams';
 import { PositionInfo } from '../../common/api/position/types';
 

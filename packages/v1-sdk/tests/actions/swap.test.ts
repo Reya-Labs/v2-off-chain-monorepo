@@ -1,14 +1,7 @@
 // Imports required for test setup
-import { SwapPeripheryParams } from '../../src/actions/types/actionArgTypes';
-import { swap } from '../../src/actions/swap/swap';
-import {
-  Signer,
-  getDefaultProvider,
-  BigNumber,
-  ContractReceipt,
-  BigNumberish,
-} from 'ethers';
-import { getPeripheryContract } from '../../src/common/contract-generators/getPeripheryContract';
+import { swap, SwapPeripheryParams } from '../../src';
+import { BigNumber, BigNumberish, getDefaultProvider, Signer } from 'ethers';
+import { getPeripheryContract } from '../../src/common/contract-generators';
 import {
   getSwapPeripheryParams,
   GetSwapPeripheryParamsArgs,
@@ -62,7 +55,7 @@ describe('swap', () => {
       isEth: false,
     };
 
-    // await swap(mockSwapArgs);
+    await swap(mockSwapArgs as never);
   });
 
   it('correctly calculates swap periphery parameters', () => {

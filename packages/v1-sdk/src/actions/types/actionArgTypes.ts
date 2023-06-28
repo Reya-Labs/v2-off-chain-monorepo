@@ -1,8 +1,4 @@
 import { BigNumberish, providers, Signer } from 'ethers';
-import { PositionInfo } from '../../common/api/position/types';
-import { AMMInfo } from '../../common/api/amm/types';
-
-// swap
 
 export type SwapArgs = {
   ammId: string;
