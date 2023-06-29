@@ -12,11 +12,10 @@ export type CompleteSwapDetails = PoolInfo & SwapUserInputs;
 export type SwapPeripheryParameters = Required<PoolConfig & SwapUserInputs>;
 
 export type SwapUserInputs = {
-  owner: Signer;
+  ownerAddress: string;
   baseAmount: BigNumber;
   margin: BigNumber;
   liquidatorBooster: BigNumber;
-  fixedRateLimit?: BigNumber;
 };
 
 /**
@@ -27,7 +26,6 @@ export type SwapArgs = {
   signer: Signer;
   notional: number;
   margin: number;
-  fixedRateLimit?: number; // e.g. 0.0125 = 1.25%
 };
 
 export type InfoPostSwap = {
@@ -37,9 +35,8 @@ export type InfoPostSwap = {
   fee: number;
   slippage: number;
   averageFixedRate: number;
-  fixedTokenDeltaBalance: number;
-  variableTokenDeltaBalance: number;
-  fixedTokenDeltaUnbalanced: number;
+  baseDelta: number;
+  quoteDelta: number;
   gasFee: {
     value: number;
     token: 'ETH' | 'AVAX';

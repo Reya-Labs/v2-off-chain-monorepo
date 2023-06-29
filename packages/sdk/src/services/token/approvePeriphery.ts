@@ -10,11 +10,10 @@ export const approvePeriphery = async ({
   signer,
 }: ApprovePeripheryArgs): Promise<void> => {
   const chainId = await signer.getChainId();
-
   const poolInfo = await getPoolInfo(ammId);
 
   if (poolInfo.chainId !== chainId) {
-    throw new Error('Chain id mismatch between pool and signer');
+    throw new Error('Chain ids are different for pool and signer');
   }
 
   const tokenContract = getERC20TokenContract(

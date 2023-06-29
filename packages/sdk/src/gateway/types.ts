@@ -22,7 +22,6 @@ export type PoolInfo = PoolConfig & {
 export type PositionInfo = PoolInfo & {
   positionMargin: number;
   accountId: string;
-  // todo: consider replacing with tickLower and tickUpper or just have both
-  fixedRateLower: number;
-  fixedRateUpper: number;
+  tickLower: number;
+  tickUpper: number;
 };

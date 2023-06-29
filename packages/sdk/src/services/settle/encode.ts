@@ -17,6 +17,7 @@ export function encodeSettlement(trade: SettleParameters): MethodParameters {
     trade.maturityTimestamp,
     multiAction,
   );
+
   // withdraw
   encodeSingleWithdraw(
     trade.accountId,

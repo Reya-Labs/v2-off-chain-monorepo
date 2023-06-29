@@ -26,5 +26,4 @@ export type EditSwapArgs = {
   signer: Signer;
   notional: number;
   margin: number;
-  fixedRateLimit?: number; // e.g. 0.0125 = 1.25%
 };

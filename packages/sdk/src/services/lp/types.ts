@@ -12,7 +12,7 @@ export type CompleteLpDetails = PoolInfo & LpUserInputs;
 export type LpPeripheryParameters = Required<PoolConfig & LpUserInputs>;
 
 export type LpUserInputs = {
-  owner: Signer;
+  ownerAddress: string;
   liquidityAmount: BigNumber;
   margin: BigNumber;
   liquidatorBooster: BigNumber;

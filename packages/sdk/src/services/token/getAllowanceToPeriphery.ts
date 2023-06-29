@@ -26,7 +26,7 @@ export const getAllowanceToPeriphery = async ({
 
   const peripheryAddress = PERIPHERY_ADDRESS(chainId);
 
-  const descaledCappedAllowance = getERC20Allowance({
+  const allowance = await getERC20Allowance({
     walletAddress,
     tokenAddress: poolInfo.quoteTokenAddress,
     tokenDecimals: poolInfo.quoteTokenDecimals,
@@ -34,5 +34,5 @@ export const getAllowanceToPeriphery = async ({
     provider: signer.provider,
   });
 
-  return descaledCappedAllowance;
+  return allowance;
 };

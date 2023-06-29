@@ -26,7 +26,6 @@ export const encodeSingleSwap = (
   marketId: string,
   maturityTimestamp: number,
   baseAmount: BigNumber,
-  priceLimit: BigNumber,
   multiAction: MultiAction,
 ) => {
   multiAction.newAction(
@@ -35,7 +34,7 @@ export const encodeSingleSwap = (
       marketId,
       maturityTimestamp,
       baseAmount,
-      priceLimit,
+      '0',
     ]),
   );
 };

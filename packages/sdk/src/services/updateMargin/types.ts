@@ -6,19 +6,13 @@ export type UpdateMarginArgs = {
   margin: number;
 };
 
-export type UpdateMarginInfo = {
-  productAddress: string;
-  maturityTimestamp: number;
-  marketId: string;
+export type UpdateMarginParams = {
+  chainId: number;
   quoteTokenAddress: string;
   quoteTokenDecimals: number;
   isETH: boolean;
   accountId: string;
-  positionMargin: BigNumber;
-};
 
-export type UpdateMarginParams = UpdateMarginInfo & {
-  owner: Signer;
   margin: BigNumber;
   liquidatorBooster: BigNumber;
 };

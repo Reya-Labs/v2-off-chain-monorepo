@@ -19,7 +19,7 @@ export function mapToPoolInfo(pool: V1V2Pool): PoolInfo {
     quoteTokenDecimals: pool.underlyingToken.tokenDecimals,
     isETH: pool.underlyingToken.priceUSD > 1,
     currentLiquidityIndex: pool.currentLiquidityIndex, // e.g. 1.0001
-    currentFixedRate: pool.currentFixedRate * 100, // e.g. 3.5 = 3.5%
+    currentFixedRate: pool.currentFixedRate,
     chainId: pool.chainId,
   };
 }
