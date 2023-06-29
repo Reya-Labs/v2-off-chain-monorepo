@@ -72,6 +72,8 @@ const getErrorSignature = (error: any): string => {
     const decodedError = iface.parseError(reason);
     const errSig = decodedError.signature.split('(')[0];
 
+    console.log('args:', decodedError.args);
+
     return errSig;
   } catch {
     console.error(`Failing to get error signature. ${error}`);

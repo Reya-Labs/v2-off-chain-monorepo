@@ -23,9 +23,11 @@ export async function encodeLp(
       marketId: trade.marketId,
       maturityTimestamp: trade.maturityTimestamp,
       isLp: true,
-      priceLower: trade.fixedLow,
-      priceUpper: trade.fixedHigh,
+      tickLower: trade.tickLower,
+      tickUpper: trade.tickUpper,
     });
+
+    console.log('accountId:', accountId.toString());
     encodeSingleCreateAccount(accountId, multiAction);
   }
 
@@ -45,8 +47,8 @@ export async function encodeLp(
       accountId,
       trade.marketId,
       trade.maturityTimestamp,
-      trade.fixedLow,
-      trade.fixedHigh,
+      trade.tickLower,
+      trade.tickUpper,
       trade.liquidityAmount,
       multiAction,
     );

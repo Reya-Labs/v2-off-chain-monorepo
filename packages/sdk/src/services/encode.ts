@@ -1,6 +1,5 @@
 import { abi } from '../abis/ExecutionModule.json';
 import { BigNumber, ethers } from 'ethers';
-import { closestTickAndFixedRate } from '../utils/math/tickHelpers';
 import { CommandType, getCommand } from '../utils/routerCommands';
 import { MethodParameters, MultiAction } from '../utils/types';
 import { MINUS_ONE_BN, ZERO_BN } from '../utils/constants';
@@ -45,22 +44,11 @@ export const encodeSingleMakerOrder = (
   accountId: string,
   marketId: string,
   maturityTimestamp: number,
-  fixedRateLower: number,
-  fixedRateUpper: number,
+  tickLower: number,
+  tickUpper: number,
   liquidityDelta: BigNumber,
   multiAction: MultiAction,
 ) => {
-  const { closestUsableTick: tickFromLower } =
-    closestTickAndFixedRate(fixedRateLower);
-
-  const { closestUsableTick: tickFromUpper } =
-    closestTickAndFixedRate(fixedRateUpper);
-
-  const { tickLower, tickUpper } =
-    tickFromLower < tickFromUpper
-      ? { tickLower: tickFromLower, tickUpper: tickFromUpper }
-      : { tickLower: tickFromUpper, tickUpper: tickFromLower };
-
   multiAction.newAction(
     getCommand(CommandType.V2_VAMM_EXCHANGE_LP, [
       accountId,

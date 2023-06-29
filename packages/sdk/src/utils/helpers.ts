@@ -9,8 +9,8 @@ type CreateAccountParams = {
   marketId: string;
   maturityTimestamp: number;
   isLp: boolean;
-  priceLower?: number;
-  priceUpper?: number;
+  tickLower?: number;
+  tickUpper?: number;
 };
 
 // would be good to turn prices into ticks to decrease chances of collision
@@ -20,19 +20,16 @@ export async function createAccountId({
   marketId,
   maturityTimestamp,
   isLp,
-  priceLower,
-  priceUpper,
+  tickLower,
+  tickUpper,
 }: CreateAccountParams): Promise<string> {
-  if (isLp && (priceLower === undefined || priceUpper === undefined)) {
+  if (isLp && (tickLower === undefined || tickUpper === undefined)) {
     throw new Error('Account id error: LP missing range');
   }
 
-  const message = ownerAddress
-    .concat(productAddress)
-    .concat(maturityTimestamp.toString())
-    .concat(marketId)
-    .concat(isLp ? `${priceLower}${priceUpper}` : 'taker')
-    .concat('mvp');
+  const message = `${ownerAddress}_${productAddress}_${maturityTimestamp}_${marketId}_${
+    isLp ? `${tickLower}_${tickUpper}` : 'taker'
+  }_mvp`;
 
   const hashedMessage = md5(message).toString();
 

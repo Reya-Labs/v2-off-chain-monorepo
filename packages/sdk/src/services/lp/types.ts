@@ -16,8 +16,8 @@ export type LpUserInputs = {
   liquidityAmount: BigNumber;
   margin: BigNumber;
   liquidatorBooster: BigNumber;
-  fixedHigh: number;
-  fixedLow: number;
+  tickLower: number;
+  tickUpper: number;
 };
 
 /**

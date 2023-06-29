@@ -19,6 +19,7 @@ import { encodeLp } from '../lp/encode';
 import { getPositionInfo } from '../../gateway/getPositionInfo';
 import { PositionInfo } from '../../gateway/types';
 import { decodeLp } from '../../utils/decodeOutput';
+import { closestTickAndFixedRate } from '../../utils/math/tickHelpers';
 
 export async function editLp({
   positionId,
@@ -34,6 +35,8 @@ export async function editLp({
     notional,
     margin,
   });
+
+  console.log('edit lp params:', params);
 
   const { data, value, chainId } = await getLpTxData(params);
   const result = await executeTransaction(signer, data, value, chainId);
@@ -125,6 +128,18 @@ async function createEditLpParams({
 }: EditLpArgs): Promise<CompleteEditLpDetails> {
   const lpInfo: PositionInfo = await getPositionInfo(positionId);
 
+  const { closestUsableTick: tickLower } = closestTickAndFixedRate(
+    lpInfo.fixedRateUpper,
+  );
+
+  const { closestUsableTick: tickUpper } = closestTickAndFixedRate(
+    lpInfo.fixedRateLower,
+  );
+
+  if (tickLower >= tickUpper) {
+    throw new Error(`Incorrect ticks`);
+  }
+
   const liquidityAmount = notionalToLiquidityBN(
     scale(lpInfo.quoteTokenDecimals)(notional),
     lpInfo.fixedRateLower,
@@ -138,8 +153,8 @@ async function createEditLpParams({
     margin: scale(lpInfo.quoteTokenDecimals)(margin),
     // todo: liquidator booster hard-coded
     liquidatorBooster: scale(lpInfo.quoteTokenDecimals)(0),
-    fixedLow: lpInfo.fixedRateLower,
-    fixedHigh: lpInfo.fixedRateUpper,
+    tickLower,
+    tickUpper,
   };
 
   return params;

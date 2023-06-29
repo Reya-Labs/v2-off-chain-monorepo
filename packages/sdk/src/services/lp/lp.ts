@@ -21,6 +21,7 @@ import { getPoolInfo } from '../../gateway/getPoolInfo';
 import { decodeLp } from '../../utils/decodeOutput';
 import { decodeImFromError } from '../../utils/errors/errorHandling';
 import { DEFAULT_FEE } from '../../utils/errors/constants';
+import { closestTickAndFixedRate } from '../../utils/math/tickHelpers';
 
 export async function lp({
   ammId,
@@ -40,6 +41,8 @@ export async function lp({
     fixedLow,
     fixedHigh,
   });
+
+  console.log('lp params:', params);
 
   const { data, value, chainId } = await getLpTxData(params);
   const result = await executeTransaction(signer, data, value, chainId);
@@ -148,6 +151,18 @@ export async function createLpParams({
   fixedLow,
   fixedHigh,
 }: LpArgs): Promise<CompleteLpDetails> {
+  console.log('fixed rates:', fixedLow, fixedHigh);
+
+  const { closestUsableTick: tickLower } = closestTickAndFixedRate(fixedHigh);
+
+  const { closestUsableTick: tickUpper } = closestTickAndFixedRate(fixedLow);
+
+  console.log('ticks:', tickLower, tickUpper);
+
+  if (tickLower >= tickUpper) {
+    throw new Error(`Invalid tick order`);
+  }
+
   const lpInfo = await getPoolInfo(ammId);
 
   const liquidityAmount = notionalToLiquidityBN(
@@ -163,8 +178,8 @@ export async function createLpParams({
     margin: scale(lpInfo.quoteTokenDecimals)(margin),
     // todo: liquidator booster hard-coded
     liquidatorBooster: scale(lpInfo.quoteTokenDecimals)(1),
-    fixedLow,
-    fixedHigh,
+    tickLower,
+    tickUpper,
   };
 
   return params;
