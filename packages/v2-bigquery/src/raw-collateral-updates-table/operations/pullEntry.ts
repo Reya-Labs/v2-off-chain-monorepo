@@ -1,10 +1,18 @@
 import { getBigQuery } from '../../client';
-import { CollateralUpdateEvent, mapRow, tableName } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { CollateralUpdateEvent, mapRow } from '../specific';
 
 export const pullCollateralUpdateEvent = async (
+  environmentV2Tag: string,
   id: string,
 ): Promise<CollateralUpdateEvent | null> => {
   const bigQuery = getBigQuery();
+
+  const tableName = getTableFullName(
+    environmentV2Tag,
+    TableType.raw_collateral_updates,
+  );
 
   const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE id="${id}"`;
 

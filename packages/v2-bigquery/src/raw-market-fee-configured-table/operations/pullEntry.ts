@@ -1,10 +1,18 @@
 import { getBigQuery } from '../../client';
-import { MarketFeeConfiguredEvent, mapRow, tableName } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { MarketFeeConfiguredEvent, mapRow } from '../specific';
 
 export const pullMarketFeeConfiguredEvent = async (
+  environmentV2Tag: string,
   id: string,
 ): Promise<MarketFeeConfiguredEvent | null> => {
   const bigQuery = getBigQuery();
+
+  const tableName = getTableFullName(
+    environmentV2Tag,
+    TableType.raw_market_fee_configured,
+  );
 
   const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE id="${id}"`;
 

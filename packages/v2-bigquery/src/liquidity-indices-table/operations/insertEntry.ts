@@ -1,10 +1,16 @@
-import { getBigQuery } from '../../client';
-import { LiquidityIndexEntry, tableName } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { UpdateBatch } from '../../types';
+import { LiquidityIndexEntry } from '../specific';
 
-export const insertLiquidityIndex = async (
+export const insertLiquidityIndex = (
+  environmentV2Tag: string,
   entry: LiquidityIndexEntry,
-): Promise<void> => {
-  const bigQuery = getBigQuery();
+): UpdateBatch => {
+  const tableName = getTableFullName(
+    environmentV2Tag,
+    TableType.liquidity_indices,
+  );
 
   const row = `
     ${entry.chainId},
@@ -17,11 +23,5 @@ export const insertLiquidityIndex = async (
   // build and fire sql query
   const sqlTransactionQuery = `INSERT INTO \`${tableName}\` VALUES (${row});`;
 
-  const options = {
-    query: sqlTransactionQuery,
-    timeoutMs: 100000,
-    useLegacySql: false,
-  };
-
-  await bigQuery.query(options);
+  return [sqlTransactionQuery];
 };

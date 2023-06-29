@@ -1,11 +1,18 @@
 import { SupportedChainId } from '@voltz-protocol/commons-v2';
 import { getBigQuery } from '../../client';
-import { VammCreatedEvent, mapRow, tableName } from '../specific';
+import { VammCreatedEvent, mapRow } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
 
 export const pullVammsByChains = async (
+  environmentV2Tag: string,
   chainIds: SupportedChainId[],
 ): Promise<VammCreatedEvent[]> => {
   const bigQuery = getBigQuery();
+  const tableName = getTableFullName(
+    environmentV2Tag,
+    TableType.raw_vamm_created,
+  );
 
   const cond = `chainId IN (${chainIds.join(',')})`;
   const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE ${cond};`;

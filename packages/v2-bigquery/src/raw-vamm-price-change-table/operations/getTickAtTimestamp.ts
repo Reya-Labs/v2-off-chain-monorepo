@@ -1,10 +1,13 @@
 import { getBigQuery } from '../../client';
-import { tableName, mapRow } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { mapRow } from '../specific';
 
 /**
  Get tick at some given timestamp of VAMM
  */
 export const getTickAtTimestamp = async (
+  environmentV2Tag: string,
   chainId: number,
   marketId: string,
   maturityTimestamp: number,
@@ -12,6 +15,10 @@ export const getTickAtTimestamp = async (
 ): Promise<number | null> => {
   const bigQuery = getBigQuery();
 
+  const tableName = getTableFullName(
+    environmentV2Tag,
+    TableType.raw_vamm_price_change,
+  );
   const condition = `chainId=${chainId} AND marketId="${marketId}" AND maturityTimestamp=${maturityTimestamp} AND blockTimestamp<=${timestamp}`;
 
   const sqlQuery = `

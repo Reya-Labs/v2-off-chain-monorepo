@@ -1,14 +1,18 @@
 import { getBigQuery } from '../../client';
 import { ethers } from 'ethers';
-import { mapRow, LiquidityIndexEntry, tableName } from '../specific';
+import { mapRow, LiquidityIndexEntry } from '../specific';
 import { Address, scale, descale } from '@voltz-protocol/commons-v2';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
 
 export async function getLiquidityIndexAt(
+  environmentV2Tag: string,
   chainId: number,
   rateOracle: Address,
   targetTimestamp: number,
 ): Promise<number | null> {
   const [inLeft, inRight] = await pullClosestDatapoints(
+    environmentV2Tag,
     chainId,
     rateOracle,
     targetTimestamp,
@@ -43,11 +47,17 @@ export async function getLiquidityIndexAt(
 
 // Get 2 data points before timestamp and 2 data points after timestamp
 const pullClosestDatapoints = async (
+  environmentV2Tag: string,
   chainId: number,
   rateOracle: Address,
   targetTimestamp: number, // in seconds
 ): Promise<[LiquidityIndexEntry[], LiquidityIndexEntry[]]> => {
   const bigQuery = getBigQuery();
+
+  const tableName = getTableFullName(
+    environmentV2Tag,
+    TableType.liquidity_indices,
+  );
 
   const idCondition = `chainId=${chainId} AND oracleAddress="${rateOracle}"`;
 

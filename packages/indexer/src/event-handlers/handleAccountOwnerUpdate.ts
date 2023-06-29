@@ -5,33 +5,45 @@ import {
   pullAccountEntry,
   updateAccountEntry,
   insertAccountEntry,
+  sendUpdateBatches,
 } from '@voltz-protocol/bigquery-v2';
+import { getEnvironmentV2 } from '../services/envVars';
 
 export const handleAccountOwnerUpdate = async (
   event: AccountOwnerUpdateEvent,
 ) => {
-  const existingEvent = await pullAccountOwnerUpdateEvent(event.id);
+  const environmentTag = getEnvironmentV2();
+  const existingEvent = await pullAccountOwnerUpdateEvent(
+    environmentTag,
+    event.id,
+  );
 
   if (existingEvent) {
     return;
   }
 
-  await insertAccountOwnerUpdateEvent(event);
+  {
+    const updateBatch = insertAccountOwnerUpdateEvent(environmentTag, event);
+    await sendUpdateBatches([updateBatch]);
+  }
 
   const existingAccount = await pullAccountEntry(
+    environmentTag,
     event.chainId,
     event.accountId,
   );
 
-  if (!existingAccount) {
-    await insertAccountEntry({
-      chainId: event.chainId,
-      accountId: event.accountId,
-      owner: event.newOwner,
-    });
-  } else {
-    await updateAccountEntry(event.chainId, event.accountId, {
-      owner: event.newOwner,
-    });
+  {
+    const updateBatch = existingAccount
+      ? updateAccountEntry(environmentTag, event.chainId, event.accountId, {
+          owner: event.newOwner,
+        })
+      : insertAccountEntry(environmentTag, {
+          chainId: event.chainId,
+          accountId: event.accountId,
+          owner: event.newOwner,
+        });
+
+    await sendUpdateBatches([updateBatch]);
   }
 };

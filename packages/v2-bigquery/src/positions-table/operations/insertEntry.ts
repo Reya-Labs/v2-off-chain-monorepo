@@ -1,12 +1,14 @@
 import { encodeV2PositionId } from '@voltz-protocol/commons-v2';
-import { getBigQuery } from '../../client';
-import { tableName } from '../specific';
 import { PositionEntry } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { UpdateBatch } from '../../types';
 
-export const insertPositionEntry = async (
+export const insertPositionEntry = (
+  environmentV2Tag: string,
   entry: Omit<PositionEntry, 'id'>,
-): Promise<void> => {
-  const bigQuery = getBigQuery();
+): UpdateBatch => {
+  const tableName = getTableFullName(environmentV2Tag, TableType.positions);
 
   const id = encodeV2PositionId(entry);
 
@@ -32,11 +34,5 @@ export const insertPositionEntry = async (
   // build and fire sql query
   const sqlTransactionQuery = `INSERT INTO \`${tableName}\` VALUES (${row});`;
 
-  const options = {
-    query: sqlTransactionQuery,
-    timeoutMs: 100000,
-    useLegacySql: false,
-  };
-
-  await bigQuery.query(options);
+  return [sqlTransactionQuery];
 };

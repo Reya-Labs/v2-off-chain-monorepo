@@ -6,22 +6,34 @@ import {
   pullMarketEntry,
   pullPositionEntry,
   pullProductPositionUpdatedEvent,
+  sendUpdateBatches,
   updatePositionEntry,
 } from '@voltz-protocol/bigquery-v2';
 
 import { extendBalancesWithTrade } from '@voltz-protocol/commons-v2';
 import { log } from '../logging/log';
+import { getEnvironmentV2 } from '../services/envVars';
 
 export const handleProductPositionUpdated = async (
   event: ProductPositionUpdatedEvent,
 ) => {
-  const existingEvent = await pullProductPositionUpdatedEvent(event.id);
+  const environmentTag = getEnvironmentV2();
+  const existingEvent = await pullProductPositionUpdatedEvent(
+    environmentTag,
+    event.id,
+  );
 
   if (existingEvent) {
     return;
   }
 
-  await insertProductPositionUpdatedEvent(event);
+  {
+    const updateBatch = insertProductPositionUpdatedEvent(
+      environmentTag,
+      event,
+    );
+    await sendUpdateBatches([updateBatch]);
+  }
 
   const {
     chainId,
@@ -46,14 +58,19 @@ export const handleProductPositionUpdated = async (
     type: 'trader' as 'trader' | 'lp',
   };
 
-  const existingPosition = await pullPositionEntry(positionIdData);
-  const market = await pullMarketEntry(chainId, marketId);
+  const existingPosition = await pullPositionEntry(
+    environmentTag,
+    positionIdData,
+  );
+
+  const market = await pullMarketEntry(environmentTag, chainId, marketId);
 
   if (!market) {
     throw new Error(`Couldn't find market for ${chainId}-${marketId}`);
   }
 
   const liquidityIndex = await getLiquidityIndexAt(
+    environmentTag,
     chainId,
     market.oracleAddress,
     blockTimestamp,
@@ -74,17 +91,19 @@ export const handleProductPositionUpdated = async (
     existingPosition,
   });
 
-  if (existingPosition) {
-    await updatePositionEntry(positionIdData, netBalances);
-  } else {
-    await insertPositionEntry({
-      ...positionIdData,
-      ...netBalances,
-      liquidity: 0,
-      paidFees: 0,
-      tickLower: 0,
-      tickUpper: 0,
-      creationTimestamp: blockTimestamp,
-    });
+  {
+    const updateBatch = existingPosition
+      ? updatePositionEntry(environmentTag, positionIdData, netBalances)
+      : insertPositionEntry(environmentTag, {
+          ...positionIdData,
+          ...netBalances,
+          liquidity: 0,
+          paidFees: 0,
+          tickLower: 0,
+          tickUpper: 0,
+          creationTimestamp: blockTimestamp,
+        });
+
+    await sendUpdateBatches([updateBatch]);
   }
 };

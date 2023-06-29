@@ -5,16 +5,25 @@ import {
   insertPositionEntry,
   insertLiquidityChangeEvent,
   pullLiquidityChangeEvent,
+  sendUpdateBatches,
 } from '@voltz-protocol/bigquery-v2';
+import { getEnvironmentV2 } from '../services/envVars';
 
 export const handleLiquidityChange = async (event: LiquidityChangeEvent) => {
-  const existingEvent = await pullLiquidityChangeEvent(event.id);
+  const environmentTag = getEnvironmentV2();
+  const existingEvent = await pullLiquidityChangeEvent(
+    environmentTag,
+    event.id,
+  );
 
   if (existingEvent) {
     return;
   }
 
-  await insertLiquidityChangeEvent(event);
+  {
+    const updateBatch = insertLiquidityChangeEvent(environmentTag, event);
+    await sendUpdateBatches([updateBatch]);
+  }
 
   const positionIdData = {
     chainId: event.chainId,
@@ -26,23 +35,28 @@ export const handleLiquidityChange = async (event: LiquidityChangeEvent) => {
     tickUpper: event.tickUpper,
   };
 
-  const existingPosition = await pullPositionEntry(positionIdData);
+  const existingPosition = await pullPositionEntry(
+    environmentTag,
+    positionIdData,
+  );
 
-  if (existingPosition) {
-    await updatePositionEntry(positionIdData, {
-      liquidity: existingPosition.liquidity + event.liquidityDelta,
-    });
-  } else {
-    await insertPositionEntry({
-      ...positionIdData,
-      base: 0,
-      timeDependentQuote: 0,
-      freeQuote: 0,
-      notional: 0,
-      lockedFixedRate: 0,
-      liquidity: event.liquidityDelta,
-      paidFees: 0,
-      creationTimestamp: event.blockTimestamp,
-    });
+  {
+    const updateBatch = existingPosition
+      ? updatePositionEntry(environmentTag, positionIdData, {
+          liquidity: existingPosition.liquidity + event.liquidityDelta,
+        })
+      : insertPositionEntry(environmentTag, {
+          ...positionIdData,
+          base: 0,
+          timeDependentQuote: 0,
+          freeQuote: 0,
+          notional: 0,
+          lockedFixedRate: 0,
+          liquidity: event.liquidityDelta,
+          paidFees: 0,
+          creationTimestamp: event.blockTimestamp,
+        });
+
+    await sendUpdateBatches([updateBatch]);
   }
 };

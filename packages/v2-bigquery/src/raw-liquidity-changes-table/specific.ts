@@ -1,9 +1,7 @@
 import { Address } from '@voltz-protocol/commons-v2';
 import { BaseEvent } from '../common-table-support/baseEvent';
 import { mapBaseRow } from '../common-table-support/mapBaseRow';
-import { TableType } from '../types';
 import { bqNumericToNumber } from '../utils/converters';
-import { getTableFullName } from '../utils/getTableName';
 
 export type LiquidityChangeEvent = BaseEvent & {
   accountId: string; // big number
@@ -16,8 +14,6 @@ export type LiquidityChangeEvent = BaseEvent & {
   tickUpper: number;
   liquidityDelta: number;
 };
-
-export const tableName = getTableFullName(TableType.raw_liquidity_change);
 
 export const mapRow = (row: any): LiquidityChangeEvent => ({
   ...mapBaseRow(row),

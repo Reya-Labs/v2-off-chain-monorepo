@@ -1,10 +1,16 @@
-import { getBigQuery } from '../../client';
-import { RateOracleConfiguredEvent, tableName } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { UpdateBatch } from '../../types';
+import { RateOracleConfiguredEvent } from '../specific';
 
-export const insertRateOracleConfiguredEvent = async (
+export const insertRateOracleConfiguredEvent = (
+  environmentV2Tag: string,
   event: RateOracleConfiguredEvent,
-): Promise<void> => {
-  const bigQuery = getBigQuery();
+): UpdateBatch => {
+  const tableName = getTableFullName(
+    environmentV2Tag,
+    TableType.raw_rate_oracle_configured,
+  );
 
   const row = `
     "${event.id}",
@@ -23,12 +29,5 @@ export const insertRateOracleConfiguredEvent = async (
 
   // build and fire sql query
   const sqlTransactionQuery = `INSERT INTO \`${tableName}\` VALUES (${row});`;
-
-  const options = {
-    query: sqlTransactionQuery,
-    timeoutMs: 100000,
-    useLegacySql: false,
-  };
-
-  await bigQuery.query(options);
+  return [sqlTransactionQuery];
 };

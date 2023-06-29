@@ -1,6 +1,4 @@
-import { TableType } from '../types';
 import { bqNumericToNumber } from '../utils/converters';
-import { getTableFullName } from '../utils/getTableName';
 
 export type PositionEntry = {
   id: string;
@@ -30,8 +28,6 @@ export type PositionEntryUpdate = {
   liquidity?: number;
   paidFees?: number;
 };
-
-export const tableName = getTableFullName(TableType.positions);
 
 export const mapRow = (row: any): PositionEntry => ({
   id: row.id,

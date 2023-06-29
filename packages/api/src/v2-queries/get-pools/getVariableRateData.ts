@@ -6,6 +6,7 @@ import {
   getTimestampInSeconds,
   isNull,
 } from '@voltz-protocol/commons-v2';
+import { getEnvironmentV2 } from '../../services/envVars';
 
 export type GetVariableRateDataResponse = {
   currentVariableRate: number;
@@ -23,6 +24,7 @@ export const getVariableRateData = async (
   const nowSeconds = getTimestampInSeconds();
 
   const currentLiquidityIndex = await getLiquidityIndexAt(
+    getEnvironmentV2(),
     chainId,
     rateOracle,
     nowSeconds,
@@ -38,6 +40,7 @@ export const getVariableRateData = async (
 
   const timestampLWAgo = nowSeconds - lookbackWindowSeconds;
   const liquidityIndexLWAgo = await getLiquidityIndexAt(
+    getEnvironmentV2(),
     chainId,
     rateOracle,
     timestampLWAgo,
@@ -65,6 +68,7 @@ export const getVariableRateData = async (
 
   const timestamp2LWAgo = nowSeconds - 2 * lookbackWindowSeconds;
   const liquidityIndex2LWAgo = await getLiquidityIndexAt(
+    getEnvironmentV2(),
     chainId,
     rateOracle,
     timestamp2LWAgo,

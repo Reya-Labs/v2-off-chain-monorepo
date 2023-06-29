@@ -1,13 +1,16 @@
 import { getBigQuery } from '../../client';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
 import { mapRow, PositionEntry } from '../specific';
-import { tableName } from '../specific';
 
 export const pullLpPositionEntries = async (
+  environmentV2Tag: string,
   chainId: number,
   marketId: string,
   maturityTimestamp: number,
 ): Promise<PositionEntry[]> => {
   const bigQuery = getBigQuery();
+  const tableName = getTableFullName(environmentV2Tag, TableType.positions);
 
   const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE chainId=${chainId} AND marketId="${marketId}" AND maturityTimestamp=${maturityTimestamp} AND liquidity>0`;
 

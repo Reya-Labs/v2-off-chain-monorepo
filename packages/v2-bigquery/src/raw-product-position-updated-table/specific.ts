@@ -1,8 +1,6 @@
 import { BaseEvent } from '../common-table-support/baseEvent';
 import { mapBaseRow } from '../common-table-support/mapBaseRow';
-import { TableType } from '../types';
 import { bqNumericToNumber } from '../utils/converters';
-import { getTableFullName } from '../utils/getTableName';
 
 // state-capturing event
 export type ProductPositionUpdatedEvent = BaseEvent & {
@@ -12,10 +10,6 @@ export type ProductPositionUpdatedEvent = BaseEvent & {
   baseDelta: number;
   quoteDelta: number;
 };
-
-export const tableName = getTableFullName(
-  TableType.raw_product_position_updated,
-);
 
 export const mapRow = (row: any): ProductPositionUpdatedEvent => ({
   ...mapBaseRow(row),

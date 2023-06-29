@@ -1,10 +1,16 @@
-import { getBigQuery } from '../../client';
-import { VammPriceChangeEvent, tableName } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { UpdateBatch } from '../../types';
+import { VammPriceChangeEvent } from '../specific';
 
-export const insertVammPriceChangeEvent = async (
+export const insertVammPriceChangeEvent = (
+  environmentV2Tag: string,
   event: VammPriceChangeEvent,
-): Promise<void> => {
-  const bigQuery = getBigQuery();
+): UpdateBatch => {
+  const tableName = getTableFullName(
+    environmentV2Tag,
+    TableType.raw_vamm_price_change,
+  );
 
   const row = `
     "${event.id}",
@@ -22,14 +28,6 @@ export const insertVammPriceChangeEvent = async (
     ${event.tick}
   `;
 
-  // build and fire sql query
   const sqlTransactionQuery = `INSERT INTO \`${tableName}\` VALUES (${row});`;
-
-  const options = {
-    query: sqlTransactionQuery,
-    timeoutMs: 100000,
-    useLegacySql: false,
-  };
-
-  await bigQuery.query(options);
+  return [sqlTransactionQuery];
 };

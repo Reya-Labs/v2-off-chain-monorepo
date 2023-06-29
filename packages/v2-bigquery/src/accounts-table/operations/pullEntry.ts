@@ -1,11 +1,15 @@
 import { getBigQuery } from '../../client';
-import { mapRow, AccountEntry, tableName } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { mapRow, AccountEntry } from '../specific';
 
 export const pullAccountEntry = async (
+  environmentV2Tag: string,
   chainId: number,
   accountId: string,
 ): Promise<AccountEntry | null> => {
   const bigQuery = getBigQuery();
+  const tableName = getTableFullName(environmentV2Tag, TableType.accounts);
 
   const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE chainId=${chainId} AND accountId="${accountId}"`;
 

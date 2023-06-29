@@ -7,12 +7,18 @@ import { tableSchemas } from './tableSchemas';
 import { TableType } from '../types';
 import { getProtocolV2DatasetName } from '../utils/getProtocolV2DatasetName';
 
-export const createTable = async (tableType: TableType): Promise<void> => {
+export const createTable = async (
+  environmentV2Tag: string,
+  tableType: TableType,
+): Promise<void> => {
   const bigQuery = getBigQuery();
   const tableName = getTableName(tableType);
   const schema = tableSchemas[tableType];
 
-  const existingTable: Table | null = await getTable(tableName);
+  const existingTable: Table | null = await getTable(
+    environmentV2Tag,
+    tableName,
+  );
 
   if (existingTable) {
     console.log(`${tableName} already exists`);
@@ -26,7 +32,7 @@ export const createTable = async (tableType: TableType): Promise<void> => {
   };
 
   // Create a new table in the dataset
-  const datasetName = getProtocolV2DatasetName();
+  const datasetName = getProtocolV2DatasetName(environmentV2Tag);
   const [table] = await bigQuery
     .dataset(datasetName)
     .createTable(tableName, options);

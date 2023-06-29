@@ -1,8 +1,13 @@
-import { getBigQuery } from '../../client';
-import { MarketEntry, tableName } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { UpdateBatch } from '../../types';
+import { MarketEntry } from '../specific';
 
-export const insertMarketEntry = async (entry: MarketEntry): Promise<void> => {
-  const bigQuery = getBigQuery();
+export const insertMarketEntry = (
+  environmentV2Tag: string,
+  entry: MarketEntry,
+): UpdateBatch => {
+  const tableName = getTableFullName(environmentV2Tag, TableType.markets);
 
   const row = `
     ${entry.chainId},
@@ -17,11 +22,5 @@ export const insertMarketEntry = async (entry: MarketEntry): Promise<void> => {
   // build and fire sql query
   const sqlTransactionQuery = `INSERT INTO \`${tableName}\` VALUES (${row});`;
 
-  const options = {
-    query: sqlTransactionQuery,
-    timeoutMs: 100000,
-    useLegacySql: false,
-  };
-
-  await bigQuery.query(options);
+  return [sqlTransactionQuery];
 };

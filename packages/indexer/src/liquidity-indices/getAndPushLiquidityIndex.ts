@@ -1,10 +1,15 @@
-import { insertLiquidityIndex } from '@voltz-protocol/bigquery-v2';
+import {
+  LiquidityIndexEntry,
+  insertLiquidityIndex,
+  sendUpdateBatches,
+} from '@voltz-protocol/bigquery-v2';
 import {
   Address,
   descale,
   getRateOracleContract,
 } from '@voltz-protocol/commons-v2';
 import { getProvider } from '../services/getProvider';
+import { getEnvironmentV2 } from '../services/envVars';
 
 export const getAndPushLiquidityIndex = async (
   chainId: number,
@@ -21,11 +26,14 @@ export const getAndPushLiquidityIndex = async (
 
   const liquidityIndex = descale(18)(liquidityIndexE18);
 
-  await insertLiquidityIndex({
+  const entry: LiquidityIndexEntry = {
     chainId,
     blockNumber,
     blockTimestamp,
     oracleAddress,
     liquidityIndex,
-  });
+  };
+
+  const updateBatch = insertLiquidityIndex(getEnvironmentV2(), entry);
+  await sendUpdateBatches([updateBatch]);
 };

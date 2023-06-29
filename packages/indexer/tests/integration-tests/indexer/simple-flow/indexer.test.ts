@@ -24,7 +24,7 @@ jest.mock('../../../../src/fetch-events/fetchEvents', () => ({
 // Tests
 describe.skip('Indexer integration test', () => {
   it('simple flow', async () => {
-    await createProtocolV2Dataset();
+    await createProtocolV2Dataset('UT');
 
     // Fire call
     await sync([chainId]);

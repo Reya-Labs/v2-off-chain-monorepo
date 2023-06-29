@@ -2,6 +2,7 @@ import { Address, getApy, isNull } from '@voltz-protocol/commons-v2';
 import { getLiquidityIndexAt } from './getLiquidityIndexAt';
 
 export async function getApyFromTo(
+  environmentV2Tag: string,
   chainId: number,
   rateOracle: Address,
   fromTimestamp: number, // in seconds
@@ -19,12 +20,18 @@ export async function getApyFromTo(
   }
 
   const fromIndex = await getLiquidityIndexAt(
+    environmentV2Tag,
     chainId,
     rateOracle,
     fromTimestamp,
   );
 
-  const toIndex = await getLiquidityIndexAt(chainId, rateOracle, toTimestamp);
+  const toIndex = await getLiquidityIndexAt(
+    environmentV2Tag,
+    chainId,
+    rateOracle,
+    toTimestamp,
+  );
 
   if (isNull(fromIndex) || isNull(toIndex)) {
     return null;

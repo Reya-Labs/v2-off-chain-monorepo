@@ -8,6 +8,7 @@ import {
   isNull,
   tickToFixedRate,
 } from '@voltz-protocol/commons-v2';
+import { getEnvironmentV2 } from '../../services/envVars';
 
 export type GetFixedRateDataResponse = {
   currentFixedRate: number;
@@ -24,6 +25,7 @@ export const getFixedRateData = async (
   const nowSeconds = getTimestampInSeconds();
 
   const currentTick = await getCurrentVammTick(
+    getEnvironmentV2(),
     chainId,
     marketId,
     maturityTimestamp,
@@ -37,6 +39,7 @@ export const getFixedRateData = async (
   }
 
   const tickLWAgo = await getTickAtTimestamp(
+    getEnvironmentV2(),
     chainId,
     marketId,
     maturityTimestamp,

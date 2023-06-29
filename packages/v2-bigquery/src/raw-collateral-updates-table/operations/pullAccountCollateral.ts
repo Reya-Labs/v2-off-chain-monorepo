@@ -1,6 +1,7 @@
 import { getBigQuery } from '../../client';
+import { TableType } from '../../types';
 import { bqNumericToNumber } from '../../utils/converters';
-import { tableName } from '../specific';
+import { getTableFullName } from '../../utils/getTableName';
 
 export type PullAccountCollateralResponse = {
   collateralType: string;
@@ -8,10 +9,16 @@ export type PullAccountCollateralResponse = {
 }[];
 
 export const pullAccountCollateral = async (
+  environmentV2Tag: string,
   chainId: number,
   accountId: string,
 ): Promise<PullAccountCollateralResponse> => {
   const bigQuery = getBigQuery();
+
+  const tableName = getTableFullName(
+    environmentV2Tag,
+    TableType.raw_collateral_updates,
+  );
 
   const sqlQuery = `SELECT SUM(collateralAmount) as balance, collateralType FROM \`${tableName}\` WHERE chainId=${chainId} AND accountId="${accountId}" GROUP BY collateralType`;
 

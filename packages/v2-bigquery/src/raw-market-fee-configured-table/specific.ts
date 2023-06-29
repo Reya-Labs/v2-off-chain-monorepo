@@ -1,8 +1,6 @@
 import { BaseEvent } from '../common-table-support/baseEvent';
 import { mapBaseRow } from '../common-table-support/mapBaseRow';
-import { TableType } from '../types';
 import { bqNumericToNumber } from '../utils/converters';
-import { getTableFullName } from '../utils/getTableName';
 
 // state-capturing event
 export type MarketFeeConfiguredEvent = BaseEvent & {
@@ -12,8 +10,6 @@ export type MarketFeeConfiguredEvent = BaseEvent & {
   atomicMakerFee: number;
   atomicTakerFee: number;
 };
-
-export const tableName = getTableFullName(TableType.raw_market_fee_configured);
 
 export const mapRow = (row: any): MarketFeeConfiguredEvent => ({
   ...mapBaseRow(row),

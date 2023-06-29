@@ -2,7 +2,7 @@ import { ethers, Signer, BigNumber } from 'ethers';
 import { getAccessPassContract } from '../utils/getAccessPassContract';
 import { getLeavesAndRootFromIpfs } from '../utils/getIpfsLeavesAndRoot';
 import keccak256 from 'keccak256';
-import { ACCCESS_PASS_CONTRACT_ADDRESS } from '../utils/configuration';
+import { getNftAccessPassAddress } from '../utils/configuration';
 
 /**
  *
@@ -10,8 +10,11 @@ import { ACCCESS_PASS_CONTRACT_ADDRESS } from '../utils/configuration';
  */
 export async function verifyAdmitPass(owner: Signer): Promise<boolean> {
   const ownerAddress = await owner.getAddress();
+  const chainId = await owner.getChainId();
+  const nftAccessPassAddress = getNftAccessPassAddress(chainId);
+
   const accessPassContract: ethers.Contract = getAccessPassContract(
-    ACCCESS_PASS_CONTRACT_ADDRESS,
+    nftAccessPassAddress,
     owner,
   );
   const balance: BigNumber = await accessPassContract.balanceOf(ownerAddress);
@@ -25,6 +28,8 @@ export async function verifyAdmitPass(owner: Signer): Promise<boolean> {
  */
 export async function isAdmitPassClaimed(owner: Signer): Promise<boolean> {
   const ownerAddress = await owner.getAddress();
+  const chainId = await owner.getChainId();
+  const nftAccessPassAddress = getNftAccessPassAddress(chainId);
 
   const data = await getLeavesAndRootFromIpfs(ownerAddress);
   const tokenId = keccak256(
@@ -35,7 +40,7 @@ export async function isAdmitPassClaimed(owner: Signer): Promise<boolean> {
   );
 
   const accessPassContract: ethers.Contract = getAccessPassContract(
-    ACCCESS_PASS_CONTRACT_ADDRESS,
+    nftAccessPassAddress,
     owner,
   );
   try {

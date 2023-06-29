@@ -1,10 +1,16 @@
-import { getBigQuery } from '../../client';
-import { MarketFeeConfiguredEvent, tableName } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { UpdateBatch } from '../../types';
+import { MarketFeeConfiguredEvent } from '../specific';
 
-export const insertMarketFeeConfiguredEvent = async (
+export const insertMarketFeeConfiguredEvent = (
+  environmentV2Tag: string,
   event: MarketFeeConfiguredEvent,
-): Promise<void> => {
-  const bigQuery = getBigQuery();
+): UpdateBatch => {
+  const tableName = getTableFullName(
+    environmentV2Tag,
+    TableType.raw_market_fee_configured,
+  );
 
   const row = `
     "${event.id}",
@@ -24,14 +30,6 @@ export const insertMarketFeeConfiguredEvent = async (
     ${event.atomicTakerFee}
   `;
 
-  // build and fire sql query
   const sqlTransactionQuery = `INSERT INTO \`${tableName}\` VALUES (${row});`;
-
-  const options = {
-    query: sqlTransactionQuery,
-    timeoutMs: 100000,
-    useLegacySql: false,
-  };
-
-  await bigQuery.query(options);
+  return [sqlTransactionQuery];
 };

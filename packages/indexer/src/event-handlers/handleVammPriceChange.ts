@@ -7,6 +7,7 @@ import {
   updatePositionEntry,
   pullMarketEntry,
   getLiquidityIndexAt,
+  sendUpdateBatches,
 } from '@voltz-protocol/bigquery-v2';
 import {
   isNull,
@@ -15,9 +16,15 @@ import {
   SECONDS_IN_YEAR,
 } from '@voltz-protocol/commons-v2';
 import { log } from '../logging/log';
+import { getEnvironmentV2 } from '../services/envVars';
 
 export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
-  const existingEvent = await pullVammPriceChangeEvent(event.id);
+  const environmentTag = getEnvironmentV2();
+
+  const existingEvent = await pullVammPriceChangeEvent(
+    environmentTag,
+    event.id,
+  );
 
   if (existingEvent) {
     return;
@@ -32,6 +39,7 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
   } = event;
 
   const latestTick = await getCurrentVammTick(
+    environmentTag,
     chainId,
     marketId,
     maturityTimestamp,
@@ -43,15 +51,19 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
     );
   }
 
-  await insertVammPriceChangeEvent(event);
+  {
+    const updateBatch = insertVammPriceChangeEvent(environmentTag, event);
+    await sendUpdateBatches([updateBatch]);
+  }
 
-  const market = await pullMarketEntry(chainId, marketId);
+  const market = await pullMarketEntry(environmentTag, chainId, marketId);
 
   if (!market) {
     throw new Error(`Couldn't find market for ${chainId}-${marketId}`);
   }
 
   const liquidityIndex = await getLiquidityIndexAt(
+    environmentTag,
     chainId,
     market.oracleAddress,
     blockTimestamp,
@@ -65,6 +77,7 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
 
   // todo: improve this naive approach
   const lpPositions = await pullLpPositionEntries(
+    environmentTag,
     chainId,
     marketId,
     maturityTimestamp,
@@ -105,6 +118,9 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
       existingPosition: lp,
     });
 
-    await updatePositionEntry(lp, netBalances);
+    {
+      const updateBatch = updatePositionEntry(environmentTag, lp, netBalances);
+      await sendUpdateBatches([updateBatch]);
+    }
   }
 };

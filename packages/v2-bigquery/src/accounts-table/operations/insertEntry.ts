@@ -1,10 +1,13 @@
-import { getBigQuery } from '../../client';
-import { AccountEntry, tableName } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { UpdateBatch } from '../../types';
+import { AccountEntry } from '../specific';
 
-export const insertAccountEntry = async (
+export const insertAccountEntry = (
+  environmentV2Tag: string,
   entry: AccountEntry,
-): Promise<void> => {
-  const bigQuery = getBigQuery();
+): UpdateBatch => {
+  const tableName = getTableFullName(environmentV2Tag, TableType.accounts);
 
   const row = `
     ${entry.chainId},
@@ -12,14 +15,6 @@ export const insertAccountEntry = async (
     "${entry.owner}"
   `;
 
-  // build and fire sql query
   const sqlTransactionQuery = `INSERT INTO \`${tableName}\` VALUES (${row});`;
-
-  const options = {
-    query: sqlTransactionQuery,
-    timeoutMs: 100000,
-    useLegacySql: false,
-  };
-
-  await bigQuery.query(options);
+  return [sqlTransactionQuery];
 };

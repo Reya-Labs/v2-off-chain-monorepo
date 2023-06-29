@@ -1,10 +1,18 @@
 import { getBigQuery } from '../../client';
-import { VammPriceChangeEvent, mapRow, tableName } from '../specific';
+import { TableType } from '../../types';
+import { getTableFullName } from '../../utils/getTableName';
+import { VammPriceChangeEvent, mapRow } from '../specific';
 
 export const pullVammPriceChangeEvent = async (
+  environmentV2Tag: string,
   id: string,
 ): Promise<VammPriceChangeEvent | null> => {
   const bigQuery = getBigQuery();
+
+  const tableName = getTableFullName(
+    environmentV2Tag,
+    TableType.raw_vamm_price_change,
+  );
 
   const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE id="${id}"`;
 
