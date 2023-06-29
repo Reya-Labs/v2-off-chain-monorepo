@@ -1,6 +1,6 @@
 {
   "name": "@voltz-protocol/indexer-v2",
-  "version": "1.12.3",
+  "version": "1.13.0",
   "main": "index.js",
   "license": "MIT",
   "publishConfig": {
