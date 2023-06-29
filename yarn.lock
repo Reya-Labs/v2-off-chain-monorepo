@@ -7423,6 +7423,7 @@ __metadata:
     "@types/cors": 2.8.13
     "@types/express": 4.17.17
     "@voltz-protocol/api-v2-types": "workspace:^"
+    "@voltz-protocol/bigquery-v2": "workspace:^"
     "@voltz-protocol/commons-v2": "workspace:^"
     "@voltz-protocol/indexer-v1": "workspace:^"
     "@voltz-protocol/subgraph-data": ^1.18.1
@@ -7435,7 +7436,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@voltz-protocol/bigquery-v2@workspace:packages/v2-bigquery":
+"@voltz-protocol/bigquery-v2@workspace:^, @voltz-protocol/bigquery-v2@workspace:packages/v2-bigquery":
   version: 0.0.0-use.local
   resolution: "@voltz-protocol/bigquery-v2@workspace:packages/v2-bigquery"
   dependencies:
