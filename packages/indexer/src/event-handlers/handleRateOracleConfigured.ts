@@ -5,7 +5,6 @@ import {
   updateMarketEntry,
   pullRateOracleConfiguredEvent,
   insertRateOracleConfiguredEvent,
-  pullLiquidityIndices,
   sendUpdateBatches,
 } from '@voltz-protocol/bigquery-v2';
 import { ZERO_ADDRESS, ZERO_ACCOUNT } from '@voltz-protocol/commons-v2';
@@ -17,7 +16,6 @@ export const handleRateOracleConfigured = async (
 ) => {
   const environmentTag = getEnvironmentV2();
 
-  // Check if the event has been processed
   const existingEvent = await pullRateOracleConfiguredEvent(
     environmentTag,
     event.id,
@@ -28,30 +26,22 @@ export const handleRateOracleConfigured = async (
   }
 
   {
-    const updateBatch = insertRateOracleConfiguredEvent(environmentTag, event);
-    await sendUpdateBatches([updateBatch]);
-  }
+    const updateBatch1 = insertRateOracleConfiguredEvent(environmentTag, event);
 
-  // Backfill liquidity indices for the new rate oracle
-  const existingLiquidityIndices = await pullLiquidityIndices(
-    environmentTag,
-    event.chainId,
-    event.oracleAddress,
-  );
+    const updateBatch2 = await backfillRateOracle(
+      event.chainId,
+      event.oracleAddress,
+      event.blockTimestamp,
+    );
 
-  if (existingLiquidityIndices.length === 0) {
-    await backfillRateOracle(event.chainId, event.oracleAddress);
-  }
+    // Update market
+    const existingMarket = await pullMarketEntry(
+      environmentTag,
+      event.chainId,
+      event.marketId,
+    );
 
-  // Update market
-  const existingMarket = await pullMarketEntry(
-    environmentTag,
-    event.chainId,
-    event.marketId,
-  );
-
-  {
-    const updateBatch = existingMarket
+    const updateBatch3 = existingMarket
       ? updateMarketEntry(environmentTag, event.chainId, event.marketId, {
           oracleAddress: event.oracleAddress,
         })
@@ -65,6 +55,8 @@ export const handleRateOracleConfigured = async (
           atomicTakerFee: 0,
         });
 
-    await sendUpdateBatches([updateBatch]);
+    await sendUpdateBatches(
+      [[updateBatch1], updateBatch2, [updateBatch3]].flat(),
+    );
   }
 };

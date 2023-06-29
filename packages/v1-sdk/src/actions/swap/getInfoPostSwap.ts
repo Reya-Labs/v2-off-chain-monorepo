@@ -1,6 +1,5 @@
 import { BigNumber, Contract, providers, Signer } from 'ethers';
 import { SwapPeripheryParams } from '../types/actionArgTypes';
-import { exponentialBackoff } from '../../common/retry';
 import { decodeInfoPostSwap } from '../../common/errors/errorHandling';
 import { descale } from '../../common/math/descale';
 import { SupportedChainId } from '../../common/types';
@@ -11,6 +10,7 @@ import {
 } from '../../common';
 import { tickToFixedRate } from '../../common/math/priceTickConversions';
 import { getMarginEngineContract } from '../../common/contract-generators';
+import { exponentialBackoff } from '@voltz-protocol/commons-v2';
 
 export type GetInfoPostSwapArgs = {
   peripheryContract: Contract;

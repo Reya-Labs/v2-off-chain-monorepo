@@ -1,5 +1,5 @@
+import { exponentialBackoff } from '@voltz-protocol/commons-v2';
 import { getERC20TokenContract } from '../../common/contract-generators';
-import { exponentialBackoff } from '../../common/retry';
 import { descale } from '../../common/math/descale';
 import { providers } from 'ethers';
 

@@ -1,8 +1,8 @@
 import { providers } from 'ethers';
 import { getERC20TokenContract } from '../contract-generators';
-import { exponentialBackoff } from '../retry';
 import { scale } from '../math/scale';
 import { descale } from '../math/descale';
+import { exponentialBackoff } from '@voltz-protocol/commons-v2';
 
 export type GetERC20AllowanceArgs = {
   walletAddress: string;

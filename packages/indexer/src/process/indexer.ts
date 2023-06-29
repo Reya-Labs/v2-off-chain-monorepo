@@ -2,7 +2,7 @@ import { createProtocolV2Dataset } from '@voltz-protocol/bigquery-v2';
 import { CHAIN_IDS, INDEXING_BUFFER } from './constants';
 import { sync } from './sync';
 import { sleep } from '@voltz-protocol/commons-v2';
-import { getAndPushAllLiquidityIndices } from '../liquidity-indices/getAndPushAllLiquidityIndices';
+import { updateAllRateOracles } from '../liquidity-indices/updateAllRateOracles';
 import { createLoggingPlace } from '../logging/createLoggingPlace';
 import { log } from '../logging/log';
 import { getEnvironmentV2 } from '../services/envVars';
@@ -17,7 +17,7 @@ export const main = async () => {
   while (true) {
     const start = Date.now().valueOf();
 
-    await getAndPushAllLiquidityIndices();
+    await updateAllRateOracles();
     await sync(CHAIN_IDS);
 
     // Aim for some minimum buffer between runs such that RPC endpoint is not over-used
