@@ -14,7 +14,7 @@ export type GetVariableRateDataResponse = {
   variableRateChange: number;
 };
 
-// todo: use Promise.allSettled()
+// todo: await multiple promises at once
 export const getVariableRateData = async (
   chainId: SupportedChainId,
   rateOracle: Address,

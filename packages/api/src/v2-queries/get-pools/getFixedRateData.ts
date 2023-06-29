@@ -15,7 +15,7 @@ export type GetFixedRateDataResponse = {
   fixedRateChange: number;
 };
 
-// todo: use Promise.allSettled()
+// todo: await multiple promises at once
 export const getFixedRateData = async (
   chainId: SupportedChainId,
   marketId: string,

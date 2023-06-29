@@ -1,4 +1,7 @@
-import { SupportedChainId } from '@voltz-protocol/commons-v2';
+import {
+  SupportedChainId,
+  fetchMultiplePromises,
+} from '@voltz-protocol/commons-v2';
 
 import {
   PositionEntry,
@@ -31,17 +34,9 @@ export const getV2PortfolioPositions = async (
     allPositionEntries.push(...positionEntries);
   }
 
-  const responses = await Promise.allSettled(
+  const portfolio = await fetchMultiplePromises(
     allPositionEntries.map(buildV2PortfolioPosition),
   );
-
-  const portfolio = responses.map((r) => {
-    if (r.status === 'rejected') {
-      throw r.reason;
-    }
-
-    return r.value;
-  });
 
   return portfolio;
 };

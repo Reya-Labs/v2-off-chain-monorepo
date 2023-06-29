@@ -1,4 +1,7 @@
-import { decodeV2PoolId } from '@voltz-protocol/commons-v2';
+import {
+  decodeV2PoolId,
+  fetchMultiplePromises,
+} from '@voltz-protocol/commons-v2';
 
 import {
   PositionEntry,
@@ -41,7 +44,7 @@ export const getV2PortfolioPositionsByPool = async (
     );
   }
 
-  const responses = await Promise.allSettled(
+  const processedPositions = await fetchMultiplePromises(
     allPositionEntries.map((p) =>
       getV2PortfolioPositionDetails({
         positionId: p.id,
@@ -49,14 +52,6 @@ export const getV2PortfolioPositionsByPool = async (
       }),
     ),
   );
-
-  const processedPositions = responses.map((r) => {
-    if (r.status === 'rejected') {
-      throw r.reason;
-    }
-
-    return r.value;
-  });
 
   return processedPositions;
 };

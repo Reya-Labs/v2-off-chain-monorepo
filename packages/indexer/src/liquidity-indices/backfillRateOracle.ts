@@ -1,10 +1,10 @@
 import {
   Address,
   SECONDS_IN_DAY,
+  fetchMultiplePromises,
   getBlockAtTimestamp,
 } from '@voltz-protocol/commons-v2';
 import { getLiquidityIndexUpdate } from './getLiquidityIndexUpdate';
-import { log } from '../logging/log';
 import { getProvider } from '../services/getProvider';
 import { UpdateBatch, pullLiquidityIndices } from '@voltz-protocol/bigquery-v2';
 import { getEnvironmentV2 } from '../services/envVars';
@@ -33,28 +33,12 @@ export const backfillRateOracle = async (
     timestamps.push(i);
   }
 
-  const responses = await Promise.allSettled(
+  const batches = await fetchMultiplePromises(
     timestamps.map(async (ts) => {
       const blockNumber = await getBlockAtTimestamp(provider, ts);
       return getLiquidityIndexUpdate(chainId, oracleAddress, blockNumber, ts);
     }),
   );
-
-  const batches = responses
-    .filter((r, i) => {
-      if (r.status === 'rejected') {
-        log(
-          `[Backfilling ${chainId}-${oracleAddress}] Could not add datapoint at ${
-            timestamps[i]
-          }. (Reason: ${(r.reason as Error).message})`,
-        );
-
-        return false;
-      }
-
-      return true;
-    })
-    .map((r) => (r as PromiseFulfilledResult<UpdateBatch>).value);
 
   return batches;
 };
