@@ -3,6 +3,7 @@ import { handleEvent } from '../event-handlers/handleEvent';
 import { getNextIndexingBlock, setRedis } from '../services/redis';
 import { log } from '../logging/log';
 import { getProvider } from '../services/getProvider';
+import { exponentialBackoff } from '@voltz-protocol/commons-v2';
 
 export const sync = async (chainIds: number[]): Promise<void> => {
   for (const chainId of chainIds) {
@@ -10,7 +11,9 @@ export const sync = async (chainIds: number[]): Promise<void> => {
       await getNextIndexingBlock(chainId);
 
     const provider = getProvider(chainId);
-    const currentBlock = await provider.getBlockNumber();
+    const currentBlock = await exponentialBackoff(() =>
+      provider.getBlockNumber(),
+    );
 
     log(
       `[Protocol indexer, ${chainId}]: Processing between blocks [${nextIndexingBlock}, ${currentBlock}]...`,
