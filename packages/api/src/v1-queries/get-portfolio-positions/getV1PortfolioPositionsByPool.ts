@@ -1,4 +1,8 @@
-import { decodeV1PoolId, encodeV1PositionId, fetchMultiplePromises } from '@voltz-protocol/commons-v2';
+import {
+  decodeV1PoolId,
+  encodeV1PositionId,
+  fetchMultiplePromises,
+} from '@voltz-protocol/commons-v2';
 
 import { getPositions as getRawPositions } from '@voltz-protocol/subgraph-data';
 import { getSubgraphURL } from '../../old-v1-queries/subgraph/getSubgraphURL';
