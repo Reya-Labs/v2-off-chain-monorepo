@@ -4,6 +4,7 @@ import rateLimit from 'express-rate-limit';
 import RedisStore from 'rate-limit-redis';
 import {
   convertLowercaseString,
+  fetchMultiplePromises,
   getTimestampInSeconds,
   getTrustedProxies,
 } from '@voltz-protocol/commons-v2';
@@ -308,21 +309,14 @@ app.get('/chain-information/:chainIds', (req, res) => {
   const process = async () => {
     const chainIds = req.params.chainIds.split('&').map((s) => Number(s));
 
-    const response = await Promise.allSettled([
-      getChainTradingVolume(chainIds),
-      getChainTotalLiquidity(chainIds),
-    ]);
-
-    if (
-      response[0].status === 'rejected' ||
-      response[1].status === 'rejected'
-    ) {
-      throw new Error(`Couldn't fetch chain information.`);
-    }
+    const [volume30Day, totalLiquidity] = await fetchMultiplePromises(
+      [getChainTradingVolume(chainIds), getChainTotalLiquidity(chainIds)],
+      true,
+    );
 
     return {
-      volume30Day: response[0].value,
-      totalLiquidity: response[1].value,
+      volume30Day,
+      totalLiquidity,
     };
   };
 

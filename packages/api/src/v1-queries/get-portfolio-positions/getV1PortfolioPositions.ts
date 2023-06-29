@@ -6,6 +6,7 @@ import {
 import { getSubgraphURL } from '../subgraph/getSubgraphURL';
 import { buildV1PortfolioPosition } from './buildV1PortfolioPosition';
 import { V1PortfolioPosition } from '@voltz-protocol/api-v2-types';
+import { fetchMultiplePromises } from '@voltz-protocol/commons-v2';
 
 export const getV1PortfolioPositions = async (
   chainIds: number[],
@@ -15,32 +16,26 @@ export const getV1PortfolioPositions = async (
 
   const allPositions: [number, RawPosition][] = [];
   for (const chainId of chainIds) {
-    const subgraphURL = getSubgraphURL(chainId);
-    const positions = subgraphURL
-      ? await getRawPositions(subgraphURL, now, {
-          owners: [ownerAddress],
-        })
-      : [];
+    try {
+      const subgraphURL = getSubgraphURL(chainId);
 
-    allPositions.push(
-      ...positions.map((p): [number, RawPosition] => [chainId, p]),
-    );
+      const positions = subgraphURL
+        ? await getRawPositions(subgraphURL, now, {
+            owners: [ownerAddress],
+          })
+        : [];
+
+      allPositions.push(
+        ...positions.map((p): [number, RawPosition] => [chainId, p]),
+      );
+    } catch (_) {}
   }
 
-  const responses = await Promise.allSettled(
+  const positions = await fetchMultiplePromises(
     allPositions.map(([chainId, position]) =>
       buildV1PortfolioPosition(chainId, position, 'light'),
     ),
   );
-
-  const positions = responses.map((resp) => {
-    if (resp.status === 'fulfilled') {
-      return resp.value;
-    }
-    throw new Error(
-      `Promise rejected with error: ${(resp.reason as Error).message}`,
-    );
-  });
 
   positions.sort((a, b) => b.creationTimestampInMS - a.creationTimestampInMS);
 

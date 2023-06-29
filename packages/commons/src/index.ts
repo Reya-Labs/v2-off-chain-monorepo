@@ -13,6 +13,7 @@ export * from './convertLowercase';
 export * from './getApy';
 export * from './getBlockAtTimestamp';
 export * from './extendBalancesWithTrade';
+export * from './fetchMultiplePromises';
 export * from './getTimeInYearsBetweenTimestamps';
 export * from './getTimestampInSeconds';
 export * from './getTrustedProxies';

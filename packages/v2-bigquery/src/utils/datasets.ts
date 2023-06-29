@@ -1,3 +1,4 @@
+import { fetchMultiplePromises } from '@voltz-protocol/commons-v2';
 import { getBigQuery } from '../client';
 import { createTable } from '../create-tables/createTable';
 import { TableType } from '../types';
@@ -16,10 +17,11 @@ export const createProtocolV2Dataset = async (environmentV2Tag: string) => {
   }
 
   // Create tables
-  await Promise.allSettled(
+  await fetchMultiplePromises(
     Object.keys(TableType).map((tableType) =>
       createTable(environmentV2Tag, tableType as TableType),
     ),
+    true,
   );
 };
 

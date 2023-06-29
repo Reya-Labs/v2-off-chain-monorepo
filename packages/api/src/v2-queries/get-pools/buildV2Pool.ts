@@ -17,7 +17,7 @@ import { V2Pool } from '@voltz-protocol/api-v2-types';
 // configuration
 const lookbackWindowSeconds = SECONDS_IN_DAY;
 
-// todo: use Promise.allSettled()
+// todo: await multiple promises at once
 // todo: pack more queries on SQL side
 
 export const buildV2Pool = async ({

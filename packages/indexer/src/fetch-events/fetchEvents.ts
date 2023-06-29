@@ -2,6 +2,7 @@ import { EventFilter } from 'ethers';
 import { BaseEvent } from '@voltz-protocol/bigquery-v2';
 import {
   exponentialBackoff,
+  fetchMultiplePromises,
   getCoreContract,
   getDatedIrsInstrumentContract,
   getDatedIrsVammContract,
@@ -43,14 +44,7 @@ export const fetchEvents = async (
     ),
   ];
 
-  const responses = await Promise.allSettled(allPromises);
-
-  const allContractEvents = responses.map((r) => {
-    if (r.status === 'rejected') {
-      throw new Error(`Fetching event failed with ${r.reason}`);
-    }
-    return r.value;
-  });
+  const allContractEvents = await fetchMultiplePromises(allPromises, true);
 
   const coreEvents = allContractEvents[0]
     .map((e) => parseEvent('core', chainId, e))

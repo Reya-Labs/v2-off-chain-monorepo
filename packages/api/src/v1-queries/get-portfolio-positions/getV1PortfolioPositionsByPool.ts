@@ -1,4 +1,8 @@
-import { decodeV1PoolId, encodeV1PositionId } from '@voltz-protocol/commons-v2';
+import {
+  decodeV1PoolId,
+  encodeV1PositionId,
+  fetchMultiplePromises,
+} from '@voltz-protocol/commons-v2';
 
 import { getPositions as getRawPositions } from '@voltz-protocol/subgraph-data';
 import { getSubgraphURL } from '../../old-v1-queries/subgraph/getSubgraphURL';
@@ -29,7 +33,7 @@ export const getV1PortfolioPositionsByPool = async (
     positions = positions.filter((p) => p.positionType === 3);
   }
 
-  const responses = await Promise.allSettled(
+  const processedPositions = await fetchMultiplePromises(
     positions.map((p) =>
       getV1PortfolioPositionDetails({
         positionId: encodeV1PositionId({
@@ -43,13 +47,6 @@ export const getV1PortfolioPositionsByPool = async (
       }),
     ),
   );
-
-  const processedPositions = responses.map((r) => {
-    if (r.status === 'rejected') {
-      throw r.reason;
-    }
-    return r.value;
-  });
 
   return processedPositions;
 };
