@@ -1,6 +1,7 @@
 import { EventFilter } from 'ethers';
 import { BaseEvent } from '@voltz-protocol/bigquery-v2';
 import {
+  exponentialBackoff,
   getCoreContract,
   getDatedIrsInstrumentContract,
   getDatedIrsVammContract,
@@ -23,16 +24,22 @@ export const fetchEvents = async (
   const datedIrsExchangeContract = getDatedIrsVammContract(chainId, provider);
 
   const allPromises = [
-    coreContract.queryFilter('*' as EventFilter, fromBlock, toBlock),
-    datedIrsInstrumentContract.queryFilter(
-      '*' as EventFilter,
-      fromBlock,
-      toBlock,
+    exponentialBackoff(() =>
+      coreContract.queryFilter('*' as EventFilter, fromBlock, toBlock),
     ),
-    datedIrsExchangeContract.queryFilter(
-      '*' as EventFilter,
-      fromBlock,
-      toBlock,
+    exponentialBackoff(() =>
+      datedIrsInstrumentContract.queryFilter(
+        '*' as EventFilter,
+        fromBlock,
+        toBlock,
+      ),
+    ),
+    exponentialBackoff(() =>
+      datedIrsExchangeContract.queryFilter(
+        '*' as EventFilter,
+        fromBlock,
+        toBlock,
+      ),
     ),
   ];
 

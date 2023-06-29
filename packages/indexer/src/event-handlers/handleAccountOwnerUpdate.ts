@@ -23,18 +23,15 @@ export const handleAccountOwnerUpdate = async (
   }
 
   {
-    const updateBatch = insertAccountOwnerUpdateEvent(environmentTag, event);
-    await sendUpdateBatches([updateBatch]);
-  }
+    const updateBatch1 = insertAccountOwnerUpdateEvent(environmentTag, event);
 
-  const existingAccount = await pullAccountEntry(
-    environmentTag,
-    event.chainId,
-    event.accountId,
-  );
+    const existingAccount = await pullAccountEntry(
+      environmentTag,
+      event.chainId,
+      event.accountId,
+    );
 
-  {
-    const updateBatch = existingAccount
+    const updateBatch2 = existingAccount
       ? updateAccountEntry(environmentTag, event.chainId, event.accountId, {
           owner: event.newOwner,
         })
@@ -44,6 +41,6 @@ export const handleAccountOwnerUpdate = async (
           owner: event.newOwner,
         });
 
-    await sendUpdateBatches([updateBatch]);
+    await sendUpdateBatches([updateBatch1, updateBatch2]);
   }
 };

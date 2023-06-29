@@ -26,19 +26,16 @@ export const handleMarketFeeConfigured = async (
   }
 
   {
-    const updateBatch = insertMarketFeeConfiguredEvent(environmentTag, event);
-    await sendUpdateBatches([updateBatch]);
-  }
+    const updateBatch1 = insertMarketFeeConfiguredEvent(environmentTag, event);
 
-  // Update market
-  const existingMarket = await pullMarketEntry(
-    environmentTag,
-    event.chainId,
-    event.marketId,
-  );
+    // Update market
+    const existingMarket = await pullMarketEntry(
+      environmentTag,
+      event.chainId,
+      event.marketId,
+    );
 
-  {
-    const updateBatch = existingMarket
+    const updateBatch2 = existingMarket
       ? updateMarketEntry(environmentTag, event.chainId, event.marketId, {
           feeCollectorAccountId: event.feeCollectorAccountId,
           atomicMakerFee: event.atomicMakerFee,
@@ -54,6 +51,6 @@ export const handleMarketFeeConfigured = async (
           atomicTakerFee: event.atomicTakerFee,
         });
 
-    await sendUpdateBatches([updateBatch]);
+    await sendUpdateBatches([updateBatch1, updateBatch2]);
   }
 };

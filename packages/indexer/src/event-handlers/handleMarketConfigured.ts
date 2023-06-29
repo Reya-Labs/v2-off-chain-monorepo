@@ -13,7 +13,6 @@ import { getEnvironmentV2 } from '../services/envVars';
 export const handleMarketConfigured = async (event: MarketConfiguredEvent) => {
   const environmentTag = getEnvironmentV2();
 
-  // Check if the event has been processed
   const existingEvent = await pullMarketConfiguredEvent(
     environmentTag,
     event.id,
@@ -24,18 +23,15 @@ export const handleMarketConfigured = async (event: MarketConfiguredEvent) => {
   }
 
   {
-    const updateBatch = insertMarketConfiguredEvent(environmentTag, event);
-    await sendUpdateBatches([updateBatch]);
-  }
+    const updateBatch1 = insertMarketConfiguredEvent(environmentTag, event);
 
-  // Update market
-  const existingMarket = await pullMarketEntry(
-    environmentTag,
-    event.chainId,
-    event.marketId,
-  );
-  {
-    const updateBatch = existingMarket
+    const existingMarket = await pullMarketEntry(
+      environmentTag,
+      event.chainId,
+      event.marketId,
+    );
+
+    const updateBatch2 = existingMarket
       ? updateMarketEntry(environmentTag, event.chainId, event.marketId, {
           quoteToken: event.quoteToken,
         })
@@ -49,6 +45,6 @@ export const handleMarketConfigured = async (event: MarketConfiguredEvent) => {
           atomicTakerFee: 0,
         });
 
-    await sendUpdateBatches([updateBatch]);
+    await sendUpdateBatches([updateBatch1, updateBatch2]);
   }
 };

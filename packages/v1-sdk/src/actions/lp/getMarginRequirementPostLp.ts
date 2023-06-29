@@ -2,8 +2,8 @@ import { Contract } from 'ethers';
 import { LpPeripheryParams } from '../types';
 import { BigNumber } from 'ethers';
 import { decodeInfoPostMint } from '../../common/errors/errorHandling';
-import { exponentialBackoff } from '../../common/retry';
 import { descale } from '../../common/math/descale';
+import { exponentialBackoff } from '@voltz-protocol/commons-v2';
 
 export type GetMarginRequirementPostLp = {
   peripheryContract: Contract;

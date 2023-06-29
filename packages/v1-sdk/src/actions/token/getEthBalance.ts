@@ -1,7 +1,7 @@
 import { providers } from 'ethers';
 import { descale } from '../../common/math/descale';
 import { NUMBER_OF_DECIMALS_ETHER } from '../../common/constants';
-import { exponentialBackoff } from '../../common/retry';
+import { exponentialBackoff } from '@voltz-protocol/commons-v2';
 
 export type GetEthBalanceArgs = {
   walletAddress: string;

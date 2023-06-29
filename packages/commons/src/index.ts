@@ -19,5 +19,6 @@ export * from './getTrustedProxies';
 export * from './isNull';
 export * from './isUndefined';
 export * from './provider';
+export * from './retry';
 export * from './sleep';
 export * from './token';

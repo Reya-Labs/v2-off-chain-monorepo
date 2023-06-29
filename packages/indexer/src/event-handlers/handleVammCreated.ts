@@ -16,12 +16,8 @@ export const handleVammCreated = async (event: VammCreatedEvent) => {
   }
 
   {
-    const updateBatch = insertVammCreatedEvent(environmentTag, event);
-    await sendUpdateBatches([updateBatch]);
-  }
-
-  {
-    const updateBatch = insertVammPriceChangeEvent(environmentTag, event);
-    await sendUpdateBatches([updateBatch]);
+    const updateBatch1 = insertVammCreatedEvent(environmentTag, event);
+    const updateBatch2 = insertVammPriceChangeEvent(environmentTag, event);
+    await sendUpdateBatches([updateBatch1, updateBatch2]);
   }
 };
