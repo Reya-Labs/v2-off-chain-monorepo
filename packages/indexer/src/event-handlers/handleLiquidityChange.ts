@@ -21,27 +21,24 @@ export const handleLiquidityChange = async (event: LiquidityChangeEvent) => {
   }
 
   {
-    const updateBatch = insertLiquidityChangeEvent(environmentTag, event);
-    await sendUpdateBatches([updateBatch]);
-  }
+    const updateBatch1 = insertLiquidityChangeEvent(environmentTag, event);
 
-  const positionIdData = {
-    chainId: event.chainId,
-    accountId: event.accountId,
-    marketId: event.marketId,
-    maturityTimestamp: event.maturityTimestamp,
-    type: 'lp' as 'trader' | 'lp',
-    tickLower: event.tickLower,
-    tickUpper: event.tickUpper,
-  };
+    const positionIdData = {
+      chainId: event.chainId,
+      accountId: event.accountId,
+      marketId: event.marketId,
+      maturityTimestamp: event.maturityTimestamp,
+      type: 'lp' as 'trader' | 'lp',
+      tickLower: event.tickLower,
+      tickUpper: event.tickUpper,
+    };
 
-  const existingPosition = await pullPositionEntry(
-    environmentTag,
-    positionIdData,
-  );
+    const existingPosition = await pullPositionEntry(
+      environmentTag,
+      positionIdData,
+    );
 
-  {
-    const updateBatch = existingPosition
+    const updateBatch2 = existingPosition
       ? updatePositionEntry(environmentTag, positionIdData, {
           liquidity: existingPosition.liquidity + event.liquidityDelta,
         })
@@ -57,6 +54,6 @@ export const handleLiquidityChange = async (event: LiquidityChangeEvent) => {
           creationTimestamp: event.blockTimestamp,
         });
 
-    await sendUpdateBatches([updateBatch]);
+    await sendUpdateBatches([updateBatch1, updateBatch2]);
   }
 };
