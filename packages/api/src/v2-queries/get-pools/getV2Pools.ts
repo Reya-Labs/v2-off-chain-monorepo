@@ -1,6 +1,9 @@
 import { pullVammsByChains } from '@voltz-protocol/bigquery-v2';
 import { buildV2Pool } from './buildV2Pool';
-import { SupportedChainId } from '@voltz-protocol/commons-v2';
+import {
+  SupportedChainId,
+  fetchMultiplePromises,
+} from '@voltz-protocol/commons-v2';
 import { V2Pool } from '@voltz-protocol/api-v2-types';
 import { getEnvironmentV2 } from '../../services/envVars';
 
@@ -9,16 +12,7 @@ export const getV2Pools = async (
 ): Promise<V2Pool[]> => {
   const pools = await pullVammsByChains(getEnvironmentV2(), chainIds);
 
-  const promises = pools.map(buildV2Pool);
-  const responses = await Promise.allSettled(promises);
+  const responses = await fetchMultiplePromises(pools.map(buildV2Pool));
 
-  const result = responses.map((r) => {
-    if (r.status === 'rejected') {
-      throw r.reason;
-    }
-
-    return r.value;
-  });
-
-  return result;
+  return responses;
 };
