@@ -7,7 +7,11 @@ import {
   insertRateOracleConfiguredEvent,
   sendUpdateBatches,
 } from '@voltz-protocol/bigquery-v2';
-import { ZERO_ADDRESS, ZERO_ACCOUNT } from '@voltz-protocol/commons-v2';
+import {
+  ZERO_ADDRESS,
+  ZERO_ACCOUNT,
+  getTimestampInSeconds,
+} from '@voltz-protocol/commons-v2';
 import { backfillRateOracle } from '../liquidity-indices/backfillRateOracle';
 import { getEnvironmentV2 } from '../services/envVars';
 
@@ -28,10 +32,11 @@ export const handleRateOracleConfigured = async (
   {
     const updateBatch1 = insertRateOracleConfiguredEvent(environmentTag, event);
 
+    // todo: think of how to backfill from moment of swap before and then consistenly
     const updateBatch2 = await backfillRateOracle(
       event.chainId,
       event.oracleAddress,
-      event.blockTimestamp,
+      getTimestampInSeconds(),
     );
 
     // Update market

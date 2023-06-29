@@ -5,7 +5,7 @@ import {
 import { getLiquidityIndexUpdate } from './getLiquidityIndexUpdate';
 import { getProvider } from '../services/getProvider';
 import { getEnvironmentV2 } from '../services/envVars';
-import { exponentialBackoff } from '@voltz-protocol/commons-v2/dist/types';
+import { exponentialBackoff } from '@voltz-protocol/commons-v2';
 
 export const updateAllRateOracles = async (): Promise<void> => {
   const oracles = await pullRateOracleEntries(getEnvironmentV2());
