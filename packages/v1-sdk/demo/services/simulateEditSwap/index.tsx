@@ -1,15 +1,9 @@
-import { Button, Typography } from 'brokoli-ui';
 import * as React from 'react';
 
-import {
-  ButtonBox,
-  PageContentBox,
-  ContentBox,
-} from './simulateEditSwap.styled';
+import { ContentBox } from './simulateEditSwap.styled';
 import { WalletButton } from '../../components/WalletButton';
 import { WalletContext } from '../../context/WalletContext';
 import { simulateEditSwap, EditSwapArgs } from '../../../src';
-import { TestState } from '../../components/TestState';
 import { TestPage } from '../../components/TestPage/TestPage';
 
 export const SimulateEditSwapTest: React.FunctionComponent<{

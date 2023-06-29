@@ -13,11 +13,11 @@
     "ts:check-types": "npx tsc --noEmit",
     "ts:circular-check": "dpdm --no-output --no-tree --no-warning --exit-code circular:1 -T ./src/index.ts",
     "ts:check": "yarn ts:check-types && yarn ts:circular-check",
-    "lint:check": "eslint '{src,tests}/**/*.ts'",
-    "prettier:check": "npx prettier --loglevel silent --check './{src,tests}/**/*.ts'",
+    "lint:check": "eslint '{src,tests}/**/*.{ts,tsx}'",
+    "prettier:check": "npx prettier --loglevel silent --check './{src,tests}/**/*.{ts,tsx}'",
     "code-quality:check": "npx concurrently 'yarn ts:check' 'yarn prettier:check' 'yarn lint:check --quiet'",
-    "lint:fix": "npx eslint --fix '{src,tests}/**/*.ts'",
-    "prettier:fix": "npx prettier --loglevel silent --write './{src,tests}/**/*.ts'"
+    "lint:fix": "npx eslint --fix '{src,tests}/**/*.{ts,tsx}'",
+    "prettier:fix": "npx prettier --loglevel silent --write './{src,tests}/**/*.{ts,tsx}'"
   },
   "packageManager": "yarn@3.5.1"
 }
