@@ -14,6 +14,7 @@ export const main = async () => {
   log('');
   log('Process is executed again...');
   log('');
+
   while (true) {
     const start = Date.now().valueOf();
 
