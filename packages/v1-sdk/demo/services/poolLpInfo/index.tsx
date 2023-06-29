@@ -1,11 +1,9 @@
-import { Button, Typography } from 'brokoli-ui';
 import * as React from 'react';
 
 import { ContentBox } from './getPoolLpInfo.styled';
 import { WalletButton } from '../../components/WalletButton';
 import { WalletContext } from '../../context/WalletContext';
 import { getPoolLpInfo, GetPoolLpInfoArgs } from '../../../src';
-import { TestState } from '../../components/TestState';
 import { TestPage } from '../../components/TestPage/TestPage';
 
 export const GetPoolLpInfoTest: React.FunctionComponent<{

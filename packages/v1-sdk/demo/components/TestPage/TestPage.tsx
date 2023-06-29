@@ -15,7 +15,7 @@ export const TestPage: React.FC<TestPageProps> = ({
   loading,
   error,
   result,
-  test,
+  onTestClick,
   title,
 }) => {
   return (
@@ -28,7 +28,7 @@ export const TestPage: React.FC<TestPageProps> = ({
       </Typography>
       <TestState loading={loading} error={error} result={result} />
       <ButtonBox>
-        <Button variant="primary" onClick={test}>
+        <Button variant="primary" onClick={onTestClick}>
           Test
         </Button>
       </ButtonBox>

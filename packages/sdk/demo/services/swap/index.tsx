@@ -1,11 +1,9 @@
-import { Button, Typography } from 'brokoli-ui';
 import * as React from 'react';
 
 import { ContentBox } from './swap.styled';
 import { WalletButton } from '../../components/WalletButton';
 import { WalletContext } from '../../context/WalletContext';
 import { swap, SwapArgs } from '../../../src';
-import { TestState } from '../../components/TestState';
 import { TestPage } from '../../components/TestPage/TestPage';
 
 export const SwapTest: React.FunctionComponent<{

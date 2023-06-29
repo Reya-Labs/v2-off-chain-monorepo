@@ -1,11 +1,9 @@
-import { Button, Typography } from 'brokoli-ui';
 import * as React from 'react';
 
 import { ContentBox } from './simulateLp.styled';
 import { WalletButton } from '../../components/WalletButton';
 import { WalletContext } from '../../context/WalletContext';
 import { simulateLp, LpArgs } from '../../../src';
-import { TestState } from '../../components/TestState';
 import { TestPage } from '../../components/TestPage/TestPage';
 
 export const SimulateLpTest: React.FunctionComponent<{
