@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.9.0...@voltz-protocol/commons-v2@1.9.1) (2023-06-29)
+
+### Bug Fixes
+
+- incorrect click action ([4929c80](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/4929c80c5fc7b85348baa87b100c319fd0a858b7))
+
 # [1.9.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.8.0...@voltz-protocol/commons-v2@1.9.0) (2023-06-28)
 
 ### Features

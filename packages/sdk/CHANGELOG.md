@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.46.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.46.0...@voltz-protocol/sdk-v2@1.46.1) (2023-06-29)
+
+### Bug Fixes
+
+- incorrect click action ([4929c80](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/4929c80c5fc7b85348baa87b100c319fd0a858b7))
+
 # [1.46.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.45.3...@voltz-protocol/sdk-v2@1.46.0) (2023-06-28)
 
 ### Features
