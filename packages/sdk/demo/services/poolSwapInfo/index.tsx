@@ -3,16 +3,17 @@ import * as React from 'react';
 import { ContentBox } from './getPoolSwapInfo.styled';
 import { WalletButton } from '../../components/WalletButton';
 import { WalletContext } from '../../context/WalletContext';
-import { getPoolSwapInfo, GetPoolSwapInfoArgs } from '../../../src';
 import { TestPage } from '../../components/TestPage/TestPage';
+import { SwapArgs } from '../../../src/services/swap';
 
-export const GetPoolSwapInfoTest: React.FunctionComponent<{
-  ammId: GetPoolSwapInfoArgs['ammId'];
-}> = ({ ammId }) => {
+export const GetPoolSwapInfoTest: React.FunctionComponent<
+  Omit<SwapArgs, 'margin'>
+> = () => {
   const { isLoggedIn, provider } = React.useContext(WalletContext);
   const [isTesting, setIsTesting] = React.useState(false);
   const [testError, setTestError] = React.useState<null | unknown>(null);
   const [testResult, setTestResult] = React.useState('');
+
   const test = async () => {
     if (!provider) {
       alert('Connect Wallet First');
@@ -21,10 +22,7 @@ export const GetPoolSwapInfoTest: React.FunctionComponent<{
     setIsTesting(true);
     setTestError(null);
     try {
-      const result = await getPoolSwapInfo({
-        ammId,
-        provider,
-      });
+      const result = 0;
       setTestResult(JSON.stringify(result));
     } catch (error) {
       setTestError(error);

@@ -1,9 +1,9 @@
 import { BigNumber, ContractReceipt, Signer, ethers } from 'ethers';
-import { PERIPHERY_ADDRESS } from '../utils/configuration';
 import { getGasBuffer } from '../utils/txHelpers';
 import { defaultAbiCoder } from 'ethers/lib/utils';
 import { estimateAnyTradeGasUnits } from '../utils/estimateSwapGasUnits';
 import { getReadableErrorMessage } from '../utils/errors/errorHandling';
+import { getAddress } from '@voltz-protocol/commons-v2';
 
 export type Transaction = {
   from: string;
@@ -22,7 +22,7 @@ export async function estimateGas(
 
   const tx = {
     from: accountAddress,
-    to: PERIPHERY_ADDRESS(chainId),
+    to: getAddress(chainId, 'periphery'),
     data,
     ...(value && value !== '0' ? { value: value } : {}),
   };
@@ -87,7 +87,7 @@ export async function simulateTxExpectError(
 
   const tx = {
     from: accountAddress,
-    to: PERIPHERY_ADDRESS(chainId),
+    to: getAddress(chainId, 'periphery'),
     data,
     ...(value && value !== '0' ? { value: value } : {}),
   };

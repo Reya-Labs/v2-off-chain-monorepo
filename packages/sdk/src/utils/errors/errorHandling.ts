@@ -1,10 +1,8 @@
 import { BigNumber, ethers, utils } from 'ethers';
 import { abi as ProtocolABI } from './Protocol.json';
-import {
-  CRITICAL_ERROR_MESSAGE,
-  DEFAULT_MARGIN_REQUIREMENT,
-} from './constants';
+import { CRITICAL_ERROR_MESSAGE } from './constants';
 import * as errorJson from './errorMapping.json';
+import { ZERO_BN } from '../constants';
 
 const iface = new ethers.utils.Interface(ProtocolABI);
 
@@ -72,6 +70,8 @@ const getErrorSignature = (error: any): string => {
     const decodedError = iface.parseError(reason);
     const errSig = decodedError.signature.split('(')[0];
 
+    console.log('args:', decodedError.args);
+
     return errSig;
   } catch {
     console.error(`Failing to get error signature. ${error}`);
@@ -134,7 +134,7 @@ export const decodeImFromError = (error: any): RawInfoPostMint => {
   }
 
   return {
-    marginRequirement: DEFAULT_MARGIN_REQUIREMENT,
+    marginRequirement: ZERO_BN,
   };
 };
 

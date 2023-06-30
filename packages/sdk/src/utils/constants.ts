@@ -6,6 +6,8 @@ export const ONE_BN = BigNumber.from(1);
 export const WAD = BigNumber.from(10).pow(18);
 export const RAY = BigNumber.from(10).pow(27);
 
-export const VERY_BIG_NUMBER = WAD.mul(WAD);
+export const MIN_TICK = -69100;
+export const MAX_TICK = 69100;
 
-export const SECONDS_IN_YEAR = 60 * 60 * 24 * 365;
+export const MIN_FIXED_RATE = 0.001;
+export const MAX_FIXED_RATE = 1001;

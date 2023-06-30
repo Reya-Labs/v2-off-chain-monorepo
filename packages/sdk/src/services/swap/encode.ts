@@ -8,17 +8,16 @@ import {
 } from '../encode';
 import { SwapPeripheryParameters } from './types';
 
-export async function encodeSwap(
+export function encodeSwap(
   trade: SwapPeripheryParameters,
   accountId?: string,
-): Promise<MethodParameters> {
+): MethodParameters {
   const multiAction = new MultiAction();
 
   if (accountId === undefined) {
-    const ownerAddress = await trade.owner.getAddress();
     // open account
-    accountId = await createAccountId({
-      ownerAddress,
+    accountId = createAccountId({
+      ownerAddress: trade.ownerAddress,
       productAddress: trade.productAddress,
       marketId: trade.marketId,
       maturityTimestamp: trade.maturityTimestamp,
@@ -32,7 +31,7 @@ export async function encodeSwap(
     accountId,
     trade.quoteTokenAddress,
     trade.isETH,
-    trade.fixedRateLimit,
+    trade.margin,
     trade.liquidatorBooster,
     multiAction,
   );
@@ -44,7 +43,6 @@ export async function encodeSwap(
       trade.marketId,
       trade.maturityTimestamp,
       trade.baseAmount,
-      trade.fixedRateLimit,
       multiAction,
     );
   }

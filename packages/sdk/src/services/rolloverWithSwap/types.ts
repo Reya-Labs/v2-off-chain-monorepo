@@ -5,6 +5,5 @@ export type RolloverWithSwapArgs = {
   ammId: string;
   notional: number;
   margin: number;
-  fixedRateLimit?: number;
   signer: Signer;
 };

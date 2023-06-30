@@ -8,6 +8,7 @@ export type SettleSimulationResults = {
 };
 
 export type SettleParameters = {
+  chainId: number;
   owner: Signer;
   productAddress: string;
   maturityTimestamp: number;

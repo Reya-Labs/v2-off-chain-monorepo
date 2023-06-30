@@ -25,10 +25,3 @@ export type GetPoolSwapInfoArgs = {
   ammId: string;
   provider: providers.Provider;
 };
-
-export type GetPoolSwapInfoOneSideArgs = GetAvailableNotionalArgs;
-
-export type GetPoolSwapInfoOneSideArgsResults = {
-  availableNotional: number;
-  maxLeverage: number;
-};

@@ -1,20 +1,19 @@
 import { getPoolInfo } from '../../gateway/getPoolInfo';
 import { ApprovePeripheryArgs } from './types';
 import { getERC20TokenContract } from '@voltz-protocol/sdk-v1-stateless';
-import { PERIPHERY_ADDRESS } from '../../utils/configuration';
 import { getGasBuffer } from '../../utils/txHelpers';
 import { BigNumber } from 'ethers';
+import { getAddress } from '@voltz-protocol/commons-v2';
 
 export const approvePeriphery = async ({
   ammId,
   signer,
 }: ApprovePeripheryArgs): Promise<void> => {
   const chainId = await signer.getChainId();
-
   const poolInfo = await getPoolInfo(ammId);
 
   if (poolInfo.chainId !== chainId) {
-    throw new Error('Chain id mismatch between pool and signer');
+    throw new Error('Chain ids are different for pool and signer');
   }
 
   const tokenContract = getERC20TokenContract(
@@ -22,7 +21,7 @@ export const approvePeriphery = async ({
     signer,
   );
 
-  const peripheryAddress = PERIPHERY_ADDRESS(chainId);
+  const peripheryAddress = getAddress(chainId, 'periphery');
 
   const maxUint256Bn = BigNumber.from(
     '115792089237316195423570985008687907853269984665640564039457584007913129639935',

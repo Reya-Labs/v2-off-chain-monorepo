@@ -8,24 +8,25 @@ import {
 } from '../encode';
 import { LpPeripheryParameters } from './types';
 
-export async function encodeLp(
+export function encodeLp(
   trade: LpPeripheryParameters,
   accountId?: string,
-): Promise<MethodParameters> {
+): MethodParameters {
   const multiAction = new MultiAction();
 
   if (accountId === undefined) {
-    const ownerAddress = await trade.owner.getAddress();
     // open account
-    accountId = await createAccountId({
-      ownerAddress,
+    accountId = createAccountId({
+      ownerAddress: trade.ownerAddress,
       productAddress: trade.productAddress,
       marketId: trade.marketId,
       maturityTimestamp: trade.maturityTimestamp,
       isLp: true,
-      priceLower: trade.fixedLow,
-      priceUpper: trade.fixedHigh,
+      tickLower: trade.tickLower,
+      tickUpper: trade.tickUpper,
     });
+
+    console.log('LP account id:', accountId.toString());
     encodeSingleCreateAccount(accountId, multiAction);
   }
 
@@ -45,8 +46,8 @@ export async function encodeLp(
       accountId,
       trade.marketId,
       trade.maturityTimestamp,
-      trade.fixedLow,
-      trade.fixedHigh,
+      trade.tickLower,
+      trade.tickUpper,
       trade.liquidityAmount,
       multiAction,
     );

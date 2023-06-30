@@ -4,21 +4,18 @@ import {
   executeTransaction,
   simulateTx,
 } from '../executeTransaction';
-import {
-  getNativeGasToken,
-  convertGasUnitsToNativeTokenUnits,
-} from '@voltz-protocol/sdk-v1-stateless';
-import { descale, scale, notionalToLiquidityBN } from '../../utils/helpers';
-import {
-  CompleteEditLpDetails,
-  EditLpArgs,
-  EditLpPeripheryParameters,
-} from './types';
+import { CompleteEditLpDetails, EditLpArgs } from './types';
 import { InfoPostLp } from '../lp';
 import { encodeLp } from '../lp/encode';
 import { getPositionInfo } from '../../gateway/getPositionInfo';
-import { PositionInfo } from '../../gateway/types';
 import { decodeLp } from '../../utils/decodeOutput';
+import {
+  convertGasUnitsToNativeTokenUnits,
+  getLiquidityFromBase,
+  getNativeGasToken,
+  descale,
+  scale,
+} from '@voltz-protocol/commons-v2';
 
 export async function editLp({
   positionId,
@@ -26,8 +23,6 @@ export async function editLp({
   notional,
   margin,
 }: EditLpArgs): Promise<ContractReceipt> {
-  // fetch: send request to api
-
   const params = await createEditLpParams({
     positionId,
     signer,
@@ -35,8 +30,8 @@ export async function editLp({
     margin,
   });
 
-  const { data, value, chainId } = await getLpTxData(params);
-  const result = await executeTransaction(signer, data, value, chainId);
+  const { calldata: data, value } = encodeLp(params, params.accountId);
+  const result = await executeTransaction(signer, data, value, params.chainId);
   return result;
 }
 
@@ -46,8 +41,6 @@ export async function simulateEditLp({
   notional,
   margin,
 }: EditLpArgs): Promise<InfoPostLp> {
-  // fetch: send request to api
-
   const params = await createEditLpParams({
     positionId,
     signer,
@@ -55,12 +48,12 @@ export async function simulateEditLp({
     margin,
   });
 
-  const { data, value, chainId } = await getLpTxData(params);
+  const { calldata: data, value } = encodeLp(params, params.accountId);
   const { txData, bytesOutput } = await simulateTx(
     signer,
     data,
     value,
-    chainId,
+    params.chainId,
   );
 
   const { fee, im } = decodeLp(
@@ -71,18 +64,14 @@ export async function simulateEditLp({
     notional > 0,
   );
 
-  const provider = params.owner.provider;
-  if (!provider) {
-    throw new Error(`Missing provider for ${await params.owner.getAddress()}`);
-  }
   const price = await convertGasUnitsToNativeTokenUnits(
-    provider,
+    signer,
     txData.gasLimit.toNumber(),
   );
 
   const gasFee = {
     value: price,
-    token: await getNativeGasToken(provider),
+    token: getNativeGasToken(params.chainId),
   };
 
   const result = {
@@ -109,13 +98,20 @@ export async function estimateEditLpGasUnits({
     margin,
   });
 
-  const { data, value, chainId } = await getLpTxData(params);
-  const estimate = await estimateGas(signer, data, value, chainId);
+  const { calldata: data, value } = encodeLp(params, params.accountId);
+  const estimate = await estimateGas(signer, data, value, params.chainId);
 
   return estimate.gasLimit;
 }
 
-// HELPERS
+export async function getEditLpInfo(
+  args: Omit<EditLpArgs, 'margin'>,
+): Promise<InfoPostLp> {
+  return simulateEditLp({
+    ...args,
+    margin: 0,
+  });
+}
 
 async function createEditLpParams({
   positionId,
@@ -123,49 +119,30 @@ async function createEditLpParams({
   notional,
   margin,
 }: EditLpArgs): Promise<CompleteEditLpDetails> {
-  const lpInfo: PositionInfo = await getPositionInfo(positionId);
+  const lpInfo = await getPositionInfo(positionId);
+  const chainId = await signer.getChainId();
 
-  const liquidityAmount = notionalToLiquidityBN(
-    scale(lpInfo.quoteTokenDecimals)(notional),
-    lpInfo.fixedRateLower,
-    lpInfo.fixedRateUpper,
+  if (lpInfo.chainId !== chainId) {
+    throw new Error('Chain ids are different for pool and signer');
+  }
+
+  const base = notional / lpInfo.currentLiquidityIndex;
+  const liquidityAmount = getLiquidityFromBase(
+    base,
+    lpInfo.tickLower,
+    lpInfo.tickUpper,
   );
 
   const params: CompleteEditLpDetails = {
     ...lpInfo,
-    owner: signer,
-    liquidityAmount: liquidityAmount,
+    ownerAddress: await signer.getAddress(),
+    liquidityAmount: scale(lpInfo.quoteTokenDecimals)(liquidityAmount),
     margin: scale(lpInfo.quoteTokenDecimals)(margin),
     // todo: liquidator booster hard-coded
     liquidatorBooster: scale(lpInfo.quoteTokenDecimals)(0),
-    fixedLow: lpInfo.fixedRateLower,
-    fixedHigh: lpInfo.fixedRateUpper,
   };
+
+  console.log('edit lp params:', params);
 
   return params;
-}
-
-async function getLpTxData(params: CompleteEditLpDetails): Promise<{
-  data: string;
-  value: string;
-  chainId: number;
-}> {
-  const chainId = await params.owner.getChainId();
-
-  if (params.chainId !== chainId) {
-    throw new Error('Chain id mismatch between pool and signer');
-  }
-
-  const swapPeripheryParams: EditLpPeripheryParameters = params;
-
-  const { calldata: data, value } = await encodeLp(
-    swapPeripheryParams,
-    params.accountId,
-  );
-
-  return {
-    data,
-    value,
-    chainId,
-  };
 }

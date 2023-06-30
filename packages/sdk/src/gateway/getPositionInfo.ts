@@ -17,20 +17,12 @@ export async function getPositionInfo(
 export function mapToPositionInfo(
   position: V1V2PortfolioPositionDetails,
 ): PositionInfo {
-  const poolInfo = mapToPoolInfo(position.pool);
   return {
-    chainId: poolInfo.chainId,
-    productAddress: poolInfo.productAddress,
-    maturityTimestamp: poolInfo.maturityTimestamp,
-    marketId: poolInfo.marketId,
-    quoteTokenAddress: poolInfo.quoteTokenAddress,
-    quoteTokenDecimals: poolInfo.quoteTokenDecimals,
-    isETH: poolInfo.isETH,
-    currentLiquidityIndex: poolInfo.currentLiquidityIndex,
-    currentFixedRate: poolInfo.currentFixedRate,
+    ...mapToPoolInfo(position.pool),
+
     positionMargin: position.margin,
     accountId: position.accountId,
-    fixedRateLower: position.type === 'LP' ? position.fixLow * 100 : 0,
-    fixedRateUpper: position.type === 'LP' ? position.fixHigh * 100 : 0,
+    tickLower: position.tickLower,
+    tickUpper: position.tickUpper,
   };
 }

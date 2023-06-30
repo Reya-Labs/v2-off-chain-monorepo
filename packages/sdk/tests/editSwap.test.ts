@@ -38,6 +38,7 @@ describe('edit swap', async () => {
       owner: mockSigner,
       baseAmount: BigNumber.from(9990009990),
       margin: BigNumber.from(10000000),
+      liquidatorBooster: BigNumber.from(0),
     };
 
     const poolInfo: PoolInfo = {
@@ -57,7 +58,6 @@ describe('edit swap', async () => {
     const swapPeripheryParams: SwapPeripheryParameters = {
       ...positionInfo,
       ...swapUserInputs,
-      fixedRateLimit: constants.ZERO_BN,
     };
 
     const expectedResult = await encodeSwap(swapPeripheryParams);
@@ -95,6 +95,7 @@ describe('edit swap', async () => {
       owner: mockSigner,
       baseAmount: BigNumber.from(9990009990),
       margin: BigNumber.from(10000000),
+      liquidatorBooster: BigNumber.from(0),
     };
 
     const poolInfo: PoolInfo = {
@@ -114,7 +115,6 @@ describe('edit swap', async () => {
     const swapPeripheryParams = {
       ...positionInfo,
       ...swapUserInputs,
-      fixedRateLimit: constants.ZERO_BN,
     };
 
     const expectedResult = await encodeSwap(swapPeripheryParams);

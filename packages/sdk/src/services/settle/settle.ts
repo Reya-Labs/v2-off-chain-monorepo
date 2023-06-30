@@ -1,35 +1,22 @@
 import { BigNumber, ContractReceipt } from 'ethers';
 import { estimateGas, executeTransaction } from '../executeTransaction';
 import { encodeSettlement } from './encode';
-import {
-  getNativeGasToken,
-  convertGasUnitsToNativeTokenUnits,
-} from '@voltz-protocol/sdk-v1-stateless';
 import { SettleArgs, SettleParameters, SettleSimulationResults } from './types';
 import { getPositionInfo } from '../../gateway/getPositionInfo';
-import { scale } from '../../utils/helpers';
+import {
+  convertGasUnitsToNativeTokenUnits,
+  getNativeGasToken,
+  scale,
+} from '@voltz-protocol/commons-v2';
 
 export async function settle({
   positionId,
   signer,
 }: SettleArgs): Promise<ContractReceipt> {
-  // fetch: send request to api
-  const chainId = await signer.getChainId();
-
-  const partialOrder = await getPositionInfo(positionId);
-
-  if (partialOrder.chainId !== chainId) {
-    throw new Error('Chain id mismatch between pool and signer');
-  }
-
-  const order: SettleParameters = {
-    ...partialOrder,
-    margin: scale(partialOrder.quoteTokenDecimals)(partialOrder.positionMargin),
-    owner: signer,
-  };
+  const order = await createSettleParams({ positionId, signer });
 
   const { calldata: data, value } = encodeSettlement(order);
-  const result = await executeTransaction(signer, data, value, chainId);
+  const result = await executeTransaction(signer, data, value, order.chainId);
   return result;
 }
 
@@ -37,23 +24,18 @@ export async function simulateSettle({
   positionId,
   signer,
 }: SettleArgs): Promise<SettleSimulationResults> {
-  // fetch: send request to api
   const response = await estimateSettleGasUnits({ signer, positionId });
-
-  const provider = signer.provider;
-  if (!provider) {
-    throw new Error(`Missing provider for ${await signer.getAddress()}`);
-  }
+  const chainId = await signer.getChainId();
 
   const price = await convertGasUnitsToNativeTokenUnits(
-    provider,
+    signer,
     response.toNumber(),
   );
 
   return {
     gasFee: {
       value: price,
-      token: await getNativeGasToken(signer.provider),
+      token: getNativeGasToken(chainId),
     },
   };
 }
@@ -62,22 +44,33 @@ export async function estimateSettleGasUnits({
   positionId,
   signer,
 }: SettleArgs): Promise<BigNumber> {
+  const order = await createSettleParams({ positionId, signer });
+
+  const { calldata: data, value } = encodeSettlement(order);
+  const estimate = await estimateGas(signer, data, value, order.chainId);
+
+  return estimate.gasLimit;
+}
+
+async function createSettleParams({
+  positionId,
+  signer,
+}: SettleArgs): Promise<SettleParameters> {
   const chainId = await signer.getChainId();
 
-  const partialOrder = await getPositionInfo(positionId);
+  const position = await getPositionInfo(positionId);
 
-  if (partialOrder.chainId !== chainId) {
+  if (position.chainId !== chainId) {
     throw new Error('Chain id mismatch between pool and signer');
   }
 
   const order: SettleParameters = {
-    ...partialOrder,
-    margin: scale(partialOrder.quoteTokenDecimals)(partialOrder.positionMargin),
+    ...position,
+    margin: scale(position.quoteTokenDecimals)(position.positionMargin),
     owner: signer,
   };
 
-  const { calldata: data, value } = encodeSettlement(order);
-  const estimate = await estimateGas(signer, data, value, chainId);
+  console.log('settle params:', order);
 
-  return estimate.gasLimit;
+  return order;
 }

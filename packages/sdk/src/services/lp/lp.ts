@@ -5,22 +5,20 @@ import {
   simulateTxExpectError,
   Transaction,
 } from '../executeTransaction';
-import {
-  getNativeGasToken,
-  convertGasUnitsToNativeTokenUnits,
-} from '@voltz-protocol/sdk-v1-stateless';
-import { notionalToLiquidityBN, scale, descale } from '../../utils/helpers';
-import {
-  CompleteLpDetails,
-  InfoPostLp,
-  LpArgs,
-  LpPeripheryParameters,
-} from './types';
+import { CompleteLpDetails, InfoPostLp, LpArgs } from './types';
 import { encodeLp } from './encode';
 import { getPoolInfo } from '../../gateway/getPoolInfo';
 import { decodeLp } from '../../utils/decodeOutput';
 import { decodeImFromError } from '../../utils/errors/errorHandling';
-import { DEFAULT_FEE } from '../../utils/errors/constants';
+import {
+  fixedRateToSpacedTick,
+  getLiquidityFromBase,
+  convertGasUnitsToNativeTokenUnits,
+  getNativeGasToken,
+  descale,
+  scale,
+} from '@voltz-protocol/commons-v2';
+import { ZERO_BN } from '../../utils/constants';
 
 export async function lp({
   ammId,
@@ -30,8 +28,6 @@ export async function lp({
   fixedLow,
   fixedHigh,
 }: LpArgs): Promise<ContractReceipt> {
-  // fetch: send request to api
-
   const params = await createLpParams({
     ammId,
     signer,
@@ -41,8 +37,8 @@ export async function lp({
     fixedHigh,
   });
 
-  const { data, value, chainId } = await getLpTxData(params);
-  const result = await executeTransaction(signer, data, value, chainId);
+  const { calldata: data, value } = encodeLp(params);
+  const result = await executeTransaction(signer, data, value, params.chainId);
   return result;
 }
 
@@ -54,8 +50,6 @@ export async function simulateLp({
   fixedLow,
   fixedHigh,
 }: LpArgs): Promise<InfoPostLp> {
-  // fetch: send request to api
-
   const params = await createLpParams({
     ammId,
     signer,
@@ -65,13 +59,20 @@ export async function simulateLp({
     fixedHigh,
   });
 
-  const { data, value, chainId } = await getLpTxData(params);
+  const { calldata: data, value } = encodeLp(params);
 
   let txData: Transaction & { gasLimit: BigNumber };
   let bytesOutput: any;
   let isError = false;
+
   try {
-    const res = await simulateTxExpectError(signer, data, value, chainId);
+    const res = await simulateTxExpectError(
+      signer,
+      data,
+      value,
+      params.chainId,
+    );
+
     txData = res.txData;
     bytesOutput = res.bytesOutput;
     isError = res.isError;
@@ -88,21 +89,17 @@ export async function simulateLp({
   }
 
   const { fee, im } = isError
-    ? { im: decodeImFromError(bytesOutput).marginRequirement, fee: DEFAULT_FEE }
+    ? { im: decodeImFromError(bytesOutput).marginRequirement, fee: ZERO_BN }
     : decodeLp(bytesOutput, true, margin > 0, false, true);
 
-  const provider = params.owner.provider;
-  if (!provider) {
-    throw new Error(`Missing provider for ${await params.owner.getAddress()}`);
-  }
   const price = await convertGasUnitsToNativeTokenUnits(
-    provider,
+    signer,
     txData.gasLimit.toNumber(),
   );
 
   const gasFee = {
     value: price,
-    token: await getNativeGasToken(provider),
+    token: getNativeGasToken(params.chainId),
   };
 
   const result = {
@@ -132,15 +129,22 @@ export async function estimateLpGasUnits({
     fixedHigh,
   });
 
-  const { data, value, chainId } = await getLpTxData(params);
-  const estimate = await estimateGas(signer, data, value, chainId);
+  const { calldata: data, value } = encodeLp(params);
+  const estimate = await estimateGas(signer, data, value, params.chainId);
 
   return estimate.gasLimit;
 }
 
-// HELPERS
+export async function getLpInfo(
+  args: Omit<LpArgs, 'margin'>,
+): Promise<InfoPostLp> {
+  return simulateLp({
+    ...args,
+    margin: 0,
+  });
+}
 
-export async function createLpParams({
+async function createLpParams({
   ammId,
   signer,
   notional,
@@ -148,46 +152,36 @@ export async function createLpParams({
   fixedLow,
   fixedHigh,
 }: LpArgs): Promise<CompleteLpDetails> {
-  const lpInfo = await getPoolInfo(ammId);
+  if (fixedLow >= fixedHigh) {
+    throw new Error(`Invalid LP range: [${fixedLow}%, ${fixedHigh}%]`);
+  }
 
-  const liquidityAmount = notionalToLiquidityBN(
-    scale(lpInfo.quoteTokenDecimals)(notional),
-    fixedLow,
-    fixedHigh,
-  );
+  const lpInfo = await getPoolInfo(ammId);
+  const chainId = await signer.getChainId();
+
+  // Check that signer is connected to the right network
+  if (lpInfo.chainId !== chainId) {
+    throw new Error('Chain ids are different for pool and signer');
+  }
+
+  const tickLower = fixedRateToSpacedTick(fixedHigh / 100, lpInfo.tickSpacing);
+  const tickUpper = fixedRateToSpacedTick(fixedLow / 100, lpInfo.tickSpacing);
+
+  const base = notional / lpInfo.currentLiquidityIndex;
+  const liquidityAmount = getLiquidityFromBase(base, tickLower, tickUpper);
 
   const params: CompleteLpDetails = {
     ...lpInfo,
-    owner: signer,
-    liquidityAmount: liquidityAmount,
+    ownerAddress: await signer.getAddress(),
+    liquidityAmount: scale(lpInfo.quoteTokenDecimals)(liquidityAmount),
     margin: scale(lpInfo.quoteTokenDecimals)(margin),
     // todo: liquidator booster hard-coded
     liquidatorBooster: scale(lpInfo.quoteTokenDecimals)(1),
-    fixedLow,
-    fixedHigh,
+    tickLower,
+    tickUpper,
   };
+
+  console.log('lp params:', params);
 
   return params;
-}
-
-export async function getLpTxData(params: CompleteLpDetails): Promise<{
-  data: string;
-  value: string;
-  chainId: number;
-}> {
-  const chainId = await params.owner.getChainId();
-
-  if (params.chainId !== chainId) {
-    throw new Error('Chain id mismatch between pool and signer');
-  }
-
-  const peripheryParams: LpPeripheryParameters = params;
-
-  const { calldata: data, value } = await encodeLp(peripheryParams);
-
-  return {
-    data,
-    value,
-    chainId,
-  };
 }

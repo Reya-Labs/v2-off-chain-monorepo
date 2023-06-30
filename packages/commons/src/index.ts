@@ -1,3 +1,4 @@
+export * from './gas';
 export * from './get-token-price';
 export * from './markets';
 export * from './v1-ids';
