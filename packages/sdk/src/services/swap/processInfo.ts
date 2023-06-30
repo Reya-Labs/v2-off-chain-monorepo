@@ -1,9 +1,9 @@
 import {
   convertGasUnitsToNativeTokenUnits,
+  descale,
   getNativeGasToken,
 } from '@voltz-protocol/commons-v2';
 import { Signer, BigNumber } from 'ethers';
-import { descale } from '../../utils/helpers';
 import { CompleteSwapDetails, InfoPostSwap } from './types';
 import { Transaction } from '../executeTransaction';
 

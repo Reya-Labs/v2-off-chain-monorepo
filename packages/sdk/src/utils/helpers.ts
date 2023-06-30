@@ -1,5 +1,5 @@
 import md5 from 'crypto-js/md5';
-import { BigNumber, ethers } from 'ethers';
+import { BigNumber } from 'ethers';
 
 type CreateAccountParams = {
   ownerAddress: string;
@@ -32,21 +32,3 @@ export function createAccountId({
 
   return BigNumber.from('0x' + hashedMessage).toString();
 }
-
-export const descale = (tokenDecimals: number) => {
-  const f = (value: ethers.BigNumber) => {
-    return Number(ethers.utils.formatUnits(value.toString(), tokenDecimals));
-  };
-
-  return f;
-};
-
-export const scale = (tokenDecimals: number) => {
-  const f = (value: number) => {
-    return ethers.BigNumber.from(
-      ethers.utils.parseUnits(value.toFixed(tokenDecimals), tokenDecimals),
-    );
-  };
-
-  return f;
-};

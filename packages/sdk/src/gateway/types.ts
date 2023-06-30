@@ -1,4 +1,5 @@
 export type PoolConfig = {
+  tickSpacing: number;
   productAddress: string;
   maturityTimestamp: number;
   marketId: string;

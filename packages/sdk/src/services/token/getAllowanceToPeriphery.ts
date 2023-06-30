@@ -1,7 +1,7 @@
 import { getPoolInfo } from '../../gateway/getPoolInfo';
-import { PERIPHERY_ADDRESS } from '../../utils/configuration';
 import { getERC20Allowance } from '@voltz-protocol/sdk-v1-stateless';
 import { GetAllowanceToPeripheryArgs } from './types';
+import { getAddress } from '@voltz-protocol/commons-v2';
 
 export const getAllowanceToPeriphery = async ({
   ammId,
@@ -24,7 +24,7 @@ export const getAllowanceToPeriphery = async ({
     return Number.MAX_SAFE_INTEGER;
   }
 
-  const peripheryAddress = PERIPHERY_ADDRESS(chainId);
+  const peripheryAddress = getAddress(chainId, 'periphery');
 
   const allowance = await getERC20Allowance({
     walletAddress,

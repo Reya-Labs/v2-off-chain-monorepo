@@ -5,20 +5,20 @@ import {
   simulateTxExpectError,
   Transaction,
 } from '../executeTransaction';
-import { scale, descale } from '../../utils/helpers';
 import { CompleteLpDetails, InfoPostLp, LpArgs } from './types';
 import { encodeLp } from './encode';
 import { getPoolInfo } from '../../gateway/getPoolInfo';
 import { decodeLp } from '../../utils/decodeOutput';
 import { decodeImFromError } from '../../utils/errors/errorHandling';
-import { DEFAULT_FEE } from '../../utils/errors/constants';
 import {
   fixedRateToSpacedTick,
   getLiquidityFromBase,
   convertGasUnitsToNativeTokenUnits,
   getNativeGasToken,
+  descale,
+  scale,
 } from '@voltz-protocol/commons-v2';
-import { TICK_SPACING } from '../../utils/math/constants';
+import { ZERO_BN } from '../../utils/constants';
 
 export async function lp({
   ammId,
@@ -89,7 +89,7 @@ export async function simulateLp({
   }
 
   const { fee, im } = isError
-    ? { im: decodeImFromError(bytesOutput).marginRequirement, fee: DEFAULT_FEE }
+    ? { im: decodeImFromError(bytesOutput).marginRequirement, fee: ZERO_BN }
     : decodeLp(bytesOutput, true, margin > 0, false, true);
 
   const price = await convertGasUnitsToNativeTokenUnits(
@@ -164,8 +164,8 @@ async function createLpParams({
     throw new Error('Chain ids are different for pool and signer');
   }
 
-  const tickLower = fixedRateToSpacedTick(fixedHigh / 100, TICK_SPACING);
-  const tickUpper = fixedRateToSpacedTick(fixedLow / 100, TICK_SPACING);
+  const tickLower = fixedRateToSpacedTick(fixedHigh / 100, lpInfo.tickSpacing);
+  const tickUpper = fixedRateToSpacedTick(fixedLow / 100, lpInfo.tickSpacing);
 
   const base = notional / lpInfo.currentLiquidityIndex;
   const liquidityAmount = getLiquidityFromBase(base, tickLower, tickUpper);

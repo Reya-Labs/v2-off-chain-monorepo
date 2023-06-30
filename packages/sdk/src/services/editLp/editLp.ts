@@ -4,7 +4,6 @@ import {
   executeTransaction,
   simulateTx,
 } from '../executeTransaction';
-import { descale, scale } from '../../utils/helpers';
 import { CompleteEditLpDetails, EditLpArgs } from './types';
 import { InfoPostLp } from '../lp';
 import { encodeLp } from '../lp/encode';
@@ -14,6 +13,8 @@ import {
   convertGasUnitsToNativeTokenUnits,
   getLiquidityFromBase,
   getNativeGasToken,
+  descale,
+  scale,
 } from '@voltz-protocol/commons-v2';
 
 export async function editLp({

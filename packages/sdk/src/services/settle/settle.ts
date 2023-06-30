@@ -3,10 +3,10 @@ import { estimateGas, executeTransaction } from '../executeTransaction';
 import { encodeSettlement } from './encode';
 import { SettleArgs, SettleParameters, SettleSimulationResults } from './types';
 import { getPositionInfo } from '../../gateway/getPositionInfo';
-import { scale } from '../../utils/helpers';
 import {
   convertGasUnitsToNativeTokenUnits,
   getNativeGasToken,
+  scale,
 } from '@voltz-protocol/commons-v2';
 
 export async function settle({
@@ -69,6 +69,8 @@ async function createSettleParams({
     margin: scale(position.quoteTokenDecimals)(position.positionMargin),
     owner: signer,
   };
+
+  console.log('settle params:', order);
 
   return order;
 }

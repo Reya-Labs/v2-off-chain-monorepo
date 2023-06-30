@@ -3,7 +3,7 @@ import { estimateGas, executeTransaction } from '../executeTransaction';
 import { encodeUpdateMargin } from './encode';
 import { UpdateMarginArgs, UpdateMarginParams } from './types';
 import { getPositionInfo } from '../../gateway/getPositionInfo';
-import { scale } from '../../utils/helpers';
+import { scale } from '@voltz-protocol/commons-v2';
 
 export async function updateMargin({
   positionId,
@@ -51,10 +51,14 @@ async function createUpdateMarginParams({
     throw new Error('Chain id mismatch between pool and signer');
   }
 
-  return {
+  const params: UpdateMarginParams = {
     ...partialOrder,
     margin: scale(partialOrder.quoteTokenDecimals)(margin),
     // todo: liquidator booster hard-coded
     liquidatorBooster: scale(partialOrder.quoteTokenDecimals)(0),
   };
+
+  console.log('update margin params:', params);
+
+  return params;
 }

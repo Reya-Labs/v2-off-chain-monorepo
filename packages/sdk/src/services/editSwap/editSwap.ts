@@ -6,11 +6,11 @@ import {
 } from '../executeTransaction';
 import { encodeSwap } from '../swap/encode';
 import { CompleteEditSwapDetails, EditSwapArgs } from './types';
-import { scale } from '../../utils/helpers';
 import { getPositionInfo } from '../../gateway/getPositionInfo';
 import { decodeSwap } from '../../utils/decodeOutput';
 import { InfoPostSwap } from '../swap/types';
 import { processInfoPostSwap } from '../swap/processInfo';
+import { scale } from '@voltz-protocol/commons-v2';
 
 export async function editSwap({
   positionId,
@@ -91,6 +91,8 @@ async function createEditSwapParams({
     // todo: liquidator booster hard-coded
     liquidatorBooster: scale(swapInfo.quoteTokenDecimals)(0),
   };
+
+  console.log('edit swap params:', params);
 
   return params;
 }

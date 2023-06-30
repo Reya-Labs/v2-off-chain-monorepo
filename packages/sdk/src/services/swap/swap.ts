@@ -7,17 +7,12 @@ import {
 } from '../executeTransaction';
 import { encodeSwap } from './encode';
 import { CompleteSwapDetails, InfoPostSwap, SwapArgs } from './types';
-import { scale } from '../../utils/helpers';
 import { getPoolInfo } from '../../gateway/getPoolInfo';
 import { decodeSwap } from '../../utils/decodeOutput';
 import { decodeImFromError } from '../../utils/errors/errorHandling';
-import {
-  DEFAULT_EXECUTED_BASE,
-  DEFAULT_EXECUTED_QUOTE,
-  DEFAULT_FEE,
-  DEFAULT_TICK,
-} from '../../utils/errors/constants';
 import { processInfoPostSwap } from './processInfo';
+import { ZERO_BN } from '../../utils/constants';
+import { scale } from '@voltz-protocol/commons-v2/';
 
 export async function swap({
   ammId,
@@ -73,10 +68,10 @@ export async function simulateSwap({
   const { executedBaseAmount, executedQuoteAmount, fee, im, currentTick } =
     isError
       ? {
-          executedBaseAmount: DEFAULT_EXECUTED_BASE,
-          executedQuoteAmount: DEFAULT_EXECUTED_QUOTE,
-          fee: DEFAULT_FEE,
-          currentTick: DEFAULT_TICK,
+          executedBaseAmount: ZERO_BN,
+          executedQuoteAmount: ZERO_BN,
+          fee: ZERO_BN,
+          currentTick: 0,
           im: decodeImFromError(bytesOutput).marginRequirement,
         }
       : decodeSwap(bytesOutput, true, false, true, notional > 0);
@@ -139,6 +134,8 @@ async function createSwapParams({
     // todo: liquidator booster hard-coded
     liquidatorBooster: scale(poolInfo.quoteTokenDecimals)(1),
   };
+
+  console.log('swap params:', params);
 
   return params;
 }

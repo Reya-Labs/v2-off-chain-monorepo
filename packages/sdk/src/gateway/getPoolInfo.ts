@@ -21,5 +21,6 @@ export function mapToPoolInfo(pool: V1V2Pool): PoolInfo {
     currentLiquidityIndex: pool.currentLiquidityIndex, // e.g. 1.0001
     currentFixedRate: pool.currentFixedRate,
     chainId: pool.chainId,
+    tickSpacing: pool.tickSpacing,
   };
 }
