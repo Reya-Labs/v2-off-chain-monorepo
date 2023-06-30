@@ -15,7 +15,7 @@ export const LpTest: React.FunctionComponent<{
 }> = ({ fixedHigh, fixedLow, ammId, margin, notional }) => {
   const { isLoggedIn, signer } = React.useContext(WalletContext);
   const [isTesting, setIsTesting] = React.useState(false);
-  const [testError, setTestError] = React.useState('');
+  const [testError, setTestError] = React.useState<null | unknown>(null);
   const [testResult, setTestResult] = React.useState('');
   const test = async () => {
     if (!signer) {
@@ -23,6 +23,7 @@ export const LpTest: React.FunctionComponent<{
       return;
     }
     setIsTesting(true);
+    setTestError(null);
     try {
       const result = await lp({
         ammId,
