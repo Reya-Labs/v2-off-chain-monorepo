@@ -6,9 +6,9 @@ import { WalletContext } from '../../context/WalletContext';
 import { TestPage } from '../../components/TestPage/TestPage';
 import { SwapArgs } from '../../../src/services/swap';
 
-export const GetPoolSwapInfoTest: React.FunctionComponent<{
-  ammId: Omit<SwapArgs, 'margin'>;
-}> = () => {
+export const GetPoolSwapInfoTest: React.FunctionComponent<
+  Omit<SwapArgs, 'margin'>
+> = () => {
   const { isLoggedIn, provider } = React.useContext(WalletContext);
   const [isTesting, setIsTesting] = React.useState(false);
   const [testError, setTestError] = React.useState<null | unknown>(null);
