@@ -3,14 +3,12 @@ import * as React from 'react';
 import { ContentBox } from './getPoolLpInfo.styled';
 import { WalletButton } from '../../components/WalletButton';
 import { WalletContext } from '../../context/WalletContext';
-import { getPoolLpInfo, GetPoolLpInfoArgs } from '../../../src';
 import { TestPage } from '../../components/TestPage/TestPage';
+import { LpArgs } from '../../../src/services/lp';
 
-export const GetPoolLpInfoTest: React.FunctionComponent<{
-  ammId: GetPoolLpInfoArgs['ammId'];
-  fixedHigh: GetPoolLpInfoArgs['fixedHigh'];
-  fixedLow: GetPoolLpInfoArgs['fixedLow'];
-}> = ({ ammId, fixedHigh, fixedLow }) => {
+export const GetPoolLpInfoTest: React.FunctionComponent<
+  Omit<LpArgs, 'margin'>
+> = () => {
   const { isLoggedIn, provider } = React.useContext(WalletContext);
   const [isTesting, setIsTesting] = React.useState(false);
   const [testError, setTestError] = React.useState<null | unknown>(null);
@@ -23,12 +21,7 @@ export const GetPoolLpInfoTest: React.FunctionComponent<{
     setIsTesting(true);
     setTestError(null);
     try {
-      const result = await getPoolLpInfo({
-        ammId,
-        provider,
-        fixedHigh,
-        fixedLow,
-      });
+      const result = 0;
       setTestResult(JSON.stringify(result));
     } catch (error) {
       setTestError(error);
