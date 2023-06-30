@@ -1,6 +1,9 @@
 import { getPoolInfo } from '../../gateway/getPoolInfo';
 import { ApprovePeripheryArgs } from './types';
-import { getERC20TokenContract } from '@voltz-protocol/sdk-v1-stateless';
+import {
+  getERC20Allowance,
+  getERC20TokenContract,
+} from '@voltz-protocol/sdk-v1-stateless';
 import { getGasBuffer } from '../../utils/txHelpers';
 import { BigNumber } from 'ethers';
 import { getAddress } from '@voltz-protocol/commons-v2';
@@ -8,7 +11,7 @@ import { getAddress } from '@voltz-protocol/commons-v2';
 export const approvePeriphery = async ({
   ammId,
   signer,
-}: ApprovePeripheryArgs): Promise<void> => {
+}: ApprovePeripheryArgs): Promise<number> => {
   const chainId = await signer.getChainId();
   const poolInfo = await getPoolInfo(ammId);
 
@@ -60,4 +63,20 @@ export const approvePeriphery = async ({
     console.warn('Token approval failed');
     throw new Error('Token approval failed');
   }
+
+  try {
+    const allowance = await getERC20Allowance({
+      walletAddress: await signer.getAddress(),
+      tokenAddress: poolInfo.quoteTokenAddress,
+      tokenDecimals: poolInfo.quoteTokenDecimals,
+      spenderAddress: peripheryAddress,
+      provider: signer,
+    });
+
+    return allowance;
+  } catch (error) {
+    console.warn('Fetching allowance failed');
+  }
+
+  return 0;
 };
