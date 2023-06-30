@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.25.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.24.6...@voltz-protocol/sdk-v1-stateless@1.25.0) (2023-06-30)
+
+### Features
+
+- add support for checking types for demo ([8c76040](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/8c760403ab0a29816f0d66bb1d8c7d973a7475b4))
+
 ## [1.24.6](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.24.5...@voltz-protocol/sdk-v1-stateless@1.24.6) (2023-06-29)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless

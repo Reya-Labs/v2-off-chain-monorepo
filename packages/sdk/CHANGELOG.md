@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.47.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.46.3...@voltz-protocol/sdk-v2@1.47.0) (2023-06-30)
+
+### Features
+
+- add support for checking types for demo ([8c76040](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/8c760403ab0a29816f0d66bb1d8c7d973a7475b4))
+
 ## [1.46.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.46.2...@voltz-protocol/sdk-v2@1.46.3) (2023-06-29)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v2
