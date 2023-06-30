@@ -1,4 +1,4 @@
-import { providers } from 'ethers';
+import { Signer, providers } from 'ethers';
 import { getERC20TokenContract } from '../contract-generators';
 import { scale } from '../math/scale';
 import { descale } from '../math/descale';
@@ -9,7 +9,7 @@ export type GetERC20AllowanceArgs = {
   tokenAddress: string;
   tokenDecimals: number;
   spenderAddress: string;
-  provider: providers.Provider;
+  provider: providers.Provider | Signer;
 };
 
 export const getERC20Allowance = async ({
