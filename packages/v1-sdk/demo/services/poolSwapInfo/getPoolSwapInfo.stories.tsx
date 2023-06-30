@@ -15,6 +15,4 @@ const Template: ComponentStory<typeof GetPoolSwapInfoTest> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   ammId: '',
-  notional: 0,
-  margin: 0,
 };

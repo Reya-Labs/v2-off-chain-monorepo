@@ -1,6 +1,7 @@
 import { RainbowLoader, Typography } from 'brokoli-ui';
 import * as React from 'react';
 import styled from '@emotion/styled';
+
 const isError = (e: Error | never): e is Error => {
   return !!(e && e.stack && e.message);
 };
@@ -44,7 +45,7 @@ export const TestState: React.FunctionComponent<{
           {JSON.stringify(result)}
         </Typography>
       ) : null}
-      {loading ? <RainbowLoader height="2" text="Test in progress..." /> : null}
+      {loading ? <RainbowLoader height={2} text="Test in progress..." /> : null}
     </TestResultBox>
   );
 };

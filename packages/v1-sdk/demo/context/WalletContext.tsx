@@ -1,17 +1,39 @@
 import * as React from 'react';
-import * as detectEthereumProvider from '@metamask/detect-provider';
+import detectEthereumProvider from '@metamask/detect-provider';
 import { ethers } from 'ethers';
 
+type WalletContextValue = {
+  loading: boolean;
+  connect: () => Promise<void>;
+  error: string | null;
+  account: string | null;
+  signer: ethers.providers.JsonRpcSigner | null;
+  isLoggedIn: boolean;
+  provider: ethers.providers.JsonRpcProvider | null;
+};
+
 // Create the WalletContext
-export const WalletContext = React.createContext({});
+export const WalletContext = React.createContext<WalletContextValue>({
+  loading: false,
+  connect: () => Promise.resolve(),
+  error: '',
+  account: '',
+  signer: null,
+  isLoggedIn: false,
+  provider: null,
+});
 
 // Create the WalletContextProvider component
-export const WalletContextProvider = ({ children }) => {
+export const WalletContextProvider: React.FunctionComponent = ({
+  children,
+}) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState('');
   const [account, setAccount] = React.useState('');
-  const [signer, setSigner] = React.useState(null);
-  const [provider, setProvider] = React.useState(null);
+  const [signer, setSigner] =
+    React.useState<ethers.providers.JsonRpcSigner | null>(null);
+  const [provider, setProvider] =
+    React.useState<ethers.providers.JsonRpcProvider | null>(null);
   const connect = async () => {
     if (account) {
       return;
@@ -48,7 +70,7 @@ export const WalletContextProvider = ({ children }) => {
   };
 
   // Define the context value
-  const contextValue = {
+  const contextValue: WalletContextValue = {
     loading,
     connect,
     error,

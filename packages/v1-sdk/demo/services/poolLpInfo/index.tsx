@@ -13,7 +13,7 @@ export const GetPoolLpInfoTest: React.FunctionComponent<{
 }> = ({ ammId, fixedHigh, fixedLow }) => {
   const { isLoggedIn, provider } = React.useContext(WalletContext);
   const [isTesting, setIsTesting] = React.useState(false);
-  const [testError, setTestError] = React.useState('');
+  const [testError, setTestError] = React.useState<null | unknown>(null);
   const [testResult, setTestResult] = React.useState('');
   const test = async () => {
     if (!provider) {
@@ -21,6 +21,7 @@ export const GetPoolLpInfoTest: React.FunctionComponent<{
       return;
     }
     setIsTesting(true);
+    setTestError(null);
     try {
       const result = await getPoolLpInfo({
         ammId,

@@ -13,7 +13,7 @@ export const SimulateSwapTest: React.FunctionComponent<{
 }> = ({ ammId, margin, notional }) => {
   const { isLoggedIn, signer } = React.useContext(WalletContext);
   const [isTesting, setIsTesting] = React.useState(false);
-  const [testError, setTestError] = React.useState('');
+  const [testError, setTestError] = React.useState<null | unknown>(null);
   const [testResult, setTestResult] = React.useState('');
   const test = async () => {
     if (!signer) {
@@ -21,6 +21,7 @@ export const SimulateSwapTest: React.FunctionComponent<{
       return;
     }
     setIsTesting(true);
+    setTestError(null);
     try {
       const result = await simulateSwap({
         ammId,

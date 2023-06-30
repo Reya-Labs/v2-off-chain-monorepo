@@ -7,11 +7,11 @@ import { settle, SettleArgs } from '../../../src';
 import { TestPage } from '../../components/TestPage/TestPage';
 
 export const SettleTest: React.FunctionComponent<{
-  positionId: SettleArgs['ammId'];
+  positionId: SettleArgs['positionId'];
 }> = ({ positionId }) => {
   const { isLoggedIn, signer } = React.useContext(WalletContext);
   const [isTesting, setIsTesting] = React.useState(false);
-  const [testError, setTestError] = React.useState('');
+  const [testError, setTestError] = React.useState<null | unknown>(null);
   const [testResult, setTestResult] = React.useState('');
   const test = async () => {
     if (!signer) {
@@ -19,6 +19,7 @@ export const SettleTest: React.FunctionComponent<{
       return;
     }
     setIsTesting(true);
+    setTestError(null);
     try {
       const result = await settle({
         positionId,
