@@ -71,6 +71,7 @@ export const buildV2Pool = async ({
     marketId,
     maturityTimestamp,
     currentTick,
+    currentLiquidityIndex,
   );
 
   return {

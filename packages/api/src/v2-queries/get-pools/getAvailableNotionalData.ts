@@ -10,6 +10,7 @@ export const getAvailableNotionalData = async (
   marketId: string,
   maturityTimestamp: number,
   currentTick: number,
+  liquidityIndex: number,
 ): Promise<{
   short: number;
   long: number;
@@ -40,7 +41,7 @@ export const getAvailableNotionalData = async (
   );
 
   return {
-    short: responses[1],
-    long: responses[0],
+    short: responses[1] * liquidityIndex,
+    long: responses[0] * liquidityIndex,
   };
 };
