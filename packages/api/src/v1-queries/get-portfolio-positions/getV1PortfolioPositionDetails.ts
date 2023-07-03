@@ -9,6 +9,7 @@ import { V1PortfolioPositionDetails } from '@voltz-protocol/api-v2-types';
 
 export const getV1PortfolioPositionDetails = async ({
   positionId,
+  includeHistory,
 }: {
   positionId: string;
   includeHistory: boolean;
@@ -43,9 +44,12 @@ export const getV1PortfolioPositionDetails = async ({
   // Process the found position
   const position = positions[0];
 
-  const txs = synthetisizeHistory(position);
-
   const response = await buildV1PortfolioPosition(chainId, position, 'full');
+
+  const txs = synthetisizeHistory(position);
+  const shouldIncludeHistory = response.pool.flags.isGLP28Jun2023
+    ? false
+    : includeHistory;
 
   if (position.isSettled) {
     const realizedPNLCashflow = position.settlements[0].settlementCashflow;
@@ -70,7 +74,7 @@ export const getV1PortfolioPositionDetails = async ({
       realizedPNLCashflow,
       realizedPNLTotal: realizedPNLCashflow + response.realizedPNLFees,
 
-      history: txs,
+      history: shouldIncludeHistory ? txs : [],
     };
   }
 
@@ -107,7 +111,7 @@ export const getV1PortfolioPositionDetails = async ({
       canSettle: true,
       rolloverPoolId,
 
-      history: txs,
+      history: shouldIncludeHistory ? txs : [],
     };
   }
 
@@ -118,6 +122,6 @@ export const getV1PortfolioPositionDetails = async ({
     canSettle: false,
     rolloverPoolId: null,
 
-    history: txs,
+    history: shouldIncludeHistory ? txs : [],
   };
 };

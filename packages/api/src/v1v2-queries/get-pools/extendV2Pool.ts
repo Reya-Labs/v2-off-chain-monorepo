@@ -5,4 +5,7 @@ export const extendV2Pool = (p: V2Pool): V1V2Pool => ({
 
   vamm: '',
   marginEngineAddress: '',
+  flags: {
+    isGLP28Jun2023: false,
+  },
 });

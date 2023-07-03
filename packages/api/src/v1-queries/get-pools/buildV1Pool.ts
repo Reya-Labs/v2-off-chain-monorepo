@@ -49,6 +49,10 @@ export const buildV1Pool = async (
     termEndTimestampInMS: rawPool.termEndTimestampInMS,
 
     isV2: false,
+    flags: {
+      isGLP28Jun2023:
+        id === '42161_0x22393f23f16925d282aeca0a8464dccaf10ee480_v1',
+    },
   };
 
   return pool;
