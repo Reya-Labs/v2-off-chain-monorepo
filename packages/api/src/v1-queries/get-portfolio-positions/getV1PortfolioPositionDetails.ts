@@ -9,6 +9,7 @@ import { V1PortfolioPositionDetails } from '@voltz-protocol/api-v2-types';
 
 export const getV1PortfolioPositionDetails = async ({
   positionId,
+  includeHistory,
 }: {
   positionId: string;
   includeHistory: boolean;
@@ -70,7 +71,7 @@ export const getV1PortfolioPositionDetails = async ({
       realizedPNLCashflow,
       realizedPNLTotal: realizedPNLCashflow + response.realizedPNLFees,
 
-      history: txs,
+      history: includeHistory || response.pool.flags.isGLP28Jun2023 ? txs : [],
     };
   }
 
@@ -107,7 +108,7 @@ export const getV1PortfolioPositionDetails = async ({
       canSettle: true,
       rolloverPoolId,
 
-      history: txs,
+      history: includeHistory || response.pool.flags.isGLP28Jun2023 ? txs : [],
     };
   }
 
@@ -118,6 +119,6 @@ export const getV1PortfolioPositionDetails = async ({
     canSettle: false,
     rolloverPoolId: null,
 
-    history: txs,
+    history: includeHistory || response.pool.flags.isGLP28Jun2023 ? txs : [],
   };
 };
