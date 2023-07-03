@@ -35,6 +35,7 @@ export type LpArgs = {
 export type InfoPostLp = {
   marginRequirement: number;
   maxMarginWithdrawable: number;
+  maxLeverage: number;
   fee: number;
   gasFee: {
     value: number;

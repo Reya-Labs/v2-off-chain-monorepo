@@ -85,6 +85,7 @@ export async function simulateLp({
       fee: -1,
       marginRequirement: -1,
       maxMarginWithdrawable: -1,
+      maxLeverage: 0,
     };
   }
 
@@ -102,11 +103,18 @@ export async function simulateLp({
     token: getNativeGasToken(params.chainId),
   };
 
+  const marginRequirement = descale(params.quoteTokenDecimals)(im);
+  const maxLeverage =
+    marginRequirement === 0
+      ? Number.MAX_SAFE_INTEGER
+      : notional / marginRequirement;
+
   const result = {
-    gasFee: gasFee,
+    gasFee,
     fee: descale(params.quoteTokenDecimals)(fee),
-    marginRequirement: descale(params.quoteTokenDecimals)(im),
+    marginRequirement,
     maxMarginWithdrawable: 0,
+    maxLeverage,
   };
 
   return result;

@@ -74,12 +74,19 @@ export async function simulateEditLp({
     token: getNativeGasToken(params.chainId),
   };
 
+  const marginRequirement = descale(params.quoteTokenDecimals)(im);
+  const maxLeverage =
+    marginRequirement === 0
+      ? Number.MAX_SAFE_INTEGER
+      : notional / marginRequirement;
+
   const result = {
     gasFee: gasFee,
     fee: descale(params.quoteTokenDecimals)(fee),
     marginRequirement: descale(params.quoteTokenDecimals)(im),
     maxMarginWithdrawable:
       params.positionMargin - descale(params.quoteTokenDecimals)(im),
+    maxLeverage,
   };
 
   return result;
