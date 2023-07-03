@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.49.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.48.1...@voltz-protocol/sdk-v2@1.49.0) (2023-07-03)
+
+### Features
+
+- maxLeverage appended to getLpInfo ([0292e99](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/0292e9927ad90cadd220e0587776e7c111c4abb8))
+- re-bringing blank function ([94b75c4](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/94b75c4ecc8ac7f6540b2fb62af200424672efd0))
+
 ## [1.48.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.48.0...@voltz-protocol/sdk-v2@1.48.1) (2023-07-03)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v2
