@@ -11,6 +11,7 @@ import {
 import { getEnvironmentV2 } from '../../services/envVars';
 
 export type GetFixedRateDataResponse = {
+  currentTick: number;
   currentFixedRate: number;
   fixedRateChange: number;
 };
@@ -33,6 +34,7 @@ export const getFixedRateData = async (
 
   if (isNull(currentTick)) {
     return {
+      currentTick: 0,
       currentFixedRate: 0,
       fixedRateChange: 0,
     };
@@ -50,6 +52,7 @@ export const getFixedRateData = async (
 
   if (isNull(tickLWAgo)) {
     return {
+      currentTick: currentTick as number,
       currentFixedRate,
       fixedRateChange: 0,
     };
@@ -59,6 +62,7 @@ export const getFixedRateData = async (
   const fixedRateChange = fixedRateLWAgo - currentFixedRate;
 
   return {
+    currentTick: currentTick as number,
     currentFixedRate,
     fixedRateChange,
   };
