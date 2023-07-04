@@ -1,5 +1,5 @@
 import {
-  getBaseInRange,
+  getAvailableBaseInRange,
   getCurrentVammTick,
   getLiquidityIndexAt,
   pullMarketEntry,
@@ -62,16 +62,16 @@ export const getV2AvailableNotional = async (
 
   const responses = await fetchMultiplePromises(
     [
-      getBaseInRange(
+      getAvailableBaseInRange(
         environmentTag,
         chainId,
         marketId,
         maturityTimestamp,
-        -100000,
         currentTick as number,
+        -100000,
       ),
 
-      getBaseInRange(
+      getAvailableBaseInRange(
         environmentTag,
         chainId,
         marketId,
@@ -84,7 +84,7 @@ export const getV2AvailableNotional = async (
   );
 
   return {
-    short: responses[1] * (currentLiquidityIndex as number),
+    short: -responses[1] * (currentLiquidityIndex as number),
     long: responses[0] * (currentLiquidityIndex as number),
   };
 };
