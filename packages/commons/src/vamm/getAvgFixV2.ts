@@ -21,6 +21,11 @@ export const getAvgFixV2 = ({
 }: GetAvgFixV2Args): number => {
   const timeDelta = (maturityTimestamp - entryTimestamp) / SECONDS_IN_YEAR;
   const notional = base * liquidityIndex;
+
+  if (timeDelta <= 0 || notional === 0) {
+    return 0;
+  }
+
   const avgFix = (-quote / notional - 1) / timeDelta / 100;
 
   return avgFix;

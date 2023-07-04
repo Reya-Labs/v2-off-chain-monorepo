@@ -53,7 +53,7 @@ export const WalletContextProvider: React.FunctionComponent = ({
         setSigner(newSigner);
         setLoading(false);
       } catch (err) {
-        setError((err as Error)?.message || JSON.stringify(err));
+        setError(err);
         setLoading(false);
         setSigner(null);
         setProvider(null);

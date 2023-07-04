@@ -56,13 +56,7 @@ export async function simulateEditLp({
     params.chainId,
   );
 
-  const { fee, im } = decodeLp(
-    bytesOutput,
-    false,
-    margin > 0,
-    margin < 0,
-    notional > 0,
-  );
+  const { fee, im } = decodeLp(margin < 0 ? bytesOutput[1] : bytesOutput[2]);
 
   const price = await convertGasUnitsToNativeTokenUnits(
     signer,

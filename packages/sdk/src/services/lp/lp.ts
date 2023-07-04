@@ -91,7 +91,7 @@ export async function simulateLp({
 
   const { fee, im } = isError
     ? { im: decodeImFromError(bytesOutput).marginRequirement, fee: ZERO_BN }
-    : decodeLp(bytesOutput, true, margin > 0, false, true);
+    : decodeLp(margin < 0 ? bytesOutput[2] : bytesOutput[3]);
 
   const price = await convertGasUnitsToNativeTokenUnits(
     signer,

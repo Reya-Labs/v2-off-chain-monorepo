@@ -2,7 +2,7 @@ import { BigNumber, ContractReceipt } from 'ethers';
 import {
   estimateGas,
   executeTransaction,
-  simulateTx,
+  simulateTxExpectError,
 } from '../executeTransaction';
 import { encodeSwap } from '../swap/encode';
 import { CompleteEditSwapDetails, EditSwapArgs } from './types';
@@ -11,6 +11,8 @@ import { decodeSwap } from '../../utils/decodeOutput';
 import { InfoPostSwap } from '../swap/types';
 import { processInfoPostSwap } from '../swap/processInfo';
 import { scale } from '@voltz-protocol/commons-v2';
+import { ZERO_BN } from '../../utils/constants';
+import { decodeImFromError } from '../../utils/errors/errorHandling';
 
 export async function editSwap({
   positionId,
@@ -46,20 +48,21 @@ export async function simulateEditSwap({
   // SIMULATE TX
 
   const { calldata: data, value } = encodeSwap(params, params.accountId);
-  const { txData, bytesOutput } = await simulateTx(
+  const { txData, bytesOutput, isError } = await simulateTxExpectError(
     signer,
     data,
     value,
     params.chainId,
   );
 
-  const { executedBaseAmount, executedQuoteAmount, fee, im } = decodeSwap(
-    bytesOutput,
-    false,
-    margin < 0,
-    margin > 0,
-    notional > 0,
-  );
+  const { executedBaseAmount, executedQuoteAmount, fee, im } = isError
+    ? {
+        executedBaseAmount: ZERO_BN,
+        executedQuoteAmount: ZERO_BN,
+        fee: ZERO_BN,
+        im: decodeImFromError(bytesOutput).marginRequirement,
+      }
+    : decodeSwap(margin < 0 ? bytesOutput[1] : bytesOutput[2]);
 
   const result = await processInfoPostSwap(
     signer,
@@ -71,6 +74,8 @@ export async function simulateEditSwap({
     params,
     params.positionMargin,
   );
+
+  console.log('result', result);
 
   return result;
 }
