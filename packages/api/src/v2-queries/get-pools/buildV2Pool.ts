@@ -13,7 +13,6 @@ import { getFixedRateData } from './getFixedRateData';
 import { getVariableRateData } from './getVariableRateData';
 import { getCoingeckoApiKey, getEnvironmentV2 } from '../../services/envVars';
 import { V2Pool } from '@voltz-protocol/api-v2-types';
-import { getAvailableNotionalData } from './getAvailableNotionalData';
 
 // configuration
 const lookbackWindowSeconds = SECONDS_IN_DAY;
@@ -51,13 +50,12 @@ export const buildV2Pool = async ({
     getCoingeckoApiKey(),
   );
 
-  const { currentTick, currentFixedRate, fixedRateChange } =
-    await getFixedRateData(
-      chainId,
-      marketId,
-      maturityTimestamp,
-      lookbackWindowSeconds,
-    );
+  const { currentFixedRate, fixedRateChange } = await getFixedRateData(
+    chainId,
+    marketId,
+    maturityTimestamp,
+    lookbackWindowSeconds,
+  );
 
   const { currentLiquidityIndex, currentVariableRate, variableRateChange } =
     await getVariableRateData(chainId, rateOracle, lookbackWindowSeconds);
@@ -65,14 +63,6 @@ export const buildV2Pool = async ({
   const protocolId = getMarketProtocolId(marketId);
   const marketName = getProtocolName(protocolId);
   const isBorrowingMarket = isBorrowingProtocol(protocolId);
-
-  const availableNotional = await getAvailableNotionalData(
-    chainId,
-    marketId,
-    maturityTimestamp,
-    currentTick,
-    currentLiquidityIndex,
-  );
 
   return {
     id,
@@ -86,7 +76,6 @@ export const buildV2Pool = async ({
     market: marketName,
     isBorrowing: isBorrowingMarket,
 
-    currentTick,
     currentFixedRate,
     fixedRateChange,
 
@@ -94,8 +83,6 @@ export const buildV2Pool = async ({
     currentVariableRate,
     variableRateChange,
     rateChangeLookbackWindowMS: lookbackWindowSeconds * 1000,
-
-    availableNotional,
 
     underlyingToken: {
       address: quoteToken,
