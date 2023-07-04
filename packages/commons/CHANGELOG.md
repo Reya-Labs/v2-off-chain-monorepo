@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.10.2...@voltz-protocol/commons-v2@1.11.0) (2023-07-04)
+
+### Features
+
+- more info ([3e09ab0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/3e09ab0819316b06a929ec6511fe5941987b46e0))
+
 ## [1.10.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.10.1...@voltz-protocol/commons-v2@1.10.2) (2023-07-04)
 
 **Note:** Version bump only for package @voltz-protocol/commons-v2
