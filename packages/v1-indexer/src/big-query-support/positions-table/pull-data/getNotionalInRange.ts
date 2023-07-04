@@ -4,10 +4,10 @@ import { getTableFullID, TableType, bqNumericToNumber } from '../../utils';
 export const getNotionalInRange = async (
   chainId: number,
   vammAddress: string,
-  tickLower: number,
-  tickUpper: number,
+  a: number,
+  b: number,
 ): Promise<number> => {
-  if (tickLower >= tickUpper) {
+  if (a >= b) {
     return 0;
   }
 
@@ -19,20 +19,22 @@ export const getNotionalInRange = async (
       SUM(
         liquidity * 
           (
-            POW(1.0001, IF(tickUpper < ${tickUpper}, tickUpper, ${tickUpper}) / 2) - 
-            POW(1.0001, IF(tickLower > ${tickLower}, tickLower, ${tickLower}) / 2)
+            POW(1.0001, IF(tickUpper < ${b}, tickUpper, ${b}) / 2) - 
+            POW(1.0001, IF(tickLower > ${a}, tickLower, ${a}) / 2)
           )
       ) as amount
     FROM \`${tableName}\` 
     WHERE chainId=${chainId} AND 
-          vammAddress="${vammAddress}";
+          vammAddress="${vammAddress}" AND 
+          ${a} < tickUpper AND
+          tickLower < ${b};
   `;
 
   const [rows] = await bigQuery.query({
     query: sqlQuery,
   });
 
-  if (!rows || rows.length === 0) {
+  if (!rows || rows.length === 0 || !rows[0].amount) {
     return 0;
   }
 

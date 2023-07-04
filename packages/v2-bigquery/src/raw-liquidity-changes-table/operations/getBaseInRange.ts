@@ -8,10 +8,10 @@ export const getBaseInRange = async (
   chainId: number,
   marketId: string,
   maturityTimestamp: number,
-  tickLower: number,
-  tickUpper: number,
+  a: number,
+  b: number,
 ): Promise<number> => {
-  if (tickLower >= tickUpper) {
+  if (a >= b) {
     return 0;
   }
 
@@ -27,14 +27,16 @@ export const getBaseInRange = async (
       SUM(
         liquidityDelta * 
           (
-            POW(1.0001, IF(tickUpper < ${tickUpper}, tickUpper, ${tickUpper}) / 2) - 
-            POW(1.0001, IF(tickLower > ${tickLower}, tickLower, ${tickLower}) / 2)
+            POW(1.0001, IF(tickUpper < ${b}, tickUpper, ${b}) / 2) - 
+            POW(1.0001, IF(tickLower > ${a}, tickLower, ${a}) / 2)
           )
       ) as amount
     FROM \`${tableName}\` 
     WHERE chainId=${chainId} AND 
           marketId="${marketId}" AND 
-          maturityTimestamp=${maturityTimestamp};
+          maturityTimestamp=${maturityTimestamp} AND 
+          tickUpper > ${a} AND
+          ${b} > tickLower;
   `;
 
   const [rows] = await bigQuery.query({
