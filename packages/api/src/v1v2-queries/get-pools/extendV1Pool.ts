@@ -4,6 +4,7 @@ export const extendV1Pool = (p: V1Pool): V1V2Pool => ({
   ...p,
 
   marketId: '',
+
   currentFixedRate: 0,
   fixedRateChange: 0,
 

@@ -1,3 +1,4 @@
+export * from './AvailableNotional';
 export * from './HistoricalRate';
 export * from './HistoryTransaction';
 export * from './V1Pool';

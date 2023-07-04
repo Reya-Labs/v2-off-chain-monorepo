@@ -8,6 +8,7 @@ export * from './common/services/getLiquidityIndex';
 export * from './big-query-support/historical-rates/pull-data/getLatestVariableRate';
 export * from './big-query-support/positions-table/pull-data/pullExistingPositionRow';
 export * from './big-query-support/positions-table/pull-data/pullAllPositions';
+export * from './big-query-support/positions-table/pull-data/getNotionalInRange';
 export * from './big-query-support/historical-rates/pull-data/getVariableRates';
 export * from './big-query-support/historical-rates/pull-data/getFixedRates';
 export * from './big-query-support/active-swaps-table/pull-data/getTradingVolume';

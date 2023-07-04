@@ -6,6 +6,6 @@ export const decodeV1PoolId = (poolId: string): V1PoolIdData => {
 
   return {
     chainId: Number(parts[0]),
-    vammAddress: parts[1].toUpperCase(),
+    vammAddress: parts[1].toLowerCase(),
   };
 };

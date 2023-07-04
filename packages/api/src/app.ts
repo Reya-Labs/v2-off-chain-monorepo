@@ -35,6 +35,7 @@ import { getV1V2PortfolioPositionDetails } from './v1v2-queries/get-portfolio-po
 import { getV1V2PortfolioPositionsByPool } from './v1v2-queries/get-portfolio-positions/getPortfolioPositionsByPool';
 import { getRedisClient } from './services/redis';
 import { getEnvironmentV2 } from './services/envVars';
+import { getV1V2AvailableNotional } from './v1v2-queries/get-available-notional/getAvailableNotional';
 
 export const app = express();
 
@@ -194,6 +195,19 @@ app.get(
     );
   },
 );
+
+app.get('/v1v2-available-notional/:poolId', (req, res) => {
+  const poolId = req.params.poolId;
+
+  getV1V2AvailableNotional(poolId).then(
+    (output) => {
+      res.json(output);
+    },
+    (error) => {
+      console.log(`API query failed with message ${(error as Error).message}`);
+    },
+  );
+});
 
 // V2 only
 
