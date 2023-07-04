@@ -40,7 +40,6 @@ export function decodeSwap(
   executedQuoteAmount: BigNumber;
   fee: BigNumber;
   im: BigNumber;
-  currentTick: number;
 } {
   const outputOfInterest = findOutput(
     bytesData,
@@ -52,7 +51,6 @@ export function decodeSwap(
     false,
   );
 
-  // (int256 executedBaseAmount, int256 executedQuoteAmount, uint256 fee, uint256 im, int24 currentTick)
   const result = defaultAbiCoder.decode(
     ['int256', 'int256', 'uint256', 'uint256', 'int24'],
     outputOfInterest,
@@ -63,7 +61,6 @@ export function decodeSwap(
     executedQuoteAmount: result[1],
     fee: result[2],
     im: result[3],
-    currentTick: result[4],
   };
 }
 

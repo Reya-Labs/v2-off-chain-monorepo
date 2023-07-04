@@ -2,31 +2,27 @@ import {
   convertGasUnitsToNativeTokenUnits,
   descale,
   getNativeGasToken,
+  getTimestampInSeconds,
+  getAvgFixV2,
 } from '@voltz-protocol/commons-v2';
-import { Signer, BigNumber } from 'ethers';
+import { Signer, BigNumber, providers } from 'ethers';
 import { CompleteSwapDetails, InfoPostSwap } from './types';
 import { Transaction } from '../executeTransaction';
 
 export async function processInfoPostSwap(
-  signer: Signer,
+  subject: Signer | providers.Provider,
   executedBaseAmount: BigNumber,
   executedQuoteAmount: BigNumber,
   feeAmount: BigNumber,
   im: BigNumber,
-  currentTick: number,
   txData: Transaction & {
     gasLimit: BigNumber;
   },
   params: CompleteSwapDetails,
   positionMargin = 0,
 ): Promise<InfoPostSwap> {
-  const provider = signer.provider;
-  if (!provider) {
-    throw new Error(`Missing provider for ${params.ownerAddress}`);
-  }
-
   const price = await convertGasUnitsToNativeTokenUnits(
-    provider,
+    subject,
     txData.gasLimit.toNumber(),
   );
 
@@ -38,22 +34,24 @@ export async function processInfoPostSwap(
   const baseDelta = descale(params.quoteTokenDecimals)(executedBaseAmount);
   const quoteDelta = descale(params.quoteTokenDecimals)(executedQuoteAmount);
 
-  const marginRequirement = 0; // todo: add
+  const averageFixedRate = getAvgFixV2({
+    base: baseDelta,
+    quote: quoteDelta,
+    liquidityIndex: params.currentLiquidityIndex,
+    entryTimestamp: getTimestampInSeconds(),
+    maturityTimestamp: params.maturityTimestamp,
+  });
+
+  const marginRequirement = descale(params.quoteTokenDecimals)(im);
   const maxMarginWithdrawable = Math.max(0, positionMargin - marginRequirement);
-  const availableNotional = 0; // todo: add
   const fee = descale(params.quoteTokenDecimals)(feeAmount);
-  const slippage = 0; // todo: add
-  const averageFixedRate = 0; // todo: add
 
   return {
     marginRequirement,
     maxMarginWithdrawable,
-    availableNotional,
+    variableTokenDeltaBalance: baseDelta,
     fee,
-    slippage,
     averageFixedRate,
-    quoteDelta,
-    baseDelta,
     gasFee,
   };
 }

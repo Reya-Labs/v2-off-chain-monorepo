@@ -4,7 +4,7 @@ import { extendBalancesWithTrade } from '../src/extendBalancesWithTrade';
 const PRECISION = 6;
 
 // Tests
-describe('getPositionNetBalances', () => {
+describe('Position net balances', () => {
   const trade1 = {
     tradeTimestamp: 0,
     maturityTimestamp: SECONDS_IN_YEAR,

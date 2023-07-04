@@ -1,4 +1,5 @@
 import { SECONDS_IN_YEAR } from './constants';
+import { getAvgFixV2 } from './vamm/getAvgFixV2';
 
 type Balances = {
   base: number;
@@ -35,10 +36,15 @@ export const extendBalancesWithTrade = ({
     return currentPosition;
   }
 
-  const timeDelta = (maturityTimestamp - tradeTimestamp) / SECONDS_IN_YEAR;
+  const fixedRate = getAvgFixV2({
+    base: baseDelta,
+    quote: quoteDelta,
+    liquidityIndex: tradeLiquidityIndex,
+    entryTimestamp: tradeTimestamp,
+    maturityTimestamp,
+  });
 
   const notionalDelta = baseDelta * tradeLiquidityIndex;
-  const fixedRate = (-quoteDelta / notionalDelta - 1) / timeDelta / 100;
 
   const timeDependentQuoteDelta = -notionalDelta * fixedRate;
   const freeQuoteDelta =

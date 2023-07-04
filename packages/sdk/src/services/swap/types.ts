@@ -31,14 +31,11 @@ export type SwapArgs = {
 export type InfoPostSwap = {
   marginRequirement: number;
   maxMarginWithdrawable: number;
-  availableNotional: number;
   fee: number;
-  slippage: number;
   averageFixedRate: number;
-  baseDelta: number;
-  quoteDelta: number;
+  variableTokenDeltaBalance: number;
   gasFee: {
     value: number;
-    token: 'ETH' | 'AVAX';
+    token: 'ETH' | 'AVAX' | 'USDCf';
   };
 };

@@ -53,8 +53,13 @@ export async function simulateEditSwap({
     params.chainId,
   );
 
-  const { executedBaseAmount, executedQuoteAmount, fee, im, currentTick } =
-    decodeSwap(bytesOutput, false, margin < 0, margin > 0, notional > 0);
+  const { executedBaseAmount, executedQuoteAmount, fee, im } = decodeSwap(
+    bytesOutput,
+    false,
+    margin < 0,
+    margin > 0,
+    notional > 0,
+  );
 
   const result = await processInfoPostSwap(
     signer,
@@ -62,7 +67,6 @@ export async function simulateEditSwap({
     executedQuoteAmount,
     fee,
     im,
-    currentTick,
     txData,
     params,
     params.positionMargin,

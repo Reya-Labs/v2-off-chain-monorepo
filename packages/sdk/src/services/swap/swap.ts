@@ -65,16 +65,14 @@ export async function simulateSwap({
     throw new Error('Failed to simulate swap');
   }
 
-  const { executedBaseAmount, executedQuoteAmount, fee, im, currentTick } =
-    isError
-      ? {
-          executedBaseAmount: ZERO_BN,
-          executedQuoteAmount: ZERO_BN,
-          fee: ZERO_BN,
-          currentTick: 0,
-          im: decodeImFromError(bytesOutput).marginRequirement,
-        }
-      : decodeSwap(bytesOutput, true, false, true, notional > 0);
+  const { executedBaseAmount, executedQuoteAmount, fee, im } = isError
+    ? {
+        executedBaseAmount: ZERO_BN,
+        executedQuoteAmount: ZERO_BN,
+        fee: ZERO_BN,
+        im: decodeImFromError(bytesOutput).marginRequirement,
+      }
+    : decodeSwap(bytesOutput, true, false, true, notional > 0);
 
   const result = await processInfoPostSwap(
     signer,
@@ -82,7 +80,6 @@ export async function simulateSwap({
     executedQuoteAmount,
     fee,
     im,
-    currentTick,
     txData,
     params,
   );
