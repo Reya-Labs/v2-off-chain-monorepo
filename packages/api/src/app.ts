@@ -36,6 +36,7 @@ import { getV1V2PortfolioPositionsByPool } from './v1v2-queries/get-portfolio-po
 import { getRedisClient } from './services/redis';
 import { getEnvironmentV2 } from './services/envVars';
 import { getV1V2AvailableNotional } from './v1v2-queries/get-available-notional/getAvailableNotional';
+import { getV2TradeInformation } from './v2-queries/get-pools/getTradeInformation';
 
 export const app = express();
 
@@ -229,6 +230,20 @@ app.get('/v2-positions/:chainIds/:ownerAddress', (req, res) => {
   const ownerAddress = req.params.ownerAddress.toLowerCase();
 
   getV2PortfolioPositions(chainIds, ownerAddress).then(
+    (output) => {
+      res.json(output);
+    },
+    (error) => {
+      console.log(`API query failed with message ${(error as Error).message}`);
+    },
+  );
+});
+
+app.get('/v2-trade-information/:poolId/:notional', (req, res) => {
+  const poolId = req.params.poolId;
+  const notional = Number(req.params.notional);
+
+  getV2TradeInformation(poolId, notional).then(
     (output) => {
       res.json(output);
     },
