@@ -102,11 +102,9 @@ export async function simulateTxExpectError(
   let isError = false;
   let resultOrError: any;
   try {
-    await signer.call(txData).then(
-      (result) => {
-        if (result === undefined) {
-          throw new Error('Failed to get transaction output');
-        }
+    await signer
+      .call(txData)
+      .then((result) => {
         const abiFragment = [
           'function execute(bytes, bytes[], uint256) external returns (bytes[])',
         ];
@@ -115,13 +113,13 @@ export async function simulateTxExpectError(
           'execute',
           result,
         );
-        resultOrError = decodedResponse;
-      },
-      (error) => {
+
+        resultOrError = decodedResponse[0];
+      })
+      .catch((error) => {
         isError = true;
         resultOrError = error;
-      },
-    );
+      });
   } catch (error) {
     const errorMessage = getReadableErrorMessage(error);
     throw new Error(errorMessage);
@@ -129,7 +127,7 @@ export async function simulateTxExpectError(
 
   return {
     txData: txData,
-    bytesOutput: isError ? resultOrError : resultOrError[0],
+    bytesOutput: resultOrError,
     isError: isError,
   };
 }

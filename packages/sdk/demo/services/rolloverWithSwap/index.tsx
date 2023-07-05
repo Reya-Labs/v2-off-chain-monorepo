@@ -15,7 +15,7 @@ export const RolloverWithSwapTest: React.FunctionComponent<{
   const { isLoggedIn, signer } = React.useContext(WalletContext);
   const [isTesting, setIsTesting] = React.useState(false);
   const [testError, setTestError] = React.useState<null | unknown>(null);
-  const [testResult, setTestResult] = React.useState('');
+  const [testResult, setTestResult] = React.useState<any>('');
   const test = async () => {
     if (!signer) {
       alert('Connect Wallet First');
@@ -31,7 +31,7 @@ export const RolloverWithSwapTest: React.FunctionComponent<{
         notional,
         margin,
       });
-      setTestResult(JSON.stringify(result));
+      setTestResult(result);
     } catch (error) {
       setTestError(error);
     } finally {

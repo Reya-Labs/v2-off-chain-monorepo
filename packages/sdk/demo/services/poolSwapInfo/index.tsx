@@ -12,7 +12,7 @@ export const GetPoolSwapInfoTest: React.FunctionComponent<
   const { isLoggedIn, provider } = React.useContext(WalletContext);
   const [isTesting, setIsTesting] = React.useState(false);
   const [testError, setTestError] = React.useState<null | unknown>(null);
-  const [testResult, setTestResult] = React.useState('');
+  const [testResult, setTestResult] = React.useState<any>('');
 
   const test = async () => {
     if (!provider) {
@@ -23,7 +23,7 @@ export const GetPoolSwapInfoTest: React.FunctionComponent<
     setTestError(null);
     try {
       const result = 0;
-      setTestResult(JSON.stringify(result));
+      setTestResult(result);
     } catch (error) {
       setTestError(error);
     } finally {

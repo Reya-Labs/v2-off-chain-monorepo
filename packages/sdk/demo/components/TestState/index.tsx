@@ -13,7 +13,7 @@ const extractError = (err: unknown): string => {
   if (err instanceof Error || isError(err as never)) {
     return (err as Error).message;
   }
-  return '';
+  return JSON.stringify(err, undefined, 2);
 };
 
 const TestResultBox = styled('div')`
@@ -25,7 +25,7 @@ const TestResultBox = styled('div')`
 export const TestState: React.FunctionComponent<{
   error: unknown;
   loading: boolean;
-  result: string;
+  result: any;
 }> = ({ error, loading, result }) => {
   return (
     <TestResultBox>
@@ -42,7 +42,7 @@ export const TestState: React.FunctionComponent<{
           colorToken="skyBlueCrayola"
           typographyToken="primaryBodyMediumRegular"
         >
-          {JSON.stringify(result)}
+          {JSON.stringify(result, undefined, 2)}
         </Typography>
       ) : null}
       {loading ? <RainbowLoader height={2} text="Test in progress..." /> : null}

@@ -118,18 +118,20 @@ export const getReadableErrorMessage = (error: any): string => {
   return message;
 };
 
-export type RawInfoPostMint = {
+export const decodeImFromError = (
+  error: any,
+): {
   marginRequirement: BigNumber;
-};
-
-export const decodeImFromError = (error: any): RawInfoPostMint => {
+} => {
   const errSig = getErrorSignature(error);
   if (errSig === 'AccountBelowIM') {
-    const reason = getErrorData(error);
-    const decodingResult = iface.decodeErrorResult(errSig, reason);
+    // const reason = getErrorData(error);
+    // const decodingResult = iface.decodeErrorResult(errSig, reason);
 
     return {
-      marginRequirement: decodingResult.im,
+      // todo: decode
+      // marginRequirement: decodingResult.im,
+      marginRequirement: ZERO_BN,
     };
   }
 

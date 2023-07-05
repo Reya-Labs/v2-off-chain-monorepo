@@ -72,7 +72,7 @@ export async function simulateSwap({
         fee: ZERO_BN,
         im: decodeImFromError(bytesOutput).marginRequirement,
       }
-    : decodeSwap(bytesOutput, true, false, true, notional > 0);
+    : decodeSwap(margin < 0 ? bytesOutput[2] : bytesOutput[3]);
 
   const result = await processInfoPostSwap(
     signer,

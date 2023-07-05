@@ -12,7 +12,7 @@ import {
 import {
   isNull,
   extendBalancesWithTrade,
-  computePassiveDeltas,
+  getLpInfoInRange,
   SECONDS_IN_YEAR,
 } from '@voltz-protocol/commons-v2';
 import { getEnvironmentV2 } from '../services/envVars';
@@ -80,19 +80,10 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
     );
 
     const updateBatch2 = lpPositions.map((lp) => {
-      const { baseDelta, quoteDelta: tracker } = computePassiveDeltas({
-        liquidity: lp.liquidity,
-        tickMove: {
-          from: latestTick as number,
-          to: currentTick,
-        },
-        tickRange: {
-          lower: lp.tickLower,
-          upper: lp.tickUpper,
-        },
-      });
+      const { base: baseTradedByTraders, avgFix: avgFixedRate } =
+        getLpInfoInRange([lp], currentTick, latestTick as number);
 
-      const avgFixedRate = Math.abs(tracker / baseDelta);
+      const baseDelta = -baseTradedByTraders;
       const quoteDelta =
         -baseDelta *
         liquidityIndex *

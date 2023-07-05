@@ -6,3 +6,6 @@ export const SECONDS_IN_MINUTE = 60;
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 export const ZERO_ACCOUNT = '0';
+
+export const VAMM_MIN_TICK = -69100;
+export const VAMM_MAX_TICK = 69100;
