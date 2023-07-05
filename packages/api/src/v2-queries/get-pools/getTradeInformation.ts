@@ -12,6 +12,13 @@ import {
 } from '@voltz-protocol/bigquery-v2';
 import { V2TradeInformation } from '@voltz-protocol/api-v2-types';
 
+const defaultResponse: V2TradeInformation = {
+  availableNotional: 0,
+  availableBase: 0,
+  currentLiquidityIndex: 1,
+  avgFix: 0,
+};
+
 export const getV2TradeInformation = async (
   poolId: string,
   notionalToTrade: number,
@@ -22,10 +29,7 @@ export const getV2TradeInformation = async (
   const market = await pullMarketEntry(environmentTag, chainId, marketId);
 
   if (!market) {
-    return {
-      availableNotional: 0,
-      avgFix: 0,
-    };
+    return defaultResponse;
   }
 
   const currentTick = await getCurrentVammTick(
@@ -43,10 +47,7 @@ export const getV2TradeInformation = async (
   );
 
   if (isNull(currentTick) || isNull(liquidityIndex) || liquidityIndex === 0) {
-    return {
-      availableNotional: 0,
-      avgFix: 0,
-    };
+    return defaultResponse;
   }
 
   const baseToTrade = notionalToTrade / (liquidityIndex as number);
@@ -63,5 +64,7 @@ export const getV2TradeInformation = async (
   return {
     availableNotional: move.base * (liquidityIndex as number),
     avgFix: move.avgFix,
+    availableBase: move.base,
+    currentLiquidityIndex: liquidityIndex as number,
   };
 };

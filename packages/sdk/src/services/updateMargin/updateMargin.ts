@@ -47,15 +47,22 @@ async function createUpdateMarginParams({
 
   const partialOrder = await getPositionInfo(positionId);
 
-  if (partialOrder.chainId !== chainId) {
+  if (partialOrder.pool.chainId !== chainId) {
     throw new Error('Chain id mismatch between pool and signer');
   }
 
+  const quoteTokenDecimals = partialOrder.pool.underlyingToken.tokenDecimals;
+  const isETH = partialOrder.pool.underlyingToken.priceUSD > 1;
+
   const params: UpdateMarginParams = {
-    ...partialOrder,
-    margin: scale(partialOrder.quoteTokenDecimals)(margin),
+    chainId,
+    quoteTokenAddress: partialOrder.pool.underlyingToken.address,
+    quoteTokenDecimals,
+    isETH,
+    accountId: partialOrder.accountId,
+    margin: scale(quoteTokenDecimals)(margin),
     // todo: liquidator booster hard-coded
-    liquidatorBooster: scale(partialOrder.quoteTokenDecimals)(0),
+    liquidatorBooster: scale(quoteTokenDecimals)(0),
   };
 
   console.log('update margin params:', params);

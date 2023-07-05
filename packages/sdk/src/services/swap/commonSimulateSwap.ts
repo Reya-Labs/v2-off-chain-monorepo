@@ -11,6 +11,8 @@ import {
   getAvgFixV2,
   getTimestampInSeconds,
 } from '@voltz-protocol/commons-v2';
+import { getTradeInformation } from '../../gateway/getTradeInformation';
+import { getFee } from '../../utils/getFee';
 
 const defaultResponse: InfoPostSwap = {
   marginRequirement: -1,
@@ -57,6 +59,14 @@ export async function commonSimulateSwap(
     marginRequirement = descale(params.quoteTokenDecimals)(
       decodeImFromError(bytesOutput).marginRequirement,
     );
+
+    const { availableNotional, availableBase, avgFix } =
+      await getTradeInformation(params.poolId, params.userNotional);
+
+    baseDelta = availableBase;
+    averageFixedRate = avgFix;
+
+    fee = getFee(availableNotional, params.fee, params.maturityTimestamp);
   } else {
     const output = decodeSwap(bytesOutput[swapActionPosition]);
 

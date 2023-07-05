@@ -22,15 +22,17 @@ export const getBalance = async ({
     throw new Error('Chain id mismatch between pool and signer');
   }
 
+  const isETH = poolInfo.underlyingToken.priceUSD > 1;
+
   let currentBalance: number;
-  if (poolInfo.isETH) {
+  if (isETH) {
     currentBalance = await getEthBalance({ walletAddress, provider });
   } else {
     currentBalance = await getERC20Balance({
       walletAddress,
       provider,
-      tokenAddress: poolInfo.quoteTokenAddress,
-      tokenDecimals: poolInfo.quoteTokenDecimals,
+      tokenAddress: poolInfo.underlyingToken.address,
+      tokenDecimals: poolInfo.underlyingToken.tokenDecimals,
     });
   }
 

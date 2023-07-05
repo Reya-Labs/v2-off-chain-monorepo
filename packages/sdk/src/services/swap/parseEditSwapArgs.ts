@@ -12,37 +12,49 @@ export const parseEditSwapArgs = async ({
   const positionInfo = await getPositionInfo(positionId);
 
   // Check that signer is connected to the right network
-  if (positionInfo.chainId !== chainId) {
+  if (positionInfo.pool.chainId !== chainId) {
     throw new Error('Chain ids are different for pool and signer');
   }
 
+  // Decode some information from position
+  const quoteTokenDecimals = positionInfo.pool.underlyingToken.tokenDecimals;
+  const currentLiquidityIndex = positionInfo.pool.currentLiquidityIndex;
+
+  const maturityTimestamp = Math.round(
+    positionInfo.pool.termEndTimestampInMS / 1000,
+  );
+
   // Get base amount
-  const baseAmount = notional / positionInfo.currentLiquidityIndex;
+  const baseAmount = notional / currentLiquidityIndex;
 
   // Build parameters
   const params: CompleteSwapDetails = {
+    poolId: positionInfo.pool.id,
     chainId,
     signer,
 
-    productAddress: positionInfo.productAddress,
-    marketId: positionInfo.marketId,
-    maturityTimestamp: positionInfo.maturityTimestamp,
-    currentLiquidityIndex: positionInfo.currentLiquidityIndex,
+    productAddress: positionInfo.pool.productAddress,
+    marketId: positionInfo.pool.marketId,
+    fee: 0, // todo: replace by pool.takerFee
+    maturityTimestamp,
+    currentLiquidityIndex,
 
-    quoteTokenAddress: positionInfo.quoteTokenAddress,
-    quoteTokenDecimals: positionInfo.quoteTokenDecimals,
+    quoteTokenAddress: positionInfo.pool.underlyingToken.address,
+    quoteTokenDecimals,
+
+    userNotional: notional,
 
     accountId: positionInfo.accountId,
-    accountMargin: positionInfo.positionMargin,
+    accountMargin: positionInfo.margin,
 
     ownerAddress: await signer.getAddress(),
 
-    baseAmount: scale(positionInfo.quoteTokenDecimals)(baseAmount),
+    baseAmount: scale(quoteTokenDecimals)(baseAmount),
 
-    margin: scale(positionInfo.quoteTokenDecimals)(margin),
+    margin: scale(quoteTokenDecimals)(margin),
     // todo: liquidator booster hard-coded
-    liquidatorBooster: scale(positionInfo.quoteTokenDecimals)(0),
-    isETH: positionInfo.isETH,
+    liquidatorBooster: scale(quoteTokenDecimals)(0),
+    isETH: positionInfo.pool.underlyingToken.priceUSD > 1,
   };
 
   console.log('edit swap params:', params);

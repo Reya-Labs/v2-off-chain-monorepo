@@ -33,8 +33,14 @@ export const parseLpArgs = async ({
   );
   const tickUpper = fixedRateToSpacedTick(fixedLow / 100, poolInfo.tickSpacing);
 
+  // Decode some information from pool
+  const quoteTokenDecimals = poolInfo.underlyingToken.tokenDecimals;
+  const currentLiquidityIndex = poolInfo.currentLiquidityIndex;
+
+  const maturityTimestamp = Math.round(poolInfo.termEndTimestampInMS / 1000);
+
   // Get liquidity amount
-  const base = notional / poolInfo.currentLiquidityIndex;
+  const base = notional / currentLiquidityIndex;
   const liquidityAmount = getLiquidityFromBase(base, tickLower, tickUpper);
 
   // Build parameters
@@ -42,12 +48,15 @@ export const parseLpArgs = async ({
     chainId,
     signer,
 
+    poolId: poolInfo.id,
+
     productAddress: poolInfo.productAddress,
     marketId: poolInfo.marketId,
-    maturityTimestamp: poolInfo.maturityTimestamp,
+    maturityTimestamp,
+    fee: 0, // todo: replace by pool.makerFee
 
-    quoteTokenAddress: poolInfo.quoteTokenAddress,
-    quoteTokenDecimals: poolInfo.quoteTokenDecimals,
+    quoteTokenAddress: poolInfo.underlyingToken.address,
+    quoteTokenDecimals: quoteTokenDecimals,
 
     accountId: undefined,
     accountMargin: 0,
@@ -56,12 +65,14 @@ export const parseLpArgs = async ({
     tickLower,
     tickUpper,
 
-    liquidityAmount: scale(poolInfo.quoteTokenDecimals)(liquidityAmount),
+    userNotional: notional,
 
-    margin: scale(poolInfo.quoteTokenDecimals)(margin),
+    liquidityAmount: scale(quoteTokenDecimals)(liquidityAmount),
+
+    margin: scale(quoteTokenDecimals)(margin),
     // todo: liquidator booster hard-coded
-    liquidatorBooster: scale(poolInfo.quoteTokenDecimals)(1),
-    isETH: poolInfo.isETH,
+    liquidatorBooster: scale(quoteTokenDecimals)(1),
+    isETH: poolInfo.underlyingToken.priceUSD > 1,
   };
 
   console.log('lp params:', params);

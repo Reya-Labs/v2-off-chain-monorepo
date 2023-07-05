@@ -35,7 +35,12 @@ export type CompleteSwapDetails = EncodeSwapArgs & {
 
   chainId: number;
 
+  userNotional: number;
+
+  poolId: string;
+
   quoteTokenDecimals: number;
+  fee: number;
   currentLiquidityIndex: number;
 
   accountMargin: number;

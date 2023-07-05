@@ -16,33 +16,44 @@ export const parseSwapArgs = async ({
     throw new Error('Chain ids are different for pool and signer');
   }
 
+  // Decode some information from pool
+  const quoteTokenDecimals = poolInfo.underlyingToken.tokenDecimals;
+  const currentLiquidityIndex = poolInfo.currentLiquidityIndex;
+
+  const maturityTimestamp = Math.round(poolInfo.termEndTimestampInMS / 1000);
+
   // Get base amount
-  const baseAmount = notional / poolInfo.currentLiquidityIndex;
+  const baseAmount = notional / currentLiquidityIndex;
 
   // Build parameters
   const params: CompleteSwapDetails = {
     chainId,
     signer,
 
+    poolId: poolInfo.id,
+
     productAddress: poolInfo.productAddress,
     marketId: poolInfo.marketId,
-    maturityTimestamp: poolInfo.maturityTimestamp,
-    currentLiquidityIndex: poolInfo.currentLiquidityIndex,
+    fee: 0, // todo: replace by pool.takerFee
+    maturityTimestamp,
+    currentLiquidityIndex,
 
-    quoteTokenAddress: poolInfo.quoteTokenAddress,
-    quoteTokenDecimals: poolInfo.quoteTokenDecimals,
+    quoteTokenAddress: poolInfo.underlyingToken.address,
+    quoteTokenDecimals,
 
     accountId: undefined,
     accountMargin: 0,
 
+    userNotional: notional,
+
     ownerAddress: await signer.getAddress(),
 
-    baseAmount: scale(poolInfo.quoteTokenDecimals)(baseAmount),
+    baseAmount: scale(quoteTokenDecimals)(baseAmount),
 
-    margin: scale(poolInfo.quoteTokenDecimals)(margin),
+    margin: scale(quoteTokenDecimals)(margin),
     // todo: liquidator booster hard-coded
-    liquidatorBooster: scale(poolInfo.quoteTokenDecimals)(1),
-    isETH: poolInfo.isETH,
+    liquidatorBooster: scale(quoteTokenDecimals)(1),
+    isETH: poolInfo.underlyingToken.priceUSD > 1,
   };
 
   console.log('swap params:', params);

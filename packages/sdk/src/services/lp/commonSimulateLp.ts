@@ -6,10 +6,10 @@ import {
   convertGasUnitsToNativeTokenUnits,
   getNativeGasToken,
   descale,
-} from '@voltz-protocol/commons-v2/dist/types';
-import { ZERO_BN } from '../../utils/constants';
+} from '@voltz-protocol/commons-v2';
 import { decodeLp } from '../../utils/decodeOutput';
 import { decodeImFromError } from '../../utils/errors/errorHandling';
+import { getFee } from '../../utils/getFee';
 
 export const commonSimulateLp = async (
   params: CompleteLpDetails,
@@ -43,9 +43,19 @@ export const commonSimulateLp = async (
     };
   }
 
-  const { fee, im } = isError
-    ? { im: decodeImFromError(bytesOutput).marginRequirement, fee: ZERO_BN }
-    : decodeLp(bytesOutput[lpActionPosition]);
+  let fee = 0;
+  let marginRequirement = 0;
+
+  if (isError) {
+    marginRequirement = descale(params.quoteTokenDecimals)(
+      decodeImFromError(bytesOutput).marginRequirement,
+    );
+    fee = getFee(params.userNotional, params.fee, params.maturityTimestamp);
+  } else {
+    const output = decodeLp(bytesOutput[lpActionPosition]);
+    marginRequirement = descale(params.quoteTokenDecimals)(output.im);
+    fee = descale(params.quoteTokenDecimals)(output.fee);
+  }
 
   const price = await convertGasUnitsToNativeTokenUnits(
     params.signer,
@@ -57,15 +67,14 @@ export const commonSimulateLp = async (
     token: getNativeGasToken(params.chainId),
   };
 
-  const marginRequirement = descale(params.quoteTokenDecimals)(im);
   const maxMarginWithdrawable = Math.max(
     0,
     params.accountMargin - marginRequirement,
   );
 
   const result = {
-    gasFee: gasFee,
-    fee: descale(params.quoteTokenDecimals)(fee),
+    gasFee,
+    fee,
     marginRequirement,
     maxMarginWithdrawable,
   };

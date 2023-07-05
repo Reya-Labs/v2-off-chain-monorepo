@@ -36,10 +36,13 @@ export type EncodeLpArgs = {
 
 export type CompleteLpDetails = EncodeLpArgs & {
   signer: Signer;
+  userNotional: number;
 
   chainId: number;
+  poolId: string;
 
   quoteTokenDecimals: number;
+  fee: number;
 
   accountMargin: number;
 };
