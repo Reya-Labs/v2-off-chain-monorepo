@@ -1,6 +1,6 @@
 import { RolloverWithLpArgs } from './types';
 import { ContractReceipt } from 'ethers';
-import { InfoPostLp } from '../newLp';
+import { InfoPostLp } from '../lp';
 
 export async function rolloverWithLp(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
