@@ -10,14 +10,12 @@ import {
   getTradeMove,
   pullMarketEntry,
 } from '@voltz-protocol/bigquery-v2';
+import { V2TradeInformation } from '@voltz-protocol/api-v2-types';
 
 export const getV2TradeInformation = async (
   poolId: string,
   notionalToTrade: number,
-): Promise<{
-  availableNotional: number;
-  avgFix: number;
-}> => {
+): Promise<V2TradeInformation> => {
   const environmentTag = getEnvironmentV2();
   const { chainId, marketId, maturityTimestamp } = decodeV2PoolId(poolId);
 
