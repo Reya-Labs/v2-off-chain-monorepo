@@ -1,5 +1,5 @@
 export * from './getAvgFixV2';
-export * from './getLpBaseInRange';
+export * from './getLpInfoInRange';
 export * from './getDeltasFromLiquidity';
 export * from './getLiquidityFromBase';
 export * from './tickConversions';
