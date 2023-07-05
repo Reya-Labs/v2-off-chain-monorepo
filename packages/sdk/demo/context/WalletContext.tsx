@@ -28,7 +28,7 @@ export const WalletContextProvider: React.FunctionComponent = ({
   children,
 }) => {
   const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState('');
+  const [error, setError] = React.useState<any>('');
   const [account, setAccount] = React.useState('');
   const [signer, setSigner] =
     React.useState<ethers.providers.JsonRpcSigner | null>(null);
