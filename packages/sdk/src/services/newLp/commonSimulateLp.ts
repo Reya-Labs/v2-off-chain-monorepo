@@ -1,0 +1,69 @@
+import { BigNumber } from 'ethers';
+import { Transaction, simulateTxExpectError } from '../executeTransaction';
+import { encodeLp } from './encode';
+import { CompleteLpDetails, InfoPostLp } from './types';
+import {
+  convertGasUnitsToNativeTokenUnits,
+  getNativeGasToken,
+  descale,
+} from '@voltz-protocol/commons-v2/dist/types';
+import { ZERO_BN } from '../../utils/constants';
+import { decodeLp } from '../../utils/decodeOutput';
+import { decodeImFromError } from '../../utils/errors/errorHandling';
+
+export const commonSimulateLp = async (
+  params: CompleteLpDetails,
+): Promise<InfoPostLp> => {
+  const { calldata: data, value, lpActionPosition } = encodeLp(params);
+  let txData: Transaction & { gasLimit: BigNumber };
+  let bytesOutput: any;
+  let isError = false;
+
+  try {
+    const res = await simulateTxExpectError(
+      params.signer,
+      data,
+      value,
+      params.chainId,
+    );
+
+    txData = res.txData;
+    bytesOutput = res.bytesOutput;
+    isError = res.isError;
+  } catch (e) {
+    return {
+      gasFee: {
+        value: -1,
+        token: 'ETH',
+      },
+      fee: -1,
+      marginRequirement: -1,
+      maxMarginWithdrawable: -1,
+    };
+  }
+
+  const { fee, im } = isError
+    ? { im: decodeImFromError(bytesOutput).marginRequirement, fee: ZERO_BN }
+    : decodeLp(bytesOutput[lpActionPosition]);
+
+  const price = await convertGasUnitsToNativeTokenUnits(
+    params.signer,
+    txData.gasLimit.toNumber(),
+  );
+
+  const gasFee = {
+    value: price,
+    token: getNativeGasToken(params.chainId),
+  };
+
+  const marginRequirement = descale(params.quoteTokenDecimals)(im);
+
+  const result = {
+    gasFee: gasFee,
+    fee: descale(params.quoteTokenDecimals)(fee),
+    marginRequirement,
+    maxMarginWithdrawable: params.accountMargin - marginRequirement,
+  };
+
+  return result;
+};
