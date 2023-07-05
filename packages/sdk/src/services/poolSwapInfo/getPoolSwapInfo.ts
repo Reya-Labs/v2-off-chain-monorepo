@@ -9,7 +9,5 @@ export const getPoolSwapInfo = async (
   return {
     availableNotionalFixedTaker: availableNotional.short,
     availableNotionalVariableTaker: availableNotional.long,
-    maxLeverageFixedTaker: Number.MAX_SAFE_INTEGER,
-    maxLeverageVariableTaker: Number.MAX_SAFE_INTEGER,
   };
 };

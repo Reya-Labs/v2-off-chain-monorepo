@@ -4,7 +4,6 @@ export * from './services/lp';
 export * from './services/updateMargin';
 export * from './services/rolloverWithLp';
 export * from './services/rolloverWithSwap';
-export * from './services/editSwap';
 export * from './services/poolSwapInfo';
 export * from './services/token';
 export * from './utils/configuration';

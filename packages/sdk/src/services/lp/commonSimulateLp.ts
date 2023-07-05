@@ -15,6 +15,7 @@ export const commonSimulateLp = async (
   params: CompleteLpDetails,
 ): Promise<InfoPostLp> => {
   const { calldata: data, value, lpActionPosition } = encodeLp(params);
+
   let txData: Transaction & { gasLimit: BigNumber };
   let bytesOutput: any;
   let isError = false;
@@ -57,12 +58,16 @@ export const commonSimulateLp = async (
   };
 
   const marginRequirement = descale(params.quoteTokenDecimals)(im);
+  const maxMarginWithdrawable = Math.max(
+    0,
+    params.accountMargin - marginRequirement,
+  );
 
   const result = {
     gasFee: gasFee,
     fee: descale(params.quoteTokenDecimals)(fee),
     marginRequirement,
-    maxMarginWithdrawable: params.accountMargin - marginRequirement,
+    maxMarginWithdrawable,
   };
 
   return result;
