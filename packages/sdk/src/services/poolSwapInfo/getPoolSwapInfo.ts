@@ -1,13 +1,15 @@
-import { GetPoolSwapInfoArgs, GetPoolSwapInfoResults } from './types';
+import { getAvailableNotional } from '../../gateway/getAvailableNotional';
+import { GetPoolSwapInfoResults } from './types';
 
 export const getPoolSwapInfo = async (
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _: GetPoolSwapInfoArgs,
+  poolId: string,
 ): Promise<GetPoolSwapInfoResults> => {
+  const availableNotional = await getAvailableNotional(poolId);
+
   return {
-    availableNotionalFixedTaker: 1000000000,
-    availableNotionalVariableTaker: 1000000000,
-    maxLeverageFixedTaker: 1,
-    maxLeverageVariableTaker: 1,
+    availableNotionalFixedTaker: availableNotional.short,
+    availableNotionalVariableTaker: availableNotional.long,
+    maxLeverageFixedTaker: Number.MAX_SAFE_INTEGER,
+    maxLeverageVariableTaker: Number.MAX_SAFE_INTEGER,
   };
 };

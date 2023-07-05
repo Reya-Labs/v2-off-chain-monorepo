@@ -5,6 +5,6 @@ export const getPoolLpInfo = async (
   _: GetPoolLpInfoArgs,
 ): Promise<GetPoolLpInfoResults> => {
   return {
-    maxLeverage: 1,
+    maxLeverage: Number.MAX_SAFE_INTEGER,
   };
 };

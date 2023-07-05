@@ -1,8 +1,9 @@
 import { BigNumber, ContractReceipt } from 'ethers';
 import {
+  Transaction,
   estimateGas,
   executeTransaction,
-  simulateTx,
+  simulateTxExpectError,
 } from '../executeTransaction';
 import { CompleteEditLpDetails, EditLpArgs } from './types';
 import { InfoPostLp } from '../lp';
@@ -16,6 +17,8 @@ import {
   descale,
   scale,
 } from '@voltz-protocol/commons-v2';
+import { decodeImFromError } from '../../utils/errors/errorHandling';
+import { ZERO_BN } from '../../utils/constants';
 
 export async function editLp({
   positionId,
@@ -49,14 +52,36 @@ export async function simulateEditLp({
   });
 
   const { calldata: data, value } = encodeLp(params, params.accountId);
-  const { txData, bytesOutput } = await simulateTx(
-    signer,
-    data,
-    value,
-    params.chainId,
-  );
+  let txData: Transaction & { gasLimit: BigNumber };
+  let bytesOutput: any;
+  let isError = false;
 
-  const { fee, im } = decodeLp(margin < 0 ? bytesOutput[1] : bytesOutput[2]);
+  try {
+    const res = await simulateTxExpectError(
+      signer,
+      data,
+      value,
+      params.chainId,
+    );
+
+    txData = res.txData;
+    bytesOutput = res.bytesOutput;
+    isError = res.isError;
+  } catch (e) {
+    return {
+      gasFee: {
+        value: -1,
+        token: 'ETH',
+      },
+      fee: -1,
+      marginRequirement: -1,
+      maxMarginWithdrawable: -1,
+    };
+  }
+
+  const { fee, im } = isError
+    ? { im: decodeImFromError(bytesOutput).marginRequirement, fee: ZERO_BN }
+    : decodeLp(margin < 0 ? bytesOutput[1] : bytesOutput[2]);
 
   const price = await convertGasUnitsToNativeTokenUnits(
     signer,
@@ -69,18 +94,12 @@ export async function simulateEditLp({
   };
 
   const marginRequirement = descale(params.quoteTokenDecimals)(im);
-  const maxLeverage =
-    marginRequirement === 0
-      ? Number.MAX_SAFE_INTEGER
-      : notional / marginRequirement;
 
   const result = {
     gasFee: gasFee,
     fee: descale(params.quoteTokenDecimals)(fee),
-    marginRequirement: descale(params.quoteTokenDecimals)(im),
-    maxMarginWithdrawable:
-      params.positionMargin - descale(params.quoteTokenDecimals)(im),
-    maxLeverage,
+    marginRequirement,
+    maxMarginWithdrawable: params.positionMargin - marginRequirement,
   };
 
   return result;
