@@ -42,7 +42,7 @@ export const parseEditSwapArgs = async ({
     quoteTokenAddress: positionInfo.pool.underlyingToken.address,
     quoteTokenDecimals,
 
-    userNotional: notional,
+    userBase: baseAmount,
 
     accountId: positionInfo.accountId,
     accountMargin: positionInfo.margin,

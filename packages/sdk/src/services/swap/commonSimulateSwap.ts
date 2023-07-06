@@ -60,12 +60,15 @@ export async function commonSimulateSwap(
       decodeImFromError(bytesOutput).marginRequirement,
     );
 
-    const { availableNotional, availableBase, avgFix } =
-      await getTradeInformation(params.poolId, params.userNotional);
+    const { availableBase, avgFix } = await getTradeInformation(
+      params.poolId,
+      params.userBase,
+    );
 
     baseDelta = availableBase;
     averageFixedRate = avgFix;
 
+    const availableNotional = availableBase * params.currentLiquidityIndex;
     fee = getFee(availableNotional, params.fee, params.maturityTimestamp);
   } else {
     const output = decodeSwap(bytesOutput[swapActionPosition]);

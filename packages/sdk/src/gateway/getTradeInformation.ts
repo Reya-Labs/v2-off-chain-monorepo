@@ -3,9 +3,9 @@ import { API_URL } from './constants';
 
 export async function getTradeInformation(
   poolId: string,
-  notional: number,
+  base: number,
 ): Promise<V2TradeInformation> {
-  const endpoint = `v1v2-trade-information/${poolId}/${notional}`;
+  const endpoint = `v2-trade-information/${poolId}/${base}`;
   const response = await fetch(`${API_URL}${endpoint}`);
 
   const result = (await response.json()) as V2TradeInformation;

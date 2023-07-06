@@ -26,7 +26,7 @@ export class MultiAction {
   }
 
   public get length(): number {
-    return this.commands.length;
+    return this.inputs.length;
   }
 
   public newAction(singleAction: SingleAction): void {

@@ -44,7 +44,7 @@ export const parseSwapArgs = async ({
     accountId: undefined,
     accountMargin: 0,
 
-    userNotional: notional,
+    userBase: baseAmount,
 
     ownerAddress: await signer.getAddress(),
 
