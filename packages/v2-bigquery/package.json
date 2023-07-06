@@ -1,6 +1,6 @@
 {
   "name": "@voltz-protocol/bigquery-v2",
-  "version": "1.8.5",
+  "version": "1.8.6",
   "publishConfig": {
     "access": "public"
   },
