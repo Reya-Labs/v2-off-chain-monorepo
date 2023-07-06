@@ -6,54 +6,90 @@ import {
   encodeSingleCreateAccount,
   encodeSingleMakerOrder,
 } from '../encode';
-import { LpPeripheryParameters } from './types';
+import { ZERO_BN } from '../../utils/constants';
+import { EncodeLpArgs } from './types';
 
-export function encodeLp(
-  trade: LpPeripheryParameters,
-  accountId?: string,
-): MethodParameters {
+export function encodeLp({
+  productAddress,
+  marketId,
+  maturityTimestamp,
+  quoteTokenAddress,
+
+  accountId,
+  ownerAddress,
+  tickLower,
+  tickUpper,
+
+  liquidityAmount,
+
+  margin,
+  liquidatorBooster,
+  isETH,
+}: EncodeLpArgs): MethodParameters & {
+  lpActionPosition: number;
+} {
   const multiAction = new MultiAction();
+  let ethAmount = ZERO_BN;
 
   if (accountId === undefined) {
-    // open account
+    // Open account
+
     accountId = createAccountId({
-      ownerAddress: trade.ownerAddress,
-      productAddress: trade.productAddress,
-      marketId: trade.marketId,
-      maturityTimestamp: trade.maturityTimestamp,
+      ownerAddress,
+      productAddress,
+      marketId,
+      maturityTimestamp,
       isLp: true,
-      tickLower: trade.tickLower,
-      tickUpper: trade.tickUpper,
+      tickLower,
+      tickUpper,
     });
 
-    console.log('LP account id:', accountId.toString());
     encodeSingleCreateAccount(accountId, multiAction);
   }
 
-  // deposit
-  const ethAmount = encodeDeposit(
+  // If deposit, do it before LP
+  if (margin.gt(0)) {
+    ethAmount = encodeDeposit(
+      accountId,
+      quoteTokenAddress,
+      isETH,
+      margin,
+      liquidatorBooster,
+      multiAction,
+    );
+  }
+
+  // LP
+
+  // Store the index of LP command to know what result to decode later
+  const lpActionPosition = multiAction.length;
+
+  encodeSingleMakerOrder(
     accountId,
-    trade.quoteTokenAddress,
-    trade.isETH,
-    trade.margin,
-    trade.liquidatorBooster,
+    marketId,
+    maturityTimestamp,
+    tickLower,
+    tickUpper,
+    liquidityAmount,
     multiAction,
   );
 
-  if (trade.liquidityAmount) {
-    // lp
-    encodeSingleMakerOrder(
+  // If withdrawal, do it after LP
+  if (margin.lt(0)) {
+    encodeDeposit(
       accountId,
-      trade.marketId,
-      trade.maturityTimestamp,
-      trade.tickLower,
-      trade.tickUpper,
-      trade.liquidityAmount,
+      quoteTokenAddress,
+      isETH,
+      margin,
+      liquidatorBooster,
       multiAction,
     );
   }
 
   const call = encodeRouterCall(multiAction, ethAmount);
 
-  return call;
+  return {
+    ...call,
+    lpActionPosition,
+  };
 }

@@ -25,6 +25,10 @@ export class MultiAction {
     this.inputs = [];
   }
 
+  public get length(): number {
+    return this.commands.length;
+  }
+
   public newAction(singleAction: SingleAction): void {
     this.commands = this.commands.concat(singleAction.command);
     this.inputs.push(singleAction.input);

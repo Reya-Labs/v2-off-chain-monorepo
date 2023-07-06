@@ -60,14 +60,24 @@ async function createSettleParams({
 
   const position = await getPositionInfo(positionId);
 
-  if (position.chainId !== chainId) {
+  if (position.pool.chainId !== chainId) {
     throw new Error('Chain id mismatch between pool and signer');
   }
 
+  const quoteTokenDecimals = position.pool.underlyingToken.tokenDecimals;
+  const maturityTimestamp = Math.round(
+    position.pool.termEndTimestampInMS / 1000,
+  );
+
   const order: SettleParameters = {
-    ...position,
-    margin: scale(position.quoteTokenDecimals)(position.positionMargin),
+    chainId: position.pool.chainId,
     owner: signer,
+    productAddress: position.pool.productAddress,
+    maturityTimestamp,
+    marketId: position.pool.marketId,
+    quoteTokenAddress: position.pool.underlyingToken.address,
+    accountId: position.accountId,
+    margin: scale(quoteTokenDecimals)(position.margin),
   };
 
   console.log('settle params:', order);

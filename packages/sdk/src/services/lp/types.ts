@@ -1,28 +1,5 @@
 import { BigNumber, Signer } from 'ethers';
-import { PoolConfig, PoolInfo } from '../../gateway/types';
 
-/**
- * @dev Full list of swap details
- */
-export type CompleteLpDetails = PoolInfo & LpUserInputs;
-
-/**
- * @dev Params required to encode periphery command
- */
-export type LpPeripheryParameters = Required<PoolConfig & LpUserInputs>;
-
-export type LpUserInputs = {
-  ownerAddress: string;
-  liquidityAmount: BigNumber;
-  margin: BigNumber;
-  liquidatorBooster: BigNumber;
-  tickLower: number;
-  tickUpper: number;
-};
-
-/**
- * @dev Swap flow inputs, provided by client (e.g. UI)
- */
 export type LpArgs = {
   ammId: string;
   signer: Signer;
@@ -32,10 +9,47 @@ export type LpArgs = {
   fixedLow: number;
 };
 
+export type EditLpArgs = {
+  positionId: string;
+  signer: Signer;
+  notional: number;
+  margin: number;
+};
+
+export type EncodeLpArgs = {
+  productAddress: string;
+  marketId: string;
+  maturityTimestamp: number;
+  quoteTokenAddress: string;
+
+  accountId: string | undefined;
+  ownerAddress: string;
+  tickLower: number;
+  tickUpper: number;
+
+  liquidityAmount: BigNumber;
+
+  margin: BigNumber;
+  liquidatorBooster: BigNumber;
+  isETH: boolean;
+};
+
+export type CompleteLpDetails = EncodeLpArgs & {
+  signer: Signer;
+  userNotional: number;
+
+  chainId: number;
+  poolId: string;
+
+  quoteTokenDecimals: number;
+  fee: number;
+
+  accountMargin: number;
+};
+
 export type InfoPostLp = {
   marginRequirement: number;
   maxMarginWithdrawable: number;
-  maxLeverage: number;
   fee: number;
   gasFee: {
     value: number;

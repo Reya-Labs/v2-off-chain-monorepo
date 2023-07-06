@@ -1,31 +1,49 @@
 import { BigNumber, Signer } from 'ethers';
-import { PoolConfig, PoolInfo } from '../../gateway/types';
 
-/**
- * @dev Full list of swap details
- */
-export type CompleteSwapDetails = PoolInfo & SwapUserInputs;
-
-/**
- * @dev Params required to encode periphery command
- */
-export type SwapPeripheryParameters = Required<PoolConfig & SwapUserInputs>;
-
-export type SwapUserInputs = {
-  ownerAddress: string;
-  baseAmount: BigNumber;
-  margin: BigNumber;
-  liquidatorBooster: BigNumber;
-};
-
-/**
- * @dev Swap flow inputs, provided by client (e.g. UI)
- */
 export type SwapArgs = {
   ammId: string;
   signer: Signer;
   notional: number;
   margin: number;
+};
+
+export type EditSwapArgs = {
+  positionId: string;
+  signer: Signer;
+  notional: number;
+  margin: number;
+};
+
+export type EncodeSwapArgs = {
+  productAddress: string;
+  marketId: string;
+  maturityTimestamp: number;
+  quoteTokenAddress: string;
+
+  accountId: string | undefined;
+  ownerAddress: string;
+
+  baseAmount: BigNumber;
+
+  margin: BigNumber;
+  liquidatorBooster: BigNumber;
+  isETH: boolean;
+};
+
+export type CompleteSwapDetails = EncodeSwapArgs & {
+  signer: Signer;
+
+  chainId: number;
+
+  userNotional: number;
+
+  poolId: string;
+
+  quoteTokenDecimals: number;
+  fee: number;
+  currentLiquidityIndex: number;
+
+  accountMargin: number;
 };
 
 export type InfoPostSwap = {

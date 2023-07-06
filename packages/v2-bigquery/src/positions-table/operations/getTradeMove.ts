@@ -5,18 +5,23 @@ import {
 } from '@voltz-protocol/commons-v2';
 import { pullLpPositionEntries } from './pullLpPositionEntries';
 
-export const getTradeAvgFix = async (
+export const getTradeMove = async (
   environmentV2Tag: string,
   chainId: number,
   marketId: string,
   maturityTimestamp: number,
   currentTick: number,
   baseToTrade: number,
-): Promise<Awaited<ReturnType<typeof getLpInfoInRange>>> => {
+): Promise<{
+  base: number;
+  avgFix: number;
+  nextTick: number;
+}> => {
   if (baseToTrade === 0) {
     return {
       base: 0,
       avgFix: 0,
+      nextTick: currentTick,
     };
   }
 
@@ -71,5 +76,11 @@ export const getTradeAvgFix = async (
     }
   }
 
-  return getLpInfoInRange(lpPositions, currentTick, pin);
+  const { base, avgFix } = getLpInfoInRange(lpPositions, currentTick, pin);
+
+  return {
+    base,
+    avgFix,
+    nextTick: pin,
+  };
 };

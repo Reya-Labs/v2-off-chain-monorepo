@@ -50,6 +50,6 @@ export const getLpInfoInRange = (
 
   return {
     base: -sums[0],
-    avgFix: sums[0] === 0 ? 0 : sums[1] / sums[0],
+    avgFix: sums[0] === 0 ? 0 : sums[1] / sums[0] / 100,
   };
 };

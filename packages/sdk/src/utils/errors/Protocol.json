@@ -385,6 +385,16 @@
           "internalType": "uint128",
           "name": "accountId",
           "type": "uint128"
+        },
+        {
+          "internalType": "address",
+          "name": "collateralType",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "im",
+          "type": "uint256"
         }
       ],
       "name": "AccountBelowIM",

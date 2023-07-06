@@ -125,13 +125,11 @@ export const decodeImFromError = (
 } => {
   const errSig = getErrorSignature(error);
   if (errSig === 'AccountBelowIM') {
-    // const reason = getErrorData(error);
-    // const decodingResult = iface.decodeErrorResult(errSig, reason);
+    const reason = getErrorData(error);
+    const decodingResult = iface.decodeErrorResult(errSig, reason);
 
     return {
-      // todo: decode
-      // marginRequirement: decodingResult.im,
-      marginRequirement: ZERO_BN,
+      marginRequirement: decodingResult.im,
     };
   }
 

@@ -1,3 +1,4 @@
+import { ZERO_BN } from '../../utils/constants';
 import { createAccountId } from '../../utils/helpers';
 import { MethodParameters, MultiAction } from '../../utils/types';
 import {
@@ -6,46 +7,82 @@ import {
   encodeSingleCreateAccount,
   encodeSingleSwap,
 } from '../encode';
-import { SwapPeripheryParameters } from './types';
+import { EncodeSwapArgs } from './types';
 
-export function encodeSwap(
-  trade: SwapPeripheryParameters,
-  accountId?: string,
-): MethodParameters {
+export function encodeSwap({
+  productAddress,
+  marketId,
+  maturityTimestamp,
+  quoteTokenAddress,
+
+  accountId,
+  ownerAddress,
+
+  baseAmount,
+
+  margin,
+  liquidatorBooster,
+  isETH,
+}: EncodeSwapArgs): MethodParameters & {
+  swapActionPosition: number;
+} {
   const multiAction = new MultiAction();
+  let ethAmount = ZERO_BN;
 
   if (accountId === undefined) {
-    // open account
+    // Open account
+
     accountId = createAccountId({
-      ownerAddress: trade.ownerAddress,
-      productAddress: trade.productAddress,
-      marketId: trade.marketId,
-      maturityTimestamp: trade.maturityTimestamp,
+      ownerAddress: ownerAddress,
+      productAddress: productAddress,
+      marketId: marketId,
+      maturityTimestamp: maturityTimestamp,
       isLp: false,
     });
+
     encodeSingleCreateAccount(accountId, multiAction);
   }
 
-  // deposit
-  const ethAmount = encodeDeposit(
-    accountId,
-    trade.quoteTokenAddress,
-    trade.isETH,
-    trade.margin,
-    trade.liquidatorBooster,
-    multiAction,
-  );
-
-  if (trade.baseAmount) {
-    // swap
-    encodeSingleSwap(
+  // If deposit, do it before swap
+  if (margin.gt(0)) {
+    ethAmount = encodeDeposit(
       accountId,
-      trade.marketId,
-      trade.maturityTimestamp,
-      trade.baseAmount,
+      quoteTokenAddress,
+      isETH,
+      margin,
+      liquidatorBooster,
       multiAction,
     );
   }
 
-  return encodeRouterCall(multiAction, ethAmount);
+  // Store the index of LP command to know what result to decode later
+  const swapActionPosition = multiAction.length;
+
+  // swap
+  encodeSingleSwap(
+    accountId,
+    marketId,
+    maturityTimestamp,
+    baseAmount,
+    multiAction,
+  );
+
+  // If withdrawal, do it after swap
+  if (margin.lt(0)) {
+    encodeDeposit(
+      accountId,
+      quoteTokenAddress,
+      isETH,
+      margin,
+      liquidatorBooster,
+      multiAction,
+    );
+  }
+
+  const call = encodeRouterCall(multiAction, ethAmount);
+
+  return {
+    ...call,
+    swapActionPosition,
+  };
 }

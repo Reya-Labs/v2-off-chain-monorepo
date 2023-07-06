@@ -20,7 +20,7 @@ export const approvePeriphery = async ({
   }
 
   const tokenContract = getERC20TokenContract(
-    poolInfo.quoteTokenAddress,
+    poolInfo.underlyingToken.address,
     signer,
   );
 
@@ -39,7 +39,7 @@ export const approvePeriphery = async ({
   } catch (error) {
     console.warn(
       `Could not increase periphery allowance (${
-        poolInfo.quoteTokenAddress
+        poolInfo.underlyingToken.address
       }, ${maxUint256Bn.toString()})`,
     );
     throw new Error(
@@ -67,8 +67,8 @@ export const approvePeriphery = async ({
   try {
     const allowance = await getERC20Allowance({
       walletAddress: await signer.getAddress(),
-      tokenAddress: poolInfo.quoteTokenAddress,
-      tokenDecimals: poolInfo.quoteTokenDecimals,
+      tokenAddress: poolInfo.underlyingToken.address,
+      tokenDecimals: poolInfo.underlyingToken.tokenDecimals,
       spenderAddress: peripheryAddress,
       provider: signer,
     });
