@@ -5,10 +5,11 @@ import { WalletButton } from '../../components/WalletButton';
 import { WalletContext } from '../../context/WalletContext';
 import { TestPage } from '../../components/TestPage/TestPage';
 import { SwapArgs } from '../../../src/services/swap';
+import { getPoolSwapInfo } from '../../../src/services/poolSwapInfo';
 
 export const GetPoolSwapInfoTest: React.FunctionComponent<
   Omit<SwapArgs, 'margin'>
-> = () => {
+> = ({ ammId }) => {
   const { isLoggedIn, provider } = React.useContext(WalletContext);
   const [isTesting, setIsTesting] = React.useState(false);
   const [testError, setTestError] = React.useState<null | unknown>(null);
@@ -22,7 +23,7 @@ export const GetPoolSwapInfoTest: React.FunctionComponent<
     setIsTesting(true);
     setTestError(null);
     try {
-      const result = 0;
+      const result = await getPoolSwapInfo(ammId);
       setTestResult(result);
     } catch (error) {
       setTestError(error);

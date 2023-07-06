@@ -35,7 +35,7 @@ export type CompleteSwapDetails = EncodeSwapArgs & {
 
   chainId: number;
 
-  userNotional: number;
+  userBase: number;
 
   poolId: string;
 

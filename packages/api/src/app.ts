@@ -239,11 +239,11 @@ app.get('/v2-positions/:chainIds/:ownerAddress', (req, res) => {
   );
 });
 
-app.get('/v2-trade-information/:poolId/:notional', (req, res) => {
+app.get('/v2-trade-information/:poolId/:base', (req, res) => {
   const poolId = req.params.poolId;
-  const notional = Number(req.params.notional);
+  const base = Number(req.params.base);
 
-  getV2TradeInformation(poolId, notional).then(
+  getV2TradeInformation(poolId, base).then(
     (output) => {
       res.json(output);
     },
