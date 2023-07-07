@@ -30,7 +30,7 @@ export const getV1V2AvailableNotional = async (
       );
       return result;
     } catch (error) {
-      console.error(`Unable to fetch available notional for V1 pool ${poolId}`);
+      console.error(`Unable to fetch available notional for V2 pool ${poolId}`);
       return {
         short: 0,
         long: 0,

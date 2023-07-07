@@ -4,6 +4,7 @@ import {
   convertLowercaseString,
   computeRealizedPnL,
   computeUnrealizedPnL,
+  getDeltasFromLiquidity,
 } from '@voltz-protocol/commons-v2';
 
 import {
@@ -26,18 +27,19 @@ export const buildV2PortfolioPosition = async ({
   base,
   freeQuote,
   timeDependentQuote,
-  lockedFixedRate,
+  lockedFixedRate: fixedRateLocked,
+  liquidity,
   notional: notionalTraded,
   paidFees,
   tickLower,
   tickUpper,
   creationTimestamp,
 }: PositionEntry): Promise<V2PortfolioPosition> => {
-  const account = await pullAccountEntry(
-    getEnvironmentV2(),
-    chainId,
-    accountId,
-  );
+  const environmentTag = getEnvironmentV2();
+
+  // Get account-level information
+
+  const account = await pullAccountEntry(environmentTag, chainId, accountId);
 
   if (!account) {
     throw new Error(`Couldn't fetch account for ${chainId}-${accountId}`);
@@ -46,7 +48,7 @@ export const buildV2PortfolioPosition = async ({
   const ownerAddress = account.owner;
 
   const accountCollaterals = await pullAccountCollateral(
-    getEnvironmentV2(),
+    environmentTag,
     chainId,
     accountId,
   );
@@ -57,6 +59,7 @@ export const buildV2PortfolioPosition = async ({
 
   const { balance: margin } = accountCollaterals[0];
 
+  // Get pool-level information
   const pool = await getV2Pool(chainId, marketId, maturityTimestamp);
 
   if (!pool) {
@@ -65,50 +68,99 @@ export const buildV2PortfolioPosition = async ({
     );
   }
 
-  const poolFixedRate = pool.currentFixedRate;
-  const poolVariableRate = pool.currentVariableRate;
-
-  const fixedRateLocked = lockedFixedRate;
+  // Get position-level information
 
   const fixLow = tickToFixedRate(tickUpper);
   const fixHigh = tickToFixedRate(tickLower);
 
-  // todo: notional balance
-  const notionalProvided = 0;
-  const notional = positionType === 'lp' ? notionalProvided : notionalTraded;
+  const { x } = getDeltasFromLiquidity(liquidity, tickLower, tickUpper);
+  const notionalProvided = x * pool.currentLiquidityIndex;
+
+  const notional =
+    positionType === 'lp' ? notionalProvided : Math.abs(notionalTraded);
+
+  const type =
+    positionType === 'lp' ? 'LP' : notionalTraded < 0 ? 'Fixed' : 'Variable';
+
+  const isPoolMatured = maturityTimestamp <= getTimestampInSeconds();
+
+  // todo: case when position is settled
+
+  if (isPoolMatured) {
+    const poolFixedRate = pool.currentFixedRate;
+
+    const liquidityIndexAtMaturity = await getLiquidityIndexAt(
+      environmentTag,
+      chainId,
+      convertLowercaseString(pool.rateOracle.address),
+      maturityTimestamp,
+    );
+
+    if (!liquidityIndexAtMaturity) {
+      throw new Error(
+        `Couldn't fetch maturity liquidity index for ${chainId} - ${pool.rateOracle.address}`,
+      );
+    }
+
+    // PnL
+    const realizedPNLFees = -paidFees;
+
+    const realizedPNLCashflow = computeRealizedPnL({
+      base,
+      timeDependentQuote,
+      freeQuote,
+      queryTimestamp: maturityTimestamp,
+      liquidityIndexAtQuery: liquidityIndexAtMaturity,
+    });
+
+    // Build response
+    return {
+      id: positionId,
+      accountId,
+      ownerAddress,
+      type,
+      creationTimestampInMS: creationTimestamp * 1000,
+      tickLower,
+      tickUpper,
+      fixLow,
+      fixHigh,
+      notionalProvided,
+      notionalTraded,
+      notional,
+      margin,
+      maxWithdrawableMargin: margin,
+      liquidationThreshold: 0,
+      safetyThreshold: 0,
+      health: 'healthy',
+      variant: 'matured',
+      receiving: 0,
+      paying: 0,
+      unrealizedPNL: 0,
+      realizedPNLFees,
+      realizedPNLCashflow,
+      settlementCashflow: realizedPNLCashflow,
+      realizedPNLTotal: realizedPNLCashflow + realizedPNLFees,
+      poolCurrentFixedRate: poolFixedRate,
+      pool,
+    };
+  }
+
+  const poolFixedRate = pool.currentFixedRate;
+  const poolVariableRate = pool.currentVariableRate;
 
   // todo: liquidation and safety threshold
   const liquidationThreshold = 0;
   const safetyThreshold = 0;
 
   // todo: max margin withdrawable
-  const maxWithdrawableMargin = margin - liquidationThreshold;
+  const maxWithdrawableMargin = margin - safetyThreshold;
 
   // todo: health factor
   const health = 'healthy';
 
-  // todo: variant
-  const variant = 'active';
-
-  // query liquidity index
-  const queryTimestamp = getTimestampInSeconds(
-    Math.min(pool.termEndTimestampInMS, Date.now().valueOf()),
-  );
-
-  const liquidityIndex = await getLiquidityIndexAt(
-    getEnvironmentV2(),
-    chainId,
-    convertLowercaseString(pool.rateOracle.address),
-    queryTimestamp,
-  );
-
-  if (!liquidityIndex) {
-    throw new Error(
-      `Couldn't fetch current liquidity index for ${chainId} - ${pool.rateOracle.address}`,
-    );
-  }
-
   // PnL
+  const queryTimestamp = getTimestampInSeconds();
+
   const realizedPNLFees = -paidFees;
 
   const realizedPNLCashflow = computeRealizedPnL({
@@ -116,7 +168,7 @@ export const buildV2PortfolioPosition = async ({
     timeDependentQuote,
     freeQuote,
     queryTimestamp,
-    liquidityIndexAtQuery: liquidityIndex,
+    liquidityIndexAtQuery: pool.currentLiquidityIndex,
   });
 
   const unrealizedPNL = computeUnrealizedPnL({
@@ -124,17 +176,17 @@ export const buildV2PortfolioPosition = async ({
     timeDependentQuote,
     freeQuote,
     queryTimestamp,
-    queryLiquidityIndex: liquidityIndex,
+    queryLiquidityIndex: pool.currentLiquidityIndex,
     queryFixedRate: poolFixedRate,
     maturityTimestamp,
   });
 
   // Build response
-  const response: V2PortfolioPosition = {
+  return {
     id: positionId,
     accountId,
     ownerAddress,
-    type: positionType === 'lp' ? 'LP' : notional < 0 ? 'Fixed' : 'Variable',
+    type,
     creationTimestampInMS: creationTimestamp * 1000,
     tickLower,
     tickUpper,
@@ -148,9 +200,9 @@ export const buildV2PortfolioPosition = async ({
     liquidationThreshold,
     safetyThreshold,
     health,
-    variant,
-    receiving: notional < 0 ? fixedRateLocked : poolVariableRate,
-    paying: notional < 0 ? poolVariableRate : fixedRateLocked,
+    variant: 'active',
+    receiving: notionalTraded < 0 ? fixedRateLocked : poolVariableRate,
+    paying: notionalTraded < 0 ? poolVariableRate : fixedRateLocked,
     unrealizedPNL,
     realizedPNLFees,
     realizedPNLCashflow,
@@ -159,6 +211,4 @@ export const buildV2PortfolioPosition = async ({
     poolCurrentFixedRate: poolFixedRate,
     pool,
   };
-
-  return response;
 };
