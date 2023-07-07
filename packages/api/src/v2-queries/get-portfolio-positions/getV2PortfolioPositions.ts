@@ -12,6 +12,8 @@ import { buildV2PortfolioPosition } from './buildV2PortfolioPosition';
 import { V2PortfolioPosition } from '@voltz-protocol/api-v2-types';
 import { getEnvironmentV2 } from '../../services/envVars';
 
+// todo: combine SQL query that joins accounts and positions table
+
 export const getV2PortfolioPositions = async (
   chainIds: SupportedChainId[],
   ownerAddress: string,
