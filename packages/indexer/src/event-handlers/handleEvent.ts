@@ -3,12 +3,16 @@ import {
   AccountOwnerUpdateEvent,
   BaseEvent,
   CollateralUpdateEvent,
+  DatedIRSPositionSettledEvent,
+  DepositedWithdrawnEvent,
+  LiquidationEvent,
   LiquidityChangeEvent,
   MarketConfiguredEvent,
   MarketFeeConfiguredEvent,
   ProductPositionUpdatedEvent,
   ProtocolEventType,
   RateOracleConfiguredEvent,
+  TakerOrderEvent,
   VammCreatedEvent,
   VammPriceChangeEvent,
 } from '@voltz-protocol/bigquery-v2';
@@ -23,6 +27,10 @@ import { handleAccountCreated } from './handleAccountCreated';
 import { handleAccountOwnerUpdate } from './handleAccountOwnerUpdate';
 import { handleLiquidityChange } from './handleLiquidityChange';
 import { log } from '../logging/log';
+import { handleDepositedWithdrawn } from './handleDepositedWithdrawn';
+import { handleLiquidation } from './handleLiquidation';
+import { handleDatedIRSPositionSettled } from './handleDatedIRSPositionSettled';
+import { handleTakerOrder } from './handleTakerOrder';
 
 export const handleEvent = async (e: BaseEvent) => {
   log(`Handling ${e.type}...`);
@@ -50,8 +58,13 @@ export const handleEvent = async (e: BaseEvent) => {
       break;
     }
 
+    case ProtocolEventType.DepositedWithdrawn: {
+      await handleDepositedWithdrawn(e as DepositedWithdrawnEvent);
+      break;
+    }
+
     case ProtocolEventType.Liquidation: {
-      // todo: add handler
+      await handleLiquidation(e as LiquidationEvent);
       break;
     }
 
@@ -66,6 +79,11 @@ export const handleEvent = async (e: BaseEvent) => {
     }
 
     // product
+    case ProtocolEventType.DatedIRSPositionSettled: {
+      await handleDatedIRSPositionSettled(e as DatedIRSPositionSettledEvent);
+      break;
+    }
+
     case ProtocolEventType.MarketConfigured: {
       await handleMarketConfigured(e as MarketConfiguredEvent);
       break;
@@ -78,6 +96,11 @@ export const handleEvent = async (e: BaseEvent) => {
 
     case ProtocolEventType.RateOracleConfigured: {
       await handleRateOracleConfigured(e as RateOracleConfiguredEvent);
+      break;
+    }
+
+    case ProtocolEventType.TakerOrder: {
+      await handleTakerOrder(e as TakerOrderEvent);
       break;
     }
 
@@ -98,8 +121,7 @@ export const handleEvent = async (e: BaseEvent) => {
     }
 
     default: {
-      // todo: review below
-      // e.type satisfies never;
+      e.type satisfies never;
       throw new Error(`Unhandled event type ${e.type}`);
     }
   }

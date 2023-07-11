@@ -5,8 +5,8 @@ export const getDeltasFromLiquidity = (
   tickLower: number,
   tickUpper: number,
 ): {
-  x: number; // > 0
-  y: number; // > 0
+  x: number; // x has sign of liquidity
+  y: number; // y has sign of liquidity
 } => {
   const sqrtPriceLow = tickToSqrtPrice(tickLower);
   const sqrtPriceHigh = tickToSqrtPrice(tickUpper);

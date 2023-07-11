@@ -14,6 +14,10 @@ import { parseLiquidityChange } from './parseLiquidityChange';
 import { parseVammCreated } from './parseVammCreated';
 import { parseVammPriceChange } from './parseVammPriceChange';
 import { log } from '../logging/log';
+import { parseTakerOrder } from './parseTakerOrder';
+import { parseDeposited } from './parseDeposited';
+import { parseWithdrawal } from './parseWithdrawal';
+import { parseDatedIRSPositionSettled } from './parseDatedIRSPositionSettled';
 
 export const parseEvent = (
   contract: 'core' | 'dated_irs_instrument' | 'dated_irs_vamm',
@@ -35,6 +39,12 @@ export const parseEvent = (
         case 'CollateralUpdate': {
           return parseCollateralUpdate(chainId, event);
         }
+        case 'Deposited': {
+          return parseDeposited(chainId, event);
+        }
+        case 'Withdrawn': {
+          return parseWithdrawal(chainId, event);
+        }
         case 'Liquidation': {
           return parseLiquidation(chainId, event);
         }
@@ -53,6 +63,9 @@ export const parseEvent = (
 
     case 'dated_irs_instrument': {
       switch (event.event) {
+        case 'DatedIRSPositionSettled': {
+          return parseDatedIRSPositionSettled(chainId, event);
+        }
         case 'MarketConfigured': {
           return parseMarketConfigured(chainId, event);
         }
@@ -61,6 +74,9 @@ export const parseEvent = (
         }
         case 'RateOracleConfigured': {
           return parseRateOracleConfigured(chainId, event);
+        }
+        case 'TakerOrder': {
+          return parseTakerOrder(chainId, event);
         }
         default: {
           log(`Unmapped event ${event.event} from Instrument.`);

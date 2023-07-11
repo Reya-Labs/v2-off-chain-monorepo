@@ -37,6 +37,8 @@ export const evmTestEvents: Record<ProtocolEventType, Event> = {
     },
   } as unknown as Event,
 
+  [ProtocolEventType.DepositedWithdrawn]: null as unknown as Event,
+
   [ProtocolEventType.Liquidation]: null as unknown as Event,
 
   [ProtocolEventType.MarketFeeConfigured]: {
@@ -54,6 +56,8 @@ export const evmTestEvents: Record<ProtocolEventType, Event> = {
   } as unknown as Event,
 
   [ProtocolEventType.ProductRegistered]: null as unknown as Event,
+
+  [ProtocolEventType.DatedIRSPositionSettled]: null as unknown as Event,
 
   [ProtocolEventType.MarketConfigured]: {
     ...defaultEvmEvent,
@@ -86,6 +90,8 @@ export const evmTestEvents: Record<ProtocolEventType, Event> = {
       oracleAddress: '0xa6ba323693f9e9b591f79fbdb947C7330ca2d7ab',
     },
   } as unknown as Event,
+
+  [ProtocolEventType.TakerOrder]: null as unknown as Event,
 
   [ProtocolEventType.LiquidityChange]: null as unknown as Event,
 

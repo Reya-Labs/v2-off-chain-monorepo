@@ -1,0 +1,1 @@
+export { ProductRegisteredEvent } from './specific';

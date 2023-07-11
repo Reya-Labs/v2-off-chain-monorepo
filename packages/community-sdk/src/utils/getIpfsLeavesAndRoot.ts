@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { LeafInfo } from '../types';
-import { IPFS_LEAVES_CID } from './configuration';
-import { getLeavesIpfsUri } from './helpers';
 import { ethers } from 'ethers';
+
+const ipfsLeavesCID = `QmQbcRJHqjJGTzugS3QexDMCdx159EjzAVkygPzUCL2tWP`;
+const ipfsLeavesURI = `https://ipfs.io/ipfs/${ipfsLeavesCID}`;
 
 export async function getIpfsData(): Promise<{
   leaves: Array<{
@@ -11,7 +12,7 @@ export async function getIpfsData(): Promise<{
   }>;
   root: string;
 }> {
-  const data = await axios.get(getLeavesIpfsUri(IPFS_LEAVES_CID), {
+  const data = await axios.get(ipfsLeavesURI, {
     headers: {
       Accept: 'text/plain',
     },

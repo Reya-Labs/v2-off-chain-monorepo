@@ -5,13 +5,16 @@ export enum ProtocolEventType {
   AccountOwnerUpdate = 'AccountOwnerUpdate', // core
   CollateralConfigured = 'CollateralConfigured', // core
   CollateralUpdate = 'CollateralUpdate', // core
+  DepositedWithdrawn = 'DepositedWithdrawn', // core
   Liquidation = 'Liquidation', // core
   MarketFeeConfigured = 'MarketFeeConfigured', // core
   ProductRegistered = 'ProductRegistered', // core
 
+  DatedIRSPositionSettled = 'DatedIRSPositionSettled', // product
   MarketConfigured = 'MarketConfigured', // product
   ProductPositionUpdated = 'ProductPositionUpdated', // product
   RateOracleConfigured = 'RateOracleConfigured', // product
+  TakerOrder = 'TakerOrder', // product
 
   LiquidityChange = 'LiquidityChange', // exchange
   VammCreated = 'VammCreated', // exchange
