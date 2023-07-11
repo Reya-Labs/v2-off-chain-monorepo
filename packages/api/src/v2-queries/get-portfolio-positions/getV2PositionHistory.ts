@@ -110,13 +110,18 @@ export const getV2PositionHistory = async (
           (maturityTimestamp - e.blockTimestamp) / SECONDS_IN_YEAR;
         const notional = e.annualizedNotionalAmount / timeDelta;
 
+        const fixedRate =
+          notional === 0 || timeDelta <= 0
+            ? 0
+            : (-e.executedQuoteAmount / notional - 1) / timeDelta;
+
         // todo: fill in fees paid
         return {
           type: 'swap',
           creationTimestampInMS: e.blockTimestamp * 1000,
           notional,
           paidFees: 0,
-          fixedRate: 0,
+          fixedRate,
           marginDelta: 0,
         };
       }),
