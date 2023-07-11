@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.50.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.50.1...@voltz-protocol/api-v2@1.50.2) (2023-07-11)
+
+### Bug Fixes
+
+- swap fixed rate ([#134](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/134)) ([99b20c4](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/99b20c477ca7561a740d0a2d877a53a4cf5735b7))
+
 ## [1.50.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.50.0...@voltz-protocol/api-v2@1.50.1) (2023-07-11)
 
 **Note:** Version bump only for package @voltz-protocol/api-v2
