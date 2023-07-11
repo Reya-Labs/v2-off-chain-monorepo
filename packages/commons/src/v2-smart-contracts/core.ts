@@ -1,10 +1,10 @@
-import { Contract, providers } from 'ethers';
+import { Contract, Signer, providers } from 'ethers';
 import { getAddress } from './addresses';
 import { SupportedChainId } from '../provider';
 
 export const getCoreContract = (
   chainId: SupportedChainId,
-  provider: providers.JsonRpcProvider,
+  subject: providers.JsonRpcProvider | Signer,
 ): Contract => {
   const abi = [
     `event AccountCreated(uint128 indexed accountId, address indexed owner, uint256 blockTimestamp)`,
@@ -26,7 +26,7 @@ export const getCoreContract = (
 
   const address = getAddress(chainId, 'core');
 
-  const contract = new Contract(address, abi, provider);
+  const contract = new Contract(address, abi, subject);
 
   return contract;
 };

@@ -1,7 +1,7 @@
-import { Contract, providers } from 'ethers';
+import { Contract, Signer, providers } from 'ethers';
 
 export const getRateOracleContract = (
-  provider: providers.JsonRpcProvider,
+  subject: providers.JsonRpcProvider | Signer,
   address: string,
 ): Contract => {
   const abi: string[] = [
@@ -9,7 +9,7 @@ export const getRateOracleContract = (
     'function getCurrentIndex() external view returns (uint256)',
   ];
 
-  const contract = new Contract(address, abi, provider);
+  const contract = new Contract(address, abi, subject);
 
   return contract;
 };

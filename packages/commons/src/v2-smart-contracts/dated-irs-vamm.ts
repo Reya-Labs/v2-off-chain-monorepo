@@ -1,10 +1,10 @@
-import { Contract, providers } from 'ethers';
+import { Contract, Signer, providers } from 'ethers';
 import { getAddress } from './addresses';
 import { SupportedChainId } from '../provider';
 
 export const getDatedIrsVammContract = (
   chainId: SupportedChainId,
-  provider: providers.JsonRpcProvider,
+  subject: providers.JsonRpcProvider | Signer,
 ): Contract => {
   const abi = [
     `event VammCreated(uint128 marketId, int24 tick, (uint32 maturityTimestamp, uint128 maxLiquidityPerTick, int24 tickSpacing, uint128 marketId) config, (uint256 priceImpactPhi, uint256 priceImpactBeta, uint256 spread, address rateOracle) mutableConfig, uint256 blockTimestamp)`,
@@ -15,7 +15,7 @@ export const getDatedIrsVammContract = (
 
   const address = getAddress(chainId, 'dated_irs_vamm');
 
-  const contract = new Contract(address, abi, provider);
+  const contract = new Contract(address, abi, subject);
 
   return contract;
 };

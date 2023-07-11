@@ -7458,6 +7458,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@voltz-protocol/community-sdk@workspace:packages/community-sdk"
   dependencies:
+    "@voltz-protocol/commons-v2": "workspace:^"
     keccak256: 1.0.6
     merkletreejs: ^0.3.0
   languageName: unknown

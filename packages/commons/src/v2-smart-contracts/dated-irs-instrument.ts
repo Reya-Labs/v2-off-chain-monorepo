@@ -1,10 +1,10 @@
-import { Contract, providers } from 'ethers';
+import { Contract, Signer, providers } from 'ethers';
 import { getAddress } from './addresses';
 import { SupportedChainId } from '../provider';
 
 export const getDatedIrsInstrumentContract = (
   chainId: SupportedChainId,
-  provider: providers.JsonRpcProvider,
+  subject: providers.JsonRpcProvider | Signer,
 ): Contract => {
   const abi = [
     `event MarketConfigured((uint128 marketId, address quoteToken) config, uint256 blockTimestamp)`,
@@ -18,7 +18,7 @@ export const getDatedIrsInstrumentContract = (
 
   const address = getAddress(chainId, 'dated_irs_instrument');
 
-  const contract = new Contract(address, abi, provider);
+  const contract = new Contract(address, abi, subject);
 
   return contract;
 };
