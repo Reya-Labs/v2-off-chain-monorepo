@@ -14,7 +14,7 @@ export type TakerOrderEvent = BaseEvent & {
   executedBaseAmount: number;
   executedQuoteAmount: number;
 
-  annualizedBaseAmount: number;
+  annualizedNotionalAmount: number;
 };
 
 export const mapRow = (row: any): TakerOrderEvent => ({
@@ -28,5 +28,5 @@ export const mapRow = (row: any): TakerOrderEvent => ({
   executedBaseAmount: bqNumericToNumber(row.executedBaseAmount),
   executedQuoteAmount: bqNumericToNumber(row.executedQuoteAmount),
 
-  annualizedBaseAmount: bqNumericToNumber(row.annualizedBaseAmount),
+  annualizedNotionalAmount: bqNumericToNumber(row.annualizedNotionalAmount),
 });

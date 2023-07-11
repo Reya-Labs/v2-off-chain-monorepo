@@ -29,7 +29,7 @@ export const insertTakerOrderEvent = (
     "${event.quoteToken}",
     ${event.executedBaseAmount},
     ${event.executedQuoteAmount},
-    ${event.annualizedBaseAmount}
+    ${event.annualizedNotionalAmount}
   `;
 
   const sqlTransactionQuery = `INSERT INTO \`${tableName}\` VALUES (${row});`;

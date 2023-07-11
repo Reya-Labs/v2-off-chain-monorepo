@@ -8,7 +8,7 @@ export const rawTakerOrderTableSchema: TableField[] = [
   { name: 'accountId', type: 'STRING', mode: 'REQUIRED' },
   { name: 'marketId', type: 'STRING', mode: 'REQUIRED' },
   { name: 'maturityTimestamp', type: 'INTEGER', mode: 'REQUIRED' },
-  { name: 'quoteToken', type: 'INTEGER', mode: 'REQUIRED' },
+  { name: 'quoteToken', type: 'STRING', mode: 'REQUIRED' },
 
   {
     name: 'executedBaseAmount',
@@ -27,7 +27,7 @@ export const rawTakerOrderTableSchema: TableField[] = [
   },
 
   {
-    name: 'annualizedBaseAmount',
+    name: 'annualizedNotionalAmount',
     type: 'BIGNUMERIC',
     mode: 'REQUIRED',
     precision: PRECISION.toString(),
