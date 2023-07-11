@@ -1,0 +1,1 @@
+export { CollateralConfiguredEvent } from './specific';
