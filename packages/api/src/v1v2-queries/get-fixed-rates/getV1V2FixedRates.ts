@@ -1,6 +1,7 @@
 import { getFixedRates as getFixedRatesV1 } from '@voltz-protocol/indexer-v1';
-import { decodeV1PoolId } from '@voltz-protocol/commons-v2';
+import { decodeV1PoolId, decodeV2PoolId } from '@voltz-protocol/commons-v2';
 import { HistoricalRate } from '@voltz-protocol/api-v2-types';
+import { getFixedRatesV2 } from '../../v2-queries/get-fixed-rates/getFixedRatesV2';
 
 export const getV1V2FixedRates = async (
   poolId: string,
@@ -25,7 +26,17 @@ export const getV1V2FixedRates = async (
 
   if (poolId.endsWith('v2')) {
     try {
-      return [];
+      const { chainId, marketId, maturityTimestamp } = decodeV2PoolId(poolId);
+
+      const fixedRates = await getFixedRatesV2(
+        chainId,
+        marketId,
+        maturityTimestamp,
+        fromSeconds,
+        toSeconds,
+      );
+
+      return fixedRates;
     } catch (error) {
       console.error(`Unable to fetch fixed rates for V2 pool ${poolId}`);
       return [];
