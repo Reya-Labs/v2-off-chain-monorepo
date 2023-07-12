@@ -1,20 +1,19 @@
-import { SupportedChainId } from '../../common/types';
-
-export function roughEstimateSwapGasUnits(chainId: SupportedChainId): number {
+export function roughEstimateSwapGasUnits(chainId: number): number {
   switch (chainId) {
-    case SupportedChainId.mainnet:
-    case SupportedChainId.goerli:
+    case 1:
+    case 5:
       return 550000;
 
-    case SupportedChainId.arbitrum:
-    case SupportedChainId.arbitrumGoerli:
+    case 42161:
+    case 421613:
       return 1500000;
 
-    case SupportedChainId.avalanche:
-    case SupportedChainId.avalancheFuji:
+    case 43114:
+    case 43113:
       return 650000;
 
-    default:
-      return -1;
+    default: {
+      throw new Error(`Chain ID ${chainId} not supported.`);
+    }
   }
 }

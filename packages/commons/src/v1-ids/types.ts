@@ -1,12 +1,10 @@
-import { SupportedChainId } from '../provider';
-
 export type V1PoolIdData = {
-  chainId: SupportedChainId;
+  chainId: number;
   vammAddress: string;
 };
 
 export type V1PositionIdData = {
-  chainId: SupportedChainId;
+  chainId: number;
   vammAddress: string;
   ownerAddress: string;
   tickLower: number;

@@ -1,13 +1,11 @@
-import { SupportedChainId } from '../provider';
-
 export type V2PoolIdData = {
-  chainId: SupportedChainId;
+  chainId: number;
   marketId: string;
   maturityTimestamp: number;
 };
 
 export type V2PositionIdData = {
-  chainId: SupportedChainId;
+  chainId: number;
   accountId: string;
   marketId: string;
   maturityTimestamp: number;

@@ -1,9 +1,8 @@
 import { Contract, Signer, providers } from 'ethers';
 import { getAddress } from './addresses';
-import { SupportedChainId } from '../provider';
 
 export const getDatedIrsInstrumentContract = (
-  chainId: SupportedChainId,
+  chainId: number,
   subject: providers.JsonRpcProvider | Signer,
 ): Contract => {
   const abi = [

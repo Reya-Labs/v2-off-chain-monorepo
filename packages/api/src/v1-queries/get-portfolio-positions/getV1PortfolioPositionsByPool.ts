@@ -33,7 +33,7 @@ export const getV1PortfolioPositionsByPool = async (
     positions = positions.filter((p) => p.positionType === 3);
   }
 
-  const processedPositions = await fetchMultiplePromises(
+  const { data: processedPositions } = await fetchMultiplePromises(
     positions.map((p) =>
       getV1PortfolioPositionDetails({
         positionId: encodeV1PositionId({

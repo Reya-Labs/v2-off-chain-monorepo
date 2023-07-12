@@ -5,7 +5,6 @@ import {
   pullMarketEntry,
 } from '@voltz-protocol/bigquery-v2';
 import {
-  SupportedChainId,
   fetchMultiplePromises,
   getTimestampInSeconds,
   isNull,
@@ -14,7 +13,7 @@ import { getEnvironmentV2 } from '../../services/envVars';
 import { AvailableNotional } from '@voltz-protocol/api-v2-types';
 
 export const getV2AvailableNotional = async (
-  chainId: SupportedChainId,
+  chainId: number,
   marketId: string,
   maturityTimestamp: number,
 ): Promise<AvailableNotional> => {
@@ -60,31 +59,37 @@ export const getV2AvailableNotional = async (
     };
   }
 
-  const responses = await fetchMultiplePromises(
-    [
-      getAvailableBaseInRange(
-        environmentTag,
-        chainId,
-        marketId,
-        maturityTimestamp,
-        currentTick as number,
-        -100000,
-      ),
+  const { data: responses, isError } = await fetchMultiplePromises([
+    getAvailableBaseInRange(
+      environmentTag,
+      chainId,
+      marketId,
+      maturityTimestamp,
+      currentTick as number,
+      -100000,
+    ),
 
-      getAvailableBaseInRange(
-        environmentTag,
-        chainId,
-        marketId,
-        maturityTimestamp,
-        currentTick as number,
-        100000,
-      ),
-    ],
-    true,
-  );
+    getAvailableBaseInRange(
+      environmentTag,
+      chainId,
+      marketId,
+      maturityTimestamp,
+      currentTick as number,
+      100000,
+    ),
+  ]);
+
+  if (isError) {
+    return {
+      short: 0,
+      long: 0,
+    };
+  }
+
+  const [absBaseLong, absBaseShort] = responses;
 
   return {
-    short: -responses[1] * (currentLiquidityIndex as number),
-    long: responses[0] * (currentLiquidityIndex as number),
+    short: -absBaseShort * (currentLiquidityIndex as number),
+    long: absBaseLong * (currentLiquidityIndex as number),
   };
 };

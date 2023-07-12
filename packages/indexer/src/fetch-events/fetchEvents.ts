@@ -16,6 +16,7 @@ export const fetchEvents = async (
   fromBlock: number,
   toBlock: number,
 ): Promise<BaseEvent[]> => {
+  // Fetch all contracts of interest
   const provider = getProvider(chainId);
   const coreContract = getCoreContract(chainId, provider);
   const datedIrsInstrumentContract = getDatedIrsInstrumentContract(
@@ -24,6 +25,7 @@ export const fetchEvents = async (
   );
   const datedIrsExchangeContract = getDatedIrsVammContract(chainId, provider);
 
+  // Build promises to retrieve all the evm events from target contracts
   const allPromises = [
     exponentialBackoff(() =>
       coreContract.queryFilter('*' as EventFilter, fromBlock, toBlock),
@@ -44,8 +46,19 @@ export const fetchEvents = async (
     ),
   ];
 
-  const allContractEvents = await fetchMultiplePromises(allPromises, true);
+  // Await all promises and require all calls to succeed
+  const {
+    data: allContractEvents,
+    isError,
+    error,
+  } = await fetchMultiplePromises(allPromises);
 
+  // If there any error, throw it
+  if (isError) {
+    throw error;
+  }
+
+  // Parse all evm events to custom types
   const coreEvents = allContractEvents[0]
     .map((e) => parseEvent('core', chainId, e))
     .filter((e) => !isNull(e)) as BaseEvent[];
@@ -64,8 +77,13 @@ export const fetchEvents = async (
     datedIrsExchangeEvents,
   ].flat();
 
+  // Sort the events chronologically (by blockNumber, transactionIndex and logIndex)
   const sortedEvents = allEvents.sort((a, b) => {
     if (a.blockNumber === b.blockNumber) {
+      if (a.transactionIndex === b.transactionIndex) {
+        return a.logIndex - b.logIndex;
+      }
+
       return a.transactionIndex - b.transactionIndex;
     }
 

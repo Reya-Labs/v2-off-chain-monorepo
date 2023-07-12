@@ -8,6 +8,7 @@ import { getLiquidityIndexUpdate } from './getLiquidityIndexUpdate';
 import { getProvider } from '../services/getProvider';
 import { UpdateBatch, pullLiquidityIndices } from '@voltz-protocol/bigquery-v2';
 import { getEnvironmentV2 } from '../services/envVars';
+import { log } from '../logging/log';
 
 // configuration
 const freq = SECONDS_IN_DAY; // frequency in seconds
@@ -33,12 +34,18 @@ export const backfillRateOracle = async (
     timestamps.push(i);
   }
 
-  const batches = await fetchMultiplePromises(
+  const { data: batches, isError } = await fetchMultiplePromises(
     timestamps.map(async (ts) => {
       const blockNumber = await getBlockAtTimestamp(provider, ts);
       return getLiquidityIndexUpdate(chainId, oracleAddress, blockNumber, ts);
     }),
   );
+
+  if (isError) {
+    log(
+      `Oracle ${chainId}-${oracleAddress} was filled with ${batches.length}/${timestamps.length} datapoints.`,
+    );
+  }
 
   return batches;
 };

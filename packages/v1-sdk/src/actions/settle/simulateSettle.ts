@@ -4,12 +4,12 @@ import { SettleSimulationResults } from './types';
 import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
 import { getPeripheryContract } from '../../common/contract-generators';
 import { estimateSettleGasUnits } from './estimateSettleGasUnits';
+import { PositionInfo } from '../../common/api/position/types';
+import { getPositionInfo } from '../../common/api/position/getPositionInfo';
 import {
   convertGasUnitsToNativeTokenUnits,
   getNativeGasToken,
-} from '../../common';
-import { PositionInfo } from '../../common/api/position/types';
-import { getPositionInfo } from '../../common/api/position/getPositionInfo';
+} from '@voltz-protocol/commons-v2';
 
 export const simulateSettle = async ({
   positionId,
@@ -57,7 +57,7 @@ export const simulateSettle = async ({
   return {
     gasFee: {
       value: estmatedGasCostInNativeToken,
-      token: await getNativeGasToken(provider),
+      token: getNativeGasToken(chainId),
     },
   };
 };

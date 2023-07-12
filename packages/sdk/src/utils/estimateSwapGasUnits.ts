@@ -1,14 +1,15 @@
 import { SupportedChainId } from '@voltz-protocol/commons-v2';
 
 const CHAIN_SWAP_GAS_UNITS_MAP: Record<SupportedChainId, number> = {
-  [SupportedChainId.mainnet]: 550000,
-  [SupportedChainId.goerli]: 550000,
-  [SupportedChainId.arbitrum]: 1500000,
-  [SupportedChainId.arbitrumGoerli]: 1500000,
-  [SupportedChainId.avalanche]: 650000,
-  [SupportedChainId.avalancheFuji]: 650000,
+  [1]: 550000,
+  [5]: 550000,
+  [42161]: 1500000,
+  [421613]: 1500000,
+  [43114]: 650000,
+  [43113]: 650000,
 };
 
-export function estimateAnyTradeGasUnits(chainId: SupportedChainId): number {
-  return CHAIN_SWAP_GAS_UNITS_MAP[chainId] || -1;
+export function estimateAnyTradeGasUnits(chainId: number): number {
+  // todo: add check for chainId to be SupportedChainId
+  return CHAIN_SWAP_GAS_UNITS_MAP[chainId as SupportedChainId];
 }

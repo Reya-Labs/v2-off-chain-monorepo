@@ -1,9 +1,8 @@
 import { Signer, ethers, providers } from 'ethers';
-import { SupportedChainId } from '../provider';
 import { getAddress } from './addresses';
 
 export const getAlphaPassContract = (
-  chainId: SupportedChainId,
+  chainId: number,
   subject: providers.JsonRpcProvider | Signer,
 ): ethers.Contract => {
   const abi: string[] = [

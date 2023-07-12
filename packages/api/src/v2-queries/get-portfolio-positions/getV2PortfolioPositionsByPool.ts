@@ -44,7 +44,7 @@ export const getV2PortfolioPositionsByPool = async (
     );
   }
 
-  const processedPositions = await fetchMultiplePromises(
+  const { data: processedPositions } = await fetchMultiplePromises(
     allPositionEntries.map((p) =>
       getV2PortfolioPositionDetails({
         positionId: p.id,

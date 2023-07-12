@@ -2,21 +2,20 @@ import { BigNumber, Contract, providers, Signer } from 'ethers';
 import { SwapPeripheryParams } from '../types/actionArgTypes';
 import { decodeInfoPostSwap } from '../../common/errors/errorHandling';
 import { descale } from '../../common/math/descale';
-import { SupportedChainId } from '../../common/types';
 import { roughEstimateSwapGasUnits } from './roughEstimateSwapGasUnits';
+import { getMarginEngineContract } from '../../common/contract-generators';
 import {
   convertGasUnitsToNativeTokenUnits,
+  exponentialBackoff,
   getNativeGasToken,
-} from '../../common';
-import { getMarginEngineContract } from '../../common/contract-generators';
-import { exponentialBackoff } from '@voltz-protocol/commons-v2';
+} from '@voltz-protocol/commons-v2';
 
 export type GetInfoPostSwapArgs = {
   peripheryContract: Contract;
   marginEngineAddress: string;
   underlyingTokenDecimals: number;
   provider: providers.Provider;
-  chainId: SupportedChainId;
+  chainId: number;
   signer: Signer;
   swapPeripheryParams: SwapPeripheryParams;
 };
@@ -100,10 +99,7 @@ export const getInfoPostSwap = async ({
         .div(availableNotional)
         .toNumber() / 1000;
 
-  let swapGasUnits = 0;
-  if (Object.values(SupportedChainId).includes(chainId)) {
-    swapGasUnits = roughEstimateSwapGasUnits(chainId);
-  }
+  const swapGasUnits = roughEstimateSwapGasUnits(chainId);
 
   const gasFeeNativeToken = await convertGasUnitsToNativeTokenUnits(
     provider,
@@ -130,7 +126,7 @@ export const getInfoPostSwap = async ({
     ),
     gasFee: {
       value: gasFeeNativeToken,
-      token: await getNativeGasToken(provider),
+      token: getNativeGasToken(chainId),
     },
   };
 

@@ -1,7 +1,4 @@
-import {
-  SupportedChainId,
-  fetchMultiplePromises,
-} from '@voltz-protocol/commons-v2';
+import { fetchMultiplePromises } from '@voltz-protocol/commons-v2';
 
 import {
   PositionEntry,
@@ -15,7 +12,7 @@ import { getEnvironmentV2 } from '../../services/envVars';
 // todo: combine SQL query that joins accounts and positions table
 
 export const getV2PortfolioPositions = async (
-  chainIds: SupportedChainId[],
+  chainIds: number[],
   ownerAddress: string,
 ): Promise<V2PortfolioPosition[]> => {
   const accounts = await pullAccountsByAddress(
@@ -36,7 +33,7 @@ export const getV2PortfolioPositions = async (
     allPositionEntries.push(...positionEntries);
   }
 
-  const portfolio = await fetchMultiplePromises(
+  const { data: portfolio } = await fetchMultiplePromises(
     allPositionEntries.map(buildV2PortfolioPosition),
   );
 

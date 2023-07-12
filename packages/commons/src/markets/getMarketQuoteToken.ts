@@ -1,11 +1,9 @@
-import { SupportedChainId } from '../provider';
-
 // todo: to be extended
 export const getMarketQuoteToken = (
-  chainId: SupportedChainId,
+  chainId: number,
   marketId: string,
 ): string => {
-  if (chainId === SupportedChainId.arbitrumGoerli && marketId === '1') {
+  if (chainId === 421613 && marketId === '1') {
     return '0x72a9c57cd5e2ff20450e409cf6a542f1e6c710fc';
   }
 
