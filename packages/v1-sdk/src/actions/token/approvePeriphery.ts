@@ -1,5 +1,4 @@
 import { ApprovePeripheryArgs } from '../types/actionArgTypes';
-import { getERC20TokenContract } from '../../common';
 import {
   MaxUint256Bn,
   PERIPHERY_ADDRESS_BY_CHAIN_ID,
@@ -8,8 +7,8 @@ import { getSentryTracker } from '../../init';
 import { getGasBuffer } from '../../common/gas/getGasBuffer';
 import { AMMInfo } from '../../common/api/amm/types';
 import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
+import { getERC20TokenContract } from '@voltz-protocol/commons-v2';
 
-// todo: check against https://github.com/Voltz-Protocol/v1-sdk/blob/a22ab02703259ae81323c561c13c3f78d16dc399/src/entities/amm/amm.ts#L1745
 export const approvePeriphery = async ({
   ammId,
   signer,

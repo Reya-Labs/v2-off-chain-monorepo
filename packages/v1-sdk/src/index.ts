@@ -8,5 +8,4 @@ export * from './actions/updateMargin';
 export * from './actions/poolSwapInfo';
 export * from './actions/poolLpInfo';
 export * from './init';
-export * from './common';
 export * from './actions/types';

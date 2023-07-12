@@ -57,7 +57,6 @@
   "dependencies": {
     "@voltz-protocol/api-v2-types": "workspace:^",
     "@voltz-protocol/commons-v2": "workspace:^",
-    "@voltz-protocol/sdk-v1-stateless": "workspace:^",
     "crypto-js": "4.1.1",
     "jsbi": "3.1.4"
   }

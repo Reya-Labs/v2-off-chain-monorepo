@@ -1,20 +1,12 @@
+import { getERC20Balance, getEthBalance } from '@voltz-protocol/commons-v2';
 import { getPoolInfo } from '../../gateway/getPoolInfo';
 import { GetBalanceArgs } from './types';
-import {
-  getEthBalance,
-  getERC20Balance,
-} from '@voltz-protocol/sdk-v1-stateless';
 
 export const getBalance = async ({
   ammId,
   signer,
 }: GetBalanceArgs): Promise<number> => {
-  if (signer.provider === undefined) {
-    throw new Error('Signer provider not found');
-  }
-
   const walletAddress = await signer.getAddress();
-  const provider = signer.provider;
   const poolInfo = await getPoolInfo(ammId);
 
   const chainId = await signer.getChainId();
@@ -26,13 +18,12 @@ export const getBalance = async ({
 
   let currentBalance: number;
   if (isETH) {
-    currentBalance = await getEthBalance({ walletAddress, provider });
+    currentBalance = await getEthBalance(walletAddress, signer);
   } else {
     currentBalance = await getERC20Balance({
       walletAddress,
-      provider,
+      subject: signer,
       tokenAddress: poolInfo.underlyingToken.address,
-      tokenDecimals: poolInfo.underlyingToken.tokenDecimals,
     });
   }
 
