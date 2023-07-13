@@ -5,12 +5,34 @@ import { Address, scale, descale } from '@voltz-protocol/commons-v2';
 import { TableType } from '../../../types';
 import { getTableFullName } from '../../../table-infra/getTableName';
 
-export async function getLiquidityIndexAt(
+export const getLiquidityIndicesAt = async (
+  environmentV2Tag: string,
+  chainId: number,
+  rateOracle: Address,
+  targetTimestamps: number[],
+): Promise<(number | null)[]> => {
+  const retrieveDataAt = async (ts: number) =>
+    getLiquidityIndexAt(environmentV2Tag, chainId, rateOracle, ts);
+
+  const responses = await Promise.allSettled(
+    targetTimestamps.map((ts) => retrieveDataAt(ts)),
+  );
+
+  return responses.map((r) => {
+    if (r.status === 'rejected') {
+      return null;
+    }
+
+    return r.value;
+  });
+};
+
+const getLiquidityIndexAt = async (
   environmentV2Tag: string,
   chainId: number,
   rateOracle: Address,
   targetTimestamp: number,
-): Promise<number | null> {
+): Promise<number> => {
   const [inLeft, inRight] = await pullClosestDatapoints(
     environmentV2Tag,
     chainId,
@@ -42,8 +64,10 @@ export async function getLiquidityIndexAt(
     return interpolate(inRight[0], inRight[1], targetTimestamp);
   }
 
-  return null;
-}
+  throw new Error(
+    `Could not retrieve enough datapoints (${inLeft.length}-${inRight.length})`,
+  );
+};
 
 // Get 2 data points before timestamp and 2 data points after timestamp
 const pullClosestDatapoints = async (
@@ -101,7 +125,7 @@ const interpolate = (
   before: LiquidityIndexEntry,
   after: LiquidityIndexEntry,
   targetTimestamp: number,
-): number | null => {
+): number => {
   const scaleWad = scale(18);
   const descaleWad = descale(18);
 
@@ -123,8 +147,9 @@ const interpolate = (
   const rate = descaleWad(targetIndex);
 
   if (rate < 1) {
-    console.log(`Interpolated rate is less than 1 (at ${targetTimestamp}).`);
-    return null;
+    throw new Error(
+      `Interpolated rate is less than 1 (at ${targetTimestamp}).`,
+    );
   }
 
   return rate;

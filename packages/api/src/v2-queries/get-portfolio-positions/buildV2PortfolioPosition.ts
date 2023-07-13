@@ -9,7 +9,7 @@ import {
 
 import {
   PositionEntry,
-  getLiquidityIndexAt,
+  getLiquidityIndicesAt,
   pullAccountCollateral,
   pullAccountEntry,
 } from '@voltz-protocol/bigquery-v2';
@@ -89,11 +89,11 @@ export const buildV2PortfolioPosition = async ({
   if (isPoolMatured) {
     const poolFixedRate = pool.currentFixedRate;
 
-    const liquidityIndexAtMaturity = await getLiquidityIndexAt(
+    const [liquidityIndexAtMaturity] = await getLiquidityIndicesAt(
       environmentTag,
       chainId,
       convertToAddress(pool.rateOracle.address),
-      maturityTimestamp,
+      [maturityTimestamp],
     );
 
     if (!liquidityIndexAtMaturity) {

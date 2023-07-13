@@ -1,16 +1,18 @@
 import {
   ProductPositionUpdatedEvent,
-  getLiquidityIndexAt,
+  getLiquidityIndicesAtByMarketId,
   insertPositionEntry,
   insertProductPositionUpdatedEvent,
-  pullMarketEntry,
   pullPositionEntry,
   pullProductPositionUpdatedEvent,
   sendUpdateBatches,
   updatePositionEntry,
 } from '@voltz-protocol/bigquery-v2';
 
-import { extendBalancesWithTrade } from '@voltz-protocol/commons-v2';
+import {
+  encodeV2PositionId,
+  extendBalancesWithTrade,
+} from '@voltz-protocol/commons-v2';
 import { getEnvironmentV2 } from '../services/envVars';
 
 export const handleProductPositionUpdated = async (
@@ -39,34 +41,23 @@ export const handleProductPositionUpdated = async (
       maturityTimestamp: event.maturityTimestamp,
       type: 'trader' as 'trader' | 'lp',
     };
+    const positionId = encodeV2PositionId(positionIdData);
 
     const existingPosition = await pullPositionEntry(
       environmentTag,
-      positionIdData,
+      positionId,
     );
 
-    const market = await pullMarketEntry(
+    const [liquidityIndex] = await getLiquidityIndicesAtByMarketId(
       environmentTag,
       event.chainId,
       event.marketId,
+      [event.blockTimestamp],
     );
 
-    if (!market) {
+    if (liquidityIndex === null) {
       throw new Error(
-        `Couldn't find market for ${event.chainId}-${event.marketId}`,
-      );
-    }
-
-    const liquidityIndex = await getLiquidityIndexAt(
-      environmentTag,
-      event.chainId,
-      market.oracleAddress,
-      event.blockTimestamp,
-    );
-
-    if (!liquidityIndex) {
-      throw new Error(
-        `Couldn't find liquidity index at ${event.blockTimestamp} for ${event.chainId}-${market.oracleAddress}`,
+        `Couldn't find liquidity index at ${event.blockTimestamp} for ${event.chainId}-${event.marketId}`,
       );
     }
 
@@ -80,7 +71,7 @@ export const handleProductPositionUpdated = async (
     });
 
     const updateBatch2 = existingPosition
-      ? updatePositionEntry(environmentTag, positionIdData, netBalances)
+      ? updatePositionEntry(environmentTag, positionId, netBalances)
       : insertPositionEntry(environmentTag, {
           ...positionIdData,
           ...netBalances,

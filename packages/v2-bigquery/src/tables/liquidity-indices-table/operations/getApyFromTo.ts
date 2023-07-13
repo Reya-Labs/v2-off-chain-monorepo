@@ -1,5 +1,5 @@
-import { Address, getApy, isNull } from '@voltz-protocol/commons-v2';
-import { getLiquidityIndexAt } from './getLiquidityIndexAt';
+import { Address, getApy } from '@voltz-protocol/commons-v2';
+import { getLiquidityIndicesAt } from './getLiquidityIndicesAt';
 
 export async function getApyFromTo(
   environmentV2Tag: string,
@@ -19,31 +19,24 @@ export async function getApyFromTo(
     return 0;
   }
 
-  const fromIndex = await getLiquidityIndexAt(
+  const [fromIndex, toIndex] = await getLiquidityIndicesAt(
     environmentV2Tag,
     chainId,
     rateOracle,
-    fromTimestamp,
+    [fromTimestamp, toTimestamp],
   );
 
-  const toIndex = await getLiquidityIndexAt(
-    environmentV2Tag,
-    chainId,
-    rateOracle,
-    toTimestamp,
-  );
-
-  if (isNull(fromIndex) || isNull(toIndex)) {
+  if (fromIndex === null || toIndex === null) {
     return null;
   }
 
   const apy = getApy(
     {
-      index: fromIndex as number,
+      index: fromIndex,
       timestamp: fromTimestamp,
     },
     {
-      index: toIndex as number,
+      index: toIndex,
       timestamp: toTimestamp,
     },
     method,

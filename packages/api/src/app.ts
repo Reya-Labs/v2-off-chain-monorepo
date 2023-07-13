@@ -22,7 +22,10 @@ import {
   getWalletVoyages,
 } from '@voltz-protocol/indexer-v1';
 import { getPortfolioPositions as getPortfolioPositionsV1 } from './old-v1-queries/portfolio-positions/getPortfolioPositions';
-import { getApyFromTo, getLiquidityIndexAt } from '@voltz-protocol/bigquery-v2';
+import {
+  getApyFromTo,
+  getLiquidityIndicesAt,
+} from '@voltz-protocol/bigquery-v2';
 import { getV1V2Pools } from './v1v2-queries/get-pools/getV1V2Pools';
 import { getV1V2PortfolioPositions } from './v1v2-queries/get-portfolio-positions/getPortfolioPositions';
 import { getV1V2Pool } from './v1v2-queries/get-pools/getV1V2Pool';
@@ -262,13 +265,10 @@ app.get(
     const oracleAddress = convertToAddress(req.params.oracleAddress);
     const timestamp = Number(req.params.timestamp);
 
-    getLiquidityIndexAt(
-      getEnvironmentV2(),
-      chainId,
-      oracleAddress,
+    getLiquidityIndicesAt(getEnvironmentV2(), chainId, oracleAddress, [
       timestamp,
-    ).then(
-      (output) => {
+    ]).then(
+      ([output]) => {
         res.json(output);
       },
       (error) => {

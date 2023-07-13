@@ -5,9 +5,8 @@ import {
   getCurrentVammTick,
   pullLpPositionEntries,
   updatePositionEntry,
-  pullMarketEntry,
-  getLiquidityIndexAt,
   sendUpdateBatches,
+  getLiquidityIndicesAtByMarketId,
 } from '@voltz-protocol/bigquery-v2';
 import {
   isNull,
@@ -53,22 +52,16 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
   {
     const updateBatch1 = insertVammPriceChangeEvent(environmentTag, event);
 
-    const market = await pullMarketEntry(environmentTag, chainId, marketId);
-
-    if (!market) {
-      throw new Error(`Couldn't find market for ${chainId}-${marketId}`);
-    }
-
-    const liquidityIndex = await getLiquidityIndexAt(
+    const [liquidityIndex] = await getLiquidityIndicesAtByMarketId(
       environmentTag,
       chainId,
-      market.oracleAddress,
-      blockTimestamp,
+      marketId,
+      [blockTimestamp],
     );
 
     if (!liquidityIndex) {
       throw new Error(
-        `Couldn't find liquidity index at ${blockTimestamp} for ${chainId}-${market.oracleAddress}`,
+        `Couldn't find liquidity index at ${blockTimestamp} for ${chainId}-${marketId}`,
       );
     }
 
@@ -100,7 +93,7 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
         existingPosition: lp,
       });
 
-      return updatePositionEntry(environmentTag, lp, netBalances);
+      return updatePositionEntry(environmentTag, lp.id, netBalances);
     });
 
     await sendUpdateBatches([[updateBatch1], updateBatch2].flat());

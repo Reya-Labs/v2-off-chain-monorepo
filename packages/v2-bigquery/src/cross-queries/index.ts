@@ -1,2 +1,2 @@
-export * from './pullAllPoolsConfig';
+export * from './getLiquidityIndicesAtByMarketId';
 export * from './pullRateOracleEntries';

@@ -1,8 +1,4 @@
-import {
-  V2PositionIdData,
-  encodeV2PositionId,
-  isUndefined,
-} from '@voltz-protocol/commons-v2';
+import { isUndefined } from '@voltz-protocol/commons-v2';
 import { PositionEntryUpdate } from '../specific';
 import { TableType } from '../../../types';
 import { getTableFullName } from '../../../table-infra/getTableName';
@@ -10,12 +6,10 @@ import { UpdateBatch } from '../../../types';
 
 export const updatePositionEntry = (
   environmentV2Tag: string,
-  idData: V2PositionIdData,
+  id: string,
   update: PositionEntryUpdate,
 ): UpdateBatch => {
   const tableName = getTableFullName(environmentV2Tag, TableType.positions);
-
-  const id = encodeV2PositionId(idData);
 
   const updates: string[] = [];
   if (!isUndefined(update.base)) {

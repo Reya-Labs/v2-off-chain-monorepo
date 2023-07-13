@@ -3,7 +3,7 @@ import {
   V2PortfolioPosition,
 } from '@voltz-protocol/api-v2-types';
 import {
-  getLiquidityIndexAt,
+  getLiquidityIndicesAt,
   pullCollateralEventsByAccount,
   pullDatedIRSPositionSettledEventsByAccountAndPool,
   pullLiquidationsByAccount,
@@ -140,11 +140,11 @@ export const getV2PositionHistory = async (
 
       let notional = 0;
       try {
-        const liquidityIndex = await getLiquidityIndexAt(
+        const [liquidityIndex] = await getLiquidityIndicesAt(
           environmentTag,
           chainId,
           convertToAddress(rateOracle.address),
-          e.blockTimestamp,
+          [e.blockTimestamp],
         );
 
         notional = base * (liquidityIndex || 0);

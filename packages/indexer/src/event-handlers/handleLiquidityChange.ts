@@ -8,6 +8,7 @@ import {
   sendUpdateBatches,
 } from '@voltz-protocol/bigquery-v2';
 import { getEnvironmentV2 } from '../services/envVars';
+import { encodeV2PositionId } from '@voltz-protocol/commons-v2';
 
 export const handleLiquidityChange = async (event: LiquidityChangeEvent) => {
   const environmentTag = getEnvironmentV2();
@@ -32,14 +33,15 @@ export const handleLiquidityChange = async (event: LiquidityChangeEvent) => {
       tickLower: event.tickLower,
       tickUpper: event.tickUpper,
     };
+    const positionId = encodeV2PositionId(positionIdData);
 
     const existingPosition = await pullPositionEntry(
       environmentTag,
-      positionIdData,
+      positionId,
     );
 
     const updateBatch2 = existingPosition
-      ? updatePositionEntry(environmentTag, positionIdData, {
+      ? updatePositionEntry(environmentTag, positionId, {
           liquidity: existingPosition.liquidity + event.liquidityDelta,
         })
       : insertPositionEntry(environmentTag, {

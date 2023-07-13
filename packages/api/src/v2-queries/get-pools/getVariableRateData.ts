@@ -1,12 +1,11 @@
-import { getLiquidityIndexAt } from '@voltz-protocol/bigquery-v2';
 import {
   Address,
-  fetchMultiplePromises,
   getApy,
   getTimestampInSeconds,
   isNull,
 } from '@voltz-protocol/commons-v2';
 import { getEnvironmentV2 } from '../../services/envVars';
+import { getLiquidityIndicesAt } from '@voltz-protocol/bigquery-v2';
 
 export type GetVariableRateDataResponse = {
   currentVariableRate: number;
@@ -26,27 +25,12 @@ export const getVariableRateData = async (
 
   const environmentTag = getEnvironmentV2();
 
-  const retrieveDataAt = async (ts: number) =>
-    getLiquidityIndexAt(environmentTag, chainId, rateOracle, ts);
-
-  const { data, isError } = await fetchMultiplePromises([
-    retrieveDataAt(nowSeconds),
-    retrieveDataAt(timestampLWAgo),
-    retrieveDataAt(timestamp2LWAgo),
-  ]);
-
-  if (isError) {
-    // add logging
-
-    return {
-      currentLiquidityIndex: 1,
-      currentVariableRate: 0,
-      variableRateChange: 0,
-    };
-  }
-
   const [currentLiquidityIndex, liquidityIndexLWAgo, liquidityIndex2LWAgo] =
-    data;
+    await getLiquidityIndicesAt(environmentTag, chainId, rateOracle, [
+      nowSeconds,
+      timestampLWAgo,
+      timestamp2LWAgo,
+    ]);
 
   if (isNull(currentLiquidityIndex)) {
     return {
