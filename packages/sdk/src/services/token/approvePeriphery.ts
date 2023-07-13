@@ -1,12 +1,12 @@
 import { getPoolInfo } from '../../gateway/getPoolInfo';
 import { ApprovePeripheryArgs } from './types';
-import {
-  getERC20Allowance,
-  getERC20TokenContract,
-} from '@voltz-protocol/sdk-v1-stateless';
 import { getGasBuffer } from '../../utils/txHelpers';
 import { BigNumber } from 'ethers';
-import { getAddress } from '@voltz-protocol/commons-v2';
+import {
+  getAddress,
+  getERC20Allowance,
+  getERC20TokenContract,
+} from '@voltz-protocol/commons-v2';
 
 export const approvePeriphery = async ({
   ammId,
@@ -68,9 +68,8 @@ export const approvePeriphery = async ({
     const allowance = await getERC20Allowance({
       walletAddress: await signer.getAddress(),
       tokenAddress: poolInfo.underlyingToken.address,
-      tokenDecimals: poolInfo.underlyingToken.tokenDecimals,
       spenderAddress: peripheryAddress,
-      provider: signer,
+      subject: signer,
     });
 
     return allowance;

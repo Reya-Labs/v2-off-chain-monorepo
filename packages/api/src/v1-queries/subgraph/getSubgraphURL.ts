@@ -1,27 +1,16 @@
-export enum SupportedChainId {
-  mainnet = 1,
-  goerli = 5,
-  arbitrum = 42161,
-  arbitrumGoerli = 421613,
-  avalanche = 43114,
-  avalancheFuji = 43113,
-}
+import { SupportedChainId } from '@voltz-protocol/commons-v2';
 
 const CHAIN_SUBGRAPH_URL_MAP: Record<SupportedChainId, string> = {
-  [SupportedChainId.mainnet]:
-    'https://api.thegraph.com/subgraphs/name/voltzprotocol/mainnet-v1',
-  [SupportedChainId.goerli]:
-    'https://api.thegraph.com/subgraphs/name/voltzprotocol/voltz-goerli',
-  [SupportedChainId.arbitrum]:
-    'https://api.thegraph.com/subgraphs/name/voltzprotocol/arbitrum-v1',
-  [SupportedChainId.arbitrumGoerli]:
+  [1]: 'https://api.thegraph.com/subgraphs/name/voltzprotocol/mainnet-v1',
+  [5]: 'https://api.thegraph.com/subgraphs/name/voltzprotocol/voltz-goerli',
+  [42161]: 'https://api.thegraph.com/subgraphs/name/voltzprotocol/arbitrum-v1',
+  [421613]:
     'https://api.thegraph.com/subgraphs/name/voltzprotocol/arbitrum-goerli-v1',
-  [SupportedChainId.avalanche]:
-    'https://api.thegraph.com/subgraphs/name/voltzprotocol/avalanche-v1',
-  [SupportedChainId.avalancheFuji]:
-    'https://api.thegraph.com/subgraphs/name/voltzprotocol/ava-fuji-v1',
+  [43114]: 'https://api.thegraph.com/subgraphs/name/voltzprotocol/avalanche-v1',
+  [43113]: 'https://api.thegraph.com/subgraphs/name/voltzprotocol/ava-fuji-v1',
 };
 
-export const getSubgraphURL = (chainId: SupportedChainId): string => {
-  return CHAIN_SUBGRAPH_URL_MAP[chainId] || '';
+export const getSubgraphURL = (chainId: number): string => {
+  // todo: add check for chainId to be SupportedChainId
+  return CHAIN_SUBGRAPH_URL_MAP[chainId as SupportedChainId] || '';
 };

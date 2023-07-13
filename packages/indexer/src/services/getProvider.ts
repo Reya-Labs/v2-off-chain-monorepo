@@ -5,11 +5,10 @@ import {
   providerApiKeyToURL,
 } from '@voltz-protocol/commons-v2';
 
-export const getProvider = (
-  chainId: SupportedChainId,
-): providers.JsonRpcProvider => {
+export const getProvider = (chainId: number): providers.JsonRpcProvider => {
+  // todo: add check for chainId to be SupportedChainId
   const providerURL = providerApiKeyToURL(
-    chainId,
+    chainId as SupportedChainId,
     getAlchemyApiKey(),
     getInfuraApiKey(),
   );

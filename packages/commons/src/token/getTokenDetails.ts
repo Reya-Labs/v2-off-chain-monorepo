@@ -1,23 +1,6 @@
 import { ethers } from 'ethers';
-import { Address } from './convertLowercase';
-
-export const descale = (tokenDecimals: number) => {
-  const f = (value: ethers.BigNumber) => {
-    return Number(ethers.utils.formatUnits(value.toString(), tokenDecimals));
-  };
-
-  return f;
-};
-
-export const scale = (tokenDecimals: number) => {
-  const f = (value: number) => {
-    return ethers.BigNumber.from(
-      ethers.utils.parseUnits(value.toFixed(tokenDecimals), tokenDecimals),
-    );
-  };
-
-  return f;
-};
+import { Address, convertLowercaseString } from '../convertLowercase';
+import { descale } from './descale';
 
 const tokenDetails: {
   [address: Address]: {
@@ -134,7 +117,7 @@ export const getTokenDetails = (
   tokenDecimals: number;
   tokenDescaler: (value: ethers.BigNumber) => number;
 } => {
-  const address = caseSensitiveAddress.toLowerCase() as Address;
+  const address = convertLowercaseString(caseSensitiveAddress);
 
   if (!Object.keys(tokenDetails).includes(address)) {
     throw new Error(`Token details not found for ${address}.`);

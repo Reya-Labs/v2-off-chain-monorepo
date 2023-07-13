@@ -17,12 +17,15 @@ export const createProtocolV2Dataset = async (environmentV2Tag: string) => {
   }
 
   // Create tables
-  await fetchMultiplePromises(
+  const { isError, error } = await fetchMultiplePromises(
     Object.keys(TableType).map((tableType) =>
       createTable(environmentV2Tag, tableType as TableType),
     ),
-    true,
   );
+
+  if (isError) {
+    throw error;
+  }
 };
 
 export const deleteProtocolV2Dataset = async (environmentV2Tag: string) => {

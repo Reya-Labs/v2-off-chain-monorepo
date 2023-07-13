@@ -13,7 +13,11 @@ import {
 export const updateAllRateOracles = async (): Promise<void> => {
   const oracles = await pullRateOracleEntries(getEnvironmentV2());
 
-  const batches = await fetchMultiplePromises(
+  const {
+    data: batches,
+    isError,
+    error,
+  } = await fetchMultiplePromises(
     oracles.map(async ({ chainId, oracleAddress }) => {
       const provider = getProvider(chainId);
       const { number: blockNumber, timestamp: blockTimestamp } =
@@ -26,8 +30,11 @@ export const updateAllRateOracles = async (): Promise<void> => {
         blockTimestamp,
       );
     }),
-    true,
   );
+
+  if (isError) {
+    throw error;
+  }
 
   await sendUpdateBatches(batches);
 };

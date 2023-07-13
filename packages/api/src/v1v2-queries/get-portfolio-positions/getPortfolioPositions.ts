@@ -1,4 +1,3 @@
-import { SupportedChainId } from '@voltz-protocol/commons-v2';
 import { getV2PortfolioPositions } from '../../v2-queries/get-portfolio-positions/getV2PortfolioPositions';
 import { getV1PortfolioPositions } from '../../v1-queries/get-portfolio-positions/getV1PortfolioPositions';
 import { extendV1Position } from './extendV1Position';
@@ -6,7 +5,7 @@ import { extendV2Position } from './extendV2Position';
 import { V1V2PortfolioPosition } from '@voltz-protocol/api-v2-types';
 
 export const getV1V2PortfolioPositions = async (
-  chainIds: SupportedChainId[],
+  chainIds: number[],
   ownerAddress: string,
 ): Promise<V1V2PortfolioPosition[]> => {
   const response: V1V2PortfolioPosition[] = [];

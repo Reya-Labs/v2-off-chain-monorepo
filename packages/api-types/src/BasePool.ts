@@ -1,5 +1,6 @@
 export type BasePool = {
   id: string;
+
   chainId: number;
 
   tickSpacing: number;

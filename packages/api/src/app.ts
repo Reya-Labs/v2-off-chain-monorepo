@@ -338,10 +338,19 @@ app.get('/chain-information/:chainIds', (req, res) => {
   const process = async () => {
     const chainIds = req.params.chainIds.split('&').map((s) => Number(s));
 
-    const [volume30Day, totalLiquidity] = await fetchMultiplePromises(
-      [getChainTradingVolume(chainIds), getChainTotalLiquidity(chainIds)],
-      true,
-    );
+    const { data, isError } = await fetchMultiplePromises([
+      getChainTradingVolume(chainIds),
+      getChainTotalLiquidity(chainIds),
+    ]);
+
+    if (isError) {
+      return {
+        volume30Day: 0,
+        totalLiquidity: 0,
+      };
+    }
+
+    const [volume30Day, totalLiquidity] = data;
 
     return {
       volume30Day,

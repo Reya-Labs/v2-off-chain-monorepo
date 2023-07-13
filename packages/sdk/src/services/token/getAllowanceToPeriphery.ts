@@ -1,16 +1,11 @@
 import { getPoolInfo } from '../../gateway/getPoolInfo';
-import { getERC20Allowance } from '@voltz-protocol/sdk-v1-stateless';
 import { GetAllowanceToPeripheryArgs } from './types';
-import { getAddress } from '@voltz-protocol/commons-v2';
+import { getAddress, getERC20Allowance } from '@voltz-protocol/commons-v2';
 
 export const getAllowanceToPeriphery = async ({
   ammId,
   signer,
 }: GetAllowanceToPeripheryArgs): Promise<number> => {
-  if (signer.provider === undefined) {
-    throw new Error('Signer must have a provider');
-  }
-
   const chainId = await signer.getChainId();
   const poolInfo = await getPoolInfo(ammId);
 
@@ -30,9 +25,8 @@ export const getAllowanceToPeriphery = async ({
   const allowance = await getERC20Allowance({
     walletAddress,
     tokenAddress: poolInfo.underlyingToken.address,
-    tokenDecimals: poolInfo.underlyingToken.tokenDecimals,
     spenderAddress: peripheryAddress,
-    provider: signer.provider,
+    subject: signer,
   });
 
   return allowance;

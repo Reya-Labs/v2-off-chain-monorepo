@@ -2,16 +2,12 @@ import { GetAllowanceToPeripheryArgs } from '../types/actionArgTypes';
 import { PERIPHERY_ADDRESS_BY_CHAIN_ID } from '../../common/constants';
 import { getAmmInfo } from '../../common/api/amm/getAmmInfo';
 import { AMMInfo } from '../../common/api/amm/types';
-import { getERC20Allowance } from '../../common';
+import { getERC20Allowance } from '@voltz-protocol/commons-v2';
 
 export const getAllowanceToPeriphery = async ({
   ammId,
   signer,
 }: GetAllowanceToPeripheryArgs): Promise<number> => {
-  if (signer.provider === undefined) {
-    throw new Error('Signer must have a provider');
-  }
-
   const chainId = await signer.getChainId();
   const ammInfo: AMMInfo = await getAmmInfo(ammId);
   const walletAddress: string = await signer.getAddress();
@@ -25,9 +21,8 @@ export const getAllowanceToPeriphery = async ({
   const descaledCappedAllowance = getERC20Allowance({
     walletAddress,
     tokenAddress: ammInfo.underlyingTokenAddress,
-    tokenDecimals: ammInfo.underlyingTokenDecimals,
     spenderAddress: peripheryAddress,
-    provider: signer.provider,
+    subject: signer,
   });
 
   return descaledCappedAllowance;

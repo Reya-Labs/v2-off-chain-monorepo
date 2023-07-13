@@ -1,11 +1,11 @@
-export enum SupportedChainId {
-  mainnet = 1,
-  goerli = 5,
-  arbitrum = 42161,
-  arbitrumGoerli = 421613,
-  avalanche = 43114,
-  avalancheFuji = 43113,
-}
+// 1 - mainnet
+// 5 - goerli
+// 42161 - arbitrum
+// 421613 - arbitrum goerli
+// 43114 - avalanche
+// 43113 - avalancheFuji
+
+export type SupportedChainId = 1 | 5 | 42161 | 421613 | 43114 | 43113;
 
 export const providerApiKeyToURL = (
   chainId: SupportedChainId,
@@ -13,23 +13,28 @@ export const providerApiKeyToURL = (
   infuraApiKey: string,
 ): string => {
   switch (chainId) {
-    case SupportedChainId.mainnet: {
+    case 1: {
       return `https://eth-mainnet.g.alchemy.com/v2/${alchemyApiKey}`;
     }
-    case SupportedChainId.goerli: {
+    case 5: {
       return `https://eth-goerli.g.alchemy.com/v2/${alchemyApiKey}`;
     }
-    case SupportedChainId.arbitrum: {
+    case 42161: {
       return `https://arb-mainnet.g.alchemy.com/v2/${alchemyApiKey}`;
     }
-    case SupportedChainId.arbitrumGoerli: {
+    case 421613: {
       return `https://arb-goerli.g.alchemy.com/v2/${alchemyApiKey}`;
     }
-    case SupportedChainId.avalanche: {
+    case 43114: {
       return `https://avalanche-mainnet.infura.io/v3/${infuraApiKey}`;
     }
-    case SupportedChainId.avalancheFuji: {
+    case 43113: {
       return `https://avalanche-fuji.infura.io/v3/${infuraApiKey}`;
     }
+    default: {
+      chainId satisfies never;
+    }
   }
+
+  throw new Error(`Chain ID ${chainId} is not recognized`);
 };

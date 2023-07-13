@@ -1,10 +1,13 @@
 import { Contract } from 'ethers';
 import { LpPeripheryParams } from '../types';
 import { estimateLpGasUnits } from './estimateLpGasUnits';
-import { convertGasUnitsToNativeTokenUnits } from '../../common';
-import { getNativeGasToken } from '../../common/gas/getNativeGasToken';
 import { getMarginRequirementPostLp } from './getMarginRequirementPostLp';
 import { GetMarginRequirementPostLpResults } from './getMarginRequirementPostLp';
+import {
+  convertGasUnitsToNativeTokenUnits,
+  exponentialBackoff,
+  getNativeGasToken,
+} from '@voltz-protocol/commons-v2';
 
 export type InfoPostLp = {
   marginRequirement: number;
@@ -50,12 +53,16 @@ export const getInfoPostLp = async ({
     lpGasUnits,
   );
 
+  const chainId = (
+    await exponentialBackoff(() => peripheryContract.provider.getNetwork())
+  ).chainId;
+
   return {
     marginRequirement: marginRequirementPostLpResults.additionalMargin,
     maxMarginWithdrawable: marginRequirementPostLpResults.maxMarginWithdrawable,
     gasFee: {
       value: gasFeeNativeToken,
-      token: await getNativeGasToken(peripheryContract.provider),
+      token: getNativeGasToken(chainId),
     },
   };
 };

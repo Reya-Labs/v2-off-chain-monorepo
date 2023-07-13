@@ -31,7 +31,7 @@ export const getV1PortfolioPositions = async (
     } catch (_) {}
   }
 
-  const positions = await fetchMultiplePromises(
+  const { data: positions } = await fetchMultiplePromises(
     allPositions.map(([chainId, position]) =>
       buildV1PortfolioPosition(chainId, position, 'light'),
     ),

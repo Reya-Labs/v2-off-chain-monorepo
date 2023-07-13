@@ -3,7 +3,6 @@ import {
   getTickAtTimestamp,
 } from '@voltz-protocol/bigquery-v2';
 import {
-  SupportedChainId,
   getTimestampInSeconds,
   isNull,
   tickToFixedRate,
@@ -18,7 +17,7 @@ export type GetFixedRateDataResponse = {
 
 // todo: await multiple promises at once
 export const getFixedRateData = async (
-  chainId: SupportedChainId,
+  chainId: number,
   marketId: string,
   maturityTimestamp: number,
   lookbackWindowSeconds: number,

@@ -3,13 +3,13 @@ import { CHAIN_IDS, INDEXING_BUFFER } from './constants';
 import { sync } from './sync';
 import { sleep } from '@voltz-protocol/commons-v2';
 import { updateAllRateOracles } from '../liquidity-indices/updateAllRateOracles';
-import { createLoggingPlace } from '../logging/createLoggingPlace';
+import { createLoggingDirectory } from '../logging/createLoggingDirectory';
 import { log } from '../logging/log';
 import { getEnvironmentV2 } from '../services/envVars';
 
 export const main = async () => {
   await createProtocolV2Dataset(getEnvironmentV2());
-  createLoggingPlace();
+  createLoggingDirectory();
 
   log('');
   log('Process is executed again...');

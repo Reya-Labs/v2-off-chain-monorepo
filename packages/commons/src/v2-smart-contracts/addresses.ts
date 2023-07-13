@@ -1,5 +1,6 @@
 import { ZERO_ADDRESS } from '../constants';
 import { Address } from '../convertLowercase';
+import { SupportedChainId } from '../provider';
 
 type ContractType =
   | 'core'
@@ -8,12 +9,15 @@ type ContractType =
   | 'periphery'
   | 'alpha_pass';
 
-type NetworkAddresses = Record<ContractType, Address>;
-
-type AllAddresses = Record<number, NetworkAddresses>;
-
-const addresses: AllAddresses = {
+const addresses: Record<SupportedChainId, Record<ContractType, Address>> = {
   1: {
+    core: ZERO_ADDRESS,
+    dated_irs_instrument: ZERO_ADDRESS,
+    dated_irs_vamm: ZERO_ADDRESS,
+    periphery: ZERO_ADDRESS,
+    alpha_pass: ZERO_ADDRESS,
+  },
+  5: {
     core: ZERO_ADDRESS,
     dated_irs_instrument: ZERO_ADDRESS,
     dated_irs_vamm: ZERO_ADDRESS,
@@ -34,6 +38,20 @@ const addresses: AllAddresses = {
     periphery: '0x7917adcd534c78f6901fc8a07d3834b9b47eaf26',
     alpha_pass: '0xf28e795b214230ba192f7f9167d6cbec2558b00c',
   },
+  43114: {
+    core: ZERO_ADDRESS,
+    dated_irs_instrument: ZERO_ADDRESS,
+    dated_irs_vamm: ZERO_ADDRESS,
+    periphery: ZERO_ADDRESS,
+    alpha_pass: ZERO_ADDRESS,
+  },
+  43113: {
+    core: ZERO_ADDRESS,
+    dated_irs_instrument: ZERO_ADDRESS,
+    dated_irs_vamm: ZERO_ADDRESS,
+    periphery: ZERO_ADDRESS,
+    alpha_pass: ZERO_ADDRESS,
+  },
 };
 
 export const getAddress = (
@@ -46,7 +64,7 @@ export const getAddress = (
     return `Unspecified addresses for chain id ${keyChainId}`;
   }
 
-  const networkAddresses = addresses[chainId];
+  const networkAddresses = addresses[chainId as SupportedChainId];
   if (!Object.keys(networkAddresses).includes(contractName)) {
     return `Unspecified address for ${contractName} contract`;
   }
