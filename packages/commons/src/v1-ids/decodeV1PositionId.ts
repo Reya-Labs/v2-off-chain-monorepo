@@ -1,5 +1,6 @@
 import { V1PositionIdData } from './types';
 
+// todo: add sanity checks
 export const decodeV1PositionId = (positionId: string): V1PositionIdData => {
   const parts = positionId.split('_');
 

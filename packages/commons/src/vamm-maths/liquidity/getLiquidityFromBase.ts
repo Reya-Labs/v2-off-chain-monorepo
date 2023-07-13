@@ -1,4 +1,4 @@
-import { tickToSqrtPrice } from './tickConversions';
+import { tickToSqrtPrice } from '../ticks';
 
 export const getLiquidityFromBase = (
   base: number,

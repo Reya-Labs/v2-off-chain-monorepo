@@ -6,7 +6,7 @@ import {
   ProtocolEventType,
 } from '@voltz-protocol/bigquery-v2';
 import {
-  convertLowercaseString,
+  convertToAddress,
   getTokenDetails,
 } from '@voltz-protocol/commons-v2';
 
@@ -41,7 +41,7 @@ export const parseDatedIRSPositionSettled = (
     productId,
     marketId,
     maturityTimestamp,
-    collateralType: convertLowercaseString(collateralType),
+    collateralType: convertToAddress(collateralType),
     settlementCashflowInQuote,
   };
 };

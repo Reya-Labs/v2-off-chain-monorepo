@@ -1,5 +1,5 @@
-import { SECONDS_IN_YEAR } from './constants';
-import { getAvgFixV2 } from './vamm/getAvgFixV2';
+import { SECONDS_IN_YEAR } from '../../constants';
+import { getAvgFixV2 } from './getAvgFixV2';
 
 type Balances = {
   base: number;

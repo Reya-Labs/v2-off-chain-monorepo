@@ -7,7 +7,7 @@ import {
 } from '@voltz-protocol/bigquery-v2';
 import {
   getTokenDetails,
-  convertLowercaseString,
+  convertToAddress,
   getMarketQuoteToken,
 } from '@voltz-protocol/commons-v2';
 
@@ -41,7 +41,7 @@ export const parseLiquidityChange = (
     accountId: accountId,
     marketId: marketId,
     maturityTimestamp,
-    quoteToken: convertLowercaseString(quoteToken),
+    quoteToken: convertToAddress(quoteToken),
 
     tickLower,
     tickUpper,

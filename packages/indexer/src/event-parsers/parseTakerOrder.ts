@@ -6,7 +6,7 @@ import {
   TakerOrderEvent,
 } from '@voltz-protocol/bigquery-v2';
 import {
-  convertLowercaseString,
+  convertToAddress,
   getTokenDetails,
 } from '@voltz-protocol/commons-v2';
 
@@ -45,7 +45,7 @@ export const parseTakerOrder = (
     accountId,
     marketId,
     maturityTimestamp,
-    quoteToken: convertLowercaseString(collateralType),
+    quoteToken: convertToAddress(collateralType),
     executedBaseAmount,
     executedQuoteAmount,
     annualizedNotionalAmount,

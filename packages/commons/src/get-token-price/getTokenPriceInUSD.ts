@@ -17,6 +17,8 @@ export const getTokenPriceInUSD = async (
       return getETHPriceInUSD(coingeckoApiKey);
     }
     default: {
+      // todo: track
+
       return 0;
     }
   }

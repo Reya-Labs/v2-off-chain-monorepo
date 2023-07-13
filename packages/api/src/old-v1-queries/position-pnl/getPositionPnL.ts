@@ -1,7 +1,6 @@
 import {
   SECONDS_IN_YEAR,
   getBlockAtTimestamp,
-  getTimeInYearsBetweenTimestamps,
   tickToFixedRate,
 } from '@voltz-protocol/commons-v2';
 import { PositionPnL } from './types';
@@ -78,10 +77,7 @@ export const getPositionPnL = async (
   const currentTick = await getCurrentTick(chainId, vammAddress);
   const currentFixedRate = tickToFixedRate(currentTick);
 
-  const timeInYears = getTimeInYearsBetweenTimestamps(
-    currentTimestamp,
-    maturityTimestamp,
-  );
+  const timeInYears = (maturityTimestamp - currentTimestamp) / SECONDS_IN_YEAR;
 
   const uPnL =
     existingPosition.netNotionalLocked *

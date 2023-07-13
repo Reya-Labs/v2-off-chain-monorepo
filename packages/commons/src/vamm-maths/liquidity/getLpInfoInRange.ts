@@ -5,6 +5,9 @@ export type GetLPInfoInRangeResponse = {
   avgFix: number;
 };
 
+/**
+ * Gets the available base and fixed rate of trade given the LP positions and the fact that the tick moves from "currentTick" to "toTick".
+ */
 export const getLpInfoInRange = (
   lpPositions: {
     liquidity: number;

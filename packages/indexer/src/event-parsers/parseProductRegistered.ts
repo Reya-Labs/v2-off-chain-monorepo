@@ -5,7 +5,7 @@ import {
   ProductRegisteredEvent,
   ProtocolEventType,
 } from '@voltz-protocol/bigquery-v2';
-import { convertLowercaseString } from '@voltz-protocol/commons-v2';
+import { convertToAddress } from '@voltz-protocol/commons-v2';
 
 export const parseProductRegistered = (
   chainId: number,
@@ -27,9 +27,9 @@ export const parseProductRegistered = (
   return {
     ...baseEvent,
 
-    product: convertLowercaseString(product),
+    product: convertToAddress(product),
     productId,
     name,
-    sender: convertLowercaseString(sender),
+    sender: convertToAddress(sender),
   };
 };

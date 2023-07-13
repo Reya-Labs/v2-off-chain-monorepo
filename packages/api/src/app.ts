@@ -3,10 +3,9 @@ import express from 'express';
 import rateLimit from 'express-rate-limit';
 import RedisStore from 'rate-limit-redis';
 import {
-  convertLowercaseString,
+  convertToAddress,
   fetchMultiplePromises,
   getTimestampInSeconds,
-  getTrustedProxies,
 } from '@voltz-protocol/commons-v2';
 import { getAmm } from './old-v1-queries/common/getAMM';
 import { getPortfolioPositionDetails } from './old-v1-queries/get-position-details/getPortfolioPositionDetails';
@@ -37,6 +36,7 @@ import { getRedisClient } from './services/redis';
 import { getEnvironmentV2 } from './services/envVars';
 import { getV1V2AvailableNotional } from './v1v2-queries/get-available-notional/getAvailableNotional';
 import { getV2TradeInformation } from './v2-queries/get-pools/getTradeInformation';
+import { getTrustedProxies } from './services/getTrustedProxies';
 
 export const app = express();
 
@@ -259,7 +259,7 @@ app.get(
   '/v2-liquidity-index/:chainId/:oracleAddress/:timestamp',
   (req, res) => {
     const chainId = Number(req.params.chainId);
-    const oracleAddress = convertLowercaseString(req.params.oracleAddress);
+    const oracleAddress = convertToAddress(req.params.oracleAddress);
     const timestamp = Number(req.params.timestamp);
 
     getLiquidityIndexAt(
@@ -284,7 +284,7 @@ app.get(
   '/v2-variable-apy-from-to/:chainId/:oracleAddress/:from/:to',
   (req, res) => {
     const chainId = Number(req.params.chainId);
-    const oracleAddress = convertLowercaseString(req.params.oracleAddress);
+    const oracleAddress = convertToAddress(req.params.oracleAddress);
     const from = Number(req.params.from);
     const to = Number(req.params.to);
 
@@ -303,7 +303,7 @@ app.get(
 
 app.get('/v2-variable-apy-from/:chainId/:oracleAddress/:from', (req, res) => {
   const chainId = Number(req.params.chainId);
-  const oracleAddress = convertLowercaseString(req.params.oracleAddress);
+  const oracleAddress = convertToAddress(req.params.oracleAddress);
   const from = Number(req.params.from);
   const to = getTimestampInSeconds();
 

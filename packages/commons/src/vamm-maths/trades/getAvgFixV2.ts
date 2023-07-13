@@ -1,8 +1,4 @@
-// base
-// quote = - base * li * (1 + avgFix * (maturity-entry) / YEAR)
-// avgFix = (-quote / base / li - 1) / ((maturity - entry) / YEAR)
-
-import { SECONDS_IN_YEAR } from '../constants';
+import { SECONDS_IN_YEAR } from '../../constants';
 
 export type GetAvgFixV2Args = {
   base: number;
@@ -12,6 +8,9 @@ export type GetAvgFixV2Args = {
   maturityTimestamp: number; // in seconds
 };
 
+/**
+ * Calculates the average fixed rate of a trade.
+ */
 export const getAvgFixV2 = ({
   base,
   quote,

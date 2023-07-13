@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { SECONDS_IN_DAY } from '@voltz-protocol/commons-v2';
+import {
+  SECONDS_IN_DAY,
+  getTimestampInSeconds,
+} from '@voltz-protocol/commons-v2';
 import { getBigQuery } from '../../../global';
 import { mapToBigQueryHistoricalRateRow } from '../../mappers';
 import { find24HourDatapoint } from './utils/find24HourDatapoint';
@@ -19,7 +22,7 @@ export const getLatestVariableRate = async (
 ): Promise<GetLatestVariableRateResponse> => {
   const bigQuery = getBigQuery();
 
-  const currentTime = Math.floor(Date.now().valueOf() / 1000);
+  const currentTime = getTimestampInSeconds();
   const lookbackWindow = 2 * SECONDS_IN_DAY;
 
   const variableRatesQuery = `

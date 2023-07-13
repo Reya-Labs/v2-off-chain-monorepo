@@ -1,4 +1,8 @@
-import { getLiquidityFromBase, scale } from '@voltz-protocol/commons-v2';
+import {
+  getLiquidityFromBase,
+  getTimestampInSeconds,
+  scale,
+} from '@voltz-protocol/commons-v2';
 import { CompleteLpDetails, EditLpArgs } from './types';
 import { getPositionInfo } from '../../gateway/getPositionInfo';
 
@@ -20,8 +24,8 @@ export const parseEditLpArgs = async ({
   const quoteTokenDecimals = positionInfo.pool.underlyingToken.tokenDecimals;
   const currentLiquidityIndex = positionInfo.pool.currentLiquidityIndex;
 
-  const maturityTimestamp = Math.round(
-    positionInfo.pool.termEndTimestampInMS / 1000,
+  const maturityTimestamp = getTimestampInSeconds(
+    positionInfo.pool.termEndTimestampInMS,
   );
 
   // Get liquidity amount

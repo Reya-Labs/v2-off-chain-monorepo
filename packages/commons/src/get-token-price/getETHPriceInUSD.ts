@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { CacheObject } from '../cache';
 
-const ethPriceInUSD = new CacheObject<number>(60_000);
+const ethPriceInUSD = new CacheObject<number>({ refreshIntervalInMS: 60_000 });
 
 export const getETHPriceInUSD = async (
   coingeckoApiKey: string,
@@ -24,10 +24,12 @@ export const getETHPriceInUSD = async (
 
     throw new Error('Invalid response format');
   } catch (error) {
+    // todo: track
+
     console.log(
       `Failed fetching ETH price with reason: ${(error as Error).message}`,
     );
-
-    return 0;
   }
+
+  return 0;
 };

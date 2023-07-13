@@ -5,7 +5,7 @@ import {
   VammCreatedEvent,
 } from '@voltz-protocol/bigquery-v2';
 import { parseBaseEvent } from './utils/parseBaseEvent';
-import { convertLowercaseString, descale } from '@voltz-protocol/commons-v2';
+import { convertToAddress, descale } from '@voltz-protocol/commons-v2';
 
 export const parseVammCreated = (
   chainId: number,
@@ -53,7 +53,7 @@ export const parseVammCreated = (
     priceImpactPhi,
     priceImpactBeta,
     spread,
-    rateOracle: convertLowercaseString(rateOracle),
+    rateOracle: convertToAddress(rateOracle),
     maxLiquidityPerTick,
     tickSpacing,
     maturityTimestamp,

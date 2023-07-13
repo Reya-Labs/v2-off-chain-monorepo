@@ -5,6 +5,7 @@ import {
 } from '@google-cloud/bigquery';
 import { PROJECT_ID, getBigQuery } from '../global';
 import { getEnvironmentV1 } from '../common/envVars';
+import { getTimestampInSeconds } from '@voltz-protocol/commons-v2';
 
 export enum TableType {
   active_swaps,
@@ -65,7 +66,7 @@ export const bqNumericToNumber = (bqNumeric: BigQueryInt): number => {
 export const bqTimestampToUnixSeconds = (
   bqTimestamp: BigQueryTimestamp,
 ): number => {
-  return Math.floor(new Date(bqTimestamp.value).getTime() / 1000);
+  return getTimestampInSeconds(new Date(bqTimestamp.value).getTime());
 };
 
 // Converts unix time in seconds to BigQuery timestamp

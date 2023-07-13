@@ -13,7 +13,7 @@ import {
 import { getEnvironmentV2 } from '../../services/envVars';
 import {
   SECONDS_IN_YEAR,
-  convertLowercaseString,
+  convertToAddress,
   getDeltasFromLiquidity,
   getTimestampInSeconds,
 } from '@voltz-protocol/commons-v2';
@@ -143,7 +143,7 @@ export const getV2PositionHistory = async (
         const liquidityIndex = await getLiquidityIndexAt(
           environmentTag,
           chainId,
-          convertLowercaseString(rateOracle.address),
+          convertToAddress(rateOracle.address),
           e.blockTimestamp,
         );
 

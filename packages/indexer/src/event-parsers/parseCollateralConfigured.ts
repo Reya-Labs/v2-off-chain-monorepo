@@ -7,7 +7,7 @@ import {
 } from '@voltz-protocol/bigquery-v2';
 import {
   getTokenDetails,
-  convertLowercaseString,
+  convertToAddress,
 } from '@voltz-protocol/commons-v2';
 
 export const parseCollateralConfigured = (
@@ -38,7 +38,7 @@ export const parseCollateralConfigured = (
 
     depositingEnabled,
     liquidationBooster,
-    tokenAddress: convertLowercaseString(tokenAddress),
+    tokenAddress: convertToAddress(tokenAddress),
     cap,
   };
 };

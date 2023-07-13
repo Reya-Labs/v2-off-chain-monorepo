@@ -1,7 +1,7 @@
 import {
   tickToFixedRate,
   getTimestampInSeconds,
-  convertLowercaseString,
+  convertToAddress,
   computeRealizedPnL,
   computeUnrealizedPnL,
   getDeltasFromLiquidity,
@@ -92,7 +92,7 @@ export const buildV2PortfolioPosition = async ({
     const liquidityIndexAtMaturity = await getLiquidityIndexAt(
       environmentTag,
       chainId,
-      convertLowercaseString(pool.rateOracle.address),
+      convertToAddress(pool.rateOracle.address),
       maturityTimestamp,
     );
 

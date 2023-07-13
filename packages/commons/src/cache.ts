@@ -5,7 +5,7 @@ export class CacheObject<T> {
   private lastRefreshInMS = 0;
   private refreshIntervalInMS: number;
 
-  public constructor(refreshIntervalInMS: number) {
+  public constructor({ refreshIntervalInMS }: { refreshIntervalInMS: number }) {
     this.refreshIntervalInMS = refreshIntervalInMS;
   }
 

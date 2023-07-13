@@ -5,7 +5,7 @@ import {
   RateOracleConfiguredEvent,
   ProtocolEventType,
 } from '@voltz-protocol/bigquery-v2';
-import { convertLowercaseString } from '@voltz-protocol/commons-v2';
+import { convertToAddress } from '@voltz-protocol/commons-v2';
 
 export const parseRateOracleConfigured = (
   chainId: number,
@@ -26,6 +26,6 @@ export const parseRateOracleConfigured = (
     ...baseEvent,
 
     marketId,
-    oracleAddress: convertLowercaseString(oracleAddress),
+    oracleAddress: convertToAddress(oracleAddress),
   };
 };

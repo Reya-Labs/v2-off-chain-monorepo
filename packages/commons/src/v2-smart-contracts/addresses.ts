@@ -1,5 +1,5 @@
 import { ZERO_ADDRESS } from '../constants';
-import { Address } from '../convertLowercase';
+import { Address } from '../address';
 import { SupportedChainId } from '../provider';
 
 type ContractType =

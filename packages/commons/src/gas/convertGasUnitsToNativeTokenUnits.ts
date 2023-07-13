@@ -1,5 +1,6 @@
 import { ethers, providers } from 'ethers';
 import { exponentialBackoff } from '../retry';
+import { descale } from '../token';
 
 export async function convertGasUnitsToNativeTokenUnits(
   subject: providers.Provider | ethers.Signer,
@@ -7,11 +8,13 @@ export async function convertGasUnitsToNativeTokenUnits(
 ): Promise<number> {
   try {
     const gasPriceWei = await exponentialBackoff(() => subject.getGasPrice());
-    const gasUnitsToNativeToken =
-      parseFloat(ethers.utils.formatEther(gasPriceWei)) * gasUnits;
+
+    const gasUnitsToNativeToken = descale(18)(gasPriceWei) * gasUnits;
+
     return gasUnitsToNativeToken;
   } catch (_) {
-    // todo: sentry
-    return 0;
+    // todo: track
   }
+
+  return 0;
 }
