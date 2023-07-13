@@ -5,7 +5,7 @@ import {
   ProtocolEventType,
 } from '@voltz-protocol/bigquery-v2';
 import { parseBaseEvent } from './utils/parseBaseEvent';
-import { convertLowercaseString } from '@voltz-protocol/commons-v2';
+import { convertToAddress } from '@voltz-protocol/commons-v2';
 
 export const parseMarketConfigured = (
   chainId: number,
@@ -26,6 +26,6 @@ export const parseMarketConfigured = (
     ...baseEvent,
 
     marketId,
-    quoteToken: convertLowercaseString(quoteToken),
+    quoteToken: convertToAddress(quoteToken),
   };
 };

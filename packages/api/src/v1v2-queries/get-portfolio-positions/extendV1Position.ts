@@ -20,5 +20,4 @@ export const extendV1PositionDetails = (
   ...p,
   accountId: '',
   pool: extendV1Pool(p.pool),
-  rolloverMaturityTimestamp: null,
 });

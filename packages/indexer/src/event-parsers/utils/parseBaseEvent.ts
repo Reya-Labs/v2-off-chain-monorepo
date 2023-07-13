@@ -1,6 +1,6 @@
 import { BigNumber, Event } from 'ethers';
 
-import { convertLowercaseString } from '@voltz-protocol/commons-v2';
+import { convertToAddress } from '@voltz-protocol/commons-v2';
 import { BaseEvent, ProtocolEventType } from '@voltz-protocol/bigquery-v2';
 
 export const parseBaseEvent = (
@@ -17,7 +17,7 @@ export const parseBaseEvent = (
     type,
 
     chainId,
-    source: convertLowercaseString(event.address),
+    source: convertToAddress(event.address),
 
     blockTimestamp,
     blockNumber: event.blockNumber,

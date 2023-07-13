@@ -1,7 +1,7 @@
 import {
   tickToFixedRate,
   getTimestampInSeconds,
-  convertLowercaseString,
+  convertToAddress,
   computeRealizedPnL,
   computeUnrealizedPnL,
   getDeltasFromLiquidity,
@@ -9,7 +9,7 @@ import {
 
 import {
   PositionEntry,
-  getLiquidityIndexAt,
+  getLiquidityIndicesAt,
   pullAccountCollateral,
   pullAccountEntry,
 } from '@voltz-protocol/bigquery-v2';
@@ -29,7 +29,6 @@ export const buildV2PortfolioPosition = async ({
   timeDependentQuote,
   lockedFixedRate: fixedRateLocked,
   liquidity,
-  notional: notionalTraded,
   paidFees,
   tickLower,
   tickUpper,
@@ -73,6 +72,8 @@ export const buildV2PortfolioPosition = async ({
   const fixLow = tickToFixedRate(tickUpper);
   const fixHigh = tickToFixedRate(tickLower);
 
+  const notionalTraded = base * pool.currentLiquidityIndex;
+
   const { x } = getDeltasFromLiquidity(liquidity, tickLower, tickUpper);
   const notionalProvided = x * pool.currentLiquidityIndex;
 
@@ -89,11 +90,11 @@ export const buildV2PortfolioPosition = async ({
   if (isPoolMatured) {
     const poolFixedRate = pool.currentFixedRate;
 
-    const liquidityIndexAtMaturity = await getLiquidityIndexAt(
+    const [liquidityIndexAtMaturity] = await getLiquidityIndicesAt(
       environmentTag,
       chainId,
-      convertLowercaseString(pool.rateOracle.address),
-      maturityTimestamp,
+      convertToAddress(pool.rateOracle.address),
+      [maturityTimestamp],
     );
 
     if (!liquidityIndexAtMaturity) {

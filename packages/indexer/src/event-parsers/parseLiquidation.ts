@@ -5,10 +5,7 @@ import {
   LiquidationEvent,
   ProtocolEventType,
 } from '@voltz-protocol/bigquery-v2';
-import {
-  getTokenDetails,
-  convertLowercaseString,
-} from '@voltz-protocol/commons-v2';
+import { getTokenDetails, convertToAddress } from '@voltz-protocol/commons-v2';
 
 export const parseLiquidation = (
   chainId: number,
@@ -42,8 +39,8 @@ export const parseLiquidation = (
     ...baseEvent,
 
     liquidatedAccountId,
-    collateralType: convertLowercaseString(collateralType),
-    sender: convertLowercaseString(sender),
+    collateralType: convertToAddress(collateralType),
+    sender: convertToAddress(sender),
     liquidatorAccountId,
 
     liquidatorRewardAmount,

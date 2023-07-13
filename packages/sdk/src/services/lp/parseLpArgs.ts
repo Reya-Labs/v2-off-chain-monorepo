@@ -1,6 +1,7 @@
 import {
   fixedRateToSpacedTick,
   getLiquidityFromBase,
+  getTimestampInSeconds,
   scale,
 } from '@voltz-protocol/commons-v2';
 import { getPoolInfo } from '../../gateway/getPoolInfo';
@@ -37,7 +38,9 @@ export const parseLpArgs = async ({
   const quoteTokenDecimals = poolInfo.underlyingToken.tokenDecimals;
   const currentLiquidityIndex = poolInfo.currentLiquidityIndex;
 
-  const maturityTimestamp = Math.round(poolInfo.termEndTimestampInMS / 1000);
+  const maturityTimestamp = getTimestampInSeconds(
+    poolInfo.termEndTimestampInMS,
+  );
 
   // Get liquidity amount
   const base = notional / currentLiquidityIndex;

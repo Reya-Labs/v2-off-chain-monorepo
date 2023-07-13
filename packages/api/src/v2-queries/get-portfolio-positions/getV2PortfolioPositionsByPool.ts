@@ -1,4 +1,5 @@
 import {
+  convertToAddress,
   decodeV2PoolId,
   fetchMultiplePromises,
 } from '@voltz-protocol/commons-v2';
@@ -22,7 +23,7 @@ export const getV2PortfolioPositionsByPool = async (
   const accounts = await pullAccountsByAddress(
     getEnvironmentV2(),
     [chainId],
-    ownerAddress,
+    convertToAddress(ownerAddress),
   );
 
   const allPositionEntries: PositionEntry[] = [];

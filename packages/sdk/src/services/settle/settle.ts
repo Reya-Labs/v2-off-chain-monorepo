@@ -6,6 +6,7 @@ import { getPositionInfo } from '../../gateway/getPositionInfo';
 import {
   convertGasUnitsToNativeTokenUnits,
   getNativeGasToken,
+  getTimestampInSeconds,
   scale,
 } from '@voltz-protocol/commons-v2';
 
@@ -65,8 +66,8 @@ async function createSettleParams({
   }
 
   const quoteTokenDecimals = position.pool.underlyingToken.tokenDecimals;
-  const maturityTimestamp = Math.round(
-    position.pool.termEndTimestampInMS / 1000,
+  const maturityTimestamp = getTimestampInSeconds(
+    position.pool.termEndTimestampInMS,
   );
 
   const order: SettleParameters = {

@@ -1,16 +1,18 @@
 import {
   ProductPositionUpdatedEvent,
-  getLiquidityIndexAt,
+  getLiquidityIndicesAtByMarketId,
   insertPositionEntry,
   insertProductPositionUpdatedEvent,
-  pullMarketEntry,
   pullPositionEntry,
   pullProductPositionUpdatedEvent,
   sendUpdateBatches,
   updatePositionEntry,
 } from '@voltz-protocol/bigquery-v2';
 
-import { extendBalancesWithTrade } from '@voltz-protocol/commons-v2';
+import {
+  encodeV2PositionId,
+  extendBalancesWithTrade,
+} from '@voltz-protocol/commons-v2';
 import { getEnvironmentV2 } from '../services/envVars';
 
 export const handleProductPositionUpdated = async (
@@ -32,6 +34,11 @@ export const handleProductPositionUpdated = async (
       event,
     );
 
+    if (event.baseDelta === 0 && event.quoteDelta === 0) {
+      await sendUpdateBatches([updateBatch1]);
+      return;
+    }
+
     const positionIdData = {
       chainId: event.chainId,
       accountId: event.accountId,
@@ -40,35 +47,25 @@ export const handleProductPositionUpdated = async (
       type: 'trader' as 'trader' | 'lp',
     };
 
-    const existingPosition = await pullPositionEntry(
-      environmentTag,
-      positionIdData,
-    );
+    const positionId = encodeV2PositionId(positionIdData);
 
-    const market = await pullMarketEntry(
+    const [liquidityIndex] = await getLiquidityIndicesAtByMarketId(
       environmentTag,
       event.chainId,
       event.marketId,
+      [event.blockTimestamp],
     );
 
-    if (!market) {
+    if (liquidityIndex === null) {
       throw new Error(
-        `Couldn't find market for ${event.chainId}-${event.marketId}`,
+        `Couldn't find liquidity index at ${event.blockTimestamp} for ${event.chainId}-${event.marketId}`,
       );
     }
 
-    const liquidityIndex = await getLiquidityIndexAt(
+    const existingPosition = await pullPositionEntry(
       environmentTag,
-      event.chainId,
-      market.oracleAddress,
-      event.blockTimestamp,
+      positionId,
     );
-
-    if (!liquidityIndex) {
-      throw new Error(
-        `Couldn't find liquidity index at ${event.blockTimestamp} for ${event.chainId}-${market.oracleAddress}`,
-      );
-    }
 
     const netBalances = extendBalancesWithTrade({
       tradeTimestamp: event.blockTimestamp,
@@ -80,7 +77,7 @@ export const handleProductPositionUpdated = async (
     });
 
     const updateBatch2 = existingPosition
-      ? updatePositionEntry(environmentTag, positionIdData, netBalances)
+      ? updatePositionEntry(environmentTag, positionId, netBalances)
       : insertPositionEntry(environmentTag, {
           ...positionIdData,
           ...netBalances,

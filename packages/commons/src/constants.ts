@@ -7,5 +7,6 @@ export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 export const ZERO_ACCOUNT = '0';
 
+// todo: to be deprecated
 export const VAMM_MIN_TICK = -69100;
 export const VAMM_MAX_TICK = 69100;

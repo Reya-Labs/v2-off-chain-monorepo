@@ -5,10 +5,7 @@ import {
   DepositedWithdrawnEvent,
   ProtocolEventType,
 } from '@voltz-protocol/bigquery-v2';
-import {
-  convertLowercaseString,
-  getTokenDetails,
-} from '@voltz-protocol/commons-v2';
+import { convertToAddress, getTokenDetails } from '@voltz-protocol/commons-v2';
 
 export const parseWithdrawal = (
   chainId: number,
@@ -33,7 +30,7 @@ export const parseWithdrawal = (
     ...baseEvent,
 
     accountId,
-    collateralType: convertLowercaseString(collateralType),
+    collateralType: convertToAddress(collateralType),
     tokenAmount: -tokenAmount,
   };
 };

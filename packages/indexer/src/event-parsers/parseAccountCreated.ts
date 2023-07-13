@@ -5,7 +5,7 @@ import {
   AccountCreatedEvent,
   ProtocolEventType,
 } from '@voltz-protocol/bigquery-v2';
-import { convertLowercaseString } from '@voltz-protocol/commons-v2';
+import { convertToAddress } from '@voltz-protocol/commons-v2';
 
 // todo: add sanity checks for arguments to all events
 export const parseAccountCreated = (
@@ -27,6 +27,6 @@ export const parseAccountCreated = (
     ...baseEvent,
 
     accountId,
-    owner: convertLowercaseString(owner),
+    owner: convertToAddress(owner),
   };
 };

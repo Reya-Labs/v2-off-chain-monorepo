@@ -42,7 +42,7 @@ export const generatePositionRow = (
       cashflowTimeFactor: incomingCashflowTimeFactor,
       cashflowFreeTerm: incomingCashflowFreeTerm,
     },
-    Math.floor(amm.termEndTimestampInMS / 1000),
+    getTimestampInSeconds(amm.termEndTimestampInMS),
   );
 
   const netFixedRateLocked =

@@ -18,5 +18,4 @@ export const extendV2PositionDetails = (
 ): V1V2PortfolioPositionDetails => ({
   ...p,
   pool: extendV2Pool(p.pool),
-  rolloverPoolId: null,
 });

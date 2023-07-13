@@ -1,4 +1,4 @@
-import { scale } from '@voltz-protocol/commons-v2';
+import { getTimestampInSeconds, scale } from '@voltz-protocol/commons-v2';
 import { getPoolInfo } from '../../gateway/getPoolInfo';
 import { SwapArgs, CompleteSwapDetails } from './types';
 
@@ -20,7 +20,9 @@ export const parseSwapArgs = async ({
   const quoteTokenDecimals = poolInfo.underlyingToken.tokenDecimals;
   const currentLiquidityIndex = poolInfo.currentLiquidityIndex;
 
-  const maturityTimestamp = Math.round(poolInfo.termEndTimestampInMS / 1000);
+  const maturityTimestamp = getTimestampInSeconds(
+    poolInfo.termEndTimestampInMS,
+  );
 
   // Get base amount
   const baseAmount = notional / currentLiquidityIndex;

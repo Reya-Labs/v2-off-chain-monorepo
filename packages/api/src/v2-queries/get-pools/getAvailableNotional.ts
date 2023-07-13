@@ -1,8 +1,7 @@
 import {
   getAvailableBaseInRange,
   getCurrentVammTick,
-  getLiquidityIndexAt,
-  pullMarketEntry,
+  getLiquidityIndicesAtByMarketId,
 } from '@voltz-protocol/bigquery-v2';
 import {
   fetchMultiplePromises,
@@ -19,14 +18,6 @@ export const getV2AvailableNotional = async (
 ): Promise<AvailableNotional> => {
   const environmentTag = getEnvironmentV2();
   const nowSeconds = getTimestampInSeconds();
-
-  const market = await pullMarketEntry(environmentTag, chainId, marketId);
-
-  if (!market) {
-    throw new Error(
-      `Pool does not have associated market entry (${chainId}-${marketId})`,
-    );
-  }
 
   const currentTick = await getCurrentVammTick(
     environmentTag,
@@ -45,11 +36,11 @@ export const getV2AvailableNotional = async (
     };
   }
 
-  const currentLiquidityIndex = await getLiquidityIndexAt(
+  const [currentLiquidityIndex] = await getLiquidityIndicesAtByMarketId(
     environmentTag,
     chainId,
-    market.oracleAddress,
-    nowSeconds,
+    marketId,
+    [nowSeconds],
   );
 
   if (isNull(currentLiquidityIndex)) {

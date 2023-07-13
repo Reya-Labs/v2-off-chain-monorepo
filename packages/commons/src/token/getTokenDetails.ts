@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { Address, convertLowercaseString } from '../convertLowercase';
+import { Address, convertToAddress } from '../address';
 import { descale } from './descale';
 
 const tokenDetails: {
@@ -117,7 +117,7 @@ export const getTokenDetails = (
   tokenDecimals: number;
   tokenDescaler: (value: ethers.BigNumber) => number;
 } => {
-  const address = convertLowercaseString(caseSensitiveAddress);
+  const address = convertToAddress(caseSensitiveAddress);
 
   if (!Object.keys(tokenDetails).includes(address)) {
     throw new Error(`Token details not found for ${address}.`);

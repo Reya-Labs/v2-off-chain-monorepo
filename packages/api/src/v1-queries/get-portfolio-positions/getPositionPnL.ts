@@ -1,7 +1,6 @@
 import {
   SECONDS_IN_YEAR,
   getBlockAtTimestamp,
-  getTimeInYearsBetweenTimestamps,
   getTimestampInSeconds,
 } from '@voltz-protocol/commons-v2';
 import {
@@ -21,7 +20,7 @@ export const getPositionPnL = async (
   maturityTimestampMS: number,
   currentFixedRate: number,
 ): Promise<PositionPnL> => {
-  const maturityTimestamp = Math.floor(maturityTimestampMS / 1000);
+  const maturityTimestamp = getTimestampInSeconds(maturityTimestampMS);
   const existingPosition = await pullExistingPositionRow(
     chainId,
     vammAddress,
@@ -70,10 +69,7 @@ export const getPositionPnL = async (
     existingPosition.cashflowFreeTerm;
 
   // unrealized PnL
-  const timeInYears = getTimeInYearsBetweenTimestamps(
-    currentTimestamp,
-    maturityTimestamp,
-  );
+  const timeInYears = (maturityTimestamp - currentTimestamp) / SECONDS_IN_YEAR;
 
   const uPnL =
     existingPosition.netNotionalLocked *

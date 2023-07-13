@@ -67,16 +67,14 @@ export const commonSimulateLp = async (
     token: getNativeGasToken(params.chainId),
   };
 
-  const maxMarginWithdrawable = Math.max(
-    0,
-    params.accountMargin - marginRequirement,
-  );
-
   const result = {
     gasFee,
     fee,
-    marginRequirement,
-    maxMarginWithdrawable,
+    marginRequirement: Math.max(0, marginRequirement - params.accountMargin),
+    maxMarginWithdrawable: Math.max(
+      0,
+      params.accountMargin - marginRequirement,
+    ),
   };
 
   return result;
