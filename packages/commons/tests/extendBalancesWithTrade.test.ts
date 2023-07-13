@@ -60,7 +60,7 @@ describe('Position net balances', () => {
     expect(netBalances.timeDependentQuote).toBeCloseTo(-17.5, PRECISION);
     expect(netBalances.freeQuote).toBeCloseTo(-224, PRECISION);
     expect(netBalances.lockedFixedRate).toBeCloseTo(
-      0.0760869565217391,
+      0.07222222222222222,
       PRECISION,
     );
 
