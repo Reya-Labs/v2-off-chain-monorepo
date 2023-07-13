@@ -34,6 +34,11 @@ export const handleProductPositionUpdated = async (
       event,
     );
 
+    if (event.baseDelta === 0 && event.quoteDelta === 0) {
+      await sendUpdateBatches([updateBatch1]);
+      return;
+    }
+
     const positionIdData = {
       chainId: event.chainId,
       accountId: event.accountId,

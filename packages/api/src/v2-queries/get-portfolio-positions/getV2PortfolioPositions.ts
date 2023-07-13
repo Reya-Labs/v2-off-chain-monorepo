@@ -1,4 +1,7 @@
-import { fetchMultiplePromises } from '@voltz-protocol/commons-v2';
+import {
+  convertToAddress,
+  fetchMultiplePromises,
+} from '@voltz-protocol/commons-v2';
 
 import {
   PositionEntry,
@@ -18,7 +21,7 @@ export const getV2PortfolioPositions = async (
   const accounts = await pullAccountsByAddress(
     getEnvironmentV2(),
     chainIds,
-    ownerAddress,
+    convertToAddress(ownerAddress),
   );
 
   const allPositionEntries: PositionEntry[] = [];
@@ -29,6 +32,8 @@ export const getV2PortfolioPositions = async (
       chainId,
       accountId,
     );
+
+    console.log(`${positionEntries.length} positions per account ${accountId}`);
 
     allPositionEntries.push(...positionEntries);
   }
