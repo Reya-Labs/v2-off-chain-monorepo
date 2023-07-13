@@ -1,7 +1,9 @@
+import { Address } from '../address';
+
 export const getMarketQuoteToken = (
   chainId: number,
   marketId: string,
-): string => {
+): Address => {
   if (marketId === '1' && chainId === 421613) {
     return '0x72a9c57cd5e2ff20450e409cf6a542f1e6c710fc';
   }

@@ -1,6 +1,6 @@
 import { BigNumber, Event } from 'ethers';
 import { ProtocolEventType } from '@voltz-protocol/bigquery-v2';
-import { ZERO_ADDRESS } from '@voltz-protocol/commons-v2';
+import { Address, ZERO_ADDRESS } from '@voltz-protocol/commons-v2';
 
 export const defaultEvmEvent = {
   address: '0xe9A6569995F3D8EC971F1D314e0e832C38a735Cc',
@@ -15,7 +15,8 @@ export const defaultEvmEvent = {
 export const blockTimestampDefault = BigNumber.from(1683092975); // May 03 2023 05:49:35 GMT+0000
 export const accountIdDefault = BigNumber.from('1000000000');
 export const productIdDefault = BigNumber.from('1');
-export const tokenDefault = '0xa0b86991c6218b36c1d19D4a2e9eb0ce3606eB48';
+export const tokenDefault: Address =
+  '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48';
 export const marketIdDefault = BigNumber.from('1111111111');
 export const maturityTimestampDefault = 1685534400; // May 31 2023 12:00:00 GMT+0000
 

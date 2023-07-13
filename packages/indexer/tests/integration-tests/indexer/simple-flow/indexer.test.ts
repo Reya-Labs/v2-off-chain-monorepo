@@ -14,6 +14,10 @@ jest.mock('@voltz-protocol/commons-v2', () => ({
   getProvider: () => ({
     getBlockNumber: async () => 0,
   }),
+
+  getMarketQuoteToken: jest.fn(
+    () => '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+  ),
 }));
 
 // Mock all dependencies with blank functions

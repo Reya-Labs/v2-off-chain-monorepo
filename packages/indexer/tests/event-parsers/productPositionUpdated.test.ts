@@ -6,6 +6,16 @@ import {
 import { parseProductPositionUpdated } from '../../src/event-parsers/parseProductPositionUpdated';
 import { evmTestEvents } from '../utils/evmTestEvents';
 
+// Mock all dependencies with blank functions
+jest.mock('@voltz-protocol/commons-v2', () => ({
+  // Keep all the other functionalities as they are
+  ...jest.requireActual('@voltz-protocol/commons-v2'),
+
+  getMarketQuoteToken: jest.fn(
+    () => '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+  ),
+}));
+
 describe('product position updated', () => {
   test('usual event', () => {
     const chainId = 1;
