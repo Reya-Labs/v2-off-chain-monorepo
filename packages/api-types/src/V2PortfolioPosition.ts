@@ -10,7 +10,7 @@ export type V2PortfolioPosition = BasePortfolioPosition & {
 export type V2PortfolioPositionDetails = V2PortfolioPosition & {
   canEdit: boolean;
   canSettle: boolean;
-  rolloverMaturityTimestamp: null | number;
+  rolloverPoolId: null | string;
 
   history: HistoryTransaction[];
 };

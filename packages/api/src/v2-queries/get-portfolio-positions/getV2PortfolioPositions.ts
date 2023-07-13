@@ -4,7 +4,6 @@ import {
 } from '@voltz-protocol/commons-v2';
 
 import {
-  PositionEntry,
   pullAccountPositionEntries,
   pullAccountsByAddress,
 } from '@voltz-protocol/bigquery-v2';
@@ -24,22 +23,14 @@ export const getV2PortfolioPositions = async (
     convertToAddress(ownerAddress),
   );
 
-  const allPositionEntries: PositionEntry[] = [];
-
-  for (const { chainId, accountId } of accounts) {
-    const positionEntries = await pullAccountPositionEntries(
-      getEnvironmentV2(),
-      chainId,
-      accountId,
-    );
-
-    console.log(`${positionEntries.length} positions per account ${accountId}`);
-
-    allPositionEntries.push(...positionEntries);
-  }
+  const { data: allPositionEntries } = await fetchMultiplePromises(
+    accounts.map(({ chainId, accountId }) =>
+      pullAccountPositionEntries(getEnvironmentV2(), chainId, accountId),
+    ),
+  );
 
   const { data: portfolio } = await fetchMultiplePromises(
-    allPositionEntries.map(buildV2PortfolioPosition),
+    allPositionEntries.flat().map(buildV2PortfolioPosition),
   );
 
   return portfolio;

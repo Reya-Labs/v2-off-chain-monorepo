@@ -21,11 +21,19 @@ export const getV2PortfolioPositionDetails = async ({
 
   const history = includeHistory ? await getV2PositionHistory(response) : [];
 
+  const isPoolMatured =
+    response.pool.termEndTimestampInMS <= Date.now().valueOf();
+  const isPositionSettled = false;
+
+  const canEdit = !isPoolMatured;
+  const canSettle = isPoolMatured && !isPositionSettled;
+  const rolloverPoolId = null;
+
   return {
     ...response,
-    canEdit: true,
-    canSettle: false,
-    rolloverMaturityTimestamp: null,
+    canEdit,
+    canSettle,
+    rolloverPoolId,
     history,
   };
 };
