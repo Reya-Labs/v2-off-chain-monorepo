@@ -99,14 +99,12 @@ export async function commonSimulateSwap(
     token: getNativeGasToken(params.chainId),
   };
 
-  const maxMarginWithdrawable = Math.max(
-    0,
-    params.accountMargin - marginRequirement,
-  );
-
   return {
-    marginRequirement,
-    maxMarginWithdrawable,
+    marginRequirement: Math.max(0, marginRequirement - params.accountMargin),
+    maxMarginWithdrawable: Math.max(
+      0,
+      params.accountMargin - marginRequirement,
+    ),
     variableTokenDeltaBalance: baseDelta,
     fee,
     averageFixedRate,
