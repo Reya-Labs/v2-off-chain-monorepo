@@ -5,10 +5,7 @@ import {
   ProtocolEventType,
   TakerOrderEvent,
 } from '@voltz-protocol/bigquery-v2';
-import {
-  convertToAddress,
-  getTokenDetails,
-} from '@voltz-protocol/commons-v2';
+import { convertToAddress, getTokenDetails } from '@voltz-protocol/commons-v2';
 
 export const parseTakerOrder = (
   chainId: number,

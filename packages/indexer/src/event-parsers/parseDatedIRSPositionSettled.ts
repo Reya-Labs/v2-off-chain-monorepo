@@ -5,10 +5,7 @@ import {
   DatedIRSPositionSettledEvent,
   ProtocolEventType,
 } from '@voltz-protocol/bigquery-v2';
-import {
-  convertToAddress,
-  getTokenDetails,
-} from '@voltz-protocol/commons-v2';
+import { convertToAddress, getTokenDetails } from '@voltz-protocol/commons-v2';
 
 export const parseDatedIRSPositionSettled = (
   chainId: number,

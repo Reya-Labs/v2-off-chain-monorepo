@@ -1,9 +1,6 @@
 import { Event, BigNumber } from 'ethers';
 
-import {
-  getTokenDetails,
-  convertToAddress,
-} from '@voltz-protocol/commons-v2';
+import { getTokenDetails, convertToAddress } from '@voltz-protocol/commons-v2';
 import { parseBaseEvent } from './utils/parseBaseEvent';
 import {
   CollateralUpdateEvent,

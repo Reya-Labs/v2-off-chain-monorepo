@@ -1,7 +1,7 @@
 import { ethers, Signer, BigNumber } from 'ethers';
 import { getLeavesAndRootFromIpfs } from '../utils/getIpfsLeavesAndRoot';
 import keccak256 from 'keccak256';
-import { getAlphaPassContract } from '@voltz-protocol/commons-v2/dist/types';
+import { getAlphaPassContract } from '@voltz-protocol/commons-v2';
 
 /**
  *

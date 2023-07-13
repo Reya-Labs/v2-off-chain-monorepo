@@ -3,7 +3,7 @@ import {
   BigQueryInt,
   BigQueryTimestamp,
 } from '@google-cloud/bigquery';
-import { getTimestampInSeconds } from '@voltz-protocol/commons-v2/dist/types';
+import { getTimestampInSeconds } from '@voltz-protocol/commons-v2';
 
 // Converts BigQuery number to JS number
 export const bqNumericToNumber = (bqNumeric: BigQueryInt): number => {

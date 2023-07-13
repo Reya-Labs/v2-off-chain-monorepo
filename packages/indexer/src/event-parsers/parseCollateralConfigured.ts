@@ -5,10 +5,7 @@ import {
   CollateralConfiguredEvent,
   ProtocolEventType,
 } from '@voltz-protocol/bigquery-v2';
-import {
-  getTokenDetails,
-  convertToAddress,
-} from '@voltz-protocol/commons-v2';
+import { getTokenDetails, convertToAddress } from '@voltz-protocol/commons-v2';
 
 export const parseCollateralConfigured = (
   chainId: number,

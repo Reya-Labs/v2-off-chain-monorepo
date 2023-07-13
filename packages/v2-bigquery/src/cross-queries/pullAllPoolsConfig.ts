@@ -1,7 +1,7 @@
 import { Address } from '@voltz-protocol/commons-v2';
 import { getBigQuery } from '../client';
 import { TableType } from '../types';
-import { getTableFullName } from '../utils/getTableName';
+import { getTableFullName } from '../table-infra/getTableName';
 
 export type PoolEntry = {
   chainId: number;
