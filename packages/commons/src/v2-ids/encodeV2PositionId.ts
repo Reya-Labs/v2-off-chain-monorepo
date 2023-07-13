@@ -5,17 +5,22 @@ export const encodeV2PositionId = ({
   accountId,
   marketId,
   maturityTimestamp,
-  type,
+  type: positionType,
 
   tickLower,
   tickUpper,
 }: V2PositionIdData): string => {
-  switch (type) {
+  switch (positionType) {
     case 'trader': {
       return `${chainId}_${accountId}_${marketId}_${maturityTimestamp}_trader_v2`;
     }
     case 'lp': {
       return `${chainId}_${accountId}_${marketId}_${maturityTimestamp}_lp_${tickLower}_${tickUpper}_v2`;
+    }
+    default: {
+      positionType satisfies never;
+
+      throw new Error(`Unrecognized position type`);
     }
   }
 };

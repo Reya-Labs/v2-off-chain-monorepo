@@ -9,7 +9,6 @@ export type PositionEntry = {
   base: number;
   timeDependentQuote: number;
   freeQuote: number;
-  notional: number;
   lockedFixedRate: number;
   liquidity: number;
   paidFees: number;
@@ -23,7 +22,6 @@ export type PositionEntryUpdate = {
   base?: number;
   timeDependentQuote?: number;
   freeQuote?: number;
-  notional?: number;
   lockedFixedRate?: number;
   liquidity?: number;
   paidFees?: number;
@@ -43,7 +41,6 @@ export const mapRow = (row: any): PositionEntry => ({
   base: bqNumericToNumber(row.base),
   timeDependentQuote: bqNumericToNumber(row.timeDependentQuote),
   freeQuote: bqNumericToNumber(row.freeQuote),
-  notional: bqNumericToNumber(row.notional),
   lockedFixedRate: bqNumericToNumber(row.lockedFixedRate),
 
   type: row.type,

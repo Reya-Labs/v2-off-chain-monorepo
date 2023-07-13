@@ -21,7 +21,6 @@ export const insertPositionEntry = (
     ${entry.base},
     ${entry.timeDependentQuote},
     ${entry.freeQuote},
-    ${entry.notional},
     ${entry.lockedFixedRate},
     ${entry.liquidity},
     ${entry.paidFees},

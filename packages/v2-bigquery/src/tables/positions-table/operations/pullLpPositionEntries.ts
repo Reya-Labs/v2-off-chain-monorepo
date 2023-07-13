@@ -12,7 +12,13 @@ export const pullLpPositionEntries = async (
   const bigQuery = getBigQuery();
   const tableName = getTableFullName(environmentV2Tag, TableType.positions);
 
-  const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE chainId=${chainId} AND marketId="${marketId}" AND maturityTimestamp=${maturityTimestamp} AND liquidity>0`;
+  const sqlQuery = `
+    SELECT * FROM \`${tableName}\` 
+      WHERE chainId=${chainId} AND 
+            marketId="${marketId}" AND 
+            maturityTimestamp=${maturityTimestamp} AND 
+            type="lp"
+  `;
 
   const [rows] = await bigQuery.query({
     query: sqlQuery,

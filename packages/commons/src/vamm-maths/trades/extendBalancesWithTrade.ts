@@ -5,7 +5,6 @@ type Balances = {
   base: number;
   timeDependentQuote: number;
   freeQuote: number;
-  notional: number;
   lockedFixedRate: number;
 };
 
@@ -28,7 +27,6 @@ export const extendBalancesWithTrade = ({
     base: existingPosition?.base || 0,
     timeDependentQuote: existingPosition?.timeDependentQuote || 0,
     freeQuote: existingPosition?.freeQuote || 0,
-    notional: existingPosition?.notional || 0,
     lockedFixedRate: existingPosition?.lockedFixedRate || 0,
   };
 
@@ -57,7 +55,6 @@ export const extendBalancesWithTrade = ({
       base: baseDelta,
       timeDependentQuote: timeDependentQuoteDelta,
       freeQuote: freeQuoteDelta,
-      notional: notionalDelta,
       lockedFixedRate: fixedRate,
     },
     maturityTimestamp,
@@ -81,16 +78,15 @@ const getNetBalances = ({
     (currentPosition.base <= 0 && incomingTrade.base <= 0)
   ) {
     const lockedFixedRate =
-      (currentPosition.notional * currentPosition.lockedFixedRate +
-        incomingTrade.notional * incomingTrade.lockedFixedRate) /
-      (currentPosition.notional + incomingTrade.notional);
+      (currentPosition.base * currentPosition.lockedFixedRate +
+        incomingTrade.base * incomingTrade.lockedFixedRate) /
+      (currentPosition.base + incomingTrade.base);
 
     return {
       base: currentPosition.base + incomingTrade.base,
       timeDependentQuote:
         currentPosition.timeDependentQuote + incomingTrade.timeDependentQuote,
       freeQuote: currentPosition.freeQuote + incomingTrade.freeQuote,
-      notional: currentPosition.notional + incomingTrade.notional,
       lockedFixedRate,
     };
   }
@@ -117,7 +113,6 @@ const getNetBalances = ({
         currentPosition.timeDependentQuote - projectedTimeDependentQuote,
       freeQuote:
         currentPosition.freeQuote + incomingTrade.freeQuote + lockedCashflow,
-      notional: currentPosition.notional + incomingTrade.notional,
       lockedFixedRate: currentPosition.lockedFixedRate,
     };
   }

@@ -34,14 +34,6 @@ export const positionsTableSchema: TableField[] = [
   },
 
   {
-    name: 'notional',
-    type: 'BIGNUMERIC',
-    mode: 'REQUIRED',
-    precision: PRECISION.toString(),
-    scale: SCALE.toString(),
-  },
-
-  {
     name: 'lockedFixedRate',
     type: 'BIGNUMERIC',
     mode: 'REQUIRED',

@@ -24,10 +24,6 @@ export const updatePositionEntry = (
     updates.push(`freeQuote=${update.freeQuote}`);
   }
 
-  if (!isUndefined(update.notional)) {
-    updates.push(`notional=${update.notional}`);
-  }
-
   if (!isUndefined(update.lockedFixedRate)) {
     updates.push(`lockedFixedRate=${update.lockedFixedRate}`);
   }

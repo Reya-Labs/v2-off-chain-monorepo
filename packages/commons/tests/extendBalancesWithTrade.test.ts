@@ -23,7 +23,6 @@ describe('Position net balances', () => {
     });
 
     expect(netBalances.base).toBeCloseTo(100, PRECISION);
-    expect(netBalances.notional).toBeCloseTo(110, PRECISION);
     expect(netBalances.timeDependentQuote).toBeCloseTo(-5.5, PRECISION);
     expect(netBalances.freeQuote).toBeCloseTo(-110, PRECISION);
     expect(netBalances.lockedFixedRate).toBeCloseTo(0.05, PRECISION);
@@ -58,7 +57,6 @@ describe('Position net balances', () => {
     });
 
     expect(netBalances.base).toBeCloseTo(180, PRECISION);
-    expect(netBalances.notional).toBeCloseTo(230, PRECISION);
     expect(netBalances.timeDependentQuote).toBeCloseTo(-17.5, PRECISION);
     expect(netBalances.freeQuote).toBeCloseTo(-224, PRECISION);
     expect(netBalances.lockedFixedRate).toBeCloseTo(
@@ -96,7 +94,6 @@ describe('Position net balances', () => {
     });
 
     expect(netBalances.base).toBeCloseTo(20, PRECISION);
-    expect(netBalances.notional).toBeCloseTo(-10, PRECISION);
     expect(netBalances.timeDependentQuote).toBeCloseTo(-1.1, PRECISION);
     expect(netBalances.freeQuote).toBeCloseTo(11.6, PRECISION);
     expect(netBalances.lockedFixedRate).toBeCloseTo(0.05, PRECISION);
@@ -131,7 +128,6 @@ describe('Position net balances', () => {
     });
 
     expect(netBalances.base).toBeCloseTo(-60, PRECISION);
-    expect(netBalances.notional).toBeCloseTo(-130, PRECISION);
     expect(netBalances.timeDependentQuote).toBeCloseTo(9, PRECISION);
     expect(netBalances.freeQuote).toBeCloseTo(127.5, PRECISION);
     expect(netBalances.lockedFixedRate).toBeCloseTo(0.1, PRECISION);

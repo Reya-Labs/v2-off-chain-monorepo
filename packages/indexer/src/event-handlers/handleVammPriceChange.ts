@@ -9,7 +9,6 @@ import {
   getLiquidityIndicesAtByMarketId,
 } from '@voltz-protocol/bigquery-v2';
 import {
-  isNull,
   extendBalancesWithTrade,
   getLpInfoInRange,
   SECONDS_IN_YEAR,
@@ -43,7 +42,7 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
     maturityTimestamp,
   );
 
-  if (isNull(latestTick)) {
+  if (latestTick === null) {
     throw new Error(
       `Latest tick not found for ${chainId} - ${marketId} - ${maturityTimestamp}`,
     );
@@ -65,24 +64,24 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
       );
     }
 
-    const lpPositions = await pullLpPositionEntries(
-      environmentTag,
-      chainId,
-      marketId,
-      maturityTimestamp,
-    );
+    const activeLpPositions = (
+      await pullLpPositionEntries(
+        environmentTag,
+        chainId,
+        marketId,
+        maturityTimestamp,
+      )
+    ).filter((lp) => lp.liquidity > 0);
 
-    const updateBatch2 = lpPositions.map((lp) => {
+    const updateBatch2 = activeLpPositions.map((lp) => {
       const { base: baseTradedByTraders, avgFix: avgFixedRate } =
-        getLpInfoInRange([lp], currentTick, latestTick as number);
+        getLpInfoInRange([lp], currentTick, latestTick);
 
       const baseDelta = -baseTradedByTraders;
+
+      const timeDelta = (maturityTimestamp - blockTimestamp) / SECONDS_IN_YEAR;
       const quoteDelta =
-        -baseDelta *
-        liquidityIndex *
-        (1 +
-          (avgFixedRate * (maturityTimestamp - blockTimestamp)) /
-            SECONDS_IN_YEAR);
+        -baseDelta * liquidityIndex * (1 + avgFixedRate * timeDelta);
 
       const netBalances = extendBalancesWithTrade({
         tradeTimestamp: blockTimestamp,

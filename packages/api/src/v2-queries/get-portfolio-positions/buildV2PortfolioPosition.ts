@@ -29,7 +29,6 @@ export const buildV2PortfolioPosition = async ({
   timeDependentQuote,
   lockedFixedRate: fixedRateLocked,
   liquidity,
-  notional: notionalTraded,
   paidFees,
   tickLower,
   tickUpper,
@@ -72,6 +71,8 @@ export const buildV2PortfolioPosition = async ({
 
   const fixLow = tickToFixedRate(tickUpper);
   const fixHigh = tickToFixedRate(tickLower);
+
+  const notionalTraded = base * pool.currentLiquidityIndex;
 
   const { x } = getDeltasFromLiquidity(liquidity, tickLower, tickUpper);
   const notionalProvided = x * pool.currentLiquidityIndex;

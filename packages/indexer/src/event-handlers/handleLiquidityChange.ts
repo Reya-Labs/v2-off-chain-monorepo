@@ -49,7 +49,6 @@ export const handleLiquidityChange = async (event: LiquidityChangeEvent) => {
           base: 0,
           timeDependentQuote: 0,
           freeQuote: 0,
-          notional: 0,
           lockedFixedRate: 0,
           liquidity: event.liquidityDelta,
           paidFees: 0,

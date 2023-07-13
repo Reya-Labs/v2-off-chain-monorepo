@@ -41,12 +41,8 @@ export const handleProductPositionUpdated = async (
       maturityTimestamp: event.maturityTimestamp,
       type: 'trader' as 'trader' | 'lp',
     };
-    const positionId = encodeV2PositionId(positionIdData);
 
-    const existingPosition = await pullPositionEntry(
-      environmentTag,
-      positionId,
-    );
+    const positionId = encodeV2PositionId(positionIdData);
 
     const [liquidityIndex] = await getLiquidityIndicesAtByMarketId(
       environmentTag,
@@ -60,6 +56,11 @@ export const handleProductPositionUpdated = async (
         `Couldn't find liquidity index at ${event.blockTimestamp} for ${event.chainId}-${event.marketId}`,
       );
     }
+
+    const existingPosition = await pullPositionEntry(
+      environmentTag,
+      positionId,
+    );
 
     const netBalances = extendBalancesWithTrade({
       tradeTimestamp: event.blockTimestamp,

@@ -40,7 +40,6 @@ export const computeUnrealizedPnL = ({
       base,
       timeDependentQuote,
       freeQuote,
-      notional: 0, // not interested in this
       lockedFixedRate: 0, // not interested in this
     },
   });
