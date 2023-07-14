@@ -23,6 +23,7 @@ export function encodeLp({
   liquidityAmount,
 
   margin,
+  fee,
   liquidatorBooster,
   isETH,
 }: EncodeLpArgs): MethodParameters & {
@@ -30,6 +31,10 @@ export function encodeLp({
 } {
   const multiAction = new MultiAction();
   let ethAmount = ZERO_BN;
+
+  // If deposit margin, pay fees from wallet
+  // Otherwise, if withdraw, pay fees from margin account
+  const tokenTransfer = margin.gte(0) ? margin.add(fee) : margin;
 
   if (accountId === undefined) {
     // Open account
@@ -48,12 +53,12 @@ export function encodeLp({
   }
 
   // If deposit, do it before LP
-  if (margin.gt(0)) {
+  if (tokenTransfer.gt(0) || liquidatorBooster.gt(0)) {
     ethAmount = encodeDeposit(
       accountId,
       quoteTokenAddress,
       isETH,
-      margin,
+      tokenTransfer,
       liquidatorBooster,
       multiAction,
     );
@@ -75,12 +80,12 @@ export function encodeLp({
   );
 
   // If withdrawal, do it after LP
-  if (margin.lt(0)) {
+  if (tokenTransfer.lt(0)) {
     encodeDeposit(
       accountId,
       quoteTokenAddress,
       isETH,
-      margin,
+      tokenTransfer,
       liquidatorBooster,
       multiAction,
     );

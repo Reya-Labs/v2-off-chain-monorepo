@@ -26,6 +26,7 @@ export type EncodeSwapArgs = {
   baseAmount: BigNumber;
 
   margin: BigNumber;
+  fee: BigNumber;
   liquidatorBooster: BigNumber;
   isETH: boolean;
 };
@@ -34,14 +35,12 @@ export type CompleteSwapDetails = EncodeSwapArgs & {
   signer: Signer;
 
   chainId: number;
-
-  userBase: number;
-
   poolId: string;
 
   quoteTokenDecimals: number;
-  fee: number;
   currentLiquidityIndex: number;
+
+  inputBase: number;
 
   accountMargin: number;
 };

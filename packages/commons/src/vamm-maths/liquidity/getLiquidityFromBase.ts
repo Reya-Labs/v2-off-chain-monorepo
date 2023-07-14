@@ -8,7 +8,7 @@ export const getLiquidityFromBase = (
   const sqrtPriceLow = tickToSqrtPrice(tickLower);
   const sqrtPriceHigh = tickToSqrtPrice(tickUpper);
 
-  const liquidity = base * (sqrtPriceHigh - sqrtPriceLow);
+  const liquidity = base / (sqrtPriceHigh - sqrtPriceLow);
 
   return liquidity;
 };

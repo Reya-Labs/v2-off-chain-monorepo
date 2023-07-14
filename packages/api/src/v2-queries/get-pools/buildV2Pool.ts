@@ -69,6 +69,8 @@ export const buildV2Pool = async ({
     chainId,
 
     marketId,
+    makerFee: market.atomicMakerFee,
+    takerFee: market.atomicTakerFee,
 
     termStartTimestampInMS: blockTimestamp * 1000,
     termEndTimestampInMS: maturityTimestamp * 1000,

@@ -147,6 +147,7 @@ export const encodeRouterCall = (
   return { calldata: calldata, value: nativeCurrencyValue.toHexString() };
 };
 
+// todo: split into deposit and withdraw
 export const encodeDeposit = (
   accountId: string,
   quoteTokenAddress: string,
@@ -157,12 +158,12 @@ export const encodeDeposit = (
 ): BigNumber => {
   let ethAmount = ZERO_BN;
 
-  if (marginAmount.gt(ZERO_BN)) {
+  if (marginAmount.gt(0) || liquidatorBooster.gt(0)) {
     // deposit
     if (isETH) {
-      encodeSingleWrapETH(marginAmount, multiAction);
+      encodeSingleWrapETH(marginAmount.add(liquidatorBooster), multiAction);
       encodeSingleDepositETH(accountId, quoteTokenAddress, multiAction);
-      ethAmount = marginAmount;
+      ethAmount = marginAmount.add(liquidatorBooster);
     } else {
       encodeTransferFrom(
         quoteTokenAddress,
@@ -176,7 +177,7 @@ export const encodeDeposit = (
         multiAction,
       );
     }
-  } else if (marginAmount.lt(ZERO_BN)) {
+  } else if (marginAmount.lt(0)) {
     // withdraw
     encodeSingleWithdraw(
       accountId,
