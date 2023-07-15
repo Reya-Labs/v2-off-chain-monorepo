@@ -3,7 +3,6 @@ import { getAvgFixV2 } from '../src/vamm-maths/trades/getAvgFixV2';
 
 const PRECISION = 6;
 
-// Tests
 describe('Average fixed rate of trade v2', () => {
   it('one-year trade (VT)', async () => {
     const trade = {

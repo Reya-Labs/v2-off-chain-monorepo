@@ -3,7 +3,6 @@ import { extendBalancesWithTrade } from '../src/vamm-maths/trades/extendBalances
 
 const PRECISION = 6;
 
-// Tests
 describe('Position net balances', () => {
   const trade1 = {
     tradeTimestamp: 0,

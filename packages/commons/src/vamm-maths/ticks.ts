@@ -1,7 +1,7 @@
 const BASE = 1.0001;
 
 export const tickToSqrtPrice = (tick: number): number => {
-  const sqrtPrice = BASE ** (tick / 2);
+  const sqrtPrice = Math.pow(BASE, tick / 2);
   return sqrtPrice;
 };
 

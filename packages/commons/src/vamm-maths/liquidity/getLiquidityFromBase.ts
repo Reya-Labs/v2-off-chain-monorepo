@@ -1,3 +1,4 @@
+import { assert } from '../../assert';
 import { tickToSqrtPrice } from '../ticks';
 
 export const getLiquidityFromBase = (
@@ -5,6 +6,11 @@ export const getLiquidityFromBase = (
   tickLower: number,
   tickUpper: number,
 ): number => {
+  assert(
+    tickLower < tickUpper,
+    `Could not get liquidity between [${tickLower}, ${tickUpper}]`,
+  );
+
   const sqrtPriceLow = tickToSqrtPrice(tickLower);
   const sqrtPriceHigh = tickToSqrtPrice(tickUpper);
 
