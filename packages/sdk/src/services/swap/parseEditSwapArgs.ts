@@ -1,6 +1,7 @@
 import { getTimestampInSeconds, scale } from '@voltz-protocol/commons-v2';
 import { getPositionInfo } from '../../gateway/getPositionInfo';
 import { EditSwapArgs, CompleteSwapDetails } from './types';
+import { getFee } from '../../utils/getFee';
 
 export const parseEditSwapArgs = async ({
   positionId,
@@ -35,14 +36,16 @@ export const parseEditSwapArgs = async ({
 
     productAddress: positionInfo.pool.productAddress,
     marketId: positionInfo.pool.marketId,
-    fee: 0, // todo: replace by pool.takerFee
+    fee: scale(quoteTokenDecimals)(
+      getFee(notional, positionInfo.pool.takerFee, maturityTimestamp),
+    ),
     maturityTimestamp,
     currentLiquidityIndex,
 
     quoteTokenAddress: positionInfo.pool.underlyingToken.address,
     quoteTokenDecimals,
 
-    userBase: baseAmount,
+    inputBase: baseAmount,
 
     accountId: positionInfo.accountId,
     accountMargin: positionInfo.margin,

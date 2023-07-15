@@ -21,6 +21,7 @@ export function encodeSwap({
   baseAmount,
 
   margin,
+  fee,
   liquidatorBooster,
   isETH,
 }: EncodeSwapArgs): MethodParameters & {
@@ -28,6 +29,10 @@ export function encodeSwap({
 } {
   const multiAction = new MultiAction();
   let ethAmount = ZERO_BN;
+
+  // If deposit margin, pay fees from wallet
+  // Otherwise, if withdraw, pay fees from margin account
+  const tokenTransfer = margin.gte(0) ? margin.add(fee) : margin;
 
   if (accountId === undefined) {
     // Open account
@@ -44,12 +49,12 @@ export function encodeSwap({
   }
 
   // If deposit, do it before swap
-  if (margin.gt(0)) {
+  if (tokenTransfer.gt(0)) {
     ethAmount = encodeDeposit(
       accountId,
       quoteTokenAddress,
       isETH,
-      margin,
+      tokenTransfer,
       liquidatorBooster,
       multiAction,
     );
@@ -68,12 +73,12 @@ export function encodeSwap({
   );
 
   // If withdrawal, do it after swap
-  if (margin.lt(0)) {
+  if (tokenTransfer.lt(0)) {
     encodeDeposit(
       accountId,
       quoteTokenAddress,
       isETH,
-      margin,
+      tokenTransfer,
       liquidatorBooster,
       multiAction,
     );

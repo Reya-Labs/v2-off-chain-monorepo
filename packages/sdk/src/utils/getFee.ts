@@ -15,6 +15,6 @@ export const getFee = (
   }
 
   return (
-    (Math.abs(notional) * fee * (now - maturityTimestamp)) / SECONDS_IN_YEAR
+    (Math.abs(notional) * fee * (maturityTimestamp - now)) / SECONDS_IN_YEAR
   );
 };

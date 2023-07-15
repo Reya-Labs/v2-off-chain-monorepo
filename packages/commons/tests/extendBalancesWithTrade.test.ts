@@ -3,13 +3,12 @@ import { extendBalancesWithTrade } from '../src/vamm-maths/trades/extendBalances
 
 const PRECISION = 6;
 
-// Tests
 describe('Position net balances', () => {
   const trade1 = {
     tradeTimestamp: 0,
     maturityTimestamp: SECONDS_IN_YEAR,
     baseDelta: 100,
-    quoteDelta: -660,
+    quoteDelta: -115.5,
     tradeLiquidityIndex: 1.1,
     existingPosition: null,
   };
@@ -44,7 +43,7 @@ describe('Position net balances', () => {
       tradeTimestamp: SECONDS_IN_YEAR / 2,
       maturityTimestamp: SECONDS_IN_YEAR,
       baseDelta: 80,
-      quoteDelta: -720,
+      quoteDelta: -126,
       tradeLiquidityIndex: 1.5,
     };
 
@@ -81,7 +80,7 @@ describe('Position net balances', () => {
       tradeTimestamp: SECONDS_IN_YEAR / 2,
       maturityTimestamp: SECONDS_IN_YEAR,
       baseDelta: -80,
-      quoteDelta: 720,
+      quoteDelta: 126,
       tradeLiquidityIndex: 1.5,
     };
 
@@ -115,7 +114,7 @@ describe('Position net balances', () => {
       tradeTimestamp: SECONDS_IN_YEAR / 2,
       maturityTimestamp: SECONDS_IN_YEAR,
       baseDelta: -160,
-      quoteDelta: 1440,
+      quoteDelta: 252,
       tradeLiquidityIndex: 1.5,
     };
 

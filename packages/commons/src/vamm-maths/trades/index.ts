@@ -1,4 +1,4 @@
 export * from './computeRealizedPnL';
-export * from './computeUnrealizedPnL';
+export * from './computeTotalPnLIfFullUnwind';
 export * from './extendBalancesWithTrade';
 export * from './getAvgFixV2';

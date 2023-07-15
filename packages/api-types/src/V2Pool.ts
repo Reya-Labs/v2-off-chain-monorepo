@@ -3,6 +3,9 @@ import { BasePool } from './BasePool';
 export type V2Pool = BasePool & {
   marketId: string;
 
+  makerFee: number;
+  takerFee: number;
+
   currentFixedRate: number;
   fixedRateChange: number;
 

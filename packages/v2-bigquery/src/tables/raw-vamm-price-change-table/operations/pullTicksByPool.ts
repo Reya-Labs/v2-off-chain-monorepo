@@ -24,7 +24,9 @@ export const pullTicksByPool = async (
             marketId="${marketId}" AND 
             maturityTimestamp=${maturityTimestamp} AND 
             ${fromTimestamp} <= blockTimestamp AND 
-            blockTimestamp <= ${toTimestamp}`;
+            blockTimestamp <= ${toTimestamp}
+      ORDER BY blockTimestamp;
+  `;
 
   const [rows] = await bigQuery.query({
     query: sqlQuery,

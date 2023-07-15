@@ -5,6 +5,7 @@ import {
 } from '@voltz-protocol/commons-v2';
 import { CompleteLpDetails, EditLpArgs } from './types';
 import { getPositionInfo } from '../../gateway/getPositionInfo';
+import { getFee } from '../../utils/getFee';
 
 export const parseEditLpArgs = async ({
   positionId,
@@ -46,7 +47,13 @@ export const parseEditLpArgs = async ({
     productAddress: positionInfo.pool.productAddress,
     marketId: positionInfo.pool.marketId,
     maturityTimestamp,
-    fee: 0, // todo: replace by pool.makerFee
+    fee: scale(quoteTokenDecimals)(
+      getFee(
+        Math.max(notional, 0),
+        positionInfo.pool.makerFee,
+        maturityTimestamp,
+      ),
+    ),
 
     quoteTokenAddress: positionInfo.pool.underlyingToken.address,
     quoteTokenDecimals,
@@ -57,8 +64,6 @@ export const parseEditLpArgs = async ({
     ownerAddress: await signer.getAddress(),
     tickLower: positionInfo.tickLower,
     tickUpper: positionInfo.tickUpper,
-
-    userNotional: notional,
 
     liquidityAmount: scale(quoteTokenDecimals)(liquidityAmount),
 

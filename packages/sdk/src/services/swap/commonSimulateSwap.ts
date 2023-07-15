@@ -12,7 +12,6 @@ import {
   getTimestampInSeconds,
 } from '@voltz-protocol/commons-v2';
 import { getTradeInformation } from '../../gateway/getTradeInformation';
-import { getFee } from '../../utils/getFee';
 
 const defaultResponse: InfoPostSwap = {
   marginRequirement: -1,
@@ -52,7 +51,6 @@ export async function commonSimulateSwap(
 
   let baseDelta = 0;
   let averageFixedRate = 0;
-  let fee = 0;
   let marginRequirement = 0;
 
   if (isError) {
@@ -62,14 +60,11 @@ export async function commonSimulateSwap(
 
     const { availableBase, avgFix } = await getTradeInformation(
       params.poolId,
-      params.userBase,
+      params.inputBase,
     );
 
     baseDelta = availableBase;
     averageFixedRate = avgFix;
-
-    const availableNotional = availableBase * params.currentLiquidityIndex;
-    fee = getFee(availableNotional, params.fee, params.maturityTimestamp);
   } else {
     const output = decodeSwap(bytesOutput[swapActionPosition]);
 
@@ -77,7 +72,6 @@ export async function commonSimulateSwap(
     const quoteDelta = descale(params.quoteTokenDecimals)(
       output.executedQuoteAmount,
     );
-    fee = descale(params.quoteTokenDecimals)(output.fee);
     marginRequirement = descale(params.quoteTokenDecimals)(output.im);
 
     averageFixedRate = getAvgFixV2({
@@ -105,8 +99,8 @@ export async function commonSimulateSwap(
       0,
       params.accountMargin - marginRequirement,
     ),
-    variableTokenDeltaBalance: baseDelta,
-    fee,
+    variableTokenDeltaBalance: baseDelta * params.currentLiquidityIndex,
+    fee: descale(params.quoteTokenDecimals)(params.fee),
     averageFixedRate,
     gasFee,
   };

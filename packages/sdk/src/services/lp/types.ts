@@ -28,6 +28,7 @@ export type EncodeLpArgs = {
   tickUpper: number;
 
   liquidityAmount: BigNumber;
+  fee: BigNumber;
 
   margin: BigNumber;
   liquidatorBooster: BigNumber;
@@ -36,13 +37,11 @@ export type EncodeLpArgs = {
 
 export type CompleteLpDetails = EncodeLpArgs & {
   signer: Signer;
-  userNotional: number;
 
   chainId: number;
   poolId: string;
 
   quoteTokenDecimals: number;
-  fee: number;
 
   accountMargin: number;
 };

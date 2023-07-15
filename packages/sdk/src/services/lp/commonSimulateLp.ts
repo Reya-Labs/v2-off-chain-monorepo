@@ -9,7 +9,6 @@ import {
 } from '@voltz-protocol/commons-v2';
 import { decodeLp } from '../../utils/decodeOutput';
 import { decodeImFromError } from '../../utils/errors/errorHandling';
-import { getFee } from '../../utils/getFee';
 
 export const commonSimulateLp = async (
   params: CompleteLpDetails,
@@ -43,18 +42,15 @@ export const commonSimulateLp = async (
     };
   }
 
-  let fee = 0;
   let marginRequirement = 0;
 
   if (isError) {
     marginRequirement = descale(params.quoteTokenDecimals)(
       decodeImFromError(bytesOutput).marginRequirement,
     );
-    fee = getFee(params.userNotional, params.fee, params.maturityTimestamp);
   } else {
     const output = decodeLp(bytesOutput[lpActionPosition]);
     marginRequirement = descale(params.quoteTokenDecimals)(output.im);
-    fee = descale(params.quoteTokenDecimals)(output.fee);
   }
 
   const price = await convertGasUnitsToNativeTokenUnits(
@@ -69,7 +65,7 @@ export const commonSimulateLp = async (
 
   const result = {
     gasFee,
-    fee,
+    fee: descale(params.quoteTokenDecimals)(params.fee),
     marginRequirement: Math.max(0, marginRequirement - params.accountMargin),
     maxMarginWithdrawable: Math.max(
       0,
