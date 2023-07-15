@@ -101,7 +101,8 @@ export async function commonSimulateSwap(
     ),
     variableTokenDeltaBalance: baseDelta * params.currentLiquidityIndex,
     fee: descale(params.quoteTokenDecimals)(params.fee),
-    averageFixedRate,
+    // todo: to be standardized (currently v1-sdk passes this as percentage, this is why we pass here as well)
+    averageFixedRate: averageFixedRate * 100,
     gasFee,
   };
 }
