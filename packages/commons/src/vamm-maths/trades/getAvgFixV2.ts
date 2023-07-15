@@ -25,7 +25,7 @@ export const getAvgFixV2 = ({
     return 0;
   }
 
-  const avgFix = (-quote / notional - 1) / timeDelta / 100;
+  const avgFix = (-quote / notional - 1) / timeDelta;
 
   return avgFix;
 };

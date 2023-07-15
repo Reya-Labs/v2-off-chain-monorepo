@@ -99,7 +99,7 @@ export async function commonSimulateSwap(
       0,
       params.accountMargin - marginRequirement,
     ),
-    variableTokenDeltaBalance: baseDelta,
+    variableTokenDeltaBalance: baseDelta * params.currentLiquidityIndex,
     fee: descale(params.quoteTokenDecimals)(params.fee),
     averageFixedRate,
     gasFee,
