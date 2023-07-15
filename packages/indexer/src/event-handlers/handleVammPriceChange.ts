@@ -75,7 +75,7 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
 
     const updateBatch2 = activeLpPositions.map((lp) => {
       const { base: baseTradedByTraders, avgFix: avgFixedRate } =
-        getLpInfoInRange([lp], currentTick, latestTick);
+        getLpInfoInRange([lp], latestTick, currentTick);
 
       const baseDelta = -baseTradedByTraders;
 

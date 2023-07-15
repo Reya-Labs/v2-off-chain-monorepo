@@ -5,7 +5,7 @@ import { extendBalancesWithTrade } from './extendBalancesWithTrade';
 
 // todo: change the implementation (incorrect)
 
-export const computeUnrealizedPnL = ({
+export const computeTotalPnLIfFullUnwind = ({
   base,
   timeDependentQuote,
   freeQuote,

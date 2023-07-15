@@ -3,7 +3,7 @@ import {
   getTimestampInSeconds,
   convertToAddress,
   computeRealizedPnL,
-  computeUnrealizedPnL,
+  computeTotalPnLIfFullUnwind,
   getDeltasFromLiquidity,
 } from '@voltz-protocol/commons-v2';
 
@@ -74,8 +74,11 @@ export const buildV2PortfolioPosition = async ({
 
   const notionalTraded = base * pool.currentLiquidityIndex;
 
-  const { x } = getDeltasFromLiquidity(liquidity, tickLower, tickUpper);
-  const notionalProvided = x * pool.currentLiquidityIndex;
+  let notionalProvided = 0;
+  if (positionType === 'lp') {
+    const { x } = getDeltasFromLiquidity(liquidity, tickLower, tickUpper);
+    notionalProvided = x * pool.currentLiquidityIndex;
+  }
 
   const notional =
     positionType === 'lp' ? notionalProvided : Math.abs(notionalTraded);
@@ -172,7 +175,7 @@ export const buildV2PortfolioPosition = async ({
     liquidityIndexAtQuery: pool.currentLiquidityIndex,
   });
 
-  const unrealizedPNL = computeUnrealizedPnL({
+  const totalPnLIfFullUnwind = computeTotalPnLIfFullUnwind({
     base,
     timeDependentQuote,
     freeQuote,
@@ -204,7 +207,7 @@ export const buildV2PortfolioPosition = async ({
     variant: 'active',
     receiving: notionalTraded < 0 ? fixedRateLocked : poolVariableRate,
     paying: notionalTraded < 0 ? poolVariableRate : fixedRateLocked,
-    unrealizedPNL,
+    unrealizedPNL: totalPnLIfFullUnwind - realizedPNLCashflow,
     realizedPNLFees,
     realizedPNLCashflow,
     settlementCashflow: realizedPNLCashflow,
