@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.52.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.51.4...@voltz-protocol/sdk-v2@1.52.0) (2023-07-15)
+
+### Features
+
+- average fixed rate times 100 ([4560c84](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/4560c84c82f2aa4d9a738564f5118a64bba34a7a))
+
 ## [1.51.4](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.51.3...@voltz-protocol/sdk-v2@1.51.4) (2023-07-15)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v2
