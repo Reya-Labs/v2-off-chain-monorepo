@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/bigquery-v2@1.9.2...@voltz-protocol/bigquery-v2@1.9.3) (2023-07-15)
+
+**Note:** Version bump only for package @voltz-protocol/bigquery-v2
+
 ## [1.9.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/bigquery-v2@1.9.1...@voltz-protocol/bigquery-v2@1.9.2) (2023-07-13)
 
 **Note:** Version bump only for package @voltz-protocol/bigquery-v2
