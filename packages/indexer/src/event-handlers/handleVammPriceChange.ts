@@ -2,13 +2,15 @@ import {
   VammPriceChangeEvent,
   pullVammPriceChangeEvent,
   insertVammPriceChangeEvent,
-  getCurrentVammTick,
   pullLpPositionEntries,
   updatePositionEntry,
   sendUpdateBatches,
   getLiquidityIndicesAtByMarketId,
+  updateIrsVammPoolEntry,
+  pullIrsVammPoolEntry,
 } from '@voltz-protocol/bigquery-v2';
 import {
+  encodeV2PoolId,
   extendBalancesWithTrade,
   getLpInfoInRange,
   SECONDS_IN_YEAR,
@@ -35,21 +37,30 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
     tick: currentTick,
   } = event;
 
-  const latestTick = await getCurrentVammTick(
-    environmentTag,
+  const poolId = encodeV2PoolId({
     chainId,
     marketId,
     maturityTimestamp,
-  );
+  });
 
-  if (latestTick === null) {
-    throw new Error(
-      `Latest tick not found for ${chainId} - ${marketId} - ${maturityTimestamp}`,
-    );
+  const irsVammPoolEntry = await pullIrsVammPoolEntry(environmentTag, poolId);
+
+  if (irsVammPoolEntry === null) {
+    throw new Error(`Could not find Irs Vamm Pool ${poolId}`);
   }
+
+  const latestTick = irsVammPoolEntry.currentTick;
 
   {
     const updateBatch1 = insertVammPriceChangeEvent(environmentTag, event);
+
+    const updateBatch2 = updateIrsVammPoolEntry(
+      environmentTag,
+      irsVammPoolEntry.id,
+      {
+        currentTick,
+      },
+    );
 
     const [liquidityIndex] = await getLiquidityIndicesAtByMarketId(
       environmentTag,
@@ -73,7 +84,7 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
       )
     ).filter((lp) => lp.liquidity > 0);
 
-    const updateBatch2 = activeLpPositions.map((lp) => {
+    const updateBatch3 = activeLpPositions.map((lp) => {
       const { base: baseTradedByTraders, avgFix: avgFixedRate } =
         getLpInfoInRange([lp], latestTick, currentTick);
 
@@ -95,6 +106,8 @@ export const handleVammPriceChange = async (event: VammPriceChangeEvent) => {
       return updatePositionEntry(environmentTag, lp.id, netBalances);
     });
 
-    await sendUpdateBatches([[updateBatch1], updateBatch2].flat());
+    await sendUpdateBatches(
+      [[updateBatch1, updateBatch2], updateBatch3].flat(),
+    );
   }
 };

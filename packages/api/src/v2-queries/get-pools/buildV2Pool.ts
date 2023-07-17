@@ -1,4 +1,4 @@
-import { IrsVammPool, pullMarketEntry } from '@voltz-protocol/bigquery-v2';
+import { IrsVammPoolEntry, pullMarketEntry } from '@voltz-protocol/bigquery-v2';
 import {
   getTokenDetails,
   getTokenPriceInUSD,
@@ -27,7 +27,8 @@ export const buildV2Pool = async ({
   rateOracle,
   creationTimestamp,
   tickSpacing,
-}: IrsVammPool): Promise<V2Pool> => {
+  currentTick,
+}: IrsVammPoolEntry): Promise<V2Pool> => {
   const market = await pullMarketEntry(getEnvironmentV2(), chainId, marketId);
 
   if (!market) {
@@ -54,6 +55,7 @@ export const buildV2Pool = async ({
     chainId,
     marketId,
     maturityTimestamp,
+    currentTick,
     lookbackWindowSeconds,
   );
 

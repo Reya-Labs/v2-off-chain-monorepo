@@ -1,7 +1,7 @@
 import { buildV2Pool } from './buildV2Pool';
 import { V2Pool } from '@voltz-protocol/api-v2-types';
 import { getEnvironmentV2 } from '../../services/envVars';
-import { pullIrsVammPool } from '@voltz-protocol/bigquery-v2';
+import { pullIrsVammPoolEntry } from '@voltz-protocol/bigquery-v2';
 import { encodeV2PoolId } from '@voltz-protocol/commons-v2';
 
 export const getV2Pool = async (
@@ -15,7 +15,7 @@ export const getV2Pool = async (
     maturityTimestamp,
   });
 
-  const pool = await pullIrsVammPool(getEnvironmentV2(), poolId);
+  const pool = await pullIrsVammPoolEntry(getEnvironmentV2(), poolId);
 
   if (!pool) {
     return null;

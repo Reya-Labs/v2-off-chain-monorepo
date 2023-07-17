@@ -1,6 +1,8 @@
 import { Address } from '@voltz-protocol/commons-v2';
 
-export type IrsVammPool = {
+export type IrsVammPoolEntry = {
+  id: string;
+
   chainId: number;
   marketId: string; // big number
   maturityTimestamp: number;
@@ -21,7 +23,22 @@ export type IrsVammPool = {
   creationTimestamp: number;
 };
 
-export const mapRow = (row: any): IrsVammPool => ({
+export type IrsVammPoolEntryUpdate = {
+  rateOracle?: Address;
+  spread?: number;
+
+  priceImpactPhi?: number;
+  priceImpactBeta?: number;
+
+  minTick?: number;
+  maxTick?: number;
+
+  currentTick?: number;
+};
+
+export const mapRow = (row: any): IrsVammPoolEntry => ({
+  id: row.id,
+
   chainId: row.chainId,
   marketId: row.marketId,
   maturityTimestamp: row.maturityTimestamp,

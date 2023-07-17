@@ -5,7 +5,12 @@ import {
   VammCreatedEvent,
 } from '@voltz-protocol/bigquery-v2';
 import { parseBaseEvent } from './utils/parseBaseEvent';
-import { convertToAddress, descale } from '@voltz-protocol/commons-v2';
+import {
+  VAMM_MAX_TICK,
+  VAMM_MIN_TICK,
+  convertToAddress,
+  descale,
+} from '@voltz-protocol/commons-v2';
 
 export const parseVammCreated = (
   chainId: number,
@@ -30,6 +35,11 @@ export const parseVammCreated = (
   );
 
   const spread = wadDescaler(event.args?.mutableConfig.spread as BigNumber);
+
+  const minTick = (event.args?.mutableConfig.minTick ||
+    VAMM_MIN_TICK) as number;
+  const maxTick = (event.args?.mutableConfig.maxTick ||
+    VAMM_MAX_TICK) as number;
 
   const rateOracle = event.args?.mutableConfig.rateOracle as string;
 
@@ -57,5 +67,8 @@ export const parseVammCreated = (
     maxLiquidityPerTick,
     tickSpacing,
     maturityTimestamp,
+
+    minTick,
+    maxTick,
   };
 };

@@ -4,32 +4,38 @@ import { mapBaseRow } from '../../utils/raw-events-support/mapBaseRow';
 
 export type VammCreatedEvent = BaseEvent & {
   marketId: string; // big number
-  tick: number;
+  maturityTimestamp: number;
 
-  // mutable
+  tick: number;
+  maxLiquidityPerTick: string; // big number
+  tickSpacing: number;
+
   priceImpactPhi: number;
   priceImpactBeta: number;
+
   spread: number;
   rateOracle: Address;
 
-  // immutable
-  maxLiquidityPerTick: string; // big number
-  tickSpacing: number;
-  maturityTimestamp: number;
+  minTick: number;
+  maxTick: number;
 };
 
 export const mapRow = (row: any): VammCreatedEvent => ({
   ...mapBaseRow(row),
 
   marketId: row.marketId,
+  maturityTimestamp: row.maturityTimestamp,
+
   tick: row.tick,
+  maxLiquidityPerTick: row.maxLiquidityPerTick,
+  tickSpacing: row.tickSpacing,
 
   priceImpactPhi: row.priceImpactPhi,
   priceImpactBeta: row.priceImpactBeta,
+
   spread: row.spread,
   rateOracle: row.rateOracle,
 
-  maxLiquidityPerTick: row.maxLiquidityPerTick,
-  tickSpacing: row.tickSpacing,
-  maturityTimestamp: row.maturityTimestamp,
+  minTick: row.minTick,
+  maxTick: row.maxTick,
 });

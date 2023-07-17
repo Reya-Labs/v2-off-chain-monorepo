@@ -1,12 +1,12 @@
 import { getBigQuery } from '../../../client';
 import { TableType } from '../../../types';
 import { getTableFullName } from '../../../table-infra/getTableName';
-import { IrsVammPool, mapRow } from '../specific';
+import { IrsVammPoolEntry, mapRow } from '../specific';
 
-export const pullIrsVammPool = async (
+export const pullIrsVammPoolEntry = async (
   environmentV2Tag: string,
   id: string,
-): Promise<IrsVammPool | null> => {
+): Promise<IrsVammPoolEntry | null> => {
   const bigQuery = getBigQuery();
   const tableName = getTableFullName(
     environmentV2Tag,

@@ -1,5 +1,6 @@
 export * from './operations/insertEntry';
 export * from './operations/pullEntry';
 export * from './operations/pullIrsVammPoolsByChains';
+export * from './operations/updateEntry';
 
-export { IrsVammPool } from './specific';
+export { IrsVammPoolEntry } from './specific';
