@@ -5,6 +5,7 @@ import {
   pullIrsVammPoolEntry,
 } from '@voltz-protocol/bigquery-v2';
 import { V2TradeInformation } from '@voltz-protocol/api-v2-types';
+import { log } from '../../logging/log';
 
 const defaultResponse: V2TradeInformation = {
   availableBase: 0,
@@ -21,9 +22,7 @@ export const getV2TradeInformation = async (
   const pool = await pullIrsVammPoolEntry(getEnvironmentV2(), poolId);
 
   if (pool === null) {
-    console.error(
-      `Could not find pool ${chainId}-${marketId}-${maturityTimestamp}`,
-    );
+    log(`Could not find pool ${chainId}-${marketId}-${maturityTimestamp}`);
 
     return defaultResponse;
   }

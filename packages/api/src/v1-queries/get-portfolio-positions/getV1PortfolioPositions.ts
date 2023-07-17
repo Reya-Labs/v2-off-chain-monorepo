@@ -7,6 +7,7 @@ import { getSubgraphURL } from '../subgraph/getSubgraphURL';
 import { buildV1PortfolioPosition } from './buildV1PortfolioPosition';
 import { V1PortfolioPosition } from '@voltz-protocol/api-v2-types';
 import { fetchMultiplePromises } from '@voltz-protocol/commons-v2';
+import { log } from '../../logging/log';
 
 export const getV1PortfolioPositions = async (
   chainIds: number[],
@@ -31,11 +32,21 @@ export const getV1PortfolioPositions = async (
     } catch (_) {}
   }
 
-  const { data: positions } = await fetchMultiplePromises(
+  const {
+    data: positions,
+    isError,
+    error,
+  } = await fetchMultiplePromises(
     allPositions.map(([chainId, position]) =>
       buildV1PortfolioPosition(chainId, position, 'light'),
     ),
   );
+
+  if (isError) {
+    log(
+      `Could not load all v1 positions (${positions.length} / ${allPositions.length} loaded). Reason: ${error}.`,
+    );
+  }
 
   positions.sort((a, b) => b.creationTimestampInMS - a.creationTimestampInMS);
 

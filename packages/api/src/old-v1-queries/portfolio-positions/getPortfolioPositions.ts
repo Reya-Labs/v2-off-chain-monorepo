@@ -27,6 +27,7 @@ import { getPositionPnL } from '../position-pnl/getPositionPnL';
 import { getSubgraphURL } from '../subgraph/getSubgraphURL';
 import { getProvider } from '../../services/getProvider';
 import { getCoingeckoApiKey } from '../../services/envVars';
+import { log } from '../../logging/log';
 
 export const getPortfolioPositions = async (
   chainIds: number[],
@@ -180,7 +181,7 @@ export const getPortfolioPositions = async (
             fixedTokenBalance * fixedFactor * 0.01 +
             variableTokenBalance * variableFactor;
         } catch (_) {
-          console.log(`Failed to fetch settlement cashflow.`);
+          log(`Failed to fetch settlement cashflow.`);
         }
 
         const realizedPNLCashflow = settlementCashflow;

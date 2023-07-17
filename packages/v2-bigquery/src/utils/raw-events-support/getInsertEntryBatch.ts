@@ -26,7 +26,11 @@ export const getInsertEntryBatch = (
         return `${value}`;
       }
       default: {
-        throw new Error(`Type of ${value} is unexpected(${typeof value})`);
+        throw new Error(
+          `Type of ${value} is unexpected(${typeof value}). Full entry: ${JSON.stringify(
+            entry,
+          )}`,
+        );
       }
     }
   });

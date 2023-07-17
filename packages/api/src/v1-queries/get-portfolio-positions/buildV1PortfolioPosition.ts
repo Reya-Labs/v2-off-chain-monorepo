@@ -16,6 +16,7 @@ import { generateMarginEngineContract } from '@voltz-protocol/indexer-v1/src/com
 import { getPositionPnL } from './getPositionPnL';
 import { getProvider } from '../../services/getProvider';
 import { V1PortfolioPosition } from '@voltz-protocol/api-v2-types';
+import { log } from '../../logging/log';
 
 export const buildV1PortfolioPosition = async (
   chainId: number,
@@ -134,7 +135,7 @@ export const buildV1PortfolioPosition = async (
           fixedTokenBalance * fixedFactor * 0.01 +
           variableTokenBalance * variableFactor;
       } catch (_) {
-        console.log(`Failed to fetch settlement cashflow.`);
+        log(`Failed to fetch settlement cashflow.`);
       }
     }
 

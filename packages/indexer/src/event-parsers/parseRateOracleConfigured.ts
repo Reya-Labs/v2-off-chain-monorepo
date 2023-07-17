@@ -1,4 +1,4 @@
-import { Event } from 'ethers';
+import { BigNumber, Event } from 'ethers';
 
 import { parseBaseEvent } from './utils/parseBaseEvent';
 import {
@@ -15,7 +15,7 @@ export const parseRateOracleConfigured = (
   const type = ProtocolEventType.RateOracleConfigured;
 
   // 2. Parse particular args
-  const marketId = event.args?.marketId as string;
+  const marketId = (event.args?.marketId as BigNumber).toString();
   const oracleAddress = event.args?.oracleAddress as string;
 
   // 3. Parse base event

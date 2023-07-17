@@ -11,6 +11,7 @@ import {
 } from '@voltz-protocol/commons-v2';
 import { getEnvironmentV2 } from '../../services/envVars';
 import { AvailableNotional } from '@voltz-protocol/api-v2-types';
+import { log } from '../../logging/log';
 
 export const getV2AvailableNotional = async (
   chainId: number,
@@ -29,9 +30,7 @@ export const getV2AvailableNotional = async (
   const pool = await pullIrsVammPoolEntry(getEnvironmentV2(), poolId);
 
   if (pool === null) {
-    console.error(
-      `Could not find pool ${chainId}-${marketId}-${maturityTimestamp}`,
-    );
+    log(`Could not find pool ${chainId}-${marketId}-${maturityTimestamp}`);
 
     return {
       short: 0,

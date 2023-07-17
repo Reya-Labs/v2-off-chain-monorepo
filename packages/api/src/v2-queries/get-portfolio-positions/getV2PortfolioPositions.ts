@@ -10,6 +10,7 @@ import {
 import { buildV2PortfolioPosition } from './buildV2PortfolioPosition';
 import { V2PortfolioPosition } from '@voltz-protocol/api-v2-types';
 import { getEnvironmentV2 } from '../../services/envVars';
+import { log } from '../../logging/log';
 
 // todo: combine SQL query that joins accounts and positions table
 
@@ -29,9 +30,23 @@ export const getV2PortfolioPositions = async (
     ),
   );
 
-  const { data: portfolio } = await fetchMultiplePromises(
+  const {
+    data: portfolio,
+    isError,
+    error,
+  } = await fetchMultiplePromises(
     allPositionEntries.flat().map(buildV2PortfolioPosition),
   );
+
+  if (isError) {
+    log(
+      `Could not load all v2 positions (${portfolio.length} / ${
+        allPositionEntries.flat().length
+      } loaded). Reason: ${error}.`,
+    );
+  }
+
+  portfolio.sort((a, b) => b.creationTimestampInMS - a.creationTimestampInMS);
 
   return portfolio;
 };

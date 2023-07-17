@@ -15,7 +15,7 @@ export const parseWithdrawal = (
   const type = ProtocolEventType.DepositedWithdrawn;
 
   // 2. Parse particular args
-  const accountId = event.args?.accountId as string;
+  const accountId = (event.args?.accountId as BigNumber).toString();
   const collateralType = event.args?.collateralType as string;
 
   const { tokenDescaler } = getTokenDetails(collateralType);
