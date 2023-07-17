@@ -14,33 +14,36 @@ const queryFilter = jest.fn(async (eventType: ProtocolEventType) => {
   return [];
 });
 
-jest.mock('@voltz-protocol/commons-v2/src/v2-smart-contracts/core.ts', () => ({
-  getCoreContract: jest.fn(() => ({
-    queryFilter,
-    filters: {
-      AccountCreated: () =>
-        ProtocolEventType.AccountCreated as unknown as EventFilter,
+jest.mock(
+  '@voltz-protocol/commons-v2/src/v2-smart-contracts/core/contract.ts',
+  () => ({
+    getCoreContract: jest.fn(() => ({
+      queryFilter,
+      filters: {
+        AccountCreated: () =>
+          ProtocolEventType.AccountCreated as unknown as EventFilter,
 
-      AccountOwnerUpdate: () =>
-        ProtocolEventType.AccountOwnerUpdate as unknown as EventFilter,
+        AccountOwnerUpdate: () =>
+          ProtocolEventType.AccountOwnerUpdate as unknown as EventFilter,
 
-      CollateralConfigured: () =>
-        ProtocolEventType.CollateralConfigured as unknown as EventFilter,
+        CollateralConfigured: () =>
+          ProtocolEventType.CollateralConfigured as unknown as EventFilter,
 
-      CollateralUpdate: () =>
-        ProtocolEventType.CollateralUpdate as unknown as EventFilter,
+        CollateralUpdate: () =>
+          ProtocolEventType.CollateralUpdate as unknown as EventFilter,
 
-      Liquidation: () =>
-        ProtocolEventType.Liquidation as unknown as EventFilter,
+        Liquidation: () =>
+          ProtocolEventType.Liquidation as unknown as EventFilter,
 
-      MarketFeeConfigured: () =>
-        ProtocolEventType.MarketFeeConfigured as unknown as EventFilter,
+        MarketFeeConfigured: () =>
+          ProtocolEventType.MarketFeeConfigured as unknown as EventFilter,
 
-      ProductRegistered: () =>
-        ProtocolEventType.ProductRegistered as unknown as EventFilter,
-    },
-  })),
-}));
+        ProductRegistered: () =>
+          ProtocolEventType.ProductRegistered as unknown as EventFilter,
+      },
+    })),
+  }),
+);
 
 jest.mock(
   '@voltz-protocol/commons-v2/src/v2-smart-contracts/dated-irs-instrument.ts',
