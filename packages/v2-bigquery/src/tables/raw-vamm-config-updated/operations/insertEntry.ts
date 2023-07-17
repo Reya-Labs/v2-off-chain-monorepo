@@ -1,14 +1,14 @@
 import { UpdateBatch, TableType } from '../../../types';
+import { VammConfigUpdatedEvent } from '../specific';
 import { getInsertEntryBatch } from '../../../utils/raw-events-support/getInsertEntryBatch';
-import { VammCreatedEvent } from '../specific';
 
-export const insertVammCreatedEvent = (
+export const insertVammConfigUpdatedEvent = (
   environmentV2Tag: string,
-  event: VammCreatedEvent,
+  event: VammConfigUpdatedEvent,
 ): UpdateBatch => {
   return getInsertEntryBatch(
     environmentV2Tag,
-    TableType.raw_vamm_created,
+    TableType.raw_vamm_config_updated,
     event,
   );
 };

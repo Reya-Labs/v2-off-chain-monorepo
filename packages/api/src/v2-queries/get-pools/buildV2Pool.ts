@@ -1,4 +1,4 @@
-import { VammCreatedEvent, pullMarketEntry } from '@voltz-protocol/bigquery-v2';
+import { IrsVammPool, pullMarketEntry } from '@voltz-protocol/bigquery-v2';
 import {
   getTokenDetails,
   getTokenPriceInUSD,
@@ -25,9 +25,9 @@ export const buildV2Pool = async ({
   marketId,
   maturityTimestamp,
   rateOracle,
-  blockTimestamp,
+  creationTimestamp,
   tickSpacing,
-}: VammCreatedEvent): Promise<V2Pool> => {
+}: IrsVammPool): Promise<V2Pool> => {
   const market = await pullMarketEntry(getEnvironmentV2(), chainId, marketId);
 
   if (!market) {
@@ -72,7 +72,7 @@ export const buildV2Pool = async ({
     makerFee: market.atomicMakerFee,
     takerFee: market.atomicTakerFee,
 
-    termStartTimestampInMS: blockTimestamp * 1000,
+    termStartTimestampInMS: creationTimestamp * 1000,
     termEndTimestampInMS: maturityTimestamp * 1000,
 
     market: marketName,

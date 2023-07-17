@@ -1,4 +1,4 @@
 export * from './operations/insertEntry';
 export * from './operations/pullEntry';
 
-export { VammCreatedEvent } from './specific';
+export { VammConfigUpdatedEvent } from './specific';

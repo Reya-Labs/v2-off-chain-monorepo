@@ -1,17 +1,15 @@
 import { TableField } from '@google-cloud/bigquery';
 import { PRECISION, SCALE } from '../../constants';
-import { rawEventsBaseTableSchema } from '../../utils/raw-events-support/rawEventsBaseTableSchema';
 
-export const rawTakerOrderTableSchema: TableField[] = [
-  ...rawEventsBaseTableSchema,
-
-  { name: 'accountId', type: 'STRING', mode: 'REQUIRED' },
+export const irsVammPoolTableSchema: TableField[] = [
+  { name: 'chainId', type: 'INTEGER', mode: 'REQUIRED' },
   { name: 'marketId', type: 'STRING', mode: 'REQUIRED' },
   { name: 'maturityTimestamp', type: 'INTEGER', mode: 'REQUIRED' },
-  { name: 'quoteToken', type: 'STRING', mode: 'REQUIRED' },
+
+  { name: 'rateOracle', type: 'STRING', mode: 'REQUIRED' },
 
   {
-    name: 'executedBaseAmount',
+    name: 'spread',
     type: 'BIGNUMERIC',
     mode: 'REQUIRED',
     precision: PRECISION.toString(),
@@ -19,7 +17,7 @@ export const rawTakerOrderTableSchema: TableField[] = [
   },
 
   {
-    name: 'executedQuoteAmount',
+    name: 'priceImpactPhi',
     type: 'BIGNUMERIC',
     mode: 'REQUIRED',
     precision: PRECISION.toString(),
@@ -27,10 +25,17 @@ export const rawTakerOrderTableSchema: TableField[] = [
   },
 
   {
-    name: 'annualizedNotionalAmount',
+    name: 'priceImpactBeta',
     type: 'BIGNUMERIC',
     mode: 'REQUIRED',
     precision: PRECISION.toString(),
     scale: SCALE.toString(),
   },
+
+  { name: 'tickSpacing', type: 'INTEGER', mode: 'REQUIRED' },
+  { name: 'minTick', type: 'INTEGER', mode: 'REQUIRED' },
+  { name: 'maxTick', type: 'INTEGER', mode: 'REQUIRED' },
+  { name: 'currentTick', type: 'INTEGER', mode: 'REQUIRED' },
+
+  { name: 'creationTimestamp', type: 'INTEGER', mode: 'REQUIRED' },
 ];

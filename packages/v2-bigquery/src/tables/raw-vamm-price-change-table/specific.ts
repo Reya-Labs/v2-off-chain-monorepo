@@ -1,5 +1,5 @@
 import { BaseEvent } from '../../types';
-import { mapBaseRow } from '../../utils/mapBaseRow';
+import { mapBaseRow } from '../../utils/raw-events-support/mapBaseRow';
 
 export type VammPriceChangeEvent = BaseEvent & {
   marketId: string; // big number

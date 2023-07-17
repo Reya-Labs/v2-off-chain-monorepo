@@ -1,6 +1,6 @@
 import { Address } from '@voltz-protocol/commons-v2';
 import { BaseEvent } from '../../types';
-import { mapBaseRow } from '../../utils/mapBaseRow';
+import { mapBaseRow } from '../../utils/raw-events-support/mapBaseRow';
 
 // state-capturing event
 export type RateOracleConfiguredEvent = BaseEvent & {

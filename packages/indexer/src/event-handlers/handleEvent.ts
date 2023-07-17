@@ -110,6 +110,11 @@ export const handleEvent = async (e: BaseEvent) => {
       break;
     }
 
+    case ProtocolEventType.VammConfigUpdated: {
+      // todo: add handler
+      break;
+    }
+
     case ProtocolEventType.VammCreated: {
       await handleVammCreated(e as VammCreatedEvent);
       break;

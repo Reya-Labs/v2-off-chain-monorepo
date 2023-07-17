@@ -19,10 +19,12 @@ const tableNames: Record<TableType, string> = {
   [TableType.raw_taker_order]: `Raw Taker Orders`,
 
   [TableType.raw_liquidity_change]: `Raw Liquidity Change`,
+  [TableType.raw_vamm_config_updated]: `Raw Vamm Config Updated`,
   [TableType.raw_vamm_created]: `Raw Vamm Created`,
   [TableType.raw_vamm_price_change]: `Raw Vamm Price Change`,
 
   [TableType.accounts]: `Accounts`,
+  [TableType.irs_vamm_pools]: `Irs Vamm Pools`,
   [TableType.liquidity_indices]: `Liquidity Indices`,
   [TableType.markets]: `Markets`,
   [TableType.positions]: `Positions`,

@@ -21,10 +21,12 @@ export enum TableType {
   // raw instrument event tables
   raw_liquidity_change = 'raw_liquidity_change',
   raw_vamm_created = 'raw_vamm_created',
+  raw_vamm_config_updated = 'raw_vamm_config_updated',
   raw_vamm_price_change = 'raw_vamm_price_change',
 
   // cross tables
   accounts = 'accounts',
+  irs_vamm_pools = 'irs_vamm_pools',
   liquidity_indices = 'liquidity_indices',
   markets = 'markets',
   positions = 'positions',
@@ -48,6 +50,7 @@ export enum ProtocolEventType {
 
   LiquidityChange = 'LiquidityChange', // exchange
   VammCreated = 'VammCreated', // exchange
+  VammConfigUpdated = 'VammConfigUpdated', // exchange
   VAMMPriceChange = 'VAMMPriceChange', // exchange
 }
 

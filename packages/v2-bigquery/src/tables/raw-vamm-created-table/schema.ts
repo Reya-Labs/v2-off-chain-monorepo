@@ -1,12 +1,18 @@
 import { TableField } from '@google-cloud/bigquery';
 import { PRECISION, SCALE } from '../../constants';
-import { rawEventsBaseTableSchema } from '../../utils/rawEventsBaseTableSchema';
+import { rawEventsBaseTableSchema } from '../../utils/raw-events-support/rawEventsBaseTableSchema';
 
 export const rawVammCreatedTableSchema: TableField[] = [
   ...rawEventsBaseTableSchema,
 
   { name: 'marketId', type: 'STRING', mode: 'REQUIRED' },
+  { name: 'maturityTimestamp', type: 'INTEGER', mode: 'REQUIRED' },
+
   { name: 'tick', type: 'INTEGER', mode: 'REQUIRED' },
+
+  { name: 'maxLiquidityPerTick', type: 'STRING', mode: 'REQUIRED' },
+
+  { name: 'tickSpacing', type: 'INTEGER', mode: 'REQUIRED' },
 
   {
     name: 'priceImpactPhi',
@@ -33,7 +39,7 @@ export const rawVammCreatedTableSchema: TableField[] = [
   },
 
   { name: 'rateOracle', type: 'STRING', mode: 'REQUIRED' },
-  { name: 'maxLiquidityPerTick', type: 'STRING', mode: 'REQUIRED' },
-  { name: 'tickSpacing', type: 'INTEGER', mode: 'REQUIRED' },
-  { name: 'maturityTimestamp', type: 'INTEGER', mode: 'REQUIRED' },
+
+  { name: 'minTick', type: 'STRING', mode: 'REQUIRED' },
+  { name: 'maxTick', type: 'STRING', mode: 'REQUIRED' },
 ];

@@ -18,6 +18,7 @@ import { parseTakerOrder } from './parseTakerOrder';
 import { parseDeposited } from './parseDeposited';
 import { parseWithdrawal } from './parseWithdrawal';
 import { parseDatedIRSPositionSettled } from './parseDatedIRSPositionSettled';
+import { parseVammConfigUpdated } from './parseVammConfigUpdated';
 
 export const parseEvent = (
   contract: 'core' | 'dated_irs_instrument' | 'dated_irs_vamm',
@@ -95,6 +96,9 @@ export const parseEvent = (
         }
         case 'VAMMPriceChange': {
           return parseVammPriceChange(chainId, event);
+        }
+        case 'VammConfigUpdated': {
+          return parseVammConfigUpdated(chainId, event);
         }
         default: {
           log(`Unmapped event ${event.event} from VAMM.`);

@@ -20,8 +20,10 @@ import { rawRateOracleConfiguredTableSchema } from '../tables/raw-rate-oracle-co
 import { rawTakerOrderTableSchema } from '../tables/raw-taker-orders-table/schema';
 import { rawVammCreatedTableSchema } from '../tables/raw-vamm-created-table/schema';
 import { rawVammPriceChangeTableSchema } from '../tables/raw-vamm-price-change-table/schema';
+import { irsVammPoolTableSchema } from '../tables/irs-vamm-pools-table/schema';
+import { rawVammConfigUpdatedTableSchema } from '../tables/raw-vamm-config-updated/schema';
 
-export const tableSchemas: Record<TableType, TableField[]> = {
+const tableSchemas: Record<TableType, TableField[]> = {
   [TableType.raw_account_created]: rawAccountCreatedTableSchema,
   [TableType.raw_account_owner_updates]: rawAccountOwnerUpdatesTableSchema,
   [TableType.raw_collateral_configured]: rawCollateralConfiguredTableSchema,
@@ -39,11 +41,18 @@ export const tableSchemas: Record<TableType, TableField[]> = {
   [TableType.raw_taker_order]: rawTakerOrderTableSchema,
 
   [TableType.raw_liquidity_change]: rawLiquidityChangeTableSchema,
+  [TableType.raw_vamm_config_updated]: rawVammConfigUpdatedTableSchema,
   [TableType.raw_vamm_created]: rawVammCreatedTableSchema,
   [TableType.raw_vamm_price_change]: rawVammPriceChangeTableSchema,
 
   [TableType.accounts]: accountsTableSchema,
+  [TableType.irs_vamm_pools]: irsVammPoolTableSchema,
   [TableType.liquidity_indices]: liquidityIndicesTableSchema,
   [TableType.markets]: marketsTableSchema,
   [TableType.positions]: positionsTableSchema,
+};
+
+// Returns the schema of BigQuery table
+export const getTableSchema = (tableType: TableType): TableField[] => {
+  return tableSchemas[tableType];
 };

@@ -1,28 +1,27 @@
 import { getBigQuery } from '../../../client';
 import { TableType } from '../../../types';
 import { getTableFullName } from '../../../table-infra/getTableName';
-import { VammCreatedEvent, mapRow } from '../specific';
+import { VammConfigUpdatedEvent, mapRow } from '../specific';
 
-export const pullVammsByChains = async (
+export const pullVammConfigUpdatedEvent = async (
   environmentV2Tag: string,
-  chainIds: number[],
-): Promise<VammCreatedEvent[]> => {
+  id: string,
+): Promise<VammConfigUpdatedEvent | null> => {
   const bigQuery = getBigQuery();
   const tableName = getTableFullName(
     environmentV2Tag,
-    TableType.raw_vamm_created,
+    TableType.raw_vamm_config_updated,
   );
 
-  const cond = `chainId IN (${chainIds.join(',')})`;
-  const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE ${cond};`;
+  const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE id="${id}"`;
 
   const [rows] = await bigQuery.query({
     query: sqlQuery,
   });
 
   if (!rows || rows.length === 0) {
-    return [];
+    return null;
   }
 
-  return rows.map(mapRow);
+  return mapRow(rows[0]);
 };

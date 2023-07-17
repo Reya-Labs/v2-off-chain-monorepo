@@ -1,7 +1,7 @@
 import { Address } from '@voltz-protocol/commons-v2';
 import { BaseEvent } from '../../types';
 import { bqNumericToNumber } from '../../utils/converters';
-import { mapBaseRow } from '../../utils/mapBaseRow';
+import { mapBaseRow } from '../../utils/raw-events-support/mapBaseRow';
 
 // action-tracking event
 export type LiquidationEvent = BaseEvent & {

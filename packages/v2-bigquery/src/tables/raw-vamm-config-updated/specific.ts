@@ -2,34 +2,30 @@ import { Address } from '@voltz-protocol/commons-v2';
 import { BaseEvent } from '../../types';
 import { mapBaseRow } from '../../utils/raw-events-support/mapBaseRow';
 
-export type VammCreatedEvent = BaseEvent & {
+export type VammConfigUpdatedEvent = BaseEvent & {
   marketId: string; // big number
-  tick: number;
+  maturityTimestamp: number;
 
   // mutable
   priceImpactPhi: number;
   priceImpactBeta: number;
   spread: number;
   rateOracle: Address;
-
-  // immutable
-  maxLiquidityPerTick: string; // big number
-  tickSpacing: number;
-  maturityTimestamp: number;
+  minTick: number;
+  maxTick: number;
 };
 
-export const mapRow = (row: any): VammCreatedEvent => ({
+export const mapRow = (row: any): VammConfigUpdatedEvent => ({
   ...mapBaseRow(row),
 
   marketId: row.marketId,
-  tick: row.tick,
+  maturityTimestamp: row.maturityTimestamp,
 
   priceImpactPhi: row.priceImpactPhi,
   priceImpactBeta: row.priceImpactBeta,
   spread: row.spread,
   rateOracle: row.rateOracle,
 
-  maxLiquidityPerTick: row.maxLiquidityPerTick,
-  tickSpacing: row.tickSpacing,
-  maturityTimestamp: row.maturityTimestamp,
+  minTick: row.minTick,
+  maxTick: row.maxTick,
 });

@@ -1,29 +1,28 @@
 import { getBigQuery } from '../../../client';
 import { TableType } from '../../../types';
 import { getTableFullName } from '../../../table-infra/getTableName';
-import { VammCreatedEvent, mapRow } from '../specific';
+import { IrsVammPool, mapRow } from '../specific';
 
-export const pullVamm = async (
+export const pullIrsVammPoolsByChains = async (
   environmentV2Tag: string,
-  chainId: number,
-  marketId: string,
-  maturityTimestamp: number,
-): Promise<VammCreatedEvent | null> => {
+  chainIds: number[],
+): Promise<IrsVammPool[]> => {
   const bigQuery = getBigQuery();
   const tableName = getTableFullName(
     environmentV2Tag,
     TableType.raw_vamm_created,
   );
 
-  const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE chainId=${chainId} AND marketId="${marketId}" AND maturityTimestamp=${maturityTimestamp}`;
+  const cond = `chainId IN (${chainIds.join(',')})`;
+  const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE ${cond};`;
 
   const [rows] = await bigQuery.query({
     query: sqlQuery,
   });
 
   if (!rows || rows.length === 0) {
-    return null;
+    return [];
   }
 
-  return mapRow(rows[0]);
+  return rows.map(mapRow);
 };
