@@ -1,7 +1,7 @@
 import { UpdateBatch, TableType } from '../../../types';
 import { IrsVammPoolEntry } from '../specific';
 import { getInsertEntryBatch } from '../../../utils/raw-events-support/getInsertEntryBatch';
-import { encodeV2PoolId } from '@voltz-protocol/commons-v2/dist/types';
+import { encodeV2PoolId } from '@voltz-protocol/commons-v2';
 
 export const insertIrsVammPoolEntry = (
   environmentV2Tag: string,

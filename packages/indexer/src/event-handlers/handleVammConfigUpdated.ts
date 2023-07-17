@@ -6,7 +6,7 @@ import {
   updateIrsVammPoolEntry,
 } from '@voltz-protocol/bigquery-v2';
 import { getEnvironmentV2 } from '../services/envVars';
-import { encodeV2PoolId } from '@voltz-protocol/commons-v2/dist/types';
+import { encodeV2PoolId } from '@voltz-protocol/commons-v2';
 
 export const handleVammConfigUpdated = async (
   event: VammConfigUpdatedEvent,

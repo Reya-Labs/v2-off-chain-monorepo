@@ -2,6 +2,8 @@ import { TableField } from '@google-cloud/bigquery';
 import { PRECISION, SCALE } from '../../constants';
 
 export const irsVammPoolTableSchema: TableField[] = [
+  { name: 'id', type: 'STRING', mode: 'REQUIRED' },
+
   { name: 'chainId', type: 'INTEGER', mode: 'REQUIRED' },
   { name: 'marketId', type: 'STRING', mode: 'REQUIRED' },
   { name: 'maturityTimestamp', type: 'INTEGER', mode: 'REQUIRED' },

@@ -10,7 +10,7 @@ export const pullIrsVammPoolEntriesByChains = async (
   const bigQuery = getBigQuery();
   const tableName = getTableFullName(
     environmentV2Tag,
-    TableType.raw_vamm_created,
+    TableType.irs_vamm_pools,
   );
 
   const cond = `chainId IN (${chainIds.join(',')})`;

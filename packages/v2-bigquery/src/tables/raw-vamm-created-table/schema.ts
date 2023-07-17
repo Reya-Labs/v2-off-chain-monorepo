@@ -40,6 +40,6 @@ export const rawVammCreatedTableSchema: TableField[] = [
 
   { name: 'rateOracle', type: 'STRING', mode: 'REQUIRED' },
 
-  { name: 'minTick', type: 'STRING', mode: 'REQUIRED' },
-  { name: 'maxTick', type: 'STRING', mode: 'REQUIRED' },
+  { name: 'minTick', type: 'INTEGER', mode: 'REQUIRED' },
+  { name: 'maxTick', type: 'INTEGER', mode: 'REQUIRED' },
 ];

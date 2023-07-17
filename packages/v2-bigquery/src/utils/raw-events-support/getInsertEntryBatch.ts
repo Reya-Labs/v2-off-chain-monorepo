@@ -6,7 +6,7 @@ import { TableType, UpdateBatch } from '../../types';
 export const getInsertEntryBatch = (
   environmentV2Tag: string,
   tableType: TableType,
-  entry: any,
+  entry: Record<string, string | number>,
 ): UpdateBatch => {
   const tableName = getTableFullName(environmentV2Tag, tableType);
   const tableSchema = getTableSchema(tableType);

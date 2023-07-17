@@ -10,7 +10,7 @@ export const pullIrsVammPoolEntry = async (
   const bigQuery = getBigQuery();
   const tableName = getTableFullName(
     environmentV2Tag,
-    TableType.raw_vamm_created,
+    TableType.irs_vamm_pools,
   );
 
   const sqlQuery = `SELECT * FROM \`${tableName}\` WHERE id="${id}"`;
