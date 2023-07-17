@@ -1,5 +1,5 @@
 import { Contract, Signer, providers } from 'ethers';
-import { getAddress } from './addresses';
+import { getAddress } from '../addresses';
 
 export const getCoreContract = (
   chainId: number,
@@ -21,6 +21,8 @@ export const getCoreContract = (
     `event ProtocolRiskConfigured((uint256 imMultiplier, uint256 liquidatorRewardParameter) config, uint256 blockTimestamp)`,
     `event CollateralUpdate(uint128 indexed accountId, address indexed collateralType, int256 tokenAmount, uint256 blockTimestamp)`,
     `event LiquidatorBoosterUpdate(uint128 indexed accountId, address indexed collateralType, int256 tokenAmount, uint256 blockTimestamp)`,
+
+    `function isLiquidatable(uint128 accountId, address collateralType) external view returns (bool liquidatable, uint256 initialMarginRequirement, uint256 liquidationMarginRequirement, uint256 highestUnrealizedLoss)`,
   ];
 
   const address = getAddress(chainId, 'core');

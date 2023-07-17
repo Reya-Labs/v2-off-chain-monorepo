@@ -128,8 +128,16 @@ export const decodeImFromError = (
     const reason = getErrorData(error);
     const decodingResult = iface.decodeErrorResult(errSig, reason);
 
+    const initialMarginRequirement = BigNumber.from(
+      decodingResult.initialMarginRequirement,
+    );
+
+    const highestUnrealizedLoss = BigNumber.from(
+      decodingResult.highestUnrealizedLoss,
+    );
+
     return {
-      marginRequirement: decodingResult.im,
+      marginRequirement: initialMarginRequirement.add(highestUnrealizedLoss),
     };
   }
 

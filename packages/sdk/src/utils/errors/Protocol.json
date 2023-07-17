@@ -3,6 +3,17 @@
     {
       "inputs": [
         {
+          "internalType": "bytes32",
+          "name": "id",
+          "type": "bytes32"
+        }
+      ],
+      "name": "MissingAssociatedSystem",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "address",
           "name": "addr",
           "type": "address"
@@ -190,28 +201,177 @@
     },
     {
       "inputs": [],
-      "name": "MaturityIndexCachingWindowElapsed",
+      "name": "AlreadyInitialized",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "parameter",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "reason",
+          "type": "string"
+        }
+      ],
+      "name": "InvalidParameter",
       "type": "error"
     },
     {
       "inputs": [],
-      "name": "MaturityNotReached",
+      "name": "OverflowUint256ToUint128",
       "type": "error"
     },
     {
       "inputs": [
         {
           "internalType": "address",
-          "name": "caller",
+          "name": "addr",
           "type": "address"
-        },
-        {
-          "internalType": "bytes32",
-          "name": "functionName",
-          "type": "bytes32"
         }
       ],
-      "name": "NotAuthorized",
+      "name": "Unauthorized",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "required",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "existing",
+          "type": "uint256"
+        }
+      ],
+      "name": "InsufficientAllowance",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "required",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "existing",
+          "type": "uint256"
+        }
+      ],
+      "name": "InsufficientBalance",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        }
+      ],
+      "name": "AccountNotFound",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NoChange",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "contr",
+          "type": "address"
+        }
+      ],
+      "name": "NotAContract",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowInt256ToInt128",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowInt256ToInt24",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowInt256ToUint256",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "requestedAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "InsufficientCollateral",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "requestedAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "InsufficientLiquidationBoosterBalance",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint256",
+          "name": "imPreClose",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "imPostClose",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "highestUnrealizedLossPreClose",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "highestUnrealizedLossPostClose",
+          "type": "uint256"
+        }
+      ],
+      "name": "AccountExposureNotReduced",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        }
+      ],
+      "name": "AccountNotLiquidatable",
       "type": "error"
     },
     {
@@ -233,6 +393,205 @@
         }
       ],
       "name": "PRBMath_MulDiv18_Overflow",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint256",
+          "name": "imPreClose",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "imPostClose",
+          "type": "uint256"
+        }
+      ],
+      "name": "PartialLiquidationNotIncentivized",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "collateralType",
+          "type": "address"
+        }
+      ],
+      "name": "CollateralDepositDisabled",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "address",
+          "name": "collateralType",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "initialMarginRequirement",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "highestUnrealizedLoss",
+          "type": "uint256"
+        }
+      ],
+      "name": "AccountBelowIM",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "implementation",
+          "type": "address"
+        }
+      ],
+      "name": "ImplementationIsSterile",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "UpgradeSimulationFailed",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "collateralType",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "collateralCap",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "currentBalance",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "tokenAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "liquidationBoosterDeposit",
+          "type": "uint256"
+        }
+      ],
+      "name": "CollateralCapExceeded",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "FailedTransfer",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowUint256ToUint160",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowUint256ToUint32",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowUint256ToUint64",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "product",
+          "type": "address"
+        }
+      ],
+      "name": "IncorrectProductInterface",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "expected",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "actual",
+          "type": "bytes32"
+        }
+      ],
+      "name": "MismatchAssociatedSystemKind",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowUint128ToInt128",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NotInitialized",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "MaturityIndexCachingWindowElapsed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "MaturityNotReached",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "caller",
+          "type": "address"
+        }
+      ],
+      "name": "NotAuthorized",
       "type": "error"
     },
     {
@@ -323,12 +682,12 @@
     {
       "inputs": [
         {
-          "internalType": "address",
-          "name": "addr",
-          "type": "address"
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
         }
       ],
-      "name": "Unauthorized",
+      "name": "TooManyTakerPositions",
       "type": "error"
     },
     {
@@ -343,21 +702,6 @@
       "type": "error"
     },
     {
-      "inputs": [],
-      "name": "OverflowInt256ToInt128",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "OverflowInt256ToInt24",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "OverflowInt256ToUint256",
-      "type": "error"
-    },
-    {
       "inputs": [
         {
           "internalType": "uint128",
@@ -366,70 +710,6 @@
         }
       ],
       "name": "MarketAlreadyExists",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "contr",
-          "type": "address"
-        }
-      ],
-      "name": "NotAContract",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "accountId",
-          "type": "uint128"
-        },
-        {
-          "internalType": "address",
-          "name": "collateralType",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "im",
-          "type": "uint256"
-        }
-      ],
-      "name": "AccountBelowIM",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "accountId",
-          "type": "uint128"
-        }
-      ],
-      "name": "AccountNotFound",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "implementation",
-          "type": "address"
-        }
-      ],
-      "name": "ImplementationIsSterile",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "UpgradeSimulationFailed",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "NoChange",
       "type": "error"
     },
     {
@@ -451,265 +731,6 @@
     {
       "inputs": [],
       "name": "AavePoolGetReserveNormalizedIncomeReturnedZero",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "requestedAmount",
-          "type": "uint256"
-        }
-      ],
-      "name": "InsufficientCollateral",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "requestedAmount",
-          "type": "uint256"
-        }
-      ],
-      "name": "InsufficientLiquidationBoosterBalance",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "OverflowUint256ToUint128",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "OverflowUint256ToUint160",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "OverflowUint256ToUint32",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "OverflowUint256ToUint64",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "product",
-          "type": "address"
-        }
-      ],
-      "name": "IncorrectProductInterface",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "expected",
-          "type": "bytes32"
-        },
-        {
-          "internalType": "bytes32",
-          "name": "actual",
-          "type": "bytes32"
-        }
-      ],
-      "name": "MismatchAssociatedSystemKind",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "OverflowUint128ToInt128",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "collateralType",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "collateralCap",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "currentBalance",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "tokenAmount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "liquidationBoosterDeposit",
-          "type": "uint256"
-        }
-      ],
-      "name": "CollateralCapExceeded",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "id",
-          "type": "bytes32"
-        }
-      ],
-      "name": "MissingAssociatedSystem",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "AlreadyInitialized",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "parameter",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "reason",
-          "type": "string"
-        }
-      ],
-      "name": "InvalidParameter",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "required",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "existing",
-          "type": "uint256"
-        }
-      ],
-      "name": "InsufficientAllowance",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "required",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "existing",
-          "type": "uint256"
-        }
-      ],
-      "name": "InsufficientBalance",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "accountId",
-          "type": "uint128"
-        },
-        {
-          "internalType": "uint256",
-          "name": "imPreClose",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "imPostClose",
-          "type": "uint256"
-        }
-      ],
-      "name": "AccountExposureNotReduced",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "accountId",
-          "type": "uint128"
-        }
-      ],
-      "name": "AccountNotLiquidatable",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "accountId",
-          "type": "uint128"
-        },
-        {
-          "internalType": "uint256",
-          "name": "imPreClose",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "imPostClose",
-          "type": "uint256"
-        }
-      ],
-      "name": "PartialLiquidationNotIncentivized",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "collateralType",
-          "type": "address"
-        }
-      ],
-      "name": "CollateralDepositDisabled",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "from",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "value",
-          "type": "uint256"
-        }
-      ],
-      "name": "FailedTransfer",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "NotInitialized",
       "type": "error"
     },
     {
@@ -737,6 +758,71 @@
         }
       ],
       "name": "MarketAndMaturityCombinaitonNotSupported",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "int256",
+          "name": "x",
+          "type": "int256"
+        }
+      ],
+      "name": "PRBMath_SD59x18_Convert_Overflow",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "int256",
+          "name": "x",
+          "type": "int256"
+        }
+      ],
+      "name": "PRBMath_SD59x18_Convert_Underflow",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PRBMath_SD59x18_Div_InputTooSmall",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "SD59x18",
+          "name": "x",
+          "type": "int256"
+        },
+        {
+          "internalType": "SD59x18",
+          "name": "y",
+          "type": "int256"
+        }
+      ],
+      "name": "PRBMath_SD59x18_Div_Overflow",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "SD59x18",
+          "name": "x",
+          "type": "int256"
+        }
+      ],
+      "name": "PRBMath_SD59x18_IntoUD60x18_Underflow",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "UD60x18",
+          "name": "x",
+          "type": "uint256"
+        }
+      ],
+      "name": "PRBMath_UD60x18_IntoSD59x18_Overflow",
       "type": "error"
     },
     {
@@ -827,71 +913,49 @@
     {
       "inputs": [
         {
-          "internalType": "int256",
-          "name": "x",
-          "type": "int256"
-        }
-      ],
-      "name": "PRBMath_SD59x18_Convert_Overflow",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "int256",
-          "name": "x",
-          "type": "int256"
-        }
-      ],
-      "name": "PRBMath_SD59x18_Convert_Underflow",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "PRBMath_SD59x18_Div_InputTooSmall",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "SD59x18",
-          "name": "x",
-          "type": "int256"
+          "internalType": "int24",
+          "name": "minTick",
+          "type": "int24"
         },
         {
-          "internalType": "SD59x18",
-          "name": "y",
-          "type": "int256"
+          "internalType": "int24",
+          "name": "maxTick",
+          "type": "int24"
         }
       ],
-      "name": "PRBMath_SD59x18_Div_Overflow",
+      "name": "AsymmetricTicks",
       "type": "error"
     },
     {
       "inputs": [
         {
-          "internalType": "SD59x18",
-          "name": "x",
-          "type": "int256"
-        }
-      ],
-      "name": "PRBMath_SD59x18_IntoUD60x18_Underflow",
-      "type": "error"
-    },
-    {
-      "inputs": [
+          "internalType": "int24",
+          "name": "minTick",
+          "type": "int24"
+        },
         {
-          "internalType": "UD60x18",
-          "name": "x",
-          "type": "uint256"
+          "internalType": "int24",
+          "name": "maxTick",
+          "type": "int24"
         }
       ],
-      "name": "PRBMath_UD60x18_IntoSD59x18_Overflow",
+      "name": "ExceededTickLimits",
       "type": "error"
     },
     {
       "inputs": [],
       "name": "PriceImpactOutOfBounds",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        }
+      ],
+      "name": "TooManyLpPositions",
       "type": "error"
     },
     {

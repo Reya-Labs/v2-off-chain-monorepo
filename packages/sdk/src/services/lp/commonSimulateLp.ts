@@ -50,7 +50,9 @@ export const commonSimulateLp = async (
     );
   } else {
     const output = decodeLp(bytesOutput[lpActionPosition]);
-    marginRequirement = descale(params.quoteTokenDecimals)(output.im);
+    marginRequirement = descale(params.quoteTokenDecimals)(
+      output.marginRequirement,
+    );
   }
 
   const price = await convertGasUnitsToNativeTokenUnits(
