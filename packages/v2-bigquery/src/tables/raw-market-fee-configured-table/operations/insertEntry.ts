@@ -1,34 +1,14 @@
 import { UpdateBatch, TableType } from '../../../types';
-import { getTableFullName } from '../../../table-infra/getTableName';
 import { MarketFeeConfiguredEvent } from '../specific';
+import { getInsertEntryBatch } from '../../../utils/raw-events-support/getInsertEntryBatch';
 
 export const insertMarketFeeConfiguredEvent = (
   environmentV2Tag: string,
   event: MarketFeeConfiguredEvent,
 ): UpdateBatch => {
-  const tableName = getTableFullName(
+  return getInsertEntryBatch(
     environmentV2Tag,
     TableType.raw_market_fee_configured,
+    event,
   );
-
-  const row = `
-    "${event.id}",
-    "${event.type}",
-    ${event.chainId},
-    "${event.source}",
-    ${event.blockTimestamp}, 
-    ${event.blockNumber}, 
-    "${event.blockHash}",
-    ${event.transactionIndex}, 
-    "${event.transactionHash}", 
-    ${event.logIndex},
-    "${event.productId}", 
-    "${event.marketId}", 
-    "${event.feeCollectorAccountId}", 
-    ${event.atomicMakerFee},
-    ${event.atomicTakerFee}
-  `;
-
-  const sqlTransactionQuery = `INSERT INTO \`${tableName}\` VALUES (${row});`;
-  return [sqlTransactionQuery];
 };

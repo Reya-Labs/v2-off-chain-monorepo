@@ -1,4 +1,4 @@
-import { Event } from 'ethers';
+import { BigNumber, Event } from 'ethers';
 
 import { parseBaseEvent } from './utils/parseBaseEvent';
 import {
@@ -16,7 +16,7 @@ export const parseProductRegistered = (
 
   // 2. Parse particular args
   const product = event.args?.product as string;
-  const productId = event.args?.productId as string;
+  const productId = (event.args?.productId as BigNumber).toString();
   const name = event.args?.name as string;
   const sender = event.args?.sender as string;
 

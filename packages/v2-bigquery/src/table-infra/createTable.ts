@@ -3,9 +3,9 @@ import { Table, TableMetadata } from '@google-cloud/bigquery';
 import { getTable } from './getTable';
 import { getBigQuery } from '../client';
 import { getTableName } from './getTableName';
-import { tableSchemas } from './tableSchemas';
 import { TableType } from '../types';
 import { getProtocolV2DatasetName } from '../dataset-infra/getProtocolV2DatasetName';
+import { getTableSchema } from './tableSchemas';
 
 export const createTable = async (
   environmentV2Tag: string,
@@ -13,7 +13,7 @@ export const createTable = async (
 ): Promise<void> => {
   const bigQuery = getBigQuery();
   const tableName = getTableName(tableType);
-  const schema = tableSchemas[tableType];
+  const schema = getTableSchema(tableType);
 
   const existingTable: Table | null = await getTable(
     environmentV2Tag,

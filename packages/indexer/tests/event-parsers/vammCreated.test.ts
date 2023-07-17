@@ -5,6 +5,7 @@ import {
 } from '@voltz-protocol/bigquery-v2';
 import { parseVammCreated } from '../../src/event-parsers/parseVammCreated';
 import { evmTestEvents } from '../utils/evmTestEvents';
+import { VAMM_MAX_TICK, VAMM_MIN_TICK } from '@voltz-protocol/commons-v2';
 
 // Mock all dependencies with blank functions
 jest.mock('@voltz-protocol/commons-v2', () => ({
@@ -48,6 +49,9 @@ describe('vamm created parser', () => {
       maxLiquidityPerTick: '1000000000000',
       tickSpacing: 60,
       maturityTimestamp: 1687919400,
+
+      minTick: VAMM_MIN_TICK,
+      maxTick: VAMM_MAX_TICK,
 
       tick: 1200,
     };

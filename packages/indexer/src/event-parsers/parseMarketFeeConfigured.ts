@@ -15,10 +15,11 @@ export const parseMarketFeeConfigured = (
   const type = ProtocolEventType.MarketFeeConfigured;
 
   // 2. Parse particular args
-  const productId = event.args?.config.productId as string;
-  const marketId = event.args?.config.marketId as string;
-  const feeCollectorAccountId = event.args?.config
-    .feeCollectorAccountId as string;
+  const productId = (event.args?.config.productId as BigNumber).toString();
+  const marketId = (event.args?.config.marketId as BigNumber).toString();
+  const feeCollectorAccountId = (
+    event.args?.config.feeCollectorAccountId as BigNumber
+  ).toString();
 
   const atomicMakerFee = descale(18)(
     event.args?.config.atomicMakerFee as BigNumber,

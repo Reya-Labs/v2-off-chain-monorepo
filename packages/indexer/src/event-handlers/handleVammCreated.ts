@@ -4,6 +4,7 @@ import {
   insertVammCreatedEvent,
   insertVammPriceChangeEvent,
   sendUpdateBatches,
+  insertIrsVammPoolEntry,
 } from '@voltz-protocol/bigquery-v2';
 import { getEnvironmentV2 } from '../services/envVars';
 
@@ -17,7 +18,20 @@ export const handleVammCreated = async (event: VammCreatedEvent) => {
 
   {
     const updateBatch1 = insertVammCreatedEvent(environmentTag, event);
-    const updateBatch2 = insertVammPriceChangeEvent(environmentTag, event);
-    await sendUpdateBatches([updateBatch1, updateBatch2]);
+
+    const irsVammPoolEntry = {
+      ...event,
+      currentTick: event.tick,
+      creationTimestamp: event.blockTimestamp,
+    };
+
+    const updateBatch2 = insertIrsVammPoolEntry(
+      environmentTag,
+      irsVammPoolEntry,
+    );
+
+    const updateBatch3 = insertVammPriceChangeEvent(environmentTag, event);
+
+    await sendUpdateBatches([updateBatch1, updateBatch2, updateBatch3]);
   }
 };

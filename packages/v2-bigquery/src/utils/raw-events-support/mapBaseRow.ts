@@ -1,4 +1,4 @@
-import { BaseEvent } from '../types';
+import { BaseEvent } from '../../types';
 
 export const mapBaseRow = (row: any): BaseEvent => ({
   id: row.id,

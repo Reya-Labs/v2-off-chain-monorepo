@@ -1,15 +1,17 @@
 import {
   getAvailableBaseInRange,
-  getCurrentVammTick,
   getLiquidityIndicesAtByMarketId,
+  pullIrsVammPoolEntry,
 } from '@voltz-protocol/bigquery-v2';
 import {
+  encodeV2PoolId,
   fetchMultiplePromises,
   getTimestampInSeconds,
   isNull,
 } from '@voltz-protocol/commons-v2';
 import { getEnvironmentV2 } from '../../services/envVars';
 import { AvailableNotional } from '@voltz-protocol/api-v2-types';
+import { log } from '../../logging/log';
 
 export const getV2AvailableNotional = async (
   chainId: number,
@@ -19,17 +21,17 @@ export const getV2AvailableNotional = async (
   const environmentTag = getEnvironmentV2();
   const nowSeconds = getTimestampInSeconds();
 
-  const currentTick = await getCurrentVammTick(
-    environmentTag,
+  const poolId = encodeV2PoolId({
     chainId,
     marketId,
     maturityTimestamp,
-  );
+  });
 
-  if (isNull(currentTick)) {
-    console.error(
-      `Current tick is missing for ${chainId}-${marketId}-${maturityTimestamp}`,
-    );
+  const pool = await pullIrsVammPoolEntry(getEnvironmentV2(), poolId);
+
+  if (pool === null) {
+    log(`Could not find pool ${chainId}-${marketId}-${maturityTimestamp}`);
+
     return {
       short: 0,
       long: 0,
@@ -56,7 +58,7 @@ export const getV2AvailableNotional = async (
       chainId,
       marketId,
       maturityTimestamp,
-      currentTick as number,
+      pool.currentTick,
       -100000,
     ),
 
@@ -65,7 +67,7 @@ export const getV2AvailableNotional = async (
       chainId,
       marketId,
       maturityTimestamp,
-      currentTick as number,
+      pool.currentTick,
       100000,
     ),
   ]);

@@ -40,6 +40,7 @@ import { getEnvironmentV2 } from './services/envVars';
 import { getV1V2AvailableNotional } from './v1v2-queries/get-available-notional/getAvailableNotional';
 import { getV2TradeInformation } from './v2-queries/get-pools/getTradeInformation';
 import { getTrustedProxies } from './services/getTrustedProxies';
+import { log } from './logging/log';
 
 export const app = express();
 
@@ -79,7 +80,7 @@ app.get('/v1v2-pools/:chainIds', (req, res) => {
       res.json(output);
     },
     (error) => {
-      console.log(`API query failed with message ${(error as Error).message}`);
+      log(`API query failed with message ${(error as Error).message}`);
     },
   );
 });
@@ -92,7 +93,7 @@ app.get('/v1v2-pool/:id', (req, res) => {
       res.json(output);
     },
     (error) => {
-      console.log(`API query failed with message ${(error as Error).message}`);
+      log(`API query failed with message ${(error as Error).message}`);
     },
   );
 });
@@ -106,7 +107,7 @@ app.get('/v1v2-positions/:chainIds/:ownerAddress', (req, res) => {
       res.json(output);
     },
     (error) => {
-      console.log(`API query failed with message ${(error as Error).message}`);
+      log(`API query failed with message ${(error as Error).message}`);
     },
   );
 });
@@ -127,7 +128,7 @@ app.get('/v1v2-position/:positionId', (req, res) => {
       res.json(output);
     },
     (error) => {
-      console.log(`API query failed with message ${(error as Error).message}`);
+      log(`API query failed with message ${(error as Error).message}`);
     },
   );
 });
@@ -141,7 +142,7 @@ app.get('/v1v2-trader-positions-by-pool/:poolId/:ownerAddress', (req, res) => {
       res.json(output);
     },
     (error) => {
-      console.log(`API query failed with message ${(error as Error).message}`);
+      log(`API query failed with message ${(error as Error).message}`);
     },
   );
 });
@@ -155,7 +156,7 @@ app.get('/v1v2-lp-positions-by-pool/:poolId/:ownerAddress', (req, res) => {
       res.json(output);
     },
     (error) => {
-      console.log(`API query failed with message ${(error as Error).message}`);
+      log(`API query failed with message ${(error as Error).message}`);
     },
   );
 });
@@ -172,9 +173,7 @@ app.get(
         res.json(output);
       },
       (error) => {
-        console.log(
-          `API query failed with message ${(error as Error).message}`,
-        );
+        log(`API query failed with message ${(error as Error).message}`);
       },
     );
   },
@@ -192,9 +191,7 @@ app.get(
         res.json(output);
       },
       (error) => {
-        console.log(
-          `API query failed with message ${(error as Error).message}`,
-        );
+        log(`API query failed with message ${(error as Error).message}`);
       },
     );
   },
@@ -208,7 +205,7 @@ app.get('/v1v2-available-notional/:poolId', (req, res) => {
       res.json(output);
     },
     (error) => {
-      console.log(`API query failed with message ${(error as Error).message}`);
+      log(`API query failed with message ${(error as Error).message}`);
     },
   );
 });
@@ -223,7 +220,7 @@ app.get('/v2-pools/:chainIds', (req, res) => {
       res.json(output);
     },
     (error) => {
-      console.log(`API query failed with message ${(error as Error).message}`);
+      log(`API query failed with message ${(error as Error).message}`);
     },
   );
 });
@@ -237,7 +234,7 @@ app.get('/v2-positions/:chainIds/:ownerAddress', (req, res) => {
       res.json(output);
     },
     (error) => {
-      console.log(`API query failed with message ${(error as Error).message}`);
+      log(`API query failed with message ${(error as Error).message}`);
     },
   );
 });
@@ -251,7 +248,7 @@ app.get('/v2-trade-information/:poolId/:base', (req, res) => {
       res.json(output);
     },
     (error) => {
-      console.log(`API query failed with message ${(error as Error).message}`);
+      log(`API query failed with message ${(error as Error).message}`);
     },
   );
 });
@@ -272,9 +269,7 @@ app.get(
         res.json(output);
       },
       (error) => {
-        console.log(
-          `API query failed with message ${(error as Error).message}`,
-        );
+        log(`API query failed with message ${(error as Error).message}`);
       },
     );
   },
@@ -293,9 +288,7 @@ app.get(
         res.json(output);
       },
       (error) => {
-        console.log(
-          `API query failed with message ${(error as Error).message}`,
-        );
+        log(`API query failed with message ${(error as Error).message}`);
       },
     );
   },
@@ -312,7 +305,7 @@ app.get('/v2-variable-apy-from/:chainId/:oracleAddress/:from', (req, res) => {
       res.json(output);
     },
     (error) => {
-      console.log(`API query failed with message ${(error as Error).message}`);
+      log(`API query failed with message ${(error as Error).message}`);
     },
   );
 });
@@ -328,7 +321,7 @@ app.get('/pool/:chainId/:vammAddress', (req, res) => {
       res.json(output);
     },
     (error) => {
-      console.log(`API query failed with message ${(error as Error).message}`);
+      log(`API query failed with message ${(error as Error).message}`);
     },
   );
 });
@@ -363,7 +356,7 @@ app.get('/chain-information/:chainIds', (req, res) => {
       res.json(output);
     },
     (error) => {
-      console.log(`API query failed with message ${(error as Error).message}`);
+      log(`API query failed with message ${(error as Error).message}`);
     },
   );
 });
@@ -376,7 +369,7 @@ app.get('/all-pools/:chainIds', (req, res) => {
       res.json(output);
     },
     (error) => {
-      console.log(`API query failed with message ${(error as Error).message}`);
+      log(`API query failed with message ${(error as Error).message}`);
     },
   );
 });
@@ -390,7 +383,7 @@ app.get('/portfolio-positions/:chainIds/:ownerAddress', (req, res) => {
       res.json(output);
     },
     (error) => {
-      console.log(`API query failed with message ${(error as Error).message}`);
+      log(`API query failed with message ${(error as Error).message}`);
     },
   );
 });
@@ -411,7 +404,7 @@ app.get('/portfolio-position-details/:positionId', (req, res) => {
       res.json(output);
     },
     (error) => {
-      console.log(`API query failed with message ${(error as Error).message}`);
+      log(`API query failed with message ${(error as Error).message}`);
     },
   );
 });
@@ -437,9 +430,7 @@ app.get(
         res.json(output);
       },
       (error) => {
-        console.log(
-          `API query failed with message ${(error as Error).message}`,
-        );
+        log(`API query failed with message ${(error as Error).message}`);
       },
     );
   },
@@ -458,9 +449,7 @@ app.get(
         res.json(output);
       },
       (error) => {
-        console.log(
-          `API query failed with message ${(error as Error).message}`,
-        );
+        log(`API query failed with message ${(error as Error).message}`);
       },
     );
   },
@@ -484,9 +473,7 @@ app.get(
         res.json(output);
       },
       (error) => {
-        console.log(
-          `API query failed with message ${(error as Error).message}`,
-        );
+        log(`API query failed with message ${(error as Error).message}`);
       },
     );
   },
@@ -500,14 +487,14 @@ app.get('/voyage/:chainId/:ownerAddress', (req, res) => {
       res.json(output);
     },
     (error) => {
-      console.log(`API query failed with message ${(error as Error).message}`);
+      log(`API query failed with message ${(error as Error).message}`);
     },
   );
 });
 
 // todo: move this to function
 app.get('/voyage-V1/:chainId/:walletAddress', (req, res) => {
-  console.log(`Requesting information about Voyage Badges`);
+  log(`Requesting information about Voyage Badges`);
 
   const process = async () => {
     const voyages = await getVoyages();
@@ -549,7 +536,7 @@ app.get('/voyage-V1/:chainId/:walletAddress', (req, res) => {
       res.json(output);
     },
     (error) => {
-      console.log(`API query failed with message ${(error as Error).message}`);
+      log(`API query failed with message ${(error as Error).message}`);
     },
   );
 });

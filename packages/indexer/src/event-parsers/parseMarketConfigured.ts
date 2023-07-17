@@ -1,4 +1,4 @@
-import { Event } from 'ethers';
+import { BigNumber, Event } from 'ethers';
 
 import {
   MarketConfiguredEvent,
@@ -15,7 +15,7 @@ export const parseMarketConfigured = (
   const type = ProtocolEventType.MarketConfigured;
 
   // 2. Parse particular args
-  const marketId = event.args?.config.marketId as string;
+  const marketId = (event.args?.config.marketId as BigNumber).toString();
   const quoteToken = event.args?.config.quoteToken as string;
 
   // 3. Parse base event

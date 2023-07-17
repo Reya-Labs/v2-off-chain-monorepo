@@ -72,7 +72,9 @@ export async function commonSimulateSwap(
     const quoteDelta = descale(params.quoteTokenDecimals)(
       output.executedQuoteAmount,
     );
-    marginRequirement = descale(params.quoteTokenDecimals)(output.im);
+    marginRequirement = descale(params.quoteTokenDecimals)(
+      output.marginRequirement,
+    );
 
     averageFixedRate = getAvgFixV2({
       base: baseDelta,

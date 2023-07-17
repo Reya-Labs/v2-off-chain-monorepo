@@ -1,7 +1,4 @@
-import {
-  getCurrentVammTick,
-  getTickAtTimestamp,
-} from '@voltz-protocol/bigquery-v2';
+import { getTickAtTimestamp } from '@voltz-protocol/bigquery-v2';
 import {
   getTimestampInSeconds,
   isNull,
@@ -10,7 +7,6 @@ import {
 import { getEnvironmentV2 } from '../../services/envVars';
 
 export type GetFixedRateDataResponse = {
-  currentTick: number;
   currentFixedRate: number;
   fixedRateChange: number;
 };
@@ -20,24 +16,10 @@ export const getFixedRateData = async (
   chainId: number,
   marketId: string,
   maturityTimestamp: number,
+  currentTick: number,
   lookbackWindowSeconds: number,
 ): Promise<GetFixedRateDataResponse> => {
   const nowSeconds = getTimestampInSeconds();
-
-  const currentTick = await getCurrentVammTick(
-    getEnvironmentV2(),
-    chainId,
-    marketId,
-    maturityTimestamp,
-  );
-
-  if (isNull(currentTick)) {
-    return {
-      currentTick: 0,
-      currentFixedRate: 0,
-      fixedRateChange: 0,
-    };
-  }
 
   const tickLWAgo = await getTickAtTimestamp(
     getEnvironmentV2(),
@@ -47,11 +29,10 @@ export const getFixedRateData = async (
     nowSeconds - lookbackWindowSeconds,
   );
 
-  const currentFixedRate = tickToFixedRate(currentTick as number);
+  const currentFixedRate = tickToFixedRate(currentTick);
 
   if (isNull(tickLWAgo)) {
     return {
-      currentTick: currentTick as number,
       currentFixedRate,
       fixedRateChange: 0,
     };
@@ -61,7 +42,6 @@ export const getFixedRateData = async (
   const fixedRateChange = fixedRateLWAgo - currentFixedRate;
 
   return {
-    currentTick: currentTick as number,
     currentFixedRate,
     fixedRateChange,
   };

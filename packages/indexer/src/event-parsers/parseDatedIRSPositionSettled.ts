@@ -15,9 +15,9 @@ export const parseDatedIRSPositionSettled = (
   const type = ProtocolEventType.DatedIRSPositionSettled;
 
   // 2. Parse particular args
-  const accountId = event.args?.accountId as string;
-  const productId = event.args?.productId as string;
-  const marketId = event.args?.marketId as string;
+  const accountId = (event.args?.accountId as BigNumber).toString();
+  const productId = (event.args?.productId as BigNumber).toString();
+  const marketId = (event.args?.marketId as BigNumber).toString();
   const maturityTimestamp = event.args?.maturityTimestamp as number;
   const collateralType = event.args?.collateralType as string;
 

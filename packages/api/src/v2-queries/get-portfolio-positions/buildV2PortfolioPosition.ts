@@ -5,6 +5,7 @@ import {
   computeRealizedPnL,
   computeTotalPnLIfFullUnwind,
   getDeltasFromLiquidity,
+  getV2MarginRequirements,
 } from '@voltz-protocol/commons-v2';
 
 import {
@@ -16,6 +17,7 @@ import {
 import { getV2Pool } from '../get-pools/getV2Pool';
 import { V2PortfolioPosition } from '@voltz-protocol/api-v2-types';
 import { getEnvironmentV2 } from '../../services/envVars';
+import { getProvider } from '../../services/getProvider';
 
 export const buildV2PortfolioPosition = async ({
   chainId,
@@ -66,6 +68,8 @@ export const buildV2PortfolioPosition = async ({
       `Pool ${chainId}-${marketId}-${maturityTimestamp} was not found.`,
     );
   }
+
+  const quoteToken = convertToAddress(pool.underlyingToken.address);
 
   // Get position-level information
 
@@ -152,15 +156,22 @@ export const buildV2PortfolioPosition = async ({
   const poolFixedRate = pool.currentFixedRate;
   const poolVariableRate = pool.currentVariableRate;
 
-  // todo: liquidation and safety threshold
-  const liquidationThreshold = 0;
-  const safetyThreshold = 0;
+  const { liquidationThreshold, safetyThreshold } =
+    await getV2MarginRequirements({
+      accountId,
+      collateralType: quoteToken,
+      chainId,
+      subject: getProvider(chainId),
+    });
 
-  // todo: max margin withdrawable
-  const maxWithdrawableMargin = margin - safetyThreshold;
+  const maxWithdrawableMargin = Math.max(margin - safetyThreshold, 0);
 
-  // todo: health factor
-  const health = 'healthy';
+  const health =
+    margin < liquidationThreshold
+      ? 'danger'
+      : margin < safetyThreshold
+      ? 'warning'
+      : 'healthy';
 
   // PnL
   const queryTimestamp = getTimestampInSeconds();

@@ -15,8 +15,8 @@ export const parseTakerOrder = (
   const type = ProtocolEventType.TakerOrder;
 
   // 2. Parse particular args
-  const accountId = event.args?.accountId as string;
-  const marketId = event.args?.marketId as string;
+  const accountId = (event.args?.accountId as BigNumber).toString();
+  const marketId = (event.args?.marketId as BigNumber).toString();
   const maturityTimestamp = event.args?.maturityTimestamp as number;
   const collateralType = event.args?.collateralType as string;
 

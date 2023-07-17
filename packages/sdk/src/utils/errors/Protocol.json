@@ -1,382 +1,8 @@
 {
   "abi": [
     {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "addr",
-          "type": "address"
-        }
-      ],
-      "name": "CannotSelfApprove",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "requestedIndex",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "length",
-          "type": "uint256"
-        }
-      ],
-      "name": "IndexOverrun",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "addr",
-          "type": "address"
-        }
-      ],
-      "name": "InvalidOwner",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "addr",
-          "type": "address"
-        }
-      ],
-      "name": "InvalidTransferRecipient",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        }
-      ],
-      "name": "TokenAlreadyMinted",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        }
-      ],
-      "name": "TokenDoesNotExist",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "addr",
-          "type": "address"
-        }
-      ],
-      "name": "NotNominated",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "which",
-          "type": "bytes32"
-        }
-      ],
-      "name": "FeatureUnavailable",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "permission",
-          "type": "bytes32"
-        }
-      ],
-      "name": "InvalidPermission",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "requestedAccountId",
-          "type": "uint128"
-        },
-        {
-          "internalType": "address",
-          "name": "accountOwner",
-          "type": "address"
-        }
-      ],
-      "name": "OnlyAccessPassOwner",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "origin",
-          "type": "address"
-        }
-      ],
-      "name": "OnlyAccountTokenProxy",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "accountId",
-          "type": "uint128"
-        },
-        {
-          "internalType": "address",
-          "name": "target",
-          "type": "address"
-        }
-      ],
-      "name": "PermissionDenied",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "accountId",
-          "type": "uint128"
-        },
-        {
-          "internalType": "bytes32",
-          "name": "permission",
-          "type": "bytes32"
-        },
-        {
-          "internalType": "address",
-          "name": "user",
-          "type": "address"
-        }
-      ],
-      "name": "PermissionNotGranted",
-      "type": "error"
-    },
-    {
       "inputs": [],
-      "name": "PositionOutOfBounds",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "ValueAlreadyInSet",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "ValueNotInSet",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "ZeroAddress",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "MaturityIndexCachingWindowElapsed",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "MaturityNotReached",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "caller",
-          "type": "address"
-        },
-        {
-          "internalType": "bytes32",
-          "name": "functionName",
-          "type": "bytes32"
-        }
-      ],
-      "name": "NotAuthorized",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "OverflowUint256ToInt256",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "x",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "y",
-          "type": "uint256"
-        }
-      ],
-      "name": "PRBMath_MulDiv18_Overflow",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "x",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "y",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "denominator",
-          "type": "uint256"
-        }
-      ],
-      "name": "PRBMath_MulDiv_Overflow",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "PRBMath_SD59x18_Mul_InputTooSmall",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "SD59x18",
-          "name": "x",
-          "type": "int256"
-        },
-        {
-          "internalType": "SD59x18",
-          "name": "y",
-          "type": "int256"
-        }
-      ],
-      "name": "PRBMath_SD59x18_Mul_Overflow",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "x",
-          "type": "uint256"
-        }
-      ],
-      "name": "PRBMath_UD60x18_Convert_Overflow",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "accountId",
-          "type": "uint128"
-        }
-      ],
-      "name": "PortfolioNotFound",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "marketId",
-          "type": "uint128"
-        },
-        {
-          "internalType": "uint32",
-          "name": "maturityTimestamp",
-          "type": "uint32"
-        },
-        {
-          "internalType": "uint256",
-          "name": "accountId",
-          "type": "uint256"
-        }
-      ],
-      "name": "SettlementBeforeMaturity",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "addr",
-          "type": "address"
-        }
-      ],
-      "name": "Unauthorized",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "marketId",
-          "type": "uint128"
-        }
-      ],
-      "name": "UnknownMarket",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "OverflowInt256ToInt128",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "OverflowInt256ToInt24",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "OverflowInt256ToUint256",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "marketId",
-          "type": "uint128"
-        }
-      ],
-      "name": "MarketAlreadyExists",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "contr",
-          "type": "address"
-        }
-      ],
-      "name": "NotAContract",
+      "name": "AavePoolGetReserveNormalizedIncomeReturnedZero",
       "type": "error"
     },
     {
@@ -393,11 +19,47 @@
         },
         {
           "internalType": "uint256",
-          "name": "im",
+          "name": "initialMarginRequirement",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "highestUnrealizedLoss",
           "type": "uint256"
         }
       ],
       "name": "AccountBelowIM",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint256",
+          "name": "imPreClose",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "imPostClose",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "highestUnrealizedLossPreClose",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "highestUnrealizedLossPostClose",
+          "type": "uint256"
+        }
+      ],
+      "name": "AccountExposureNotReduced",
       "type": "error"
     },
     {
@@ -414,117 +76,59 @@
     {
       "inputs": [
         {
-          "internalType": "address",
-          "name": "implementation",
-          "type": "address"
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
         }
       ],
-      "name": "ImplementationIsSterile",
+      "name": "AccountNotLiquidatable",
       "type": "error"
     },
     {
       "inputs": [],
-      "name": "UpgradeSimulationFailed",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "NoChange",
+      "name": "AlreadyInitialized",
       "type": "error"
     },
     {
       "inputs": [
         {
-          "internalType": "address",
-          "name": "oracleAddress",
-          "type": "address"
-        }
-      ],
-      "name": "InvalidVariableOracleAddress",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "MaturityIndexCachingWindowOngoing",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "AavePoolGetReserveNormalizedIncomeReturnedZero",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "requestedAmount",
-          "type": "uint256"
-        }
-      ],
-      "name": "InsufficientCollateral",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "requestedAmount",
-          "type": "uint256"
-        }
-      ],
-      "name": "InsufficientLiquidationBoosterBalance",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "OverflowUint256ToUint128",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "OverflowUint256ToUint160",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "OverflowUint256ToUint32",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "OverflowUint256ToUint64",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "product",
-          "type": "address"
-        }
-      ],
-      "name": "IncorrectProductInterface",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "expected",
-          "type": "bytes32"
+          "internalType": "int24",
+          "name": "minTick",
+          "type": "int24"
         },
         {
-          "internalType": "bytes32",
-          "name": "actual",
-          "type": "bytes32"
+          "internalType": "int24",
+          "name": "maxTick",
+          "type": "int24"
         }
       ],
-      "name": "MismatchAssociatedSystemKind",
+      "name": "AsymmetricTicks",
       "type": "error"
     },
     {
       "inputs": [],
-      "name": "OverflowUint128ToInt128",
+      "name": "BalanceTooLow",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "CanOnlyTradeIfUnlocked",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "CanOnlyUnlockIfLocked",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "addr",
+          "type": "address"
+        }
+      ],
+      "name": "CannotSelfApprove",
       "type": "error"
     },
     {
@@ -561,33 +165,152 @@
     {
       "inputs": [
         {
-          "internalType": "bytes32",
-          "name": "id",
-          "type": "bytes32"
+          "internalType": "address",
+          "name": "collateralType",
+          "type": "address"
         }
       ],
-      "name": "MissingAssociatedSystem",
+      "name": "CollateralDepositDisabled",
       "type": "error"
     },
     {
       "inputs": [],
-      "name": "AlreadyInitialized",
+      "name": "ETHNotAccepted",
       "type": "error"
     },
     {
       "inputs": [
         {
-          "internalType": "string",
-          "name": "parameter",
-          "type": "string"
+          "internalType": "int24",
+          "name": "minTick",
+          "type": "int24"
         },
         {
-          "internalType": "string",
-          "name": "reason",
-          "type": "string"
+          "internalType": "int24",
+          "name": "maxTick",
+          "type": "int24"
         }
       ],
-      "name": "InvalidParameter",
+      "name": "ExceededTickLimits",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "commandIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "ExecutionFailed",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint160",
+          "name": "sqrtPriceX96",
+          "type": "uint160"
+        }
+      ],
+      "name": "ExpectedNonZeroSqrtPriceForInit",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint160",
+          "name": "sqrtPriceX96",
+          "type": "uint160"
+        }
+      ],
+      "name": "ExpectedSqrtPriceZeroBeforeInit",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "FailedTransfer",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "which",
+          "type": "bytes32"
+        }
+      ],
+      "name": "FeatureUnavailable",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "IRSNotionalAmountSpecifiedMustBeNonZero",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "vammId",
+          "type": "uint128"
+        }
+      ],
+      "name": "IRSVammNotFound",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "implementation",
+          "type": "address"
+        }
+      ],
+      "name": "ImplementationIsSterile",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "product",
+          "type": "address"
+        }
+      ],
+      "name": "IncorrectProductInterface",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "requestedIndex",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "length",
+          "type": "uint256"
+        }
+      ],
+      "name": "IndexOverrun",
       "type": "error"
     },
     {
@@ -625,102 +348,104 @@
     {
       "inputs": [
         {
-          "internalType": "uint128",
-          "name": "accountId",
-          "type": "uint128"
-        },
-        {
           "internalType": "uint256",
-          "name": "imPreClose",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "imPostClose",
+          "name": "requestedAmount",
           "type": "uint256"
         }
       ],
-      "name": "AccountExposureNotReduced",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "accountId",
-          "type": "uint128"
-        }
-      ],
-      "name": "AccountNotLiquidatable",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "accountId",
-          "type": "uint128"
-        },
-        {
-          "internalType": "uint256",
-          "name": "imPreClose",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "imPostClose",
-          "type": "uint256"
-        }
-      ],
-      "name": "PartialLiquidationNotIncentivized",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "collateralType",
-          "type": "address"
-        }
-      ],
-      "name": "CollateralDepositDisabled",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "from",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "value",
-          "type": "uint256"
-        }
-      ],
-      "name": "FailedTransfer",
+      "name": "InsufficientCollateral",
       "type": "error"
     },
     {
       "inputs": [],
-      "name": "NotInitialized",
+      "name": "InsufficientETH",
       "type": "error"
     },
     {
       "inputs": [
         {
-          "internalType": "uint128",
-          "name": "vammId",
-          "type": "uint128"
+          "internalType": "uint256",
+          "name": "requestedAmount",
+          "type": "uint256"
         }
       ],
-      "name": "IRSVammNotFound",
+      "name": "InsufficientLiquidationBoosterBalance",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "commandType",
+          "type": "uint256"
+        }
+      ],
+      "name": "InvalidCommandType",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "addr",
+          "type": "address"
+        }
+      ],
+      "name": "InvalidOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "parameter",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "reason",
+          "type": "string"
+        }
+      ],
+      "name": "InvalidParameter",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "permission",
+          "type": "bytes32"
+        }
+      ],
+      "name": "InvalidPermission",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "addr",
+          "type": "address"
+        }
+      ],
+      "name": "InvalidTransferRecipient",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "oracleAddress",
+          "type": "address"
+        }
+      ],
+      "name": "InvalidVariableOracleAddress",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "LengthMismatch",
       "type": "error"
     },
     {
@@ -729,67 +454,9 @@
           "internalType": "uint128",
           "name": "marketId",
           "type": "uint128"
-        },
-        {
-          "internalType": "uint32",
-          "name": "maturityTimestamp",
-          "type": "uint32"
         }
       ],
-      "name": "MarketAndMaturityCombinaitonNotSupported",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "PositionNotFound",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "positionId",
-          "type": "uint128"
-        }
-      ],
-      "name": "PositionAlreadyExists",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "CanOnlyTradeIfUnlocked",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "CanOnlyUnlockIfLocked",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint160",
-          "name": "sqrtPriceX96",
-          "type": "uint160"
-        }
-      ],
-      "name": "ExpectedNonZeroSqrtPriceForInit",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint160",
-          "name": "sqrtPriceX96",
-          "type": "uint160"
-        }
-      ],
-      "name": "ExpectedSqrtPriceZeroBeforeInit",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "IRSNotionalAmountSpecifiedMustBeNonZero",
+      "name": "MarketAlreadyExists",
       "type": "error"
     },
     {
@@ -811,6 +478,32 @@
     {
       "inputs": [
         {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint32",
+          "name": "maturityTimestamp",
+          "type": "uint32"
+        }
+      ],
+      "name": "MarketAndMaturityCombinaitonNotSupported",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "MaturityIndexCachingWindowElapsed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "MaturityIndexCachingWindowOngoing",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "uint256",
           "name": "currentTime",
           "type": "uint256"
@@ -822,6 +515,195 @@
         }
       ],
       "name": "MaturityMustBeInFuture",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "MaturityNotReached",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "expected",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "actual",
+          "type": "bytes32"
+        }
+      ],
+      "name": "MismatchAssociatedSystemKind",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "id",
+          "type": "bytes32"
+        }
+      ],
+      "name": "MissingAssociatedSystem",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NoChange",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "contr",
+          "type": "address"
+        }
+      ],
+      "name": "NotAContract",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "caller",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "functionName",
+          "type": "bytes32"
+        }
+      ],
+      "name": "NotAuthorized",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NotInitialized",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "addr",
+          "type": "address"
+        }
+      ],
+      "name": "NotNominated",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "requestedAccountId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "address",
+          "name": "accountOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OnlyAccessPassOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "origin",
+          "type": "address"
+        }
+      ],
+      "name": "OnlyAccountTokenProxy",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowInt256ToInt128",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowInt256ToInt24",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowInt256ToUint256",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowUint128ToInt128",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowUint256ToInt256",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowUint256ToUint128",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowUint256ToUint160",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowUint256ToUint32",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowUint256ToUint64",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "x",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "y",
+          "type": "uint256"
+        }
+      ],
+      "name": "PRBMath_MulDiv18_Overflow",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "x",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "y",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "denominator",
+          "type": "uint256"
+        }
+      ],
+      "name": "PRBMath_MulDiv_Overflow",
       "type": "error"
     },
     {
@@ -879,19 +761,35 @@
       "type": "error"
     },
     {
+      "inputs": [],
+      "name": "PRBMath_SD59x18_Mul_InputTooSmall",
+      "type": "error"
+    },
+    {
       "inputs": [
         {
-          "internalType": "UD60x18",
+          "internalType": "SD59x18",
+          "name": "x",
+          "type": "int256"
+        },
+        {
+          "internalType": "SD59x18",
+          "name": "y",
+          "type": "int256"
+        }
+      ],
+      "name": "PRBMath_SD59x18_Mul_Overflow",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
           "name": "x",
           "type": "uint256"
         }
       ],
-      "name": "PRBMath_UD60x18_IntoSD59x18_Overflow",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "PriceImpactOutOfBounds",
+      "name": "PRBMath_UD60x18_Convert_Overflow",
       "type": "error"
     },
     {
@@ -913,7 +811,183 @@
           "type": "uint256"
         }
       ],
+      "name": "PRBMath_UD60x18_IntoSD59x18_Overflow",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "UD60x18",
+          "name": "x",
+          "type": "uint256"
+        }
+      ],
       "name": "PRBMath_UD60x18_Log_InputTooSmall",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint256",
+          "name": "imPreClose",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "imPostClose",
+          "type": "uint256"
+        }
+      ],
+      "name": "PartialLiquidationNotIncentivized",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "address",
+          "name": "target",
+          "type": "address"
+        }
+      ],
+      "name": "PermissionDenied",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "permission",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "PermissionNotGranted",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        }
+      ],
+      "name": "PortfolioNotFound",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "positionId",
+          "type": "uint128"
+        }
+      ],
+      "name": "PositionAlreadyExists",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PositionNotFound",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PositionOutOfBounds",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PriceImpactOutOfBounds",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint32",
+          "name": "maturityTimestamp",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "accountId",
+          "type": "uint256"
+        }
+      ],
+      "name": "SettlementBeforeMaturity",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "TokenAlreadyMinted",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "TokenDoesNotExist",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        }
+      ],
+      "name": "TooManyLpPositions",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        }
+      ],
+      "name": "TooManyTakerPositions",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "TransactionDeadlinePassed",
       "type": "error"
     },
     {
@@ -922,50 +996,45 @@
       "type": "error"
     },
     {
-      "inputs": [],
-      "name": "InsufficientETH",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "BalanceTooLow",
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "addr",
+          "type": "address"
+        }
+      ],
+      "name": "Unauthorized",
       "type": "error"
     },
     {
       "inputs": [
         {
-          "internalType": "uint256",
-          "name": "commandType",
-          "type": "uint256"
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
         }
       ],
-      "name": "InvalidCommandType",
+      "name": "UnknownMarket",
       "type": "error"
     },
     {
       "inputs": [],
-      "name": "ETHNotAccepted",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "commandIndex",
-          "type": "uint256"
-        }
-      ],
-      "name": "ExecutionFailed",
+      "name": "UpgradeSimulationFailed",
       "type": "error"
     },
     {
       "inputs": [],
-      "name": "LengthMismatch",
+      "name": "ValueAlreadyInSet",
       "type": "error"
     },
     {
       "inputs": [],
-      "name": "TransactionDeadlinePassed",
+      "name": "ValueNotInSet",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ZeroAddress",
       "type": "error"
     }
   ]

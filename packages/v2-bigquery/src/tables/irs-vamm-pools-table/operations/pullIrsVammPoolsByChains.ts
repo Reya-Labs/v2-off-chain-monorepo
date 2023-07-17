@@ -1,16 +1,16 @@
 import { getBigQuery } from '../../../client';
 import { TableType } from '../../../types';
 import { getTableFullName } from '../../../table-infra/getTableName';
-import { VammCreatedEvent, mapRow } from '../specific';
+import { IrsVammPoolEntry, mapRow } from '../specific';
 
-export const pullVammsByChains = async (
+export const pullIrsVammPoolEntriesByChains = async (
   environmentV2Tag: string,
   chainIds: number[],
-): Promise<VammCreatedEvent[]> => {
+): Promise<IrsVammPoolEntry[]> => {
   const bigQuery = getBigQuery();
   const tableName = getTableFullName(
     environmentV2Tag,
-    TableType.raw_vamm_created,
+    TableType.irs_vamm_pools,
   );
 
   const cond = `chainId IN (${chainIds.join(',')})`;

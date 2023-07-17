@@ -17,6 +17,7 @@ import {
   getDeltasFromLiquidity,
   getTimestampInSeconds,
 } from '@voltz-protocol/commons-v2';
+import { log } from '../../logging/log';
 
 export const getV2PositionHistory = async (
   position: V2PortfolioPosition,
@@ -77,7 +78,7 @@ export const getV2PositionHistory = async (
       ),
     );
   } else {
-    console.log('Could not fetch collateral events');
+    log('Could not fetch collateral events');
   }
 
   if (liquidationsResponse.status === 'fulfilled') {
@@ -97,7 +98,7 @@ export const getV2PositionHistory = async (
       ),
     );
   } else {
-    console.log('Could not fetch liquidations');
+    log('Could not fetch liquidations');
   }
 
   if (takerOrdersResponse.status === 'fulfilled') {
@@ -127,7 +128,7 @@ export const getV2PositionHistory = async (
       }),
     );
   } else {
-    console.log('Could not fetch taker orders');
+    log('Could not fetch taker orders');
   }
 
   if (liquidityChangesResponse.status === 'fulfilled') {
@@ -165,7 +166,7 @@ export const getV2PositionHistory = async (
       history.push(h);
     }
   } else {
-    console.log('Could not fetch LP events');
+    log('Could not fetch LP events');
   }
 
   if (settlementsResponse.status === 'fulfilled') {
@@ -182,7 +183,7 @@ export const getV2PositionHistory = async (
       }),
     );
   } else {
-    console.log('Could not fetch settlements');
+    log('Could not fetch settlements');
   }
 
   if (maturityTimestamp <= getTimestampInSeconds()) {

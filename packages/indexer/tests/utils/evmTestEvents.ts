@@ -96,6 +96,8 @@ export const evmTestEvents: Record<ProtocolEventType, Event> = {
 
   [ProtocolEventType.LiquidityChange]: null as unknown as Event,
 
+  [ProtocolEventType.VammConfigUpdated]: null as unknown as Event,
+
   [ProtocolEventType.VammCreated]: {
     ...defaultEvmEvent,
     args: {
