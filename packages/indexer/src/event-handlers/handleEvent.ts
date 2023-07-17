@@ -13,6 +13,7 @@ import {
   ProtocolEventType,
   RateOracleConfiguredEvent,
   TakerOrderEvent,
+  VammConfigUpdatedEvent,
   VammCreatedEvent,
   VammPriceChangeEvent,
 } from '@voltz-protocol/bigquery-v2';
@@ -31,6 +32,7 @@ import { handleDepositedWithdrawn } from './handleDepositedWithdrawn';
 import { handleLiquidation } from './handleLiquidation';
 import { handleDatedIRSPositionSettled } from './handleDatedIRSPositionSettled';
 import { handleTakerOrder } from './handleTakerOrder';
+import { handleVammConfigUpdated } from './handleVammConfigUpdated';
 
 export const handleEvent = async (e: BaseEvent) => {
   log(`Handling ${e.type}...`);
@@ -111,7 +113,7 @@ export const handleEvent = async (e: BaseEvent) => {
     }
 
     case ProtocolEventType.VammConfigUpdated: {
-      // todo: add handler
+      await handleVammConfigUpdated(e as VammConfigUpdatedEvent);
       break;
     }
 
