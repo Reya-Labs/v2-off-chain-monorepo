@@ -1,5 +1,5 @@
 import { BigNumber, Signer, providers } from 'ethers';
-// import { getCoreContract } from './contract';
+import { getCoreContract } from './contract';
 import { Address } from '../../address';
 import { getTokenDetails } from '../../token';
 
@@ -16,20 +16,15 @@ export type GetV2MarginRequirementsOutput = {
 };
 
 export const getV2MarginRequirements = async ({
+  chainId,
+  subject,
+  accountId,
   collateralType,
 }: GetV2MarginRequirementsArgs): Promise<GetV2MarginRequirementsOutput> => {
   // Get core contract
-  // const contract = getCoreContract(chainId, subject);
+  const contract = getCoreContract(chainId, subject);
 
-  // Get on-chain data
-  // const result = await contract.isLiquidatable(accountId, collateralType);
-
-  // todo: remove this once functionality on-chain
-  const result = {
-    initialMarginRequirement: 0,
-    liquidationMarginRequirement: 0,
-    highestUnrealizedLoss: 0,
-  };
+  const result = await contract.isLiquidatable(accountId, collateralType);
 
   // Decode result
   const initialMarginRequirement = BigNumber.from(

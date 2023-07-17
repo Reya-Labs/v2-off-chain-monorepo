@@ -3,8 +3,6 @@ import { computeRealizedPnL } from './computeRealizedPnL';
 import { SECONDS_IN_YEAR } from '../../constants';
 import { extendBalancesWithTrade } from './extendBalancesWithTrade';
 
-// todo: change the implementation (incorrect)
-
 export const computeTotalPnLIfFullUnwind = ({
   base,
   timeDependentQuote,

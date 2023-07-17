@@ -6,4 +6,9 @@ export const createLoggingDirectory = () => {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
+
+  const gitIgnorePath = `${dir}/.gitignore`;
+  if (!fs.existsSync(gitIgnorePath)) {
+    fs.writeFileSync(gitIgnorePath, '*');
+  }
 };
