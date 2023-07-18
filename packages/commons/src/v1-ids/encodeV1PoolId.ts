@@ -4,7 +4,7 @@ export const encodeV1PoolId = ({
   chainId,
   vammAddress,
 }: V1PoolIdData): string => {
-  const poolId = `${chainId}_${vammAddress.toLowerCase()}_v1`;
+  const poolId = `${chainId}_${vammAddress}_v1`;
 
   return poolId;
 };

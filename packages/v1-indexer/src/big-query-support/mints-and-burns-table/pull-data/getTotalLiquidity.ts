@@ -40,10 +40,14 @@ export const getChainTotalLiquidity = async (
     }),
   );
 
-  const totalLiquidityInDollars = await getTotalAmountInUSD(
-    parsedRows,
-    getCoingeckoApiKey(),
-  );
+  try {
+    const totalLiquidityInDollars = await getTotalAmountInUSD(
+      parsedRows,
+      getCoingeckoApiKey(),
+    );
 
-  return totalLiquidityInDollars;
+    return totalLiquidityInDollars;
+  } catch (_) {
+    return 0;
+  }
 };

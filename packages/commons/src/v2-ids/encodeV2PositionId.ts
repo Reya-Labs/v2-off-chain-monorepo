@@ -15,6 +15,10 @@ export const encodeV2PositionId = ({
       return `${chainId}_${accountId}_${marketId}_${maturityTimestamp}_trader_v2`;
     }
     case 'lp': {
+      if (tickLower === undefined || tickUpper === undefined) {
+        throw new Error(`Ticks need to be passed for LP position IDs.`);
+      }
+
       return `${chainId}_${accountId}_${marketId}_${maturityTimestamp}_lp_${tickLower}_${tickUpper}_v2`;
     }
     default: {

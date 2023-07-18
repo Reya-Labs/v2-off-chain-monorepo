@@ -1,4 +1,4 @@
-import { getDeltasFromLiquidity } from '../src/vamm-maths';
+import { getDeltasFromLiquidity } from '../../src';
 
 const PRECISION = 6;
 

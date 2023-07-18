@@ -1,4 +1,4 @@
-import { getLpInfoInRange } from '../src/vamm-maths';
+import { getLpInfoInRange } from '../../src';
 
 const PRECISION = 6;
 

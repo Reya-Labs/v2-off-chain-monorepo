@@ -13,6 +13,7 @@ import { getFixedRateData } from './getFixedRateData';
 import { getVariableRateData } from './getVariableRateData';
 import { getCoingeckoApiKey, getEnvironmentV2 } from '../../services/envVars';
 import { V2Pool } from '@voltz-protocol/api-v2-types';
+import { log } from '../../logging/log';
 
 // configuration
 const lookbackWindowSeconds = SECONDS_IN_DAY;
@@ -46,10 +47,15 @@ export const buildV2Pool = async ({
   const { quoteToken, oracleAddress } = market;
 
   const tokenDetails = getTokenDetails(quoteToken);
-  const tokenPriceUSD = await getTokenPriceInUSD(
-    tokenDetails.tokenName,
-    getCoingeckoApiKey(),
-  );
+  let tokenPriceUSD = 0;
+  try {
+    tokenPriceUSD = await getTokenPriceInUSD(
+      tokenDetails.tokenName,
+      getCoingeckoApiKey(),
+    );
+  } catch (error) {
+    log((error as Error).message);
+  }
 
   const { currentFixedRate, fixedRateChange } = await getFixedRateData(
     chainId,

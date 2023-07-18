@@ -1,5 +1,4 @@
-import { SECONDS_IN_YEAR } from '../src/constants';
-import { getAvgFixV2 } from '../src/vamm-maths/trades/getAvgFixV2';
+import { SECONDS_IN_YEAR, getAvgFixV2 } from '../../src';
 
 const PRECISION = 6;
 

@@ -14,8 +14,6 @@ export * from './constants';
 export * from './fetchMultiplePromises';
 export * from './getBlockAtTimestamp';
 export * from './getTimestampInSeconds';
-export * from './isNull';
-export * from './isUndefined';
 export * from './provider';
 export * from './retry';
 export * from './sleep';

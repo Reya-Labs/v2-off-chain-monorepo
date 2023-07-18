@@ -1,4 +1,4 @@
-import { getLiquidityFromBase } from '../src';
+import { getLiquidityFromBase } from '../../src';
 
 const PRECISION = 6;
 

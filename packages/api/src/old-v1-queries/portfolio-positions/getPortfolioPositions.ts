@@ -35,7 +35,12 @@ export const getPortfolioPositions = async (
 ): Promise<PortfolioPosition[]> => {
   const now = Date.now().valueOf();
 
-  const ethPriceUSD = await getETHPriceInUSD(getCoingeckoApiKey());
+  let ethPriceUSD = 0;
+  try {
+    ethPriceUSD = await getETHPriceInUSD(getCoingeckoApiKey());
+  } catch (error) {
+    log((error as Error).message);
+  }
 
   const allPositions: (RawPosition & { chainId: number })[] = [];
   for (const chainId of chainIds) {

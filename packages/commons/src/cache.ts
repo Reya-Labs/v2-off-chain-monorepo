@@ -1,5 +1,3 @@
-import { isNull } from './isNull';
-
 export class CacheObject<T> {
   private data: T | null = null;
   private lastRefreshInMS = 0;
@@ -13,7 +11,7 @@ export class CacheObject<T> {
     const now = Date.now().valueOf();
 
     return (
-      !isNull(this.data) &&
+      this.data !== null &&
       this.lastRefreshInMS + this.refreshIntervalInMS > now
     );
   };
