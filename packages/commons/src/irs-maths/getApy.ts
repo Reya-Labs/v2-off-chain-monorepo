@@ -11,6 +11,20 @@ export const getApy = (
   },
   method: 'compounding' | 'linear',
 ): number => {
+  // Validations
+
+  if (from.timestamp >= to.timestamp) {
+    throw new Error(
+      `Unordered timestamps when getting APY ([${from.timestamp}, ${to.timestamp}]).`,
+    );
+  }
+
+  if (method === 'compounding' && from.index === 0) {
+    throw new Error(`Could not get APY when first index is 0.`);
+  }
+
+  // Calculations
+
   const timeFactor = SECONDS_IN_YEAR / (to.timestamp - from.timestamp);
 
   switch (method) {
