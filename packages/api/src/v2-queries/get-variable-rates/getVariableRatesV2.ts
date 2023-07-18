@@ -13,7 +13,7 @@ export const getVariableRatesV2 = async (
 
   // configurable
   const numberOfPoints = 24;
-  const frequency = Math.floor((fromSeconds - toSeconds) / numberOfPoints);
+  const frequency = Math.floor((toSeconds - fromSeconds) / numberOfPoints);
 
   const timestamps = [];
   for (let i = -1; i < numberOfPoints; i++) {
@@ -62,6 +62,8 @@ export const getVariableRatesV2 = async (
       timestamp: currTs,
     });
   }
+
+  variableRates.sort((a, b) => a.timestamp - b.timestamp);
 
   return variableRates;
 };
