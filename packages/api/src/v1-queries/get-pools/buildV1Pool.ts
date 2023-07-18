@@ -3,6 +3,7 @@ import {
   isBorrowingProtocol,
   getProtocolName,
   encodeV1PoolId,
+  convertToAddress,
 } from '@voltz-protocol/commons-v2';
 import { BigQueryPoolRow } from '@voltz-protocol/indexer-v1';
 import { getCoingeckoApiKey } from '../../services/envVars';
@@ -23,7 +24,7 @@ export const buildV1Pool = async (
 
   const id = encodeV1PoolId({
     chainId: rawPool.chainId,
-    vammAddress: rawPool.vamm,
+    vammAddress: convertToAddress(rawPool.vamm),
   });
 
   const pool: V1Pool = {

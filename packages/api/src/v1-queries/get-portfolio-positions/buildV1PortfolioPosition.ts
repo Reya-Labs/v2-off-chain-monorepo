@@ -5,6 +5,7 @@ import {
   tickToFixedRate,
   encodeV1PositionId,
   SECONDS_IN_YEAR,
+  convertToAddress,
 } from '@voltz-protocol/commons-v2';
 import {
   getPositionInfo,
@@ -40,8 +41,8 @@ export const buildV1PortfolioPosition = async (
 
   const positionId = encodeV1PositionId({
     chainId,
-    vammAddress,
-    ownerAddress,
+    vammAddress: convertToAddress(vammAddress),
+    ownerAddress: convertToAddress(ownerAddress),
     tickLower,
     tickUpper,
   });

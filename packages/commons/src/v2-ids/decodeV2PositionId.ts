@@ -1,12 +1,10 @@
+import { assert } from '../assert';
 import { V2PositionIdData } from './types';
 
-// todo: add sanity checks
 export const decodeV2PositionId = (positionId: string): V2PositionIdData => {
   const parts = positionId.split('_');
 
-  if (parts.length < 5) {
-    throw new Error(`Invalid position ID: ${positionId}`);
-  }
+  assert(parts.length >= 5, `Invalid v2 position ID: ${positionId}`);
 
   const chainId = Number(parts[0]);
   const accountId = parts[1];
@@ -14,11 +12,23 @@ export const decodeV2PositionId = (positionId: string): V2PositionIdData => {
   const maturityTimestamp = Number(parts[3]);
   const type = parts[4];
 
+  assert(
+    !isNaN(chainId) &&
+      !isNaN(maturityTimestamp) &&
+      (type === 'trader' || type === 'lp'),
+    `Invalid v2 position ID: ${positionId}`,
+  );
+
   switch (type) {
     case 'trader': {
-      if (!(parts.length === 5)) {
-        throw new Error(`Invalid trader position ID: ${positionId}`);
-      }
+      assert(
+        parts.length === 6,
+        `Invalid trader v2 position ID: ${positionId}`,
+      );
+
+      const tag = parts[5].toLowerCase();
+
+      assert(tag === 'v2', `Invalid trader v2 position ID: ${positionId}`);
 
       return {
         chainId,
@@ -29,12 +39,16 @@ export const decodeV2PositionId = (positionId: string): V2PositionIdData => {
       };
     }
     case 'lp': {
-      if (!(parts.length === 7)) {
-        throw new Error(`Invalid lp position ID: ${positionId}`);
-      }
+      assert(parts.length === 8, `Invalid lp v2 position ID: ${positionId}`);
 
       const tickLower = Number(parts[5]);
       const tickUpper = Number(parts[6]);
+      const tag = parts[7].toLowerCase();
+
+      assert(
+        !isNaN(tickLower) && !isNaN(tickUpper) && tag === 'v2',
+        `Invalid v2 lp position ID: ${positionId}`,
+      );
 
       return {
         chainId,
@@ -48,7 +62,7 @@ export const decodeV2PositionId = (positionId: string): V2PositionIdData => {
     }
 
     default: {
-      throw new Error(`Invalid position ID: ${positionId}`);
+      throw new Error(`Invalid v2 position ID: ${positionId}`);
     }
   }
 };

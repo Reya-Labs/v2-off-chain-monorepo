@@ -1,4 +1,5 @@
 import {
+  convertToAddress,
   decodeV1PoolId,
   encodeV1PositionId,
   fetchMultiplePromises,
@@ -38,8 +39,8 @@ export const getV1PortfolioPositionsByPool = async (
       getV1PortfolioPositionDetails({
         positionId: encodeV1PositionId({
           chainId,
-          vammAddress: p.amm.id,
-          ownerAddress: p.owner,
+          vammAddress: convertToAddress(p.amm.id),
+          ownerAddress: convertToAddress(p.owner),
           tickLower: p.tickLower,
           tickUpper: p.tickUpper,
         }),
