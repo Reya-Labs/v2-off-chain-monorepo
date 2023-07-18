@@ -70,6 +70,7 @@ const getErrorSignature = (error: any): string => {
     const decodedError = iface.parseError(reason);
     const errSig = decodedError.signature.split('(')[0];
 
+    console.log('error sig:', errSig);
     console.log('args:', decodedError.args);
 
     return errSig;
@@ -81,7 +82,6 @@ const getErrorSignature = (error: any): string => {
 
 const getReadableErrorMessageWithoutSentry = (error: any): string => {
   const errSig = getErrorSignature(error);
-  console.log(`Error signature: "${errSig}".`);
 
   if (errSig === 'Error') {
     const reason = getErrorData(error);
