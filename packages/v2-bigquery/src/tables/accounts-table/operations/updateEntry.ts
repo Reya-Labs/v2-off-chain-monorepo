@@ -1,4 +1,3 @@
-import { isUndefined } from '@voltz-protocol/commons-v2';
 import { AccountEntryUpdate } from '../specific';
 import { UpdateBatch, TableType } from '../../../types';
 import { getTableFullName } from '../../../table-infra/getTableName';
@@ -7,13 +6,13 @@ export const updateAccountEntry = (
   environmentV2Tag: string,
   chainId: number,
   accountId: string,
-  update: AccountEntryUpdate,
+  { owner }: AccountEntryUpdate,
 ): UpdateBatch => {
   const tableName = getTableFullName(environmentV2Tag, TableType.accounts);
 
   const updates: string[] = [];
-  if (!isUndefined(update.owner)) {
-    updates.push(`owner="${update.owner}"`);
+  if (owner !== undefined) {
+    updates.push(`owner="${owner}"`);
   }
 
   if (updates.length === 0) {

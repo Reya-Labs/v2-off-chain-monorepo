@@ -1,4 +1,3 @@
-import { isUndefined } from '@voltz-protocol/commons-v2';
 import { PositionEntryUpdate } from '../specific';
 import { TableType } from '../../../types';
 import { getTableFullName } from '../../../table-infra/getTableName';
@@ -7,33 +6,40 @@ import { UpdateBatch } from '../../../types';
 export const updatePositionEntry = (
   environmentV2Tag: string,
   id: string,
-  update: PositionEntryUpdate,
+  {
+    base,
+    timeDependentQuote,
+    freeQuote,
+    lockedFixedRate,
+    liquidity,
+    paidFees,
+  }: PositionEntryUpdate,
 ): UpdateBatch => {
   const tableName = getTableFullName(environmentV2Tag, TableType.positions);
 
   const updates: string[] = [];
-  if (!isUndefined(update.base)) {
-    updates.push(`base=${update.base}`);
+  if (base !== undefined) {
+    updates.push(`base=${base}`);
   }
 
-  if (!isUndefined(update.timeDependentQuote)) {
-    updates.push(`timeDependentQuote=${update.timeDependentQuote}`);
+  if (timeDependentQuote !== undefined) {
+    updates.push(`timeDependentQuote=${timeDependentQuote}`);
   }
 
-  if (!isUndefined(update.freeQuote)) {
-    updates.push(`freeQuote=${update.freeQuote}`);
+  if (freeQuote !== undefined) {
+    updates.push(`freeQuote=${freeQuote}`);
   }
 
-  if (!isUndefined(update.lockedFixedRate)) {
-    updates.push(`lockedFixedRate=${update.lockedFixedRate}`);
+  if (lockedFixedRate !== undefined) {
+    updates.push(`lockedFixedRate=${lockedFixedRate}`);
   }
 
-  if (!isUndefined(update.liquidity)) {
-    updates.push(`liquidity=${update.liquidity}`);
+  if (liquidity !== undefined) {
+    updates.push(`liquidity=${liquidity}`);
   }
 
-  if (!isUndefined(update.paidFees)) {
-    updates.push(`paidFees=${update.paidFees}`);
+  if (paidFees !== undefined) {
+    updates.push(`paidFees=${paidFees}`);
   }
 
   if (updates.length === 0) {

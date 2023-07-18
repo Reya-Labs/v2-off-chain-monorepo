@@ -1,4 +1,3 @@
-import { isUndefined } from '@voltz-protocol/commons-v2';
 import { MarketEntryUpdate } from '../specific';
 import { TableType } from '../../../types';
 import { getTableFullName } from '../../../table-infra/getTableName';
@@ -8,29 +7,35 @@ export const updateMarketEntry = (
   environmentV2Tag: string,
   chainId: number,
   marketId: string,
-  update: MarketEntryUpdate,
+  {
+    quoteToken,
+    oracleAddress,
+    feeCollectorAccountId,
+    atomicMakerFee,
+    atomicTakerFee,
+  }: MarketEntryUpdate,
 ): UpdateBatch => {
   const tableName = getTableFullName(environmentV2Tag, TableType.markets);
 
   const updates: string[] = [];
-  if (!isUndefined(update.quoteToken)) {
-    updates.push(`quoteToken="${update.quoteToken}"`);
+  if (quoteToken !== undefined) {
+    updates.push(`quoteToken="${quoteToken}"`);
   }
 
-  if (!isUndefined(update.oracleAddress)) {
-    updates.push(`oracleAddress="${update.oracleAddress}"`);
+  if (oracleAddress !== undefined) {
+    updates.push(`oracleAddress="${oracleAddress}"`);
   }
 
-  if (!isUndefined(update.feeCollectorAccountId)) {
-    updates.push(`feeCollectorAccountId="${update.feeCollectorAccountId}"`);
+  if (feeCollectorAccountId !== undefined) {
+    updates.push(`feeCollectorAccountId="${feeCollectorAccountId}"`);
   }
 
-  if (!isUndefined(update.atomicMakerFee)) {
-    updates.push(`atomicMakerFee=${update.atomicMakerFee}`);
+  if (atomicMakerFee !== undefined) {
+    updates.push(`atomicMakerFee=${atomicMakerFee}`);
   }
 
-  if (!isUndefined(update.atomicTakerFee)) {
-    updates.push(`atomicTakerFee=${update.atomicTakerFee}`);
+  if (atomicTakerFee !== undefined) {
+    updates.push(`atomicTakerFee=${atomicTakerFee}`);
   }
 
   if (updates.length === 0) {
