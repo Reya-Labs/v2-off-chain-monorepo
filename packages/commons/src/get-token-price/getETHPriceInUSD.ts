@@ -22,14 +22,12 @@ export const getETHPriceInUSD = async (
       return price;
     }
 
-    throw new Error('Invalid response format');
-  } catch (error) {
-    // todo: track
-
-    console.log(
-      `Failed fetching ETH price with reason: ${(error as Error).message}`,
+    throw new Error(
+      `Invalid response format when fetching ETH price (${JSON.stringify(
+        data,
+      )}).`,
     );
+  } catch (error) {
+    throw new Error(`Could not fetch ETH price (${(error as Error).message}).`);
   }
-
-  return 0;
 };

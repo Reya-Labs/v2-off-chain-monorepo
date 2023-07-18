@@ -2,7 +2,6 @@ import {
   Address,
   getApy,
   getTimestampInSeconds,
-  isNull,
 } from '@voltz-protocol/commons-v2';
 import { getEnvironmentV2 } from '../../services/envVars';
 import { getLiquidityIndicesAt } from '@voltz-protocol/bigquery-v2';
@@ -32,7 +31,7 @@ export const getVariableRateData = async (
       timestamp2LWAgo,
     ]);
 
-  if (isNull(currentLiquidityIndex)) {
+  if (currentLiquidityIndex === null) {
     return {
       currentLiquidityIndex: 0,
       currentVariableRate: 0,
@@ -40,9 +39,9 @@ export const getVariableRateData = async (
     };
   }
 
-  if (isNull(liquidityIndexLWAgo)) {
+  if (liquidityIndexLWAgo === null) {
     return {
-      currentLiquidityIndex: currentLiquidityIndex as number,
+      currentLiquidityIndex: currentLiquidityIndex,
       currentVariableRate: 0,
       variableRateChange: 0,
     };
@@ -51,18 +50,18 @@ export const getVariableRateData = async (
   const currentVariableRate = getApy(
     {
       timestamp: timestampLWAgo,
-      index: liquidityIndexLWAgo as number,
+      index: liquidityIndexLWAgo,
     },
     {
       timestamp: nowSeconds,
-      index: currentLiquidityIndex as number,
+      index: currentLiquidityIndex,
     },
     method,
   );
 
-  if (isNull(liquidityIndex2LWAgo)) {
+  if (liquidityIndex2LWAgo === null) {
     return {
-      currentLiquidityIndex: currentLiquidityIndex as number,
+      currentLiquidityIndex: currentLiquidityIndex,
       currentVariableRate,
       variableRateChange: 0,
     };
@@ -71,11 +70,11 @@ export const getVariableRateData = async (
   const variableRateLWAgo = getApy(
     {
       timestamp: timestamp2LWAgo,
-      index: liquidityIndex2LWAgo as number,
+      index: liquidityIndex2LWAgo,
     },
     {
       timestamp: timestampLWAgo,
-      index: liquidityIndexLWAgo as number,
+      index: liquidityIndexLWAgo,
     },
     method,
   );
@@ -83,7 +82,7 @@ export const getVariableRateData = async (
   const variableRateChange = currentVariableRate - variableRateLWAgo;
 
   return {
-    currentLiquidityIndex: currentLiquidityIndex as number,
+    currentLiquidityIndex: currentLiquidityIndex,
     currentVariableRate,
     variableRateChange,
   };

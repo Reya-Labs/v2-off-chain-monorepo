@@ -40,10 +40,14 @@ export const getChainTradingVolume = async (
     }),
   );
 
-  const volume30DayInDollars = await getTotalAmountInUSD(
-    parsedRows,
-    getCoingeckoApiKey(),
-  );
+  try {
+    const volume30DayInDollars = await getTotalAmountInUSD(
+      parsedRows,
+      getCoingeckoApiKey(),
+    );
 
-  return volume30DayInDollars;
+    return volume30DayInDollars;
+  } catch (_) {
+    return 0;
+  }
 };

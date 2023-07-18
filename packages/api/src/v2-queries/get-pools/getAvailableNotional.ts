@@ -7,7 +7,6 @@ import {
   encodeV2PoolId,
   fetchMultiplePromises,
   getTimestampInSeconds,
-  isNull,
 } from '@voltz-protocol/commons-v2';
 import { getEnvironmentV2 } from '../../services/envVars';
 import { AvailableNotional } from '@voltz-protocol/api-v2-types';
@@ -45,7 +44,7 @@ export const getV2AvailableNotional = async (
     [nowSeconds],
   );
 
-  if (isNull(currentLiquidityIndex)) {
+  if (currentLiquidityIndex === null) {
     return {
       short: 0,
       long: 0,
@@ -82,7 +81,7 @@ export const getV2AvailableNotional = async (
   const [absBaseLong, absBaseShort] = responses;
 
   return {
-    short: -absBaseShort * (currentLiquidityIndex as number),
-    long: absBaseLong * (currentLiquidityIndex as number),
+    short: -absBaseShort * currentLiquidityIndex,
+    long: absBaseLong * currentLiquidityIndex,
   };
 };

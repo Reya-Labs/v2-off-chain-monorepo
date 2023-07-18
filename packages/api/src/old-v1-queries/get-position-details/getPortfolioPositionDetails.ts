@@ -130,10 +130,15 @@ export const getPortfolioPositionDetails = async ({
 
   const notional = positionType === 'LP' ? notionalProvided : notionalTraded;
 
-  const tokenPriceUSD = await getTokenPriceInUSD(
-    position.amm.tokenName,
-    getCoingeckoApiKey(),
-  );
+  let tokenPriceUSD = 0;
+  try {
+    tokenPriceUSD = await getTokenPriceInUSD(
+      position.amm.tokenName,
+      getCoingeckoApiKey(),
+    );
+  } catch (error) {
+    log((error as Error).message);
+  }
 
   if (position.isSettled) {
     if (position.settlements.length === 0 || position.settlements.length >= 2) {

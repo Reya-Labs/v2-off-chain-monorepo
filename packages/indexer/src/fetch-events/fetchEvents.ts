@@ -6,7 +6,6 @@ import {
   getCoreContract,
   getDatedIrsInstrumentContract,
   getDatedIrsVammContract,
-  isNull,
 } from '@voltz-protocol/commons-v2';
 import { parseEvent } from '../event-parsers/parseEvent';
 import { getProvider } from '../services/getProvider';
@@ -61,15 +60,15 @@ export const fetchEvents = async (
   // Parse all evm events to custom types
   const coreEvents = allContractEvents[0]
     .map((e) => parseEvent('core', chainId, e))
-    .filter((e) => !isNull(e)) as BaseEvent[];
+    .filter((e) => e !== null) as BaseEvent[];
 
   const datedIrsInstrumentEvents = allContractEvents[1]
     .map((e) => parseEvent('dated_irs_instrument', chainId, e))
-    .filter((e) => !isNull(e)) as BaseEvent[];
+    .filter((e) => e !== null) as BaseEvent[];
 
   const datedIrsExchangeEvents = allContractEvents[2]
     .map((e) => parseEvent('dated_irs_vamm', chainId, e))
-    .filter((e) => !isNull(e)) as BaseEvent[];
+    .filter((e) => e !== null) as BaseEvent[];
 
   const allEvents = [
     coreEvents,
