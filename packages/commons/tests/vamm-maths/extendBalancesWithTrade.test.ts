@@ -1,5 +1,4 @@
-import { SECONDS_IN_YEAR } from '../src/constants';
-import { extendBalancesWithTrade } from '../src/vamm-maths/trades/extendBalancesWithTrade';
+import { SECONDS_IN_YEAR, extendBalancesWithTrade } from '../../src';
 
 const PRECISION = 6;
 
