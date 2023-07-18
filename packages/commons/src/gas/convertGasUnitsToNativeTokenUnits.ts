@@ -6,15 +6,9 @@ export async function convertGasUnitsToNativeTokenUnits(
   subject: providers.Provider | ethers.Signer,
   gasUnits: number,
 ): Promise<number> {
-  try {
-    const gasPriceWei = await exponentialBackoff(() => subject.getGasPrice());
+  const gasPriceWei = await exponentialBackoff(() => subject.getGasPrice());
 
-    const gasUnitsToNativeToken = descale(18)(gasPriceWei) * gasUnits;
+  const gasUnitsToNativeToken = descale(18)(gasPriceWei) * gasUnits;
 
-    return gasUnitsToNativeToken;
-  } catch (_) {
-    // todo: track
-  }
-
-  return 0;
+  return gasUnitsToNativeToken;
 }
