@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.26.12](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.26.11...@voltz-protocol/sdk-v1-stateless@1.26.12) (2023-07-20)
+
+**Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless
+
 ## [1.26.11](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v1-stateless@1.26.10...@voltz-protocol/sdk-v1-stateless@1.26.11) (2023-07-20)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v1-stateless

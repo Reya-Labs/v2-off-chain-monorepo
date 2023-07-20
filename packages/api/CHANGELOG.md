@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.53.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.52.3...@voltz-protocol/api-v2@1.53.0) (2023-07-20)
+
+### Features
+
+- introduce a blacklist for misconfigured pools in the api ([#143](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/143)) ([855ced0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/855ced06a679bfc5b5a2b78c327cd7d3cacc6ee9))
+
 ## [1.52.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.52.2...@voltz-protocol/api-v2@1.52.3) (2023-07-20)
 
 **Note:** Version bump only for package @voltz-protocol/api-v2
