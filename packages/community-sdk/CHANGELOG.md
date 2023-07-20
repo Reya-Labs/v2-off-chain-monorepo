@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/community-sdk@1.3.9...@voltz-protocol/community-sdk@1.4.0) (2023-07-20)
+
+### Bug Fixes
+
+- improve based on comments ([e0790b9](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/e0790b902444ce178df58231ab341604ad273cef))
+- move cast to lower level ([2885e1a](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/2885e1a5750b728d31cb0d7029f235f1d9506890))
+- move lower ([ae6aaad](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/ae6aaad6c7f0dd61942ede39e617fe59e036ef64))
+- use proper types ([e655465](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/e655465eb0e0c1e0c4ecbccbd471b671d2e386e5))
+
+### Features
+
+- allow for bypassing test net verification ([bb4fd23](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/bb4fd2366a1f71af4b1b20ab40db7a4ae508a752))
+
 ## [1.3.9](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/community-sdk@1.3.8...@voltz-protocol/community-sdk@1.3.9) (2023-07-18)
 
 **Note:** Version bump only for package @voltz-protocol/community-sdk
