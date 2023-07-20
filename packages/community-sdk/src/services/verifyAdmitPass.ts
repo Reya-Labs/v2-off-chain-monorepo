@@ -12,11 +12,11 @@ import {
  * @note checks if the user owns an admin pass on-chain
  */
 export async function verifyAdmitPass(owner: Signer): Promise<boolean> {
-  const ownerAddress = await owner.getAddress();
   const chainId = await owner.getChainId();
   if (isTestnet(chainId as SupportedChainId)) {
     return true;
   }
+  const ownerAddress = await owner.getAddress();
   const accessPassContract = getAlphaPassContract(chainId, owner);
   const balance: BigNumber = await accessPassContract.balanceOf(ownerAddress);
 
