@@ -3,23 +3,9 @@ import { getLeavesAndRootFromIpfs } from '../utils/getIpfsLeavesAndRoot';
 import keccak256 from 'keccak256';
 import {
   getAlphaPassContract,
+  isTestnet,
   SupportedChainId,
 } from '@voltz-protocol/commons-v2';
-
-// 1 - mainnet
-// 5 - goerli
-// 42161 - arbitrum
-// 421613 - arbitrum goerli
-// 43114 - avalanche
-// 43113 - avalancheFuji
-const TestNetMap: Record<SupportedChainId, boolean> = {
-  1: false,
-  5: true,
-  42161: false,
-  421613: true,
-  43114: false,
-  43113: true,
-};
 
 /**
  *
@@ -28,7 +14,7 @@ const TestNetMap: Record<SupportedChainId, boolean> = {
 export async function verifyAdmitPass(owner: Signer): Promise<boolean> {
   const ownerAddress = await owner.getAddress();
   const chainId = await owner.getChainId();
-  if (TestNetMap[chainId]) {
+  if (isTestnet(chainId as SupportedChainId)) {
     return true;
   }
   const accessPassContract = getAlphaPassContract(chainId, owner);
