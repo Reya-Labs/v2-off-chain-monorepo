@@ -9,4 +9,5 @@ const TestNetMap: Record<SupportedChainId, boolean> = {
   43113: true,
 };
 
-export const isTestnet = (chainId: SupportedChainId) => TestNetMap[chainId];
+export const isTestnet = (chainId: number) =>
+  Boolean(TestNetMap[chainId as SupportedChainId]);
