@@ -31,4 +31,8 @@ export type BasePool = {
 
   // Indicates if Voltz protocol V2 is used for the pool
   isV2: boolean;
+  flags: {
+    isGLP28Jun2023: boolean;
+    isBlacklisted: boolean;
+  };
 };
