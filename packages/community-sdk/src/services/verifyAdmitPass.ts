@@ -1,16 +1,18 @@
-import { ethers, Signer, BigNumber } from 'ethers';
+import { BigNumber, ethers, Signer } from 'ethers';
 import { getLeavesAndRootFromIpfs } from '../utils/getIpfsLeavesAndRoot';
 import keccak256 from 'keccak256';
-import { getAlphaPassContract } from '@voltz-protocol/commons-v2';
+import { getAlphaPassContract, isTestnet } from '@voltz-protocol/commons-v2';
 
 /**
  *
  * @note checks if the user owns an admin pass on-chain
  */
 export async function verifyAdmitPass(owner: Signer): Promise<boolean> {
-  const ownerAddress = await owner.getAddress();
   const chainId = await owner.getChainId();
-
+  if (isTestnet(chainId)) {
+    return true;
+  }
+  const ownerAddress = await owner.getAddress();
   const accessPassContract = getAlphaPassContract(chainId, owner);
   const balance: BigNumber = await accessPassContract.balanceOf(ownerAddress);
 
