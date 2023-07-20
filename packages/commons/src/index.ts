@@ -17,3 +17,4 @@ export * from './getTimestampInSeconds';
 export * from './provider';
 export * from './retry';
 export * from './sleep';
+export * from './is-testnet';
