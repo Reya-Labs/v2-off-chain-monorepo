@@ -1,7 +1,10 @@
 import { BigNumber, ethers, Signer } from 'ethers';
 import { getLeavesAndRootFromIpfs } from '../utils/getIpfsLeavesAndRoot';
 import keccak256 from 'keccak256';
-import { getAlphaPassContract } from '@voltz-protocol/commons-v2';
+import {
+  getAlphaPassContract,
+  SupportedChainId,
+} from '@voltz-protocol/commons-v2';
 
 // 1 - mainnet
 // 5 - goerli
@@ -9,7 +12,7 @@ import { getAlphaPassContract } from '@voltz-protocol/commons-v2';
 // 421613 - arbitrum goerli
 // 43114 - avalanche
 // 43113 - avalancheFuji
-const TestNetMap: Record<number, boolean> = {
+const TestNetMap: Record<SupportedChainId, boolean> = {
   1: false,
   5: true,
   42161: false,
