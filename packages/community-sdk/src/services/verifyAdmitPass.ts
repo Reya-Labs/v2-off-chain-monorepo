@@ -1,7 +1,22 @@
-import { ethers, Signer, BigNumber } from 'ethers';
+import { BigNumber, ethers, Signer } from 'ethers';
 import { getLeavesAndRootFromIpfs } from '../utils/getIpfsLeavesAndRoot';
 import keccak256 from 'keccak256';
 import { getAlphaPassContract } from '@voltz-protocol/commons-v2';
+
+// 1 - mainnet
+// 5 - goerli
+// 42161 - arbitrum
+// 421613 - arbitrum goerli
+// 43114 - avalanche
+// 43113 - avalancheFuji
+const TestNetMap: Record<number, boolean> = {
+  1: false,
+  5: true,
+  42161: false,
+  421613: true,
+  43114: false,
+  43113: true,
+};
 
 /**
  *
@@ -10,7 +25,9 @@ import { getAlphaPassContract } from '@voltz-protocol/commons-v2';
 export async function verifyAdmitPass(owner: Signer): Promise<boolean> {
   const ownerAddress = await owner.getAddress();
   const chainId = await owner.getChainId();
-
+  if (TestNetMap[chainId]) {
+    return true;
+  }
   const accessPassContract = getAlphaPassContract(chainId, owner);
   const balance: BigNumber = await accessPassContract.balanceOf(ownerAddress);
 
