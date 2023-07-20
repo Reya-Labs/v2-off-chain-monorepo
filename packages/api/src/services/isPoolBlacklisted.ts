@@ -1,11 +1,8 @@
-const BLACKLISTED_POOL_IDS: string[] = [
-  '421613_1_1689940800_v2',
-  '421613_1_1689940801_v2',
-];
+const BLACKLISTED_POOL_IDS: Record<string, boolean> = {
+  '421613_1_1689940800_v2': true,
+  '421613_1_1689940801_v2': true,
+};
 
 export const isPoolBlacklisted = (poolId: string): boolean => {
-  if (BLACKLISTED_POOL_IDS.includes(poolId)) {
-    return true;
-  }
-  return false;
+  return Boolean(BLACKLISTED_POOL_IDS[poolId]);
 };
