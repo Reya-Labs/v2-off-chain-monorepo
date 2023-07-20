@@ -1,11 +1,7 @@
 import { BigNumber, ethers, Signer } from 'ethers';
 import { getLeavesAndRootFromIpfs } from '../utils/getIpfsLeavesAndRoot';
 import keccak256 from 'keccak256';
-import {
-  getAlphaPassContract,
-  isTestnet,
-  SupportedChainId,
-} from '@voltz-protocol/commons-v2';
+import { getAlphaPassContract, isTestnet } from '@voltz-protocol/commons-v2';
 
 /**
  *
@@ -13,7 +9,7 @@ import {
  */
 export async function verifyAdmitPass(owner: Signer): Promise<boolean> {
   const chainId = await owner.getChainId();
-  if (isTestnet(chainId as SupportedChainId)) {
+  if (isTestnet(chainId)) {
     return true;
   }
   const ownerAddress = await owner.getAddress();
