@@ -14,6 +14,7 @@ import { getVariableRateData } from './getVariableRateData';
 import { getCoingeckoApiKey, getEnvironmentV2 } from '../../services/envVars';
 import { V2Pool } from '@voltz-protocol/api-v2-types';
 import { log } from '../../logging/log';
+import { isPoolBlacklisted } from '../../services/isPoolBlacklisted';
 
 // configuration
 const lookbackWindowSeconds = SECONDS_IN_DAY;
@@ -117,5 +118,9 @@ export const buildV2Pool = async ({
     exchangeAddress: getAddress(chainId, 'dated_irs_vamm'),
 
     isV2: true,
+    flags: {
+      isGLP28Jun2023: false,
+      isBlacklisted: isPoolBlacklisted(id),
+    },
   };
 };
