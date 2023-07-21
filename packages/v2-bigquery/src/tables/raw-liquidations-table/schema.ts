@@ -33,4 +33,20 @@ export const rawLiquidationsTableSchema: TableField[] = [
     precision: PRECISION.toString(),
     scale: SCALE.toString(),
   },
+
+  {
+    name: 'highestUnrealizedLossPreClose',
+    type: 'BIGNUMERIC',
+    mode: 'REQUIRED',
+    precision: PRECISION.toString(),
+    scale: SCALE.toString(),
+  },
+
+  {
+    name: 'highestUnrealizedLossPostClose',
+    type: 'BIGNUMERIC',
+    mode: 'REQUIRED',
+    precision: PRECISION.toString(),
+    scale: SCALE.toString(),
+  },
 ];

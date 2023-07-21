@@ -1,0 +1,153 @@
+{
+    "abi": [
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint128",
+                    "name": "marketId",
+                    "type": "uint128"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "int24",
+                    "name": "tick",
+                    "type": "int24"
+                },
+                {
+                    "components": [
+                        {
+                            "internalType": "uint32",
+                            "name": "maturityTimestamp",
+                            "type": "uint32"
+                        },
+                        {
+                            "internalType": "uint128",
+                            "name": "_maxLiquidityPerTick",
+                            "type": "uint128"
+                        },
+                        {
+                            "internalType": "int24",
+                            "name": "_tickSpacing",
+                            "type": "int24"
+                        },
+                        {
+                            "internalType": "uint128",
+                            "name": "marketId",
+                            "type": "uint128"
+                        }
+                    ],
+                    "indexed": false,
+                    "internalType": "struct VammConfiguration.Immutable",
+                    "name": "config",
+                    "type": "tuple"
+                },
+                {
+                    "components": [
+                        {
+                            "internalType": "UD60x18",
+                            "name": "priceImpactPhi",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "UD60x18",
+                            "name": "priceImpactBeta",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "UD60x18",
+                            "name": "spread",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "contract IRateOracle",
+                            "name": "rateOracle",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "int24",
+                            "name": "minTick",
+                            "type": "int24"
+                        },
+                        {
+                            "internalType": "int24",
+                            "name": "maxTick",
+                            "type": "int24"
+                        }
+                    ],
+                    "indexed": false,
+                    "internalType": "struct VammConfiguration.Mutable",
+                    "name": "mutableConfig",
+                    "type": "tuple"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "blockTimestamp",
+                    "type": "uint256"
+                }
+            ],
+            "name": "VammCreated",
+            "type": "event"
+        },
+
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint128",
+                    "name": "marketId",
+                    "type": "uint128"
+                },
+                {
+                    "components": [
+                        {
+                            "internalType": "UD60x18",
+                            "name": "priceImpactPhi",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "UD60x18",
+                            "name": "priceImpactBeta",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "UD60x18",
+                            "name": "spread",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "contract IRateOracle",
+                            "name": "rateOracle",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "int24",
+                            "name": "minTick",
+                            "type": "int24"
+                        },
+                        {
+                            "internalType": "int24",
+                            "name": "maxTick",
+                            "type": "int24"
+                        }
+                    ],
+                    "indexed": false,
+                    "internalType": "struct VammConfiguration.Mutable",
+                    "name": "config",
+                    "type": "tuple"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "blockTimestamp",
+                    "type": "uint256"
+                }
+            ],
+            "name": "VammConfigUpdated",
+            "type": "event"
+        }
+    ]
+}

@@ -15,8 +15,8 @@ export const parseMarketConfigured = (
   const type = ProtocolEventType.MarketConfigured;
 
   // 2. Parse particular args
-  const marketId = (event.args?.config.marketId as BigNumber).toString();
-  const quoteToken = event.args?.config.quoteToken as string;
+  const marketId = (event.args?.data.marketId as BigNumber).toString();
+  const quoteToken = event.args?.data.quoteToken as string;
 
   // 3. Parse base event
   const baseEvent = parseBaseEvent(chainId, event, type);

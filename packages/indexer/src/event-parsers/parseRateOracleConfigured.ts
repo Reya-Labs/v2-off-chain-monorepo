@@ -18,6 +18,11 @@ export const parseRateOracleConfigured = (
   const marketId = (event.args?.marketId as BigNumber).toString();
   const oracleAddress = event.args?.oracleAddress as string;
 
+  const maturityIndexCachingWindowInSeconds = (
+    (event.args?.maturityIndexCachingWindowInSeconds ||
+      BigNumber.from(0)) as BigNumber
+  ).toNumber();
+
   // 3. Parse base event
   const baseEvent = parseBaseEvent(chainId, event, type);
 
@@ -27,5 +32,6 @@ export const parseRateOracleConfigured = (
 
     marketId,
     oracleAddress: convertToAddress(oracleAddress),
+    maturityIndexCachingWindowInSeconds,
   };
 };

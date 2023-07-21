@@ -46,7 +46,7 @@ jest.mock(
 );
 
 jest.mock(
-  '@voltz-protocol/commons-v2/src/v2-smart-contracts/dated-irs-instrument.ts',
+  '@voltz-protocol/commons-v2/src/v2-smart-contracts/dated-irs-instrument/contract.ts',
   () => ({
     getDatedIrsInstrumentContract: jest.fn(() => ({
       queryFilter,
@@ -65,7 +65,7 @@ jest.mock(
 );
 
 jest.mock(
-  '@voltz-protocol/commons-v2/src/v2-smart-contracts/dated-irs-vamm.ts',
+  '@voltz-protocol/commons-v2/src/v2-smart-contracts/dated-irs-vamm/contract.ts',
   () => ({
     getDatedIrsVammContract: jest.fn(() => ({
       queryFilter,

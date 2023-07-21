@@ -31,6 +31,15 @@ export const parseLiquidation = (
   const imPreClose = tokenDescaler(event.args?.imPreClose as BigNumber);
   const imPostClose = tokenDescaler(event.args?.imPostClose as BigNumber);
 
+  const highestUnrealizedLossPreClose = tokenDescaler(
+    (event.args?.highestUnrealizedLossPreClose ||
+      BigNumber.from(0)) as BigNumber,
+  );
+  const highestUnrealizedLossPostClose = tokenDescaler(
+    (event.args?.highestUnrealizedLossPostClose ||
+      BigNumber.from(0)) as BigNumber,
+  );
+
   // 3. Parse base event
   const baseEvent = parseBaseEvent(chainId, event, type);
 
@@ -46,5 +55,8 @@ export const parseLiquidation = (
     liquidatorRewardAmount,
     imPreClose,
     imPostClose,
+
+    highestUnrealizedLossPreClose,
+    highestUnrealizedLossPostClose,
   };
 };

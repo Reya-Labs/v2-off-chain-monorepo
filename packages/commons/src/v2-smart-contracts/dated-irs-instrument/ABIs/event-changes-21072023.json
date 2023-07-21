@@ -1,0 +1,76 @@
+{
+    "abi": [
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "uint128",
+                            "name": "productId",
+                            "type": "uint128"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "coreProxy",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "poolAddress",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "takerPositionsPerAccountLimit",
+                            "type": "uint256"
+                        }
+                    ],
+                    "indexed": false,
+                    "internalType": "struct ProductConfiguration.Data",
+                    "name": "config",
+                    "type": "tuple"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "blockTimestamp",
+                    "type": "uint256"
+                }
+            ],
+            "name": "ProductConfigured",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "internalType": "uint128",
+                    "name": "marketId",
+                    "type": "uint128"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "oracleAddress",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "blockTimestamp",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "maturityIndexCachingWindowInSeconds",
+                    "type": "uint256"
+                }
+            ],
+            "name": "RateOracleConfigured",
+            "type": "event"
+        }
+    ]
+}

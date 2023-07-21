@@ -64,7 +64,7 @@ export const evmTestEvents: Record<ProtocolEventType, Event> = {
     ...defaultEvmEvent,
     args: {
       blockTimestamp: blockTimestampDefault,
-      config: {
+      data: {
         marketId: marketIdDefault,
         quoteToken: tokenDefault,
       },
@@ -111,8 +111,8 @@ export const evmTestEvents: Record<ProtocolEventType, Event> = {
         rateOracle: '0xa0b86991c6218f36c1d19d4a2e9eb0ce3606eb48',
       },
       config: {
-        maxLiquidityPerTick: BigNumber.from('1000000000000'),
-        tickSpacing: 60,
+        _maxLiquidityPerTick: BigNumber.from('1000000000000'),
+        _tickSpacing: 60,
         maturityTimestamp: 1687919400,
       },
     },

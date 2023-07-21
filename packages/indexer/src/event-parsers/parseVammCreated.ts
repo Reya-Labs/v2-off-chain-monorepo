@@ -44,10 +44,10 @@ export const parseVammCreated = (
   const rateOracle = event.args?.mutableConfig.rateOracle as string;
 
   const maxLiquidityPerTick = (
-    event.args?.config.maxLiquidityPerTick as BigNumber
+    event.args?.config._maxLiquidityPerTick as BigNumber
   ).toString();
 
-  const tickSpacing = event.args?.config.tickSpacing as number;
+  const tickSpacing = event.args?.config._tickSpacing as number;
 
   const maturityTimestamp = event.args?.config.maturityTimestamp as number;
 
