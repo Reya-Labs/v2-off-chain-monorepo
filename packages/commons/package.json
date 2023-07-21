@@ -1,6 +1,6 @@
 {
   "name": "@voltz-protocol/commons-v2",
-  "version": "1.13.2",
+  "version": "1.14.0",
   "publishConfig": {
     "access": "public"
   },
