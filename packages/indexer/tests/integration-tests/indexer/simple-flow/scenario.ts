@@ -51,7 +51,7 @@ export const events: BaseEvent[] = [
     logIndex: 100,
     args: {
       blockTimestamp: BigNumber.from(1682942400), // Mon May 01 2023 12:00:00 GMT+0000
-      config: {
+      data: {
         marketId,
         quoteToken: collateralType,
       },
@@ -92,8 +92,8 @@ export const events: BaseEvent[] = [
         rateOracle: rateOracleAddress,
       },
       config: {
-        maxLiquidityPerTick: BigNumber.from(0),
-        tickSpacing: 60,
+        _maxLiquidityPerTick: BigNumber.from(0),
+        _tickSpacing: 60,
         maturityTimestamp,
       },
     },
