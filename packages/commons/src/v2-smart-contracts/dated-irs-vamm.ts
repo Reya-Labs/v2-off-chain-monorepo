@@ -12,7 +12,7 @@ export const getDatedIrsVammContract = (
     `event VammConfigUpdated(uint128 marketId, uint32 maturityTimestamp, (uint256 priceImpactPhi, uint256 priceImpactBeta, uint256 spread, address rateOracle, int24 minTick, int24 maxTick) mutableConfig, uint256 blockTimestamp)`,
 
     `event VAMMPriceChange(uint128 indexed marketId, uint32 indexed maturityTimestamp, int24 tick, uint256 blockTimestamp)`,
-    `event LiquidityChange(uint128 marketId, uint32 maturityTimestamp, address sender, uint128 indexed accountId, int24 indexed tickLower, int24 indexed tickUpper, int128 liquidityDelta,uint256 blockTimestamp)`,
+    `event LiquidityChange(uint128 marketId, uint32 maturityTimestamp, address sender, uint128 indexed accountId, int24 indexed tickLower, int24 indexed tickUpper, int128 liquidityDelta, uint256 blockTimestamp)`,
 
     `event IncreaseObservationCardinalityNext(uint128 marketId, uint32 maturityTimestamp, uint16 observationCardinalityNextOld, uint16 observationCardinalityNextNew, uint256 blockTimestamp)`,
     `event PauseState(bool newPauseState, uint256 blockTimestamp)`,
