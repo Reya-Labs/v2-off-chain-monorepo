@@ -6,6 +6,7 @@ import { mapBaseRow } from '../../utils/raw-events-support/mapBaseRow';
 export type RateOracleConfiguredEvent = BaseEvent & {
   marketId: string; // big number
   oracleAddress: Address;
+  maturityIndexCachingWindowInSeconds: number;
 };
 
 export const mapRow = (row: any): RateOracleConfiguredEvent => ({
@@ -13,4 +14,5 @@ export const mapRow = (row: any): RateOracleConfiguredEvent => ({
 
   marketId: row.marketId,
   oracleAddress: row.oracleAddress,
+  maturityIndexCachingWindowInSeconds: row.maturityIndexCachingWindowInSeconds,
 });

@@ -12,6 +12,8 @@ export type LiquidationEvent = BaseEvent & {
   liquidatorRewardAmount: number;
   imPreClose: number;
   imPostClose: number;
+  highestUnrealizedLossPreClose: number;
+  highestUnrealizedLossPostClose: number;
 };
 
 export const mapRow = (row: any): LiquidationEvent => ({
@@ -25,4 +27,10 @@ export const mapRow = (row: any): LiquidationEvent => ({
   liquidatorRewardAmount: bqNumericToNumber(row.liquidatorRewardAmount),
   imPreClose: bqNumericToNumber(row.imPreClose),
   imPostClose: bqNumericToNumber(row.imPostClose),
+  highestUnrealizedLossPreClose: bqNumericToNumber(
+    row.highestUnrealizedLossPreClose,
+  ),
+  highestUnrealizedLossPostClose: bqNumericToNumber(
+    row.highestUnrealizedLossPostClose,
+  ),
 });

@@ -15,7 +15,7 @@ export const getCoreContract = (
     `event Deposited(uint128 indexed accountId, address indexed collateralType, uint256 tokenAmount, address indexed sender, uint256 blockTimestamp)`,
     `event Withdrawn(uint128 indexed accountId, address indexed collateralType, uint256 tokenAmount, address indexed sender, uint256 blockTimestamp)`,
     `event MarketFeeConfigured((uint128 productId, uint128 marketId, uint128 feeCollectorAccountId, uint256 atomicMakerFee, uint256 atomicTakerFee) config, uint256 blockTimestamp)`,
-    `event Liquidation(uint128 indexed liquidatedAccountId, address indexed collateralType, address sender, uint128 liquidatorAccountId,uint256 liquidatorRewardAmount, uint256 imPreClose, uint256 imPostClose, uint256 blockTimestamp)`,
+    `event Liquidation(uint128 indexed liquidatedAccountId, address indexed collateralType, address sender, uint128 liquidatorAccountId, uint256 liquidatorRewardAmount, uint256 imPreClose, uint256 imPostClose, uint256 blockTimestamp)`,
     `event Liquidation(uint128 indexed liquidatedAccountId, address indexed collateralType, address sender, uint128 liquidatorAccountId, uint256 liquidatorRewardAmount, uint256 imPreClose, uint256 imPostClose, uint256 highestUnrealizedLossPreClose, uint256 highestUnrealizedLossPostClose, uint256 blockTimestamp)`,
     `event ProductRegistered(address indexed product, uint128 indexed productId, string name, address indexed sender, uint256 blockTimestamp)`,
     `event AccountClosed(uint128 indexed accountId, address collateralType, address sender, uint256 blockTimestamp)`,

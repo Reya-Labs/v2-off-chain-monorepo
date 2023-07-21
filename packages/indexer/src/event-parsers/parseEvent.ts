@@ -56,7 +56,9 @@ export const parseEvent = (
           return parseProductRegistered(chainId, event);
         }
         default: {
-          log(`Unmapped event ${event.event} from Core.`);
+          if (event.event === undefined) {
+            log(`Unmapped event ${event.event} from Core.`);
+          }
           return null;
         }
       }
@@ -80,7 +82,9 @@ export const parseEvent = (
           return parseTakerOrder(chainId, event);
         }
         default: {
-          log(`Unmapped event ${event.event} from Instrument.`);
+          if (event.event === undefined) {
+            log(`Unmapped event ${event.event} from Instrument.`);
+          }
           return null;
         }
       }
@@ -101,7 +105,9 @@ export const parseEvent = (
           return parseVammConfigUpdated(chainId, event);
         }
         default: {
-          log(`Unmapped event ${event.event} from VAMM.`);
+          if (event.event === undefined) {
+            log(`Unmapped event ${event.event} from VAMM.`);
+          }
           return null;
         }
       }

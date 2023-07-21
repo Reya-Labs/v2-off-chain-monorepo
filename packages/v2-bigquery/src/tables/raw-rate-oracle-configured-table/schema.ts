@@ -6,4 +6,10 @@ export const rawRateOracleConfiguredTableSchema: TableField[] = [
 
   { name: 'marketId', type: 'STRING', mode: 'REQUIRED' },
   { name: 'oracleAddress', type: 'STRING', mode: 'REQUIRED' },
+
+  {
+    name: 'maturityIndexCachingWindowInSeconds',
+    type: 'INTEGER',
+    mode: 'REQUIRED',
+  },
 ];
