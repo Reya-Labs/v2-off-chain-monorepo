@@ -1,6 +1,6 @@
 {
-  "name": "@voltz-protocol/api-v2-types",
-  "version": "1.49.0",
+  "name": "@voltz-protocol/api-sdk-v2",
+  "version": "1.13.2",
   "publishConfig": {
     "access": "public"
   },
@@ -8,7 +8,7 @@
   "types": "dist/types",
   "license": "MIT",
   "scripts": {
-    "prebuild": "yarn code-quality:check && rm -rf dist",
+    "prebuild": "rm -rf node_modules && rm -rf dist",
     "build": "tsc -p tsconfig.build.json",
     "ts:check-types": "npx tsc --noEmit",
     "ts:circular-check": "dpdm --no-output --no-tree --no-warning --exit-code circular:1 -T ./src/index.ts",
@@ -17,7 +17,13 @@
     "prettier:check": "npx prettier --loglevel silent --check './{src,tests}/**/*.{ts,tsx}'",
     "code-quality:check": "npx concurrently 'yarn ts:check' 'yarn prettier:check' 'yarn lint:check --quiet'",
     "lint:fix": "npx eslint --fix '{src,tests}/**/*.{ts,tsx}'",
-    "prettier:fix": "npx prettier --loglevel silent --write './{src,tests}/**/*.{ts,tsx}'"
+    "prettier:fix": "npx prettier --loglevel silent --write './{src,tests}/**/*.{ts,tsx}'",
+    "test": "npx jest --silent",
+    "test:coverage": "yarn test --coverage",
+    "generate:coverage-badges": "npx istanbul-badges-readme --silent"
+  },
+  "dependencies": {
+    "ethers": "5.5.4"
   },
   "packageManager": "yarn@3.5.1"
 }

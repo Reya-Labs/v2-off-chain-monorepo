@@ -9,7 +9,7 @@
   "types": "dist/types",
   "license": "MIT",
   "scripts": {
-    "prebuild": "yarn code-quality:check && rm -rf dist",
+    "prebuild": "rm -rf node_modules && rm -rf dist",
     "build": "yarn prebuild && tsc -p tsconfig.build.json",
     "start": "npx ts-node src/index.ts",
     "ts:check-types": "npx tsc --noEmit",

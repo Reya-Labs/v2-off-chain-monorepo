@@ -1,7 +1,7 @@
-import { V1V2PortfolioPositionDetails } from '@voltz-protocol/api-v2-types';
 import { API_URL } from './constants';
+import { V1V2PortfolioPositionDetails } from './types';
 
-export async function getPositionInfo(
+export async function getPosition(
   positionId: string,
 ): Promise<V1V2PortfolioPositionDetails> {
   const endpoint = `v1v2-position/${positionId}`;

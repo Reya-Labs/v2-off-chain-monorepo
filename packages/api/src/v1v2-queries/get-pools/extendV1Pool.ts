@@ -1,4 +1,4 @@
-import { V1Pool, V1V2Pool } from '@voltz-protocol/api-v2-types';
+import { V1Pool, V1V2Pool } from '@voltz-protocol/api-sdk-v2';
 
 export const extendV1Pool = (p: V1Pool): V1V2Pool => ({
   ...p,

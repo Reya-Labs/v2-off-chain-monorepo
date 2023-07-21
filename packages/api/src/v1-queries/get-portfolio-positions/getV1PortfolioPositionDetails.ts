@@ -5,7 +5,7 @@ import { decodeV1PositionId } from '@voltz-protocol/commons-v2';
 import { pullAllChainPools } from '@voltz-protocol/indexer-v1';
 import { getSubgraphURL } from '../subgraph/getSubgraphURL';
 import { buildV1PortfolioPosition } from './buildV1PortfolioPosition';
-import { V1PortfolioPositionDetails } from '@voltz-protocol/api-v2-types';
+import { V1PortfolioPositionDetails } from '@voltz-protocol/api-sdk-v2';
 
 export const getV1PortfolioPositionDetails = async ({
   positionId,

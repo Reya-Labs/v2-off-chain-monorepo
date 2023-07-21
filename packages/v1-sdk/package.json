@@ -14,7 +14,7 @@
   "types": "dist/types",
   "scripts": {
     "storybook": "start-storybook -p 6006",
-    "prebuild": "yarn code-quality:check && rm -rf dist",
+    "prebuild": "rm -rf node_modules && rm -rf dist",
     "build": "tsc -p tsconfig.build.json",
     "ts:check-types": "npx tsc --noEmit",
     "ts:check-types-demo": "npx tsc -p tsconfig.demo.json --noEmit",
@@ -62,7 +62,7 @@
   "dependencies": {
     "@sentry/browser": "7.25.0",
     "@sentry/tracing": "7.25.0",
-    "@voltz-protocol/api-v2-types": "workspace:^",
+    "@voltz-protocol/api-sdk-v2": "workspace:^",
     "@voltz-protocol/commons-v2": "workspace:^",
     "big.js": "6.2.1",
     "decimal.js-light": "2.5.1",

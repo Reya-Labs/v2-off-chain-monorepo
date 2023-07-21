@@ -4,8 +4,8 @@ import {
   scale,
 } from '@voltz-protocol/commons-v2';
 import { CompleteLpDetails, EditLpArgs } from './types';
-import { getPositionInfo } from '../../gateway/getPositionInfo';
 import { getFee } from '../../utils/getFee';
+import { getPosition } from '@voltz-protocol/api-sdk-v2';
 
 export const parseEditLpArgs = async ({
   positionId,
@@ -13,7 +13,7 @@ export const parseEditLpArgs = async ({
   notional,
   margin,
 }: EditLpArgs): Promise<CompleteLpDetails> => {
-  const positionInfo = await getPositionInfo(positionId);
+  const positionInfo = await getPosition(positionId);
   const chainId = await signer.getChainId();
 
   // Check that signer is connected to the right network

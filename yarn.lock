@@ -7293,9 +7293,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@voltz-protocol/api-v2-types@workspace:^, @voltz-protocol/api-v2-types@workspace:packages/api-types":
+"@voltz-protocol/api-sdk-v2@workspace:^, @voltz-protocol/api-sdk-v2@workspace:packages/api-sdk":
   version: 0.0.0-use.local
-  resolution: "@voltz-protocol/api-v2-types@workspace:packages/api-types"
+  resolution: "@voltz-protocol/api-sdk-v2@workspace:packages/api-sdk"
+  dependencies:
+    ethers: 5.5.4
   languageName: unknown
   linkType: soft
 
@@ -7305,7 +7307,7 @@ __metadata:
   dependencies:
     "@types/cors": 2.8.13
     "@types/express": 4.17.17
-    "@voltz-protocol/api-v2-types": "workspace:^"
+    "@voltz-protocol/api-sdk-v2": "workspace:^"
     "@voltz-protocol/bigquery-v2": "workspace:^"
     "@voltz-protocol/commons-v2": "workspace:^"
     "@voltz-protocol/indexer-v1": "workspace:^"
@@ -7365,10 +7367,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@voltz-protocol/indexer-v2@workspace:packages/indexer"
   dependencies:
-    "@google-cloud/bigquery": 6.2.0
-    "@google-cloud/bigtable": 4.5.1
-    "@google-cloud/pubsub": 3.5.2
-    "@google-cloud/storage": 6.10.0
+    "@voltz-protocol/bigquery-v2": "workspace:^"
     "@voltz-protocol/commons-v2": "workspace:^"
     ethers: 5.5.4
     ioredis: 5.3.2
@@ -7401,7 +7400,7 @@ __metadata:
     "@types/jest": 29.5.2
     "@types/react": 17.0.53
     "@types/react-dom": 17.0.18
-    "@voltz-protocol/api-v2-types": "workspace:^"
+    "@voltz-protocol/api-sdk-v2": "workspace:^"
     "@voltz-protocol/commons-v2": "workspace:^"
     big.js: 6.2.1
     brokoli-ui: 1.44.0
@@ -7441,7 +7440,7 @@ __metadata:
     "@types/crypto-js": 4.1.1
     "@types/react": 17.0.53
     "@types/react-dom": 17.0.18
-    "@voltz-protocol/api-v2-types": "workspace:^"
+    "@voltz-protocol/api-sdk-v2": "workspace:^"
     "@voltz-protocol/commons-v2": "workspace:^"
     brokoli-ui: 1.44.0
     crypto-js: 4.1.1

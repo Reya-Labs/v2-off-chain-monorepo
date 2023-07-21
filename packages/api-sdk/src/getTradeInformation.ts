@@ -1,5 +1,5 @@
-import { V2TradeInformation } from '@voltz-protocol/api-v2-types';
 import { API_URL } from './constants';
+import { V2TradeInformation } from './types';
 
 export async function getTradeInformation(
   poolId: string,

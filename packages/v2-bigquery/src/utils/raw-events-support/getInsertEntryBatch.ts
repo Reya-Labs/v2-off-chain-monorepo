@@ -2,7 +2,6 @@ import { getTableFullName } from '../../table-infra/getTableName';
 import { getTableSchema } from '../../table-infra/tableSchemas';
 import { TableType, UpdateBatch } from '../../types';
 
-// todo: entry type
 export const getInsertEntryBatch = (
   environmentV2Tag: string,
   tableType: TableType,

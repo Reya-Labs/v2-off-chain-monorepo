@@ -1,4 +1,4 @@
-import { getAvailableNotional } from '../../gateway/getAvailableNotional';
+import { getAvailableNotional } from '@voltz-protocol/api-sdk-v2';
 import { GetPoolSwapInfoResults } from './types';
 
 export const getPoolSwapInfo = async (

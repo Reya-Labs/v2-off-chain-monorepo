@@ -8,7 +8,7 @@ import {
 import { getPositions as getRawPositions } from '@voltz-protocol/subgraph-data';
 import { getSubgraphURL } from '../../old-v1-queries/subgraph/getSubgraphURL';
 import { getV1PortfolioPositionDetails } from './getV1PortfolioPositionDetails';
-import { V1PortfolioPositionDetails } from '@voltz-protocol/api-v2-types';
+import { V1PortfolioPositionDetails } from '@voltz-protocol/api-sdk-v2';
 
 export const getV1PortfolioPositionsByPool = async (
   poolId: string,

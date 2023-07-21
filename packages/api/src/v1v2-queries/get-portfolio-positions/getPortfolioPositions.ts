@@ -2,7 +2,7 @@ import { getV2PortfolioPositions } from '../../v2-queries/get-portfolio-position
 import { getV1PortfolioPositions } from '../../v1-queries/get-portfolio-positions/getV1PortfolioPositions';
 import { extendV1Position } from './extendV1Position';
 import { extendV2Position } from './extendV2Position';
-import { V1V2PortfolioPosition } from '@voltz-protocol/api-v2-types';
+import { V1V2PortfolioPosition } from '@voltz-protocol/api-sdk-v2';
 
 export const getV1V2PortfolioPositions = async (
   chainIds: number[],

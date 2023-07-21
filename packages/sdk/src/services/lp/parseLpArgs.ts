@@ -4,9 +4,9 @@ import {
   getTimestampInSeconds,
   scale,
 } from '@voltz-protocol/commons-v2';
-import { getPoolInfo } from '../../gateway/getPoolInfo';
 import { CompleteLpDetails, LpArgs } from './types';
 import { getFee } from '../../utils/getFee';
+import { getPool } from '@voltz-protocol/api-sdk-v2';
 
 export const parseLpArgs = async ({
   ammId,
@@ -20,7 +20,7 @@ export const parseLpArgs = async ({
     throw new Error(`Invalid LP range: [${fixedLow}%, ${fixedHigh}%]`);
   }
 
-  const poolInfo = await getPoolInfo(ammId);
+  const poolInfo = await getPool(ammId);
   const chainId = await signer.getChainId();
 
   // Check that signer is connected to the right network

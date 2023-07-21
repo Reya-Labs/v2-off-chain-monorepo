@@ -1,5 +1,5 @@
-import { AvailableNotional } from '@voltz-protocol/api-v2-types';
 import { API_URL } from './constants';
+import { AvailableNotional } from './types';
 
 export async function getAvailableNotional(
   poolId: string,

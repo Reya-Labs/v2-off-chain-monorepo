@@ -1,6 +1,6 @@
 import { getFixedRates as getFixedRatesV1 } from '@voltz-protocol/indexer-v1';
 import { decodeV1PoolId, decodeV2PoolId } from '@voltz-protocol/commons-v2';
-import { HistoricalRate } from '@voltz-protocol/api-v2-types';
+import { HistoricalRate } from '@voltz-protocol/api-sdk-v2';
 import { getFixedRatesV2 } from '../../v2-queries/get-fixed-rates/getFixedRatesV2';
 import { log } from '../../logging/log';
 

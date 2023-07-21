@@ -3,178 +3,203 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [1.49.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2-types@1.48.3...@voltz-protocol/api-v2-types@1.49.0) (2023-07-20)
+## [1.13.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.13.1...@voltz-protocol/commons-v2@1.13.2) (2023-07-20)
+
+### Bug Fixes
+
+- improve based on comments ([e0790b9](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/e0790b902444ce178df58231ab341604ad273cef))
+- move cast to lower level ([2885e1a](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/2885e1a5750b728d31cb0d7029f235f1d9506890))
+
+## [1.13.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.13.0...@voltz-protocol/commons-v2@1.13.1) (2023-07-18)
+
+**Note:** Version bump only for package @voltz-protocol/commons-v2
+
+# [1.13.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.12.5...@voltz-protocol/commons-v2@1.13.0) (2023-07-17)
 
 ### Features
 
-- introduce a blacklist for misconfigured pools in the api ([#143](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/143)) ([855ced0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/855ced06a679bfc5b5a2b78c327cd7d3cacc6ee9))
+- removed logs ([#140](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/140)) ([4e6223f](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/4e6223fd2a74f0c98d90bacb8438c5a1b3602e99))
 
-## [1.48.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2-types@1.48.2...@voltz-protocol/api-v2-types@1.48.3) (2023-07-15)
+## [1.12.5](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.12.4...@voltz-protocol/commons-v2@1.12.5) (2023-07-17)
 
-**Note:** Version bump only for package @voltz-protocol/api-v2-types
+**Note:** Version bump only for package @voltz-protocol/commons-v2
 
-## [1.48.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2-types@1.48.1...@voltz-protocol/api-v2-types@1.48.2) (2023-07-13)
+## [1.12.4](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.12.3...@voltz-protocol/commons-v2@1.12.4) (2023-07-15)
 
-**Note:** Version bump only for package @voltz-protocol/api-v2-types
+**Note:** Version bump only for package @voltz-protocol/commons-v2
 
-## [1.48.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2-types@1.48.0...@voltz-protocol/api-v2-types@1.48.1) (2023-07-13)
+## [1.12.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.12.2...@voltz-protocol/commons-v2@1.12.3) (2023-07-13)
 
-**Note:** Version bump only for package @voltz-protocol/api-v2-types
+**Note:** Version bump only for package @voltz-protocol/commons-v2
 
-# [1.48.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2-types@1.47.2...@voltz-protocol/api-v2-types@1.48.0) (2023-07-06)
+## [1.12.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.12.1...@voltz-protocol/commons-v2@1.12.2) (2023-07-13)
+
+**Note:** Version bump only for package @voltz-protocol/commons-v2
+
+## [1.12.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.12.0...@voltz-protocol/commons-v2@1.12.1) (2023-07-11)
+
+**Note:** Version bump only for package @voltz-protocol/commons-v2
+
+# [1.12.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.11.2...@voltz-protocol/commons-v2@1.12.0) (2023-07-06)
 
 ### Features
 
 - qa actio info ([#131](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/131)) ([71259ab](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/71259ab99566087225df7f1ccd0f45d5c7f6d2e5))
 
-## [1.47.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2-types@1.47.1...@voltz-protocol/api-v2-types@1.47.2) (2023-07-06)
+## [1.11.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.11.1...@voltz-protocol/commons-v2@1.11.2) (2023-07-06)
 
-**Note:** Version bump only for package @voltz-protocol/api-v2-types
+**Note:** Version bump only for package @voltz-protocol/commons-v2
 
-## [1.47.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2-types@1.47.0...@voltz-protocol/api-v2-types@1.47.1) (2023-07-04)
+## [1.11.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.11.0...@voltz-protocol/commons-v2@1.11.1) (2023-07-05)
 
-**Note:** Version bump only for package @voltz-protocol/api-v2-types
+**Note:** Version bump only for package @voltz-protocol/commons-v2
 
-# [1.47.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2-types@1.46.1...@voltz-protocol/api-v2-types@1.47.0) (2023-07-03)
+# [1.11.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.10.2...@voltz-protocol/commons-v2@1.11.0) (2023-07-04)
 
 ### Features
 
-- added flag ([#126](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/126)) ([d3f56d1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/d3f56d1a25af3a3d8f26cf7d533e240ed78501a8))
+- more info ([3e09ab0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/3e09ab0819316b06a929ec6511fe5941987b46e0))
 
-## [1.46.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2-types@1.46.0...@voltz-protocol/api-v2-types@1.46.1) (2023-06-29)
+## [1.10.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.10.1...@voltz-protocol/commons-v2@1.10.2) (2023-07-04)
+
+**Note:** Version bump only for package @voltz-protocol/commons-v2
+
+## [1.10.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.10.0...@voltz-protocol/commons-v2@1.10.1) (2023-06-30)
+
+**Note:** Version bump only for package @voltz-protocol/commons-v2
+
+# [1.10.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.9.2...@voltz-protocol/commons-v2@1.10.0) (2023-06-29)
+
+### Features
+
+- promises util ([#122](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/122)) ([8d445b0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/8d445b0fe648488ba44500708b3dde6101922f39))
+
+## [1.9.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.9.1...@voltz-protocol/commons-v2@1.9.2) (2023-06-29)
+
+**Note:** Version bump only for package @voltz-protocol/commons-v2
+
+## [1.9.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.9.0...@voltz-protocol/commons-v2@1.9.1) (2023-06-29)
 
 ### Bug Fixes
 
 - incorrect click action ([4929c80](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/4929c80c5fc7b85348baa87b100c319fd0a858b7))
 
-# [1.46.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2-types@1.45.0...@voltz-protocol/api-v2-types@1.46.0) (2023-06-28)
+# [1.9.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.8.0...@voltz-protocol/commons-v2@1.9.0) (2023-06-28)
 
 ### Features
 
 - add silent log for prettier ([fc45c58](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/fc45c58b01680517db9b12e9509d48c4730b3146))
 
-# [1.45.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2-types@1.44.0...@voltz-protocol/api-v2-types@1.45.0) (2023-06-27)
+# [1.8.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.7.1...@voltz-protocol/commons-v2@1.8.0) (2023-06-27)
 
 ### Features
 
 - liquidation thresholds to api ([#114](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/114)) ([9bd5f74](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/9bd5f746c3d8158018fcbc0bfbb199e0391f1e60))
 
-# 1.44.0 (2023-06-26)
+## [1.7.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.7.0...@voltz-protocol/commons-v2@1.7.1) (2023-06-26)
 
-### Features
+### Bug Fixes
 
-- api types package ([#113](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/113)) ([fd801b0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/fd801b0143f2e1a79dbedd2271acf26e979c5c26))
+- bug in v1 position id ([c053c47](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/c053c47b9e0b81df7aba7d50b357dd211ea397a0))
 
-# [1.43.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.42.0...@voltz-protocol/api-v2@1.43.0) (2023-06-26)
+# [1.7.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.6.0...@voltz-protocol/commons-v2@1.7.0) (2023-06-26)
 
 ### Features
 
 - deps restructure ([#111](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/111)) ([ceb48ae](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/ceb48ae498fac7abe94d4c09eaae8cd6179198ac))
 
-# [1.42.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.41.0...@voltz-protocol/api-v2@1.42.0) (2023-06-25)
+# [1.6.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.5.2...@voltz-protocol/commons-v2@1.6.0) (2023-06-25)
 
 ### Features
 
 - remove redis from commons ([#109](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/109)) ([0f6298a](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/0f6298a808dcd3ce69d10cac4260c518b9bf3ca3))
 
-# [1.41.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.40.3...@voltz-protocol/api-v2@1.41.0) (2023-06-23)
+## [1.5.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.5.1...@voltz-protocol/commons-v2@1.5.2) (2023-06-23)
 
-### Features
+**Note:** Version bump only for package @voltz-protocol/commons-v2
 
-- endpoints for pool positions ([#107](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/107)) ([0f99c7b](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/0f99c7b3fe4b2359daad25d6a7da471e2fc784c3))
+## [1.5.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.5.0...@voltz-protocol/commons-v2@1.5.1) (2023-06-22)
 
-## [1.40.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.40.2...@voltz-protocol/api-v2@1.40.3) (2023-06-23)
+**Note:** Version bump only for package @voltz-protocol/commons-v2
 
-**Note:** Version bump only for package @voltz-protocol/api-v2
-
-## [1.40.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.40.1...@voltz-protocol/api-v2@1.40.2) (2023-06-22)
-
-**Note:** Version bump only for package @voltz-protocol/api-v2
-
-## [1.40.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.40.0...@voltz-protocol/api-v2@1.40.1) (2023-06-22)
-
-**Note:** Version bump only for package @voltz-protocol/api-v2
-
-# [1.40.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.39.9...@voltz-protocol/api-v2@1.40.0) (2023-06-21)
+# [1.5.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.4.5...@voltz-protocol/commons-v2@1.5.0) (2023-06-21)
 
 ### Features
 
 - UTs for rPnL ([#100](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/100)) ([cc7d730](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/cc7d7309522e2455a87dbc0f7d8787d4f84be787))
 
-## [1.39.9](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.39.8...@voltz-protocol/api-v2@1.39.9) (2023-06-20)
+## [1.4.5](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.4.4...@voltz-protocol/commons-v2@1.4.5) (2023-06-19)
 
-**Note:** Version bump only for package @voltz-protocol/api-v2
+**Note:** Version bump only for package @voltz-protocol/commons-v2
 
-## [1.39.8](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.39.7...@voltz-protocol/api-v2@1.39.8) (2023-06-20)
+## [1.4.4](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.4.3...@voltz-protocol/commons-v2@1.4.4) (2023-06-15)
 
-**Note:** Version bump only for package @voltz-protocol/api-v2
+**Note:** Version bump only for package @voltz-protocol/commons-v2
 
-## [1.39.7](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.39.6...@voltz-protocol/api-v2@1.39.7) (2023-06-19)
+## [1.4.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.4.2...@voltz-protocol/commons-v2@1.4.3) (2023-06-14)
 
-**Note:** Version bump only for package @voltz-protocol/api-v2
+**Note:** Version bump only for package @voltz-protocol/commons-v2
 
-## [1.39.6](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.39.5...@voltz-protocol/api-v2@1.39.6) (2023-06-15)
+## [1.4.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.4.1...@voltz-protocol/commons-v2@1.4.2) (2023-06-14)
 
-**Note:** Version bump only for package @voltz-protocol/api-v2
+**Note:** Version bump only for package @voltz-protocol/commons-v2
 
-## [1.39.5](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.39.4...@voltz-protocol/api-v2@1.39.5) (2023-06-15)
-
-**Note:** Version bump only for package @voltz-protocol/api-v2
-
-## [1.39.4](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.39.3...@voltz-protocol/api-v2@1.39.4) (2023-06-14)
-
-**Note:** Version bump only for package @voltz-protocol/api-v2
-
-## [1.39.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.39.2...@voltz-protocol/api-v2@1.39.3) (2023-06-14)
-
-**Note:** Version bump only for package @voltz-protocol/api-v2
-
-## [1.39.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.39.1...@voltz-protocol/api-v2@1.39.2) (2023-06-14)
-
-**Note:** Version bump only for package @voltz-protocol/api-v2
-
-## [1.39.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.39.0...@voltz-protocol/api-v2@1.39.1) (2023-06-14)
+## [1.4.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.4.0...@voltz-protocol/commons-v2@1.4.1) (2023-06-14)
 
 ### Bug Fixes
 
 - remove prebuild from being called twice ([ec31db6](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/ec31db606b6a3b017b5eb16df701afdc93f62f17))
 
-# [1.39.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.38.0...@voltz-protocol/api-v2@1.39.0) (2023-06-13)
+# [1.4.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.3.0...@voltz-protocol/commons-v2@1.4.0) (2023-06-13)
 
 ### Features
 
 - enriched pool info ([#64](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/64)) ([483c9b0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/483c9b0319fa006e514068d8e31b15c6ace84d5c))
 
-# [1.38.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.37.0...@voltz-protocol/api-v2@1.38.0) (2023-06-13)
+# [1.3.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.2.2...@voltz-protocol/commons-v2@1.3.0) (2023-06-12)
 
-### Features
+### Bug Fixes
 
-- added separate dataset for v1 ([#61](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/61)) ([ede790f](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/ede790f2bca56148ee8764554b0d30a2ddf275a4))
-
-# [1.37.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.36.2...@voltz-protocol/api-v2@1.37.0) (2023-06-12)
+- import commons as js ([1d3abd6](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/1d3abd671dafc3cf7cf12e2793f6f4f08dbd4733))
+- sdkv2 -> dist ([66fec50](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/66fec50c0526b0315116ba9c09c857b858b8708c))
 
 ### Features
 
 - bringing v1-indexer repo in monorepo ([#58](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/58)) ([64baf93](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/64baf93dade71692d463fc59150770302998ecea))
 
-## [1.36.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.36.1...@voltz-protocol/api-v2@1.36.2) (2023-06-12)
+## [1.2.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.2.1...@voltz-protocol/commons-v2@1.2.2) (2023-06-12)
 
-**Note:** Version bump only for package @voltz-protocol/api-v2
+**Note:** Version bump only for package @voltz-protocol/commons-v2
 
-## [1.36.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.36.0...@voltz-protocol/api-v2@1.36.1) (2023-06-08)
+## [1.2.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.2.0...@voltz-protocol/commons-v2@1.2.1) (2023-06-08)
 
-**Note:** Version bump only for package @voltz-protocol/api-v2
+**Note:** Version bump only for package @voltz-protocol/commons-v2
 
-# [1.36.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.35.0...@voltz-protocol/api-v2@1.36.0) (2023-06-08)
+# [1.2.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.1.1...@voltz-protocol/commons-v2@1.2.0) (2023-06-08)
 
 ### Bug Fixes
 
 - getLiqIndex with sql ([4ae3380](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/4ae33800322245b3fe2cc4c5b59fb0da6f1d45e6))
+- yarn lock ([fa2b18a](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/fa2b18a19384297bc85f7a10b88689acaea8bd70))
 
 ### Features
 
-- get apy from to ([081ddff](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/081ddff71cd000cf7185dadcc1a9de3d3c496c7c))
+- get apy tables ([f52d7f3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/f52d7f33d30f0074d5bc77de6a978304830df3e2))
 - pools api ([fe9c1ee](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/fe9c1eee3b4733d7062fa00dd185cb17758485db))
+
+## [1.1.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.1.0...@voltz-protocol/commons-v2@1.1.1) (2023-06-06)
+
+**Note:** Version bump only for package @voltz-protocol/commons-v2
+
+# 1.1.0 (2023-06-05)
+
+### Bug Fixes
+
+- imports ([380cf24](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/380cf2427b4c4e30b30d672d4fcb10d85a2588c5))
+
+### Features
+
+- commons package ([d4fabb5](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/d4fabb5002de16340e9e100be46a405259ca3011))
 
 # 1.35.0 (2023-06-01)
 

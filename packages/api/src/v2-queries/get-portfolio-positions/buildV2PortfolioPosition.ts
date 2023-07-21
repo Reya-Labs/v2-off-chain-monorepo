@@ -15,7 +15,7 @@ import {
   pullAccountEntry,
 } from '@voltz-protocol/bigquery-v2';
 import { getV2Pool } from '../get-pools/getV2Pool';
-import { V2PortfolioPosition } from '@voltz-protocol/api-v2-types';
+import { V2PortfolioPosition } from '@voltz-protocol/api-sdk-v2';
 import { getEnvironmentV2 } from '../../services/envVars';
 import { getProvider } from '../../services/getProvider';
 

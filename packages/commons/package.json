@@ -8,7 +8,7 @@
   "types": "dist/types",
   "license": "MIT",
   "scripts": {
-    "prebuild": "yarn code-quality:check && rm -rf dist",
+    "prebuild": "rm -rf node_modules && rm -rf dist",
     "build": "tsc -p tsconfig.build.json",
     "ts:check-types": "npx tsc --noEmit",
     "ts:circular-check": "dpdm --no-output --no-tree --no-warning --exit-code circular:1 -T ./src/index.ts",

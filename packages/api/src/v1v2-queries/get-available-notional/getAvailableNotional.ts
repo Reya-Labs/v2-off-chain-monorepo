@@ -1,4 +1,4 @@
-import { AvailableNotional } from '@voltz-protocol/api-v2-types';
+import { AvailableNotional } from '@voltz-protocol/api-sdk-v2';
 import { decodeV1PoolId, decodeV2PoolId } from '@voltz-protocol/commons-v2';
 import { getV1AvailableNotional } from '../../v1-queries/get-pools/getAvailableNotional';
 import { getV2AvailableNotional } from '../../v2-queries/get-pools/getAvailableNotional';

@@ -1,4 +1,4 @@
-import { HistoryTransaction } from '@voltz-protocol/api-v2-types';
+import { HistoryTransaction } from '@voltz-protocol/api-sdk-v2';
 import { Position } from '@voltz-protocol/subgraph-data';
 
 export const synthetisizeHistory = (

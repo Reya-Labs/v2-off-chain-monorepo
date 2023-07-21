@@ -3,7 +3,7 @@ import {
   V1V2PortfolioPosition,
   V2PortfolioPositionDetails,
   V1V2PortfolioPositionDetails,
-} from '@voltz-protocol/api-v2-types';
+} from '@voltz-protocol/api-sdk-v2';
 import { extendV2Pool } from '../get-pools/extendV2Pool';
 
 export const extendV2Position = (

@@ -8,7 +8,7 @@ import {
   pullAccountsByAddress,
 } from '@voltz-protocol/bigquery-v2';
 import { buildV2PortfolioPosition } from './buildV2PortfolioPosition';
-import { V2PortfolioPosition } from '@voltz-protocol/api-v2-types';
+import { V2PortfolioPosition } from '@voltz-protocol/api-sdk-v2';
 import { getEnvironmentV2 } from '../../services/envVars';
 import { log } from '../../logging/log';
 

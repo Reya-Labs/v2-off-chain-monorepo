@@ -1,5 +1,5 @@
 import { fetchMultiplePromises } from '@voltz-protocol/commons-v2';
-import { AvailableNotional } from '@voltz-protocol/api-v2-types';
+import { AvailableNotional } from '@voltz-protocol/api-sdk-v2';
 import { getCurrentTick, getNotionalInRange } from '@voltz-protocol/indexer-v1';
 
 export const getV1AvailableNotional = async (

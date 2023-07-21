@@ -1,7 +1,7 @@
 import { getTimestampInSeconds, scale } from '@voltz-protocol/commons-v2';
-import { getPositionInfo } from '../../gateway/getPositionInfo';
 import { EditSwapArgs, CompleteSwapDetails } from './types';
 import { getFee } from '../../utils/getFee';
+import { getPosition } from '@voltz-protocol/api-sdk-v2';
 
 export const parseEditSwapArgs = async ({
   positionId,
@@ -10,7 +10,7 @@ export const parseEditSwapArgs = async ({
   margin,
 }: EditSwapArgs): Promise<CompleteSwapDetails> => {
   const chainId = await signer.getChainId();
-  const positionInfo = await getPositionInfo(positionId);
+  const positionInfo = await getPosition(positionId);
 
   // Check that signer is connected to the right network
   if (positionInfo.pool.chainId !== chainId) {

@@ -7,7 +7,7 @@ import {
 } from '@voltz-protocol/commons-v2';
 import { BigQueryPoolRow } from '@voltz-protocol/indexer-v1';
 import { getCoingeckoApiKey } from '../../services/envVars';
-import { V1Pool } from '@voltz-protocol/api-v2-types';
+import { V1Pool } from '@voltz-protocol/api-sdk-v2';
 import { log } from '../../logging/log';
 import { isPoolBlacklisted } from '../../services/isPoolBlacklisted';
 
