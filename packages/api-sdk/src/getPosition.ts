@@ -1,6 +1,6 @@
 import { API_URL } from './constants';
 import { V1V2PortfolioPositionDetails } from './types';
-import fetch from 'node-fetch';
+import fetch from 'isomorphic-fetch';
 
 export async function getPosition(
   positionId: string,

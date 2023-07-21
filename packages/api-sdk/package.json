@@ -23,7 +23,11 @@
     "generate:coverage-badges": "npx istanbul-badges-readme --silent"
   },
   "dependencies": {
-    "ethers": "5.5.4"
+    "ethers": "5.5.4",
+    "isomorphic-fetch": "3.0.0"
+  },
+  "devDependencies": {
+    "@types/isomorphic-fetch": "0.0.36"
   },
   "packageManager": "yarn@3.5.1"
 }

@@ -1,6 +1,6 @@
 import { API_URL } from './constants';
 import { V1V2Pool } from './types';
-import fetch from 'node-fetch';
+import fetch from 'isomorphic-fetch';
 
 export async function getPool(poolId: string): Promise<V1V2Pool> {
   const endpoint = `v1v2-pool/${poolId}`;
