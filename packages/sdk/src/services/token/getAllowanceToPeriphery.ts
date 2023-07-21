@@ -1,4 +1,4 @@
-import { getPoolInfo } from '../../gateway/getPoolInfo';
+import { getPool } from '@voltz-protocol/api-sdk-v2';
 import { GetAllowanceToPeripheryArgs } from './types';
 import { getAddress, getERC20Allowance } from '@voltz-protocol/commons-v2';
 
@@ -7,7 +7,7 @@ export const getAllowanceToPeriphery = async ({
   signer,
 }: GetAllowanceToPeripheryArgs): Promise<number> => {
   const chainId = await signer.getChainId();
-  const poolInfo = await getPoolInfo(ammId);
+  const poolInfo = await getPool(ammId);
 
   if (poolInfo.chainId !== chainId) {
     throw new Error('Chain id mismatch between pool and signer');

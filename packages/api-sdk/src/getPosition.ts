@@ -1,10 +1,14 @@
-import { V1V2PortfolioPositionDetails } from '@voltz-protocol/api-v2-types';
 import { API_URL } from './constants';
+import { V1V2PortfolioPositionDetails } from './types';
+import fetch from 'isomorphic-fetch';
 
-export async function getPositionInfo(
+export async function getPosition(
   positionId: string,
+  includeHistory: boolean,
 ): Promise<V1V2PortfolioPositionDetails> {
-  const endpoint = `v1v2-position/${positionId}`;
+  const endpoint = `v1v2-position/${positionId}${
+    includeHistory ? '?includeHistory=true' : ''
+  }`;
   const response = await fetch(`${API_URL}${endpoint}`);
 
   const position = (await response.json()) as V1V2PortfolioPositionDetails;

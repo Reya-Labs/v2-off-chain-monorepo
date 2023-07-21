@@ -1,4 +1,4 @@
-import { HistoricalRate } from '@voltz-protocol/api-v2-types';
+import { HistoricalRate } from '@voltz-protocol/api-sdk-v2';
 import { getLiquidityIndicesAtByMarketId } from '@voltz-protocol/bigquery-v2';
 import { getApy } from '@voltz-protocol/commons-v2';
 import { getEnvironmentV2 } from '../../services/envVars';

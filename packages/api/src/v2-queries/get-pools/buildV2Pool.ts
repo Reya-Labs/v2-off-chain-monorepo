@@ -12,7 +12,7 @@ import {
 import { getFixedRateData } from './getFixedRateData';
 import { getVariableRateData } from './getVariableRateData';
 import { getCoingeckoApiKey, getEnvironmentV2 } from '../../services/envVars';
-import { V2Pool } from '@voltz-protocol/api-v2-types';
+import { V2Pool } from '@voltz-protocol/api-sdk-v2';
 import { log } from '../../logging/log';
 import { isPoolBlacklisted } from '../../services/isPoolBlacklisted';
 

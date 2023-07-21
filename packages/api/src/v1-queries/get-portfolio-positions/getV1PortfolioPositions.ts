@@ -5,7 +5,7 @@ import {
 
 import { getSubgraphURL } from '../subgraph/getSubgraphURL';
 import { buildV1PortfolioPosition } from './buildV1PortfolioPosition';
-import { V1PortfolioPosition } from '@voltz-protocol/api-v2-types';
+import { V1PortfolioPosition } from '@voltz-protocol/api-sdk-v2';
 import { fetchMultiplePromises } from '@voltz-protocol/commons-v2';
 import { log } from '../../logging/log';
 

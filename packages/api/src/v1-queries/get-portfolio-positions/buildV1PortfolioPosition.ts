@@ -16,7 +16,7 @@ import {
 import { generateMarginEngineContract } from '@voltz-protocol/indexer-v1/src/common/contract-services/generateMarginEngineContract';
 import { getPositionPnL } from './getPositionPnL';
 import { getProvider } from '../../services/getProvider';
-import { V1PortfolioPosition } from '@voltz-protocol/api-v2-types';
+import { V1PortfolioPosition } from '@voltz-protocol/api-sdk-v2';
 import { log } from '../../logging/log';
 
 export const buildV1PortfolioPosition = async (

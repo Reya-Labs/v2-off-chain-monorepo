@@ -9,7 +9,7 @@ import {
   getTimestampInSeconds,
 } from '@voltz-protocol/commons-v2';
 import { getEnvironmentV2 } from '../../services/envVars';
-import { AvailableNotional } from '@voltz-protocol/api-v2-types';
+import { AvailableNotional } from '@voltz-protocol/api-sdk-v2';
 import { log } from '../../logging/log';
 
 export const getV2AvailableNotional = async (

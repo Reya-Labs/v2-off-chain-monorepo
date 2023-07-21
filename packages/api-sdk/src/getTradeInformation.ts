@@ -1,5 +1,6 @@
-import { V2TradeInformation } from '@voltz-protocol/api-v2-types';
 import { API_URL } from './constants';
+import { V2TradeInformation } from './types';
+import fetch from 'isomorphic-fetch';
 
 export async function getTradeInformation(
   poolId: string,

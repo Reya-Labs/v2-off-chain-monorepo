@@ -3,7 +3,7 @@ import { getV1Pool } from '../../v1-queries/get-pools/getV1Pool';
 import { getV2Pool } from '../../v2-queries/get-pools/getV2Pool';
 import { extendV1Pool } from './extendV1Pool';
 import { extendV2Pool } from './extendV2Pool';
-import { V1V2Pool } from '@voltz-protocol/api-v2-types';
+import { V1V2Pool } from '@voltz-protocol/api-sdk-v2';
 
 export const getV1V2Pool = async (poolId: string): Promise<V1V2Pool> => {
   if (poolId.endsWith('v1')) {

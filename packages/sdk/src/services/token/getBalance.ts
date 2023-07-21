@@ -1,13 +1,13 @@
 import { getERC20Balance, getEthBalance } from '@voltz-protocol/commons-v2';
-import { getPoolInfo } from '../../gateway/getPoolInfo';
 import { GetBalanceArgs } from './types';
+import { getPool } from '@voltz-protocol/api-sdk-v2';
 
 export const getBalance = async ({
   ammId,
   signer,
 }: GetBalanceArgs): Promise<number> => {
   const walletAddress = await signer.getAddress();
-  const poolInfo = await getPoolInfo(ammId);
+  const poolInfo = await getPool(ammId);
 
   const chainId = await signer.getChainId();
   if (poolInfo.chainId !== chainId) {

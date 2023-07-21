@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "storybook": "start-storybook -p 6006",
-    "prebuild": "yarn code-quality:check && rm -rf dist",
+    "prebuild": "rm -rf node_modules && rm -rf dist",
     "build": "tsc -p tsconfig.build.json",
     "start": "npx ts-node src/index.ts",
     "ts:check-types": "npx tsc --noEmit",
@@ -55,7 +55,7 @@
     "react-router-dom": "6.2.1"
   },
   "dependencies": {
-    "@voltz-protocol/api-v2-types": "workspace:^",
+    "@voltz-protocol/api-sdk-v2": "workspace:^",
     "@voltz-protocol/commons-v2": "workspace:^",
     "crypto-js": "4.1.1",
     "jsbi": "3.1.4"

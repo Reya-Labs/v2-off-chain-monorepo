@@ -1,5 +1,5 @@
 import { buildV2Pool } from './buildV2Pool';
-import { V2Pool } from '@voltz-protocol/api-v2-types';
+import { V2Pool } from '@voltz-protocol/api-sdk-v2';
 import { getEnvironmentV2 } from '../../services/envVars';
 import { pullIrsVammPoolEntry } from '@voltz-protocol/bigquery-v2';
 import { encodeV2PoolId } from '@voltz-protocol/commons-v2';

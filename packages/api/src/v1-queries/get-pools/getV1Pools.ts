@@ -1,7 +1,7 @@
 import { fetchMultiplePromises } from '@voltz-protocol/commons-v2';
 import { pullAllChainPools } from '@voltz-protocol/indexer-v1';
 import { buildV1Pool } from './buildV1Pool';
-import { V1Pool } from '@voltz-protocol/api-v2-types';
+import { V1Pool } from '@voltz-protocol/api-sdk-v2';
 import { log } from '../../logging/log';
 
 export const getV1Pools = async (chainIds: number[]): Promise<V1Pool[]> => {

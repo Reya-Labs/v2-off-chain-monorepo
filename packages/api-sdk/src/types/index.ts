@@ -8,3 +8,4 @@ export * from './V1V2PortfolioPosition';
 export * from './V2Pool';
 export * from './V2PortfolioPosition';
 export * from './V2TradeInformation';
+export * from './ChainLevelInformation';

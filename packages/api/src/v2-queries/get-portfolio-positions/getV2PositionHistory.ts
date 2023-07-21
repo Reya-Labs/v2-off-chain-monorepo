@@ -1,7 +1,7 @@
 import {
   HistoryTransaction,
   V2PortfolioPosition,
-} from '@voltz-protocol/api-v2-types';
+} from '@voltz-protocol/api-sdk-v2';
 import {
   getLiquidityIndicesAt,
   pullCollateralEventsByAccount,

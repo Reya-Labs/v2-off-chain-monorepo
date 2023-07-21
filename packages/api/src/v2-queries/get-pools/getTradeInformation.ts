@@ -4,7 +4,7 @@ import {
   getTradeMove,
   pullIrsVammPoolEntry,
 } from '@voltz-protocol/bigquery-v2';
-import { V2TradeInformation } from '@voltz-protocol/api-v2-types';
+import { V2TradeInformation } from '@voltz-protocol/api-sdk-v2';
 import { log } from '../../logging/log';
 
 const defaultResponse: V2TradeInformation = {

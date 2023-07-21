@@ -1,7 +1,7 @@
 import { pullIrsVammPoolEntriesByChains } from '@voltz-protocol/bigquery-v2';
 import { buildV2Pool } from './buildV2Pool';
 import { fetchMultiplePromises } from '@voltz-protocol/commons-v2';
-import { V2Pool } from '@voltz-protocol/api-v2-types';
+import { V2Pool } from '@voltz-protocol/api-sdk-v2';
 import { getEnvironmentV2 } from '../../services/envVars';
 import { log } from '../../logging/log';
 

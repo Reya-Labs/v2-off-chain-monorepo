@@ -1,18 +1,10 @@
 import { PositionInfo } from './types';
-import axios from 'axios';
-import { API_URL } from '../urls';
-import { V1V2PortfolioPositionDetails } from '@voltz-protocol/api-v2-types';
+import { getPosition } from '@voltz-protocol/api-sdk-v2';
 
 export const getPositionInfo = async (
   positionId: string,
 ): Promise<PositionInfo> => {
-  const url = `${API_URL}/v1v2-position/${positionId}`;
-
-  const res = await axios.get<V1V2PortfolioPositionDetails>(url, {
-    withCredentials: false,
-  });
-
-  const portfolioPositionDetails = res.data;
+  const portfolioPositionDetails = await getPosition(positionId, false);
 
   const positionInfo: PositionInfo = {
     chainId: portfolioPositionDetails.pool.chainId,

@@ -1,4 +1,3 @@
-import { getPoolInfo } from '../../gateway/getPoolInfo';
 import { ApprovePeripheryArgs } from './types';
 import { getGasBuffer } from '../../utils/txHelpers';
 import { BigNumber } from 'ethers';
@@ -7,13 +6,14 @@ import {
   getERC20Allowance,
   getERC20TokenContract,
 } from '@voltz-protocol/commons-v2';
+import { getPool } from '@voltz-protocol/api-sdk-v2';
 
 export const approvePeriphery = async ({
   ammId,
   signer,
 }: ApprovePeripheryArgs): Promise<number> => {
   const chainId = await signer.getChainId();
-  const poolInfo = await getPoolInfo(ammId);
+  const poolInfo = await getPool(ammId);
 
   if (poolInfo.chainId !== chainId) {
     throw new Error('Chain ids are different for pool and signer');

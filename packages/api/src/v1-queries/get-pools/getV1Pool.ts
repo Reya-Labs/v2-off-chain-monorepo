@@ -1,6 +1,6 @@
 import { pullExistingPoolRow } from '@voltz-protocol/indexer-v1';
 import { buildV1Pool } from './buildV1Pool';
-import { V1Pool } from '@voltz-protocol/api-v2-types';
+import { V1Pool } from '@voltz-protocol/api-sdk-v2';
 
 export const getV1Pool = async (
   chainId: number,

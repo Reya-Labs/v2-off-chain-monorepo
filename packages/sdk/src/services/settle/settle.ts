@@ -2,13 +2,13 @@ import { BigNumber, ContractReceipt } from 'ethers';
 import { estimateGas, executeTransaction } from '../executeTransaction';
 import { encodeSettlement } from './encode';
 import { SettleArgs, SettleParameters, SettleSimulationResults } from './types';
-import { getPositionInfo } from '../../gateway/getPositionInfo';
 import {
   convertGasUnitsToNativeTokenUnits,
   getNativeGasToken,
   getTimestampInSeconds,
   scale,
 } from '@voltz-protocol/commons-v2';
+import { getPosition } from '@voltz-protocol/api-sdk-v2';
 
 export async function settle({
   positionId,
@@ -59,7 +59,7 @@ async function createSettleParams({
 }: SettleArgs): Promise<SettleParameters> {
   const chainId = await signer.getChainId();
 
-  const position = await getPositionInfo(positionId);
+  const position = await getPosition(positionId, false);
 
   if (position.pool.chainId !== chainId) {
     throw new Error('Chain id mismatch between pool and signer');

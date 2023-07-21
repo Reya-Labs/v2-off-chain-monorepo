@@ -6,7 +6,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "prebuild": "yarn code-quality:check && rm -rf dist",
+    "prebuild": "rm -rf node_modules && yarn && rm -rf dist",
     "build": "tsc -p tsconfig.build.json",
     "start": "npx ts-node src/index.ts",
     "ts:check-types": "npx tsc --noEmit",
@@ -23,7 +23,7 @@
   },
   "packageManager": "yarn@3.5.1",
   "dependencies": {
-    "@voltz-protocol/api-v2-types": "workspace:^",
+    "@voltz-protocol/api-sdk-v2": "workspace:^",
     "@voltz-protocol/bigquery-v2": "workspace:^",
     "@voltz-protocol/commons-v2": "workspace:^",
     "@voltz-protocol/indexer-v1": "workspace:^",

@@ -1,4 +1,4 @@
-import { V1V2PortfolioPositionDetails } from '@voltz-protocol/api-v2-types';
+import { V1V2PortfolioPositionDetails } from '@voltz-protocol/api-sdk-v2';
 import { getV1PortfolioPositionDetails } from '../../v1-queries/get-portfolio-positions/getV1PortfolioPositionDetails';
 import { getV2PortfolioPositionDetails } from '../../v2-queries/get-portfolio-positions/getV2PortfolioPositionDetails';
 import { extendV1PositionDetails } from './extendV1Position';

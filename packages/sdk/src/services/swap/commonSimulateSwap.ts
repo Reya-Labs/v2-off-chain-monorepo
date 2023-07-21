@@ -11,7 +11,7 @@ import {
   getAvgFixV2,
   getTimestampInSeconds,
 } from '@voltz-protocol/commons-v2';
-import { getTradeInformation } from '../../gateway/getTradeInformation';
+import { getTradeInformation } from '@voltz-protocol/api-sdk-v2';
 
 const defaultResponse: InfoPostSwap = {
   marginRequirement: -1,
