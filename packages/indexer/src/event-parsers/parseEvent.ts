@@ -57,7 +57,11 @@ export const parseEvent = (
         }
         default: {
           if (event.event === undefined) {
-            log(`Unmapped event ${event.event} from Core.`);
+            log(`Unmapped event from Core.`, ['unmapped-events']);
+          } else {
+            log(`Unparsed event ${event.event} from Core.`, [
+              'unparsed-events',
+            ]);
           }
           return null;
         }
@@ -83,7 +87,11 @@ export const parseEvent = (
         }
         default: {
           if (event.event === undefined) {
-            log(`Unmapped event ${event.event} from Instrument.`);
+            log(`Unmapped event from Instrument.`, ['unmapped-events']);
+          } else {
+            log(`Unparsed event ${event.event} from Instrument.`, [
+              'unparsed-events',
+            ]);
           }
           return null;
         }
@@ -106,7 +114,11 @@ export const parseEvent = (
         }
         default: {
           if (event.event === undefined) {
-            log(`Unmapped event ${event.event} from VAMM.`);
+            log(`Unmapped event from VAMM.`, ['unmapped-events']);
+          } else {
+            log(`Unparsed event ${event.event} from VAMM.`, [
+              'unparsed-events',
+            ]);
           }
           return null;
         }
