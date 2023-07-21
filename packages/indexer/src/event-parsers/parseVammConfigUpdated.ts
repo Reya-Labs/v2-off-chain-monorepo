@@ -5,7 +5,12 @@ import {
   VammConfigUpdatedEvent,
 } from '@voltz-protocol/bigquery-v2';
 import { parseBaseEvent } from './utils/parseBaseEvent';
-import { convertToAddress, descale } from '@voltz-protocol/commons-v2';
+import {
+  VAMM_MAX_TICK,
+  VAMM_MIN_TICK,
+  convertToAddress,
+  descale,
+} from '@voltz-protocol/commons-v2';
 
 export const parseVammConfigUpdated = (
   chainId: number,
@@ -22,20 +27,20 @@ export const parseVammConfigUpdated = (
   const maturityTimestamp = event.args?.maturityTimestamp as number;
 
   const priceImpactPhi = wadDescaler(
-    event.args?.mutableConfig.priceImpactPhi as BigNumber,
+    event.args?.config.priceImpactPhi as BigNumber,
   );
 
   const priceImpactBeta = wadDescaler(
-    event.args?.mutableConfig.priceImpactBeta as BigNumber,
+    event.args?.config.priceImpactBeta as BigNumber,
   );
 
-  const spread = wadDescaler(event.args?.mutableConfig.spread as BigNumber);
+  const spread = wadDescaler(event.args?.config.spread as BigNumber);
 
-  const rateOracle = event.args?.mutableConfig.rateOracle as string;
+  const rateOracle = event.args?.config.rateOracle as string;
 
-  const minTick = event.args?.mutableConfig.minTick as number;
+  const minTick = (event.args?.config.minTick || VAMM_MIN_TICK) as number;
 
-  const maxTick = event.args?.mutableConfig.maxTick as number;
+  const maxTick = (event.args?.config.maxTick || VAMM_MAX_TICK) as number;
 
   // 3. Parse base event
   const baseEvent = parseBaseEvent(chainId, event, type);

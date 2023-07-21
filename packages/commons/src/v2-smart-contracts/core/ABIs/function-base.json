@@ -1,0 +1,43 @@
+{
+    "abi": [
+        {
+            "inputs": [
+                {
+                    "internalType": "uint128",
+                    "name": "accountId",
+                    "type": "uint128"
+                },
+                {
+                    "internalType": "address",
+                    "name": "collateralType",
+                    "type": "address"
+                }
+            ],
+            "name": "isLiquidatable",
+            "outputs": [
+                {
+                    "internalType": "bool",
+                    "name": "liquidatable",
+                    "type": "bool"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "initialMarginRequirement",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "liquidationMarginRequirement",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "highestUnrealizedLoss",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ]
+}
