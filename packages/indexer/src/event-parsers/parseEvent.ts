@@ -110,6 +110,9 @@ export const parseEvent = (
           return parseVammPriceChange(chainId, event);
         }
         case 'VammConfigUpdated': {
+          if (event.args?.maturityTimestamp === undefined) {
+            return null;
+          }
           return parseVammConfigUpdated(chainId, event);
         }
         default: {
