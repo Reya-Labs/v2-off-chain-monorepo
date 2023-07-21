@@ -45,7 +45,7 @@ async function createUpdateMarginParams({
 }: UpdateMarginArgs): Promise<UpdateMarginParams> {
   const chainId = await signer.getChainId();
 
-  const partialOrder = await getPosition(positionId);
+  const partialOrder = await getPosition(positionId, false);
 
   if (partialOrder.pool.chainId !== chainId) {
     throw new Error('Chain id mismatch between pool and signer');

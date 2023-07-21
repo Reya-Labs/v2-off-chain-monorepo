@@ -10,7 +10,7 @@ export const parseEditSwapArgs = async ({
   margin,
 }: EditSwapArgs): Promise<CompleteSwapDetails> => {
   const chainId = await signer.getChainId();
-  const positionInfo = await getPosition(positionId);
+  const positionInfo = await getPosition(positionId, false);
 
   // Check that signer is connected to the right network
   if (positionInfo.pool.chainId !== chainId) {

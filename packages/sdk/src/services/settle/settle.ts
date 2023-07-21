@@ -59,7 +59,7 @@ async function createSettleParams({
 }: SettleArgs): Promise<SettleParameters> {
   const chainId = await signer.getChainId();
 
-  const position = await getPosition(positionId);
+  const position = await getPosition(positionId, false);
 
   if (position.pool.chainId !== chainId) {
     throw new Error('Chain id mismatch between pool and signer');

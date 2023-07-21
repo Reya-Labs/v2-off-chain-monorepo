@@ -4,7 +4,7 @@ import { getPosition } from '@voltz-protocol/api-sdk-v2';
 export const getPositionInfo = async (
   positionId: string,
 ): Promise<PositionInfo> => {
-  const portfolioPositionDetails = await getPosition(positionId);
+  const portfolioPositionDetails = await getPosition(positionId, false);
 
   const positionInfo: PositionInfo = {
     chainId: portfolioPositionDetails.pool.chainId,
