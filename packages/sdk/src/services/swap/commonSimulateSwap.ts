@@ -1,14 +1,14 @@
 import { BigNumber } from 'ethers';
 import { decodeSwap } from '../../utils/decodeOutput';
 import { decodeImFromError } from '../../utils/errors/errorHandling';
-import { Transaction, simulateTxExpectError } from '../executeTransaction';
-import { InfoPostSwap, CompleteSwapDetails } from './types';
+import { simulateTxExpectError, Transaction } from '../executeTransaction';
+import { CompleteSwapDetails, InfoPostSwap } from './types';
 import { encodeSwap } from './encode';
 import {
   convertGasUnitsToNativeTokenUnits,
-  getNativeGasToken,
   descale,
   getAvgFixV2,
+  getNativeGasToken,
   getTimestampInSeconds,
 } from '@voltz-protocol/commons-v2';
 import { getTradeInformation } from '@voltz-protocol/api-sdk-v2';
@@ -58,10 +58,10 @@ export async function commonSimulateSwap(
       decodeImFromError(bytesOutput).marginRequirement,
     );
 
-    const { availableBase, avgFix } = await getTradeInformation(
-      params.poolId,
-      params.inputBase,
-    );
+    const { availableBase, avgFix } = await getTradeInformation({
+      poolId: params.poolId,
+      base: params.inputBase,
+    });
 
     baseDelta = availableBase;
     averageFixedRate = avgFix;

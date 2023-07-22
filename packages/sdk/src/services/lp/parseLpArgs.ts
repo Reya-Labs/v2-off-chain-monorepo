@@ -20,7 +20,7 @@ export const parseLpArgs = async ({
     throw new Error(`Invalid LP range: [${fixedLow}%, ${fixedHigh}%]`);
   }
 
-  const poolInfo = await getPool(ammId);
+  const poolInfo = await getPool({ poolId: ammId });
   const chainId = await signer.getChainId();
 
   // Check that signer is connected to the right network
