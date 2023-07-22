@@ -7,7 +7,7 @@ export const getBalance = async ({
   signer,
 }: GetBalanceArgs): Promise<number> => {
   const walletAddress = await signer.getAddress();
-  const poolInfo = await getPool(ammId);
+  const poolInfo = await getPool({ poolId: ammId });
 
   const chainId = await signer.getChainId();
   if (poolInfo.chainId !== chainId) {

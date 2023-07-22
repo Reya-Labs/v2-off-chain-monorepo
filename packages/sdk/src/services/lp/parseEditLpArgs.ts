@@ -13,7 +13,7 @@ export const parseEditLpArgs = async ({
   notional,
   margin,
 }: EditLpArgs): Promise<CompleteLpDetails> => {
-  const positionInfo = await getPosition(positionId, false);
+  const positionInfo = await getPosition({ positionId, includeHistory: false });
   const chainId = await signer.getChainId();
 
   // Check that signer is connected to the right network
