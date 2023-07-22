@@ -8,16 +8,18 @@
   "types": "dist/types",
   "license": "MIT",
   "scripts": {
+    "storybook": "start-storybook -p 6006",
     "prebuild": "rm -rf node_modules && rm -rf dist",
     "build": "tsc -p tsconfig.build.json",
     "ts:check-types": "npx tsc --noEmit",
-    "ts:circular-check": "dpdm --no-output --no-tree --no-warning --exit-code circular:1 -T ./src/index.ts",
-    "ts:check": "yarn ts:check-types && yarn ts:circular-check",
-    "lint:check": "eslint '{src,tests}/**/*.{ts,tsx}'",
-    "prettier:check": "npx prettier --loglevel silent --check './{src,tests}/**/*.{ts,tsx}'",
+    "ts:check-types-demo": "npx tsc -p tsconfig.demo.json --noEmit",
+    "ts:circular-check": "dpdm --no-output --no-tree --no-warning --exit-code circular:1 -T src/services/index.ts",
+    "ts:check": "yarn ts:check-types && yarn ts:check-types-demo && yarn ts:circular-check",
+    "lint:check": "eslint '{src,demo,tests}/**/*.{ts,tsx}'",
+    "prettier:check": "npx prettier --loglevel silent --check './{src,demo,tests}/**/*.{ts,tsx}'",
     "code-quality:check": "npx concurrently 'yarn ts:check' 'yarn prettier:check' 'yarn lint:check --quiet'",
-    "lint:fix": "npx eslint --fix '{src,tests}/**/*.{ts,tsx}'",
-    "prettier:fix": "npx prettier --loglevel silent --write './{src,tests}/**/*.{ts,tsx}'",
+    "lint:fix": "npx eslint --fix '{src,demo,tests}/**/*.{ts,tsx}'",
+    "prettier:fix": "npx prettier --loglevel silent --write './{src,demo,tests}/**/*.{ts,tsx}'",
     "test": "npx jest --silent",
     "test:coverage": "yarn test --coverage",
     "generate:coverage-badges": "npx istanbul-badges-readme --silent"
@@ -27,7 +29,27 @@
     "isomorphic-fetch": "3.0.0"
   },
   "devDependencies": {
-    "@types/isomorphic-fetch": "0.0.36"
+    "@emotion/react": "11.7.1",
+    "@emotion/styled": "11.6.0",
+    "@metamask/jazzicon": "2.0.0",
+    "@storybook/addon-actions": "6.5.16",
+    "@storybook/addon-essentials": "6.5.16",
+    "@storybook/addon-interactions": "6.5.16",
+    "@storybook/addon-links": "6.5.16",
+    "@storybook/addons": "6.5.16",
+    "@storybook/builder-webpack4": "6.5.16",
+    "@storybook/manager-webpack4": "6.5.16",
+    "@storybook/react": "6.5.16",
+    "@storybook/theming": "6.5.16",
+    "@svgr/webpack": "5.5.0",
+    "@types/isomorphic-fetch": "0.0.36",
+    "@types/react": "17.0.53",
+    "@types/react-dom": "17.0.18",
+    "brokoli-ui": "1.44.0",
+    "react": "17.0.2",
+    "react-docgen-typescript-plugin": "1.0.5",
+    "react-dom": "17.0.2",
+    "react-router-dom": "6.2.1"
   },
   "packageManager": "yarn@3.5.1"
 }
