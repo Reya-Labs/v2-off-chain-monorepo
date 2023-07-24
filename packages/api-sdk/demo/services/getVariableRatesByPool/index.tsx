@@ -6,32 +6,23 @@ import {
   getVariableRatesByPool,
   GetVariableRatesByPoolArgs,
 } from '../../../src';
+import { useTest } from '../../hooks/useTest';
 
 export const GetVariableRatesByPoolTest: React.FunctionComponent<
   GetVariableRatesByPoolArgs
 > = (args) => {
-  const [isTesting, setIsTesting] = React.useState(false);
-  const [testError, setTestError] = React.useState<null | unknown>(null);
-  const [testResult, setTestResult] = React.useState<any>('');
-  const test = async () => {
-    setIsTesting(true);
-    setTestError(null);
-    try {
-      const result = await getVariableRatesByPool(args);
-      setTestResult(result);
-    } catch (error) {
-      setTestError(error);
-    } finally {
-      setIsTesting(false);
-    }
-  };
+  const { test, loading, result, error } = useTest<GetVariableRatesByPoolArgs>({
+    promiseFn: getVariableRatesByPool,
+    args,
+  });
+
   return (
     <ContentBox>
       <TestPage
         title="services/getVariableRatesByPool"
-        loading={isTesting}
-        error={testError}
-        result={testResult}
+        loading={loading}
+        error={error}
+        result={result}
         onTestClick={test}
       />
     </ContentBox>
