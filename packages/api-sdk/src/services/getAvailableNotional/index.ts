@@ -9,7 +9,7 @@ export async function getAvailableNotional({
   poolId,
 }: GetAvailableNotionalArgs): Promise<AvailableNotional> {
   const endpoint = `v1v2-available-notional/${poolId}`;
-  const response = await fetch(`${API_URL}${endpoint}`);
+  const response = await fetch(`${API_URL}/${endpoint}`);
 
   return (await response.json()) as AvailableNotional;
 }

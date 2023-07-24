@@ -13,7 +13,7 @@ export async function getTraderPositionByPool({
 }: GetTraderPositionByPoolArgs): Promise<V1V2PortfolioPositionDetails | null> {
   const endpoint = `v1v2-trader-positions-by-pool/${poolId}/${ownerAddress}`;
 
-  const response = await fetch(`${API_URL}${endpoint}`);
+  const response = await fetch(`${API_URL}/${endpoint}`);
 
   const positions = (await response.json()) as V1V2PortfolioPositionDetails[];
 

@@ -10,7 +10,7 @@ export const getChainInformation = async ({
 }: GetChainInformationArgs): Promise<ChainInformation> => {
   const endpoint = `chain-information/${chainIds.join('&')}`;
 
-  const response = await fetch(`${API_URL}${endpoint}`);
+  const response = await fetch(`${API_URL}/${endpoint}`);
 
   return (await response.json()) as ChainInformation;
 };

@@ -10,7 +10,7 @@ export async function getPools({
   chainIds,
 }: GetPoolsArgs): Promise<V1V2Pool[]> {
   const endpoint = `v1v2-pools/${chainIds.join('&')}`;
-  const response = await fetch(`${API_URL}${endpoint}`);
+  const response = await fetch(`${API_URL}/${endpoint}`);
 
   return (await response.json()) as V1V2Pool[];
 }
