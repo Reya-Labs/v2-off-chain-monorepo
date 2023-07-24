@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.15.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.14.0...@voltz-protocol/api-sdk-v2@1.15.0) (2023-07-24)
+
+### Features
+
+- add hook useTest ([d9af8aa](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/d9af8aadf0e977b5aeddc8695cea215d65533198))
+- add stories for every service ([42c5989](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/42c598933f5c7cf55e142c570cfd501270b10d3b))
+- add storybook configs ([3d8fc20](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/3d8fc20205281b1dd7fdcece8d21bb873c4228b7))
+- refactor functions into service for easier testing ([b4fda3c](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/b4fda3c795e4efe0539ca21b08bcaee57906a761))
+
 # 1.14.0 (2023-07-21)
 
 ### Features
