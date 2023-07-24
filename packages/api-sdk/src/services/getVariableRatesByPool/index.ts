@@ -15,7 +15,7 @@ export async function getVariableRatesByPool({
 }: GetVariableRatesByPoolArgs): Promise<HistoricalRate[]> {
   const endpoint = `v1v2-variable-rates/${poolId}/${startTimestamp}/${endTimestamp}`;
 
-  const response = await fetch(`${API_URL}${endpoint}`);
+  const response = await fetch(`${API_URL}/${endpoint}`);
 
   return (await response.json()) as HistoricalRate[];
 }

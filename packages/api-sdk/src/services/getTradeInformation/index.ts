@@ -12,7 +12,7 @@ export async function getTradeInformation({
   base,
 }: GetTradeInformationArgs): Promise<V2TradeInformation> {
   const endpoint = `v2-trade-information/${poolId}/${base}`;
-  const response = await fetch(`${API_URL}${endpoint}`);
+  const response = await fetch(`${API_URL}/${endpoint}`);
 
   return (await response.json()) as V2TradeInformation;
 }

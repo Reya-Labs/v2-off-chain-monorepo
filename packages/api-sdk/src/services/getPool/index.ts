@@ -8,7 +8,7 @@ export type GetPoolArgs = {
 
 export async function getPool({ poolId }: GetPoolArgs): Promise<V1V2Pool> {
   const endpoint = `v1v2-pool/${poolId}`;
-  const response = await fetch(`${API_URL}${endpoint}`);
+  const response = await fetch(`${API_URL}/${endpoint}`);
 
   return (await response.json()) as V1V2Pool;
 }
