@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.15.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.14.1...@voltz-protocol/commons-v2@1.15.0) (2023-07-28)
+
+### Features
+
+- initial x chain data bridge ([#147](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/issues/147)) ([e7c7787](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/e7c7787dc440d10dced28ac8f64fa1ca53d67518))
+
 ## [1.14.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.14.0...@voltz-protocol/commons-v2@1.14.1) (2023-07-21)
 
 **Note:** Version bump only for package @voltz-protocol/commons-v2
