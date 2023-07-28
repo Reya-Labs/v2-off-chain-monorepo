@@ -6,6 +6,9 @@ import { getTableFullName } from '../table-infra/getTableName';
 type RateOracleEntry = {
   chainId: number;
   oracleAddress: Address;
+  marketId: number;
+  blockTimestamp: number;
+  blockNumber: number;
 };
 
 const mapToRateOracleEntry = (row: any): RateOracleEntry => row;
@@ -19,7 +22,7 @@ export const pullRateOracleEntries = async (
     TableType.raw_rate_oracle_configured,
   );
 
-  const sqlQuery = `SELECT DISTINCT chainId, oracleAddress FROM \`${tableName}\``;
+  const sqlQuery = `SELECT DISTINCT chainId, oracleAddress, marketId, blockTimestamp, blockNumber FROM \`${tableName}\``;
 
   const [rows] = await bigQuery.query({
     query: sqlQuery,

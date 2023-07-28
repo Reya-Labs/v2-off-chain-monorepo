@@ -1,0 +1,32 @@
+{
+  "name": "@voltz-protocol/cross-chain-data-bridge",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prebuild": "rm -rf node_modules && rm -rf dist",
+    "build": "tsc -p tsconfig.build.json",
+    "start": "npx ts-node src/process/bridge.ts",
+    "ts:check-types": "npx tsc --noEmit",
+    "ts:circular-check": "dpdm --no-output --no-tree --no-warning --exit-code circular:1 -T ./src/index.ts",
+    "ts:check": "yarn ts:check-types && yarn ts:circular-check",
+    "lint:check": "eslint '{src,tests}/**/*.{ts,tsx}'",
+    "prettier:check": "npx prettier --loglevel silent --check './{src,tests}/**/*.{ts,tsx}'",
+    "code-quality:check": "npx concurrently 'yarn ts:check' 'yarn prettier:check' 'yarn lint:check --quiet'",
+    "lint:fix": "npx eslint --fix '{src,tests}/**/*.{ts,tsx}'",
+    "prettier:fix": "npx prettier --loglevel silent --write './{src,tests}/**/*.{ts,tsx}'",
+    "test": "echo 'no tests'",
+    "test:coverage": "echo 'no tests'",
+    "generate:coverage-badges": "npx istanbul-badges-readme --silent"
+  },
+  "packageManager": "yarn@3.5.1",
+  "dependencies": {
+    "@voltz-protocol/bigquery-v2": "workspace:^",
+    "@voltz-protocol/commons-v2": "workspace:^",
+    "ethers": "5.5.4",
+    "ioredis": "5.3.2"
+  }
+}
