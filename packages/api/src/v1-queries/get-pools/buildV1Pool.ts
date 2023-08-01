@@ -5,7 +5,7 @@ import {
   encodeV1PoolId,
   convertToAddress,
 } from '@voltz-protocol/commons-v2';
-import { BigQueryPoolRow } from '@voltz-protocol/indexer-v1';
+import { BigQueryPoolRow, getVammPaused } from '@voltz-protocol/indexer-v1';
 import { getCoingeckoApiKey } from '../../services/envVars';
 import { V1Pool } from '@voltz-protocol/api-sdk-v2';
 import { log } from '../../logging/log';
@@ -27,6 +27,8 @@ export const buildV1Pool = async (
     chainId: rawPool.chainId,
     vammAddress: convertToAddress(rawPool.vamm),
   });
+
+  const isPaused = await getVammPaused(rawPool.chainId, rawPool.vamm);
 
   const pool: V1Pool = {
     id,
@@ -60,6 +62,7 @@ export const buildV1Pool = async (
       isGLP28Jun2023:
         id === '42161_0x22393f23f16925d282aeca0a8464dccaf10ee480_v1',
       isBlacklisted: isPoolBlacklisted(id),
+      isPaused,
     },
   };
 

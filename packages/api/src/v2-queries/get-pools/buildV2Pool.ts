@@ -121,6 +121,7 @@ export const buildV2Pool = async ({
     flags: {
       isGLP28Jun2023: false,
       isBlacklisted: isPoolBlacklisted(id),
+      isPaused: false,
     },
   };
 };

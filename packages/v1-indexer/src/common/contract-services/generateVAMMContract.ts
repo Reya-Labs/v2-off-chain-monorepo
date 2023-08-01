@@ -12,6 +12,7 @@ export const generateVAMMContract = (
     `event VAMMInitialization(uint160 sqrtPriceX96, int24 tick)`,
     `function vammVars() external view returns ((uint160,int24,uint8))`,
     `function factory() external view returns (address)`,
+    `function paused() external view returns (bool)`,
   ];
 
   const contract = new ethers.Contract(address, abi, provider);

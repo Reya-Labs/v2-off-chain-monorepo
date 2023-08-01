@@ -3,6 +3,7 @@ export * from './big-query-support/pools-table/pull-data/pullExistingPoolRow';
 export * from './big-query-support/types';
 export * from './common/contract-services/getPositionInfo';
 export * from './common/contract-services/getCurrentTick';
+export * from './common/contract-services/getVammPaused';
 export * from './common/services/getVariableFactor';
 export * from './common/services/getLiquidityIndex';
 export * from './big-query-support/historical-rates/pull-data/getLatestVariableRate';
