@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.16.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.15.0...@voltz-protocol/api-sdk-v2@1.16.0) (2023-08-01)
+
+### Features
+
+- flag for paused pools ([947c735](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/947c735dd882fd48ce7355a6cec1c678cfbd9a27))
+
 # [1.15.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.14.0...@voltz-protocol/api-sdk-v2@1.15.0) (2023-07-24)
 
 ### Features

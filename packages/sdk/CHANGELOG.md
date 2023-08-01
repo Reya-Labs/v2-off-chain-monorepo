@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.54.4](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.54.3...@voltz-protocol/sdk-v2@1.54.4) (2023-08-01)
+
+**Note:** Version bump only for package @voltz-protocol/sdk-v2
+
 ## [1.54.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.54.2...@voltz-protocol/sdk-v2@1.54.3) (2023-07-28)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v2
