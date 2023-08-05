@@ -4,7 +4,7 @@ import { indexInactiveTimeInMS } from './global';
 import { sleep } from '@voltz-protocol/commons-v2';
 import { createProtocolV1Dataset } from './big-query-support/utils';
 
-const chainIds = [1, 5, 42161, 421613, 43114, 43113];
+const chainIds = [42161];
 
 export const main = async () => {
   await createProtocolV1Dataset();
