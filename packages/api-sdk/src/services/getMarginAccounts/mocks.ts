@@ -142,6 +142,6 @@ const randomMarginAccount =
   });
 
 export const mockedMarginAccounts: GetMarginAccountsResponse['marginAccounts'] =
-  new Array(Math.floor(getRandomIntInclusive(5, 100))).map(() =>
-    randomMarginAccount(),
-  );
+  new Array(Math.floor(getRandomIntInclusive(5, 100)))
+    .fill(0)
+    .map(() => randomMarginAccount());
