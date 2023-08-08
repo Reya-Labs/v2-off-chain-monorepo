@@ -116,4 +116,4 @@ const randomPosition = () => ({
 export const getPositionsMock = () =>
   new Array(Math.floor(getRandomIntInclusive(4, 11))).map(() =>
     randomPosition(),
-  );
+  ) as never;
