@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, Typography } from 'brokoli-ui';
 import { TestState } from '../TestState';
-import { ButtonBox, PageContentBox } from './TestPage.styled';
+import { ButtonBox, ContentBox, PageContentBox } from './TestPage.styled';
 
 type TestPageProps = {
   error: unknown;
@@ -17,8 +17,8 @@ export const TestPage: React.FC<TestPageProps> = ({
   result,
   title,
   onTestClick,
-}) => {
-  return (
+}) => (
+  <ContentBox>
     <PageContentBox>
       <Typography
         colorToken="lavenderWeb"
@@ -33,5 +33,5 @@ export const TestPage: React.FC<TestPageProps> = ({
         </Button>
       </ButtonBox>
     </PageContentBox>
-  );
-};
+  </ContentBox>
+);

@@ -18,3 +18,8 @@ export const ButtonBox = styled('div')`
   flex-direction: column;
   gap: 8px;
 `;
+
+export const ContentBox = styled('div')`
+  display: flex;
+  flex-direction: column;
+`;
