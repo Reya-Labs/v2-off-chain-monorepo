@@ -7,7 +7,7 @@ export type GetMarginAccountPositionsArgs = { id: MarginAccount['id'] };
 
 export const getMarginAccountPositions = async ({
   id,
-}: GetMarginAccountPositionsArgs): Promise<V1V2PortfolioPosition> => {
+}: GetMarginAccountPositionsArgs): Promise<V1V2PortfolioPosition[]> => {
   await new Promise((resolve) => {
     setTimeout(resolve, 1000);
   });
