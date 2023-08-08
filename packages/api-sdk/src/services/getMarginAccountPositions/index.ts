@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { getPositionsMock } from './mocks';
 import { MarginAccount } from '../getMarginAccounts';
-import { V1V2PortfolioPosition } from '@voltz-protocol/api-sdk-v2';
+import { V1V2PortfolioPosition } from '../../types';
 
 export type GetMarginAccountPositionsArgs = { id: MarginAccount['id'] };
 

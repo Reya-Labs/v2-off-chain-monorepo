@@ -25,6 +25,7 @@
     "generate:coverage-badges": "npx istanbul-badges-readme --silent"
   },
   "dependencies": {
+    "@voltz-protocol/commons-v2": "workspace:^",
     "ethers": "5.5.4",
     "isomorphic-fetch": "3.0.0"
   },
