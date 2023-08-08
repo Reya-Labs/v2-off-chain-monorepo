@@ -10,3 +10,6 @@ export * from './getTradeInformation';
 export * from './getTraderPositionByPool';
 export * from './getLpPositionsByPool';
 export * from './getVariableRatesByPool';
+export * from './getMarginAccounts';
+export * from './getMarginAccountPositions';
+export * from './getPortfolioSummary';
