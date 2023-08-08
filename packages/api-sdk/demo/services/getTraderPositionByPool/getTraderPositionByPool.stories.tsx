@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import * as React from 'react';
-import { GetTraderPositionByPoolTest } from './index';
 import { GetTraderPositionByPoolArgs } from '../../../src';
+import { GetTraderPositionByPoolTest } from '.';
 
 export default {
   title: 'services/getTraderPositionByPool',

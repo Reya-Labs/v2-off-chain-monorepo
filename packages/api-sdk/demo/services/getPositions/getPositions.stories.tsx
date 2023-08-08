@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import * as React from 'react';
-import { GetPositionsTest } from './index';
 import { GetPositionsArgs } from '../../../src';
+import { GetPositionsTest } from '.';
 
 export default {
   title: 'services/getPositions',

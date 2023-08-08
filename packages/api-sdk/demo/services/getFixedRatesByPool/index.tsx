@@ -1,6 +1,4 @@
 import * as React from 'react';
-
-import { ContentBox } from './getFixedRatesByPool.styled';
 import { TestPage } from '../../components/TestPage/TestPage';
 import { getFixedRatesByPool, GetFixedRatesByPoolArgs } from '../../../src';
 import { useTest } from '../../hooks/useTest';
@@ -13,14 +11,12 @@ export const GetFixedRatesByPoolTest: React.FunctionComponent<
     args,
   });
   return (
-    <ContentBox>
-      <TestPage
-        title="services/getFixedRatesByPool"
-        loading={loading}
-        error={error}
-        result={result}
-        onTestClick={test}
-      />
-    </ContentBox>
+    <TestPage
+      title="services/getFixedRatesByPool"
+      loading={loading}
+      error={error}
+      result={result}
+      onTestClick={test}
+    />
   );
 };
