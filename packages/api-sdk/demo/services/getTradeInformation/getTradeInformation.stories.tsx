@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import * as React from 'react';
-import { GetTradeInformationTest } from './index';
 import { GetTradeInformationArgs } from '../../../src';
+import { GetTradeInformationTest } from '.';
 
 export default {
   title: 'services/getTradeInformation',

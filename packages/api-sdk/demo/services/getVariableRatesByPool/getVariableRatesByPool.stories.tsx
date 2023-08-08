@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import * as React from 'react';
-import { GetVariableRatesByPoolTest } from './index';
 import { GetVariableRatesByPoolArgs } from '../../../src';
+import { GetVariableRatesByPoolTest } from '.';
 
 export default {
   title: 'services/getVariableRatesByPool',

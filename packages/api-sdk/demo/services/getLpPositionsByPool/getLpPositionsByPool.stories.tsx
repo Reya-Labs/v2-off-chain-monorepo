@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import * as React from 'react';
-import { GetLpPositionsByPoolTest } from './index';
 import { GetLpPositionsByPoolArgs } from '../../../src';
+import { GetLpPositionsByPoolTest } from '.';
 
 export default {
   title: 'services/getLpPositionsByPool',

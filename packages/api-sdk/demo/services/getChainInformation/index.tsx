@@ -1,6 +1,4 @@
 import * as React from 'react';
-
-import { ContentBox } from './getChainInformation.styled';
 import { TestPage } from '../../components/TestPage/TestPage';
 import { getChainInformation, GetChainInformationArgs } from '../../../src';
 import { useTest } from '../../hooks/useTest';
@@ -13,14 +11,12 @@ export const GetChainInformationTest: React.FunctionComponent<
     args,
   });
   return (
-    <ContentBox>
-      <TestPage
-        title="services/getChainInformation"
-        loading={loading}
-        error={error}
-        result={result}
-        onTestClick={test}
-      />
-    </ContentBox>
+    <TestPage
+      title="services/getChainInformation"
+      loading={loading}
+      error={error}
+      result={result}
+      onTestClick={test}
+    />
   );
 };

@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import * as React from 'react';
-import { GetPoolTest } from './index';
 import { GetPoolArgs } from '../../../src';
+import { GetPoolTest } from '.';
 
 export default {
   title: 'services/getPool',

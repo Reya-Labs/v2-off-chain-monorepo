@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import * as React from 'react';
-import { GetFixedRatesByPoolTest } from './index';
 import { GetFixedRatesByPoolArgs } from '../../../src';
+import { GetFixedRatesByPoolTest } from '.';
 
 export default {
   title: 'services/getFixedRatesByPool',

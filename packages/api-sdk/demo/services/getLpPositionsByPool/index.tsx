@@ -1,6 +1,4 @@
 import * as React from 'react';
-
-import { ContentBox } from './getLpPositionsByPool.styled';
 import { TestPage } from '../../components/TestPage/TestPage';
 import {
   getLpPositionsByPool,
@@ -19,14 +17,12 @@ export const GetLpPositionsByPoolTest: React.FunctionComponent<
   );
 
   return (
-    <ContentBox>
-      <TestPage
-        title="services/getLpPositionsByPool"
-        loading={loading}
-        error={error}
-        result={result}
-        onTestClick={test}
-      />
-    </ContentBox>
+    <TestPage
+      title="services/getLpPositionsByPool"
+      loading={loading}
+      error={error}
+      result={result}
+      onTestClick={test}
+    />
   );
 };

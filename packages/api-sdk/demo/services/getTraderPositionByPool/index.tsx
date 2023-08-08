@@ -1,6 +1,4 @@
 import * as React from 'react';
-
-import { ContentBox } from './getTraderPositionByPool.styled';
 import { TestPage } from '../../components/TestPage/TestPage';
 import {
   getTraderPositionByPool,
@@ -19,14 +17,12 @@ export const GetTraderPositionByPoolTest: React.FunctionComponent<
   );
 
   return (
-    <ContentBox>
-      <TestPage
-        title="services/getTraderPositionByPool"
-        loading={loading}
-        error={error}
-        result={result}
-        onTestClick={test}
-      />
-    </ContentBox>
+    <TestPage
+      title="services/getTraderPositionByPool"
+      loading={loading}
+      error={error}
+      result={result}
+      onTestClick={test}
+    />
   );
 };

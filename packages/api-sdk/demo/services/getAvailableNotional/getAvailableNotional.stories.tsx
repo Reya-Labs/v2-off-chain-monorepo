@@ -1,8 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import * as React from 'react';
-
-import { GetAvailableNotionalTest } from './index';
 import { GetAvailableNotionalArgs } from '../../../src';
+import { GetAvailableNotionalTest } from '.';
 
 export default {
   title: 'services/getAvailableNotional',

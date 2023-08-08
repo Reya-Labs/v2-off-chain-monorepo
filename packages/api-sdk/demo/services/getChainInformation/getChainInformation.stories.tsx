@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import * as React from 'react';
-import { GetChainInformationTest } from './index';
 import { GetChainInformationArgs } from '../../../src';
+import { GetChainInformationTest } from '.';
 
 export default {
   title: 'services/getChainInformation',
