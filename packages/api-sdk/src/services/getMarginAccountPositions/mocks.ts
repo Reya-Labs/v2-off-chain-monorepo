@@ -15,473 +15,60 @@ const randomHealth = () => {
     ? 'danger'
     : 'warning';
 };
-export const getPositionsMock = () =>
-  [
-    {
-      type: 'LP',
-      id: '1',
-      pool: {
-        id: '1',
-        chainId: 1,
-        market: 'Aave V2',
-        underlyingToken: {
-          address: '1',
-          tokenDecimals: 2,
-          priceUSD: 10,
-          name: 'eth',
-        },
-        rateOracle: {
-          address: '1',
-          protocolId: 1,
-        },
-        termEndTimestampInMS: randomDate(),
-        termStartTimestampInMS: randomDate2(),
-        isBorrowing: false,
-        isV2: false,
-      },
-      notional: randomValue2(),
-      margin: randomValue2(),
-      status: {
-        health: randomHealth(),
-        variant: 'matured',
-        currentFixed: randomValue3(),
-        receiving: randomValue3(),
-        paying: randomValue3(),
-        fixLow: randomValue3(),
-        fixHigh: randomValue3(),
-      },
-      unrealizedPNL: randomValue(),
-      realizedPNLTotal: randomValue(),
-      realizedPNLFees: randomValue(),
-      realizedPNLCashflow: randomValue(),
-      unrealizedPNLUSD: randomValue(),
-      realizedPNLTotalUSD: randomValue(),
-      realizedPNLFeesUSD: randomValue(),
-      realizedPNLCashflowUSD: randomValue(),
-    },
-    {
-      type: 'Variable',
-      id: '2',
-      pool: {
-        id: '2',
-        chainId: 1,
-        market: 'Compound',
-        underlyingToken: {
-          address: '1',
-          tokenDecimals: 2,
-          priceUSD: 10,
-          name: 'usdc',
-        },
-        rateOracle: {
-          address: '1',
-          protocolId: 1,
-        },
-        termEndTimestampInMS: randomDate(),
-        termStartTimestampInMS: randomDate2(),
-        isBorrowing: true,
-        isV2: true,
-      },
-      notional: randomValue2(),
-      margin: randomValue2(),
-      status: {
-        health: randomHealth(),
-        variant: 'active',
-        currentFixed: randomValue3(),
-        receiving: randomValue3(),
-        paying: randomValue3(),
-        fixLow: randomValue3(),
-        fixHigh: randomValue3(),
-      },
-      unrealizedPNL: randomValue(),
-      realizedPNLTotal: randomValue(),
-      realizedPNLFees: randomValue(),
-      realizedPNLCashflow: randomValue(),
-      unrealizedPNLUSD: randomValue(),
-      realizedPNLTotalUSD: randomValue(),
-      realizedPNLFeesUSD: randomValue(),
-      realizedPNLCashflowUSD: randomValue(),
-    },
-    {
-      type: 'Fixed',
-      id: '3',
-      pool: {
-        id: '3',
-        chainId: 43114,
-        market: 'Lido',
-        underlyingToken: {
-          address: '1',
-          tokenDecimals: 2,
-          priceUSD: 10,
-          name: 'eth',
-        },
-        rateOracle: {
-          address: '1',
-          protocolId: 1,
-        },
-        termEndTimestampInMS: randomDate(),
-        termStartTimestampInMS: randomDate2(),
-        isBorrowing: false,
-        isV2: true,
-      },
-      notional: randomValue2(),
-      margin: randomValue2(),
-      status: {
-        health: randomHealth(),
-        variant: 'active',
-        currentFixed: randomValue3(),
-        receiving: randomValue3(),
-        paying: randomValue3(),
-        fixLow: randomValue3(),
-        fixHigh: randomValue3(),
-      },
-      unrealizedPNL: randomValue(),
-      realizedPNLTotal: randomValue(),
-      realizedPNLFees: randomValue(),
-      realizedPNLCashflow: randomValue(),
-      unrealizedPNLUSD: randomValue(),
-      realizedPNLTotalUSD: randomValue(),
-      realizedPNLFeesUSD: randomValue(),
-      realizedPNLCashflowUSD: randomValue(),
-    },
-    {
-      type: 'Variable',
-      id: '4',
-      pool: {
-        id: '4',
-        chainId: 43114,
-        market: 'Rocket',
-        underlyingToken: {
-          address: '1',
-          tokenDecimals: 2,
-          priceUSD: 10,
-          name: 'dai',
-        },
-        rateOracle: {
-          address: '1',
-          protocolId: 1,
-        },
-        termEndTimestampInMS: randomDate(),
-        termStartTimestampInMS: randomDate2(),
-        isBorrowing: true,
-        isV2: false,
-      },
-      notional: randomValue2(),
-      margin: randomValue2(),
-      status: {
-        health: randomHealth(),
-        variant: 'active',
-        currentFixed: randomValue3(),
-        receiving: randomValue3(),
-        paying: randomValue3(),
-        fixLow: randomValue3(),
-        fixHigh: randomValue3(),
-      },
-      unrealizedPNL: randomValue(),
-      realizedPNLTotal: randomValue(),
-      realizedPNLFees: randomValue(),
-      realizedPNLCashflow: randomValue(),
-      unrealizedPNLUSD: randomValue(),
-      realizedPNLTotalUSD: randomValue(),
-      realizedPNLFeesUSD: randomValue(),
-      realizedPNLCashflowUSD: randomValue(),
-    },
-    {
-      type: 'Fixed',
-      id: '5',
-      pool: {
-        id: '5',
-        chainId: 42161,
-        market: 'GMX:GLP',
-        underlyingToken: {
-          address: '1',
-          tokenDecimals: 2,
-          priceUSD: 10,
-          name: 'eth',
-        },
-        rateOracle: {
-          protocolId: 1,
-          address: '1',
-        },
-        termEndTimestampInMS: randomDate(),
-        termStartTimestampInMS: randomDate2(),
-        isBorrowing: true,
-        isV2: false,
-      },
-      notional: randomValue2(),
-      margin: randomValue2(),
-      status: {
-        health: randomHealth(),
-        variant: 'active',
-        currentFixed: randomValue3(),
-        receiving: randomValue3(),
-        paying: randomValue3(),
-        fixLow: randomValue3(),
-        fixHigh: randomValue3(),
-      },
-      unrealizedPNL: randomValue(),
-      realizedPNLTotal: randomValue(),
-      realizedPNLFees: randomValue(),
-      realizedPNLCashflow: randomValue(),
-      unrealizedPNLUSD: randomValue(),
-      realizedPNLTotalUSD: randomValue(),
-      realizedPNLFeesUSD: randomValue(),
-      realizedPNLCashflowUSD: randomValue(),
-    },
-    {
-      type: 'LP',
-      id: '6',
-      pool: {
-        id: '6',
-        chainId: 42161,
-        market: 'SOFR',
-        underlyingToken: {
-          address: '1',
-          tokenDecimals: 2,
-          priceUSD: 10,
-          name: 'usdt',
-        },
-        rateOracle: {
-          protocolId: 1,
-          address: '1',
-        },
-        termEndTimestampInMS: randomDate(),
-        termStartTimestampInMS: randomDate2(),
-        isBorrowing: false,
-        isV2: false,
-      },
-      notional: randomValue2(),
-      margin: randomValue2(),
-      status: {
-        health: randomHealth(),
-        variant: 'settled',
-        currentFixed: randomValue3(),
-        receiving: randomValue3(),
-        paying: randomValue3(),
-        fixLow: randomValue3(),
-        fixHigh: randomValue3(),
-      },
-      unrealizedPNL: randomValue(),
-      realizedPNLTotal: randomValue(),
-      realizedPNLFees: randomValue(),
-      realizedPNLCashflow: randomValue(),
-      unrealizedPNLUSD: randomValue(),
-      realizedPNLTotalUSD: randomValue(),
-      realizedPNLFeesUSD: randomValue(),
-      realizedPNLCashflowUSD: randomValue(),
-    },
-    {
-      type: 'LP',
-      id: '7',
-      pool: {
-        id: '7',
-        chainId: 1,
-        market: 'Aave V3',
-        underlyingToken: {
-          address: '1',
-          tokenDecimals: 2,
-          priceUSD: 10,
-          name: 'usdc',
-        },
-        rateOracle: {
-          address: '1',
-          protocolId: 1,
-        },
-        termEndTimestampInMS: randomDate(),
-        termStartTimestampInMS: randomDate2(),
-        isBorrowing: true,
-        isAaveV3: true,
-        isV2: false,
-      },
-      notional: randomValue2(),
-      margin: randomValue2(),
-      status: {
-        health: randomHealth(),
-        variant: 'active',
-        currentFixed: randomValue3(),
-        receiving: randomValue3(),
-        paying: randomValue3(),
-        fixLow: randomValue3(),
-        fixHigh: randomValue3(),
-      },
-      unrealizedPNL: randomValue(),
-      realizedPNLTotal: randomValue(),
-      realizedPNLFees: randomValue(),
-      realizedPNLCashflow: randomValue(),
-      unrealizedPNLUSD: randomValue(),
-      realizedPNLTotalUSD: randomValue(),
-      realizedPNLFeesUSD: randomValue(),
-      realizedPNLCashflowUSD: randomValue(),
-    },
-    {
-      type: 'Fixed',
-      id: '8',
-      pool: {
-        id: '8',
-        chainId: 43114,
-        market: 'Compound',
-        underlyingToken: {
-          address: '1',
-          tokenDecimals: 2,
-          priceUSD: 10,
-          name: 'usdt',
-        },
-        rateOracle: {
-          address: '1',
-          protocolId: 1,
-        },
-        termEndTimestampInMS: randomDate(),
-        termStartTimestampInMS: randomDate2(),
-        isBorrowing: false,
-        isV2: true,
-      },
-      notional: randomValue2(),
-      margin: randomValue2(),
-      status: {
-        health: randomHealth(),
-        variant: 'active',
-        currentFixed: randomValue3(),
-        receiving: randomValue3(),
-        paying: randomValue3(),
-        fixLow: randomValue3(),
-        fixHigh: randomValue3(),
-      },
-      unrealizedPNL: randomValue(),
-      realizedPNLTotal: randomValue(),
-      realizedPNLFees: randomValue(),
-      realizedPNLCashflow: randomValue(),
-      unrealizedPNLUSD: randomValue(),
-      realizedPNLTotalUSD: randomValue(),
-      realizedPNLFeesUSD: randomValue(),
-      realizedPNLCashflowUSD: randomValue(),
-    },
-    {
-      type: 'Variable',
-      id: '9',
-      pool: {
-        id: '9',
-        market: 'Lido',
-        chainId: 42161,
-        isBorrowing: true,
-        isAaveV3: true,
-        isV2: true,
-        termEndTimestampInMS: randomDate(),
-        termStartTimestampInMS: randomDate2(),
-        underlyingToken: {
-          address: '1',
-          tokenDecimals: 2,
-          priceUSD: 10,
-          name: 'usdt',
-        },
-        rateOracle: {
-          address: '1',
-          protocolId: 1,
-        },
-      },
-      notional: randomValue2(),
-      margin: randomValue2(),
-      status: {
-        health: randomHealth(),
-        variant: 'active',
-        currentFixed: randomValue3(),
-        receiving: randomValue3(),
-        paying: randomValue3(),
-        fixLow: randomValue3(),
-        fixHigh: randomValue3(),
-      },
-      unrealizedPNL: randomValue(),
-      realizedPNLTotal: randomValue(),
-      realizedPNLFees: randomValue(),
-      realizedPNLCashflow: randomValue(),
-      unrealizedPNLUSD: randomValue(),
-      realizedPNLTotalUSD: randomValue(),
-      realizedPNLFeesUSD: randomValue(),
-      realizedPNLCashflowUSD: randomValue(),
-    },
-    {
-      type: 'Fixed',
-      id: '10',
-      notional: randomValue2(),
-      margin: randomValue2(),
-      pool: {
-        id: '10',
-        market: 'Rocket',
-        chainId: 1,
-        rateOracle: {
-          address: '1',
-          protocolId: 1,
-        },
-        underlyingToken: {
-          address: '1',
-          tokenDecimals: 2,
-          priceUSD: 10,
-          name: 'eth',
-        },
-        termEndTimestampInMS: randomDate(),
-        termStartTimestampInMS: randomDate2(),
-        isBorrowing: false,
-        isV2: false,
-      },
-      status: {
-        health: randomHealth(),
-        variant: 'matured',
-        currentFixed: randomValue3(),
-        receiving: randomValue3(),
-        paying: randomValue3(),
-        fixLow: randomValue3(),
-        fixHigh: randomValue3(),
-      },
-      unrealizedPNL: randomValue(),
-      realizedPNLTotal: randomValue(),
-      realizedPNLFees: randomValue(),
-      realizedPNLCashflow: randomValue(),
-      unrealizedPNLUSD: randomValue(),
-      realizedPNLTotalUSD: randomValue(),
-      realizedPNLFeesUSD: randomValue(),
-      realizedPNLCashflowUSD: randomValue(),
-    },
-    {
-      type: 'LP',
-      id: '11',
-      pool: {
-        id: '11',
-        market: 'GMX:GLP',
-        chainId: 43114,
-        termEndTimestampInMS: randomDate(),
-        termStartTimestampInMS: randomDate2(),
-        isBorrowing: true,
-        isV2: false,
-        rateOracle: {
-          protocolId: 1,
-          address: '1',
-        },
-        underlyingToken: {
-          address: '1',
-          tokenDecimals: 2,
-          priceUSD: 10,
-          name: 'usdc',
-        },
-      },
-      notional: randomValue2(),
-      margin: randomValue2(),
-      status: {
-        health: randomHealth(),
-        variant: 'active',
-        currentFixed: randomValue3(),
-        receiving: randomValue3(),
-        paying: randomValue3(),
-        fixLow: randomValue3(),
-        fixHigh: randomValue3(),
-      },
-      unrealizedPNL: randomValue(),
-      realizedPNLTotal: randomValue(),
-      realizedPNLFees: randomValue(),
-      realizedPNLCashflow: randomValue(),
-      unrealizedPNLUSD: randomValue(),
-      realizedPNLTotalUSD: randomValue(),
-      realizedPNLFeesUSD: randomValue(),
-      realizedPNLCashflowUSD: randomValue(),
-    },
-  ].slice(0, getRandomIntInclusive(5, 11)) as never;
+const randomType = () =>
+  Math.random() * 100 > 33
+    ? 'LP'
+    : Math.random() * 100 > 66
+    ? 'Fixed'
+    : 'Variable';
+
+const randomChainId = () => {
+  const numbers = [1, 5, 42161, 421613, 43114, 43113];
+  const randomIndex = Math.floor(Math.random() * numbers.length);
+  return numbers[randomIndex];
+};
+
+const randomBoolean = () => (Math.random() * 100 > 50 ? true : false);
+
+function randomMarket() {
+  const markets = [
+    'Aave V2',
+    'Aave V3',
+    'Compound',
+    'Lido',
+    'Rocket',
+    'GMX:GLP',
+    'SOFR',
+  ];
+  const randomIndex = Math.floor(Math.random() * markets.length);
+  return markets[randomIndex];
+}
+
+function randomToken() {
+  const tokens = ['eth', 'usdc', 'usdt', 'dai'];
+  const randomIndex = Math.floor(Math.random() * tokens.length);
+  return tokens[randomIndex];
+}
+
+const randomUnderlyingToken = () => ({
+  address: '1',
+  tokenDecimals: 2,
+  priceUSD: randomValue3(),
+  name: randomToken(),
+});
+
+function generateRandomId(length = 8) {
+  const characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let randomId = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    randomId += characters.charAt(randomIndex);
+  }
+
+  return randomId;
+}
 
 // The maximum is inclusive and the minimum is inclusive
 function getRandomIntInclusive(min: number, max: number) {
@@ -489,3 +76,44 @@ function getRandomIntInclusive(min: number, max: number) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+const randomPosition = () => ({
+  type: randomType(),
+  id: generateRandomId(),
+  pool: {
+    id: '1',
+    chainId: randomChainId(),
+    market: randomMarket(),
+    underlyingToken: randomUnderlyingToken(),
+    rateOracle: {
+      address: '1',
+      protocolId: 1,
+    },
+    termEndTimestampInMS: randomDate(),
+    termStartTimestampInMS: randomDate2(),
+    isBorrowing: randomBoolean(),
+    isV2: randomBoolean(),
+  },
+  notional: randomValue2(),
+  margin: randomValue2(),
+  health: randomHealth(),
+  receiving: randomValue3(),
+  paying: randomValue3(),
+  fixLow: randomValue3(),
+  fixHigh: randomValue3(),
+  poolCurrentFixedRate: randomValue3(),
+  variant: 'active',
+  unrealizedPNL: randomValue(),
+  realizedPNLTotal: randomValue(),
+  realizedPNLFees: randomValue(),
+  realizedPNLCashflow: randomValue(),
+  unrealizedPNLUSD: randomValue(),
+  realizedPNLTotalUSD: randomValue(),
+  realizedPNLFeesUSD: randomValue(),
+  realizedPNLCashflowUSD: randomValue(),
+});
+
+export const getPositionsMock = () =>
+  new Array(Math.floor(getRandomIntInclusive(4, 11))).map(() =>
+    randomPosition(),
+  );
