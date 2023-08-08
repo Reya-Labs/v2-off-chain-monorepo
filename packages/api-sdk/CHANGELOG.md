@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.18.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.17.0...@voltz-protocol/api-sdk-v2@1.18.0) (2023-08-08)
+
+### Bug Fixes
+
+- types ([c359b1b](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/c359b1b83fb4f7c2b19c3e0e27362c73277666dd))
+
+### Features
+
+- improve mocking fns ([6f4bc5c](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/6f4bc5c89ef330edd290861b61996ce8316bf66c))
+
 # [1.17.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.16.0...@voltz-protocol/api-sdk-v2@1.17.0) (2023-08-08)
 
 ### Bug Fixes
