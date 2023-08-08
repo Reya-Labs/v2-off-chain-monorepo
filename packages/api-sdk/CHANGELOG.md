@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.17.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.16.0...@voltz-protocol/api-sdk-v2@1.17.0) (2023-08-08)
+
+### Bug Fixes
+
+- correct linting errors ([41cf2a3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/41cf2a365a711357a7e5905867d0c5d677de9dcc))
+- move ContentBox to TestPage.styled.tsx ([5b666bd](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/5b666bd0f29a121101da819c73cfa93d434dddd8))
+- remove not needed ContentBox ([8ac085c](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/8ac085cb1bfc2a7a81f58d186f6542e3c0981edf))
+
+### Features
+
+- add getMarginAccountPositions ([1259400](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/1259400fb7843285efe9603ca9c1dc366a2f488b))
+- add getMarginAccounts ([12e5286](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/12e5286f58ae8f2a7f208b4851651d5ec43a4bf5))
+- add getPortfolioSummary ([76b61d5](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/76b61d569825d6c9431792089355d1edc327b427))
+
 # [1.16.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.15.0...@voltz-protocol/api-sdk-v2@1.16.0) (2023-08-01)
 
 ### Features
