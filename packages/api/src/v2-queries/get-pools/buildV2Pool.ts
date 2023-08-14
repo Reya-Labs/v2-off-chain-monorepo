@@ -122,7 +122,7 @@ export const buildV2Pool = async ({
       isGLP28Jun2023: false,
       isBlacklisted: isPoolBlacklisted(id),
       isPaused: false,
-      isSettementAllowedWhenPaused: false,
+      isSettlementAllowedWhenPaused: false,
     },
   };
 };
