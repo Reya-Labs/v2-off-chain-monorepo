@@ -10,7 +10,7 @@ import { getCoingeckoApiKey } from '../../services/envVars';
 import { V1Pool } from '@voltz-protocol/api-sdk-v2';
 import { log } from '../../logging/log';
 import { isPoolBlacklisted } from '../../services/isPoolBlacklisted';
-import { isSettementAllowedWhenPaused } from '../../services/isSettementAllowedWhenPaused';
+import { isSettlementAllowedWhenPaused } from '../../services/isSettlementAllowedWhenPaused';
 
 export const buildV1Pool = async (
   rawPool: BigQueryPoolRow,
@@ -64,7 +64,7 @@ export const buildV1Pool = async (
         id === '42161_0x22393f23f16925d282aeca0a8464dccaf10ee480_v1',
       isBlacklisted: isPoolBlacklisted(id),
       isPaused,
-      isSettementAllowedWhenPaused: isSettementAllowedWhenPaused(id),
+      isSettlementAllowedWhenPaused: isSettlementAllowedWhenPaused(id),
     },
   };
 

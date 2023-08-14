@@ -5,6 +5,6 @@ const PAUSED_POOLS_WITH_ALLOWED_SETTLEMENT: Record<string, boolean> = {
   '42161_0x3ecf01157e9b1a66197325771b63789d1fb18f1f_v1': true,
 };
 
-export const isSettementAllowedWhenPaused = (poolId: string): boolean => {
+export const isSettlementAllowedWhenPaused = (poolId: string): boolean => {
   return Boolean(PAUSED_POOLS_WITH_ALLOWED_SETTLEMENT[poolId]);
 };

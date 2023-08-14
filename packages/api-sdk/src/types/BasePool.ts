@@ -35,6 +35,6 @@ export type BasePool = {
     isGLP28Jun2023: boolean;
     isBlacklisted: boolean;
     isPaused: boolean;
-    isSettementAllowedWhenPaused: boolean;
+    isSettlementAllowedWhenPaused: boolean;
   };
 };
