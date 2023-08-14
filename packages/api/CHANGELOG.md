@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.57.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.56.3...@voltz-protocol/api-v2@1.57.0) (2023-08-14)
+
+### Bug Fixes
+
+- prettier ([b43c529](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/b43c5291fdd683e6ea39b9b812a9b8292735c64e))
+
+### Features
+
+- is Settlement Allowed ([f8615ca](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/f8615cad49b56a1fc049cdf6fc9123d66e8f86ef))
+
 ## [1.56.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.56.2...@voltz-protocol/api-v2@1.56.3) (2023-08-08)
 
 **Note:** Version bump only for package @voltz-protocol/api-v2
