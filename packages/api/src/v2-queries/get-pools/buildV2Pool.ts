@@ -123,6 +123,7 @@ export const buildV2Pool = async ({
       isBlacklisted: isPoolBlacklisted(id),
       isPaused: false,
       isSettlementAllowedWhenPaused: false,
+      isArbAaveAugust: false,
     },
   };
 };

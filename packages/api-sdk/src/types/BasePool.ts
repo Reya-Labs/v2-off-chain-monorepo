@@ -35,6 +35,7 @@ export type BasePool = {
     isGLP28Jun2023: boolean;
     isBlacklisted: boolean;
     isPaused: boolean;
-    isSettlementAllowedWhenPaused: boolean;
+    isSettlementAllowedWhenPaused: boolean; // todo: deprecate
+    isArbAaveAugust: boolean;
   };
 };
