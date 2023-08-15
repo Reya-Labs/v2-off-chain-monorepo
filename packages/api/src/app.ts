@@ -49,20 +49,20 @@ app.use(cors());
 app.set('trust proxy', getTrustedProxies());
 
 // Create and use the rate limiter
-const limiter = rateLimit({
-  windowMs: 5 * 60 * 1000, // 5 minutes
-  max: 1000, // Limit each IP to 1000 requests per `window` (here, per 5 minutes)
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+// const limiter = rateLimit({
+//   windowMs: 5 * 60 * 1000, // 5 minutes
+//   max: 1000, // Limit each IP to 1000 requests per `window` (here, per 5 minutes)
+//   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+//   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 
-  // Redis store configuration
-  store: new RedisStore({
-    // @ts-expect-error - Known issue: the `call` function is not present in @types/ioredis
-    sendCommand: (...args: string[]) => getRedisClient().call(...args),
-  }),
-});
+//   // Redis store configuration
+//   store: new RedisStore({
+//     // @ts-expect-error - Known issue: the `call` function is not present in @types/ioredis
+//     sendCommand: (...args: string[]) => getRedisClient().call(...args),
+//   }),
+// });
 
-app.use(limiter);
+// app.use(limiter);
 
 app.get('/', (_, res) => {
   res.send('Welcome to Voltz API');
