@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.57.4](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.57.3...@voltz-protocol/api-v2@1.57.4) (2023-08-15)
+
+### Bug Fixes
+
+- comment rate limiter api ([78571c7](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/78571c7caeecdcaa413ef9c77c85db96cfc0fa8c))
+
 ## [1.57.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.57.2...@voltz-protocol/api-v2@1.57.3) (2023-08-15)
 
 ### Bug Fixes
