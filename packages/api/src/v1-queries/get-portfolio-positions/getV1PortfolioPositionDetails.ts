@@ -51,6 +51,8 @@ export const getV1PortfolioPositionDetails = async ({
     ? false
     : includeHistory;
 
+  const isMatured = position.amm.termEndTimestampInMS <= now;
+
   if (position.isSettled) {
     const realizedPNLCashflow = position.settlements[0].settlementCashflow;
 
@@ -76,9 +78,20 @@ export const getV1PortfolioPositionDetails = async ({
 
       history: shouldIncludeHistory ? txs : [],
     };
-  }
+  } else if (
+    response.pool.flags.isGLP28Jun2023 ||
+    response.pool.flags.isArbAaveAugust
+  ) {
+    return {
+      ...response,
 
-  const isMatured = position.amm.termEndTimestampInMS <= now;
+      canEdit: false,
+      canSettle: true,
+      rolloverPoolId: null,
+
+      history: shouldIncludeHistory ? txs : [],
+    };
+  }
 
   if (isMatured) {
     // Check for available rollovers
