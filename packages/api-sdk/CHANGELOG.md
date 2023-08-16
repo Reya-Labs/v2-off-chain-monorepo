@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.20.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.20.0...@voltz-protocol/api-sdk-v2@1.20.1) (2023-08-16)
+
+### Bug Fixes
+
+- export ([15c0665](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/15c0665604c72e865e15aaf3b40fe3e5574d4a6d))
+
 # [1.20.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.19.3...@voltz-protocol/api-sdk-v2@1.20.0) (2023-08-16)
 
 ### Features
