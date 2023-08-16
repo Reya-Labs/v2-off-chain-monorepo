@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.55.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.54.14...@voltz-protocol/sdk-v2@1.55.0) (2023-08-16)
+
+### Features
+
+- add mock functions for withdraw/deposit for margin accounts ([b77a713](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/b77a713ebb558a49a2b5196bb6f61c7498d0ea04))
+
 ## [1.54.14](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.54.13...@voltz-protocol/sdk-v2@1.54.14) (2023-08-16)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v2
