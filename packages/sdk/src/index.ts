@@ -7,3 +7,4 @@ export * from './services/rolloverWithSwap';
 export * from './services/poolSwapInfo';
 export * from './services/token';
 export * from './utils/configuration';
+export * from './services/margin-accounts';
