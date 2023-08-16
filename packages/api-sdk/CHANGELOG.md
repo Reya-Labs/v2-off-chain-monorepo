@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.19.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.19.2...@voltz-protocol/api-sdk-v2@1.19.3) (2023-08-16)
+
+### Bug Fixes
+
+- add sorter function ([6c3e337](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/6c3e337c249ef67dc7ef00a878f232e8ee20b37e))
+
 ## [1.19.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.19.1...@voltz-protocol/api-sdk-v2@1.19.2) (2023-08-15)
 
 ### Bug Fixes
