@@ -13,3 +13,4 @@ export * from './getVariableRatesByPool';
 export * from './getMarginAccounts';
 export * from './getMarginAccountPositions';
 export * from './getPortfolioSummary';
+export * from './getAvailableAmountsToWithdrawForMarginAccount';
