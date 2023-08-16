@@ -16,10 +16,15 @@ export function generateRandomMockResponse() {
   const shuffledTokens = tokenData.sort(() => 0.5 - Math.random());
   const randomTokens = shuffledTokens.slice(0, numTokens);
 
-  return randomTokens.map((token) => ({
-    token,
-    value:
+  return randomTokens.map((token) => {
+    const value =
       Math.floor(Math.random() * (maxRandomValue - minRandomValue + 1)) +
-      minRandomValue,
-  })) as AvailableAmountToWithdrawForMarginAccount[];
+      minRandomValue;
+    const valueUSD = value * 12.3;
+    return {
+      token,
+      value,
+      valueUSD,
+    };
+  }) as AvailableAmountToWithdrawForMarginAccount[];
 }

@@ -6,6 +6,7 @@ export type GetAvailableAmountsToWithdrawForMarginAccountArgs = {
 
 export type AvailableAmountToWithdrawForMarginAccount = {
   value: number;
+  valueUSD: number;
   token: 'dai' | 'eth' | 'reth' | 'steth' | 'usdc' | 'usdt';
 };
 
