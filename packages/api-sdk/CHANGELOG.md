@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.20.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.20.1...@voltz-protocol/api-sdk-v2@1.20.2) (2023-08-16)
+
+### Bug Fixes
+
+- add valueUSD as prop ([7020b80](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/7020b80097ccd454dc1cc26d4fc35c4dde5a9caf))
+
 ## [1.20.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.20.0...@voltz-protocol/api-sdk-v2@1.20.1) (2023-08-16)
 
 ### Bug Fixes
