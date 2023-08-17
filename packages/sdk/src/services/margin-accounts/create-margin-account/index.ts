@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { providers } from 'ethers';
 
-type CreateMarginAccountArgs = {
+export type CreateMarginAccountArgs = {
   signer: providers.JsonRpcSigner | null;
   name: string;
 };
