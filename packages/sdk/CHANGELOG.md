@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.56.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.55.0...@voltz-protocol/sdk-v2@1.56.0) (2023-08-17)
+
+### Features
+
+- add create-margin-account ([7df64ef](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/7df64ef99266de1782d8b7560ec7d81f83dafc9e))
+
 # [1.55.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.54.14...@voltz-protocol/sdk-v2@1.55.0) (2023-08-16)
 
 ### Features
