@@ -14,3 +14,4 @@ export * from './getMarginAccounts';
 export * from './getMarginAccountPositions';
 export * from './getPortfolioSummary';
 export * from './getAvailableAmountsToWithdrawForMarginAccount';
+export * from './getAvailableAmountsToDepositForMarginAccount';
