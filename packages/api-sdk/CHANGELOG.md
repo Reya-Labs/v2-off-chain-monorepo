@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.21.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.20.2...@voltz-protocol/api-sdk-v2@1.21.0) (2023-08-18)
+
+### Features
+
+- add getAvailableAmountsToDepositForMarginAccount mock ([189be64](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/189be6423d58d28d3504c5a0d15aab306766ed0f))
+
 ## [1.20.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.20.1...@voltz-protocol/api-sdk-v2@1.20.2) (2023-08-16)
 
 ### Bug Fixes
