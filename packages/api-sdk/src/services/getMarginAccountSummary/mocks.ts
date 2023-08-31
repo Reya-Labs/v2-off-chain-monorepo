@@ -47,5 +47,6 @@ export const getMarginAccountSummaryMock = () => {
     totalPositionsCount: getRandomIntInclusive(2, 100),
     marginRatioPercentage: getRandomIntInclusive(2, 99),
     marginRatioHealth: randomHealth(),
+    distributions: getMockDistributions(),
   };
 };
