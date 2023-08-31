@@ -44,6 +44,12 @@ function randomMarket() {
   return markets[randomIndex];
 }
 
+function randomVariant() {
+  const variants = ['active', 'matured', 'settled'];
+  const randomIndex = Math.floor(Math.random() * variants.length);
+  return variants[randomIndex];
+}
+
 function randomToken() {
   const tokens = ['eth', 'usdc', 'usdt', 'dai'];
   const randomIndex = Math.floor(Math.random() * tokens.length);
@@ -102,7 +108,7 @@ const randomPosition = () => ({
   fixLow: randomValue3(),
   fixHigh: randomValue3(),
   poolCurrentFixedRate: randomValue3(),
-  variant: 'active',
+  variant: randomVariant(),
   unrealizedPNL: randomValue(),
   realizedPNLTotal: randomValue(),
   realizedPNLFees: randomValue(),
