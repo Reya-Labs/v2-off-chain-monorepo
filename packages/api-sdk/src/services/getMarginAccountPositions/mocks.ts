@@ -118,8 +118,19 @@ const randomPosition = () => ({
   realizedPNLFeesUSD: randomValue(),
   realizedPNLCashflowUSD: randomValue(),
 });
-
-export const getPositionsMock = () =>
-  new Array(Math.floor(getRandomIntInclusive(4, 11)))
-    .fill(0)
-    .map(() => randomPosition()) as never;
+type ReturnPositionType = ReturnType<typeof randomPosition>;
+const cached: Record<string, ReturnPositionType[]> = {};
+export const getPositionsMock = (marginAccountId: string, perPage?: number) => {
+  const positions = cached[marginAccountId]
+    ? cached[marginAccountId]
+    : (new Array(
+        Math.floor(getRandomIntInclusive(4, getRandomIntInclusive(15, 76))),
+      )
+        .fill(0)
+        .map(() => randomPosition()) as ReturnPositionType[]);
+  cached[marginAccountId] = positions;
+  if (perPage) {
+    return positions.slice(0, perPage);
+  }
+  return positions;
+};
