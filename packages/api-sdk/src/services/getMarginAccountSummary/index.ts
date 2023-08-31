@@ -13,5 +13,5 @@ export const getMarginAccountSummary = async ({
   await new Promise((resolve) => {
     setTimeout(resolve, 1000);
   });
-  return getMarginAccountSummaryMock();
+  return getMarginAccountSummaryMock(marginAccountId);
 };
