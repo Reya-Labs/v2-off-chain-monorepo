@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.22.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.21.0...@voltz-protocol/api-sdk-v2@1.22.0) (2023-08-31)
+
+### Features
+
+- add getMarginAccountSummary ([7aad2bc](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/7aad2bcf26c5fffe33319f12c99beba9ae8d8fd8))
+
 # [1.21.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.20.2...@voltz-protocol/api-sdk-v2@1.21.0) (2023-08-18)
 
 ### Features
