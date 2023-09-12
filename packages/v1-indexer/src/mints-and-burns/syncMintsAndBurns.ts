@@ -35,8 +35,11 @@ export const syncMintsAndBurns = async (chainIds: number[]): Promise<void> => {
         amm.vamm,
       );
 
+      // const fromBlock = latestBlock + 1;
+      // const toBlock = currentBlock;
+
       const fromBlock = latestBlock + 1;
-      const toBlock = currentBlock;
+      const toBlock = Math.min(fromBlock + 1_000_000, currentBlock);
 
       if (fromBlock >= toBlock) {
         return;

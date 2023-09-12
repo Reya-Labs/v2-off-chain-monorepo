@@ -19,8 +19,12 @@ export const syncPools = async (chainIds: number[]): Promise<void> => {
       chainId,
     );
 
-    const toBlock = await provider.getBlockNumber();
+    // const toBlock = await provider.getBlockNumber();
+    // const fromBlock = latestBlock + 1;
+
+    const currentBlock = await provider.getBlockNumber();
     const fromBlock = latestBlock + 1;
+    const toBlock = Math.min(fromBlock + 1_000_000, currentBlock);
 
     if (fromBlock >= toBlock) {
       continue;
