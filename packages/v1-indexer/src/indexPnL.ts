@@ -21,7 +21,9 @@ export const main = async () => {
       );
     }
 
-    await sleep(indexInactiveTimeInMS);
+    if (Date.now() > 1694606400 * 1000) {
+      await sleep(indexInactiveTimeInMS);
+    }
   }
 };
 
