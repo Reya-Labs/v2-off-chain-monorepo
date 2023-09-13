@@ -11,8 +11,9 @@ export const main = async () => {
   await createPositionsTable();
 
   while (true) {
+    let allChainIdsBackfilled = true;
     try {
-      await syncPnL(chainIds);
+      allChainIdsBackfilled = await syncPnL(chainIds);
     } catch (error) {
       console.log(
         `[PnL]: Loop has failed with message: ${
@@ -21,7 +22,7 @@ export const main = async () => {
       );
     }
 
-    if (Date.now() > 1694606400 * 1000) {
+    if (allChainIdsBackfilled) {
       await sleep(indexInactiveTimeInMS);
     }
   }

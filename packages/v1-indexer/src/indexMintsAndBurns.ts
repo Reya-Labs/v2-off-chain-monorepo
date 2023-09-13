@@ -11,8 +11,9 @@ export const main = async () => {
   await createMintsAndBurnsTable();
 
   while (true) {
+    let allChainIdsBackfilled = true;
     try {
-      await syncMintsAndBurns(chainIds);
+      allChainIdsBackfilled = await syncMintsAndBurns(chainIds);
     } catch (error) {
       console.log(
         `[Mints and burns]: Loop has failed with message: ${
@@ -21,7 +22,7 @@ export const main = async () => {
       );
     }
 
-    if (Date.now() > 1694606400 * 1000) {
+    if (allChainIdsBackfilled) {
       await sleep(indexInactiveTimeInMS);
     }
   }

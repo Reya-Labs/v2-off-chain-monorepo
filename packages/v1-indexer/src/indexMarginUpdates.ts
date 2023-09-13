@@ -11,8 +11,9 @@ export const main = async () => {
   await createMarginUpdatesTable();
 
   while (true) {
+    let allChainIdsBackfilled = true;
     try {
-      await syncMarginUpdates(chainIds);
+      allChainIdsBackfilled = await syncMarginUpdates(chainIds);
     } catch (error) {
       console.log(
         `[Margin Updates]: Loop has failed with message: ${
@@ -21,7 +22,7 @@ export const main = async () => {
       );
     }
 
-    if (Date.now() > 1694606400 * 1000) {
+    if (allChainIdsBackfilled) {
       await sleep(indexInactiveTimeInMS);
     }
   }

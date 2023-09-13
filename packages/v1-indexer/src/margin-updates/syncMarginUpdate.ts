@@ -8,11 +8,15 @@ import {
 } from '../common/services/redisService';
 import { MarginEngineEventInfo } from '../common/types';
 
-export const syncMarginUpdates = async (chainIds: number[]): Promise<void> => {
+export const syncMarginUpdates = async (
+  chainIds: number[],
+): Promise<boolean> => {
   const lastProcessedBlocks: { [processId: string]: number } = {};
 
   let promises: Promise<void>[] = [];
   const newEvents: MarginEngineEventInfo[] = [];
+
+  let allChainIdsBackfilled = true;
 
   for (const chainId of chainIds) {
     const amms = await getRecentAmms(chainId);
@@ -41,6 +45,9 @@ export const syncMarginUpdates = async (chainIds: number[]): Promise<void> => {
 
       const fromBlock = latestBlock + 1;
       const toBlock = Math.min(fromBlock + 1_000_000, currentBlock);
+      if (toBlock != currentBlock) {
+        allChainIdsBackfilled = false;
+      }
 
       if (fromBlock >= toBlock) {
         return;
@@ -82,4 +89,6 @@ export const syncMarginUpdates = async (chainIds: number[]): Promise<void> => {
       await setRedis(processId, lastProcessedBlock);
     }
   }
+
+  return allChainIdsBackfilled;
 };

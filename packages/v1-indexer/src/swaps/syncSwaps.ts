@@ -8,11 +8,13 @@ import {
   setRedis,
 } from '../common/services/redisService';
 
-export const syncSwaps = async (chainIds: number[]): Promise<void> => {
+export const syncSwaps = async (chainIds: number[]): Promise<boolean> => {
   const lastProcessedBlocks: { [processId: string]: number } = {};
 
   let promises: Promise<void>[] = [];
   const newEvents: SwapEventInfo[] = [];
+
+  let allChainIdsBackfilled = true;
 
   for (const chainId of chainIds) {
     const amms = await getRecentAmms(chainId);
@@ -40,6 +42,9 @@ export const syncSwaps = async (chainIds: number[]): Promise<void> => {
 
       const fromBlock = latestBlock + 1;
       const toBlock = Math.min(fromBlock + 1_000_000, currentBlock);
+      if (toBlock != currentBlock) {
+        allChainIdsBackfilled = false;
+      }
 
       if (fromBlock >= toBlock) {
         return;
@@ -79,4 +84,6 @@ export const syncSwaps = async (chainIds: number[]): Promise<void> => {
       await setRedis(processId, lastProcessedBlock);
     }
   }
+
+  return allChainIdsBackfilled;
 };

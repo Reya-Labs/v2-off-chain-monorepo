@@ -7,8 +7,10 @@ import {
 } from '../common/services/redisService';
 import { processIrsInstanceEvent } from './processIrsInstanceEvent';
 
-export const syncPools = async (chainIds: number[]): Promise<void> => {
+export const syncPools = async (chainIds: number[]): Promise<boolean> => {
   const lastProcessedBlocks: { [processId: string]: number } = {};
+
+  let allChainIdsBackfilled = true;
 
   for (const chainId of chainIds) {
     const factory = getFactory(chainId.toString());
@@ -25,6 +27,9 @@ export const syncPools = async (chainIds: number[]): Promise<void> => {
     const currentBlock = await provider.getBlockNumber();
     const fromBlock = latestBlock + 1;
     const toBlock = Math.min(fromBlock + 1_000_000, currentBlock);
+    if (toBlock != currentBlock) {
+      allChainIdsBackfilled = false;
+    }
 
     if (fromBlock >= toBlock) {
       continue;
@@ -64,4 +69,6 @@ export const syncPools = async (chainIds: number[]): Promise<void> => {
       await setRedis(processId, lastProcessedBlock);
     }
   }
+
+  return allChainIdsBackfilled;
 };

@@ -16,11 +16,13 @@ import { processMintOrBurnEvent } from './processEvents/processMintOrBurnEvent';
 import { processSwapEvent } from './processEvents/processSwapEvent';
 import { processVAMMPriceChangeEvent } from './processEvents/processVAMMPriceChangeEvent';
 
-export const syncPnL = async (chainIds: number[]): Promise<void> => {
+export const syncPnL = async (chainIds: number[]): Promise<boolean> => {
   const lastProcessedTicks: { [poolId: string]: number } = {};
   const lastProcessedBlocks: { [processId: string]: number } = {};
 
   const currentPositions = await pullAllPositions();
+
+  let allChainIdsBackfilled = true;
 
   let promises: Promise<void>[] = [];
   for (const chainId of chainIds) {
@@ -47,6 +49,9 @@ export const syncPnL = async (chainIds: number[]): Promise<void> => {
 
       const fromBlock = latestBlock + 1;
       const toBlock = Math.min(fromBlock + 1_000_000, currentBlock);
+      if (toBlock != currentBlock) {
+        allChainIdsBackfilled = false;
+      }
 
       if (fromBlock >= toBlock) {
         return;
@@ -140,4 +145,6 @@ export const syncPnL = async (chainIds: number[]): Promise<void> => {
       await setRedis(poolId, tick);
     }
   }
+
+  return allChainIdsBackfilled;
 };
