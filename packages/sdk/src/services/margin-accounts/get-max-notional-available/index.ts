@@ -5,7 +5,7 @@ export type GetMaxNotionalPossibleArgs = {
   mode: 'fixed' | 'variable';
 };
 
-export const getMaxNotionalPossible = async ({
+export const getMaxNotionalAvailable = async ({
   poolId,
   marginAccountId,
   mode,
