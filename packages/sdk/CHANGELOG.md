@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.57.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.56.6...@voltz-protocol/sdk-v2@1.57.0) (2023-09-26)
+
+
+### Features
+
+* add getMaxNotionalPossible ([2429f29](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/2429f2928de7c9c625a122ee848722b836f9c57f))
+
+
+
+
+
 ## [1.56.6](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.56.5...@voltz-protocol/sdk-v2@1.56.6) (2023-08-31)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v2
