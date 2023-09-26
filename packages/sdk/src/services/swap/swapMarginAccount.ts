@@ -4,6 +4,7 @@ import {
   SwapMarginAccountArgs,
 } from './types';
 
+// return type should be ContractReceipt
 export async function swapMarginAccount(args: SwapMarginAccountArgs): Promise<{
   transactionHash: string;
 }> {
