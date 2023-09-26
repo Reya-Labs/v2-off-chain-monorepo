@@ -15,14 +15,12 @@ function mockExpectedCashflowResult(): GetExpectedCashflowResult {
 }
 
 export type GetExpectedCashflowArgs = {
-  poolId: number;
-  marginAccountId: number;
+  poolId: string;
   estimatedVariableApy: number;
 };
 
 export const getExpectedCashflow = async ({
   poolId,
-  marginAccountId,
   estimatedVariableApy,
 }: GetExpectedCashflowArgs): Promise<GetExpectedCashflowResult> => {
   return await new Promise((resolve, reject) => {
