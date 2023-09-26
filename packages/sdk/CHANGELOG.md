@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.58.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.57.0...@voltz-protocol/sdk-v2@1.58.0) (2023-09-26)
+
+
+### Features
+
+* add swapMarginAccount, simulateSwapMarginAccount ([004a87d](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/004a87d3c2e31335ff3f713a0c53e0a9d85da886))
+
+
+
+
+
 # [1.57.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.56.6...@voltz-protocol/sdk-v2@1.57.0) (2023-09-26)
 
 
