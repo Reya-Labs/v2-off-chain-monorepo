@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.59.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.59.0...@voltz-protocol/sdk-v2@1.59.1) (2023-09-26)
+
+
+### Bug Fixes
+
+* remove marginAcconutId ([217fa0c](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/217fa0ca5c50b50726495014a75d92f629cae8f4))
+
+
+
+
+
 # [1.59.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.58.0...@voltz-protocol/sdk-v2@1.59.0) (2023-09-26)
 
 
