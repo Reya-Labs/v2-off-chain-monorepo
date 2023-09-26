@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.59.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.58.0...@voltz-protocol/sdk-v2@1.59.0) (2023-09-26)
+
+
+### Features
+
+* add getExpectedCashflow ([9a217d9](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/9a217d9df848165a30fb32b8549ab54aebae58b9))
+
+
+
+
+
 # [1.58.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.57.0...@voltz-protocol/sdk-v2@1.58.0) (2023-09-26)
 
 
