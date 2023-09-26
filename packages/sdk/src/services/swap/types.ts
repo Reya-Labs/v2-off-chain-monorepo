@@ -7,6 +7,13 @@ export type SwapArgs = {
   margin: number;
 };
 
+export type SwapMarginAccountArgs = {
+  ammId: string;
+  signer: Signer;
+  notional: number;
+  marginAccountId: string;
+};
+
 export type EditSwapArgs = {
   positionId: string;
   signer: Signer;
@@ -46,6 +53,18 @@ export type CompleteSwapDetails = EncodeSwapArgs & {
 };
 
 export type InfoPostSwap = {
+  marginRequirement: number;
+  maxMarginWithdrawable: number;
+  fee: number;
+  averageFixedRate: number;
+  variableTokenDeltaBalance: number;
+  gasFee: {
+    value: number;
+    token: 'ETH' | 'AVAX' | 'USDCf';
+  };
+};
+
+export type SimulateSwapMarginAccountResult = {
   marginRequirement: number;
   maxMarginWithdrawable: number;
   fee: number;
