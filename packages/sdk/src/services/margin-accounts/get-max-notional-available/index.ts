@@ -2,11 +2,13 @@
 export type GetMaxNotionalPossibleArgs = {
   poolId: string;
   marginAccountId: string;
+  mode: 'fixed' | 'variable';
 };
 
 export const getMaxNotionalPossible = async ({
   poolId,
   marginAccountId,
+  mode,
 }: GetMaxNotionalPossibleArgs): Promise<number> => {
   return await new Promise((resolve, reject) => {
     setTimeout(() => {
