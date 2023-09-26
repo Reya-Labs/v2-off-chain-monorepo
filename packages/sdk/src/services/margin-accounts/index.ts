@@ -4,3 +4,4 @@ export * from './deposit-margin';
 export * from './simulate-deposit-margin';
 export * from './create-margin-account';
 export * from './get-max-notional-possible';
+export * from './get-expected-cashflow';
