@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.26.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.25.0...@voltz-protocol/api-sdk-v2@1.26.0) (2023-09-28)
+
+
+### Features
+
+* add getV2Pools ([a750b2a](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/a750b2a2603db1c4d674ba3cfb372add7be5c16b))
+
+
+
+
+
 # [1.25.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.24.0...@voltz-protocol/api-sdk-v2@1.25.0) (2023-08-31)
 
 ### Features
