@@ -16,3 +16,4 @@ export * from './getPortfolioSummary';
 export * from './getAvailableAmountsToWithdrawForMarginAccount';
 export * from './getAvailableAmountsToDepositForMarginAccount';
 export * from './getMarginAccountSummary';
+export * from './getV2Pools';
