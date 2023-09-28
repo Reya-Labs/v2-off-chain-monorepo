@@ -24,7 +24,7 @@ export type BasePool = {
 
   underlyingToken: {
     address: string;
-    name: 'eth' | 'usdc' | 'usdt' | 'dai';
+    name: 'eth' | 'usdc' | 'usdt' | 'dai' | 'reth' | 'steth';
     tokenDecimals: number;
     priceUSD: number;
   };
