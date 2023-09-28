@@ -8,7 +8,9 @@ export type V2Pool = BasePool & {
 
   currentFixedRate: number;
   // TODO: Costin, AB, Ioana or Alex fill this with proper value, make it non-nullable
-  currentPayFixedRate?: number;
+  payFixedRate?: number;
+  // TODO: Costin, AB, Ioana or Alex fill this with proper value, make it non-nullable
+  receiveFixedRate?: number;
   fixedRateChange: number;
 
   currentLiquidityIndex: number;

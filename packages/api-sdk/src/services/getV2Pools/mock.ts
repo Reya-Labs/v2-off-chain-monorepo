@@ -42,7 +42,8 @@ export const mockedPools: V2Pool[] = [
     takerFee: 0.01,
 
     currentFixedRate: 5,
-    currentPayFixedRate: 12,
+    payFixedRate: 12,
+    receiveFixedRate: 5.3,
     fixedRateChange: 0.5,
 
     currentLiquidityIndex: 1.5,
@@ -95,7 +96,8 @@ export const mockedPools: V2Pool[] = [
     takerFee: 0.01,
 
     currentFixedRate: 22,
-    currentPayFixedRate: 19,
+    payFixedRate: 19,
+    receiveFixedRate: 26,
     fixedRateChange: -1,
 
     currentLiquidityIndex: 1.75,
