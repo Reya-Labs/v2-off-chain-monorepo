@@ -65,14 +65,12 @@ export const approvePeriphery = async ({
   }
 
   try {
-    const allowance = await getERC20Allowance({
+    return await getERC20Allowance({
       walletAddress: await signer.getAddress(),
       tokenAddress: poolInfo.underlyingToken.address,
       spenderAddress: peripheryAddress,
       subject: signer,
     });
-
-    return allowance;
   } catch (error) {
     console.warn('Fetching allowance failed');
   }
