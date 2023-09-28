@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.57.15](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.57.14...@voltz-protocol/api-v2@1.57.15) (2023-09-28)
+
+**Note:** Version bump only for package @voltz-protocol/api-v2
+
+
+
+
+
 ## [1.57.14](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-v2@1.57.13...@voltz-protocol/api-v2@1.57.14) (2023-09-28)
 
 **Note:** Version bump only for package @voltz-protocol/api-v2
