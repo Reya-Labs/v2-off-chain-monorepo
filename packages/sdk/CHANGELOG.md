@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.61.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.60.1...@voltz-protocol/sdk-v2@1.61.0) (2023-09-29)
+
+
+### Features
+
+* add gasFee to simulation ([43e012f](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/43e012fe1e02674477f67d26d7e8f7b3fc75270c))
+
+
+
+
+
 ## [1.60.1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.60.0...@voltz-protocol/sdk-v2@1.60.1) (2023-09-28)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v2
