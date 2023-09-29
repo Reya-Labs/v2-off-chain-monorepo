@@ -1,16 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { getRandomIntInclusive, randomHealth } from './mocks';
+import { BasePool } from '@voltz-protocol/api-sdk-v2';
 
 export type SimulateWithdrawMarginArgs = {
   marginAccountId: string;
   amount: number;
-  token: 'dai' | 'eth' | 'reth' | 'steth' | 'usdc' | 'usdt';
+  token: BasePool['underlyingToken']['name'];
 };
 
 export type SimulateWithdrawMarginReturnType = {
   marginRatioPercentage: number;
   marginRatioHealth: 'danger' | 'healthy' | 'warning';
   gasFeeUSD: number;
+  gasFee: number;
 };
 
 export const simulateWithdrawMargin = async ({
@@ -25,5 +27,6 @@ export const simulateWithdrawMargin = async ({
     marginRatioPercentage: getRandomIntInclusive(2, 99),
     marginRatioHealth: randomHealth(),
     gasFeeUSD: getRandomIntInclusive(2, 99) + Math.random(),
+    gasFee: getRandomIntInclusive(2, 99) + Math.random(),
   };
 };
