@@ -13,7 +13,7 @@ export const getTokenAllowanceForPeriphery = async ({
         return;
       }
 
-      resolve(0);
+      resolve(tokenName === 'eth' ? Number.MAX_SAFE_INTEGER : 0);
     }, 1000);
   });
 };
