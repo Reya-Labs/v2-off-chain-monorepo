@@ -129,19 +129,21 @@ function generateRandomId(length = 8) {
 
   return randomId;
 }
+const randomIds = new Array(1000).fill(0).map(() => generateRandomId());
 
-const randomMarginAccount =
-  (): GetMarginAccountsResponse['marginAccounts'][0] => ({
-    id: generateRandomId(),
-    chainId: randomChainId(),
-    name: getRandomTwoLetterSentenceWithEmoji(),
-    balance: getRandomIntInclusive(500, 150300),
-    positionsCount: getRandomIntInclusive(4, 11),
-    marginRatioPercentage: getRandomIntInclusive(2, 99),
-    marginRatioHealth: randomHealth(),
-  });
+const randomMarginAccount = (
+  index: number,
+): GetMarginAccountsResponse['marginAccounts'][0] => ({
+  id: randomIds[index],
+  chainId: randomChainId(),
+  name: getRandomTwoLetterSentenceWithEmoji(),
+  balance: getRandomIntInclusive(500, 150300),
+  positionsCount: getRandomIntInclusive(4, 11),
+  marginRatioPercentage: getRandomIntInclusive(2, 99),
+  marginRatioHealth: randomHealth(),
+});
 
 export const mockedMarginAccounts: GetMarginAccountsResponse['marginAccounts'] =
   new Array(Math.floor(getRandomIntInclusive(5, 100)))
     .fill(0)
-    .map(() => randomMarginAccount());
+    .map((item, index) => randomMarginAccount(index));
