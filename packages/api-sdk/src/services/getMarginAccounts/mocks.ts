@@ -129,12 +129,11 @@ function generateRandomId(length = 8) {
 
   return randomId;
 }
-const randomIds = new Array(1000).fill(0).map(() => generateRandomId());
 
 const randomMarginAccount = (
   index: number,
 ): GetMarginAccountsResponse['marginAccounts'][0] => ({
-  id: randomIds[index],
+  id: `ma_${index}`,
   chainId: randomChainId(),
   name: getRandomTwoLetterSentenceWithEmoji(),
   balance: getRandomIntInclusive(500, 150300),
