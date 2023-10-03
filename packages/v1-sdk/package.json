@@ -1,6 +1,6 @@
 {
   "name": "@voltz-protocol/sdk-v1-stateless",
-  "version": "1.27.23",
+  "version": "1.27.24",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
