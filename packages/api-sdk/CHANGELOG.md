@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.29.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.28.2...@voltz-protocol/api-sdk-v2@1.29.0) (2023-10-11)
+
+
+### Features
+
+* add initialMarginPreTrade ([9d82098](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/9d820985d029e3414cc8fb77866df1ba4e0f3fa7))
+
+
+
+
+
 ## [1.28.2](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.28.1...@voltz-protocol/api-sdk-v2@1.28.2) (2023-10-03)
 
 
