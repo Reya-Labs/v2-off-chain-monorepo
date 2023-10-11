@@ -27,6 +27,7 @@ export type MarginAccount = {
   positionsCount: number;
   marginRatioPercentage: number;
   marginRatioHealth: MarginRatioHealth;
+  initialMarginPreTrade: number;
 };
 
 export type GetMarginAccountsResponse = {
