@@ -24,6 +24,7 @@ export type MarginAccount = {
   chainId: SupportedChainId;
   name: string;
   balance: number;
+  balanceUSD: number;
   positionsCount: number;
   marginRatioPercentage: number;
   marginRatioHealth: MarginRatioHealth;

@@ -119,16 +119,20 @@ function getRandomTwoLetterSentenceWithEmoji() {
 
 const randomMarginAccount = (
   index: number,
-): GetMarginAccountsResponse['marginAccounts'][0] => ({
-  id: `ma_${index}`,
-  chainId: randomChainId(),
-  name: getRandomTwoLetterSentenceWithEmoji(),
-  balance: getRandomIntInclusive(500, 150300),
-  initialMarginPreTrade: getRandomIntInclusive(500, 150300),
-  positionsCount: getRandomIntInclusive(4, 11),
-  marginRatioPercentage: getRandomIntInclusive(2, 99),
-  marginRatioHealth: randomHealth(),
-});
+): GetMarginAccountsResponse['marginAccounts'][0] => {
+  const balance = getRandomIntInclusive(500, 150300);
+  return {
+    id: `ma_${index}`,
+    chainId: randomChainId(),
+    name: getRandomTwoLetterSentenceWithEmoji(),
+    balance,
+    balanceUSD: balance * 1.2,
+    initialMarginPreTrade: getRandomIntInclusive(500, 150300),
+    positionsCount: getRandomIntInclusive(4, 11),
+    marginRatioPercentage: getRandomIntInclusive(2, 99),
+    marginRatioHealth: randomHealth(),
+  };
+};
 
 export const mockedMarginAccounts: GetMarginAccountsResponse['marginAccounts'] =
   new Array(Math.floor(getRandomIntInclusive(5, 100)))
