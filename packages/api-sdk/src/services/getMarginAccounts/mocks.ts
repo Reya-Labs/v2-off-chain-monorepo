@@ -1,5 +1,6 @@
 import { GetMarginAccountsResponse } from './types';
 import { SupportedChainId } from '@voltz-protocol/commons-v2';
+import { Tokens } from '../../types';
 
 // The maximum is inclusive and the minimum is inclusive
 function getRandomIntInclusive(min: number, max: number) {
@@ -117,6 +118,20 @@ function getRandomTwoLetterSentenceWithEmoji() {
   return `${randomSentence} ${randomEmoji}`;
 }
 
+function randomToken() {
+  const tokens: (Tokens | null)[] = [
+    null,
+    'dai',
+    'eth',
+    'reth',
+    'steth',
+    'usdc',
+    'usdt',
+  ];
+  const randomIndex = Math.floor(Math.random() * tokens.length);
+  return tokens[randomIndex];
+}
+
 const randomMarginAccount = (
   index: number,
 ): GetMarginAccountsResponse['marginAccounts'][0] => {
@@ -131,6 +146,7 @@ const randomMarginAccount = (
     positionsCount: getRandomIntInclusive(4, 11),
     marginRatioPercentage: getRandomIntInclusive(2, 99),
     marginRatioHealth: randomHealth(),
+    settlementToken: randomToken(),
   };
 };
 

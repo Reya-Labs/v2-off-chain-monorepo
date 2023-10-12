@@ -33,7 +33,7 @@ export type MarginAccount = {
   marginRatioHealth: MarginRatioHealth;
   initialMarginPreTrade: number;
   // nullable until first swap/lp is done
-  settlementToken?: Tokens;
+  settlementToken?: Tokens | null;
 };
 
 export type GetMarginAccountsResponse = {
