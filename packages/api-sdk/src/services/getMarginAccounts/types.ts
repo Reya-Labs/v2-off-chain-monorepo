@@ -1,4 +1,5 @@
 import { SupportedChainId } from '@voltz-protocol/commons-v2';
+import { Tokens } from '../../types';
 
 export type MarginAccountsSortBy =
   | 'balance'
@@ -23,13 +24,16 @@ export type MarginAccount = {
   id: string;
   chainId: SupportedChainId;
   name: string;
+  // if settlementToken is present the balance should be that token
+  // if settlementToken is null then balance is same as balanceUSD
   balance: number;
   balanceUSD: number;
   positionsCount: number;
   marginRatioPercentage: number;
   marginRatioHealth: MarginRatioHealth;
   initialMarginPreTrade: number;
-  settlementToken?:
+  // nullable until first swap/lp is done
+  settlementToken?: Tokens;
 };
 
 export type GetMarginAccountsResponse = {
