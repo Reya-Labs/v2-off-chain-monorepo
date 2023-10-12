@@ -29,6 +29,7 @@ export type MarginAccount = {
   marginRatioPercentage: number;
   marginRatioHealth: MarginRatioHealth;
   initialMarginPreTrade: number;
+  settlementToken?:
 };
 
 export type GetMarginAccountsResponse = {

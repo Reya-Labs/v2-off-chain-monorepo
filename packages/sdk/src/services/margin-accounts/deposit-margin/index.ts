@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { Tokens } from '@voltz-protocol/api-sdk-v2';
+
 export type DepositMarginArgs = {
   marginAccountId: string;
   amount: number;
-  token: 'dai' | 'eth' | 'reth' | 'steth' | 'usdc' | 'usdt';
+  token: Tokens;
 };
 
 // return type should be ContractReceipt

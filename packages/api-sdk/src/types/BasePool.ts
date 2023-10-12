@@ -1,3 +1,5 @@
+import { Tokens } from './Tokens';
+
 export type BasePool = {
   id: string;
 
@@ -24,7 +26,7 @@ export type BasePool = {
 
   underlyingToken: {
     address: string;
-    name: 'eth' | 'usdc' | 'usdt' | 'dai' | 'reth' | 'steth';
+    name: Tokens;
     tokenDecimals: number;
     priceUSD: number;
   };

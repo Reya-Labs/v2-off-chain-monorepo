@@ -1,4 +1,5 @@
 import { MarginAccount } from '../getMarginAccounts';
+import { Tokens } from '../../types';
 
 export type GetAvailableAmountsToDepositForMarginAccountArgs = {
   id: MarginAccount['id'];
@@ -7,7 +8,7 @@ export type GetAvailableAmountsToDepositForMarginAccountArgs = {
 export type AvailableAmountToDepositForMarginAccount = {
   value: number;
   valueUSD: number;
-  token: 'dai' | 'eth' | 'reth' | 'steth' | 'usdc' | 'usdt';
+  token: Tokens;
 };
 
 export type GetAvailableAmountsToDepositForMarginAccountResponse =

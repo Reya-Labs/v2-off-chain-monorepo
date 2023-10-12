@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import { Tokens } from '@voltz-protocol/api-sdk-v2/src';
+
 export type WithdrawMarginArgs = {
   marginAccountId: string;
   amount: number;
-  token: 'dai' | 'eth' | 'reth' | 'steth' | 'usdc' | 'usdt';
+  token: Tokens;
 };
 
 // return type should be ContractReceipt

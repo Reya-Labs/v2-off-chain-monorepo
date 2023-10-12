@@ -1,5 +1,5 @@
 import { Signer } from 'ethers';
-import { BasePool } from '@voltz-protocol/api-sdk-v2/src/types/BasePool';
+import { BasePool } from '@voltz-protocol/api-sdk-v2';
 
 export type ApprovePeripheryArgs = {
   ammId: string;
