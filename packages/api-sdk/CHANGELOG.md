@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.31.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.30.0...@voltz-protocol/api-sdk-v2@1.31.0) (2023-10-12)
+
+
+### Features
+
+* add settlementToken in MarginAccount ([d6b6311](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/d6b6311eb0af278974b7853b1dc4934c9381745d))
+* add settlementToken in MarginAccount ([9f81e4c](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/9f81e4c159c1ffb8f7453c4cc4c5351a11d1e75a))
+* add Tokens.ts ([0c2772e](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/0c2772ee240a424c7d0d80c8f7bd1fa994fe0e9a))
+
+
+
+
+
 # [1.30.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.29.0...@voltz-protocol/api-sdk-v2@1.30.0) (2023-10-11)
 
 

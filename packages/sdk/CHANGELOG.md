@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.62.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.61.5...@voltz-protocol/sdk-v2@1.62.0) (2023-10-12)
+
+
+### Features
+
+* add Tokens.ts ([0c2772e](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/0c2772ee240a424c7d0d80c8f7bd1fa994fe0e9a))
+
+
+
+
+
 ## [1.61.5](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.61.4...@voltz-protocol/sdk-v2@1.61.5) (2023-10-11)
 
 **Note:** Version bump only for package @voltz-protocol/sdk-v2
