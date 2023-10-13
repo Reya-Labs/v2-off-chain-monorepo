@@ -17,3 +17,4 @@ export * from './getAvailableAmountsToWithdrawForMarginAccount';
 export * from './getAvailableAmountsToDepositForMarginAccount';
 export * from './getMarginAccountSummary';
 export * from './getV2Pools';
+export * from './getMarginAccountsForSwapLP';
