@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.32.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.31.0...@voltz-protocol/api-sdk-v2@1.32.0) (2023-10-13)
+
+
+### Features
+
+* add getMarginAccountsForSwapLP ([94aa130](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/94aa1307a892e83381a1f5bc41319679bffe88b1))
+
+
+
+
+
 # [1.31.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/api-sdk-v2@1.30.0...@voltz-protocol/api-sdk-v2@1.31.0) (2023-10-12)
 
 
