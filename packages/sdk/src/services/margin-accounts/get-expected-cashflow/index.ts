@@ -1,25 +1,29 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import { Tokens } from '@voltz-protocol/api-sdk-v2';
+
 export type GetExpectedCashflowResult = {
-  totalCashflowUSD: number;
+  totalCashflow: number;
 };
 
 function mockExpectedCashflowResult(): GetExpectedCashflowResult {
   const randomValue = () => Math.random() * 1000;
 
   return {
-    totalCashflowUSD: randomValue(),
+    totalCashflow: randomValue(),
   };
 }
 
 export type GetExpectedCashflowArgs = {
   poolId: string;
   estimatedVariableApy: number;
+  token: Tokens | '$';
 };
 
 export const getExpectedCashflow = async ({
   poolId,
   estimatedVariableApy,
+  token,
 }: GetExpectedCashflowArgs): Promise<GetExpectedCashflowResult> => {
   return await new Promise((resolve, reject) => {
     setTimeout(() => {
