@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.63.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.62.3...@voltz-protocol/sdk-v2@1.63.0) (2023-10-17)
+
+
+### Features
+
+* add accountInitialMarginPostTrade ([d1a3f6d](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/d1a3f6d857bf61f8e837552570df065f0f3a1c64))
+* remove token as param ([0b99bf1](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/0b99bf131458cd455f8bdc17cd4c2af9941c9caa))
+
+
+
+
+
 ## [1.62.3](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.62.2...@voltz-protocol/sdk-v2@1.62.3) (2023-10-17)
 
 
