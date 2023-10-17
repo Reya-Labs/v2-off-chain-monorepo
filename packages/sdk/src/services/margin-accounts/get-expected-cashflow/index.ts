@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { Tokens } from '@voltz-protocol/api-sdk-v2';
-
 export type GetExpectedCashflowResult = {
+  // should be in pool underlying token
   totalCashflow: number;
 };
 
@@ -17,13 +16,11 @@ function mockExpectedCashflowResult(): GetExpectedCashflowResult {
 export type GetExpectedCashflowArgs = {
   poolId: string;
   estimatedVariableApy: number;
-  token: Tokens | '$';
 };
 
 export const getExpectedCashflow = async ({
   poolId,
   estimatedVariableApy,
-  token,
 }: GetExpectedCashflowArgs): Promise<GetExpectedCashflowResult> => {
   return await new Promise((resolve, reject) => {
     setTimeout(() => {
