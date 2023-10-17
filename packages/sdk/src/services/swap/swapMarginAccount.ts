@@ -28,6 +28,7 @@ function mockSimulateSwapMarginAccountResult(): SimulateSwapMarginAccountResult 
   const randomValue = () => Math.random() * 1000;
 
   return {
+    accountInitialMarginPostTrade: randomValue(),
     marginRequirement: randomValue(),
     maxMarginWithdrawable: randomValue(),
     fee: randomValue(),

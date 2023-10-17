@@ -65,6 +65,7 @@ export type InfoPostSwap = {
 };
 
 export type SimulateSwapMarginAccountResult = {
+  accountInitialMarginPostTrade: number;
   marginRequirement: number;
   maxMarginWithdrawable: number;
   fee: number;
