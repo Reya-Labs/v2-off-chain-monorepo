@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 export type GetExpectedCashflowResult = {
-  additionalCashflowUSD: number;
   totalCashflowUSD: number;
 };
 
@@ -9,7 +8,6 @@ function mockExpectedCashflowResult(): GetExpectedCashflowResult {
   const randomValue = () => Math.random() * 1000;
 
   return {
-    additionalCashflowUSD: randomValue(),
     totalCashflowUSD: randomValue(),
   };
 }
