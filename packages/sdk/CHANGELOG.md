@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.64.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.63.0...@voltz-protocol/sdk-v2@1.64.0) (2023-10-19)
+
+
+### Features
+
+* add depositAndSwapMarginAccount ([59516bc](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/59516bcbe98b5d8d4ffde4f4fc4c72a125df3c72))
+
+
+
+
+
 # [1.63.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/sdk-v2@1.62.3...@voltz-protocol/sdk-v2@1.63.0) (2023-10-17)
 
 
