@@ -88,16 +88,3 @@ export type SimulateSwapMarginAccountResult = {
     token: 'ETH' | 'AVAX' | 'USDCf';
   };
 };
-
-export type SimulateDepositAndSwapMarginAccountResult = {
-  accountInitialMarginPostTrade: number;
-  marginRequirement: number;
-  maxMarginWithdrawable: number;
-  fee: number;
-  averageFixedRate: number;
-  variableTokenDeltaBalance: number;
-  gasFee: {
-    value: number;
-    token: 'ETH' | 'AVAX' | 'USDCf';
-  };
-};

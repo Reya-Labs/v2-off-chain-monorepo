@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   DepositAndSwapMarginAccountArgs,
-  SimulateDepositAndSwapMarginAccountResult,
+  SimulateSwapMarginAccountResult,
 } from './types';
 
 // return type should be ContractReceipt
@@ -26,7 +26,7 @@ export async function depositAndSwapMarginAccount(
   });
 }
 
-function mockSimulateDepositAndSwapMarginAccountResult(): SimulateDepositAndSwapMarginAccountResult {
+function mockSimulateDepositAndSwapMarginAccountResult(): SimulateSwapMarginAccountResult {
   const randomValue = () => Math.random() * 1000;
 
   return {
@@ -46,7 +46,7 @@ function mockSimulateDepositAndSwapMarginAccountResult(): SimulateDepositAndSwap
 
 export async function simulateDepositAndSwapMarginAccount(
   args: DepositAndSwapMarginAccountArgs,
-): Promise<SimulateDepositAndSwapMarginAccountResult> {
+): Promise<SimulateSwapMarginAccountResult> {
   return await new Promise((resolve, reject) => {
     setTimeout(() => {
       const num = Math.random() * 100;
