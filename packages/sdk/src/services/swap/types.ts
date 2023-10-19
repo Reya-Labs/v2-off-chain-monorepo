@@ -1,4 +1,5 @@
 import { BigNumber, Signer } from 'ethers';
+import { Tokens } from '@voltz-protocol/api-sdk-v2';
 
 export type SwapArgs = {
   ammId: string;
@@ -12,6 +13,17 @@ export type SwapMarginAccountArgs = {
   signer: Signer;
   notional: number;
   marginAccountId: string;
+};
+
+export type DepositAndSwapMarginAccountArgs = {
+  ammId: string;
+  signer: Signer;
+  notional: number;
+  marginAccountId: string;
+  deposit: {
+    amount: number;
+    token: Tokens;
+  };
 };
 
 export type EditSwapArgs = {
@@ -65,6 +77,19 @@ export type InfoPostSwap = {
 };
 
 export type SimulateSwapMarginAccountResult = {
+  accountInitialMarginPostTrade: number;
+  marginRequirement: number;
+  maxMarginWithdrawable: number;
+  fee: number;
+  averageFixedRate: number;
+  variableTokenDeltaBalance: number;
+  gasFee: {
+    value: number;
+    token: 'ETH' | 'AVAX' | 'USDCf';
+  };
+};
+
+export type SimulateDepositAndSwapMarginAccountResult = {
   accountInitialMarginPostTrade: number;
   marginRequirement: number;
   maxMarginWithdrawable: number;
