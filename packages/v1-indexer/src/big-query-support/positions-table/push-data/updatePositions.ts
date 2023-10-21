@@ -1,80 +1,39 @@
-import { sendQueriesInBatches } from '../../sendQueriesInBatches';
-import { TableType, getTableFullID, secondsToBqDate } from '../../utils';
+import { getBigQuery } from '../../../global';
+import {
+  TableType,
+  getProtocolV1DatasetName,
+  getTableName,
+  secondsToBqDate,
+} from '../../utils';
 import { TrackedBigQueryPositionRow } from '../pull-data/pullAllPositions';
+
+async function bq_batch_insert(table: any, rows: any, batch_size = 1000) {
+  for (let i = 0; i < rows.length; i += batch_size) {
+    await table.insert(rows.slice(i, Math.min(i + batch_size, rows.length)));
+  }
+}
 
 export const updatePositions = async (
   processName: string,
   positions: TrackedBigQueryPositionRow[],
 ): Promise<void> => {
-  const tableId = getTableFullID(TableType.positions);
+  console.log('Writing to Big Query...');
 
   const updates = positions
-    .map(({ position, added, modified }) => {
-      if (added) {
-        const rawPositionRow = `
-            "${position.marginEngineAddress}",
-            "${position.vammAddress}",
-            "${position.ownerAddress}",
-            ${position.tickLower},
-            ${position.tickUpper},
-            ${position.realizedPnLFromSwaps},
-            ${position.realizedPnLFromFeesPaid},
-            ${position.netNotionalLocked},
-            ${position.netFixedRateLocked},
-            ${position.lastUpdatedBlockNumber},
-            ${position.notionalLiquidityProvided},                
-            ${position.realizedPnLFromFeesCollected},
-            ${position.netMarginDeposited},
-            ${position.rateOracleIndex},
-            '${secondsToBqDate(position.rowLastUpdatedTimestamp)}',
-            ${position.fixedTokenBalance},
-            ${position.variableTokenBalance},
-            ${position.positionInitializationBlockNumber},
-            '${position.rateOracle}',
-            '${position.underlyingToken}',
-            ${position.chainId},
-            ${position.cashflowLiFactor},
-            ${position.cashflowTimeFactor},
-            ${position.cashflowFreeTerm},
-            ${position.liquidity}
-        `;
+    .filter((position) => position.added || position.modified)
+    .map(({ position }) => {
+      return {
+        ...position,
+        rowLastUpdatedTimestamp: secondsToBqDate(
+          position.rowLastUpdatedTimestamp,
+        ),
+      };
+    });
 
-        return `INSERT INTO \`${tableId}\` VALUES(${rawPositionRow});`;
-      }
+  const bigQuery = getBigQuery();
+  const bigQueryTable = bigQuery
+    .dataset(getProtocolV1DatasetName())
+    .table(getTableName(TableType.positions));
 
-      if (modified) {
-        return `
-            UPDATE \`${tableId}\`
-            SET realizedPnLFromSwaps=${position.realizedPnLFromSwaps},
-                realizedPnLFromFeesPaid=${position.realizedPnLFromFeesPaid},
-                netNotionalLocked=${position.netNotionalLocked},
-                netFixedRateLocked=${position.netFixedRateLocked},
-                lastUpdatedBlockNumber=${position.lastUpdatedBlockNumber},
-                notionalLiquidityProvided=${position.notionalLiquidityProvided},
-                realizedPnLFromFeesCollected=${
-                  position.realizedPnLFromFeesCollected
-                },
-                netMarginDeposited=${position.netMarginDeposited},
-                rowLastUpdatedTimestamp='${secondsToBqDate(
-                  position.rowLastUpdatedTimestamp,
-                )}', 
-                fixedTokenBalance=${position.fixedTokenBalance}, 
-                variableTokenBalance=${position.variableTokenBalance},
-                cashflowLiFactor=${position.cashflowLiFactor},
-                cashflowTimeFactor=${position.cashflowTimeFactor},
-                cashflowFreeTerm=${position.cashflowFreeTerm},
-                liquidity=${position.liquidity}
-            WHERE chainId=${position.chainId} AND
-                    vammAddress="${position.vammAddress}" AND 
-                    ownerAddress="${position.ownerAddress}" AND
-                    tickLower=${position.tickLower} AND 
-                    tickUpper=${position.tickUpper};
-        `;
-      }
-
-      return ``;
-    })
-    .filter((u) => u.length > 0);
-
-  await sendQueriesInBatches(processName, updates);
+  await bq_batch_insert(bigQueryTable, updates);
 };

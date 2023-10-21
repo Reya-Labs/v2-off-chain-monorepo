@@ -42,8 +42,12 @@ export const syncPnL = async (chainIds: number[]): Promise<void> => {
         amm.vamm,
       );
 
-      const fromBlock = latestBlock + 1;
-      const toBlock = currentBlock;
+      const fromBlock = latestBlock === 0 ? 96338929 - 1 : latestBlock + 1;
+      const toBlock = Math.min(fromBlock + 1_000_000, currentBlock);
+
+      console.log(
+        `chain id ${chainId}, latest block ${latestBlock}, process id ${processId}, range [${fromBlock} - ${toBlock}]`,
+      );
 
       if (fromBlock >= toBlock) {
         return;
@@ -130,6 +134,7 @@ export const syncPnL = async (chainIds: number[]): Promise<void> => {
     for (const [processId, lastProcessedBlock] of Object.entries(
       lastProcessedBlocks,
     )) {
+      console.log(`caching ${processId} ${lastProcessedBlock}`);
       await setRedis(processId, lastProcessedBlock);
     }
 

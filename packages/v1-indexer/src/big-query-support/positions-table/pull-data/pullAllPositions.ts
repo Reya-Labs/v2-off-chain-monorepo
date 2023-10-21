@@ -15,7 +15,9 @@ export const pullAllPositions = async (): Promise<
   const bigQuery = getBigQuery();
 
   const sqlQuery = `
-    SELECT * FROM \`${getTableFullID(TableType.positions)}\` 
+    select as VALUE array_agg(t order by rowLastUpdatedTimestamp desc limit 1)[offset(0)] 
+    from \`${getTableFullID(TableType.positions)}\` t 
+    group by chainId, marginEngineAddress, ownerAddress, tickLower, tickUpper 
   `;
 
   const options = {
