@@ -8,6 +8,11 @@
   "main": "dist/index.js",
   "types": "dist/types",
   "license": "MIT",
+  "files": [
+    "src/**/*.*",
+    "dist/**/*.*",
+    "README.md"
+  ],
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "prebuild": "rm -rf node_modules && rm -rf dist",
