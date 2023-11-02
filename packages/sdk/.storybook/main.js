@@ -1,9 +1,12 @@
 module.exports = {
-  stories: ['../demo/**/**/*.stories.mdx', '../demo/**/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
+  stories: [
+    '../demo/**/**/*.stories.mdx',
+    '../demo/**/**/*.stories.@(js|jsx|ts|tsx)',
+  ],
+  addons: ['@storybook/addon-essentials'],
   framework: '@storybook/react',
   typescript: {
-    reactDocgen: 'react-docgen-typescript-plugin'
+    reactDocgen: 'react-docgen-typescript-plugin',
   },
   webpackFinal: async (config) => {
     // Add SVGR Loader
