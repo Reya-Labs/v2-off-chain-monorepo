@@ -37,8 +37,12 @@ jobs:
           git config --global user.email "devcold@voltz.xyz"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Voltz-Protocol/v2-off-chain-monorepo.git
           lerna run generate:coverage-badges 
-          git add .
-          git commit -m "chore: update coverage badges"
+          if [[ $(git status --porcelain) ]]; then
+            git add .
+            git commit -m "chore: update coverage badges"
+          else
+            echo "No changes to commit."
+          fi
           lerna version
           git stash
       - name: Publish packages with Lerna
