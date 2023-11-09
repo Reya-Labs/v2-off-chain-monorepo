@@ -7344,9 +7344,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@voltz-protocol/wallet-tos-sdk@workspace:packages/wallet-tos-sdk":
+"@voltz-protocol/wallet-sdk@workspace:packages/wallet-sdk":
   version: 0.0.0-use.local
-  resolution: "@voltz-protocol/wallet-tos-sdk@workspace:packages/wallet-tos-sdk"
+  resolution: "@voltz-protocol/wallet-sdk@workspace:packages/wallet-sdk"
   dependencies:
     ethers: 5.5.4
     isomorphic-fetch: 3.0.0
