@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.1.0 (2023-11-09)
+
+
+### Features
+
+* add new package @voltz-protocol/wallet-tos-sdk ([009eb89](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/commit/009eb899acc85b2aa52ce2ac5d3aba1bacbcbaa3))
+
+
+
+
+
 # [1.16.0](https://github.com/Voltz-Protocol/v2-off-chain-monorepo/compare/@voltz-protocol/commons-v2@1.15.0...@voltz-protocol/commons-v2@1.16.0) (2023-11-01)
 
 
