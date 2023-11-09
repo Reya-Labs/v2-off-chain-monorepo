@@ -1,14 +1,9 @@
 import { checkForRiskyWallet } from './checkForRiskyWallet';
-import { isWalletRisky } from '../internal/isWalletRisky';
+import { isWalletRisky } from '../internal';
 
-jest.mock('./getWalletRiskAssessment', () => {
+jest.mock('../internal', () => {
   return {
     getWalletRiskAssessment: jest.fn().mockResolvedValue({}),
-  };
-});
-
-jest.mock('./isWalletRisky', () => {
-  return {
     isWalletRisky: jest.fn().mockReturnValue(false),
   };
 });
