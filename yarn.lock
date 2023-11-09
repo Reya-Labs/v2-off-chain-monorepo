@@ -7344,6 +7344,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@voltz-protocol/wallet-tos-sdk@workspace:packages/wallet-tos-sdk":
+  version: 0.0.0-use.local
+  resolution: "@voltz-protocol/wallet-tos-sdk@workspace:packages/wallet-tos-sdk"
+  dependencies:
+    ethers: 5.5.4
+    isomorphic-fetch: 3.0.0
+  languageName: unknown
+  linkType: soft
+
 "@webassemblyjs/ast@npm:1.11.6, @webassemblyjs/ast@npm:^1.11.5":
   version: 1.11.6
   resolution: "@webassemblyjs/ast@npm:1.11.6"
