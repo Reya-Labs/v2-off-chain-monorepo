@@ -1,5 +1,5 @@
 import { checkForRiskyWallet } from './checkForRiskyWallet';
-import { isWalletRisky } from './isWalletRisky';
+import { isWalletRisky } from '../internal/isWalletRisky';
 
 jest.mock('./getWalletRiskAssessment', () => {
   return {

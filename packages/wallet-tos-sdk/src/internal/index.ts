@@ -1,4 +1,3 @@
-export * from './checkForRiskyWallet';
 export * from './getSignature';
 export * from './getTOSText';
 export * from './getWalletRiskAssessment';

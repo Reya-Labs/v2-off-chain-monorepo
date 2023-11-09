@@ -1,5 +1,4 @@
-import { getWalletRiskAssessment } from './getWalletRiskAssessment';
-import { isWalletRisky } from './isWalletRisky';
+import { getWalletRiskAssessment, isWalletRisky } from '../internal';
 
 /**
  * Will throw an error if the given wallet address is deemed as risky (has a shady history)
