@@ -1,14 +1,14 @@
-# v2-off-chain
+# @voltz-protocol/wallet-sdk
 
 <p align="center">
   <a href="https://app.voltz.xyz/">
     <picture>
-      <img src="../../docs/voltz-background.jpeg" alt="Voltz" width="512" />
+      <img src="./assets/voltz-background.jpeg" alt="Voltz" width="512" />
     </picture>
   </a>
 </p>
 
-<p align="center"> Wallet and TOS sdk for the Voltz </p>
+<p align="center"> Wallet sdk for Voltz </p>
 
 <br />
 

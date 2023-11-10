@@ -1,14 +1,14 @@
-# v2-off-chain
+# @voltz-protocol/bigquery-v2
 
 <p align="center">
   <a href="https://app.voltz.xyz/">
     <picture>
-      <img src="../../docs/voltz-background.jpeg" alt="Voltz" width="512" />
+      <img src="./assets/voltz-background.jpeg" alt="Voltz" width="512" />
     </picture>
   </a>
 </p>
 
-<p align="center"> API for the Voltz v2 </p>
+<p align="center"> v2-bigquery for Voltz </p>
 
 <br />
 
